@@ -26,8 +26,7 @@ logger = logging.getLogger("ASURA")
 
 # Core AI Orchestration imports
 try:
-    from crewai import Agent, Task, Crew, Process
-    from crewai.tools import tool
+  
 except ImportError:
     logger.warning("CrewAI not yet installed in localized venv. Mock interfaces activated for initialization.")
     Agent = Task = Crew = Process = object
