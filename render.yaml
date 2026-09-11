@@ -1,0 +1,27 @@
+services:
+  # 1. Frontend & API Bridge Web Service
+  - type: web
+    name: asura-command-center
+    env: docker
+    plan: starter
+    dockerfilePath: Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: ASURA_LLM_MODEL
+        value: gemini-1.5-pro
+      - key: PORT
+        value: 8000
+
+  # 2. 24/7 Autonomous CrewAI Background Worker Daemon
+  - type: worker
+    name: asura-autonomous-worker
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python asura_core.py
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: ASURA_LLM_MODEL
+        value: gemini-1.5-pro
