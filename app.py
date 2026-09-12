@@ -677,15 +677,16 @@ generate_realestate_platform = generate_dynamic_platform
 def push_index_html_to_github(html_content, project_slug):
     """
     Direct HTTP API pipeline utilizing requests and base64 python modules.
-    Pushes index.html to isolated sub-project folder projects/{project_slug}/index.html on GitHub.
+    Pushes index.html to isolated sub-project folder projects/{clean_slug}/index.html on GitHub.
     Checks for existing file SHA token, base64 encodes content, and executes requests.put.
     Does NOT use os.system('git add...') to prevent Streamlit Cloud crashes.
     """
-    url = f"https://github.com{REPO_NAME}/contents/projects/{project_slug}/index.html"
+    clean_slug = project_slug.strip().lower().replace(" ", "-") if project_slug else "apex-strategy"
+    url = f"https://github.com{REPO_NAME}/contents/projects/{clean_slug}/index.html"
     token = os.environ.get("GITHUB_TOKEN", "").strip()
-    file_path = f"projects/{project_slug}/index.html"
-    api_target_url = f"https://api.github.com/repos/{REPO_NAME}/contents/projects/{project_slug}/index.html"
-    commit_message = f"feat(asura): isolated project deployment for {project_slug} via Gemini Neural Engine"
+    file_path = f"projects/{clean_slug}/index.html"
+    api_target_url = f"https://api.github.com/repos/{REPO_NAME}/contents/projects/{clean_slug}/index.html"
+    commit_message = f"feat(asura): isolated project deployment for {clean_slug} via Gemini Neural Engine"
 
     headers = {
         "Authorization": f"Bearer {token}",
@@ -1440,31 +1441,33 @@ function triggerPreset(text) {
             slug_cand = re.sub(r'[^a-zA-Z0-9]+', '-', target_val.lower()).strip('-')[:30]
             raw_slug = slug_cand if slug_cand else "apex-strategy"
         project_slug = raw_slug
+        clean_slug = project_slug.strip().lower().replace(" ", "-")
 
-        log_message(f"Directive authorized: target niche '{target_val[:50]}' [Slug: {project_slug}]", "sys")
+        log_message(f"Directive authorized: target niche '{target_val[:50]}' [Slug: {clean_slug}]", "sys")
 
         with st.spinner("Gemini neural engine synthesizing production codebase..."):
             blueprint, generated_html = generate_platform_with_gemini(target_val)
 
             # Preserve isolated sub-project locally without overwriting root
-            proj_local_dir = os.path.join("projects", project_slug)
+            proj_local_dir = os.path.join("projects", clean_slug)
             os.makedirs(proj_local_dir, exist_ok=True)
             with open(os.path.join(proj_local_dir, "index.html"), "w", encoding="utf-8") as f:
                 f.write(generated_html)
-            log_message(f"Project '{project_slug}' compiled locally ({len(generated_html):,} bytes written).", "sys")
+            log_message(f"Project '{clean_slug}' compiled locally ({len(generated_html):,} bytes written).", "sys")
 
-            api_res = push_index_html_to_github(generated_html, project_slug)
+            api_res = push_index_html_to_github(generated_html, clean_slug)
 
             if api_res.get("success") or api_res.get("code") in (200, 201):
                 c_sha = api_res.get("commit_sha", "head")
                 st.session_state.last_commit_sha = c_sha
-                log_message(f"GitHub API: projects/{project_slug}/index.html pushed to {REPO_NAME} (commit {c_sha}).", "github")
-                log_message(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: https://vercel.app{project_slug}/index.html", "success")
-                st.success(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: https://vercel.app{project_slug}/index.html")
-                st.session_state.last_deployed_url = f"https://vercel.app{project_slug}/index.html"
+                log_message(f"GitHub API: projects/{clean_slug}/index.html pushed to {REPO_NAME} (commit {c_sha}).", "github")
+                log_message(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: https://vercel.app{clean_slug}/index.html", "success")
+                clean_slug = project_slug.strip().lower().replace(" ", "-")
+                st.success(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: https://vercel.app{clean_slug}/index.html")
+                st.session_state.last_deployed_url = f"https://vercel.app{clean_slug}/index.html"
             else:
                 err_text = str(api_res.get("error", "pending repo sync"))[:60]
-                log_message(f"GitHub API notice ({err_text}). Local projects/{project_slug}/index.html operational.", "warn")
+                log_message(f"GitHub API notice ({err_text}). Local projects/{clean_slug}/index.html operational.", "warn")
 
             st.session_state.projects_deployed += 1
             st.session_state.metrics["progress"] = 100
