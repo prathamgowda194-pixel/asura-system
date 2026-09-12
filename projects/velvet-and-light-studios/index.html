@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VELVET & LIGHT // High-End Wedding & Fine Art Editorial Photography</title>
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Cormorant Garamond & Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['Montserrat', 'sans-serif'],
+          },
+          colors: {
+            obsidian: '#07080B',
+            velvet: '#0E1017',
+            champagne: {
+              100: '#FDFBF7',
+              200: '#F5EEDB',
+              300: '#EAD9B8',
+              400: '#D4AF37',
+              500: '#B89726',
+            },
+            platinum: '#CBD5E1'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #07080B;
+      color: #E2E8F0;
+      font-family: 'Montserrat', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Premium Glassmorphism Elevation System */
+    .glass-nav {
+      background: rgba(7, 8, 11, 0.75);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .glass-card {
+      background: rgba(14, 16, 23, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(212, 175, 55, 0.4);
+      transform: translateY(-6px);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(212, 175, 55, 0.1);
+    }
+
+    .gold-shimmer {
+      background: linear-gradient(135deg, #FFF6D6 0%, #D4AF37 50%, #9E7D17 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Ambient Lighting Glow */
+    .ambient-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, rgba(7, 8, 11, 0) 70%);
+      filter: blur(80px);
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body class="bg-obsidian antialiased selection:bg-champagne-400 selection:text-obsidian">
+
+  <!-- TOP NAVIGATION HEADER -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300" id="navbar">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10 h-24 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex flex-col">
+        <span class="font-serif tracking-[0.28em] text-2xl font-light uppercase text-white">
+          Velvet <span class="gold-shimmer font-normal">&</span> Light
+        </span>
+        <span class="text-[9px] uppercase tracking-[0.45em] text-champagne-300 font-light -mt-1">
+          Studios · Fine Art Weddings
+        </span>
+      </a>
+
+      <!-- Navigation Links -->
+      <div class="hidden lg:flex items-center space-x-10 text-xs tracking-[0.2em] uppercase font-light text-slate-300">
+        <a href="#portfolio" class="hover:text-champagne-400 transition-colors duration-200">Portfolio</a>
+        <a href="#services" class="hover:text-champagne-400 transition-colors duration-200">Collections</a>
+        <a href="#philosophy" class="hover:text-champagne-400 transition-colors duration-200">Philosophy</a>
+        <a href="#testimonials" class="hover:text-champagne-400 transition-colors duration-200">Acclaim</a>
+        <a href="#inquiry" class="hover:text-champagne-400 transition-colors duration-200">Commission</a>
+      </div>
+
+      <!-- Header CTA Button -->
+      <div class="hidden sm:flex items-center">
+        <a href="#inquiry" class="relative group px-7 py-3 rounded-full border border-champagne-400/40 overflow-hidden transition-all duration-300 hover:border-champagne-400">
+          <span class="absolute inset-0 bg-champagne-400/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
+          <span class="relative text-[11px] uppercase tracking-[0.25em] text-champagne-300 font-medium group-hover:text-white">
+            Private Inquiry
+          </span>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Toggle Button -->
+      <button onclick="toggleMobileNav()" class="lg:hidden p-2 text-slate-300 hover:text-white focus:outline-none" aria-label="Toggle Navigation">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8h16M4 16h16"/>
+        </svg>
+      </button>
+
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobileMenu" class="hidden lg:hidden px-6 py-6 border-t border-white/5 bg-obsidian/95 backdrop-blur-xl">
+      <div class="flex flex-col space-y-4 text-xs tracking-widest uppercase text-slate-300">
+        <a href="#portfolio" onclick="toggleMobileNav()" class="hover:text-champagne-400">Portfolio</a>
+        <a href="#services" onclick="toggleMobileNav()" class="hover:text-champagne-400">Collections</a>
+        <a href="#philosophy" onclick="toggleMobileNav()" class="hover:text-champagne-400">Philosophy</a>
+        <a href="#testimonials" onclick="toggleMobileNav()" class="hover:text-champagne-400">Acclaim</a>
+        <a href="#inquiry" onclick="toggleMobileNav()" class="text-champagne-400 font-medium">Commission Private Inquiry</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SHOWCASE SECTION -->
+  <section class="relative min-h-screen flex items-center justify-center pt-32 pb-24 px-6 overflow-hidden">
+    <!-- Ambient Lighting -->
+    <div class="ambient-glow -top-24 -left-24"></div>
+    <div class="ambient-glow -bottom-36 -right-36"></div>
+
+    <!-- Background Imagery with Dark Vignette Overlay -->
+    <div class="absolute inset-0 z-0 overflow-hidden">
+      <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=2400&q=85"
+           alt="Editorial Wedding Masterpiece"
+           class="w-full h-full object-cover opacity-20 filter contrast-125 scale-105 transform animate-pulse duration-[12000ms]">
+      <div class="absolute inset-0 bg-gradient-to-b from-obsidian via-obsidian/75 to-obsidian"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#07080B_80%)]"></div>
+    </div>
+
+    <div class="relative z-10 max-w-5xl mx-auto text-center flex flex-col items-center">
+      
+      <!-- Trust Eyebrow -->
+      <div class="inline-flex items-center space-x-3 px-5 py-2 rounded-full border border-champagne-400/25 bg-champagne-400/5 mb-8 backdrop-blur-md">
+        <span class="w-1.5 h-1.5 rounded-full bg-champagne-400"></span>
+        <span class="text-[10px] uppercase tracking-[0.35em] text-champagne-300 font-medium">
+          2026 / 2027 Commissions Open Globally
+        </span>
+        <span class="w-1.5 h-1.5 rounded-full bg-champagne-400"></span>
+      </div>
+
+      <!-- Large Geometric Display Typography -->
+      <h1 class="font-serif text-5xl sm:text-7xl md:text-8xl font-light text-white tracking-tight leading-[1.08] mb-8">
+        Capturing The <br class="hidden sm:inline">
+        <span class="italic font-normal gold-shimmer">Unspoken Poetry</span> <br class="hidden sm:inline">
+        Of Grand Celebrations
+      </h1>
+
+      <p class="max-w-2xl text-slate-400 text-sm sm:text-base font-light tracking-wide leading-relaxed mb-12">
+        A cinema-grade editorial photography atelier curating timeless, high-fashion imagery for luxury destination weddings across Lake Como, Paris, Amalfi, and private international estates.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-col sm:flex-row items-center gap-5 w-full sm:w-auto">
+        <a href="#portfolio" class="w-full sm:w-auto px-9 py-4 rounded-full bg-gradient-to-r from-champagne-400 to-amber-600 hover:from-champagne-300 hover:to-amber-500 text-obsidian text-xs font-semibold uppercase tracking-[0.25em] shadow-xl shadow-champagne-400/15 transition-all duration-300 transform hover:-translate-y-0.5">
+          Explore Editorial Folio
+        </a>
+        <a href="#inquiry" class="w-full sm:w-auto px-9 py-4 rounded-full border border-white/15 hover:border-champagne-400/60 bg-white/[0.02] text-slate-200 hover:text-white text-xs font-medium uppercase tracking-[0.25em] transition-all duration-300 backdrop-blur-sm">
+          Reserve Date
+        </a>
+      </div>
+
+      <!-- Press Strip -->
+      <div class="mt-20 pt-10 border-t border-white/5 w-full max-w-3xl flex flex-wrap items-center justify-center gap-10 sm:gap-14 opacity-40 hover:opacity-75 transition-opacity">
+        <span class="font-serif tracking-[0.3em] uppercase text-xs">Vogue Weddings</span>
+        <span class="font-serif tracking-[0.3em] uppercase text-xs">Harper's Bazaar</span>
+        <span class="font-serif tracking-[0.3em] uppercase text-xs">Brides International</span>
+        <span class="font-serif tracking-[0.3em] uppercase text-xs">Architectural Digest</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDITORIAL PORTFOLIO GRID -->
+  <section id="portfolio" class="py-28 px-6 max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+      <div>
+        <span class="text-[10px] uppercase tracking-[0.35em] text-champagne-400 font-semibold block mb-3">
+          Selected Monograph
+        </span>
+        <h2 class="font-serif text-3xl sm:text-5xl font-light text-white tracking-tight">
+          Recent Visual Chapters
+        </h2>
+      </div>
+      <p class="text-xs text-slate-400 font-light max-w-xs mt-4 md:mt-0 tracking-wider uppercase leading-relaxed">
+        Medium format analogue film & digital cinematography captured on location.
+      </p>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      <!-- Frame 1 -->
+      <div class="group relative overflow-hidden rounded-2xl glass-card border border-white/5 aspect-[3/4]">
+        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1000&q=80"
+             alt="Lake Como Ceremony"
+             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-90">
+        <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+        <div class="absolute bottom-6 left-6 right-6">
+          <span class="text-[10px] uppercase tracking-[0.3em] text-champagne-300 font-medium">Villa Balbiano · Lake Como</span>
+          <h3 class="font-serif text-2xl font-light text-white mt-1">Lady Genevieve & Julian</h3>
+        </div>
+      </div>
+
+      <!-- Frame 2 -->
+      <div class="group relative overflow-hidden rounded-2xl glass-card border border-white/5 aspect-[3/4]">
+        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1000&q=80"
+             alt="Parisian Editorial Reception"
+             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-90">
+        <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+        <div class="absolute bottom-6 left-6 right-6">
+          <span class="text-[10px] uppercase tracking-[0.3em] text-champagne-300 font-medium">Hôtel de Crillon · Paris</span>
+          <h3 class="font-serif text-2xl font-light text-white mt-1">Constance & Laurent</h3>
+        </div>
+      </div>
+
+      <!-- Frame 3 -->
+      <div class="group relative overflow-hidden rounded-2xl glass-card border border-white/5 aspect-[3/4]">
+        <img src="https://images.unsplash.com/photo-1544077960-604201fe74bc?auto=format&fit=crop&w=1000&q=80"
+             alt="Amalfi Coast Sunset Portrait"
+             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-90">
+        <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+        <div class="absolute bottom-6 left-6 right-6">
+          <span class="text-[10px] uppercase tracking-[0.3em] text-champagne-300 font-medium">Villa Cimbrone · Ravello</span>
+          <h3 class="font-serif text-2xl font-light text-white mt-1">Aurelia & Sterling</h3>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3-COLUMN SERVICES & COLLECTIONS GRID -->
+  <section id="services" class="py-28 px-6 bg-velvet/40 relative border-y border-white/5">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="text-center max-w-2xl mx-auto mb-20">
+        <span class="text-[10px] uppercase tracking-[0.35em] text-champagne-400 font-semibold block mb-3">
+          Atelier Offerings
+        </span>
+        <h2 class="font-serif text-4xl sm:text-5xl font-light text-white tracking-tight">
+          Bespoke Commission Suites
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-400 font-light mt-4 tracking-wider leading-relaxed">
+          Every celebration is documented with dual master photographers, analog film curators, and full creative direction.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Collection 1 -->
+        <div class="glass-card rounded-2xl p-8 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-6">
+              <span class="text-[10px] tracking-[0.3em] uppercase text-champagne-400 font-semibold">Tier I</span>
+              <span class="text-xs uppercase tracking-widest text-slate-400">Single Territory</span>
+            </div>
+            <h3 class="font-serif text-2xl sm:text-3xl font-light text-white mb-4">The Editorial Wedding</h3>
+            <p class="text-xs text-slate-400 font-light leading-relaxed mb-8">
+              Full-day comprehensive documentation of intimate to mid-scale luxury ceremonies with premier editorial curation.
+            </p>
+            <ul class="space-y-3.5 text-xs text-slate-300 font-light border-t border-white/5 pt-6 mb-8">
+              <li class="flex items-center space-x-3">
+                <span class="w-1 h-1 rounded-full bg-champagne-400"></span>
+                <span>Up to 10 Hours of Continuous Coverage</span>
+              </li>
+              <li class="flex items-center space-x-3">
+                <span class="w-1 h-1 rounded-full bg-champagne-400"></span>
+                <span>Lead Artist + Associate Photographer</span>
+              </li>
+              <li class="flex items-center space-x-3">
+                <span class="w-1 h-1 rounded-full bg-champagne-400"></span>
+                <span>35mm & 120mm Film Integration</span>
+              </li>
+              <li class="flex items-center space-x-3">
+                <span class="w-1 h-1 rounded-full bg-champagne-400"></span>
+                <span>Private High-Resolution Digital Vault</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div class="text-sm font-serif text-champagne-300 font-light mb-4">Starting at $12,500</div>
+            <a href="#inquiry" class="block w-full text-center py-3 rounded-xl border border-white/15 hover:border-champagne-400 text-xs uppercase tracking-[0.2em] text-slate-200 hover:text-white transition-all">
+              Request Portfolio Deck
+            </a>
+          </div>
+        </div>
+
+        <!-- Collection 2 (Featured) -->
+        <div class="glass-card rounded-2xl p-8 flex flex-col justify-between border-champagne-400/40 relative shadow-2xl shadow-champagne-400/5">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-champagne-400 text-obsidian text-[9px] uppercase tracking-[0.3em] font-bold">
+            Most Commissioned
+          </div>
+          <div>
+            <div class="flex items-center justify-between mb-6 mt-1">
+              <span class="text-[10px] tracking-[0.3em] uppercase text-champagne-400 font-semibold">Tier II</span>
+              <span class="text-xs uppercase tracking-widest text-slate-400">Destination Weekend</span>
+            </div>
+            <h3 class="font-serif text-2xl sm:text-3xl font-light text-white mb-4">The Grand Destination</h3>
+            <p class="text-xs text-slate-400 font-light leading-relaxed mb-8">
+              Three-day multi-event immersive storytelling: Welcome Soirée, Wedding Gala, and Post-Wedding Yacht Excursion.
+            </p>
+            <ul class="space-y-3.5 text-xs text-slate-300 font-light border-t border-white/5 pt-6 mb-8">
+              <li class="flex items-center space-x-3">
+                <span class="w-1 h-1 rounded-full bg-champagne-400"></span>
+                <span>3 Full Days of Celebratory Coverage</span>
+              </li>
+              <li class="flex items-center space-x-3">
+                <span class="w-1 h-1 rounded-full bg-champagne-400"></span>
+                <span>Full Creative Team (3 Cameras + Drone)</span>
+              </li>
+              <li class="flex items-center space-x-3">
+                <span class="w-1 h-1 rounded-full bg-champagne-400"></span>
+                <span>Bespoke 60-Page Leatherbound Heirloom Album</span>
+              </li>
+              <li class="flex items-center space-x-3">
+                <span class="w-1 h-1 rounded-full bg-champagne-400"></span>
+                <span>48-Hour Editorial Sneak Peek Gallery</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div class="text-sm font-serif text-champagne-300 font-light mb-4">Starting at $22,000</div>
+            <a href="#inquiry" class="block w-full text-center py-3 rounded-xl bg-champagne-400 hover:bg-champagne-300 text-obsidian text-xs font-semibold uppercase tracking-[0.2em] transition-all">
+              Initiate Reservation
+            </a>
+          </div>
+        </div>
+
+        <!-- Collection 3 -->
+        <div class="glass-card rounded-2xl p-8 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-6">
+              <span class="text-[10px] tracking-[0.3em] uppercase text-champagne-400 font-semibold">Tier III</span>
+              <span class="text-xs uppercase tracking-widest text-slate-400">Global Private Estate</span>
+            </div>
+            <h3 class="font-serif text-2xl sm:text-3xl font-light text-white mb-4">The Haute Couture Monograph</h3>
+            <p class="text-xs text-slate-400 font-light leading-relaxed mb-8">
+              Ultimate sovereign luxury: archival medium format cinematography with museum-grade printing and hand-bound bindings.
+            </p>
+            <ul class="space-y-3.5 text-xs text-slate-300 font-light border-t border-white/5 pt-6 mb-8">
+              <li class="flex items-center space-x-3">
+                <span class="w-1 h-1 rounded-full bg-champagne-400"></span>
+                <span>Unlimited Global Coverage Timeline</span>
+              </li>
+              <li class="flex items-center space-x-3">
+                <span class="w-1 h-1 rounded-full bg-champagne-400"></span>
+                <span>Principal Director On Location Anywhere</span>
+              </li>
+              <li class="flex items-center space-x-3">
+                <span class="w-1 h-1 rounded-full bg-champagne-400"></span>
+                <span>Dual Archival Velvet Box Albums (Florence)</span>
+              </li>
+              <li class="flex items-center space-x-3">
+                <span class="w-1 h-1 rounded-full bg-champagne-400"></span>
+                <span>Full Copyright & Master Film Negatives Released</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div class="text-sm font-serif text-champagne-300 font-light mb-4">Custom Commission · By Quotation</div>
+            <a href="#inquiry" class="block w-full text-center py-3 rounded-xl border border-white/15 hover:border-champagne-400 text-xs uppercase tracking-[0.2em] text-slate-200 hover:text-white transition-all">
+              Direct Executive Desk
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS SLIDER SECTION -->
+  <section id="testimonials" class="py-28 px-6 max-w-5xl mx-auto text-center relative">
+    <span class="text-[10px] uppercase tracking-[0.35em] text-champagne-400 font-semibold block mb-3">
+      Client Accolades
+    </span>
+    <h2 class="font-serif text-4xl sm:text-5xl font-light text-white tracking-tight mb-16">
+      Words From Our Patrons
+    </h2>
+
+    <!-- Interactive Review Slider Container -->
+    <div class="relative glass-card rounded-3xl p-10 sm:p-16 border border-white/10 overflow-hidden min-h-[380px] flex items-center justify-center">
+      
+      <!-- Slide 1 -->
+      <div id="slide-0" class="testimonial-slide flex flex-col items-center transition-opacity duration-500">
+        <svg class="w-10 h-10 text-champagne-400/30 mb-8" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+        </svg>
+        <p class="font-serif text-xl sm:text-2xl font-light italic text-slate-200 max-w-2xl leading-relaxed mb-8">
+          "Velvet & Light transformed our Lake Como celebration into an editorial film. Looking back at our photographs feels like stepping into a private issue of Italian Vogue. Their calm, aristocratic presence on the wedding day was unmatched."
+        </p>
+        <div class="font-serif text-base text-white tracking-widest uppercase">Camilla & Alexander Van Der Bilt</div>
+        <div class="text-[10px] uppercase tracking-[0.25em] text-champagne-300 mt-1">Villa d'Este · Lake Como, Italy</div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div id="slide-1" class="testimonial-slide hidden flex-col items-center transition-opacity duration-500">
+        <svg class="w-10 h-10 text-champagne-400/30 mb-8" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+        </svg>
+        <p class="font-serif text-xl sm:text-2xl font-light italic text-slate-200 max-w-2xl leading-relaxed mb-8">
+          "Every single photograph is a museum piece. They captured the subtle glances, the architecture of Paris at twilight, and the emotional resonance of our vows without ever staging stiff poses. Absolute artistic genius."
+        </p>
+        <div class="font-serif text-base text-white tracking-widest uppercase">Margaux & Henri De Montmirail</div>
+        <div class="text-[10px] uppercase tracking-[0.25em] text-champagne-300 mt-1">Château de Villette · Paris, France</div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div id="slide-2" class="testimonial-slide hidden flex-col items-center transition-opacity duration-500">
+        <svg class="w-10 h-10 text-champagne-400/30 mb-8" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+        </svg>
+        <p class="font-serif text-xl sm:text-2xl font-light italic text-slate-200 max-w-2xl leading-relaxed mb-8">
+          "The analog medium format film scans blew our expectations completely away. The texture, the warmth of the Amalfi coast golden hour, and the handmade velvet album are treasures our family will preserve for centuries."
+        </p>
+        <div class="font-serif text-base text-white tracking-widest uppercase">Victoria & James Sterling</div>
+        <div class="text-[10px] uppercase tracking-[0.25em] text-champagne-300 mt-1">Belmond Hotel Caruso · Ravello</div>
+      </div>
+
+      <!-- Navigation Arrows -->
+      <button onclick="prevSlide()" class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/5 border border-white/10 hover:border-champagne-400 hover:text-champagne-400 transition-all text-slate-300" aria-label="Previous Slide">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      <button onclick="nextSlide()" class="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/5 border border-white/10 hover:border-champagne-400 hover:text-champagne-400 transition-all text-slate-300" aria-label="Next Slide">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/></svg>
+      </button>
+
+      <!-- Pagination Indicators -->
+      <div class="absolute bottom-6 flex space-x-2.5">
+        <button onclick="goToSlide(0)" id="dot-0" class="w-2.5 h-2.5 rounded-full bg-champagne-400 transition-all"></button>
+        <button onclick="goToSlide(1)" id="dot-1" class="w-2.5 h-2.5 rounded-full bg-white/20 transition-all"></button>
+        <button onclick="goToSlide(2)" id="dot-2" class="w-2.5 h-2.5 rounded-full bg-white/20 transition-all"></button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FUNCTIONAL INQUIRY & NEWSLETTER CAPTURE FORM -->
+  <section id="inquiry" class="py-28 px-6 max-w-4xl mx-auto">
+    <div class="glass-card rounded-3xl p-8 sm:p-16 border border-champagne-400/30 relative">
+      
+      <div class="text-center max-w-xl mx-auto mb-12">
+        <span class="text-[10px] uppercase tracking-[0.35em] text-champagne-400 font-semibold block mb-2">
+          Private Commissions
+        </span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-light text-white tracking-tight">
+          Request An Atelier Consultation
+        </h2>
+        <p class="text-xs text-slate-400 font-light mt-3 tracking-wider leading-relaxed">
+          Due to the bespoke nature of our commissions, we accept a maximum of 14 international weddings per calendar year.
+        </p>
+      </div>
+
+      <form id="contactForm" onsubmit="handleFormSubmission(event)" class="space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-2 font-medium">Names of Couple</label>
+            <input type="text" required placeholder="e.g., Victoria & Julian" 
+                   class="w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-champagne-400 transition-colors">
+          </div>
+          <div>
+            <label class="block text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-2 font-medium">Contact Email</label>
+            <input type="email" required placeholder="name@domain.com" 
+                   class="w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-champagne-400 transition-colors">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-2 font-medium">Celebration Date</label>
+            <input type="date" required 
+                   class="w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-slate-300 text-xs focus:outline-none focus:border-champagne-400 transition-colors">
+          </div>
+          <div>
+            <label class="block text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-2 font-medium">Celebration Territory & Venue</label>
+            <input type="text" required placeholder="e.g., Villa Balbiano, Lake Como, Italy" 
+                   class="w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-champagne-400 transition-colors">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-2 font-medium">Anticipated Photography Budget</label>
+          <select class="w-full px-4 py-3.5 rounded-xl bg-[#0E1017] border border-white/10 text-slate-300 text-xs focus:outline-none focus:border-champagne-400 transition-colors">
+            <option>$12,000 - $20,000</option>
+            <option>$20,000 - $35,000 (Multi-Day Destination)</option>
+            <option>$35,000+ (Haute Couture Global Monograph)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-2 font-medium">Vision & Aesthetic Notes</label>
+          <textarea rows="4" placeholder="Describe the aesthetic, emotional tone, and details of your celebration..."
+                    class="w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-champagne-400 transition-colors"></textarea>
+        </div>
+
+        <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-champagne-400 to-amber-600 hover:from-champagne-300 hover:to-amber-500 text-obsidian font-bold text-xs uppercase tracking-[0.28em] transition-all shadow-xl shadow-champagne-400/20">
+          Transmit Commission Request
+        </button>
+
+        <p class="text-[9px] text-center text-slate-500 tracking-wider">
+          Confidentiality assured. Responses provided within 24 business hours by our Managing Director.
+        </p>
+      </form>
+
+      <!-- Confirmation Toast Modal -->
+      <div id="confirmationModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md items-center justify-center p-4">
+        <div class="glass-card max-w-md w-full rounded-2xl p-8 text-center border border-champagne-400/40">
+          <div class="w-12 h-12 rounded-full border border-champagne-400/50 flex items-center justify-center mx-auto mb-4 text-champagne-400">
+            ✓
+          </div>
+          <h3 class="font-serif text-2xl font-light text-white mb-2">Inquiry Transmitted</h3>
+          <p class="text-xs text-slate-400 font-light leading-relaxed mb-6">
+            Thank you. Your dossier has been submitted directly to our Studio Principal. We will review date availability and transmit our complete Private Folio.
+          </p>
+          <button onclick="closeConfirmation()" class="px-8 py-2.5 rounded-full bg-champagne-400 text-obsidian text-xs font-semibold uppercase tracking-widest">
+            Return to Studio
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ATELIER FOOTER -->
+  <footer class="border-t border-white/5 py-16 px-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="flex flex-col sm:items-start text-center sm:text-left">
+        <span class="font-serif tracking-[0.25em] text-white uppercase text-base font-light">Velvet & Light Studios</span>
+        <span class="text-[9px] uppercase tracking-widest text-slate-500 mt-1">Fine Art Wedding Imagery · New York · Paris · Milan · Lake Como</span>
+      </div>
+      <div class="text-[10px] tracking-widest text-slate-500">
+        © 2026 Velvet & Light Studios LLC. Architectural Generation by ASURA System.
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT ENGINE: SLIDER & INTERACTIONS -->
+  <script>
+    let currentSlide = 0;
+    const totalSlides = 3;
+
+    function showSlide(idx) {
+      for (let i = 0; i < totalSlides; i++) {
+        const slide = document.getElementById('slide-' + i);
+        const dot = document.getElementById('dot-' + i);
+        if (i === idx) {
+          slide.classList.remove('hidden');
+          slide.classList.add('flex');
+          dot.classList.add('bg-champagne-400');
+          dot.classList.remove('bg-white/20');
+        } else {
+          slide.classList.add('hidden');
+          slide.classList.remove('flex');
+          dot.classList.remove('bg-champagne-400');
+          dot.classList.add('bg-white/20');
+        }
+      }
+      currentSlide = idx;
+    }
+
+    function nextSlide() {
+      showSlide((currentSlide + 1) % totalSlides);
+    }
+
+    function prevSlide() {
+      showSlide((currentSlide - 1 + totalSlides) % totalSlides);
+    }
+
+    function goToSlide(idx) {
+      showSlide(idx);
+    }
+
+    // Auto-advance testimonials every 7 seconds
+    setInterval(nextSlide, 7000);
+
+    // Form submission simulation
+    function handleFormSubmission(e) {
+      e.preventDefault();
+      document.getElementById('confirmationModal').classList.remove('hidden');
+      document.getElementById('confirmationModal').classList.add('flex');
+    }
+
+    function closeConfirmation() {
+      document.getElementById('confirmationModal').classList.add('hidden');
+      document.getElementById('confirmationModal').classList.remove('flex');
+      document.getElementById('contactForm').reset();
+    }
+
+    function toggleMobileNav() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+    }
+  </script>
+
+</body>
+</html>
