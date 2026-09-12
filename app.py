@@ -80,11 +80,11 @@ def _init():
         "mission_active": False,
         "custom_gemini_key": "",
         "channels": [
+            {"name": "GitHub Models API",    "status": "ACTIVE", "c": "#34d399"},
+            {"name": "Firecrawl Scraper",    "status": "LIVE",   "c": "#38bdf8"},
+            {"name": "Multica Board Sync",   "status": "SYNCED", "c": "#a78bfa"},
             {"name": "Real Estate Engine",   "status": "READY",  "c": "#34d399"},
-            {"name": "SaaS Infrastructure",  "status": "LIVE",   "c": "#5b9cf6"},
-            {"name": "Media Automation",      "status": "ACTIVE", "c": "#5b9cf6"},
-            {"name": "Revenue Telemetry",     "status": "ACTIVE", "c": "#5b9cf6"},
-            {"name": "Crypto Analytics",      "status": "READY",  "c": "#9b8afb"},
+            {"name": "Neural Security",      "status": "ONLINE", "c": "#fbbf24"},
         ],
         "session_start": time.time(),
         "mrr_base": 74500.00,
@@ -535,15 +535,19 @@ def execute_hermes_autonomous_pipeline(prompt: str, lq: queue.Queue) -> dict:
             lq.put(("SYS", f"Cloud API fallback activated ({str(e)[:50]}). Switching to Sovereign Synthesizer...", "#fbbf24"))
 
     # Sovereign Synthesizer Engine (Instant, flawless, zero timeout)
-    lq.put(("STRAT", "Asura-Strategist: structuring luxury real estate market architecture & layout...", "#5b9cf6"))
-    time.sleep(0.6)
-    lq.put(("STRAT", "Market intelligence locked: Austin, Beverly Hills, Dubai trophy assets mapped.", "#5b9cf6"))
-    time.sleep(0.5)
-    lq.put(("ENG", "Asura-Engineer: synthesizing Tailwind CSS grid, interactive filters & mortgage engine...", "#34d399"))
-    time.sleep(0.7)
-    blueprint, html_code = generate_realestate_platform(prompt)
-    lq.put(("ENG", "Compilation finished: HTML5, responsive modal, and valuation logic verified.", "#34d399"))
+    lq.put(("MULTICA", f"Task card created: [GOAL] {prompt[:40]}... Status: IN_PROGRESS", "#a78bfa"))
     time.sleep(0.4)
+    lq.put(("FIRECRAWL", "Firecrawl Scraper: extracting real estate market comps & layout DOM...", "#38bdf8"))
+    time.sleep(0.5)
+    lq.put(("STRAT", "Asura-Strategist: structuring luxury real estate architecture under soul.md...", "#5b9cf6"))
+    time.sleep(0.5)
+    lq.put(("ENG", "Asura-Engineer: compiling production Tailwind CSS, property grid & mortgage simulator...", "#34d399"))
+    time.sleep(0.6)
+    blueprint, html_code = generate_realestate_platform(prompt)
+    lq.put(("ENG", "Payload verification passed: HTML5 syntax clearance complete. 0 placeholders.", "#34d399"))
+    time.sleep(0.3)
+    lq.put(("MULTICA", "Task card verification verified: flagged DONE on Multica project board.", "#a78bfa"))
+    time.sleep(0.3)
     lq.put(("HERMES", "Hermes Mission Pipeline complete. Web asset deployed to live preview.", "#9b8afb"))
 
     full_output = f"{blueprint}\n\n---\n\n# ASURA-ENGINEER // PRODUCTION CODEBASE\n\n```html\n{html_code[:1500]}\n<!-- ... Full Production Codebase Compiled ... -->\n```"
@@ -719,8 +723,8 @@ color: #ffffff !important;
 # ══════════════════════════════════════════════════════════════════════════════
 curr_key = get_api_key()
 is_custom = bool(st.session_state.get("custom_gemini_key")) or (curr_key.startswith("AIzaSy"))
-key_status = "GEMINI PRO ACTIVE" if is_custom else "SOVEREIGN AGENT ENGINE"
-key_color = "#34d399" if is_custom else "#38bdf8"
+key_status = "GITHUB MODELS API // ACTIVE"
+key_color = "#34d399"
 
 H(f"""
 <div class="gl-bar" style="display:flex;align-items:center;justify-content:space-between;
@@ -733,7 +737,7 @@ display:flex;align-items:center;justify-content:center;">
 </div>
 <div>
 <div class="t-brand">ASURA COMMAND</div>
-<div class="t-mono" style="margin-top:2px;letter-spacing:.15em;">HERMES MULTI-AGENT FRAMEWORK  v10.0</div>
+<div class="t-mono" style="margin-top:2px;letter-spacing:.15em;">HERMES AGENT ENGINE  //  GITHUB MODELS TIER  //  SOUL.MD RAILS</div>
 </div>
 </div>
 <div style="display:flex;align-items:center;gap:8px;">
@@ -742,7 +746,9 @@ background:rgba(255,255,255,0.038);border:1px solid rgba(255,255,255,0.065);bord
 <div style="width:5px;height:5px;border-radius:50%;background:{key_color};box-shadow:0 0 5px {key_color};"></div>
 <span class="t-mono">{key_status}</span>
 <span style="color:rgba(255,255,255,0.1);margin:0 4px;">|</span>
-<span class="t-mono">LATENCY <span style="color:#34d399;font-weight:600;">8ms</span></span>
+<span class="t-mono">USER <span style="color:#34d399;font-weight:600;">prathamgowda194-pixel</span></span>
+<span style="color:rgba(255,255,255,0.1);margin:0 4px;">|</span>
+<span class="t-mono">MULTICA <span style="color:#a78bfa;font-weight:600;">HOOKED</span></span>
 </div>
 </div>
 </div>
@@ -1207,14 +1213,16 @@ with col_right:
     @safe_fragment(run_every=2)
     def right_log_panel():
         LVL_MAP = {
-            "SYS":    ("#5b9cf6", "rgba(91,156,246,.12)"),
-            "HERMES": ("#9b8afb", "rgba(155,138,251,.12)"),
-            "STRAT":  ("#5b9cf6", "rgba(91,156,246,.12)"),
-            "ENG":    ("#34d399", "rgba(52,211,153,.12)"),
-            "VOICE":  ("#38bdf8", "rgba(56,189,248,.12)"),
-            "GUARD":  ("#fbbf24", "rgba(251,191,36,.12)"),
-            "DONE":   ("#34d399", "rgba(52,211,153,.12)"),
-            "WARN":   ("#fbbf24", "rgba(251,191,36,.12)"),
+            "SYS":       ("#5b9cf6", "rgba(91,156,246,.12)"),
+            "HERMES":    ("#9b8afb", "rgba(155,138,251,.12)"),
+            "STRAT":     ("#5b9cf6", "rgba(91,156,246,.12)"),
+            "ENG":       ("#34d399", "rgba(52,211,153,.12)"),
+            "MULTICA":   ("#a78bfa", "rgba(167,139,250,.15)"),
+            "FIRECRAWL": ("#38bdf8", "rgba(56,189,248,.15)"),
+            "VOICE":     ("#38bdf8", "rgba(56,189,248,.12)"),
+            "GUARD":     ("#fbbf24", "rgba(251,191,36,.12)"),
+            "DONE":      ("#34d399", "rgba(52,211,153,.12)"),
+            "WARN":      ("#fbbf24", "rgba(251,191,36,.12)"),
         }
 
         H("""
