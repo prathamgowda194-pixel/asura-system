@@ -557,10 +557,9 @@ def execute_asura_crewai_pipeline(user_input: str, lq: queue.Queue) -> dict:
     Strips all placeholders and emojis, and cascades safely to guarantee zero timeouts.
     """
     prompt = (
-        f"Analyze this specific customer design instruction: {user_input}. "
-        f"Generate a highly attractive, premium, corporate-grade single-file HTML landing page "
-        f"built with clean inline Tailwind CSS via CDN. Write fully fleshed-out professional copy. "
-        f"Do not use generic placeholders or chat filler."
+        f"Analyze this specific design instruction from the customer: {user_input}. "
+        f"Generate a premium, corporate-grade single-file HTML layout heavily styled with clean inline Tailwind CSS via CDN. "
+        f"Write fully fleshed-out professional copy matching the requested business niche."
     )
 
     lq.put(("HERMES", f"Hermes Agent Router: registering directive for '{user_input[:55]}'", "#9b8afb"))
@@ -599,7 +598,7 @@ def execute_asura_crewai_pipeline(user_input: str, lq: queue.Queue) -> dict:
         )
 
         synthesis_task = Task(
-            description=prompt,
+            description=f"Analyze this specific design instruction from the customer: {user_input}. Generate a premium, corporate-grade single-file HTML layout heavily styled with clean inline Tailwind CSS via CDN. Write fully fleshed-out professional copy matching the requested business niche.",
             expected_output="Complete production-grade single-file HTML website layout with clean inline Tailwind CSS via CDN, zero placeholders, and no emojis.",
             agent=asura_engineer
         )
