@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carlouel Beach House | Ultra-Luxury Gulf Coast Residence</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sand: {
+                            50: '#FAF9F5',
+                            100: '#F5F2EB',
+                            200: '#EFECE6',
+                            300: '#E2DBD0',
+                            400: '#C5BCAD',
+                            800: '#2C2A26',
+                            900: '#1A1917'
+                        },
+                        ivory: {
+                            DEFAULT: 'rgba(253, 251, 247, 0.82)',
+                            glass: 'rgba(255, 255, 255, 0.65)',
+                            border: 'rgba(255, 255, 255, 0.4)'
+                        },
+                        coastal: {
+                            azure: '#7AA3AC',
+                            deep: '#1C3138',
+                            muted: '#5C737A'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                    },
+                    letterSpacing: {
+                        'ultra': '0.25em',
+                        'widest-xl': '0.35em'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* Custom Customizations & Anti-Slop Luxury Polish */
+        body {
+            background-color: #F5F2EB;
+            color: #1A1917;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .glass-panel {
+            background: rgba(255, 253, 248, 0.68);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 30px 60px -12px rgba(28, 25, 23, 0.08);
+        }
+
+        .glass-nav {
+            background: rgba(245, 242, 235, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(226, 219, 208, 0.4);
+        }
+
+        .hero-img-container {
+            will-change: transform;
+        }
+
+        .reveal-text {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Subtle smooth custom underline hover */
+        .hover-link {
+            position: relative;
+        }
+        .hover-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: #1A1917;
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .hover-link:hover::after {
+            width: 100%;
+        }
+
+        /* Modal Overlay */
+        .modal-active {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+    </style>
+</head>
+<body class="selection:bg-sand-300 selection:text-sand-900">
+
+    <!-- HEADER PANEL -->
+    <header id="main-header" class="fixed top-0 left-0 w-full z-50 glass-nav transition-all duration-500 py-5 px-6 lg:px-16">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            
+            <!-- Brand Mark -->
+            <a href="#" class="group flex flex-col">
+                <span class="font-serif text-2xl tracking-ultra uppercase text-sand-900 font-light leading-none">Carlouel</span>
+                <span class="text-[9px] uppercase tracking-widest text-sand-400 font-sans tracking-[0.3em] mt-1 group-hover:text-coastal-muted transition-colors">Beach House &bull; Gulf Coast</span>
+            </a>
+
+            <!-- Minimalist Tracked Navigation -->
+            <nav class="hidden md:flex items-center space-x-10 text-xs uppercase tracking-widest text-sand-800 font-medium">
+                <a href="#archive" class="hover-link transition-colors py-1">[Archive]</a>
+                <a href="#capabilities" class="hover-link transition-colors py-1">[Capabilities]</a>
+                <a href="#framework" class="hover-link transition-colors py-1">[Framework]</a>
+                <a href="#gallery" class="hover-link transition-colors py-1">[Gallery]</a>
+            </nav>
+
+            <!-- Action CTA -->
+            <div class="flex items-center space-x-4">
+                <button onclick="openModal()" class="px-6 py-2.5 text-xs uppercase tracking-widest text-sand-900 border border-sand-900/40 hover:border-sand-900 hover:bg-sand-900 hover:text-sand-50 transition-all duration-300 rounded-none font-medium">
+                    Schedule Tour
+                </button>
+                <button id="mobile-menu-btn" class="md:hidden text-sand-900 p-2 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobile-drawer" class="hidden md:hidden absolute top-full left-0 w-full bg-sand-100/95 backdrop-blur-xl border-b border-sand-300 py-8 px-8 flex-col space-y-6 text-sm uppercase tracking-widest">
+            <a href="#archive" onclick="toggleMobileMenu()" class="block py-2 text-sand-900">[Archive]</a>
+            <a href="#capabilities" onclick="toggleMobileMenu()" class="block py-2 text-sand-900">[Capabilities]</a>
+            <a href="#framework" onclick="toggleMobileMenu()" class="block py-2 text-sand-900">[Framework]</a>
+            <a href="#gallery" onclick="toggleMobileMenu()" class="block py-2 text-sand-900">[Gallery]</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative min-h-screen w-full flex items-end justify-between overflow-hidden pt-28 pb-16 px-6 md:px-16">
+        
+        <!-- Massive Full-Bleed High-Impact Ocean & Villa Backdrop -->
+        <div class="absolute inset-0 z-0 overflow-hidden">
+            <div class="hero-img-container absolute inset-0 w-full h-full scale-105">
+                <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2600&auto=format&fit=crop" 
+                     alt="Carlouel Beach House - Frontal Ocean View Villa" 
+                     class="w-full h-full object-cover object-center filter brightness-[0.96] saturate-[1.05]" />
+            </div>
+            <!-- Dynamic Soft Gradient Tint -->
+            <div class="absolute inset-0 bg-gradient-to-t from-sand-100 via-sand-100/10 to-black/20 pointer-events-none"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-sand-100/40 via-transparent to-sand-100/40 pointer-events-none"></div>
+        </div>
+
+        <!-- HERO CONTENT CONTAINER -->
+        <div class="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+            
+            <!-- Left Side: Structural Subtitles -->
+            <div class="lg:col-span-7 flex flex-col justify-end space-y-6 pb-4">
+                <div class="inline-flex items-center space-x-3 text-xs tracking-widest text-sand-800 uppercase font-medium bg-sand-100/80 backdrop-blur-md px-3.5 py-1.5 w-max border border-white/50 shadow-sm">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                    <span>Gulf Coast Sanctuary &bull; Florida Beachfront</span>
+                </div>
+
+                <div class="reveal-text">
+                    <h1 class="hero-title font-serif text-5xl md:text-7xl lg:text-8xl font-light tracking-wide text-sand-900 leading-[0.95] max-w-3xl">
+                        Carlouel <br/>
+                        <span class="italic font-normal">Beach House</span>
+                    </h1>
+                </div>
+
+                <!-- Structural Subtitle Required by Client Specification -->
+                <div class="pt-2 border-t border-sand-900/15 max-w-xl">
+                    <p class="hero-subtitle text-lg md:text-2xl font-serif tracking-wide text-sand-900 font-light italic">
+                        "Walls of glass &mdash; open to the Gulf"
+                    </p>
+                    <p class="text-xs uppercase tracking-ultra text-sand-800 font-medium mt-2">
+                        27.9864° N, 82.8276° W &bull; Private Gulf Coast Waterfront Estate
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right Side: Floating Frosted-Glass Data Card -->
+            <div class="lg:col-span-5 flex justify-end">
+                <div class="hero-card glass-panel p-8 md:p-10 w-full max-w-md relative overflow-hidden rounded-none border border-white/80 shadow-2xl">
+                    
+                    <!-- Top Subtle Accent Header -->
+                    <div class="flex items-center justify-between pb-6 mb-6 border-b border-sand-800/10">
+                        <span class="text-[10px] uppercase tracking-ultra text-sand-800 font-bold">Technical Specifications</span>
+                        <span class="text-xs font-serif italic text-sand-800">Ref. 084-FL</span>
+                    </div>
+
+                    <!-- Estate Technical Details Grid -->
+                    <div class="space-y-5 text-sand-900">
+                        <div class="flex items-center justify-between py-1 border-b border-sand-900/5">
+                            <span class="text-xs uppercase tracking-widest text-sand-800">Bedrooms</span>
+                            <span class="font-serif text-xl text-sand-900 font-medium">5 En-Suites</span>
+                        </div>
+                        <div class="flex items-center justify-between py-1 border-b border-sand-900/5">
+                            <span class="text-xs uppercase tracking-widest text-sand-800">Bathrooms</span>
+                            <span class="font-serif text-xl text-sand-900 font-medium">3 Full / 2 Powder</span>
+                        </div>
+                        <div class="flex items-center justify-between py-1 border-b border-sand-900/5">
+                            <span class="text-xs uppercase tracking-widest text-sand-800">Capacity</span>
+                            <span class="font-serif text-xl text-sand-900 font-medium">16 Guests</span>
+                        </div>
+                        <div class="flex items-center justify-between py-1 border-b border-sand-900/5">
+                            <span class="text-xs uppercase tracking-widest text-sand-800">Flooring</span>
+                            <span class="font-serif text-xl text-sand-900 font-medium">New Tile + Wood</span>
+                        </div>
+                        <div class="flex items-center justify-between py-1 border-b border-sand-900/5">
+                            <span class="text-xs uppercase tracking-widest text-sand-800">Gulf Frontage</span>
+                            <span class="font-serif text-xl text-sand-900 font-medium">220 Linear Ft</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick Action inside Card -->
+                    <div class="mt-8 pt-4 flex items-center justify-between">
+                        <div class="flex flex-col">
+                            <span class="text-[9px] uppercase tracking-widest text-sand-800">Offered at</span>
+                            <span class="font-serif text-2xl font-light text-sand-900">$18,450,000</span>
+                        </div>
+                        <button onclick="openModal()" class="px-5 py-2.5 bg-sand-900 text-sand-50 text-xs uppercase tracking-widest hover:bg-coastal-deep transition-colors">
+                            Inquire Now
+                        </button>
+                    </div>
+
+                    <div class="mt-6 flex items-center space-x-2 text-[10px] text-sand-800 uppercase tracking-widest">
+                        <svg class="w-3.5 h-3.5 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Architectural Integrity Certified</span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ARCHITECTURAL STATEMENT / NARRATIVE SECTION -->
+    <section id="archive" class="py-32 md:py-48 px-6 md:px-16 bg-sand-100 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                
+                <!-- Left Editorial Text Block -->
+                <div class="lg:col-span-6 space-y-8 gsap-fade">
+                    <div class="flex items-center space-x-4">
+                        <span class="h-[1px] w-12 bg-sand-900"></span>
+                        <span class="text-xs uppercase tracking-ultra text-sand-800 font-medium">[ 01 &bull; Narrative Archive ]</span>
+                    </div>
+
+                    <h2 class="font-serif text-4xl md:text-6xl font-light text-sand-900 leading-[1.1]">
+                        Where minimalist structural clarity meets the endless horizon.
+                    </h2>
+
+                    <p class="text-sm md:text-base text-sand-800 font-light leading-relaxed tracking-wide">
+                        Carlouel Beach House represents an unmatched synthesis of modern tropical minimalism and architectural permanence. Positioned on an expansive stretch of white sand along the Gulf Coast, the residence was engineered around a single design ethos: uninterrupted light.
+                    </p>
+
+                    <p class="text-sm md:text-base text-sand-800 font-light leading-relaxed tracking-wide">
+                        Floor-to-ceiling floor-plate glass panels slide seamlessly into concealed wall pockets, expanding the living space out onto wide travertine loggias and an edge-free infinity pool reflecting the turquoise Gulf waters.
+                    </p>
+
+                    <div class="pt-6 grid grid-cols-2 gap-8 border-t border-sand-300">
+                        <div>
+                            <span class="block font-serif text-3xl font-light text-sand-900">6,850 SF</span>
+                            <span class="text-[11px] uppercase tracking-widest text-sand-800 mt-1 block">Conditioned Living Space</span>
+                        </div>
+                        <div>
+                            <span class="block font-serif text-3xl font-light text-sand-900">0.84 Acres</span>
+                            <span class="text-[11px] uppercase tracking-widest text-sand-800 mt-1 block">Private Beach Parcel</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Visual Composition -->
+                <div class="lg:col-span-6 relative">
+                    <div class="relative z-10 overflow-hidden shadow-2xl gsap-scale-img">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop" 
+                             alt="Open Living Space with Gulf Views" 
+                             class="w-full h-[550px] object-cover filter brightness-[0.98]" />
+                    </div>
+                    <!-- Secondary Offset Frame -->
+                    <div class="hidden md:block absolute -bottom-10 -left-10 w-2/3 h-64 bg-sand-200 border border-sand-300 -z-0 p-6 flex flex-col justify-end">
+                        <span class="text-xs font-serif italic text-sand-800">"Light as a primary building material."</span>
+                        <span class="text-[9px] uppercase tracking-widest text-sand-800 mt-2">&mdash; Architectural Review</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CAPABILITIES & RESIDENCE FEATURES GRID -->
+    <section id="capabilities" class="py-32 md:py-48 px-6 md:px-16 bg-sand-50 relative border-t border-sand-200">
+        <div class="max-w-7xl mx-auto space-y-20">
+            
+            <!-- Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-sand-300 pb-12 gap-8">
+                <div>
+                    <span class="text-xs uppercase tracking-ultra text-sand-800 font-medium block mb-3">[ 02 &bull; Capabilities & Features ]</span>
+                    <h2 class="font-serif text-4xl md:text-5xl text-sand-900 font-light">Crafted for Quiet Grandeur</h2>
+                </div>
+                <p class="text-xs uppercase tracking-widest text-sand-800 max-w-md leading-relaxed">
+                    Every element engineered to withstand Gulf elements while sustaining an environment of refined tranquility.
+                </p>
+            </div>
+
+            <!-- Grid Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Feature Card 1 -->
+                <div class="group bg-sand-100 p-8 border border-sand-200 hover:border-sand-900 transition-all duration-500 flex flex-col justify-between h-[420px] gsap-card">
+                    <div>
+                        <div class="flex items-center justify-between mb-8">
+                            <span class="font-serif text-2xl text-sand-400 font-light">01</span>
+                            <svg class="w-6 h-6 text-sand-800 stroke-[1.2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-serif text-2xl text-sand-900 font-normal mb-4">Motorized Glass Envelope</h3>
+                        <p class="text-xs text-sand-800 font-light leading-relaxed tracking-wide">
+                            Impact-rated double glazed continuous glass panels with automated recessed tracks sliding into concealed pocket walls.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-sand-300/60 flex items-center justify-between text-[11px] uppercase tracking-widest text-sand-800">
+                        <span>Thermal Efficiency</span>
+                        <span class="font-serif italic text-sand-900">Category 5 Rated</span>
+                    </div>
+                </div>
+
+                <!-- Feature Card 2 -->
+                <div class="group bg-sand-100 p-8 border border-sand-200 hover:border-sand-900 transition-all duration-500 flex flex-col justify-between h-[420px] gsap-card">
+                    <div>
+                        <div class="flex items-center justify-between mb-8">
+                            <span class="font-serif text-2xl text-sand-400 font-light">02</span>
+                            <svg class="w-6 h-6 text-sand-800 stroke-[1.2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-serif text-2xl text-sand-900 font-normal mb-4">Dual Flooring Craft</h3>
+                        <p class="text-xs text-sand-800 font-light leading-relaxed tracking-wide">
+                            Sublime harmony of newly laid matte travertine tiles across coastal thresholds paired with wide-plank white oak in living suites.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-sand-300/60 flex items-center justify-between text-[11px] uppercase tracking-widest text-sand-800">
+                        <span>Finishes</span>
+                        <span class="font-serif italic text-sand-900">Tile + Hardwood</span>
+                    </div>
+                </div>
+
+                <!-- Feature Card 3 -->
+                <div class="group bg-sand-100 p-8 border border-sand-200 hover:border-sand-900 transition-all duration-500 flex flex-col justify-between h-[420px] gsap-card">
+                    <div>
+                        <div class="flex items-center justify-between mb-8">
+                            <span class="font-serif text-2xl text-sand-400 font-light">03</span>
+                            <svg class="w-6 h-6 text-sand-800 stroke-[1.2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m9-9H3"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-serif text-2xl text-sand-900 font-normal mb-4">Gulf-Edge Infinity Oasis</h3>
+                        <p class="text-xs text-sand-800 font-light leading-relaxed tracking-wide">
+                            75-foot heated saltwater pool appearing to merge into the Gulf sea line, complete with integrated spa and sun shelf.
+                        </p>
+                    </div>
+                    <div class="pt-6 border-t border-sand-300/60 flex items-center justify-between text-[11px] uppercase tracking-widest text-sand-800">
+                        <span>Outdoor Living</span>
+                        <span class="font-serif italic text-sand-900">Private Ocean Access</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ARCHITECTURAL FRAMEWORK TABS SECTION -->
+    <section id="framework" class="py-32 md:py-48 px-6 md:px-16 bg-sand-100 border-t border-sand-200">
+        <div class="max-w-7xl mx-auto space-y-16">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div>
+                    <span class="text-xs uppercase tracking-ultra text-sand-800 font-medium block mb-2">[ 03 &bull; Spatial Framework ]</span>
+                    <h2 class="font-serif text-4xl md:text-5xl text-sand-900 font-light">Floorplan & Spatial Organization</h2>
+                </div>
+                
+                <!-- Tab Switchers -->
+                <div class="flex flex-wrap gap-2 border-b border-sand-300 pb-2">
+                    <button onclick="switchTab('tab-main')" id="btn-tab-main" class="tab-btn active text-xs uppercase tracking-widest px-4 py-2 border-b-2 border-sand-900 font-medium text-sand-900 transition-all">
+                        Level 01 &bull; Main Living
+                    </button>
+                    <button onclick="switchTab('tab-upper')" id="btn-tab-upper" class="tab-btn text-xs uppercase tracking-widest px-4 py-2 border-b-2 border-transparent text-sand-800 hover:text-sand-900 font-medium transition-all">
+                        Level 02 &bull; Master Suite
+                    </button>
+                    <button onclick="switchTab('tab-outdoor')" id="btn-tab-outdoor" class="tab-btn text-xs uppercase tracking-widest px-4 py-2 border-b-2 border-transparent text-sand-800 hover:text-sand-900 font-medium transition-all">
+                        Level 00 &bull; Beach & Pool
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dynamic Tab Content -->
+            <div class="bg-sand-50 border border-sand-300 p-8 md:p-16">
+                
+                <!-- Tab 1: Main Living -->
+                <div id="tab-main" class="tab-content grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-5 space-y-6">
+                        <span class="text-[10px] uppercase tracking-ultra text-coastal-muted font-semibold">Primary Social Level</span>
+                        <h3 class="font-serif text-3xl font-light text-sand-900">Open-Concept Gulf Pavilion</h3>
+                        <p class="text-xs text-sand-800 leading-relaxed font-light tracking-wide">
+                            Features a chef's kitchen outfitted with custom white oak cabinetry, Calacatta marble counters, hidden pantry, dining for 16, and floating grand salon opening directly to the Gulf.
+                        </p>
+                        <ul class="space-y-3 text-xs text-sand-800 font-light border-t border-sand-200 pt-4">
+                            <li class="flex items-center justify-between">
+                                <span>Floor Ceiling Height</span>
+                                <span class="font-serif text-sand-900">14 Feet</span>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span>Flooring Finish</span>
+                                <span class="font-serif text-sand-900">Custom Travertine Tile</span>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span>Guest Suites</span>
+                                <span class="font-serif text-sand-900">2 En-Suite Bedrooms</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="lg:col-span-7">
+                        <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=1600&auto=format&fit=crop" 
+                             alt="Main Living Chef Kitchen" 
+                             class="w-full h-[400px] object-cover border border-sand-200" />
+                    </div>
+                </div>
+
+                <!-- Tab 2: Upper Sanctuary -->
+                <div id="tab-upper" class="tab-content hidden grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-5 space-y-6">
+                        <span class="text-[10px] uppercase tracking-ultra text-coastal-muted font-semibold">Private Quarters</span>
+                        <h3 class="font-serif text-3xl font-light text-sand-900">Primary Penthouse Suite</h3>
+                        <p class="text-xs text-sand-800 leading-relaxed font-light tracking-wide">
+                            Spanning the entirety of the western wing, the primary bedroom features wrap-around glass, dual walk-in closets, fireplace, and private cantilevered balcony overlooking the sunset waters.
+                        </p>
+                        <ul class="space-y-3 text-xs text-sand-800 font-light border-t border-sand-200 pt-4">
+                            <li class="flex items-center justify-between">
+                                <span>Balcony Area</span>
+                                <span class="font-serif text-sand-900">650 SF Private Terrace</span>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span>Primary Spa Bath</span>
+                                <span class="font-serif text-sand-900">Soaking Tub + Rain Shower</span>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span>Flooring Finish</span>
+                                <span class="font-serif text-sand-900">White Oak Hardwood</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="lg:col-span-7">
+                        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?q=80&w=1600&auto=format&fit=crop" 
+                             alt="Primary Bedroom Suite" 
+                             class="w-full h-[400px] object-cover border border-sand-200" />
+                    </div>
+                </div>
+
+                <!-- Tab 3: Outdoor Oasis -->
+                <div id="tab-outdoor" class="tab-content hidden grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-5 space-y-6">
+                        <span class="text-[10px] uppercase tracking-ultra text-coastal-muted font-semibold">Coastal Promenade</span>
+                        <h3 class="font-serif text-3xl font-light text-sand-900">Outdoor Veranda & Infinity Pool</h3>
+                        <p class="text-xs text-sand-800 leading-relaxed font-light tracking-wide">
+                            Direct barefoot sand access, outdoor summer kitchen with marine-grade stainless appliances, fire lounge, and private beach shower pavilion.
+                        </p>
+                        <ul class="space-y-3 text-xs text-sand-800 font-light border-t border-sand-200 pt-4">
+                            <li class="flex items-center justify-between">
+                                <span>Pool Dimensions</span>
+                                <span class="font-serif text-sand-900">75' x 20' Edge-Free Saltwater</span>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span>Covered Lanai</span>
+                                <span class="font-serif text-sand-900">1,800 SF Exterior Living</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="lg:col-span-7">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1600&auto=format&fit=crop" 
+                             alt="Infinity Pool Waterfront" 
+                             class="w-full h-[400px] object-cover border border-sand-200" />
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ARCHITECTURAL GALLERY (EDITORIAL ARCHIVE) -->
+    <section id="gallery" class="py-32 md:py-48 px-6 md:px-16 bg-sand-50 border-t border-sand-200">
+        <div class="max-w-7xl mx-auto space-y-16">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-sand-300 pb-12">
+                <div>
+                    <span class="text-xs uppercase tracking-ultra text-sand-800 font-medium block mb-2">[ 04 &bull; Photography Archive ]</span>
+                    <h2 class="font-serif text-4xl md:text-5xl text-sand-900 font-light">Visual Catalogue</h2>
+                </div>
+                <span class="text-xs uppercase tracking-widest text-sand-800">Curated Exterior & Interior Views</span>
+            </div>
+
+            <!-- Asymmetric Editorial Photo Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+                
+                <div class="md:col-span-7 overflow-hidden group cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2000&auto=format&fit=crop')">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=1600&auto=format&fit=crop" 
+                             alt="Exterior Beachfront Villa" 
+                             class="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-105" />
+                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-sand-900/80 to-transparent text-sand-50 flex justify-between items-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <span class="font-serif italic text-lg">Gulf Elevation & Facade</span>
+                            <span class="text-[10px] uppercase tracking-widest">[ Expand ]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-5 overflow-hidden group cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2000&auto=format&fit=crop')">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop" 
+                             alt="Minimalist Living Area" 
+                             class="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-105" />
+                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-sand-900/80 to-transparent text-sand-50 flex justify-between items-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <span class="font-serif italic text-lg">Main Salon & Warm Oak Detailing</span>
+                            <span class="text-[10px] uppercase tracking-widest">[ Expand ]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-4 overflow-hidden group cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop')">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop" 
+                             alt="Floor to Ceiling Glass" 
+                             class="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-105" />
+                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-sand-900/80 to-transparent text-sand-50 flex justify-between items-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <span class="font-serif italic text-lg">Glass Wall Retraction</span>
+                            <span class="text-[10px] uppercase tracking-widest">[ Expand ]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-8 overflow-hidden group cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2000&auto=format&fit=crop')">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600&auto=format&fit=crop" 
+                             alt="Gulf Sunset Horizon View" 
+                             class="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-105" />
+                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-sand-900/80 to-transparent text-sand-50 flex justify-between items-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <span class="font-serif italic text-lg">Private Beach Sunset Panorama</span>
+                            <span class="text-[10px] uppercase tracking-widest">[ Expand ]</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- EDITORIAL REVIEWS & PRESS CRITICISM -->
+    <section class="py-32 bg-sand-100 border-t border-sand-200">
+        <div class="max-w-5xl mx-auto px-6 text-center space-y-12">
+            <span class="text-xs uppercase tracking-ultra text-sand-800 font-medium">[ Critical Acclaim ]</span>
+            
+            <div id="testimonial-container" class="transition-all duration-500">
+                <blockquote class="font-serif text-3xl md:text-5xl font-light text-sand-900 leading-snug">
+                    "Carlouel Beach House sets a new benchmark for minimalist Gulf architecture. It does not merely sit on the water; it commands the sea breeze and twilight."
+                </blockquote>
+                <div class="mt-8 text-xs uppercase tracking-widest text-sand-800 font-medium">
+                    &mdash; Architectural Digest International
+                </div>
+            </div>
+
+            <!-- Dots Indicator -->
+            <div class="flex justify-center space-x-3 pt-4">
+                <button onclick="setTestimonial(0)" class="test-dot w-2.5 h-2.5 rounded-full bg-sand-900 transition-all"></button>
+                <button onclick="setTestimonial(1)" class="test-dot w-2.5 h-2.5 rounded-full bg-sand-300 transition-all"></button>
+                <button onclick="setTestimonial(2)" class="test-dot w-2.5 h-2.5 rounded-full bg-sand-300 transition-all"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ / TECHNICAL SPECIFICATIONS ACCORDION -->
+    <section class="py-32 px-6 md:px-16 bg-sand-50 border-t border-sand-200">
+        <div class="max-w-4xl mx-auto space-y-12">
+            <div class="text-center space-y-3">
+                <span class="text-xs uppercase tracking-ultra text-sand-800 font-medium">[ Residence Details ]</span>
+                <h2 class="font-serif text-4xl text-sand-900 font-light">Frequently Inquired Specifications</h2>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Accordion Item 1 -->
+                <div class="border border-sand-300 bg-sand-100 transition-colors">
+                    <button onclick="toggleAccordion(1)" class="w-full p-6 text-left flex justify-between items-center focus:outline-none">
+                        <span class="font-serif text-xl text-sand-900">What is the structural resilience against coastal storms?</span>
+                        <span id="accordion-icon-1" class="text-2xl text-sand-800 font-light">+</span>
+                    </button>
+                    <div id="accordion-body-1" class="hidden px-6 pb-6 text-xs text-sand-800 leading-relaxed font-light">
+                        Built upon 45-foot concrete deep pilings pinned into bed rock, the residence features high-grade reinforced concrete framing, dual-seal waterproof membranes, and Miami-Dade Category 5 impact glass throughout all window envelopes.
+                    </div>
+                </div>
+
+                <!-- Accordion Item 2 -->
+                <div class="border border-sand-300 bg-sand-100 transition-colors">
+                    <button onclick="toggleAccordion(2)" class="w-full p-6 text-left flex justify-between items-center focus:outline-none">
+                        <span class="font-serif text-xl text-sand-900">Is Carlouel Beach House offered fully furnished?</span>
+                        <span id="accordion-icon-2" class="text-2xl text-sand-800 font-light">+</span>
+                    </button>
+                    <div id="accordion-body-2" class="hidden px-6 pb-6 text-xs text-sand-800 leading-relaxed font-light">
+                        Yes. The estate is offered turnkey with custom minimalist Italian furnishings, curated modern artwork, custom linen drapery, and fully integrated Crestron home automation.
+                    </div>
+                </div>
+
+                <!-- Accordion Item 3 -->
+                <div class="border border-sand-300 bg-sand-100 transition-colors">
+                    <button onclick="toggleAccordion(3)" class="w-full p-6 text-left flex justify-between items-center focus:outline-none">
+                        <span class="font-serif text-xl text-sand-900">What are the guest capacity and docking amenities?</span>
+                        <span id="accordion-icon-3" class="text-2xl text-sand-800 font-light">+</span>
+                    </button>
+                    <div id="accordion-body-3" class="hidden px-6 pb-6 text-xs text-sand-800 leading-relaxed font-light">
+                        The property comfortably accommodates up to 16 guests across 5 en-suite bedrooms and secondary guest wing. Includes private deep-water dock capable of mooring vessels up to 70 feet on the intra-coastal inlet side.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER CTA SECTION -->
+    <footer class="py-24 px-6 md:px-16 bg-sand-900 text-sand-100 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto space-y-16 relative z-10">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pb-16 border-b border-sand-800">
+                <div class="lg:col-span-8 space-y-4">
+                    <span class="text-xs uppercase tracking-ultra text-sand-400 font-medium">Private Acquisition Opportunity</span>
+                    <h2 class="font-serif text-4xl md:text-6xl text-sand-50 font-light">
+                        Experience Carlouel Beach House Firsthand
+                    </h2>
+                </div>
+                <div class="lg:col-span-4 flex lg:justify-end">
+                    <button onclick="openModal()" class="px-8 py-4 bg-sand-100 text-sand-900 text-xs uppercase tracking-ultra hover:bg-sand-200 transition-colors font-semibold">
+                        Request Private Presentation
+                    </button>
+                </div>
+            </div>
+
+            <!-- Footer Meta Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-xs font-light text-sand-400">
+                <div>
+                    <h4 class="text-sand-100 font-serif text-lg mb-3">Carlouel Beach House</h4>
+                    <p class="leading-relaxed">Gulf Coast Waterfront Estate<br/>Clearwater Coastal Reserve</p>
+                </div>
+                <div>
+                    <h4 class="text-sand-100 uppercase tracking-widest text-[10px] mb-3">Architectural Team</h4>
+                    <p class="leading-relaxed">Design: Studio Minimal Architecture<br/>Landscape: Gulf Coastal Ecology</p>
+                </div>
+                <div>
+                    <h4 class="text-sand-100 uppercase tracking-widest text-[10px] mb-3">Direct Inquiries</h4>
+                    <p class="leading-relaxed">admissions@carlouelbeachhouse.com<br/>+1 (800) 492-9182</p>
+                </div>
+                <div>
+                    <h4 class="text-sand-100 uppercase tracking-widest text-[10px] mb-3">Legal & Rights</h4>
+                    <p class="leading-relaxed">&copy; 2025 Carlouel Estate LLC.<br/>All rights reserved. Equal Housing Opportunity.</p>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- SCHEDULE TOUR INTERACTIVE MODAL -->
+    <div id="tour-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-sand-900/70 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-500">
+        <div class="bg-sand-100 border border-sand-300 p-8 md:p-12 w-full max-w-lg mx-4 relative shadow-2xl">
+            
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-sand-800 hover:text-sand-900 text-2xl font-light">
+                &times;
+            </button>
+
+            <div class="space-y-6">
+                <div>
+                    <span class="text-[10px] uppercase tracking-ultra text-sand-800 font-bold block mb-1">Private Inspection</span>
+                    <h3 class="font-serif text-3xl font-light text-sand-900">Schedule Your Tour</h3>
+                </div>
+
+                <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-sand-800 mb-1">Full Name</label>
+                        <input type="text" required class="w-full bg-sand-50 border border-sand-300 px-4 py-3 text-xs text-sand-900 focus:outline-none focus:border-sand-900" placeholder="e.g. Eleanor Vance">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-sand-800 mb-1">Email Address</label>
+                        <input type="email" required class="w-full bg-sand-50 border border-sand-300 px-4 py-3 text-xs text-sand-900 focus:outline-none focus:border-sand-900" placeholder="eleanor@luxurydomain.com">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-sand-800 mb-1">Preferred Tour Date</label>
+                        <input type="date" required class="w-full bg-sand-50 border border-sand-300 px-4 py-3 text-xs text-sand-900 focus:outline-none focus:border-sand-900">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-sand-800 mb-1">Representation</label>
+                        <select class="w-full bg-sand-50 border border-sand-300 px-4 py-3 text-xs text-sand-900 focus:outline-none focus:border-sand-900">
+                            <option>Direct Principal Buyer</option>
+                            <option>Buyer's Broker / Representative</option>
+                            <option>Family Office Advisory</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="w-full py-3.5 bg-sand-900 text-sand-50 text-xs uppercase tracking-widest hover:bg-coastal-deep transition-colors mt-4">
+                        Confirm Tour Reservation
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX MODAL FOR GALLERY -->
+    <div id="lightbox-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-sand-900/90 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 p-4" onclick="closeLightbox()">
+        <button class="absolute top-6 right-6 text-sand-100 text-3xl font-light">&times;</button>
+        <img id="lightbox-img" src="" alt="Enlarged View" class="max-w-full max-h-[90vh] object-contain border border-sand-100/20" />
+    </div>
+
+    <!-- JAVASCRIPT ANIMATIONS & INTERACTIVES -->
+    <script>
+        // GSAP Initialization & Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        window.addEventListener('DOMContentLoaded', () => {
+            
+            // Hero Loading Animation Sequence
+            const tl = gsap.timeline();
+
+            tl.from('.hero-img-container', {
+                scale: 1.15,
+                duration: 2,
+                ease: 'power3.out'
+            })
+            .from('.hero-title', {
+                y: 50,
+                opacity: 0,
+                duration: 1.2,
+                ease: 'power3.out'
+            }, '-=1.4')
+            .from('.hero-subtitle', {
+                y: 30,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out'
+            }, '-=0.8')
+            .from('.hero-card', {
+                x: 60,
+                opacity: 0,
+                duration: 1.2,
+                ease: 'power3.out'
+            }, '-=1');
+
+            // Parallax Ocean Backdrop Scale on Scroll
+            gsap.to('.hero-img-container img', {
+                yPercent: 15,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: 'body',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+
+            // ScrollTrigger Fades for Narrative & Grid Elements
+            gsap.utils.toArray('.gsap-fade').forEach((elem) => {
+                gsap.from(elem, {
+                    y: 40,
+                    opacity: 0,
+                    duration: 1,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: 'top 85%'
+                    }
+                });
+            });
+
+            gsap.utils.toArray('.gsap-card').forEach((card, index) => {
+                gsap.from(card, {
+                    y: 50,
+                    opacity: 0,
+                    duration: 0.8,
+                    delay: index * 0.15,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%'
+                    }
+                });
+            });
+
+            gsap.from('.gsap-scale-img', {
+                scale: 0.95,
+                opacity: 0,
+                duration: 1.2,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: '.gsap-scale-img',
+                    start: 'top 80%'
+                }
+            });
+        });
+
+        // Interactive Floorplan Tab Switcher
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-sand-900', 'text-sand-900');
+                btn.classList.add('border-transparent', 'text-sand-800');
+            });
+
+            document.getElementById(tabId).classList.remove('hidden');
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.add('border-sand-900', 'text-sand-900');
+            activeBtn.classList.remove('border-transparent', 'text-sand-800');
+        }
+
+        // Testimonial Carousel Switcher
+        const quotes = [
+            {
+                text: '"Carlouel Beach House sets a new benchmark for minimalist Gulf architecture. It does not merely sit on the water; it commands the sea breeze and twilight."',
+                author: '&mdash; Architectural Digest International'
+            },
+            {
+                text: '"A triumph of spatial geometry and coastal engineering. The seamless floor-to-ceiling glass creates an uncompromised sensory link to the ocean."',
+                author: '&mdash; Coastal Modern Living'
+            },
+            {
+                text: '"One of the finest modern beachfront estates constructed along Florida’s Gulf Coast in the past decade."',
+                author: '&mdash; Robb Report Real Estate'
+            }
+        ];
+
+        function setTestimonial(index) {
+            const container = document.getElementById('testimonial-container');
+            const dots = document.querySelectorAll('.test-dot');
+            
+            container.style.opacity = '0';
+            setTimeout(() => {
+                container.innerHTML = `
+                    <blockquote class="font-serif text-3xl md:text-5xl font-light text-sand-900 leading-snug">
+                        ${quotes[index].text}
+                    </blockquote>
+                    <div class="mt-8 text-xs uppercase tracking-widest text-sand-800 font-medium">
+                        ${quotes[index].author}
+                    </div>
+                `;
+                container.style.opacity = '1';
+            }, 300);
+
+            dots.forEach((dot, idx) => {
+                if (idx === index) {
+                    dot.classList.remove('bg-sand-300');
+                    dot.classList.add('bg-sand-900');
+                } else {
+                    dot.classList.remove('bg-sand-900');
+                    dot.classList.add('bg-sand-300');
+                }
+            });
+        }
+
+        // FAQ Accordion Toggle
+        function toggleAccordion(id) {
+            const body = document.getElementById(`accordion-body-${id}`);
+            const icon = document.getElementById(`accordion-icon-${id}`);
+            if (body.classList.contains('hidden')) {
+                body.classList.remove('hidden');
+                icon.textContent = '−';
+            } else {
+                body.classList.add('hidden');
+                icon.textContent = '+';
+            }
+        }
+
+        // Schedule Tour Modal Functions
+        function openModal() {
+            document.getElementById('tour-modal').classList.add('modal-active');
+        }
+
+        function closeModal() {
+            document.getElementById('tour-modal').classList.remove('modal-active');
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            alert('Thank you. Your private tour request for Carlouel Beach House has been logged. Our advisory team will contact you directly.');
+            closeModal();
+        }
+
+        // Mobile Menu Drawer
+        function toggleMobileMenu() {
+            const drawer = document.getElementById('mobile-drawer');
+            drawer.classList.toggle('hidden');
+            drawer.classList.toggle('flex');
+        }
+        document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+
+        // Lightbox Functions
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            lightbox.classList.add('modal-active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').classList.remove('modal-active');
+        }
+    </script>
+</body>
+</html>
