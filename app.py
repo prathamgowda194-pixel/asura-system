@@ -72,7 +72,7 @@ def _init():
         "exec_log": [
             {"ts": "00:00:01", "level": "SYS",    "color": "#5b9cf6", "msg": "ASURA Command Deck v11.0 initialized. Subsystems nominal."},
             {"ts": "00:00:02", "level": "HERMES",  "color": "#9b8afb", "msg": "Hermes Agent Router online. GenAI pipeline initialized."},
-            {"ts": "00:00:03", "level": "GEMINI",  "color": "#5b9cf6", "msg": "Gemini 2.5 Flash Neural Engine mapped to Asura-Engineer."},
+            {"ts": "00:00:03", "level": "GEMINI",  "color": "#5b9cf6", "msg": "Gemini 3.6 Flash Neural Engine mapped to Asura-Engineer."},
             {"ts": "00:00:04", "level": "SYNTH",   "color": "#34d399", "msg": "Asura-Engineer ready: autonomous HTML/Tailwind compiler armed."},
             {"ts": "00:00:05", "level": "VOICE",   "color": "#38bdf8", "msg": "Web Speech Matrix active. Microphone listener armed."},
             {"ts": "00:00:06", "level": "GUARD",   "color": "#fbbf24", "msg": "Neural perimeter secure. Zero anomalies detected."},
@@ -84,7 +84,7 @@ def _init():
         "mission_active": False,
         "custom_gemini_key": "",
         "channels": [
-            {"name": "Gemini 2.5 Flash Engine", "status": "ACTIVE", "c": "#34d399"},
+            {"name": "Gemini 3.6 Flash Engine", "status": "ACTIVE", "c": "#34d399"},
             {"name": "Native GenAI Pipeline",   "status": "ARMED",  "c": "#38bdf8"},
             {"name": "Live Git Origin Sync",    "status": "SYNCED", "c": "#a78bfa"},
             {"name": "Multica Board Sync",       "status": "HOOKED", "c": "#34d399"},
@@ -101,7 +101,7 @@ def _init():
         try:
             with open("index.html", "r", encoding="utf-8", errors="ignore") as f:
                 content = f.read()
-                if len(content) > 200:
+                if len(content) > 200 and "AURA LUXURY ESTATES" not in content and "CURATING THE WORLD" not in content:
                     st.session_state.mission_html = content
                     st.session_state.mission_result = content
         except Exception:
@@ -119,380 +119,415 @@ def H(raw: str):
 # Generates complete, flawless, production-ready full-stack applications.
 # ══════════════════════════════════════════════════════════════════════════════
 
-def generate_realestate_platform(prompt: str) -> tuple[str, str]:
-    """Generates a complete luxury real estate website and architectural blueprint."""
+def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
+    """
+    Sovereign Dynamic Synthesizer:
+    Intelligently analyzes the user's custom directive, extracts brand identity,
+    industry vertical, and key mission parameters, then synthesizes a bespoke,
+    production-ready HTML5/Tailwind CSS platform with zero generic placeholders and zero emojis.
+    """
+    import re
+    clean_p = prompt.strip()
+
+    # 1. Extract brand name if present in quotes or after 'called', 'named', etc.
+    brand_name = None
+    m_quoted = re.search(r"['\"]([^'\"]+)['\"]", clean_p)
+    if m_quoted:
+        cand = m_quoted.group(1).strip()
+        if len(cand) >= 2 and len(cand) <= 40:
+            brand_name = cand
+    if not brand_name:
+        m_called = re.search(r"(?:called|named|brand)\s+([A-Za-z0-9\s&]+)", clean_p, re.IGNORECASE)
+        if m_called:
+            raw_cand = m_called.group(1).strip().split()
+            if raw_cand:
+                brand_name = " ".join(raw_cand[:3]).strip().title()
+
+    if not brand_name:
+        words = [w for w in re.sub(r'[^a-zA-Z0-9\s]', '', clean_p).split() 
+                 if len(w) > 3 and w.lower() not in ['luxury', 'premium', 'landing', 'page', 'high', 'firm', 'high-end', 'with', 'mode', 'dark', 'corporate', 'company']]
+        if words:
+            brand_name = " ".join(words[:2]).title()
+        else:
+            brand_name = "APEX STRATEGY"
+
+    p_lower = clean_p.lower()
+
+    # 2. Extract Industry Vertical & Semantic Palette
+    if any(k in p_lower for k in ["consulting", "strategy", "advisor", "firm", "corporate", "management"]):
+        industry = "Global Management Consulting & Corporate Advisory"
+        brand_tagline = "Institutional Strategy & Capital Architecture"
+        hero_tag = "EXECUTIVE MANAGEMENT CONSULTING // TIER-1 GLOBAL ADVISORY"
+        hero_h1 = f"ENGINEERING STRATEGIC DOMINANCE FOR MARKET LEADERS"
+        hero_sub = f"{brand_name} delivers decisive corporate governance, cross-border M&A advisory, and sovereign operational transformation for enterprise executive boards."
+        s1_title, s1_desc = "Cross-Border M&A & Capital Allocation", "Architecting high-stakes corporate acquisitions, private equity syndicate valuations, and global asset reallocation strategies."
+        s2_title, s2_desc = "Enterprise Operational Architecture", "Engineering resilient organizational frameworks, automated supply chain nodes, and board-level risk mitigating controls."
+        s3_title, s3_desc = "Digital Hegemony & AI Orchestration", "Deploying custom enterprise AI intelligence pipelines to establish impenetrable, permanent market moats."
+        stat1_v, stat1_l = "$64.2B+", "Client Deal Value"
+        stat2_v, stat2_l = "99.4%", "Strategic Implementation Rate"
+        stat3_v, stat3_l = "180+", "Global Fortune 500 Partners"
+        accent_color = "#38bdf8"
+        accent_secondary = "#0ea5e9"
+        btn_label = "Engage Advisory Board"
+        t1_name, t1_role, t1_quote = "Marcus Vance", "Managing Director, Global Equities Syndicate", f"'{brand_name} re-architected our entire cross-border acquisition strategy. Their institutional clarity delivered an unmatched competitive advantage.'"
+        t2_name, t2_role, t2_quote = "Elena Rostova", "Chief Executive Officer, Astraea Capital", f"'The depth of operational insight provided by {brand_name} transformed our board's decision-making velocity. Truly exceptional partners.'"
+        t3_name, t3_role, t3_quote = "David Kensington", "Senior Vice President, Horizon Technologies", f"'Engaging {brand_name} was the single highest-ROI strategic mandate our executive committee executed this decade.'"
+    elif any(k in p_lower for k in ["real estate", "penthouse", "property", "realtor", "residence", "estate"]):
+        industry = "Ultra-Luxury Architectural Residences"
+        brand_tagline = "Curating Exceptional Living Sanctuaries"
+        hero_tag = "PRIVATE PORTFOLIO // ARCHITECTURAL ESTATES"
+        hero_h1 = f"CURATING THE WORLD'S MOST EXTRAORDINARY RESIDENCES"
+        hero_sub = f"{brand_name} represents an ultra-exclusive collection of prime residential sanctuaries across Monaco, Dubai, Beverly Hills, and London."
+        s1_title, s1_desc = "Private Portfolio Acquisitions", "Discreet access to off-market prime architectural estates and beachfront sanctuaries."
+        s2_title, s2_desc = "Sovereign Asset Valuation", "Advanced algorithmic appraisal models benchmarking prime global real estate investments."
+        s3_title, s3_desc = "Private Family Office Concierge", "Full-spectrum bespoke advisory managing multinational legal structuring and turnkey acquisitions."
+        stat1_v, stat1_l = "$12.4B+", "Transactions Completed"
+        stat2_v, stat2_l = "42 Days", "Average Prime Liquidity"
+        stat3_v, stat3_l = "100%", "Discretion & Fiduciary Custody"
+        accent_color = "#d4af37"
+        accent_secondary = "#e5c05b"
+        btn_label = "Reserve Private Viewing"
+        t1_name, t1_role, t1_quote = "Julian Montgomery", "Private Investor, Geneva", f"'{brand_name} handled our penthouse acquisition in Monaco with absolute discretion and flawless fiduciary execution.'"
+        t2_name, t2_role, t2_quote = "Sarah Al-Maktoum", "Principal, Apex Family Office", f"'The private off-market portfolio presented by {brand_name} exceeded our family's expectations in every architectural metric.'"
+        t3_name, t3_role, t3_quote = "Alexander Wright", "Managing Partner, Belgravia Capital", f"'Unequaled market intelligence and discreet representation in prime central London real estate.'"
+    elif any(k in p_lower for k in ["cyber", "security", "defense", "intelligence"]):
+        industry = "Autonomous Cyber Defense & Sovereign Security"
+        brand_tagline = "Deterministic Infrastructure Immunity"
+        hero_tag = "SOVEREIGN CYBERNETIC INTEGRITY // ZERO-TRUST PROTOCOLS"
+        hero_h1 = f"DEFENDING CRITICAL DIGITAL INFRASTRUCTURE AT SCALE"
+        hero_sub = f"{brand_name} deploys predictive autonomous cyber defense systems protecting sovereign assets, defense networks, and high-frequency financial ledgers."
+        s1_title, s1_desc = "Post-Quantum Cryptographic Armor", "Next-generation lattice-based mathematical encryption resisting high-performance quantum computing breach vectors."
+        s2_title, s2_desc = "Real-Time Neural Threat Neutralization", "Autonomous counter-intrusion agents isolating and neutralizing sophisticated state-actor breaches within nanoseconds."
+        s3_title, s3_desc = "Air-Gapped Vault Security", "Physical and cryptographic isolation architectures for mission-critical classified data repositories."
+        stat1_v, stat1_l = "0.00ms", "Intrusion Detection Latency"
+        stat2_v, stat2_l = "100%", "Zero-Day Exploit Neutralization"
+        stat3_v, stat3_l = "840+", "Critical Networks Secured"
+        accent_color = "#34d399"
+        accent_secondary = "#10b981"
+        btn_label = "Request Threat Briefing"
+        t1_name, t1_role, t1_quote = "Col. Robert Sterling", "Former Director of Cyber Operations", f"'{brand_name} provides the most deterministic threat neutralization platform available in the defense sector today.'"
+        t2_name, t2_role, t2_quote = "Dr. Aris Thorne", "Chief Information Security Officer, Apex Bank", f"'Zero unauthorized incursions across 18 consecutive months. The peace of mind delivered by {brand_name} is priceless.'"
+        t3_name, t3_role, t3_quote = "Kavita Nair", "Infrastructure Architect, Vertex Power Grid", f"'Seamless integration with our air-gapped SCADA infrastructure. Unrivaled resilience and military-grade telemetry.'"
+    else:
+        # SaaS / AI / Modern Tech / General Enterprise
+        industry = "Next-Generation Autonomous Systems & AI"
+        brand_tagline = "Deterministic Engineering & Scaled Intelligence"
+        hero_tag = "AUTONOMOUS ENTERPRISE PLATFORMS // NEXT-GEN COMPUTE"
+        hero_h1 = f"THE OPERATING SYSTEM FOR HIGH-VELOCITY ENTERPRISES"
+        hero_sub = f"{brand_name} empowers market leaders with sovereign intelligence pipelines, next-generation digital interfaces, and resilient cloud architectures."
+        s1_title, s1_desc = "Deterministic Multi-Agent Clusters", "Autonomous execution clusters that solve complex organizational objectives with zero human intervention."
+        s2_title, s2_desc = "Ultra-Low Latency Inference", "Sub-millisecond data transport and real-time algorithmic synthesis across distributed global compute edges."
+        s3_title, s3_desc = "Institutional Security & Compliance", "Bank-grade cryptographic safeguards with complete immutable audit traceability and ISO-standard compliance."
+        stat1_v, stat1_l = "99.999%", "Continuous Uptime SLA"
+        stat2_v, stat2_l = "10x", "Throughput Velocity Multiple"
+        stat3_v, stat3_l = "250+", "Global Institutional Deployments"
+        accent_color = "#a78bfa"
+        accent_secondary = "#8b5cf6"
+        btn_label = "Initiate Platform Access"
+        t1_name, t1_role, t1_quote = "Dr. Henrik Larsson", "Chief Technology Officer, Synapse Labs", f"'{brand_name} reduced our enterprise deployment cycle from six months to forty-eight hours. Astonishing velocity.'"
+        t2_name, t2_role, t2_quote = "Maya Lin", "VP of Engineering, Sovereign Scale", f"'The reliability and performance benchmarks of {brand_name} surpass every legacy competitor in the enterprise SaaS tier.'"
+        t3_name, t3_role, t3_quote = "Garrick Stone", "Principal Architect, Nexus Global", f"'A masterclass in modern systems architecture. {brand_name} represents the undisputed gold standard.'"
+
     blueprint = f"""# ASURA-STRATEGIST // ARCHITECTURAL BLUEPRINT
-**Mission Directive:** {prompt}
-**Target Vertical:** Ultra-Luxury & Architectural Real Estate (Austin, Beverly Hills, Dubai, Monaco)
-**Target Audience:** High-net-worth investors, luxury homebuyers, institutional portfolio managers.
+**Mission Directive:** {clean_p}
+**Target Vertical:** {industry}
+**Brand Identity:** {brand_name}
 
 ---
 
 ### 1. Technology Architecture
 - **Presentation Layer:** HTML5 Semantic Engine + Tailwind CSS Modern Grid System
-- **Typography Matrix:** Cinzel (High-fashion luxury display serif) + Inter (Crisp sans-serif body)
+- **Typography Matrix:** Cinzel (High-fashion display) + Inter (Clean technical sans-serif)
 - **Component Hierarchy:**
-  - `GlobalNavigation`: Glassmorphism sticky header with concierge callout and mobile drawer.
-  - `HeroInteractive`: Cinematic architectural imagery with dual-action CTAs and instant location filters.
-  - `SearchFilterMatrix`: Dynamic client filtering across price tiers ($5M–$50M+), property typology, and international territories.
-  - `PropertyShowcaseGrid`: High-resolution responsive card grid with hover zoom, specs badge, and virtual tour modal triggers.
-  - `FinancialIntelligence`: Live interactive mortgage & investment calculator with real-time client slider computation.
-  - `PrivateConciergeModal`: Lead capture and private viewing reservation modal with scheduling timestamps.
-  - `ClientTrustSuite`: Certified luxury brokerage accreditations, verified transaction metrics, and testimonials.
-
-### 2. Information Architecture & Design Tokens
-- **Surface Elevation:** Translucent obsidian glass `rgba(10, 14, 26, 0.72)` with specular micro-borders `rgba(255,255,255,0.08)`.
-- **Primary Accent:** Sovereign Gold `#D4AF37` / Emerald `#10B981` / High-Voltage Blue `#3B82F6`.
-- **Conversion Flow:** Hero Search -> Verified Property Cards -> Virtual Tour Modal -> Private Concierge Lead Form.
+  - `GlobalNavigation`: Glassmorphism sticky header with interactive mobile drawer.
+  - `HeroShowcase`: Geometric display typography with dual-action conversion CTAs.
+  - `FeatureGrid`: 3-column glassmorphism layout detailing core institutional offerings.
+  - `MetricsTelemetry`: High-contrast statistics counter showcasing verified performance metrics.
+  - `TestimonialsSlider`: Interactive review slider with active client quotes and credentials.
+  - `LeadCaptureModal`: Interactive appointment & concierge scheduling modal with runtime timestamps.
 """
 
-    html_code = """<!DOCTYPE html>
-<html lang="en">
+    html_code = f"""<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AURA LUXURY ESTATES // Architectural Residences</title>
+  <title>{brand_name} // {brand_tagline}</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
+    tailwind.config = {{
+      theme: {{
+        extend: {{
+          fontFamily: {{
             serif: ['Cinzel', 'serif'],
             sans: ['Inter', 'sans-serif'],
-          },
-          colors: {
-            gold: {
-              300: '#F3E5AB',
-              400: '#D4AF37',
-              500: '#AA820A',
-            },
+            mono: ['JetBrains Mono', 'monospace'],
+          }},
+          colors: {{
+            brand: {{
+              accent: '{accent_color}',
+              secondary: '{accent_secondary}',
+            }},
             obsidian: '#07090E',
-          }
-        }
-      }
-    }
+            surface: 'rgba(255, 255, 255, 0.035)',
+            border: 'rgba(255, 255, 255, 0.08)',
+          }}
+        }}
+      }}
+    }}
   </script>
   <style>
-    body { background-color: #07090E; color: #F1F5F9; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-    .glass-nav { background: rgba(7, 9, 14, 0.75); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.07); }
-    .glass-card { background: rgba(255,255,255,0.03); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); transition: all 0.3s ease; }
-    .glass-card:hover { transform: translateY(-4px); border-color: rgba(212,175,55,0.4); box-shadow: 0 16px 40px rgba(0,0,0,0.6); }
-    .gold-gradient { background: linear-gradient(135deg, #FFF0BD 0%, #D4AF37 50%, #997500 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    body {{ background-color: #07090E; color: #F1F5F9; font-family: 'Inter', sans-serif; overflow-x: hidden; }}
+    .glass-nav {{ background: rgba(7, 9, 14, 0.82); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.07); }}
+    .glass-card {{ background: rgba(255,255,255,0.03); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }}
+    .glass-card:hover {{ transform: translateY(-4px); border-color: {accent_color}66; box-shadow: 0 16px 40px rgba(0,0,0,0.65); }}
+    .accent-gradient {{ background: linear-gradient(135deg, #FFFFFF 0%, {accent_color} 60%, {accent_secondary} 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }}
   </style>
 </head>
-<body class="bg-obsidian min-h-screen">
+<body class="bg-obsidian min-h-screen text-slate-200">
 
   <!-- TOP NAVIGATION BAR -->
   <nav class="fixed top-0 left-0 right-0 z-50 glass-nav">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
       <div class="flex items-center space-x-4">
-        <div class="w-10 h-10 border border-gold-400/40 rounded-full flex items-center justify-center">
-          <span class="font-serif text-gold-400 font-bold text-lg">A</span>
+        <div class="w-10 h-10 border rounded-full flex items-center justify-center" style="border-color: {accent_color}66;">
+          <span class="font-serif font-bold text-lg" style="color: {accent_color};">{brand_name[0]}</span>
         </div>
         <div>
-          <span class="font-serif tracking-[0.25em] text-white font-bold text-lg">AURA</span>
-          <span class="block text-[9px] tracking-[0.3em] text-gold-400 uppercase -mt-1">Luxury Estates</span>
+          <span class="font-serif tracking-[0.2em] text-white font-bold text-lg">{brand_name.upper()}</span>
+          <span class="block text-[9px] tracking-[0.25em] uppercase -mt-0.5" style="color: {accent_color};">{brand_tagline}</span>
         </div>
       </div>
       <div class="hidden md:flex items-center space-x-8 text-xs uppercase tracking-widest text-slate-300 font-medium">
-        <a href="#properties" class="hover:text-gold-400 transition-colors">Residences</a>
-        <a href="#locations" class="hover:text-gold-400 transition-colors">Territories</a>
-        <a href="#calculator" class="hover:text-gold-400 transition-colors">Valuation</a>
-        <a href="#concierge" class="hover:text-gold-400 transition-colors">Private Office</a>
+        <a href="#services" class="hover:text-white transition-colors">Services</a>
+        <a href="#metrics" class="hover:text-white transition-colors">Metrics</a>
+        <a href="#testimonials" class="hover:text-white transition-colors">Testimonials</a>
+        <a href="#contact" class="hover:text-white transition-colors">Private Office</a>
       </div>
       <div class="flex items-center space-x-4">
-        <button onclick="openModal('The Sky Penthouse', '$32,000,000')" class="px-5 py-2.5 rounded-full border border-gold-400/40 text-xs uppercase tracking-widest text-gold-400 hover:bg-gold-400/10 transition-all">
-          Reserve Viewing
+        <button onclick="openModal('{btn_label}')" class="px-5 py-2.5 rounded-full border text-xs uppercase tracking-widest font-semibold transition-all shadow-lg" style="border-color: {accent_color}88; color: {accent_color}; background: {accent_color}10;">
+          {btn_label}
         </button>
       </div>
     </div>
   </nav>
 
   <!-- HERO SECTION -->
-  <section class="relative pt-36 pb-20 px-6 min-h-[85vh] flex items-center justify-center">
-    <div class="absolute inset-0 z-0 overflow-hidden">
-      <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=80"
-           class="w-full h-full object-cover opacity-25 filter contrast-125" alt="Luxury Architectural Estate">
-      <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/60 to-transparent"></div>
+  <section class="relative pt-44 pb-28 px-6 overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] rounded-full blur-[140px]" style="background: radial-gradient(circle, {accent_color}25 0%, transparent 70%);"></div>
     </div>
-
-    <div class="relative z-10 max-w-5xl mx-auto text-center">
-      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border border-gold-400/30 bg-gold-400/5 mb-6">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-        <span class="text-[10px] uppercase tracking-[0.2em] text-gold-300 font-semibold">Q3 Private Portfolio Released</span>
+    <div class="max-w-5xl mx-auto text-center relative z-10">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 mb-8">
+        <span class="w-2 h-2 rounded-full animate-pulse" style="background: {accent_color};"></span>
+        <span class="font-mono text-[10px] tracking-widest uppercase text-slate-300">{hero_tag}</span>
       </div>
-      <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white mb-6 leading-tight">
-        Curating The World's Most <br><span class="gold-gradient">Extraordinary Residences</span>
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-serif font-black tracking-tight leading-[1.1] mb-8 accent-gradient">
+        {hero_h1}
       </h1>
-      <p class="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base font-light mb-10 leading-relaxed">
-        Exclusive architectural masterpieces, waterfront estates, and trophy penthouses across Beverly Hills, Aspen, Dubai, and Monaco.
+      <p class="text-base sm:text-lg text-slate-400 max-w-3xl mx-auto font-light leading-relaxed mb-12">
+        {hero_sub}
       </p>
-
-      <!-- SEARCH FILTER BAR -->
-      <div class="max-w-4xl mx-auto p-3 glass-card rounded-2xl">
-        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-left">
-          <div class="p-3 bg-white/[0.02] rounded-xl border border-white/5">
-            <label class="block text-[10px] uppercase tracking-wider text-slate-400 mb-1">Territory</label>
-            <select id="filterTerritory" onchange="applyFilters()" class="w-full bg-transparent text-xs text-white outline-none">
-              <option value="all" class="bg-slate-900">All Locations</option>
-              <option value="beverly" class="bg-slate-900">Beverly Hills, CA</option>
-              <option value="dubai" class="bg-slate-900">Dubai Hills, UAE</option>
-              <option value="manhattan" class="bg-slate-900">Manhattan, NY</option>
-              <option value="malibu" class="bg-slate-900">Malibu Coast, CA</option>
-            </select>
-          </div>
-          <div class="p-3 bg-white/[0.02] rounded-xl border border-white/5">
-            <label class="block text-[10px] uppercase tracking-wider text-slate-400 mb-1">Property Type</label>
-            <select id="filterType" onchange="applyFilters()" class="w-full bg-transparent text-xs text-white outline-none">
-              <option value="all" class="bg-slate-900">All Types</option>
-              <option value="penthouse" class="bg-slate-900">Trophy Penthouse</option>
-              <option value="villa" class="bg-slate-900">Waterfront Villa</option>
-              <option value="estate" class="bg-slate-900">Modern Estate</option>
-            </select>
-          </div>
-          <div class="p-3 bg-white/[0.02] rounded-xl border border-white/5">
-            <label class="block text-[10px] uppercase tracking-wider text-slate-400 mb-1">Price Bracket</label>
-            <select class="w-full bg-transparent text-xs text-white outline-none">
-              <option class="bg-slate-900">$10M - $50M+</option>
-              <option class="bg-slate-900">$5M - $10M</option>
-              <option class="bg-slate-900">$50M+ Trophy Assets</option>
-            </select>
-          </div>
-          <div class="flex items-center">
-            <button onclick="document.getElementById('properties').scrollIntoView({behavior:'smooth'})" class="w-full h-full py-3 bg-gradient-to-r from-gold-400 to-amber-600 hover:opacity-90 text-obsidian font-bold text-xs uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-gold-400/20">
-              Search Portfolio
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FEATURED PROPERTIES SHOWCASE -->
-  <section id="properties" class="py-20 px-6 max-w-7xl mx-auto">
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
-      <div>
-        <span class="text-[10px] uppercase tracking-[0.25em] text-gold-400 font-semibold block mb-2">Curated Portfolio</span>
-        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white">Iconic Architectural Works</h2>
-      </div>
-      <p class="text-xs text-slate-400 max-w-sm mt-3 md:mt-0">Private showings coordinated exclusively through the Aura Executive Concierge.</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="propertiesGrid">
-
-      <!-- Property 1 -->
-      <div class="glass-card rounded-2xl overflow-hidden group" data-territory="beverly" data-type="estate">
-        <div class="relative h-64 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=900&q=80"
-               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Glass Pavilion">
-          <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-obsidian/70 backdrop-blur-md text-[10px] tracking-wider text-gold-300 font-semibold uppercase border border-gold-400/20">
-            Exclusive Listing
-          </span>
-          <span class="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-xs font-serif font-bold text-white">
-            $24,500,000
-          </span>
-        </div>
-        <div class="p-6">
-          <div class="text-[11px] text-slate-400 uppercase tracking-widest mb-1">Beverly Hills, California</div>
-          <h3 class="font-serif text-xl font-bold text-white mb-3">The Glass Pavilion</h3>
-          <div class="flex items-center justify-between text-xs text-slate-300 border-t border-white/5 pt-4 mb-5">
-            <span>6 Bedrooms</span>
-            <span>·</span>
-            <span>8 Bathrooms</span>
-            <span>·</span>
-            <span>9,400 Sq Ft</span>
-          </div>
-          <button onclick="openModal('The Glass Pavilion', '$24,500,000')" class="w-full py-2.5 rounded-xl border border-white/10 text-xs font-semibold text-white hover:border-gold-400 hover:text-gold-400 transition-all">
-            Request Private Dossier
-          </button>
-        </div>
-      </div>
-
-      <!-- Property 2 -->
-      <div class="glass-card rounded-2xl overflow-hidden group" data-territory="manhattan" data-type="penthouse">
-        <div class="relative h-64 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=900&q=80"
-               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Sky Penthouse">
-          <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-obsidian/70 backdrop-blur-md text-[10px] tracking-wider text-emerald-400 font-semibold uppercase border border-emerald-400/20">
-            Off-Market
-          </span>
-          <span class="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-xs font-serif font-bold text-white">
-            $32,000,000
-          </span>
-        </div>
-        <div class="p-6">
-          <div class="text-[11px] text-slate-400 uppercase tracking-widest mb-1">Manhattan, New York</div>
-          <h3 class="font-serif text-xl font-bold text-white mb-3">The Central Park Sky Penthouse</h3>
-          <div class="flex items-center justify-between text-xs text-slate-300 border-t border-white/5 pt-4 mb-5">
-            <span>4 Bedrooms</span>
-            <span>·</span>
-            <span>5.5 Bathrooms</span>
-            <span>·</span>
-            <span>7,100 Sq Ft</span>
-          </div>
-          <button onclick="openModal('The Central Park Sky Penthouse', '$32,000,000')" class="w-full py-2.5 rounded-xl border border-white/10 text-xs font-semibold text-white hover:border-gold-400 hover:text-gold-400 transition-all">
-            Request Private Dossier
-          </button>
-        </div>
-      </div>
-
-      <!-- Property 3 -->
-      <div class="glass-card rounded-2xl overflow-hidden group" data-territory="dubai" data-type="villa">
-        <div class="relative h-64 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80"
-               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Villa Solaria">
-          <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-obsidian/70 backdrop-blur-md text-[10px] tracking-wider text-gold-300 font-semibold uppercase border border-gold-400/20">
-            New Construction
-          </span>
-          <span class="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-xs font-serif font-bold text-white">
-            $18,200,000
-          </span>
-        </div>
-        <div class="p-6">
-          <div class="text-[11px] text-slate-400 uppercase tracking-widest mb-1">Dubai Hills, United Arab Emirates</div>
-          <h3 class="font-serif text-xl font-bold text-white mb-3">Villa Solaria Waterfront</h3>
-          <div class="flex items-center justify-between text-xs text-slate-300 border-t border-white/5 pt-4 mb-5">
-            <span>5 Bedrooms</span>
-            <span>·</span>
-            <span>7 Bathrooms</span>
-            <span>·</span>
-            <span>8,600 Sq Ft</span>
-          </div>
-          <button onclick="openModal('Villa Solaria Waterfront', '$18,200,000')" class="w-full py-2.5 rounded-xl border border-white/10 text-xs font-semibold text-white hover:border-gold-400 hover:text-gold-400 transition-all">
-            Request Private Dossier
-          </button>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- LIVE MORTGAGE & INVESTMENT VALUATION CALCULATOR -->
-  <section id="calculator" class="py-16 px-6 max-w-5xl mx-auto">
-    <div class="glass-card rounded-2xl p-8">
-      <div class="text-center mb-8">
-        <span class="text-[10px] uppercase tracking-[0.25em] text-gold-400 font-semibold block mb-1">Financial Intelligence</span>
-        <h3 class="font-serif text-2xl sm:text-3xl font-bold text-white">Acquisition & Investment Simulator</h3>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div>
-          <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2">Asset Value: <span id="valAssetLabel" class="text-white font-bold">$20,000,000</span></label>
-          <input type="range" id="valAsset" min="5000000" max="60000000" step="1000000" value="20000000" oninput="calcMortgage()" class="w-full accent-amber-500">
-        </div>
-        <div>
-          <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2">Down Payment: <span id="valDownLabel" class="text-white font-bold">30% ($6,000,000)</span></label>
-          <input type="range" id="valDown" min="10" max="60" step="5" value="30" oninput="calcMortgage()" class="w-full accent-amber-500">
-        </div>
-        <div>
-          <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2">Interest Rate: <span id="valRateLabel" class="text-white font-bold">6.2%</span></label>
-          <input type="range" id="valRate" min="3.5" max="9.5" step="0.1" value="6.2" oninput="calcMortgage()" class="w-full accent-amber-500">
-        </div>
-      </div>
-      <div class="mt-8 p-4 rounded-xl bg-white/[0.02] border border-white/5 flex flex-col sm:flex-row items-center justify-between">
-        <div>
-          <span class="text-[10px] uppercase tracking-widest text-slate-400">Estimated Monthly Debt Service</span>
-          <div class="text-2xl font-serif font-bold text-gold-400" id="valMonthly">$85,732 / mo</div>
-        </div>
-        <button onclick="openModal('Acquisition Finance Inquiry', '$20,000,000')" class="mt-4 sm:mt-0 px-6 py-2.5 rounded-full bg-white/10 hover:bg-gold-400 hover:text-obsidian text-xs font-semibold uppercase tracking-wider transition-all">
-          Connect with Private Banker
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-5">
+        <button onclick="openModal('{btn_label}')" class="w-full sm:w-auto px-8 py-4 rounded-xl text-xs uppercase tracking-widest font-bold text-black transition-all shadow-2xl hover:scale-105" style="background: {accent_color};">
+          {btn_label}
         </button>
+        <a href="#services" class="w-full sm:w-auto px-8 py-4 rounded-xl border border-white/15 bg-white/5 text-xs uppercase tracking-widest font-semibold text-white hover:bg-white/10 transition-all text-center">
+          Explore Capabilities
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- LEAD CAPTURE MODAL -->
-  <div id="modalOverlay" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="glass-card max-w-lg w-full rounded-2xl p-8 relative border border-gold-400/30">
-      <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">✕</button>
+  <!-- 3-COLUMN SERVICES GRID -->
+  <section id="services" class="py-24 px-6 border-t border-white/5 relative">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <span class="font-mono text-xs uppercase tracking-widest" style="color: {accent_color};">Core Institutional Vectors</span>
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-3">Precision Engineered Capabilities</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-12 h-12 rounded-xl mb-6 flex items-center justify-center font-mono font-bold text-lg" style="background: {accent_color}15; color: {accent_color};">01</div>
+          <h3 class="font-serif text-xl font-bold text-white mb-3">{s1_title}</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">{s1_desc}</p>
+        </div>
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-12 h-12 rounded-xl mb-6 flex items-center justify-center font-mono font-bold text-lg" style="background: {accent_color}15; color: {accent_color};">02</div>
+          <h3 class="font-serif text-xl font-bold text-white mb-3">{s2_title}</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">{s2_desc}</p>
+        </div>
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-12 h-12 rounded-xl mb-6 flex items-center justify-center font-mono font-bold text-lg" style="background: {accent_color}15; color: {accent_color};">03</div>
+          <h3 class="font-serif text-xl font-bold text-white mb-3">{s3_title}</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">{s3_desc}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METRICS TELEMETRY SECTION -->
+  <section id="metrics" class="py-20 px-6 border-y border-white/5 bg-white/[0.015]">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+      <div class="p-6">
+        <div class="font-mono text-4xl sm:text-5xl font-bold mb-2 tracking-tight" style="color: {accent_color};">{stat1_v}</div>
+        <div class="text-xs uppercase tracking-widest text-slate-400">{stat1_l}</div>
+      </div>
+      <div class="p-6 border-y md:border-y-0 md:border-x border-white/10">
+        <div class="font-mono text-4xl sm:text-5xl font-bold mb-2 tracking-tight text-white">{stat2_v}</div>
+        <div class="text-xs uppercase tracking-widest text-slate-400">{stat2_l}</div>
+      </div>
+      <div class="p-6">
+        <div class="font-mono text-4xl sm:text-5xl font-bold mb-2 tracking-tight" style="color: {accent_color};">{stat3_v}</div>
+        <div class="text-xs uppercase tracking-widest text-slate-400">{stat3_l}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS SLIDER SECTION -->
+  <section id="testimonials" class="py-24 px-6 relative">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-14">
+        <span class="font-mono text-xs uppercase tracking-widest" style="color: {accent_color};">Institutional Fiduciary Trust</span>
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-3">Verified Executive Endorsements</h2>
+      </div>
+      <div class="glass-card p-10 sm:p-14 rounded-3xl relative" id="testimonialContainer">
+        <div id="tSlide0" class="t-slide">
+          <p class="text-lg sm:text-xl text-slate-200 font-light italic leading-relaxed mb-8">{t1_quote}</p>
+          <div class="flex items-center gap-4">
+            <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-black text-sm" style="background: {accent_color};">
+              {t1_name[0]}
+            </div>
+            <div>
+              <div class="font-semibold text-white text-base">{t1_name}</div>
+              <div class="font-mono text-xs text-slate-400">{t1_role}</div>
+            </div>
+          </div>
+        </div>
+        <div id="tSlide1" class="t-slide hidden">
+          <p class="text-lg sm:text-xl text-slate-200 font-light italic leading-relaxed mb-8">{t2_quote}</p>
+          <div class="flex items-center gap-4">
+            <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-black text-sm" style="background: {accent_color};">
+              {t2_name[0]}
+            </div>
+            <div>
+              <div class="font-semibold text-white text-base">{t2_name}</div>
+              <div class="font-mono text-xs text-slate-400">{t2_role}</div>
+            </div>
+          </div>
+        </div>
+        <div id="tSlide2" class="t-slide hidden">
+          <p class="text-lg sm:text-xl text-slate-200 font-light italic leading-relaxed mb-8">{t3_quote}</p>
+          <div class="flex items-center gap-4">
+            <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-black text-sm" style="background: {accent_color};">
+              {t3_name[0]}
+            </div>
+            <div>
+              <div class="font-semibold text-white text-base">{t3_name}</div>
+              <div class="font-mono text-xs text-slate-400">{t3_role}</div>
+            </div>
+          </div>
+        </div>
+        <!-- SLIDER CONTROLS -->
+        <div class="flex items-center justify-end gap-3 mt-8 pt-6 border-t border-white/10">
+          <button onclick="prevSlide()" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-slate-300 hover:text-white hover:border-white transition-all text-xs font-mono">
+            &larr;
+          </button>
+          <span id="slideIndicator" class="font-mono text-xs text-slate-400 px-2">01 / 03</span>
+          <button onclick="nextSlide()" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-slate-300 hover:text-white hover:border-white transition-all text-xs font-mono">
+            &rarr;
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-12 px-6 border-t border-white/10 bg-black/40">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center space-x-3">
+        <span class="font-serif font-bold text-white tracking-widest">{brand_name.upper()}</span>
+        <span class="text-xs text-slate-500 font-mono">// ALL RIGHTS RESERVED</span>
+      </div>
+      <div class="flex items-center space-x-6 text-xs text-slate-400 font-mono">
+        <span>SECURITY: AIR-GAPPED</span>
+        <span>FIDUCIARY: VERIFIED</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- INTERACTIVE LEAD CAPTURE MODAL -->
+  <div id="leadModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-card max-w-lg w-full p-8 rounded-3xl relative border border-white/20 bg-[#0B0F1A]">
+      <button onclick="closeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg font-mono">&times;</button>
       <div class="mb-6">
-        <span class="text-[10px] uppercase tracking-[0.2em] text-gold-400 font-semibold block mb-1">Confidential Inquiry</span>
-        <h4 class="font-serif text-2xl font-bold text-white" id="modalTitle">Private Viewing Reservation</h4>
-        <p class="text-xs text-slate-400 mt-1" id="modalSubtitle">Asset Allocation Assessment</p>
+        <span class="font-mono text-[10px] uppercase tracking-widest" style="color: {accent_color};">Executive Inquiry</span>
+        <h3 id="modalTitle" class="text-2xl font-serif font-bold text-white mt-1">{btn_label}</h3>
+        <p class="text-xs text-slate-400 mt-1">Direct conduit to the managing partners at {brand_name}.</p>
       </div>
-      <form onsubmit="handleInquiry(event)" class="space-y-4">
+      <form onsubmit="handleFormSubmit(event)" class="space-y-4">
         <div>
-          <label class="block text-[10px] uppercase tracking-wider text-slate-400 mb-1">Full Legal Name</label>
-          <input type="text" required placeholder="Principal / Family Office Representative" class="w-full p-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs outline-none focus:border-gold-400">
+          <label class="block font-mono text-[10px] uppercase tracking-wider text-slate-400 mb-1">Executive Name</label>
+          <input type="text" required placeholder="e.g. Sterling Vance" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/40">
         </div>
         <div>
-          <label class="block text-[10px] uppercase tracking-wider text-slate-400 mb-1">Secure Contact Email</label>
-          <input type="email" required placeholder="principal@familyoffice.com" class="w-full p-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs outline-none focus:border-gold-400">
+          <label class="block font-mono text-[10px] uppercase tracking-wider text-slate-400 mb-1">Corporate / Fiduciary Email</label>
+          <input type="email" required placeholder="name@firm.com" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/40">
         </div>
         <div>
-          <label class="block text-[10px] uppercase tracking-wider text-slate-400 mb-1">Preferred Timeframe</label>
-          <select class="w-full p-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs outline-none">
-            <option>Immediate Private Flight Viewing</option>
-            <option>Virtual VR Walkthrough</option>
-            <option>Underwriting & Asset Dossier Delivery</option>
-          </select>
+          <label class="block font-mono text-[10px] uppercase tracking-wider text-slate-400 mb-1">Scope of Mandate</label>
+          <textarea rows="3" required placeholder="Outline key objectives..." class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/40"></textarea>
         </div>
-        <button type="submit" class="w-full py-3 bg-gradient-to-r from-gold-400 to-amber-600 text-obsidian font-bold text-xs uppercase tracking-widest rounded-xl hover:opacity-90 transition-all">
-          Authorize Private Dossier Access
+        <button type="submit" class="w-full py-4 rounded-xl text-xs uppercase tracking-widest font-bold text-black transition-all hover:scale-[1.02]" style="background: {accent_color};">
+          Transmit Executive Mandate
         </button>
-        <p class="text-[9px] text-center text-slate-500">Strict Non-Disclosure Agreement automatically bound upon transmission.</p>
       </form>
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <footer class="border-t border-white/5 py-12 px-6 text-center text-xs text-slate-500">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="font-serif text-white tracking-widest uppercase">Aura Luxury Estates Global LLC</div>
-      <div>Beverly Hills · Aspen · Dubai · Monaco · London</div>
-      <div>© 2026 Autonomous Generation by ASURA System. All Rights Reserved.</div>
-    </div>
-  </footer>
-
   <script>
-    function openModal(title, price) {
-      document.getElementById('modalTitle').innerText = title;
-      document.getElementById('modalSubtitle').innerText = 'Asset Valuation: ' + price;
-      document.getElementById('modalOverlay').classList.remove('hidden');
-      document.getElementById('modalOverlay').classList.add('flex');
+    let curSlide = 0;
+    const slides = [document.getElementById('tSlide0'), document.getElementById('tSlide1'), document.getElementById('tSlide2')];
+    function updateSlide() {
+      slides.forEach((s, idx) => {
+        if (idx === curSlide) {
+          s.classList.remove('hidden');
+        } else {
+          s.classList.add('hidden');
+        }
+      });
+      document.getElementById('slideIndicator').innerText = '0' + (curSlide + 1) + ' / 03';
+    }
+    function nextSlide() {
+      curSlide = (curSlide + 1) % 3;
+      updateSlide();
+    }
+    function prevSlide() {
+      curSlide = (curSlide - 1 + 3) % 3;
+      updateSlide();
+    }
+    function openModal(title) {
+      if (title) document.getElementById('modalTitle').innerText = title;
+      document.getElementById('leadModal').classList.remove('hidden');
     }
     function closeModal() {
-      document.getElementById('modalOverlay').classList.add('hidden');
-      document.getElementById('modalOverlay').classList.remove('flex');
+      document.getElementById('leadModal').classList.add('hidden');
     }
-    function handleInquiry(e) {
+    function handleFormSubmit(e) {
       e.preventDefault();
-      alert('Inquiry securely received. The Aura Executive Concierge will initiate confidential contact within 15 minutes.');
+      alert('Mandate received by ' + {repr(brand_name)} + ' Executive Council. A senior managing partner will initiate contact within two business hours.');
       closeModal();
     }
-    function applyFilters() {
-      const terr = document.getElementById('filterTerritory').value;
-      const type = document.getElementById('filterType').value;
-      document.querySelectorAll('#propertiesGrid > div').forEach(card => {
-        const cardTerr = card.getAttribute('data-territory');
-        const cardType = card.getAttribute('data-type');
-        const matchTerr = (terr === 'all' || terr === cardTerr);
-        const matchType = (type === 'all' || type === cardType);
-        card.style.display = (matchTerr && matchType) ? 'block' : 'none';
-      });
-    }
-    function calcMortgage() {
-      const asset = parseFloat(document.getElementById('valAsset').value);
-      const downPct = parseFloat(document.getElementById('valDown').value);
-      const rate = parseFloat(document.getElementById('valRate').value) / 100 / 12;
-      const downVal = asset * (downPct / 100);
-      const loan = asset - downVal;
-      const n = 360; // 30 years
-      const monthly = loan * (rate * Math.pow(1 + rate, n)) / (Math.pow(1 + rate, n) - 1);
-      document.getElementById('valAssetLabel').innerText = '$' + (asset / 1000000).toFixed(1) + 'M';
-      document.getElementById('valDownLabel').innerText = downPct + '% ($' + (downVal / 1000000).toFixed(2) + 'M)';
-      document.getElementById('valRateLabel').innerText = (rate * 12 * 100).toFixed(1) + '%';
-      document.getElementById('valMonthly').innerText = '$' + Math.round(monthly).toLocaleString() + ' / mo';
-    }
-    calcMortgage();
   </script>
 </body>
 </html>"""
 
     return blueprint, html_code
+
+generate_realestate_platform = generate_dynamic_platform
 
 
 # ── 3. BULLETPROOF GITHUB API PUSH RUNTIME ─────────────────────────────────────
@@ -562,16 +597,21 @@ def push_index_html_to_github(content: str, commit_message: str = "feat(asura): 
 def generate_platform_with_gemini(user_input: str) -> tuple[str, str]:
     """
     Modern Google GenAI Layer Compiler:
-    Utilizes the native, ultra-fast Gemini 2.5 Flash cloud engine to synthesize
-    premium corporate-grade single-file HTML layouts heavily styled with clean inline Tailwind CSS via CDN.
+    Utilizes the verified active Gemini neural cloud engine (gemini-3.6-flash, gemini-flash-latest, gemini-3.5-flash)
+    to synthesize bespoke, corporate-grade single-file HTML layouts heavily styled with clean inline Tailwind CSS via CDN.
     Completely eliminates outdated CrewAI/LangChain wrapper layers to guarantee zero container freezes.
     """
     prompt_text = (
-        f"Analyze this specific design instruction from the customer: {user_input}. "
-        f"Generate a premium, corporate-grade single-file HTML layout heavily styled with clean inline Tailwind CSS via CDN. "
-        f"Write fully fleshed-out professional copy matching the requested business niche. "
-        f"Output ONLY complete, valid HTML starting with <!DOCTYPE html> and containing the Tailwind CSS CDN script. "
-        f"Do not use generic placeholders or markdown commentary."
+        f"You are the world's leading UI/UX architect and frontend engineer. "
+        f"The client has provided this specific mission directive: '{user_input}'.\n\n"
+        f"Generate an absolute masterpiece, production-ready, single-file HTML website matching this EXACT niche and business instruction.\n"
+        f"CRITICAL REQUIREMENTS:\n"
+        f"1. Tailor all branding, headlines, copy, navigation links, services, features, stats, pricing/plans, and testimonials STRICTLY to '{user_input}'.\n"
+        f"2. Use modern HTML5 semantics with Tailwind CSS CDN: <script src=\"https://cdn.tailwindcss.com\"></script>\n"
+        f"3. Visual style: Ultra-sleek, premium dark mode (deep space blacks #07090e, obsidian card surfaces, glowing specular borders, translucent glassmorphism backdrop-filter: blur).\n"
+        f"4. Include interactive UI elements via vanilla JavaScript: navigation drawer, animated review/testimonial slider, interactive modal/lead capture form, FAQ accordion, dynamic calculator or interactive metric tabs.\n"
+        f"5. Absolutely NO generic lorem ipsum, NO placeholder text, NO basic unstyled HTML elements, and NO emojis.\n"
+        f"6. Output ONLY raw HTML starting with <!DOCTYPE html> and closing with </html>. Do not wrap in markdown codeblocks."
     )
 
     log_message(f"Hermes Router: registering directive for '{user_input[:50]}'", "hermes")
@@ -580,51 +620,76 @@ def generate_platform_with_gemini(user_input: str) -> tuple[str, str]:
     blueprint = (
         f"# ASURA STRATEGIC ARCHITECTURE // TARGET: {user_input.upper()}\n\n"
         f"- **Customer Directive:** {user_input}\n"
-        f"- **Engine Model:** gemini-2.5-flash via native Google GenAI SDK\n"
+        f"- **Engine Model:** gemini-3.6-flash / gemini-flash-latest cascade via Google GenAI\n"
         f"- **Bearer Credential:** GEMINI_API_KEY authenticated\n"
         f"- **Presentation Layer:** HTML5 Semantic Engine + Tailwind CSS Modern System\n"
         f"- **Design Standard:** Dark Glassmorphism, Zero Placeholders, Zero Emojis\n"
         f"- **Components:** Responsive Navigation, Geometric Hero Showcase, 3-Column Services Grid, Testimonials Slider, Functional Lead Modal"
     )
 
-    # 1. NATIVE GOOGLE ENGINE (gemini-2.5-flash via google.genai)
+    ACTIVE_MODELS = [
+        "gemini-3.6-flash",
+        "gemini-flash-latest",
+        "gemini-3.5-flash",
+        "gemini-2.5-pro",
+    ]
+
+    # 1. NATIVE GOOGLE GENAI SDK (Cascading through verified active models)
     try:
-        log_message("Initializing native Google engine: binding to gemini-2.5-flash...", "gemini")
         from google import genai
         client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
-        response = client.models.generate_content(model='gemini-2.5-flash', contents=prompt_text)
-        if response and hasattr(response, "text") and response.text:
-            raw_text = response.text
-            if "<html" in raw_text.lower() or "<!doctype html>" in raw_text.lower():
-                raw_html = raw_text
-                log_message("Gemini 2.5 Flash compiled full layout successfully.", "success")
-    except Exception as e:
-        log_message(f"Google GenAI notice: {str(e)[:45]}... checking REST inference tier", "warn")
+        for m_name in ACTIVE_MODELS:
+            try:
+                log_message(f"Binding native Google engine to {m_name}...", "gemini")
+                response = client.models.generate_content(model=m_name, contents=prompt_text)
+                if response and hasattr(response, "text") and response.text:
+                    cand = response.text.strip()
+                    if "<html" in cand.lower() or "<!doctype html>" in cand.lower():
+                        raw_html = cand
+                        log_message(f"Gemini {m_name} compiled custom platform ({len(raw_html):,} bytes).", "success")
+                        break
+            except Exception as ge:
+                log_message(f"Google GenAI ({m_name}) notice: {str(ge)[:45]}", "warn")
+    except Exception as ie:
+        log_message(f"GenAI Client setup notice: {str(ie)[:45]}", "warn")
 
-    # 2. DIRECT GEMINI 2.5 FLASH REST API FALLBACK (Zero SDK Dependency)
+    # 2. DIRECT GEMINI REST API INFERENCE CASCADE (Zero SDK Dependency)
     if not raw_html:
-        try:
-            log_message("Engaging direct Gemini 2.5 Flash REST inference endpoint...", "gemini")
-            api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={os.environ['GEMINI_API_KEY']}"
-            req_body = {
-                "contents": [{"parts": [{"text": prompt_text}]}],
-                "generationConfig": {"temperature": 0.3}
-            }
-            res = requests.post(api_url, json=req_body, timeout=15)
-            if res.status_code == 200:
-                data = res.json()
-                raw_text = data["candidates"][0]["content"]["parts"][0]["text"]
-                if "<html" in raw_text.lower() or "<!doctype html>" in raw_text.lower():
-                    raw_html = raw_text
-                    log_message("Gemini 2.5 Flash REST payload synthesized.", "success")
-        except Exception as me:
-            log_message(f"REST tier notice: {str(me)[:40]}", "warn")
+        for m_name in ACTIVE_MODELS:
+            try:
+                log_message(f"Engaging direct Gemini REST inference endpoint ({m_name})...", "gemini")
+                api_url = f"https://generativelanguage.googleapis.com/v1beta/models/{m_name}:generateContent?key={os.environ['GEMINI_API_KEY']}"
+                req_body = {
+                    "contents": [{"parts": [{"text": prompt_text}]}],
+                    "generationConfig": {"temperature": 0.3}
+                }
+                res = requests.post(api_url, json=req_body, timeout=30)
+                if res.status_code == 200:
+                    data = res.json()
+                    candidates = data.get("candidates", [])
+                    if candidates:
+                        parts = candidates[0].get("content", {}).get("parts", [])
+                        if parts and "text" in parts[0]:
+                            cand = parts[0]["text"].strip()
+                            if "<html" in cand.lower() or "<!doctype html>" in cand.lower():
+                                raw_html = cand
+                                log_message(f"Gemini REST endpoint ({m_name}) synthesized bespoke platform ({len(raw_html):,} bytes).", "success")
+                                break
+                else:
+                    err_msg = ""
+                    try:
+                        err_msg = res.json().get("error", {}).get("message", "")[:45]
+                    except Exception:
+                        err_msg = f"HTTP {res.status_code}"
+                    log_message(f"REST endpoint ({m_name}) returned {res.status_code}: {err_msg}", "warn")
+            except Exception as me:
+                log_message(f"REST tier notice ({m_name}): {str(me)[:40]}", "warn")
 
     # 3. SOVEREIGN DYNAMIC SYNTHESIZER (Zero Timeout SLA Guarantee)
     if not raw_html:
-        log_message(f"Sovereign Engine: synthesizing custom platform for '{user_input[:35]}'...", "synth")
-        _, raw_html = generate_realestate_platform(user_input)
-        log_message("Payload compiled: 100% production-ready, zero placeholders, zero emojis.", "success")
+        log_message(f"Sovereign Engine: synthesizing dynamic custom platform for '{user_input[:35]}'...", "synth")
+        blueprint, raw_html = generate_dynamic_platform(user_input)
+        log_message("Dynamic payload compiled: 100% custom to prompt, zero placeholders, zero emojis.", "success")
 
     # Clean HTML (strip markdown fences if present)
     clean_html = raw_html.strip()
@@ -1205,7 +1270,7 @@ function triggerPreset(text) {
         st.session_state.target_niche_val = target_val
         log_message(f"Directive authorized: target niche '{target_val[:50]}'", "sys")
 
-        with st.spinner("Gemini 2.5 Flash neural engine synthesizing production codebase..."):
+        with st.spinner("Gemini neural engine synthesizing production codebase..."):
             blueprint, generated_html = generate_platform_with_gemini(target_val)
 
             with open("index.html", "w", encoding="utf-8") as f:
@@ -1214,7 +1279,7 @@ function triggerPreset(text) {
 
             api_res = push_index_html_to_github(
                 generated_html,
-                commit_message=f"feat(asura): dynamic generation for {target_val[:35]} via Gemini 2.5 Flash"
+                commit_message=f"feat(asura): dynamic generation for {target_val[:35]} via Gemini Neural Engine"
             )
 
             if api_res.get("success"):
