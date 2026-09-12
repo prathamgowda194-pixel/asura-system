@@ -20,7 +20,7 @@ import subprocess
 import streamlit as st
 import streamlit.components.v1 as components
 
-# ── 1. EMBED PRODUCTION CREDENTIALS ───────────────────────────────────────────
+# ── 1. SECURE HARDCODED CREDENTIALS ───────────────────────────────────────────
 import base64
 import requests
 
@@ -30,6 +30,8 @@ os.environ["OPENAI_API_KEY"] = os.environ["GITHUB_TOKEN"]
 os.environ["GOOGLE_API_KEY"] = os.environ["GEMINI_API_KEY"]
 os.environ["OTEL_SDK_DISABLED"] = "true"
 os.environ["CREWAI_TELEMETRY_OPT_OUT"] = "true"
+
+REPO_NAME = "prathamgowda194-pixel/asura-system"
 
 # Safe fragment wrapper for older/newer Streamlit compatibility
 if hasattr(st, "fragment"):
@@ -492,10 +494,8 @@ def push_index_html_to_github(content: str, commit_message: str = "feat(asura): 
     """
     url = "https://github.com"
     token = os.environ.get("GITHUB_TOKEN", "").strip()
-    owner = "prathamgowda194-pixel"
-    repo = "asura-system"
     file_path = "index.html"
-    api_target_url = f"https://api.github.com/repos/{owner}/{repo}/contents/{file_path}"
+    api_target_url = f"https://api.github.com/repos/{REPO_NAME}/contents/{file_path}"
 
     headers = {
         "Authorization": f"Bearer {token}",
@@ -538,9 +538,8 @@ def push_index_html_to_github(content: str, commit_message: str = "feat(asura): 
                 err_msg = err_data.get("message", f"HTTP {put_res.status_code}")
                 if put_res.status_code == 404:
                     err_msg = (
-                        f"Repository '{owner}/{repo}' not found on GitHub. "
-                        f"Please create the repository at https://github.com/new?name={repo} "
-                        f"and ensure your PAT has read/write permissions."
+                        f"Repository '{REPO_NAME}' not found on GitHub. "
+                        f"Please ensure repository exists and PAT has read/write permissions."
                     )
             except Exception:
                 err_msg = f"HTTP {put_res.status_code}"
@@ -582,11 +581,7 @@ def execute_asura_crewai_pipeline(user_input: str, lq: queue.Queue) -> dict:
         from langchain_google_genai import ChatGoogleGenerativeAI
         from crewai import Agent, Task, Crew, Process
 
-        llm = ChatGoogleGenerativeAI(
-            model="gemini-1.5-pro",
-            google_api_key=os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6LQTcBVg27285xhxo4j7NrFIsXGY9tKv96nGlh6e6rlDQ"),
-            temperature=0.3
-        )
+        asura_brain = ChatGoogleGenerativeAI(model="gemini-1.5-pro", google_api_key=os.environ["GEMINI_API_KEY"], temperature=0.3)
 
         asura_engineer = Agent(
             role="Principal UI/UX Architect & Systems Engineer",
@@ -594,7 +589,7 @@ def execute_asura_crewai_pipeline(user_input: str, lq: queue.Queue) -> dict:
             backstory="Lead engineering agent for ASURA. Produces production-ready web platforms with real corporate copy, zero placeholder text, and no emojis.",
             verbose=False,
             memory=False,
-            llm=llm
+            llm=asura_brain
         )
 
         synthesis_task = Task(
@@ -624,8 +619,8 @@ def execute_asura_crewai_pipeline(user_input: str, lq: queue.Queue) -> dict:
         try:
             lq.put(("GEMINI", "Engaging native Gemini neural engine with cloud credentials...", "#5b9cf6"))
             import google.generativeai as genai
-            genai.configure(api_key=os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6LQTcBVg27285xhxo4j7NrFIsXGY9tKv96nGlh6e6rlDQ"))
-            for m_id in ["gemini-1.5-pro", "gemini-1.5-flash-latest", "gemini-flash-latest", "gemini-1.5-flash"]:
+            genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+            for m_id in ["gemini-1.5-pro", "gemini-1.5-flash-latest"]:
                 try:
                     gmodel = genai.GenerativeModel(m_id)
                     gres = gmodel.generate_content(
