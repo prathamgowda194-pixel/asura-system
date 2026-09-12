@@ -1438,8 +1438,19 @@ function triggerPreset(text) {
         raw_slug = project_slug.strip() if (project_slug and project_slug.strip()) else ""
         if not raw_slug:
             import re
-            slug_cand = re.sub(r'[^a-zA-Z0-9]+', '-', target_val.lower()).strip('-')[:30]
-            raw_slug = slug_cand if slug_cand else "apex-strategy"
+            # Extract clean keyword slug from target_val (filtering conversational prompts)
+            clean_text = target_val.lower()
+            for prefix in [
+                "act as a ", "act as an ", "act as ", "create a ", "create an ", "create ",
+                "generate a ", "generate an ", "generate ", "build a ", "build an ", "build ",
+                "design a ", "design an ", "design ", "website for a ", "website for an ", "website for ",
+                "platform for ", "landing page for ", "world-class ", "luxury ", "professional ", "premium "
+            ]:
+                clean_text = clean_text.replace(prefix, " ")
+            slug_cand = re.sub(r'[^a-zA-Z0-9]+', '-', clean_text.strip()).strip('-')
+            if len(slug_cand) > 35:
+                slug_cand = slug_cand[:35].rsplit('-', 1)[0]
+            raw_slug = slug_cand if slug_cand else "client-platform"
         project_slug = raw_slug
         clean_slug = project_slug.strip().lower().replace(" ", "-")
 
@@ -1460,11 +1471,11 @@ function triggerPreset(text) {
             if api_res.get("success") or api_res.get("code") in (200, 201):
                 c_sha = api_res.get("commit_sha", "head")
                 st.session_state.last_commit_sha = c_sha
+                deployed_url = f"https://asura-system.vercel.app/projects/{clean_slug}/index.html"
+                st.session_state.last_deployed_url = deployed_url
                 log_message(f"GitHub API: projects/{clean_slug}/index.html pushed to {REPO_NAME} (commit {c_sha}).", "github")
-                log_message(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: https://vercel.app{clean_slug}/index.html", "success")
-                clean_slug = project_slug.strip().lower().replace(" ", "-")
-                st.success(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: https://vercel.app{clean_slug}/index.html")
-                st.session_state.last_deployed_url = f"https://vercel.app{clean_slug}/index.html"
+                log_message(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: {deployed_url}", "success")
+                st.success(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: {deployed_url}")
             else:
                 err_text = str(api_res.get("error", "pending repo sync"))[:60]
                 log_message(f"GitHub API notice ({err_text}). Local projects/{clean_slug}/index.html operational.", "warn")
@@ -1479,7 +1490,21 @@ function triggerPreset(text) {
     # ── LIVE DELIVERABLE & WEBSITE PREVIEW ─────────────────────────────────────
     if st.session_state.mission_result:
         if st.session_state.get("last_deployed_url"):
-            st.success(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: {st.session_state.last_deployed_url}")
+            dep_url = st.session_state.last_deployed_url
+            st.success(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: {dep_url}")
+            st.markdown(f'''
+            <div style="margin: 8px 0 16px 0;">
+                <a href="{dep_url}" target="_blank" style="
+                    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+                    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+                    color: #ffffff; font-weight: 700; font-size: 13px; letter-spacing: 0.05em;
+                    padding: 10px 22px; border-radius: 8px; text-decoration: none;
+                    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+                ">
+                    🌐 OPEN CLIENT WEBSITE ON VERCEL ↗
+                </a>
+            </div>
+            ''', unsafe_allow_html=True)
         H("""
         <div class="gl1" style="padding:16px 18px;margin-top:14px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
