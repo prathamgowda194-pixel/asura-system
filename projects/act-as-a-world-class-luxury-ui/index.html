@@ -1,891 +1,700 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth bg-[#fcfbfa] text-[#141414] antialiased">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Carlouel Mansion | Ultra-Luxury Beachfront Estate Showcase</title>
-  
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            canvas: '#fcfbfa',
-            sand: '#f4f0ea',
-            charcoal: {
-              DEFAULT: '#121212',
-              light: '#2a2a2a',
-              muted: '#4a4a4a'
-            },
-            champagne: {
-              DEFAULT: '#c5a880',
-              light: '#e8dfd3',
-              dark: '#9a7b56',
-              border: 'rgba(197, 168, 128, 0.35)'
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Carlouel Mansion | Ultra-Luxury Beachfront Estate</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        canvas: '#fcfbfa',
+                        charcoal: '#141414',
+                        'charcoal-muted': '#4a4a4a',
+                        champagne: '#c5a059',
+                        'champagne-light': '#e8d5b5',
+                        'champagne-border': 'rgba(197, 160, 89, 0.35)',
+                        'sand-light': '#f4f0ea',
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    letterSpacing: {
+                        'ultra-wide': '0.35em',
+                        'mega-wide': '0.5em',
+                    }
+                }
             }
-          },
-          fontFamily: {
-            serif: ['"Cormorant Garamond"', 'serif'],
-            sans: ['Inter', 'sans-serif']
-          },
-          letterSpacing: {
-            'ultra-wide': '0.35em',
-            'widest-xl': '0.25em'
-          }
         }
-      }
-    }
-  </script>
-
-  <!-- GSAP & ScrollTrigger -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
-  <style>
-    /* Custom Styling & Anti-Slop Architectural Rules */
-    ::selection {
-      background: #c5a880;
-      color: #ffffff;
-    }
-
-    body {
-      background-color: #fcfbfa;
-      color: #121212;
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
-    }
-
-    .clip-text-hidden {
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    }
-
-    .glass-box {
-      background: rgba(252, 251, 250, 0.72);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(197, 168, 128, 0.3);
-    }
-
-    .glass-box-dark {
-      background: rgba(18, 18, 18, 0.85);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(197, 168, 128, 0.25);
-    }
-
-    .thin-gold-border {
-      border: 1px solid rgba(197, 168, 128, 0.4);
-    }
-
-    .gold-line-h {
-      height: 1px;
-      background: linear-gradient(90deg, rgba(197,168,128,0) 0%, rgba(197,168,128,0.6) 50%, rgba(197,168,128,0) 100%);
-    }
-
-    .gold-line-v {
-      width: 1px;
-      background: linear-gradient(180deg, rgba(197,168,128,0) 0%, rgba(197,168,128,0.6) 50%, rgba(197,168,128,0) 100%);
-    }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #fcfbfa;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #c5a880;
-    }
-
-    .img-zoom-container {
-      overflow: hidden;
-    }
-    .img-zoom-container img {
-      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .img-zoom-container:hover img {
-      transform: scale(1.04);
-    }
-  </style>
+    </script>
+    
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <style>
+        /* Custom Custom Scrollbar & Utility Animations */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fcfbfa;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c5a059;
+        }
+        .clip-reveal {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+        .text-stroke {
+            -webkit-text-stroke: 1px rgba(20, 20, 20, 0.3);
+            color: transparent;
+        }
+        .glass-panel {
+            background: rgba(252, 251, 250, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(197, 160, 89, 0.3);
+        }
+        .glass-nav {
+            background: rgba(252, 251, 250, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
 </head>
-<body class="antialiased selection:bg-champagne selection:text-white">
+<body class="overflow-x-hidden selection:bg-champagne selection:text-white">
 
-  <!-- FLOATING MINIMALIST NAVIGATION HEADER -->
-  <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 py-6 px-6 lg:px-16">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
-      
-      <!-- Logo / Brand String -->
-      <a href="#" class="group flex items-center space-x-3">
-        <svg class="w-6 h-6 text-champagne transform transition-transform duration-700 group-hover:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <rect x="4" y="4" width="16" height="16" transform="rotate(45 12 12)" />
-        </svg>
-        <span class="font-serif text-xl tracking-widest-xl uppercase text-charcoal font-medium">The Carlouel</span>
-      </a>
+    <!-- FLOATING MINIMALIST NAVIGATION HEADER STRING -->
+    <header class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-7xl glass-nav border border-champagne-border px-6 py-4 flex items-center justify-between transition-all duration-500 shadow-sm">
+        <a href="#" class="font-serif text-xl tracking-ultra-wide uppercase font-semibold text-charcoal flex items-center gap-3">
+            <svg class="w-4 h-4 text-champagne" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor"/>
+                <path d="M3 9h18M9 21V9" stroke="currentColor"/>
+            </svg>
+            <span>CARLOUEL</span>
+        </a>
 
-      <!-- Center Minimalist Navigation String -->
-      <nav class="hidden md:flex items-center space-x-10 text-xs tracking-ultra-wide uppercase font-light text-charcoal-muted">
-        <a href="#estate" class="hover:text-champagne transition-colors duration-300 relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-champagne hover:after:w-full after:transition-all after:duration-300">[The Estate]</a>
-        <a href="#gallery" class="hover:text-champagne transition-colors duration-300 relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-champagne hover:after:w-full after:transition-all after:duration-300">[Gallery]</a>
-        <a href="#amenities" class="hover:text-champagne transition-colors duration-300 relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-champagne hover:after:w-full after:transition-all after:duration-300">[Amenities]</a>
-        <a href="#architecture" class="hover:text-champagne transition-colors duration-300 relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-champagne hover:after:w-full after:transition-all after:duration-300">[Architecture]</a>
-      </nav>
+        <nav class="hidden md:flex items-center space-x-10 text-xs font-sans uppercase tracking-ultra-wide text-charcoal-muted">
+            <a href="#estate" class="hover:text-champagne transition-colors duration-300">[ The Estate ]</a>
+            <a href="#architecture" class="hover:text-champagne transition-colors duration-300">[ Architecture ]</a>
+            <a href="#gallery" class="hover:text-champagne transition-colors duration-300">[ Gallery ]</a>
+            <a href="#amenities" class="hover:text-champagne transition-colors duration-300">[ Amenities ]</a>
+        </nav>
 
-      <!-- Razor-Sharp Border CTA Button -->
-      <div class="flex items-center space-x-6">
-        <button onclick="openTourModal()" class="relative inline-flex items-center justify-center px-7 py-3 text-xs tracking-ultra-wide uppercase font-medium text-charcoal border border-champagne transition-all duration-500 hover:bg-charcoal hover:text-canvas hover:border-charcoal group overflow-hidden">
-          <span class="relative z-10">Request Private Tour</span>
-          <span class="absolute inset-0 bg-charcoal transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+        <button onclick="openTourModal()" class="relative group overflow-hidden border border-champagne px-6 py-2.5 text-xs font-sans uppercase tracking-ultra-wide text-charcoal hover:text-white transition-colors duration-500">
+            <span class="absolute inset-0 bg-champagne translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></span>
+            <span class="relative z-10 font-medium">Request Private Tour</span>
         </button>
+    </header>
 
-        <!-- Mobile Drawer Toggle Button -->
-        <button id="mobile-menu-btn" class="md:hidden text-charcoal p-2 focus:outline-none" aria-label="Toggle Menu">
-          <svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24">
-            <line x1="4" y1="7" x2="20" y2="7" stroke-width="1.2" />
-            <line x1="4" y1="17" x2="20" y2="17" stroke-width="1.2" />
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- Mobile Navigation Drawer -->
-    <div id="mobile-menu" class="hidden fixed inset-0 bg-canvas/98 z-50 flex-col justify-center px-10 py-12 transition-all duration-500">
-      <div class="flex justify-between items-center absolute top-6 right-6">
-        <button id="close-mobile-menu" class="text-charcoal p-2 focus:outline-none">
-          <svg class="w-8 h-8 stroke-current" fill="none" viewBox="0 0 24 24">
-            <line x1="6" y1="6" x2="18" y2="18" stroke-width="1.2" />
-            <line x1="6" y1="18" x2="18" y2="6" stroke-width="1.2" />
-          </svg>
-        </button>
-      </div>
-      <div class="flex flex-col space-y-8 text-center">
-        <a href="#estate" onclick="closeMobileMenu()" class="font-serif text-3xl tracking-widest uppercase text-charcoal hover:text-champagne transition-colors">[The Estate]</a>
-        <a href="#gallery" onclick="closeMobileMenu()" class="font-serif text-3xl tracking-widest uppercase text-charcoal hover:text-champagne transition-colors">[Gallery]</a>
-        <a href="#amenities" onclick="closeMobileMenu()" class="font-serif text-3xl tracking-widest uppercase text-charcoal hover:text-champagne transition-colors">[Amenities]</a>
-        <a href="#architecture" onclick="closeMobileMenu()" class="font-serif text-3xl tracking-widest uppercase text-charcoal hover:text-champagne transition-colors">[Architecture]</a>
-        <div class="pt-8">
-          <button onclick="closeMobileMenu(); openTourModal()" class="w-full py-4 text-xs tracking-ultra-wide uppercase font-semibold text-canvas bg-charcoal border border-charcoal">
-            Request Private Tour
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- HERO SECTION WITH SCALING BACKGROUND & FLOATING NARRATIVE BOX -->
-  <section class="relative min-h-screen flex items-center overflow-hidden pt-28 pb-16 lg:py-0">
-    
-    <!-- Background Architectural Landscape Container (GSAP Zoom Out Effect) -->
-    <div class="hero-bg-wrapper absolute inset-0 z-0 overflow-hidden">
-      <img 
-        src="https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=2800&q=90" 
-        alt="The Carlouel Mansion Coastal Architecture" 
-        class="hero-bg-img w-full h-full object-cover object-center transform scale-125 filter brightness-[0.96] contrast-[1.02]"
-      />
-      <!-- Soft Warm Canvas Gradients Overlay -->
-      <div class="absolute inset-0 bg-gradient-to-r from-canvas via-canvas/70 to-transparent w-full lg:w-3/5"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-canvas via-transparent to-canvas/40"></div>
-    </div>
-
-    <!-- Hero Content & Floating Narrative Box -->
-    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-16 w-full py-12">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        
-        <!-- Main Headline Section -->
-        <div class="lg:col-span-7 space-y-6">
-          
-          <div class="overflow-hidden">
-            <span class="hero-subtext inline-flex items-center space-x-3 uppercase tracking-ultra-wide text-xs text-champagne font-medium">
-              <span class="w-8 h-[1px] bg-champagne inline-block"></span>
-              <span>Exclusive Oceanfront Sanctuary</span>
-            </span>
-          </div>
-
-          <div class="overflow-hidden">
-            <h1 class="hero-title text-5xl md:text-7xl lg:text-8xl font-serif font-light tracking-widest-xl uppercase leading-[0.95] text-charcoal">
-              The Carlouel<br/>
-              <span class="italic font-normal tracking-wide lowercase font-serif text-4xl md:text-6xl lg:text-7xl block mt-2 text-charcoal-light">mansion</span>
-            </h1>
-          </div>
-
-          <p class="hero-description text-charcoal-muted font-light text-base md:text-lg max-w-xl leading-relaxed">
-            Positioned along 180 feet of ultra-private gulf shoreline, where monolithic modern architecture harmonizes with timeless coastal tranquility.
-          </p>
-
-          <div class="hero-cta-group pt-4 flex flex-wrap items-center gap-6">
-            <a href="#estate" class="inline-flex items-center space-x-4 text-xs tracking-ultra-wide uppercase font-semibold text-charcoal group">
-              <span>Explore The Grounds</span>
-              <svg class="w-4 h-4 text-champagne transform transition-transform duration-300 group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
-          </div>
+    <!-- HERO SECTION WITH CINEMATIC BACKGROUND AND GSAP REVEALS -->
+    <section class="relative min-h-screen flex items-end pb-24 pt-36 px-6 md:px-16 overflow-hidden">
+        <!-- Background Image Container for GSAP ScrollTrigger Scale Down -->
+        <div class="absolute inset-0 z-0 overflow-hidden">
+            <div id="hero-bg" class="w-full h-full transform scale-125 transition-transform duration-1000 ease-out">
+                <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2400&auto=format&fit=crop" 
+                     alt="The Carlouel Mansion Oceanfront View" 
+                     class="w-full h-full object-cover brightness-[0.92] contrast-[1.05]">
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#fcfbfa] via-[#fcfbfa]/30 to-black/20"></div>
         </div>
 
-        <!-- STUNNING FLOATING GLASSMORPHISM NARRATIVE BOX -->
-        <div class="lg:col-span-5 lg:col-start-8">
-          <div class="hero-glass-box glass-box p-8 md:p-12 shadow-[0_30px_90px_rgba(0,0,0,0.06)] relative overflow-hidden group border-t-2 border-t-champagne">
-            
-            <div class="flex justify-between items-start mb-6 border-b border-champagne-border pb-4">
-              <div>
-                <span class="block text-[10px] tracking-ultra-wide uppercase text-champagne font-semibold">Listing Status</span>
-                <span class="font-serif text-lg tracking-widest text-charcoal uppercase">Private Portfolio</span>
-              </div>
-              <span class="text-xs font-serif italic text-charcoal-muted">Belleair Shore, FL</span>
+        <div class="relative z-10 max-w-7xl mx-auto w-full">
+            <div class="max-w-4xl space-y-6">
+                <!-- Location & Distinction Tag -->
+                <div class="hero-reveal opacity-0 flex items-center gap-4">
+                    <span class="h-[1px] w-12 bg-champagne"></span>
+                    <span class="text-xs font-sans uppercase tracking-mega-wide text-charcoal font-semibold">CLEARWATER KEY, FLORIDA &bull; 27.9798° N, 82.8277° W</span>
+                </div>
+
+                <!-- Main Headline -->
+                <div class="overflow-hidden">
+                    <h1 class="hero-title text-5xl md:text-8xl lg:text-9xl font-serif font-light tracking-ultra-wide uppercase leading-none text-charcoal">
+                        THE CARLOUEL
+                    </h1>
+                </div>
+                <div class="overflow-hidden">
+                    <p class="hero-subtitle text-xl md:text-3xl font-serif italic text-charcoal-muted tracking-widest">
+                        A Statement of Oceanfront Architectural Mastery
+                    </p>
+                </div>
+
+                <!-- Key Metric Pill Bar -->
+                <div class="hero-reveal opacity-0 pt-8 grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-champagne-border/60">
+                    <div>
+                        <span class="block text-2xl font-serif font-semibold text-charcoal tracking-wider">14,500</span>
+                        <span class="text-[10px] font-sans uppercase tracking-widest text-charcoal-muted">Interior Sq Ft</span>
+                    </div>
+                    <div>
+                        <span class="block text-2xl font-serif font-semibold text-charcoal tracking-wider">07</span>
+                        <span class="text-[10px] font-sans uppercase tracking-widest text-charcoal-muted">En-Suite Bedrooms</span>
+                    </div>
+                    <div>
+                        <span class="block text-2xl font-serif font-semibold text-charcoal tracking-wider">220 FT</span>
+                        <span class="text-[10px] font-sans uppercase tracking-widest text-charcoal-muted">Private Waterline</span>
+                    </div>
+                    <div>
+                        <span class="block text-2xl font-serif font-semibold text-charcoal tracking-wider">YES</span>
+                        <span class="text-[10px] font-sans uppercase tracking-widest text-charcoal-muted">Oceanside Pool</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Down Indicator -->
+        <div class="absolute bottom-8 right-8 md:right-16 hidden sm:flex flex-col items-center gap-3">
+            <span class="text-[9px] font-sans uppercase tracking-ultra-wide text-charcoal-muted rotate-90 origin-right">SCROLL</span>
+            <div class="w-[1px] h-12 bg-champagne-border overflow-hidden">
+                <div class="w-full h-full bg-champagne animate-pulse"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FLOATING GLASSMORPHISM NARRATIVE SECTION -->
+    <section id="estate" class="relative py-32 px-6 md:px-16 max-w-7xl mx-auto">
+        <!-- Background Architectural Wall Canvas -->
+        <div class="relative min-h-[700px] w-full flex items-center justify-end">
+            <!-- Full Width Background Landscape -->
+            <div class="absolute inset-0 w-full md:w-4/5 h-full overflow-hidden">
+                <img id="narrative-img" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2000&auto=format&fit=crop" 
+                     alt="Carlouel Exterior Grounds" 
+                     class="w-full h-full object-cover object-center scale-110">
+                <div class="absolute inset-0 bg-charcoal/10"></div>
             </div>
 
-            <h3 class="font-serif text-2xl md:text-3xl tracking-widest uppercase text-charcoal mb-4">
-              A Living Monument to Coastal Elegance
-            </h3>
+            <!-- Floating Glassmorphism Narrative Box (Center-Right Positioned) -->
+            <div class="reveal-panel relative z-20 w-full md:w-1/2 lg:w-5/12 glass-panel p-8 sm:p-12 md:p-16 my-12 md:my-0 border border-champagne-border shadow-2xl">
+                <div class="flex items-center gap-3 mb-6">
+                    <svg class="w-5 h-5 text-champagne" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-width="1.2"/>
+                    </svg>
+                    <span class="text-xs font-sans uppercase tracking-mega-wide text-champagne font-semibold">ESTATE NARRATIVE</span>
+                </div>
+                
+                <h2 class="text-3xl md:text-4xl font-serif font-normal uppercase tracking-widest text-charcoal leading-snug mb-6">
+                    Where Coastal Majesty Meets Uncompromising Discretion
+                </h2>
+                
+                <p class="font-sans text-sm leading-relaxed text-charcoal-muted font-light mb-6">
+                    Sculpted directly into the tranquil sands of Clearwater Key, The Carlouel Mansion is a masterpiece of modern organic architecture. Floor-to-ceiling motorized acoustic glass panels collapse into the structural framework, dissolving the boundary between interior sanctuary and the endless horizon of the Gulf coast.
+                </p>
 
-            <p class="text-charcoal-muted font-light text-sm leading-relaxed mb-8">
-              Designed by visionary masters, The Carlouel Mansion blends soaring 22-foot floor-to-ceiling glass, custom imported Italian travertine, and hand-milled white oak. Experience unmatched sunset panoramas in total secluded luxury.
+                <p class="font-sans text-sm leading-relaxed text-charcoal-muted font-light mb-8">
+                    Curated with rare travertine marble, hand-fluted European oak, and solid brushed brass fixtures, every square inch represents the pinnacle of residential craftsmanship.
+                </p>
+
+                <div class="pt-4 border-t border-champagne-border flex items-center justify-between">
+                    <div>
+                        <span class="block text-xs font-sans uppercase tracking-widest text-charcoal font-semibold">Offered Confidentiality</span>
+                        <span class="text-lg font-serif italic text-champagne">$42,500,000 USD</span>
+                    </div>
+                    <a href="#architecture" class="text-xs font-sans uppercase tracking-ultra-wide text-charcoal border-b border-charcoal pb-1 hover:text-champagne hover:border-champagne transition-colors">
+                        Explore Specs
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ASYMMETRICAL MASONRY GRID LAYOUT -->
+    <section id="architecture" class="py-32 px-6 md:px-16 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+            <div>
+                <span class="text-xs font-sans uppercase tracking-mega-wide text-champagne font-semibold block mb-2">SPATIAL COMPOSITION</span>
+                <h2 class="text-4xl md:text-6xl font-serif font-light uppercase tracking-ultra-wide text-charcoal">
+                    ESTATE FEATURES & SPECIFICATIONS
+                </h2>
+            </div>
+            <p class="max-w-md font-sans text-xs tracking-wider uppercase text-charcoal-muted leading-relaxed">
+                An intentional synthesis of grand entertaining spaces and secluded residential retreats mapped across three expansive architectural tiers.
             </p>
+        </div>
 
-            <div class="grid grid-cols-3 gap-4 border-t border-champagne-border pt-6 text-center">
-              <div>
-                <span class="block font-serif text-2xl font-light text-charcoal tracking-wider">14,500</span>
-                <span class="text-[9px] uppercase tracking-ultra-wide text-charcoal-muted font-medium">Sq Ft Interior</span>
-              </div>
-              <div class="border-x border-champagne-border px-2">
-                <span class="block font-serif text-2xl font-light text-charcoal tracking-wider">07</span>
-                <span class="text-[9px] uppercase tracking-ultra-wide text-charcoal-muted font-medium">Bed En-Suites</span>
-              </div>
-              <div>
-                <span class="block font-serif text-2xl font-light text-charcoal tracking-wider">180'</span>
-                <span class="text-[9px] uppercase tracking-ultra-wide text-charcoal-muted font-medium">Private Gulf</span>
-              </div>
+        <!-- Masonry Grid Grid-Cols-12 -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            
+            <!-- Item 1: Oceanside Pool (Large 8 Col) -->
+            <div class="reveal-card md:col-span-8 group relative overflow-hidden bg-sand-light border border-champagne-border">
+                <div class="h-[480px] md:h-[600px] w-full overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=1800&auto=format&fit=crop" 
+                         alt="Oceanside Infinity Pool" 
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                </div>
+                <div class="p-8 bg-[#fcfbfa] border-t border-champagne-border flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <span class="text-[10px] font-sans uppercase tracking-mega-wide text-champagne font-semibold">OUTDOOR HAVEN</span>
+                        <h3 class="text-2xl font-serif uppercase tracking-widest text-charcoal">Heated Oceanside Infinity Pool</h3>
+                    </div>
+                    <div class="flex items-center gap-8 text-xs font-sans uppercase tracking-widest text-charcoal-muted">
+                        <div><span class="text-charcoal font-semibold block">85 FT</span> Length</div>
+                        <div class="h-6 w-[1px] bg-champagne-border"></div>
+                        <div><span class="text-charcoal font-semibold block">Saltwater</span> System</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="mt-8 pt-4">
-              <button onclick="openTourModal()" class="w-full py-3.5 text-center text-xs tracking-ultra-wide uppercase font-semibold text-canvas bg-charcoal hover:bg-champagne transition-colors duration-500">
-                Inquire For Valuation
-              </button>
+            <!-- Item 2: Square Feet Metric Card (4 Col) -->
+            <div class="reveal-card md:col-span-4 group bg-[#fcfbfa] p-10 border border-champagne-border flex flex-col justify-between h-[480px] md:h-[600px] hover:border-champagne transition-colors duration-500">
+                <div>
+                    <span class="text-[10px] font-sans uppercase tracking-mega-wide text-champagne font-semibold block mb-8">DIMENSIONS & VOLUME</span>
+                    <h3 class="text-5xl font-serif text-charcoal tracking-widest uppercase mb-4">14,500</h3>
+                    <p class="text-xs font-sans uppercase tracking-widest text-charcoal-muted leading-loose">
+                        Under-air square feet of bespoke living quarters with double-height 24ft ceilings in the primary reception hall.
+                    </p>
+                </div>
+                <div class="space-y-4 pt-6 border-t border-champagne-border">
+                    <div class="flex justify-between text-xs font-sans uppercase tracking-widest">
+                        <span class="text-charcoal-muted">Covered Terraces</span>
+                        <span class="text-charcoal font-semibold">3,200 SQ FT</span>
+                    </div>
+                    <div class="flex justify-between text-xs font-sans uppercase tracking-widest">
+                        <span class="text-charcoal-muted">Garage Bay</span>
+                        <span class="text-charcoal font-semibold">6 Vehicles</span>
+                    </div>
+                </div>
             </div>
 
-          </div>
-        </div>
-
-      </div>
-    </div>
-    
-    <!-- Decorative Subtle Gold Line Accent -->
-    <div class="absolute bottom-0 left-0 w-full gold-line-h"></div>
-  </section>
-
-  <!-- STATS & ARCHITECTURAL SUMMARY BANNER -->
-  <section class="py-16 bg-sand/50 border-b border-champagne-border relative">
-    <div class="max-w-7xl mx-auto px-6 lg:px-16">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-        
-        <div class="gsap-stat-item flex flex-col space-y-2">
-          <span class="text-xs uppercase tracking-ultra-wide text-champagne font-medium">Total Estate Area</span>
-          <span class="font-serif text-4xl lg:text-5xl font-light text-charcoal tracking-widest">14,500 <span class="text-sm font-sans tracking-normal font-normal text-charcoal-muted">SQ FT</span></span>
-          <span class="text-xs text-charcoal-muted font-light">Custom Architectural Layout</span>
-        </div>
-
-        <div class="gsap-stat-item flex flex-col space-y-2">
-          <span class="text-xs uppercase tracking-ultra-wide text-champagne font-medium">Sanctuary Suites</span>
-          <span class="font-serif text-4xl lg:text-5xl font-light text-charcoal tracking-widest">07 / 10</span>
-          <span class="text-xs text-charcoal-muted font-light">Bedrooms / Baths</span>
-        </div>
-
-        <div class="gsap-stat-item flex flex-col space-y-2">
-          <span class="text-xs uppercase tracking-ultra-wide text-champagne font-medium">Aquatic Features</span>
-          <span class="font-serif text-4xl lg:text-5xl font-light text-charcoal tracking-widest">Oceanside</span>
-          <span class="text-xs text-charcoal-muted font-light">Zero-Edge Infinity Pool</span>
-        </div>
-
-        <div class="gsap-stat-item flex flex-col space-y-2">
-          <span class="text-xs uppercase tracking-ultra-wide text-champagne font-medium">Deepwater Access</span>
-          <span class="font-serif text-4xl lg:text-5xl font-light text-charcoal tracking-widest">120 FT</span>
-          <span class="text-xs text-charcoal-muted font-light">Private Dock & Yacht Slip</span>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 1: THE ESTATE ARCHITECTURAL STORY -->
-  <section id="estate" class="py-32 px-6 lg:px-16 relative">
-    <div class="max-w-7xl mx-auto">
-      
-      <!-- Section Header -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-20 pb-8 border-b border-champagne-border">
-        <div>
-          <span class="text-xs uppercase tracking-ultra-wide text-champagne font-medium block mb-3">Architectural Vision</span>
-          <h2 class="font-serif text-4xl md:text-6xl font-light tracking-widest-xl uppercase text-charcoal">
-            Refined Coastal <br/><span class="italic lowercase font-serif font-normal text-charcoal-light">monolith</span>
-          </h2>
-        </div>
-        <p class="text-charcoal-muted font-light text-base max-w-md mt-6 md:mt-0 leading-relaxed">
-          Every angle of The Carlouel Mansion is sculpted to blend expansive indoor entertainment domains with raw coastal natural beauty.
-        </p>
-      </div>
-
-      <!-- Feature Highlight Row 1 -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-28">
-        <div class="lg:col-span-7 img-zoom-container relative">
-          <img 
-            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=90" 
-            alt="Carlouel Living Pavilion" 
-            class="w-full h-[550px] object-cover rounded-none"
-          />
-          <div class="absolute bottom-6 left-6 glass-box px-6 py-4">
-            <span class="block text-[10px] tracking-ultra-wide uppercase text-champagne font-semibold">Grand Pavilion</span>
-            <span class="font-serif text-lg tracking-wider text-charcoal uppercase">22ft Ceiling Soaring Glass</span>
-          </div>
-        </div>
-
-        <div class="lg:col-span-5 space-y-6 lg:pl-6 gsap-reveal-panel">
-          <span class="text-xs tracking-ultra-wide uppercase text-champagne font-semibold block">01 / Grand Living Spaces</span>
-          <h3 class="font-serif text-3xl md:text-4xl tracking-widest uppercase text-charcoal">
-            Unrivaled Horizon Perspective
-          </h3>
-          <p class="text-charcoal-muted font-light text-sm leading-relaxed">
-            The central pavilion features automated glass panels that glide effortlessly into pocket walls, creating an uninterrupted 90-foot span connecting the interior salon directly with the expansive travertine sun decks.
-          </p>
-          <ul class="space-y-4 pt-4 border-t border-champagne-border text-xs uppercase tracking-widest text-charcoal font-medium">
-            <li class="flex items-center space-x-3">
-              <span class="w-1.5 h-1.5 bg-champagne rounded-full"></span>
-              <span>Automated Fleetwood Motorized Glass Walls</span>
-            </li>
-            <li class="flex items-center space-x-3">
-              <span class="w-1.5 h-1.5 bg-champagne rounded-full"></span>
-              <span>Imported Custom French Limestone Flooring</span>
-            </li>
-            <li class="flex items-center space-x-3">
-              <span class="w-1.5 h-1.5 bg-champagne rounded-full"></span>
-              <span>Dual Linear Bronze Gas Fireplaces</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- SECTION 2: ASYMMETRICAL MASONRY GRID LAYOUT -->
-  <section id="gallery" class="py-32 bg-sand/30 border-y border-champagne-border px-6 lg:px-16 relative">
-    <div class="max-w-7xl mx-auto">
-      
-      <div class="text-center max-w-3xl mx-auto mb-20">
-        <span class="text-xs uppercase tracking-ultra-wide text-champagne font-semibold block mb-3">Estate Curation</span>
-        <h2 class="font-serif text-4xl md:text-6xl font-light tracking-widest-xl uppercase text-charcoal mb-6">
-          Architectural Layout & Features
-        </h2>
-        <div class="w-16 h-[1px] bg-champagne mx-auto mb-6"></div>
-        <p class="text-charcoal-muted font-light text-sm md:text-base leading-relaxed">
-          An asymmetrical composition of space, privacy, and ultra-luxury outdoor living elements.
-        </p>
-      </div>
-
-      <!-- ASYMMETRICAL MASONRY GRID -->
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-        
-        <!-- Masonry Item 1: Oceanside Pool (Tall / Large 7 Cols) -->
-        <div class="md:col-span-7 group gsap-masonry-item">
-          <div class="relative overflow-hidden bg-charcoal">
-            <div class="img-zoom-container h-[600px]">
-              <img 
-                src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1600&q=90" 
-                alt="Oceanside Infinity Pool" 
-                class="w-full h-full object-cover opacity-90 transition-opacity duration-500 group-hover:opacity-100"
-              />
+            <!-- Item 3: Bedrooms & Bathrooms Sanctuary (5 Col) -->
+            <div class="reveal-card md:col-span-5 group relative overflow-hidden bg-sand-light border border-champagne-border">
+                <div class="h-[400px] w-full overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?q=80&w=1400&auto=format&fit=crop" 
+                         alt="Master Suite Sanctuary" 
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                </div>
+                <div class="p-8 bg-[#fcfbfa] border-t border-champagne-border">
+                    <span class="text-[10px] font-sans uppercase tracking-mega-wide text-champagne font-semibold block mb-1">ACCOMMODATIONS</span>
+                    <h3 class="text-2xl font-serif uppercase tracking-widest text-charcoal mb-2">7 Bedrooms &bull; 9 Bathrooms</h3>
+                    <p class="text-xs font-sans text-charcoal-muted leading-relaxed font-light">
+                        Including a 2,400 sq ft primary suite featuring dual private terraces, custom marble soaking tubs, and private security access.
+                    </p>
+                </div>
             </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-transparent to-transparent"></div>
-            <div class="absolute bottom-0 left-0 p-8 md:p-10 w-full flex justify-between items-end">
-              <div>
-                <span class="text-xs tracking-ultra-wide uppercase text-champagne font-medium block mb-1">Feature Highlight</span>
-                <h3 class="font-serif text-3xl text-canvas tracking-widest uppercase">Oceanside Pool</h3>
-                <p class="text-canvas/70 font-light text-xs mt-2 max-w-md">100ft Zero-edge infinity pool with underwater audio, heating, and perimeter spa.</p>
-              </div>
-              <span class="font-serif text-3xl italic text-champagne font-light hidden sm:block">01</span>
+
+            <!-- Item 4: Wine Vault & Amenities (7 Col) -->
+            <div class="reveal-card md:col-span-7 group relative overflow-hidden bg-sand-light border border-champagne-border">
+                <div class="h-[400px] w-full overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=1600&auto=format&fit=crop" 
+                         alt="Subterranean Wine Cellar" 
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                </div>
+                <div class="p-8 bg-[#fcfbfa] border-t border-champagne-border flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <span class="text-[10px] font-sans uppercase tracking-mega-wide text-champagne font-semibold">SOMMELIER VAULT</span>
+                        <h3 class="text-2xl font-serif uppercase tracking-widest text-charcoal">Climate-Controlled Wine Room</h3>
+                    </div>
+                    <div class="text-right">
+                        <span class="block text-2xl font-serif font-semibold text-charcoal">1,200</span>
+                        <span class="text-[10px] font-sans uppercase tracking-widest text-charcoal-muted">Bottle Capacity</span>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Masonry Item 2: Bedrooms Sanctuary (5 Cols) -->
-        <div class="md:col-span-5 group gsap-masonry-item md:mt-16">
-          <div class="relative overflow-hidden bg-charcoal">
-            <div class="img-zoom-container h-[420px]">
-              <img 
-                src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1200&q=90" 
-                alt="Primary Master Suite" 
-                class="w-full h-full object-cover opacity-90 transition-opacity duration-500 group-hover:opacity-100"
-              />
+        </div>
+    </section>
+
+    <!-- INTERACTIVE GALLERY SHOWCASE WITH FILTER TABS -->
+    <section id="gallery" class="py-32 px-6 md:px-16 bg-[#f4f0ea]/50 border-y border-champagne-border">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-sans uppercase tracking-mega-wide text-champagne font-semibold block mb-3">CURATED PERSPECTIVES</span>
+                <h2 class="text-4xl md:text-6xl font-serif font-light uppercase tracking-ultra-wide text-charcoal mb-6">
+                    GALLERY OF THE ESTATE
+                </h2>
+                <div class="w-16 h-[1px] bg-champagne mx-auto mb-8"></div>
+                
+                <!-- Filter Tabs -->
+                <div class="flex flex-wrap justify-center gap-4 text-xs font-sans uppercase tracking-ultra-wide" id="gallery-tabs">
+                    <button onclick="filterGallery('all')" class="tab-btn active border-b-2 border-champagne pb-1 text-charcoal font-semibold transition-all">All Spaces</button>
+                    <button onclick="filterGallery('exterior')" class="tab-btn border-b-2 border-transparent pb-1 text-charcoal-muted hover:text-charcoal transition-all">Exterior Grounds</button>
+                    <button onclick="filterGallery('interior')" class="tab-btn border-b-2 border-transparent pb-1 text-charcoal-muted hover:text-charcoal transition-all">Interior Architecture</button>
+                    <button onclick="filterGallery('amenities')" class="tab-btn border-b-2 border-transparent pb-1 text-charcoal-muted hover:text-charcoal transition-all">Private Amenities</button>
+                </div>
             </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-transparent to-transparent"></div>
-            <div class="absolute bottom-0 left-0 p-8 w-full flex justify-between items-end">
-              <div>
-                <span class="text-xs tracking-ultra-wide uppercase text-champagne font-medium block mb-1">Sanctuary</span>
-                <h3 class="font-serif text-2xl text-canvas tracking-widest uppercase">7 Primary En-Suites</h3>
-                <p class="text-canvas/70 font-light text-xs mt-1">Private terraces with panoramic Gulf sunset views.</p>
-              </div>
-              <span class="font-serif text-3xl italic text-champagne font-light hidden sm:block">02</span>
+
+            <!-- Gallery Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="gallery-grid">
+                <!-- Gallery Item 1 -->
+                <div class="gallery-item exterior group relative overflow-hidden bg-white cursor-pointer border border-champagne-border" onclick="openLightbox('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop', 'Oceanside Facade & Deck')">
+                    <div class="h-[380px] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop" alt="Estate Exterior" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span class="text-xs font-serif italic text-white tracking-widest uppercase">Oceanside Facade & Deck</span>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 2 -->
+                <div class="gallery-item interior group relative overflow-hidden bg-white cursor-pointer border border-champagne-border" onclick="openLightbox('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2000&auto=format&fit=crop', 'Grand Foyer & Atrium')">
+                    <div class="h-[380px] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop" alt="Grand Foyer" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span class="text-xs font-serif italic text-white tracking-widest uppercase">Grand Foyer & Atrium</span>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 3 -->
+                <div class="gallery-item interior group relative overflow-hidden bg-white cursor-pointer border border-champagne-border" onclick="openLightbox('https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=2000&auto=format&fit=crop', 'Chef\'s Culinary Studio')">
+                    <div class="h-[380px] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=1200&auto=format&fit=crop" alt="Culinary Studio" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span class="text-xs font-serif italic text-white tracking-widest uppercase">Chef's Culinary Studio</span>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 4 -->
+                <div class="gallery-item amenities group relative overflow-hidden bg-white cursor-pointer border border-champagne-border" onclick="openLightbox('https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=2000&auto=format&fit=crop', 'Wellness Sanctuary & Spa')">
+                    <div class="h-[380px] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1200&auto=format&fit=crop" alt="Spa Sanctuary" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span class="text-xs font-serif italic text-white tracking-widest uppercase">Wellness Sanctuary & Spa</span>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 5 -->
+                <div class="gallery-item exterior group relative overflow-hidden bg-white cursor-pointer border border-champagne-border" onclick="openLightbox('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2000&auto=format&fit=crop', 'Sunset Ocean Terrace')">
+                    <div class="h-[380px] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop" alt="Sunset Ocean Terrace" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span class="text-xs font-serif italic text-white tracking-widest uppercase">Sunset Ocean Terrace</span>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 6 -->
+                <div class="gallery-item amenities group relative overflow-hidden bg-white cursor-pointer border border-champagne-border" onclick="openLightbox('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2000&auto=format&fit=crop', 'Private Screening Room')">
+                    <div class="h-[380px] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=1200&auto=format&fit=crop" alt="Private Cinema" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span class="text-xs font-serif italic text-white tracking-widest uppercase">Private Screening Room</span>
+                    </div>
+                </div>
             </div>
-          </div>
+        </div>
+    </section>
+
+    <!-- DETAILED SPECIFICATIONS ACCORDION -->
+    <section id="amenities" class="py-32 px-6 md:px-16 max-w-5xl mx-auto">
+        <div class="text-center mb-16">
+            <span class="text-xs font-sans uppercase tracking-mega-wide text-champagne font-semibold block mb-2">TECHNICAL & SPATIAL DOSSIER</span>
+            <h2 class="text-4xl md:text-5xl font-serif font-light uppercase tracking-ultra-wide text-charcoal">
+                ESTATE AMENITIES & SYSTEMS
+            </h2>
         </div>
 
-        <!-- Masonry Item 3: Wine Cellar (5 Cols) -->
-        <div class="md:col-span-5 group gsap-masonry-item">
-          <div class="relative overflow-hidden bg-charcoal">
-            <div class="img-zoom-container h-[480px]">
-              <img 
-                src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=1200&q=90" 
-                alt="Sommelier Wine Vault" 
-                class="w-full h-full object-cover opacity-90 transition-opacity duration-500 group-hover:opacity-100"
-              />
+        <div class="space-y-4" id="accordion-group">
+            <!-- Accordion Item 1 -->
+            <div class="border border-champagne-border bg-[#fcfbfa]">
+                <button onclick="toggleAccordion(1)" class="w-full p-6 text-left flex justify-between items-center focus:outline-none">
+                    <span class="font-serif text-xl uppercase tracking-widest text-charcoal">01. Architectural Infrastructure & Finishes</span>
+                    <span id="icon-1" class="text-champagne font-serif text-2xl transition-transform duration-300">+</span>
+                </button>
+                <div id="content-1" class="hidden px-6 pb-6 text-xs font-sans text-charcoal-muted leading-relaxed space-y-3">
+                    <p>Sub-floor structural tensioning engineered to withstand Category 5 Atlantic storm surges. Custom book-matched Calacatta Oro marble throughout all ground-floor grand reception halls.</p>
+                    <p>Floor-to-ceiling minimal rimless sliding glass doors engineered by Swiss supplier Sky-Frame with automatic motorized pocket retraction.</p>
+                </div>
             </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-transparent to-transparent"></div>
-            <div class="absolute bottom-0 left-0 p-8 w-full flex justify-between items-end">
-              <div>
-                <span class="text-xs tracking-ultra-wide uppercase text-champagne font-medium block mb-1">Collection</span>
-                <h3 class="font-serif text-2xl text-canvas tracking-widest uppercase">1,500 Bottle Vault</h3>
-                <p class="text-canvas/70 font-light text-xs mt-1">Climate-controlled sommelier lounge with custom walnut racks.</p>
-              </div>
-              <span class="font-serif text-3xl italic text-champagne font-light hidden sm:block">03</span>
+
+            <!-- Accordion Item 2 -->
+            <div class="border border-champagne-border bg-[#fcfbfa]">
+                <button onclick="toggleAccordion(2)" class="w-full p-6 text-left flex justify-between items-center focus:outline-none">
+                    <span class="font-serif text-xl uppercase tracking-widest text-charcoal">02. Security, Discretion & Privacy</span>
+                    <span id="icon-2" class="text-champagne font-serif text-2xl transition-transform duration-300">+</span>
+                </button>
+                <div id="content-2" class="hidden px-6 pb-6 text-xs font-sans text-charcoal-muted leading-relaxed space-y-3">
+                    <p>Perimeter biometric thermal infrared cameras with AI motion analytics. Dedicated security guard lounge with independent climate matrix and monitoring hub.</p>
+                    <p>Primary suite reinforced panic sanctuary with independent oxygen supply, satellite uplink, and blast-resistant steel door core.</p>
+                </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Masonry Item 4: Deepwater Dock (7 Cols) -->
-        <div class="md:col-span-7 group gsap-masonry-item md:-mt-12">
-          <div class="relative overflow-hidden bg-charcoal">
-            <div class="img-zoom-container h-[540px]">
-              <img 
-                src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=90" 
-                alt="Private Deepwater Dock" 
-                class="w-full h-full object-cover opacity-90 transition-opacity duration-500 group-hover:opacity-100"
-              />
+            <!-- Accordion Item 3 -->
+            <div class="border border-champagne-border bg-[#fcfbfa]">
+                <button onclick="toggleAccordion(3)" class="w-full p-6 text-left flex justify-between items-center focus:outline-none">
+                    <span class="font-serif text-xl uppercase tracking-widest text-charcoal">03. Waterfront & Marine Dockage</span>
+                    <span id="icon-3" class="text-champagne font-serif text-2xl transition-transform duration-300">+</span>
+                </button>
+                <div id="content-3" class="hidden px-6 pb-6 text-xs font-sans text-charcoal-muted leading-relaxed space-y-3">
+                    <p>220 Linear feet of deepwater shoreline equipped with custom composite mega-yacht slip capable of accommodating vessels up to 130 feet.</p>
+                    <p>Dual jet-ski lifts, high-speed diesel fueling line, fresh water filtration connections, and 400-amp shore power hookups.</p>
+                </div>
             </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-transparent to-transparent"></div>
-            <div class="absolute bottom-0 left-0 p-8 md:p-10 w-full flex justify-between items-end">
-              <div>
-                <span class="text-xs tracking-ultra-wide uppercase text-champagne font-medium block mb-1">Maritime</span>
-                <h3 class="font-serif text-3xl text-canvas tracking-widest uppercase">Private Dock & Slip</h3>
-                <p class="text-canvas/70 font-light text-xs mt-2 max-w-md">Accommodates up to 120ft mega-yachts with immediate deepwater gulf access.</p>
-              </div>
-              <span class="font-serif text-3xl italic text-champagne font-light hidden sm:block">04</span>
+
+            <!-- Accordion Item 4 -->
+            <div class="border border-champagne-border bg-[#fcfbfa]">
+                <button onclick="toggleAccordion(4)" class="w-full p-6 text-left flex justify-between items-center focus:outline-none">
+                    <span class="font-serif text-xl uppercase tracking-widest text-charcoal">04. Smart Home & Environmental Systems</span>
+                    <span id="icon-4" class="text-champagne font-serif text-2xl transition-transform duration-300">+</span>
+                </button>
+                <div id="content-4" class="hidden px-6 pb-6 text-xs font-sans text-charcoal-muted leading-relaxed space-y-3">
+                    <p>Complete Crestron Home OS integration managing lighting, acoustic sound zones, climate control, and motorized solar shades via integrated wall touchpoints.</p>
+                    <p>Rooftop solar matrix paired with dual Tesla Powerwall industrial battery backup arrays for up to 14 days of full off-grid autonomy.</p>
+                </div>
             </div>
-          </div>
         </div>
+    </section>
 
-      </div>
+    <!-- PRIVATE TOUR REQUEST BANNER -->
+    <section class="relative py-28 px-6 bg-charcoal text-white text-center overflow-hidden">
+        <div class="absolute inset-0 opacity-10 pointer-events-none">
+            <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path d="M0 0 L100 100 M100 0 L0 100" stroke="#c5a059" stroke-width="0.1"/>
+            </svg>
+        </div>
+        <div class="relative z-10 max-w-3xl mx-auto space-y-8">
+            <span class="text-xs font-sans uppercase tracking-mega-wide text-champagne font-semibold block">CONFIDENTIAL INQUIRIES</span>
+            <h2 class="text-4xl md:text-6xl font-serif font-light uppercase tracking-ultra-wide">
+                EXPERIENCE THE MANSION IN PERSON
+            </h2>
+            <p class="font-sans text-xs uppercase tracking-widest text-gray-400 max-w-lg mx-auto leading-relaxed">
+                Private viewings are arranged exclusively for vetted principals through our luxury advisory team.
+            </p>
+            <div>
+                <button onclick="openTourModal()" class="inline-block border border-champagne px-10 py-4 text-xs font-sans uppercase tracking-ultra-wide text-white hover:bg-champagne hover:text-charcoal transition-all duration-500">
+                    Request Private Tour
+                </button>
+            </div>
+        </div>
+    </section>
 
-    </div>
-  </section>
+    <!-- FOOTER SECTION -->
+    <footer class="py-16 px-6 md:px-16 bg-[#fcfbfa] border-t border-champagne-border text-charcoal-muted">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="flex items-center gap-4">
+                <span class="font-serif text-2xl tracking-ultra-wide uppercase font-semibold text-charcoal">CARLOUEL</span>
+                <span class="text-xs font-sans text-champagne">&bull;</span>
+                <span class="text-[10px] font-sans uppercase tracking-widest">Clearwater Key, FL</span>
+            </div>
 
-  <!-- SECTION 3: AMENITIES & SPECIFICATIONS INTERACTIVE TABS -->
-  <section id="amenities" class="py-32 px-6 lg:px-16 relative bg-canvas">
-    <div class="max-w-7xl mx-auto">
-      
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-8 border-b border-champagne-border">
-        <div>
-          <span class="text-xs uppercase tracking-ultra-wide text-champagne font-semibold block mb-3">Estate Features</span>
-          <h2 class="font-serif text-4xl md:text-5xl font-light tracking-widest-xl uppercase text-charcoal">
-            Uncompromised Amenities
-          </h2>
-        </div>
-        
-        <!-- Tab Controls -->
-        <div class="flex space-x-6 mt-6 md:mt-0 text-xs tracking-ultra-wide uppercase font-medium">
-          <button onclick="switchTab('wellness')" id="tab-wellness" class="tab-btn text-champagne border-b border-champagne pb-1">Wellness & Leisure</button>
-          <button onclick="switchTab('tech')" id="tab-tech" class="tab-btn text-charcoal-muted hover:text-charcoal pb-1 transition-colors">Smart Home & Vault</button>
-          <button onclick="switchTab('outdoor')" id="tab-outdoor" class="tab-btn text-charcoal-muted hover:text-charcoal pb-1 transition-colors">Outdoor Grounds</button>
-        </div>
-      </div>
+            <div class="text-[10px] font-sans uppercase tracking-widest text-center">
+                &copy; <span id="year"></span> THE CARLOUEL ESTATE. ALL RIGHTS RESERVED. PRIVATE ADVISORY SHOWCASE.
+            </div>
 
-      <!-- Tab 1 Content: Wellness -->
-      <div id="content-wellness" class="tab-content grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="p-8 border border-champagne-border bg-white space-y-4">
-          <span class="font-serif text-2xl text-charcoal">01 / Thermal Spa Suite</span>
-          <p class="text-charcoal-muted font-light text-xs leading-relaxed">Custom Cedar Finnish Sauna, Steam Room, and Cold Plunge Basin with marble surround.</p>
+            <div class="flex space-x-6 text-xs font-sans uppercase tracking-widest">
+                <a href="#" class="hover:text-champagne transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-champagne transition-colors">Terms of Disclosure</a>
+            </div>
         </div>
-        <div class="p-8 border border-champagne-border bg-white space-y-4">
-          <span class="font-serif text-2xl text-charcoal">02 / Fitness Studio</span>
-          <p class="text-charcoal-muted font-light text-xs leading-relaxed">State-of-the-art gym equipped for Technogym systems with direct terrace view.</p>
-        </div>
-        <div class="p-8 border border-champagne-border bg-white space-y-4">
-          <span class="font-serif text-2xl text-charcoal">03 / Oceanside Spa</span>
-          <p class="text-charcoal-muted font-light text-xs leading-relaxed">Integrated 12-person hydrotherapy pool seamlessly overflowing into main pool.</p>
-        </div>
-      </div>
+    </footer>
 
-      <!-- Tab 2 Content: Tech -->
-      <div id="content-tech" class="tab-content hidden grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="p-8 border border-champagne-border bg-white space-y-4">
-          <span class="font-serif text-2xl text-charcoal">01 / Crestron Horizon</span>
-          <p class="text-charcoal-muted font-light text-xs leading-relaxed">Complete architectural lighting, climate, security, and shading automation.</p>
-        </div>
-        <div class="p-8 border border-champagne-border bg-white space-y-4">
-          <span class="font-serif text-2xl text-charcoal">02 / 12-Car Garage Vault</span>
-          <p class="text-charcoal-muted font-light text-xs leading-relaxed">Climate-controlled subterranean automotive showroom with turntable system.</p>
-        </div>
-        <div class="p-8 border border-champagne-border bg-white space-y-4">
-          <span class="font-serif text-2xl text-charcoal">03 / Dolby Atmos Theater</span>
-          <p class="text-charcoal-muted font-light text-xs leading-relaxed">Private 14-seat screening room with acoustic treatments and 4K projection.</p>
-        </div>
-      </div>
-
-      <!-- Tab 3 Content: Outdoor -->
-      <div id="content-outdoor" class="tab-content hidden grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="p-8 border border-champagne-border bg-white space-y-4">
-          <span class="font-serif text-2xl text-charcoal">01 / Summer Kitchen</span>
-          <p class="text-charcoal-muted font-light text-xs leading-relaxed">Full outdoor chef's pavilion featuring Gaggenau appliances and wood-fire oven.</p>
-        </div>
-        <div class="p-8 border border-champagne-border bg-white space-y-4">
-          <span class="font-serif text-2xl text-charcoal">02 / Private Beach Lounge</span>
-          <p class="text-charcoal-muted font-light text-xs leading-relaxed">Direct boardwalk access to 180 feet of manicured, private white gulf sand.</p>
-        </div>
-        <div class="p-8 border border-champagne-border bg-white space-y-4">
-          <span class="font-serif text-2xl text-charcoal">03 / Rooftop Deck</span>
-          <p class="text-charcoal-muted font-light text-xs leading-relaxed">360-degree elevated sky terrace with fire feature for sunset stargazing.</p>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- SECTION 4: ARCHITECTURAL SPECS & ACCORDION -->
-  <section id="architecture" class="py-32 bg-charcoal text-canvas px-6 lg:px-16 relative">
-    <div class="max-w-7xl mx-auto">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-        
-        <div class="lg:col-span-5 space-y-6">
-          <span class="text-xs uppercase tracking-ultra-wide text-champagne font-medium">Technical Mastery</span>
-          <h2 class="font-serif text-4xl md:text-6xl font-light tracking-widest-xl uppercase leading-tight">
-            Built to Endure <br/><span class="italic lowercase font-serif font-normal text-champagne-light">generations</span>
-          </h2>
-          <p class="text-canvas/70 font-light text-sm leading-relaxed">
-            Constructed with post-tensioned reinforced concrete, floor-to-ceiling hurricane-rated impact structural glazing, and solid bronze hardware accents.
-          </p>
-
-          <div class="pt-6 border-t border-champagne/20">
-            <button onclick="openTourModal()" class="px-8 py-4 text-xs tracking-ultra-wide uppercase font-semibold text-charcoal bg-champagne hover:bg-canvas transition-colors duration-300">
-              Download Full Dossier (PDF)
+    <!-- INTERACTIVE MODAL / LEAD CAPTURE FORM FOR PRIVATE TOUR -->
+    <div id="tourModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-500 p-4">
+        <div class="bg-[#fcfbfa] border border-champagne-border w-full max-w-xl p-8 sm:p-12 relative shadow-2xl transform translate-y-8 transition-transform duration-500" id="modalCard">
+            <button onclick="closeTourModal()" class="absolute top-6 right-6 text-charcoal hover:text-champagne text-xs font-sans tracking-widest uppercase">
+                [ CLOSE ]
             </button>
-          </div>
-        </div>
-
-        <!-- Accordion Component -->
-        <div class="lg:col-span-7 space-y-4">
-          
-          <div class="border border-champagne/20 bg-charcoal-light/30">
-            <button onclick="toggleAccordion(1)" class="w-full p-6 text-left flex justify-between items-center focus:outline-none">
-              <span class="font-serif text-xl tracking-wider uppercase text-canvas">Structural Engineering & Resilience</span>
-              <span id="acc-icon-1" class="text-champagne font-serif text-2xl">+</span>
-            </button>
-            <div id="acc-content-1" class="hidden px-6 pb-6 text-canvas/70 text-xs font-light leading-relaxed">
-              Deep pilings embedded into bed rock, solid poured concrete walls, and engineered coastal mitigation systems designed for maximum wind speeds up to 185 mph.
+            
+            <div class="text-center mb-8">
+                <span class="text-[10px] font-sans uppercase tracking-mega-wide text-champagne font-semibold block mb-2">PRIVATE CONCIERGE</span>
+                <h3 class="text-3xl font-serif uppercase tracking-ultra-wide text-charcoal">REQUEST PRIVATE TOUR</h3>
+                <p class="text-xs font-sans text-charcoal-muted uppercase tracking-widest mt-2">The Carlouel Mansion &bull; Clearwater Key</p>
             </div>
-          </div>
 
-          <div class="border border-champagne/20 bg-charcoal-light/30">
-            <button onclick="toggleAccordion(2)" class="w-full p-6 text-left flex justify-between items-center focus:outline-none">
-              <span class="font-serif text-xl tracking-wider uppercase text-canvas">Custom Finishes & Artisanship</span>
-              <span id="acc-icon-2" class="text-champagne font-serif text-2xl">+</span>
-            </button>
-            <div id="acc-content-2" class="hidden px-6 pb-6 text-canvas/70 text-xs font-light leading-relaxed">
-              Hand-carved Calacatta Marble slabs imported directly from Carrara, Italy. Custom wire-brushed European Oak millwork handcrafted by master woodworkers.
-            </div>
-          </div>
+            <form onsubmit="handleFormSubmit(event)" class="space-y-6">
+                <div>
+                    <label class="block text-[10px] font-sans uppercase tracking-widest text-charcoal mb-2">FULL NAME *</label>
+                    <input type="text" required class="w-full bg-sand-light/50 border border-champagne-border px-4 py-3 text-xs font-sans text-charcoal focus:outline-none focus:border-champagne transition-colors" placeholder="e.g. Lord Harrison Vance">
+                </div>
 
-          <div class="border border-champagne/20 bg-charcoal-light/30">
-            <button onclick="toggleAccordion(3)" class="w-full p-6 text-left flex justify-between items-center focus:outline-none">
-              <span class="font-serif text-xl tracking-wider uppercase text-canvas">Energy & Environmental Systems</span>
-              <span id="acc-icon-3" class="text-champagne font-serif text-2xl">+</span>
-            </button>
-            <div id="acc-content-3" class="hidden px-6 pb-6 text-canvas/70 text-xs font-light leading-relaxed">
-              Integrated roof solar panel arrays, geothermal water heating for pools and spas, and ultra-high efficiency multi-stage HVAC with HEPA medical-grade air purification.
-            </div>
-          </div>
+                <div>
+                    <label class="block text-[10px] font-sans uppercase tracking-widest text-charcoal mb-2">CONFIDENTIAL EMAIL *</label>
+                    <input type="email" required class="w-full bg-sand-light/50 border border-champagne-border px-4 py-3 text-xs font-sans text-charcoal focus:outline-none focus:border-champagne transition-colors" placeholder="vance@holdings.com">
+                </div>
 
+                <div>
+                    <label class="block text-[10px] font-sans uppercase tracking-widest text-charcoal mb-2">PREFERRED TOUR DATE</label>
+                    <input type="date" class="w-full bg-sand-light/50 border border-champagne-border px-4 py-3 text-xs font-sans text-charcoal focus:outline-none focus:border-champagne transition-colors">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-sans uppercase tracking-widest text-charcoal mb-2">REPRESENTATIVE FIRM / PRIVATE OFFICE</label>
+                    <input type="text" class="w-full bg-sand-light/50 border border-champagne-border px-4 py-3 text-xs font-sans text-charcoal focus:outline-none focus:border-champagne transition-colors" placeholder="Family Office or Brokerage Name">
+                </div>
+
+                <button type="submit" class="w-full border border-champagne bg-champagne text-white py-4 text-xs font-sans uppercase tracking-ultra-wide hover:bg-charcoal hover:border-charcoal transition-colors duration-500 font-medium">
+                    Submit Confidential Booking Request
+                </button>
+            </form>
         </div>
-
-      </div>
     </div>
-  </section>
 
-  <!-- PRIVATE TOUR INQUIRY FOOTER CALLOUT -->
-  <section class="py-28 px-6 lg:px-16 text-center bg-sand/40 border-t border-champagne-border relative">
-    <div class="max-w-4xl mx-auto space-y-8">
-      <span class="text-xs uppercase tracking-ultra-wide text-champagne font-medium">By Appointment Only</span>
-      <h2 class="font-serif text-4xl md:text-7xl font-light tracking-widest-xl uppercase text-charcoal">
-        Schedule Your Private Viewing
-      </h2>
-      <p class="text-charcoal-muted font-light text-base max-w-xl mx-auto leading-relaxed">
-        Private tours of The Carlouel Mansion are reserved for qualified buyers. Please contact the exclusive listing agent.
-      </p>
-      <div>
-        <button onclick="openTourModal()" class="px-10 py-4 text-xs tracking-ultra-wide uppercase font-semibold text-canvas bg-charcoal border border-charcoal hover:bg-champagne hover:border-champagne transition-all duration-500">
-          Request Confidential Access
-        </button>
-      </div>
+    <!-- LIGHTBOX MODAL FOR GALLERY PREVIEW -->
+    <div id="lightbox" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-lg hidden items-center justify-center p-4 cursor-pointer" onclick="closeLightbox()">
+        <div class="relative max-w-5xl w-full text-center space-y-4" onclick="event.stopPropagation()">
+            <img id="lightbox-img" src="" alt="Enlarged View" class="w-full h-[75vh] object-contain border border-champagne-border/40">
+            <div id="lightbox-caption" class="text-white font-serif tracking-widest text-lg uppercase italic"></div>
+            <button onclick="closeLightbox()" class="text-xs font-sans uppercase tracking-mega-wide text-champagne border-b border-champagne pb-1">Click Anywhere To Close</button>
+        </div>
     </div>
-  </section>
 
-  <!-- FOOTER -->
-  <footer class="bg-charcoal text-canvas py-16 px-6 lg:px-16 border-t border-champagne/20">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0">
-      
-      <div class="flex items-center space-x-3">
-        <svg class="w-5 h-5 text-champagne" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <rect x="4" y="4" width="16" height="16" transform="rotate(45 12 12)" />
-        </svg>
-        <span class="font-serif text-lg tracking-widest uppercase font-medium text-canvas">The Carlouel Mansion</span>
-      </div>
+    <!-- GSAP INTEGRATION & INTERACTIVE SCRIPTS -->
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
 
-      <div class="text-xs text-canvas/50 font-light tracking-wider">
-        © <span id="year"></span> The Carlouel Mansion. All Rights Reserved. Private Real Estate Offering.
-      </div>
+        // Register GSAP ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
 
-      <div class="flex space-x-6 text-xs text-canvas/60 uppercase tracking-widest">
-        <a href="#" class="hover:text-champagne transition-colors">Privacy</a>
-        <a href="#" class="hover:text-champagne transition-colors">Terms</a>
-        <a href="#" class="hover:text-champagne transition-colors">Brokerage</a>
-      </div>
+        // Page Load Animations (Text Reveals)
+        window.addEventListener('DOMContentLoaded', () => {
+            const tl = gsap.timeline();
 
-    </div>
-  </footer>
+            tl.to('.hero-title', {
+                y: 0,
+                duration: 1.2,
+                ease: 'power4.out',
+                startAt: { y: 80 }
+            })
+            .to('.hero-subtitle', {
+                y: 0,
+                duration: 1,
+                ease: 'power3.out',
+                startAt: { y: 40 }
+            }, '-=0.8')
+            .to('.hero-reveal', {
+                opacity: 1,
+                duration: 1,
+                stagger: 0.2,
+                ease: 'power2.out'
+            }, '-=0.6');
 
-  <!-- PRIVATE TOUR INTERACTIVE MODAL -->
-  <div id="tour-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center px-4 bg-charcoal/80 backdrop-blur-md transition-all duration-500 opacity-0">
-    <div class="glass-box-dark max-w-lg w-full p-8 md:p-10 relative transform scale-95 transition-all duration-500" id="modal-card">
-      
-      <!-- Close Button -->
-      <button onclick="closeTourModal()" class="absolute top-6 right-6 text-canvas/60 hover:text-canvas focus:outline-none">
-        <svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24">
-          <line x1="6" y1="6" x2="18" y2="18" stroke-width="1.2" />
-          <line x1="6" y1="18" x2="18" y2="6" stroke-width="1.2" />
-        </svg>
-      </button>
+            // ScrollTrigger Hero Image Scale Down
+            gsap.to('#hero-bg', {
+                scale: 1,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: 'body',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
 
-      <div class="mb-6">
-        <span class="text-[10px] tracking-ultra-wide uppercase text-champagne font-semibold block mb-1">Confidential Tour Request</span>
-        <h3 class="font-serif text-3xl tracking-widest uppercase text-canvas">The Carlouel Mansion</h3>
-      </div>
+            // ScrollTrigger for Floating Narrative Glass Box
+            gsap.from('#narrative-img', {
+                scale: 1.2,
+                duration: 1.5,
+                scrollTrigger: {
+                    trigger: '#estate',
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    scrub: 1
+                }
+            });
 
-      <form id="tour-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
-        <div>
-          <label class="block text-[10px] uppercase tracking-ultra-wide text-canvas/70 mb-1">Full Name</label>
-          <input type="text" required class="w-full bg-charcoal/50 border border-champagne/30 text-canvas px-4 py-3 text-sm focus:outline-none focus:border-champagne transition-colors" placeholder="Lord / Lady / Mr. / Ms.">
-        </div>
+            gsap.from('.reveal-panel', {
+                y: 60,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: '.reveal-panel',
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
 
-        <div>
-          <label class="block text-[10px] uppercase tracking-ultra-wide text-canvas/70 mb-1">Email Address</label>
-          <input type="email" required class="w-full bg-charcoal/50 border border-champagne/30 text-canvas px-4 py-3 text-sm focus:outline-none focus:border-champagne transition-colors" placeholder="client@privateoffice.com">
-        </div>
-
-        <div>
-          <label class="block text-[10px] uppercase tracking-ultra-wide text-canvas/70 mb-1">Phone Number</label>
-          <input type="tel" required class="w-full bg-charcoal/50 border border-champagne/30 text-canvas px-4 py-3 text-sm focus:outline-none focus:border-champagne transition-colors" placeholder="+1 (555) 000-0000">
-        </div>
-
-        <div>
-          <label class="block text-[10px] uppercase tracking-ultra-wide text-canvas/70 mb-1">Preferred Date & Representation</label>
-          <input type="text" class="w-full bg-charcoal/50 border border-champagne/30 text-canvas px-4 py-3 text-sm focus:outline-none focus:border-champagne transition-colors" placeholder="e.g. Next Tuesday / Represented by Family Office">
-        </div>
-
-        <div class="pt-4">
-          <button type="submit" class="w-full py-4 text-xs tracking-ultra-wide uppercase font-semibold text-charcoal bg-champagne hover:bg-canvas transition-colors duration-300">
-            Submit Private Inquiry
-          </button>
-        </div>
-      </form>
-
-      <div id="form-success" class="hidden text-center py-8 space-y-4">
-        <svg class="w-12 h-12 text-champagne mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M8 12l3 3 5-5"/>
-        </svg>
-        <h4 class="font-serif text-2xl uppercase text-canvas tracking-wider">Inquiry Received</h4>
-        <p class="text-canvas/70 font-light text-xs">Our private advisory team will reach out within 2 hours to coordinate your viewing schedule.</p>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- JAVASCRIPT & GSAP ANIMATION LOGIC -->
-  <script>
-    // Set Year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Register GSAP Plugins
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Initial Load Animation Timeline
-    window.addEventListener('load', () => {
-      const tl = gsap.timeline();
-
-      // Page entrance clip path text reveal
-      tl.from('.hero-subtext', {
-        opacity: 0,
-        y: 20,
-        duration: 1,
-        ease: 'power3.out'
-      })
-      .from('.hero-title', {
-        opacity: 0,
-        y: 40,
-        duration: 1.2,
-        ease: 'power3.out'
-      }, '-=0.6')
-      .from('.hero-description', {
-        opacity: 0,
-        y: 20,
-        duration: 0.8,
-        ease: 'power3.out'
-      }, '-=0.8')
-      .from('.hero-glass-box', {
-        opacity: 0,
-        y: 50,
-        duration: 1.2,
-        ease: 'power3.out'
-      }, '-=0.8');
-
-      // GSAP ScrollTrigger Background Image Zoom-Down Effect
-      gsap.to('.hero-bg-img', {
-        scale: 1.0,
-        scrollTrigger: {
-          trigger: '.hero-bg-wrapper',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true
-        }
-      });
-
-      // Header background transformation on scroll
-      ScrollTrigger.create({
-        start: 'top -80',
-        end: 99999,
-        toggleClass: {
-          className: 'bg-canvas/90 backdrop-blur-md py-4 shadow-sm border-b border-champagne-border',
-          targets: '#main-header'
-        }
-      });
-
-      // ScrollTrigger Batch for Stat Items
-      gsap.from('.gsap-stat-item', {
-        opacity: 0,
-        y: 30,
-        stagger: 0.15,
-        duration: 0.8,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: '.gsap-stat-item',
-          start: 'top 85%'
-        }
-      });
-
-      // Masonry Items Fade & Glide Up
-      gsap.utils.toArray('.gsap-masonry-item').forEach((item, index) => {
-        gsap.from(item, {
-          opacity: 0,
-          y: 60,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: item,
-            start: 'top 85%'
-          }
+            // ScrollTrigger for Masonry Feature Cards
+            gsap.utils.toArray('.reveal-card').forEach((card) => {
+                gsap.from(card, {
+                    y: 50,
+                    opacity: 0,
+                    duration: 0.9,
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%',
+                        toggleActions: 'play none none reverse'
+                    }
+                });
+            });
         });
-      });
 
-      // Panel Reveal Animation
-      gsap.from('.gsap-reveal-panel', {
-        opacity: 0,
-        x: 40,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.gsap-reveal-panel',
-          start: 'top 80%'
+        // Gallery Filter Logic
+        function filterGallery(category) {
+            const buttons = document.querySelectorAll('#gallery-tabs button');
+            buttons.forEach(btn => {
+                btn.classList.remove('active', 'border-champagne', 'text-charcoal', 'font-semibold');
+                btn.classList.add('border-transparent', 'text-charcoal-muted');
+            });
+
+            event.target.classList.add('active', 'border-champagne', 'text-charcoal', 'font-semibold');
+
+            const items = document.querySelectorAll('.gallery-item');
+            items.forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'block';
+                    gsap.fromTo(item, { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.4 });
+                } else {
+                    item.style.display = 'none';
+                }
+            });
         }
-      });
-    });
 
-    // Mobile Menu Controls
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const closeMobileMenuBtn = document.getElementById('close-mobile-menu');
+        // Accordion Toggle Logic
+        function toggleAccordion(id) {
+            const content = document.getElementById(`content-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.textContent = '−';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.textContent = '+';
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
 
-    mobileMenuBtn.addEventListener('click', () => {
-      mobileMenu.classList.remove('hidden');
-      mobileMenu.classList.add('flex');
-    });
+        // Tour Modal Control
+        function openTourModal() {
+            const modal = document.getElementById('tourModal');
+            const card = document.getElementById('modalCard');
+            modal.classList.remove('pointer-events-none', 'opacity-0');
+            modal.classList.add('opacity-100');
+            card.classList.remove('translate-y-8');
+            card.classList.add('translate-y-0');
+        }
 
-    function closeMobileMenu() {
-      mobileMenu.classList.add('hidden');
-      mobileMenu.classList.remove('flex');
-    }
-    closeMobileMenuBtn.addEventListener('click', closeMobileMenu);
+        function closeTourModal() {
+            const modal = document.getElementById('tourModal');
+            const card = document.getElementById('modalCard');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            card.classList.add('translate-y-8');
+            card.classList.remove('translate-y-0');
+        }
 
-    // Interactive Tab Switching
-    function switchTab(tabName) {
-      // Hide all content
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-      // Reset button styles
-      document.querySelectorAll('.tab-btn').forEach(el => {
-        el.classList.remove('text-champagne', 'border-b', 'border-champagne');
-        el.classList.add('text-charcoal-muted');
-      });
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            alert('Thank you. Your inquiry for The Carlouel Mansion has been received. Our senior concierge director will contact your office discreetly.');
+            closeTourModal();
+        }
 
-      // Active content & active button
-      document.getElementById(`content-${tabName}`).classList.remove('hidden');
-      const activeBtn = document.getElementById(`tab-${tabName}`);
-      activeBtn.classList.add('text-champagne', 'border-b', 'border-champagne');
-      activeBtn.classList.remove('text-charcoal-muted');
-    }
+        // Lightbox Control
+        function openLightbox(src, caption) {
+            const lightbox = document.getElementById('lightbox');
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox-caption').textContent = caption;
+            lightbox.classList.remove('hidden');
+            lightbox.classList.add('flex');
+        }
 
-    // Interactive Accordion
-    function toggleAccordion(index) {
-      const content = document.getElementById(`acc-content-${index}`);
-      const icon = document.getElementById(`acc-icon-${index}`);
-      
-      if (content.classList.contains('hidden')) {
-        content.classList.remove('hidden');
-        icon.textContent = '−';
-      } else {
-        content.classList.add('hidden');
-        icon.textContent = '+';
-      }
-    }
-
-    // Private Tour Modal Handling
-    const tourModal = document.getElementById('tour-modal');
-    const modalCard = document.getElementById('modal-card');
-
-    function openTourModal() {
-      tourModal.classList.remove('hidden');
-      setTimeout(() => {
-        tourModal.classList.remove('opacity-0');
-        modalCard.classList.remove('scale-95');
-        modalCard.classList.add('scale-100');
-      }, 10);
-    }
-
-    function closeTourModal() {
-      tourModal.classList.add('opacity-0');
-      modalCard.classList.remove('scale-100');
-      modalCard.classList.add('scale-95');
-      setTimeout(() => {
-        tourModal.classList.add('hidden');
-      }, 500);
-    }
-
-    function handleFormSubmit(e) {
-      e.preventDefault();
-      document.getElementById('tour-form').classList.add('hidden');
-      document.getElementById('form-success').classList.remove('hidden');
-    }
-  </script>
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.add('hidden');
+            lightbox.classList.remove('flex');
+        }
+    </script>
 </body>
 </html>
