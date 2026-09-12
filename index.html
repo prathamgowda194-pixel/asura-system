@@ -1,1055 +1,1208 @@
 <!DOCTYPE html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apex Strategy | Global Management & C-Suite Executive Advisory</title>
-    <meta name="description" content="Apex Strategy delivers decisive management consulting, high-stakes M&A advisory, sovereign risk governance, and enterprise transformation for Fortune 100 leaders and sovereign entities.">
-    
-    <!-- Tailwind CSS CDN -->
+    <title>Prakash Dentist | Executive Dental Dashboard & Management Suite</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Custom Tailwind Configuration -->
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        obsidian: {
-                            DEFAULT: '#08090C',
-                            50: '#171922',
-                            100: '#13151D',
-                            200: '#0F1117',
-                            300: '#0D0E14',
-                            400: '#0A0B10',
-                            500: '#08090C',
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e',
                         },
-                        gold: {
-                            100: '#FDF8E2',
-                            200: '#F9ECC4',
-                            300: '#F4DC96',
-                            400: '#E6C665',
-                            500: '#D4AF37',
-                            600: '#AA8825',
-                            700: '#7F6319',
-                        },
-                        platinum: '#E2E8F0',
-                    },
-                    fontFamily: {
-                        serif: ['Playfair Display', 'Georgia', 'serif'],
-                        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        }
+                        obsidian: '#07090e',
+                        surface: '#0d111a',
+                        surfaceLight: '#ffffff',
                     }
                 }
             }
         }
     </script>
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Custom Fine-Tuned Luxury Styling */
         body {
-            background-color: #08090C;
-            color: #E2E8F0;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
         }
-
-        .gold-gradient-text {
-            background: linear-gradient(135deg, #FFF6D6 0%, #D4AF37 50%, #AA8825 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .gold-gradient-bg {
-            background: linear-gradient(135deg, #E6C665 0%, #D4AF37 50%, #997A1E 100%);
-        }
-
-        .gold-border-glow {
-            box-shadow: 0 0 25px -5px rgba(212, 175, 55, 0.15);
-        }
-
         .glass-panel {
-            background: rgba(15, 17, 23, 0.75);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.07);
         }
-
-        .glass-card {
-            background: linear-gradient(180deg, rgba(23, 25, 34, 0.6) 0%, rgba(13, 14, 20, 0.8) 100%);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(212, 175, 55, 0.12);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        .edit-highlight {
+            transition: all 0.2s ease;
         }
-
-        .glass-card:hover {
-            border-color: rgba(212, 175, 55, 0.4);
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 20px 0 rgba(212, 175, 55, 0.1);
+        body.edit-mode-active .editable-field {
+            outline: 2px dashed #0ea5e9 !important;
+            outline-offset: 4px;
+            background-color: rgba(14, 165, 233, 0.08) !important;
+            border-radius: 4px;
+            cursor: pointer;
         }
-
-        /* Custom Scrollbar */
+        body.edit-mode-active .editable-field:hover {
+            background-color: rgba(14, 165, 233, 0.18) !important;
+        }
+        /* Custom scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #08090C;
+            background: transparent;
         }
         ::-webkit-scrollbar-thumb {
-            background: #1F2430;
-            border-radius: 4px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            background: rgba(156, 163, 175, 0.3);
+            border-radius: 3px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #D4AF37;
+            background: rgba(156, 163, 175, 0.5);
         }
     </style>
 </head>
-<body class="antialiased selection:bg-gold-500 selection:text-obsidian-500">
+<body class="bg-[#07090e] text-slate-100 min-h-screen flex flex-col antialiased selection:bg-brand-500 selection:text-white">
 
-    <!-- TOP ANNOUNCEMENT BAR -->
-    <aside aria-label="Executive Intelligence Briefing Notice" class="bg-obsidian-200 border-b border-gold-500/20 py-2.5 px-4 text-xs tracking-widest uppercase text-slate-400">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <span class="inline-block w-2 h-2 rounded-full bg-gold-500 animate-pulse"></span>
-                <span class="font-medium text-slate-300">Q2 2025 Global Sovereign & Executive Risk Index Released</span>
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-[#07090e]/90 glass-panel">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between py-3">
+            <!-- Brand & Clinic Info -->
+            <div class="flex items-center gap-4">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-600 to-cyan-400 p-0.5 shadow-lg shadow-brand-500/20">
+                    <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
+                        <svg class="w-6 h-6 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-bold text-lg text-slate-900 dark:text-white tracking-tight editable-field" id="clinicName" data-key="clinicName">Prakash Dentist Practice Dashboard</h1>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span> Live Clinic
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-400 editable-field" id="doctorTitle" data-key="doctorTitle">Dr. Prakash Dental Implant & Orthodontic Care</p>
+                </div>
             </div>
-            <a href="#perspectives" class="hidden md:inline-flex items-center space-x-1 text-gold-400 hover:text-gold-300 transition-colors font-semibold">
-                <span>Access Executive Intelligence</span>
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-            </a>
-        </div>
-    </aside>
 
-    <!-- NAVIGATION HEADER -->
-    <header id="navbar" class="sticky top-0 z-40 transition-all duration-300 border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12 h-24 flex items-center justify-between">
-            <!-- Brand Mark -->
-            <a href="#" class="flex items-center space-x-3 group">
-                <div class="w-10 h-10 border border-gold-500/40 flex items-center justify-center bg-obsidian-100 group-hover:border-gold-500 transition-all duration-300">
-                    <svg class="w-6 h-6 text-gold-500 transform group-hover:rotate-45 transition-transform duration-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            <!-- Header Quick Actions & Controls -->
+            <div class="flex items-center gap-3">
+                <!-- Global Search -->
+                <div class="relative hidden lg:block w-64">
+                    <input type="text" id="globalSearch" oninput="filterAppointments()" placeholder="Search patient, status or treatment..." class="w-full bg-slate-800/60 border border-slate-700/60 rounded-xl px-3.5 py-2 pl-9 text-xs text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/50">
+                    <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                 </div>
-                <div class="flex flex-col">
-                    <span class="font-serif text-xl font-bold tracking-wider text-white group-hover:text-gold-300 transition-colors">APEX <span class="gold-gradient-text font-normal">STRATEGY</span></span>
-                    <span class="text-[9px] tracking-[0.3em] uppercase text-slate-500">Global Executive Advisory</span>
-                </div>
-            </a>
 
-            <!-- Desktop Links -->
-            <nav class="hidden lg:flex items-center space-x-10 text-xs tracking-widest uppercase font-medium text-slate-300">
-                <a href="#advisory" class="hover:text-gold-400 transition-colors py-2">Capabilities</a>
-                <a href="#calculator" class="hover:text-gold-400 transition-colors py-2">Value Impact</a>
-                <a href="#methodology" class="hover:text-gold-400 transition-colors py-2">Framework</a>
-                <a href="#track-record" class="hover:text-gold-400 transition-colors py-2">Track Record</a>
-                <a href="#perspectives" class="hover:text-gold-400 transition-colors py-2">Insights</a>
-            </nav>
+                <!-- Theme Switcher -->
+                <button onclick="toggleTheme()" class="p-2.5 rounded-xl border border-slate-800 bg-slate-900/80 text-slate-300 hover:text-white hover:bg-slate-800 transition" title="Toggle Light/Dark Theme">
+                    <svg id="themeIconSun" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <svg id="themeIconMoon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
 
-            <!-- Actions -->
-            <div class="hidden lg:flex items-center space-x-6">
-                <button onclick="openModal()" class="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-xs tracking-widest uppercase font-semibold text-white group rounded-none">
-                    <span class="absolute inset-0 w-full h-full gold-gradient-bg"></span>
-                    <span class="relative px-6 py-3 transition-all ease-out bg-obsidian-500 group-hover:bg-opacity-0 duration-300 font-semibold text-gold-300 group-hover:text-obsidian-500">
-                        Initiate Mandate
-                    </span>
+                <!-- Edit Mode Toggle Switch -->
+                <button id="editModeToggle" onclick="toggleEditMode()" class="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 text-xs font-semibold transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                    <span id="editModeBtnText">Owner Edit Mode</span>
+                </button>
+
+                <!-- Add Appointment Modal Button -->
+                <button onclick="openModal('appointmentModal')" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold shadow-lg shadow-brand-600/30 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    <span>New Booking</span>
                 </button>
             </div>
-
-            <!-- Mobile Hamburger -->
-            <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="lg:hidden text-slate-300 hover:text-white focus:outline-none p-2" aria-label="Toggle Menu">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path id="menu-icon-open" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/>
-                    <path id="menu-icon-close" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
         </div>
     </header>
 
-    <!-- MOBILE NAVIGATION DRAWER -->
-    <div id="mobile-drawer" class="fixed inset-0 z-30 bg-obsidian-500/95 backdrop-blur-2xl transform translate-x-full transition-transform duration-500 ease-in-out lg:hidden flex flex-col justify-between p-8 pt-32">
-        <nav class="flex flex-col space-y-6 text-sm tracking-widest uppercase font-medium">
-            <a href="#advisory" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-gold-400 py-2 border-b border-white/5">Capabilities</a>
-            <a href="#calculator" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-gold-400 py-2 border-b border-white/5">Value Impact</a>
-            <a href="#methodology" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-gold-400 py-2 border-b border-white/5">Framework</a>
-            <a href="#track-record" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-gold-400 py-2 border-b border-white/5">Track Record</a>
-            <a href="#perspectives" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-gold-400 py-2 border-b border-white/5">Insights</a>
-        </nav>
-        <div class="space-y-4 pt-6">
-            <button onclick="toggleMobileMenu(); openModal();" class="w-full py-4 bg-gold-500 text-obsidian-500 font-bold uppercase tracking-widest text-xs">
-                Initiate Mandate
-            </button>
-            <p class="text-xs text-center text-slate-500 tracking-wider">Strictly Confidential Advisory</p>
-        </div>
-    </div>
+    <!-- Main Content Container -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-    <!-- HERO SECTION -->
-    <section class="relative min-h-[calc(100vh-6rem)] flex items-center justify-center py-20 overflow-hidden">
-        <!-- Ambient Background Dynamics -->
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(212,175,55,0.08),transparent_60%)]"></div>
-        <div class="absolute -top-40 -right-40 w-96 h-96 bg-gold-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-        <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-900/10 rounded-full blur-[120px] pointer-events-none"></div>
-        
-        <!-- Subtle Dynamic Grid Lines -->
-        <div class="absolute inset-0 bg-[linear-gradient(to_right,#1f293710_1px,transparent_1px),linear-gradient(to_bottom,#1f293710_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none"></div>
-
-        <div class="relative max-w-7xl mx-auto px-6 lg:px-12 text-center z-10">
-            <!-- Strategic Pill Badge -->
-            <div class="inline-flex items-center space-x-3 px-4 py-2 border border-gold-500/30 bg-obsidian-200/80 backdrop-blur-md mb-8 rounded-full">
-                <span class="w-1.5 h-1.5 rounded-full bg-gold-400"></span>
-                <span class="text-xs font-semibold tracking-widest uppercase text-slate-300">Trusted Advisory to Sovereign Funds & Global 500 Enterprise Boards</span>
-            </div>
-
-            <!-- Main Headline -->
-            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.08] mb-8">
-                Architecting <span class="gold-gradient-text italic font-normal">Unfair Advantage</span> for Industry Titans.
-            </h1>
-
-            <!-- Subtitle -->
-            <p class="max-w-3xl mx-auto text-base sm:text-lg md:text-xl text-slate-400 leading-relaxed font-light mb-12">
-                Apex Strategy executes high-stakes cross-border M&amp;A advisory, C-suite restructuring, sovereign risk defense, and high-velocity digital transformation for enterprise leadership facing inflection points.
-            </p>
-
-            <!-- Hero CTA Group -->
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-5 mb-20">
-                <button onclick="openModal()" class="w-full sm:w-auto px-10 py-5 bg-gold-500 text-obsidian-500 font-bold text-xs uppercase tracking-[0.2em] hover:bg-gold-400 transition-all duration-300 shadow-[0_0_30px_rgba(212,175,55,0.25)]">
-                    Request Private Briefing
+        <!-- Sidebar Navigation Drawer -->
+        <aside class="lg:col-span-3 space-y-6">
+            <div class="bg-surface border border-slate-800/80 rounded-2xl p-4 glass-panel space-y-1">
+                <p class="px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-slate-400">Navigation</p>
+                
+                <button onclick="scrollToSection('overviewSection')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium bg-brand-500/10 text-brand-400 border border-brand-500/20">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                        </svg>
+                        <span>Dashboard Overview</span>
+                    </div>
+                    <span class="text-[10px] bg-brand-500/20 text-brand-300 px-2 py-0.5 rounded-full font-bold" id="kpiCountBadge">4 KPIs</span>
                 </button>
-                <a href="#advisory" class="w-full sm:w-auto px-10 py-5 border border-slate-700 bg-obsidian-100/50 text-slate-300 hover:text-white hover:border-gold-500/50 transition-all duration-300 font-semibold text-xs uppercase tracking-[0.2em]">
-                    Explore Capabilities
-                </a>
+
+                <button onclick="scrollToSection('appointmentsSection')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800/60 hover:text-white transition">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <span>Appointments & Patients</span>
+                    </div>
+                    <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full font-bold" id="apptsBadge">0</span>
+                </button>
+
+                <button onclick="scrollToSection('calculatorSection')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800/60 hover:text-white transition">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                        <span>Treatment Calculator</span>
+                    </div>
+                </button>
+
+                <button onclick="scrollToSection('servicesSection')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800/60 hover:text-white transition">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.12a2 2 0 00-1.18.12l-.3.12a2 2 0 00-1.12 1.83V18a2 2 0 002 2h14a2 2 0 002-2v-1.12a2 2 0 00-1.12-1.83l-.3-.12z"></path>
+                        </svg>
+                        <span>Services & Pricing</span>
+                    </div>
+                </button>
+
+                <button onclick="scrollToSection('reviewsSection')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800/60 hover:text-white transition">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                        </svg>
+                        <span>Patient Reviews</span>
+                    </div>
+                </button>
+
+                <button onclick="scrollToSection('faqSection')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800/60 hover:text-white transition">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>Patient FAQ</span>
+                    </div>
+                </button>
             </div>
 
-            <!-- Key Enterprise Performance Metrics Banner -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 pt-12 border-t border-slate-800/80 max-w-5xl mx-auto">
-                <div class="text-left md:text-center">
-                    <div class="font-serif text-3xl sm:text-4xl font-bold text-white mb-1">$185B+</div>
-                    <div class="text-[11px] uppercase tracking-wider text-slate-500">Transaction Value Facilitated</div>
+            <!-- Doctor Profile Card -->
+            <div class="bg-surface border border-slate-800/80 rounded-2xl p-5 glass-panel space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-brand-500/20 border border-brand-500/30 flex items-center justify-center font-bold text-brand-400 text-lg">
+                        DP
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm text-slate-900 dark:text-white editable-field" id="doctorName" data-key="doctorName">Dr. Prakash Dental</h3>
+                        <p class="text-xs text-brand-400 font-medium editable-field" id="doctorSpecialty" data-key="doctorSpecialty">Chief Implantologist & Surgeon</p>
+                    </div>
                 </div>
-                <div class="text-left md:text-center">
-                    <div class="font-serif text-3xl sm:text-4xl font-bold gold-gradient-text mb-1">98.4%</div>
-                    <div class="text-[11px] uppercase tracking-wider text-slate-500">Mandate Success Rate</div>
+
+                <div class="text-xs text-slate-400 space-y-2 pt-2 border-t border-slate-800/60">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                        </svg>
+                        <span class="editable-field" id="clinicPhone" data-key="clinicPhone">+1 (555) 382-9000</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        <span class="editable-field" id="clinicEmail" data-key="clinicEmail">contact@prakashdentist.com</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <span class="editable-field" id="clinicAddress" data-key="clinicAddress">742 Medical Plaza, Suite 400</span>
+                    </div>
                 </div>
-                <div class="text-left md:text-center">
-                    <div class="font-serif text-3xl sm:text-4xl font-bold text-white mb-1">45+</div>
-                    <div class="text-[11px] uppercase tracking-wider text-slate-500">Fortune 100 Boardships</div>
-                </div>
-                <div class="text-left md:text-center">
-                    <div class="font-serif text-3xl sm:text-4xl font-bold text-white mb-1">14</div>
-                    <div class="text-[11px] uppercase tracking-wider text-slate-500">Global Financial Hubs</div>
+
+                <div class="pt-2">
+                    <button onclick="saveAllChanges()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700/60 transition flex items-center justify-center gap-2">
+                        <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Save All Dashboard Data</span>
+                    </button>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- TRUSTED INDUSTRY SECTORS / CLIENT ROSTER TICKER -->
-    <section class="py-12 bg-obsidian-200/50 border-y border-white/5 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12 text-center mb-6">
-            <span class="text-[10px] uppercase tracking-[0.3em] font-semibold text-slate-500">Privileged Partner to Leaders Across Critical Sectors</span>
-        </div>
-        <div class="flex overflow-x-auto space-x-12 py-4 no-scrollbar justify-center items-center opacity-70 filter grayscale hover:grayscale-0 transition-all duration-500">
-            <span class="font-serif text-lg tracking-widest text-slate-400 uppercase font-semibold">Tier-1 Sovereign Wealth</span>
-            <span class="text-gold-500/40">•</span>
-            <span class="font-serif text-lg tracking-widest text-slate-400 uppercase font-semibold">Global Aerospace &amp; Defense</span>
-            <span class="text-gold-500/40">•</span>
-            <span class="font-serif text-lg tracking-widest text-slate-400 uppercase font-semibold">Multinational Energy &amp; Resources</span>
-            <span class="text-gold-500/40">•</span>
-            <span class="font-serif text-lg tracking-widest text-slate-400 uppercase font-semibold">Consortium Tech Infrastructure</span>
-            <span class="text-gold-500/40">•</span>
-            <span class="font-serif text-lg tracking-widest text-slate-400 uppercase font-semibold">Pharmaceutical Enterprises</span>
-        </div>
-    </section>
-
-    <!-- CORE ADVISORY CAPABILITIES -->
-    <section id="advisory" class="py-32 relative">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-20">
-                <div>
-                    <span class="text-xs font-semibold tracking-[0.3em] uppercase text-gold-500">Specialized Advisory Matrix</span>
-                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-4">Calculated Execution.<br><span class="italic font-normal text-slate-400">Uncompromising Dominance.</span></h2>
-                </div>
-                <p class="max-w-md text-sm text-slate-400 mt-6 md:mt-0 font-light leading-relaxed">
-                    We do not issue passive reports that sit on boardroom shelves. We deploy elite taskforces to architect, structure, and operationalize enterprise breakthroughs.
-                </p>
+            <!-- Quick Data Export/Import -->
+            <div class="bg-surface/60 border border-slate-800/60 rounded-2xl p-4 glass-panel flex justify-between items-center text-xs">
+                <button onclick="exportDataJSON()" class="text-slate-400 hover:text-white transition flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                    <span>Export Data</span>
+                </button>
+                <button onclick="resetDefaults()" class="text-rose-400/80 hover:text-rose-400 transition flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    <span>Reset Defaults</span>
+                </button>
             </div>
+        </aside>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Capability Card 1 -->
-                <div class="glass-card p-10 relative group">
-                    <div class="w-12 h-12 border border-gold-500/30 bg-obsidian-300 flex items-center justify-center mb-8 group-hover:border-gold-500 transition-colors">
-                        <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                        </svg>
+        <!-- Main Workspace Area -->
+        <main class="lg:col-span-9 space-y-8">
+
+            <!-- Section A: Overview & Metric Cards -->
+            <section id="overviewSection" class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">Practice Performance Overview</h2>
+                        <p class="text-xs text-slate-400">Real-time statistics & editable performance indicators</p>
                     </div>
-                    <span class="text-[10px] tracking-[0.2em] font-mono text-gold-500 uppercase">Mandate Code // 01</span>
-                    <h3 class="font-serif text-2xl font-bold text-white mt-2 mb-4 group-hover:text-gold-300 transition-colors">Cross-Border M&amp;A &amp; Integration</h3>
-                    <p class="text-sm text-slate-400 font-light leading-relaxed mb-6">
-                        End-to-end buy-side and sell-side transaction execution, target valuation, regulatory clearance defense, and rapid post-merger synergy realization.
-                    </p>
-                    <div class="text-xs font-semibold text-slate-300 flex items-center space-x-2">
-                        <span>Average Margin Expansion: +420 bps</span>
+                    <span class="text-xs text-slate-400 font-mono">Last updated: <span id="lastUpdatedTime">Today</span></span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="kpiContainer">
+                    <!-- KPI Cards Rendered via JS -->
+                </div>
+            </section>
+
+            <!-- Section B: Interactive Analytics & SVG Charts -->
+            <section class="bg-surface border border-slate-800/80 rounded-2xl p-6 glass-panel space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Revenue & Patient Trends</h3>
+                        <p class="text-xs text-slate-400">Interactive visual breakdown of practice growth</p>
+                    </div>
+                    <div class="flex items-center gap-2 bg-slate-900/80 p-1 rounded-xl border border-slate-800">
+                        <button onclick="switchChartTab('weekly')" id="tabWeekly" class="px-3 py-1.5 rounded-lg text-xs font-medium text-brand-400 bg-brand-500/10 transition">Weekly</button>
+                        <button onclick="switchChartTab('monthly')" id="tabMonthly" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition">Monthly</button>
+                        <button onclick="switchChartTab('yearly')" id="tabYearly" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition">Yearly</button>
                     </div>
                 </div>
 
-                <!-- Capability Card 2 -->
-                <div class="glass-card p-10 relative group">
-                    <div class="w-12 h-12 border border-gold-500/30 bg-obsidian-300 flex items-center justify-center mb-8 group-hover:border-gold-500 transition-colors">
-                        <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                        </svg>
-                    </div>
-                    <span class="text-[10px] tracking-[0.2em] font-mono text-gold-500 uppercase">Mandate Code // 02</span>
-                    <h3 class="font-serif text-2xl font-bold text-white mt-2 mb-4 group-hover:text-gold-300 transition-colors">Sovereign &amp; Geopolitical Risk</h3>
-                    <p class="text-sm text-slate-400 font-light leading-relaxed mb-6">
-                        Strategic insulation against multi-jurisdictional trade sanctions, supply chain vulnerabilities, regulatory pivots, and global macroeconomic volatility.
-                    </p>
-                    <div class="text-xs font-semibold text-slate-300 flex items-center space-x-2">
-                        <span>Risk Mitigation Efficacy: 99.1%</span>
-                    </div>
+                <!-- SVG Dynamic Chart Container -->
+                <div class="w-full h-64 relative flex items-end justify-between pt-8 pb-2 px-2 border-b border-slate-800/80" id="svgChartWrapper">
+                    <!-- SVG Chart Rendered dynamically via JS -->
                 </div>
-
-                <!-- Capability Card 3 -->
-                <div class="glass-card p-10 relative group">
-                    <div class="w-12 h-12 border border-gold-500/30 bg-obsidian-300 flex items-center justify-center mb-8 group-hover:border-gold-500 transition-colors">
-                        <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                        </svg>
-                    </div>
-                    <span class="text-[10px] tracking-[0.2em] font-mono text-gold-500 uppercase">Mandate Code // 03</span>
-                    <h3 class="font-serif text-2xl font-bold text-white mt-2 mb-4 group-hover:text-gold-300 transition-colors">Quantum AI &amp; Enterprise Architecture</h3>
-                    <p class="text-sm text-slate-400 font-light leading-relaxed mb-6">
-                        Overhauling legacy enterprise tech stacks through private sovereign AI deployments, automated decision intelligence, and operational velocity engineering.
-                    </p>
-                    <div class="text-xs font-semibold text-slate-300 flex items-center space-x-2">
-                        <span>Operational Velocity Delta: +3.8x</span>
-                    </div>
+                <div class="flex justify-between text-xs text-slate-500 font-mono" id="chartXAxis">
+                    <!-- X-Axis Labels -->
                 </div>
+            </section>
 
-                <!-- Capability Card 4 -->
-                <div class="glass-card p-10 relative group">
-                    <div class="w-12 h-12 border border-gold-500/30 bg-obsidian-300 flex items-center justify-center mb-8 group-hover:border-gold-500 transition-colors">
-                        <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
+            <!-- Section C: Live Appointments & Patient Queue -->
+            <section id="appointmentsSection" class="bg-surface border border-slate-800/80 rounded-2xl p-6 glass-panel space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Patient Appointment Management</h3>
+                        <p class="text-xs text-slate-400">Schedule, filter, update or modify patient visits</p>
                     </div>
-                    <span class="text-[10px] tracking-[0.2em] font-mono text-gold-500 uppercase">Mandate Code // 04</span>
-                    <h3 class="font-serif text-2xl font-bold text-white mt-2 mb-4 group-hover:text-gold-300 transition-colors">Capital Allocation &amp; Shareholder Alpha</h3>
-                    <p class="text-sm text-slate-400 font-light leading-relaxed mb-6">
-                        Restructuring balance sheets, optimizing working capital efficiency, and engineering activist investor defense systems for enterprise resilience.
-                    </p>
-                    <div class="text-xs font-semibold text-slate-300 flex items-center space-x-2">
-                        <span>Capital Re-allocation Yield: 18.4%</span>
-                    </div>
-                </div>
-
-                <!-- Capability Card 5 -->
-                <div class="glass-card p-10 relative group">
-                    <div class="w-12 h-12 border border-gold-500/30 bg-obsidian-300 flex items-center justify-center mb-8 group-hover:border-gold-500 transition-colors">
-                        <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
-                        </svg>
-                    </div>
-                    <span class="text-[10px] tracking-[0.2em] font-mono text-gold-500 uppercase">Mandate Code // 05</span>
-                    <h3 class="font-serif text-2xl font-bold text-white mt-2 mb-4 group-hover:text-gold-300 transition-colors">Crisis Leadership &amp; Board Governance</h3>
-                    <p class="text-sm text-slate-400 font-light leading-relaxed mb-6">
-                        Rapid-response intervention during systemic reputational threats, SEC/regulatory investigations, board realignments, and succession crises.
-                    </p>
-                    <div class="text-xs font-semibold text-slate-300 flex items-center space-x-2">
-                        <span>Deployment Response: &lt; 4 Hours</span>
-                    </div>
-                </div>
-
-                <!-- Capability Card 6 -->
-                <div class="glass-card p-10 relative group">
-                    <div class="w-12 h-12 border border-gold-500/30 bg-obsidian-300 flex items-center justify-center mb-8 group-hover:border-gold-500 transition-colors">
-                        <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                        </svg>
-                    </div>
-                    <span class="text-[10px] tracking-[0.2em] font-mono text-gold-500 uppercase">Mandate Code // 06</span>
-                    <h3 class="font-serif text-2xl font-bold text-white mt-2 mb-4 group-hover:text-gold-300 transition-colors">Operational Re-Engineering</h3>
-                    <p class="text-sm text-slate-400 font-light leading-relaxed mb-6">
-                        Complete restructuring of global business units to strip out operational inertia, double margin capture, and ensure long-term competitive durability.
-                    </p>
-                    <div class="text-xs font-semibold text-slate-300 flex items-center space-x-2">
-                        <span>Average Cost Reduction: 28%</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- INTERACTIVE ROI & ENTERPRISE VALUE CALCULATOR -->
-    <section id="calculator" class="py-24 bg-obsidian-100/60 border-y border-white/5 relative">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <!-- Text Header -->
-                <div class="lg:col-span-5 space-y-6">
-                    <span class="text-xs font-semibold tracking-[0.3em] uppercase text-gold-500">Interactive Modeling</span>
-                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white">Project Enterprise Value Catalyst</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed font-light">
-                        Use our proprietary valuation matrix model to estimate potential EBITDA expansion and enterprise enterprise value creation achievable through an Apex engagement.
-                    </p>
-                    <div class="p-4 border-l-2 border-gold-500 bg-obsidian-300/40 text-xs text-slate-400 font-mono">
-                        DISCLAIMER: Projections are computed based on median execution benchmarks across 120+ historical Fortune 500 strategic mandates.
-                    </div>
-                </div>
-
-                <!-- Interactive Calculator Widget -->
-                <div class="lg:col-span-7 glass-panel p-8 sm:p-12 relative rounded-none border border-gold-500/20">
-                    <div class="space-y-8">
-                        <!-- Input 1: Current Annual Revenue -->
-                        <div>
-                            <div class="flex justify-between items-center mb-3">
-                                <label for="revenue-range" class="text-xs font-semibold uppercase tracking-wider text-slate-300">Current Enterprise Revenue ($USD)</label>
-                                <span id="revenue-val" class="font-mono text-gold-400 font-bold text-lg">$2.5 Billion</span>
-                            </div>
-                            <input type="range" id="revenue-range" min="100" max="10000" step="100" value="2500" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-gold-500">
-                            <div class="flex justify-between text-[10px] text-slate-500 font-mono mt-1">
-                                <span>$100M</span>
-                                <span>$5B</span>
-                                <span>$10B+</span>
-                            </div>
-                        </div>
-
-                        <!-- Input 2: Strategic Priority Target -->
-                        <div>
-                            <label for="initiative-select" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-3">Primary Strategic Focus</label>
-                            <select id="initiative-select" class="w-full bg-obsidian-300 border border-slate-700 text-slate-200 text-sm px-4 py-3.5 focus:outline-none focus:border-gold-500 font-sans">
-                                <option value="1.15">Full Operational Re-Engineering (+15% EBITDA Yield)</option>
-                                <option value="1.25" selected>Cross-Border M&amp;A Synergies (+25% Enterprise Value)</option>
-                                <option value="1.18">Digital Architecture &amp; Sovereign AI (+18% Margin Expansion)</option>
-                                <option value="1.30">Capital Restructuring &amp; Spin-Off Defense (+30% Shareholder Alpha)</option>
-                            </select>
-                        </div>
-
-                        <!-- Calculation Output Grid -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 border-t border-slate-800">
-                            <div class="bg-obsidian-400/80 p-5 border border-slate-800">
-                                <span class="text-[10px] font-mono uppercase tracking-widest text-slate-400 block mb-1">Projected Enterprise Value Lift</span>
-                                <span id="projected-value" class="font-serif text-3xl font-bold gold-gradient-text">$625.0M</span>
-                            </div>
-                            <div class="bg-obsidian-400/80 p-5 border border-slate-800">
-                                <span class="text-[10px] font-mono uppercase tracking-widest text-slate-400 block mb-1">Estimated Velocity Timeline</span>
-                                <span id="projected-timeline" class="font-serif text-3xl font-bold text-white">9 to 14 Mos</span>
-                            </div>
-                        </div>
-
-                        <button onclick="openModal()" class="w-full py-4 bg-gold-500 text-obsidian-500 font-bold text-xs uppercase tracking-widest hover:bg-gold-400 transition-colors">
-                            Request Full Valuation Assessment
+                    <div class="flex items-center gap-2">
+                        <select id="statusFilter" onchange="filterAppointments()" class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-300 focus:outline-none">
+                            <option value="ALL">All Statuses</option>
+                            <option value="Confirmed">Confirmed</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                        <button onclick="openModal('appointmentModal')" class="px-3 py-1.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-medium transition flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                            <span>Add Patient</span>
                         </button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- PROPRIETARY METHODOLOGY / FRAMEWORK -->
-    <section id="methodology" class="py-32 relative">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div class="text-center max-w-3xl mx-auto mb-20">
-                <span class="text-xs font-semibold tracking-[0.3em] uppercase text-gold-500">The Apex Catalyst Protocol</span>
-                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-4">Precision Methodology</h2>
-                <p class="text-slate-400 text-sm font-light mt-4">
-                    Our proprietary 4-phase framework designed to eliminate operational friction and ensure structural market leadership.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
-                <!-- Step 1 -->
-                <div class="p-8 border border-slate-800 bg-obsidian-200/40 relative">
-                    <span class="font-serif text-5xl font-bold text-slate-700/50 absolute top-4 right-6">01</span>
-                    <span class="text-[10px] font-mono text-gold-500 uppercase tracking-widest">Phase 01</span>
-                    <h3 class="font-serif text-xl font-bold text-white mt-4 mb-3">Diagnostic Intelligence</h3>
-                    <p class="text-xs text-slate-400 font-light leading-relaxed">
-                        Exhaustive deep-dive into balance sheets, operational friction points, market vulnerabilities, and structural misalignments.
-                    </p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead>
+                            <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold">
+                                <th class="pb-3 px-2">Patient</th>
+                                <th class="pb-3 px-2">Treatment</th>
+                                <th class="pb-3 px-2">Date & Time</th>
+                                <th class="pb-3 px-2">Status</th>
+                                <th class="pb-3 px-2">Est. Fee</th>
+                                <th class="pb-3 px-2 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="appointmentTableBody" class="divide-y divide-slate-800/60">
+                            <!-- Appointments dynamic rows -->
+                        </tbody>
+                    </table>
                 </div>
+            </section>
 
-                <!-- Step 2 -->
-                <div class="p-8 border border-slate-800 bg-obsidian-200/40 relative">
-                    <span class="font-serif text-5xl font-bold text-slate-700/50 absolute top-4 right-6">02</span>
-                    <span class="text-[10px] font-mono text-gold-500 uppercase tracking-widest">Phase 02</span>
-                    <h3 class="font-serif text-xl font-bold text-white mt-4 mb-3">Strategic Blueprinting</h3>
-                    <p class="text-xs text-slate-400 font-light leading-relaxed">
-                        Formulating non-consensus execution strategies, scenario simulation, sovereign compliance, and value capture targets.
-                    </p>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="p-8 border border-slate-800 bg-obsidian-200/40 relative">
-                    <span class="font-serif text-5xl font-bold text-slate-700/50 absolute top-4 right-6">03</span>
-                    <span class="text-[10px] font-mono text-gold-500 uppercase tracking-widest">Phase 03</span>
-                    <h3 class="font-serif text-xl font-bold text-white mt-4 mb-3">Precision Deployment</h3>
-                    <p class="text-xs text-slate-400 font-light leading-relaxed">
-                        Embedding embedded specialist taskforces directly into client executive suites to execute high-impact initiatives.
-                    </p>
-                </div>
-
-                <!-- Step 4 -->
-                <div class="p-8 border border-slate-800 bg-obsidian-200/40 relative">
-                    <span class="font-serif text-5xl font-bold text-slate-700/50 absolute top-4 right-6">04</span>
-                    <span class="text-[10px] font-mono text-gold-500 uppercase tracking-widest">Phase 04</span>
-                    <h3 class="font-serif text-xl font-bold text-white mt-4 mb-3">Alpha Realization</h3>
-                    <p class="text-xs text-slate-400 font-light leading-relaxed">
-                        Continuous stress-testing, synergy institutionalization, and value lock-in to safeguard permanent enterprise advantage.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- INTERACTIVE TESTIMONIAL / CASE STUDIES CAROUSEL -->
-    <section id="track-record" class="py-24 bg-obsidian-200/70 border-y border-white/5 relative">
-        <div class="max-w-6xl mx-auto px-6 lg:px-12">
-            <div class="flex items-center justify-between mb-16">
+            <!-- Section D: Interactive Dental Treatment Calculator -->
+            <section id="calculatorSection" class="bg-gradient-to-br from-surface to-slate-900 border border-slate-800/80 rounded-2xl p-6 glass-panel space-y-6">
                 <div>
-                    <span class="text-xs font-semibold tracking-[0.3em] uppercase text-gold-500">Executive Endorsements</span>
-                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-2">Verified Mandate Impact</h2>
-                </div>
-                <!-- Controls -->
-                <div class="flex space-x-3">
-                    <button id="prev-testimonial" class="w-12 h-12 border border-slate-700 flex items-center justify-center hover:border-gold-500 text-slate-300 hover:text-white transition-colors" aria-label="Previous Testimonial">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/></svg>
-                    </button>
-                    <button id="next-testimonial" class="w-12 h-12 border border-slate-700 flex items-center justify-center hover:border-gold-500 text-slate-300 hover:text-white transition-colors" aria-label="Next Testimonial">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/></svg>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Carousel Wrapper -->
-            <div class="relative overflow-hidden min-h-[340px]">
-                <!-- Slide 1 -->
-                <div class="testimonial-slide transition-all duration-700 ease-in-out">
-                    <div class="glass-panel p-10 md:p-14 border border-gold-500/20">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
-                            <div>
-                                <h3 class="font-serif text-2xl font-bold text-white">European Energy &amp; Infrastructure Conglomerate</h3>
-                                <span class="text-xs text-gold-400 font-mono tracking-wider">$14.2B Cross-Border Carve-Out</span>
-                            </div>
-                            <span class="px-3 py-1 bg-gold-500/10 border border-gold-500/30 text-gold-400 text-[10px] uppercase font-mono tracking-widest">+380 bps EBITDA Margin Realized</span>
-                        </div>
-                        <blockquote class="font-serif text-xl sm:text-2xl text-slate-200 font-light italic leading-relaxed mb-8">
-                            "Apex Strategy guided our board through a multi-jurisdictional divestiture that three bulge-bracket investment banks declared operationally unfeasible. Their execution speed and geopolitical foresight were unrivaled."
-                        </blockquote>
-                        <div class="flex items-center space-x-4">
-                            <div class="w-10 h-10 rounded-full bg-slate-800 border border-gold-500/40 flex items-center justify-center font-serif text-gold-400 font-bold">
-                                H.E.
-                            </div>
-                            <div>
-                                <div class="text-sm font-bold text-white">Henrik Eklund</div>
-                                <div class="text-xs text-slate-500 uppercase tracking-wider">Group Chief Executive Officer</div>
-                            </div>
-                        </div>
+                    <div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 mb-2">
+                        Interactive Feature
                     </div>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">Dental Treatment Cost & Payment Calculator</h3>
+                    <p class="text-xs text-slate-400">Select procedures to generate instant fee estimations and customized payment plans for patients</p>
                 </div>
 
-                <!-- Slide 2 -->
-                <div class="testimonial-slide hidden transition-all duration-700 ease-in-out">
-                    <div class="glass-panel p-10 md:p-14 border border-gold-500/20">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
-                            <div>
-                                <h3 class="font-serif text-2xl font-bold text-white">Global Financial Technology Enterprise</h3>
-                                <span class="text-xs text-gold-400 font-mono tracking-wider">Enterprise Sovereign AI Overhaul</span>
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                    <!-- Procedure Options Checkboxes -->
+                    <div class="md:col-span-7 space-y-3" id="calcProcedureList">
+                        <!-- Checkboxes populated via JS -->
+                    </div>
+
+                    <!-- Calculation Summary Panel -->
+                    <div class="md:col-span-5 bg-slate-950/80 border border-slate-800 rounded-xl p-5 space-y-4 flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-200 border-b border-slate-800 pb-2">Estimate Breakdown</h4>
+                            
+                            <div class="space-y-2 mt-3 text-xs">
+                                <div class="flex justify-between text-slate-400">
+                                    <span>Base Treatment Cost:</span>
+                                    <span id="calcSubtotal" class="text-slate-200 font-mono">$0.00</span>
+                                </div>
+                                <div class="flex justify-between text-slate-400">
+                                    <span>Estimated Insurance (50%):</span>
+                                    <span id="calcInsurance" class="text-emerald-400 font-mono">-$0.00</span>
+                                </div>
+                                <div class="border-t border-slate-800 pt-2 flex justify-between font-bold text-slate-100 text-sm">
+                                    <span>Out-of-Pocket Total:</span>
+                                    <span id="calcTotal" class="text-brand-400 font-mono">$0.00</span>
+                                </div>
                             </div>
-                            <span class="px-3 py-1 bg-gold-500/10 border border-gold-500/30 text-gold-400 text-[10px] uppercase font-mono tracking-widest">$850M Operational Efficiency Lift</span>
                         </div>
-                        <blockquote class="font-serif text-xl sm:text-2xl text-slate-200 font-light italic leading-relaxed mb-8">
-                            "The quantum transformation protocol deployed by Apex allowed us to compress our transaction settlement pipeline by 60% while staying completely bulletproof across federal regulatory jurisdictions."
-                        </blockquote>
-                        <div class="flex items-center space-x-4">
-                            <div class="w-10 h-10 rounded-full bg-slate-800 border border-gold-500/40 flex items-center justify-center font-serif text-gold-400 font-bold">
-                                V.M.
-                            </div>
-                            <div>
-                                <div class="text-sm font-bold text-white">Victoria Sterling-May</div>
-                                <div class="text-xs text-slate-500 uppercase tracking-wider">Chief Information Officer &amp; Board Director</div>
-                            </div>
+
+                        <div class="bg-slate-900/90 rounded-lg p-3 border border-slate-800/80 space-y-1.5">
+                            <span class="text-[11px] text-slate-400 font-medium">Monthly Installment Plan (12 Mo.)</span>
+                            <div class="text-lg font-bold text-amber-400 font-mono" id="calcMonthly">$0.00 <span class="text-xs text-slate-500 font-normal">/ month</span></div>
+                            <p class="text-[10px] text-slate-500">0% APR Financing available upon approval</p>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <!-- Slide 3 -->
-                <div class="testimonial-slide hidden transition-all duration-700 ease-in-out">
-                    <div class="glass-panel p-10 md:p-14 border border-gold-500/20">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
-                            <div>
-                                <h3 class="font-serif text-2xl font-bold text-white">Tier-1 Middle Eastern Sovereign Wealth Fund</h3>
-                                <span class="text-xs text-gold-400 font-mono tracking-wider">$45B Defense &amp; Tech Asset Rebalancing</span>
-                            </div>
-                            <span class="px-3 py-1 bg-gold-500/10 border border-gold-500/30 text-gold-400 text-[10px] uppercase font-mono tracking-widest">Zero Capital Impairment Preserved</span>
-                        </div>
-                        <blockquote class="font-serif text-xl sm:text-2xl text-slate-200 font-light italic leading-relaxed mb-8">
-                            "When unexpected regulatory friction threatened our primary North American holdings, Apex Strategy's crisis taskforce resolved the standoff within 72 hours. Their discretion is absolute."
-                        </blockquote>
-                        <div class="flex items-center space-x-4">
-                            <div class="w-10 h-10 rounded-full bg-slate-800 border border-gold-500/40 flex items-center justify-center font-serif text-gold-400 font-bold">
-                                K.A.
-                            </div>
-                            <div>
-                                <div class="text-sm font-bold text-white">Tariq Al-Mansoor</div>
-                                <div class="text-xs text-slate-500 uppercase tracking-wider">Managing Director, Strategic Investments</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide Indicators -->
-            <div class="flex justify-center space-x-2 mt-8" id="carousel-dots">
-                <button class="w-8 h-1 bg-gold-500 transition-all duration-300" aria-label="Go to slide 1"></button>
-                <button class="w-8 h-1 bg-slate-800 transition-all duration-300" aria-label="Go to slide 2"></button>
-                <button class="w-8 h-1 bg-slate-800 transition-all duration-300" aria-label="Go to slide 3"></button>
-            </div>
-        </div>
-    </section>
-
-    <!-- LEADERSHIP & SENIOR PARTNERS -->
-    <section class="py-32 relative">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div class="text-center max-w-3xl mx-auto mb-20">
-                <span class="text-xs font-semibold tracking-[0.3em] uppercase text-gold-500">Managing Partners</span>
-                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-4">Unrivaled Authority</h2>
-                <p class="text-slate-400 text-sm font-light mt-4">
-                    Led by former cabinet secretaries, central bank advisors, and Fortune 5 management consultants.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Partner 1 -->
-                <div class="bg-obsidian-200/50 border border-slate-800 p-8 text-center group hover:border-gold-500/40 transition-all duration-300">
-                    <div class="w-24 h-24 mx-auto bg-slate-800 border-2 border-gold-500/30 mb-6 flex items-center justify-center">
-                        <span class="font-serif text-2xl text-gold-400 font-bold">J.V.</span>
-                    </div>
-                    <h3 class="font-serif text-xl font-bold text-white">Julian Vance-Moreau</h3>
-                    <span class="text-xs text-gold-400 font-mono tracking-wider block mb-4 uppercase">Senior Managing Partner</span>
-                    <p class="text-xs text-slate-400 font-light leading-relaxed mb-6">
-                        Former Deputy Undersecretary of Treasury and Senior Partner at McKinsey. 25+ years advising G7 governments and Fortune 50 boards.
-                    </p>
-                    <span class="text-[10px] text-slate-500 uppercase tracking-widest font-mono">Specialization: M&amp;A / Sovereign Policy</span>
-                </div>
-
-                <!-- Partner 2 -->
-                <div class="bg-obsidian-200/50 border border-slate-800 p-8 text-center group hover:border-gold-500/40 transition-all duration-300">
-                    <div class="w-24 h-24 mx-auto bg-slate-800 border-2 border-gold-500/30 mb-6 flex items-center justify-center">
-                        <span class="font-serif text-2xl text-gold-400 font-bold">E.C.</span>
-                    </div>
-                    <h3 class="font-serif text-xl font-bold text-white">Dr. Evelyn Chen-Roth</h3>
-                    <span class="text-xs text-gold-400 font-mono tracking-wider block mb-4 uppercase">Head of AI &amp; Enterprise Transformation</span>
-                    <p class="text-xs text-slate-400 font-light leading-relaxed mb-6">
-                        Former Chief Technology Officer at Tier-1 Global Investment Bank. PhD in Applied Quantum Intelligence from MIT.
-                    </p>
-                    <span class="text-[10px] text-slate-500 uppercase tracking-widest font-mono">Specialization: Quantum AI &amp; Infrastructure</span>
-                </div>
-
-                <!-- Partner 3 -->
-                <div class="bg-obsidian-200/50 border border-slate-800 p-8 text-center group hover:border-gold-500/40 transition-all duration-300">
-                    <div class="w-24 h-24 mx-auto bg-slate-800 border-2 border-gold-500/30 mb-6 flex items-center justify-center">
-                        <span class="font-serif text-2xl text-gold-400 font-bold">A.K.</span>
-                    </div>
-                    <h3 class="font-serif text-xl font-bold text-white">Alexander K. Rostova</h3>
-                    <span class="text-xs text-gold-400 font-mono tracking-wider block mb-4 uppercase">Partner, Geopolitical Defense</span>
-                    <p class="text-xs text-slate-400 font-light leading-relaxed mb-6">
-                        Former Senior Geopolitical Advisor to EU Commission. Strategic architect for over $60B in cross-border energy transactions.
-                    </p>
-                    <span class="text-[10px] text-slate-500 uppercase tracking-widest font-mono">Specialization: Geopolitical &amp; Regulatory Risk</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PRIVATE THOUGHT LEADERSHIP & PERSPECTIVES -->
-    <section id="perspectives" class="py-24 bg-obsidian-100/40 border-t border-white/5 relative">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
-                <div>
-                    <span class="text-xs font-semibold tracking-[0.3em] uppercase text-gold-500">Proprietary Research</span>
-                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-2">Executive Perspectives</h2>
-                </div>
-                <button onclick="openModal()" class="mt-4 md:mt-0 text-xs font-semibold text-gold-400 hover:text-gold-300 uppercase tracking-widest flex items-center space-x-2">
-                    <span>Subscribe to Confidential Briefings</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                </button>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Insight Card 1 -->
-                <article class="glass-card p-8 flex flex-col justify-between">
+            <!-- Section E: Services & Pricing Catalog -->
+            <section id="servicesSection" class="bg-surface border border-slate-800/80 rounded-2xl p-6 glass-panel space-y-6">
+                <div class="flex items-center justify-between">
                     <div>
-                        <div class="flex items-center justify-between text-[10px] font-mono text-slate-500 mb-4 uppercase">
-                            <span>Q1 2025 Intelligence Report</span>
-                            <span>12 Min Read</span>
-                        </div>
-                        <h3 class="font-serif text-xl font-bold text-white mb-3 hover:text-gold-300 cursor-pointer transition-colors">Navigating Sovereign Energy Volatility in Multi-Polar Trade Regimes</h3>
-                        <p class="text-xs text-slate-400 font-light leading-relaxed mb-6">
-                            An executive analysis of supply chain realignments across European and Asian markets following new cross-border tariffs.
-                        </p>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Services & Procedure Catalog</h3>
+                        <p class="text-xs text-slate-400">Editable dental offerings and fee schedule</p>
                     </div>
-                    <button onclick="openModal()" class="text-xs font-semibold text-gold-500 hover:text-gold-400 flex items-center space-x-2 uppercase tracking-wider">
-                        <span>Download Whitepaper (PDF)</span>
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    <button onclick="openModal('serviceModal')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700 transition flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        <span>Add Service</span>
                     </button>
-                </article>
+                </div>
 
-                <!-- Insight Card 2 -->
-                <article class="glass-card p-8 flex flex-col justify-between">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="servicesGrid">
+                    <!-- Dynamic Service Cards -->
+                </div>
+            </section>
+
+            <!-- Section F: Patient Feedback & Testimonials -->
+            <section id="reviewsSection" class="bg-surface border border-slate-800/80 rounded-2xl p-6 glass-panel space-y-6">
+                <div class="flex items-center justify-between">
                     <div>
-                        <div class="flex items-center justify-between text-[10px] font-mono text-slate-500 mb-4 uppercase">
-                            <span>Special Executive Briefing</span>
-                            <span>8 Min Read</span>
-                        </div>
-                        <h3 class="font-serif text-xl font-bold text-white mb-3 hover:text-gold-300 cursor-pointer transition-colors">The Quantum Infrastructure Imperative for Fortune 100 Financial Entities</h3>
-                        <p class="text-xs text-slate-400 font-light leading-relaxed mb-6">
-                            Why legacy cloud infrastructures pose a systemic threat to capital reserves ahead of next-generation encryption standards.
-                        </p>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Patient Reviews & Testimonials</h3>
+                        <p class="text-xs text-slate-400">Interactive testimonial slider & feedback management</p>
                     </div>
-                    <button onclick="openModal()" class="text-xs font-semibold text-gold-500 hover:text-gold-400 flex items-center space-x-2 uppercase tracking-wider">
-                        <span>Download Whitepaper (PDF)</span>
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                    </button>
-                </article>
-
-                <!-- Insight Card 3 -->
-                <article class="glass-card p-8 flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between text-[10px] font-mono text-slate-500 mb-4 uppercase">
-                            <span>M&amp;A Outlook 2025</span>
-                            <span>15 Min Read</span>
-                        </div>
-                        <h3 class="font-serif text-xl font-bold text-white mb-3 hover:text-gold-300 cursor-pointer transition-colors">Activist Investor Defense Protocols for Board Directors</h3>
-                        <p class="text-xs text-slate-400 font-light leading-relaxed mb-6">
-                            A tactical playbook for C-suite executives preparing for hostile proxy battles and unsanctioned asset restructuring demands.
-                        </p>
-                    </div>
-                    <button onclick="openModal()" class="text-xs font-semibold text-gold-500 hover:text-gold-400 flex items-center space-x-2 uppercase tracking-wider">
-                        <span>Download Whitepaper (PDF)</span>
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                    </button>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <!-- PRIVATE CONSULTATION / MANDATE CTA SECTION -->
-    <section class="py-32 relative overflow-hidden bg-obsidian-200">
-        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.12),transparent_70%)]"></div>
-        <div class="max-w-5xl mx-auto px-6 lg:px-12 text-center relative z-10">
-            <span class="text-xs font-semibold tracking-[0.3em] uppercase text-gold-500">Initiate Strategic Mandate</span>
-            <h2 class="font-serif text-4xl sm:text-6xl font-bold text-white mt-4 mb-8">
-                Ready to Establish Permanent Market Dominance?
-            </h2>
-            <p class="text-slate-300 max-w-2xl mx-auto text-base sm:text-lg font-light leading-relaxed mb-12">
-                Engagements with Apex Strategy are conducted under strict non-disclosure parameters. Our senior partners respond directly within four hours.
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-6">
-                <button onclick="openModal()" class="px-12 py-5 bg-gold-500 text-obsidian-500 font-bold text-xs uppercase tracking-[0.25em] hover:bg-gold-400 transition-all duration-300 shadow-[0_0_35px_rgba(212,175,55,0.3)]">
-                    Schedule Executive Consultation
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- GLOBAL FOOTER -->
-    <footer class="bg-obsidian-500 border-t border-white/5 pt-20 pb-12 text-xs text-slate-400">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
-                <!-- Brand Info -->
-                <div class="lg:col-span-2 space-y-6">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-8 h-8 border border-gold-500/40 flex items-center justify-center bg-obsidian-100">
-                            <svg class="w-4 h-4 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    <div class="flex items-center gap-2">
+                        <button onclick="openModal('reviewModal')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700 transition flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                             </svg>
+                            <span>Add Review</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Testimonial Slider Frame -->
+                <div class="relative overflow-hidden bg-slate-950/60 border border-slate-800 rounded-xl p-6">
+                    <div id="testimonialContainer" class="min-h-[140px] flex items-center justify-center">
+                        <!-- Dynamic Testimonial Slide -->
+                    </div>
+
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-800/60 mt-4">
+                        <div class="flex gap-1" id="sliderDots"></div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="prevReview()" class="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                            </button>
+                            <button onclick="nextReview()" class="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
                         </div>
-                        <span class="font-serif text-lg font-bold tracking-wider text-white">APEX <span class="gold-gradient-text font-normal">STRATEGY</span></span>
-                    </div>
-                    <p class="text-xs text-slate-400 font-light max-w-sm leading-relaxed">
-                        Apex Strategy Group LLP is a global management advisory firm providing confidential strategic consulting to corporate boards, sovereign entities, and institutional leaders.
-                    </p>
-                    <div class="text-[10px] text-slate-500 font-mono uppercase tracking-widest">
-                        EST. 2008 // GLOBAL ADVISORY MATRIX
                     </div>
                 </div>
+            </section>
 
-                <!-- Global Offices -->
-                <div>
-                    <h4 class="font-serif text-sm font-bold text-white uppercase tracking-wider mb-4">Global Hubs</h4>
-                    <ul class="space-y-2.5 font-light text-slate-400">
-                        <li>New York: 767 Fifth Avenue, NY 10153</li>
-                        <li>London: 1 Canada Square, E14 5AA</li>
-                        <li>Zurich: Bahnhofstrasse 45, 8001</li>
-                        <li>Singapore: 1 Raffles Place, 048616</li>
-                        <li>Dubai: DIFC Gate Precinct 4</li>
-                    </ul>
-                </div>
-
-                <!-- Strategic Capabilities -->
-                <div>
-                    <h4 class="font-serif text-sm font-bold text-white uppercase tracking-wider mb-4">Practice Areas</h4>
-                    <ul class="space-y-2.5 font-light text-slate-400">
-                        <li><a href="#advisory" class="hover:text-gold-400 transition-colors">Cross-Border M&amp;A Advisory</a></li>
-                        <li><a href="#advisory" class="hover:text-gold-400 transition-colors">Sovereign &amp; Geopolitical Risk</a></li>
-                        <li><a href="#advisory" class="hover:text-gold-400 transition-colors">Enterprise Quantum AI</a></li>
-                        <li><a href="#advisory" class="hover:text-gold-400 transition-colors">Activist Defense &amp; Alpha</a></li>
-                        <li><a href="#advisory" class="hover:text-gold-400 transition-colors">Board Crisis Response</a></li>
-                    </ul>
-                </div>
-
-                <!-- Regulatory & Compliance -->
-                <div>
-                    <h4 class="font-serif text-sm font-bold text-white uppercase tracking-wider mb-4">Governance</h4>
-                    <ul class="space-y-2.5 font-light text-slate-400">
-                        <li><a href="#" class="hover:text-gold-400 transition-colors">Client Confidentiality Charter</a></li>
-                        <li><a href="#" class="hover:text-gold-400 transition-colors">Regulatory Filings</a></li>
-                        <li><a href="#" class="hover:text-gold-400 transition-colors">Ethics &amp; Integrity Compliance</a></li>
-                        <li><a href="#" class="hover:text-gold-400 transition-colors">Terms of Strategic Engagement</a></li>
-                        <li><a href="#" class="hover:text-gold-400 transition-colors">Private Data Encryption Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Bottom Line -->
-            <div class="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row justify-between items-center text-[11px] text-slate-500">
-                <p>&copy; 2025 Apex Strategy Group LLP. All rights reserved. Strictly confidential operational framework.</p>
-                <div class="flex space-x-6 mt-4 sm:mt-0">
-                    <a href="#" class="hover:text-gold-400 transition-colors">Privacy Policy</a>
-                    <a href="#" class="hover:text-gold-400 transition-colors">Legal Terms</a>
-                    <a href="#" class="hover:text-gold-400 transition-colors">Security Disclosures</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- INTERACTIVE LEAD CAPTURE / MANDATE REQUEST MODAL -->
-    <div id="consultation-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-obsidian-500/90 backdrop-blur-xl opacity-0 pointer-events-none transition-opacity duration-300">
-        <div class="glass-panel max-w-2xl w-full p-8 sm:p-12 relative border border-gold-500/30 transform scale-95 transition-transform duration-300 shadow-2xl">
-            <!-- Close Button -->
-            <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors p-2" aria-label="Close Modal">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-
-            <!-- Modal Header -->
-            <div class="mb-8">
-                <span class="text-[10px] font-mono tracking-[0.25em] text-gold-500 uppercase">Privileged Executive Portal</span>
-                <h3 class="font-serif text-2xl sm:text-3xl font-bold text-white mt-2">Initiate Confidential Briefing</h3>
-                <p class="text-xs text-slate-400 font-light mt-2">
-                    Submit your mandate requirements. A Senior Managing Partner will establish direct encrypted contact.
-                </p>
-            </div>
-
-            <!-- Modal Form -->
-            <form id="mandate-form" onsubmit="handleFormSubmit(event)" class="space-y-6">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <!-- Section G: FAQ Accordion -->
+            <section id="faqSection" class="bg-surface border border-slate-800/80 rounded-2xl p-6 glass-panel space-y-6">
+                <div class="flex items-center justify-between">
                     <div>
-                        <label for="lead-name" class="block text-[11px] uppercase tracking-wider font-semibold text-slate-300 mb-2">Executive Name *</label>
-                        <input type="text" id="lead-name" required placeholder="e.g. Lord Charles Sterling" class="w-full bg-obsidian-300 border border-slate-700 text-white text-xs px-4 py-3 focus:outline-none focus:border-gold-500 transition-colors">
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Patient Frequently Asked Questions</h3>
+                        <p class="text-xs text-slate-400">Editable patient guidance & dental care FAQs</p>
                     </div>
-                    <div>
-                        <label for="lead-email" class="block text-[11px] uppercase tracking-wider font-semibold text-slate-300 mb-2">Corporate Email *</label>
-                        <input type="email" id="lead-email" required placeholder="c.sterling@enterprise.com" class="w-full bg-obsidian-300 border border-slate-700 text-white text-xs px-4 py-3 focus:outline-none focus:border-gold-500 transition-colors">
-                    </div>
+                    <button onclick="openModal('faqModal')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700 transition flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        <span>Add FAQ</span>
+                    </button>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                        <label for="lead-title" class="block text-[11px] uppercase tracking-wider font-semibold text-slate-300 mb-2">Executive Title *</label>
-                        <input type="text" id="lead-title" required placeholder="Group CEO / Managing Director" class="w-full bg-obsidian-300 border border-slate-700 text-white text-xs px-4 py-3 focus:outline-none focus:border-gold-500 transition-colors">
-                    </div>
-                    <div>
-                        <label for="lead-revenue" class="block text-[11px] uppercase tracking-wider font-semibold text-slate-300 mb-2">Enterprise Revenue Scale</label>
-                        <select id="lead-revenue" class="w-full bg-obsidian-300 border border-slate-700 text-slate-200 text-xs px-4 py-3 focus:outline-none focus:border-gold-500 transition-colors">
-                            <option value="500m">$250M - $1 Billion USD</option>
-                            <option value="5b" selected>$1 Billion - $5 Billion USD</option>
-                            <option value="10b">$5 Billion - $20 Billion USD</option>
-                            <option value="sovereign">Sovereign Entity / State Fund</option>
-                        </select>
-                    </div>
+                <div class="space-y-3" id="faqAccordion">
+                    <!-- Dynamic FAQ Accordion Items -->
                 </div>
+            </section>
 
-                <div>
-                    <label for="lead-mandate" class="block text-[11px] uppercase tracking-wider font-semibold text-slate-300 mb-2">Brief Mandate Scope</label>
-                    <textarea id="lead-mandate" rows="3" placeholder="Outline primary objectives (e.g. Hostile Takeover Defense, Sovereign AI Deployment, Restructuring)..." class="w-full bg-obsidian-300 border border-slate-700 text-white text-xs p-4 focus:outline-none focus:border-gold-500 transition-colors"></textarea>
-                </div>
+        </main>
+    </div>
 
-                <button type="submit" class="w-full py-4 bg-gold-500 text-obsidian-500 font-bold text-xs uppercase tracking-[0.2em] hover:bg-gold-400 transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.2)]">
-                    Transmit Mandate Inquiry
+    <!-- Modals -->
+
+    <!-- New Appointment Modal -->
+    <div id="appointmentModal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-slate-100">Schedule New Appointment</h3>
+                <button onclick="closeModal('appointmentModal')" class="text-slate-400 hover:text-white">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
                 </button>
-                <p class="text-[10px] text-center text-slate-500 tracking-wider uppercase font-mono">Protected by 256-Bit Encrypted Data Protocol</p>
+            </div>
+            <form onsubmit="handleNewAppointment(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block text-slate-400 mb-1">Patient Full Name</label>
+                    <input type="text" id="appPatientName" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-brand-500">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">Treatment Type</label>
+                    <input type="text" id="appTreatment" placeholder="e.g. Dental Implant Consultation" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-brand-500">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-400 mb-1">Date & Time</label>
+                        <input type="text" id="appDateTime" placeholder="Today, 02:30 PM" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-brand-500">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">Est. Fee ($)</label>
+                        <input type="number" id="appFee" placeholder="450" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-brand-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">Status</label>
+                    <select id="appStatus" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-brand-500">
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+                <div class="pt-3 flex gap-2">
+                    <button type="button" onclick="closeModal('appointmentModal')" class="w-1/2 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-medium">Cancel</button>
+                    <button type="submit" class="w-1/2 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-semibold">Save Booking</button>
+                </div>
             </form>
-
-            <!-- Form Success State (Hidden by default) -->
-            <div id="form-success" class="hidden text-center py-12 space-y-4">
-                <div class="w-16 h-16 border-2 border-gold-500 rounded-full flex items-center justify-center mx-auto text-gold-500">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                </div>
-                <h4 class="font-serif text-2xl font-bold text-white">Mandate Inquiry Received</h4>
-                <p class="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
-                    Your transmission has been assigned high-priority security clearance. A Senior Managing Partner will contact you within four hours.
-                </p>
-                <button onclick="closeModal()" class="mt-6 px-8 py-3 bg-obsidian-300 border border-slate-700 text-xs font-semibold text-slate-300 hover:text-white uppercase tracking-wider">
-                    Dismiss Notice
-                </button>
-            </div>
         </div>
     </div>
 
-    <!-- VANILLA JAVASCRIPT LOGIC -->
+    <!-- New Service Modal -->
+    <div id="serviceModal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-slate-100">Add Dental Procedure</h3>
+                <button onclick="closeModal('serviceModal')" class="text-slate-400 hover:text-white">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form onsubmit="handleNewService(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block text-slate-400 mb-1">Procedure Name</label>
+                    <input type="text" id="serviceName" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">Standard Cost ($)</label>
+                    <input type="number" id="serviceCost" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">Description</label>
+                    <textarea id="serviceDesc" rows="3" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200"></textarea>
+                </div>
+                <div class="pt-3 flex gap-2">
+                    <button type="button" onclick="closeModal('serviceModal')" class="w-1/2 py-2 bg-slate-800 text-slate-300 rounded-xl">Cancel</button>
+                    <button type="submit" class="w-1/2 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-semibold">Add Service</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- New Review Modal -->
+    <div id="reviewModal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-slate-100">Add Patient Review</h3>
+                <button onclick="closeModal('reviewModal')" class="text-slate-400 hover:text-white">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form onsubmit="handleNewReview(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block text-slate-400 mb-1">Patient Name</label>
+                    <input type="text" id="revName" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">Treatment Received</label>
+                    <input type="text" id="revTreatment" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">Review Comment</label>
+                    <textarea id="revComment" rows="3" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200"></textarea>
+                </div>
+                <div class="pt-3 flex gap-2">
+                    <button type="button" onclick="closeModal('reviewModal')" class="w-1/2 py-2 bg-slate-800 text-slate-300 rounded-xl">Cancel</button>
+                    <button type="submit" class="w-1/2 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-semibold">Post Review</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- New FAQ Modal -->
+    <div id="faqModal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-slate-100">Add Patient FAQ</h3>
+                <button onclick="closeModal('faqModal')" class="text-slate-400 hover:text-white">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form onsubmit="handleNewFaq(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block text-slate-400 mb-1">Question</label>
+                    <input type="text" id="faqQ" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">Answer</label>
+                    <textarea id="faqA" rows="3" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200"></textarea>
+                </div>
+                <div class="pt-3 flex gap-2">
+                    <button type="button" onclick="closeModal('faqModal')" class="w-1/2 py-2 bg-slate-800 text-slate-300 rounded-xl">Cancel</button>
+                    <button type="submit" class="w-1/2 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-semibold">Save FAQ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toastNotification" class="fixed bottom-6 right-6 z-50 hidden transform transition-all duration-300 translate-y-2">
+        <div class="bg-slate-900 border border-slate-700/80 rounded-xl px-4 py-3 shadow-xl flex items-center gap-3 text-xs text-slate-100">
+            <div class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></div>
+            <span id="toastMsg">Changes saved successfully!</span>
+        </div>
+    </div>
+
+    <!-- Application Engine Script -->
     <script>
-        // 1. Mobile Menu Drawer Toggle
-        function toggleMobileMenu() {
-            const drawer = document.getElementById('mobile-drawer');
-            const openIcon = document.getElementById('menu-icon-open');
-            const closeIcon = document.getElementById('menu-icon-close');
-            
-            if (drawer.classList.contains('translate-x-full')) {
-                drawer.classList.remove('translate-x-full');
-                openIcon.classList.add('hidden');
-                closeIcon.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
+        // Initial Default State Data
+        const DEFAULT_DATA = {
+            clinicInfo: {
+                clinicName: "Prakash Dentist Dashboard",
+                doctorTitle: "Dr. Prakash Dental Care & Oral Surgery",
+                doctorName: "Dr. Prakash",
+                doctorSpecialty: "Chief Implantologist & Dental Surgeon",
+                clinicPhone: "+1 (555) 382-9000",
+                clinicEmail: "dr.prakash@prakashdentist.com",
+                clinicAddress: "742 Medical Plaza, Suite 400"
+            },
+            kpis: [
+                { id: "kpi1", title: "Patients Today", value: "24", change: "+12% vs last week", positive: true, icon: "users" },
+                { id: "kpi2", title: "Monthly Revenue", value: "$48,250", change: "+18.4% growth", positive: true, icon: "dollar" },
+                { id: "kpi3", title: "Procedures Done", value: "158", change: "+8 procedures", positive: true, icon: "check" },
+                { id: "kpi4", title: "Satisfaction Rate", value: "99.2%", change: "+0.4% rating", positive: true, icon: "star" }
+            ],
+            appointments: [
+                { id: 1, name: "Marcus Vance", treatment: "Precision Dental Implant", time: "Today, 09:30 AM", status: "Confirmed", fee: 1200 },
+                { id: 2, name: "Elena Rostova", treatment: "Invisalign Assessment", time: "Today, 11:00 AM", status: "Completed", fee: 350 },
+                { id: 3, name: "David Kim", treatment: "Root Canal & Crown", time: "Today, 02:15 PM", status: "Pending", fee: 850 },
+                { id: 4, name: "Sophia Martinez", treatment: "Laser Teeth Whitening", time: "Tomorrow, 10:00 AM", status: "Confirmed", fee: 400 },
+                { id: 5, name: "Arthur Pendelton", treatment: "Routine Prophylaxis Cleaning", time: "Tomorrow, 01:30 PM", status: "Confirmed", fee: 150 }
+            ],
+            services: [
+                { id: 1, name: "Dental Implant Procedure", price: 1500, desc: "Titanium post replacement with custom porcelain crown for permanent restoration.", selected: true },
+                { id: 2, name: "Invisalign Clear Aligners", price: 3800, desc: "Custom series of transparent orthodontic aligners for teeth straightening.", selected: false },
+                { id: 3, name: "Root Canal Therapy", price: 850, desc: "Painless Endodontic treatment removing infection and sealing the root.", selected: true },
+                { id: 4, name: "In-Office Teeth Whitening", price: 350, desc: "Professional high-intensity bleaching treatment yielding up to 8 shades lighter.", selected: true },
+                { id: 5, name: "Porcelain Cosmetic Veneers", price: 1100, desc: "Ultra-thin custom porcelain shells bonded to tooth fronts for smile makeover.", selected: false },
+                { id: 6, name: "Comprehensive Cleaning", price: 150, desc: "Deep ultrasonic scaling, plaque removal, and high-shine fluoride polish.", selected: false }
+            ],
+            reviews: [
+                { id: 1, name: "Dr. Amanda Blake", treatment: "Full Implant Restoration", comment: "Dr. Prakash is truly an artisan. The painless implant procedure completely restored my confidence and smile!", rating: 5 },
+                { id: 2, name: "Robert Sterling", treatment: "Invisalign Treatment", comment: "Top tier dental dashboard experience and exceptional clinic service. Clean, modern, and very professional.", rating: 5 },
+                { id: 3, name: "Jessica Lin", treatment: "Cosmetic Veneers", comment: "The results far exceeded my expectations. Dr. Prakash and his team treat patients with utmost care.", rating: 5 }
+            ],
+            faqs: [
+                { id: 1, q: "What should I expect during my initial dental implant consultation?", a: "Dr. Prakash will perform a comprehensive 3D CBCT scan, evaluate bone density, and design a customized surgical plan tailored to your smile.", open: true },
+                { id: 2, q: "Does the clinic offer flexible payment plans for major procedures?", a: "Yes, we provide 0% interest monthly installment options up to 36 months in partnership with premier dental healthcare lenders.", open: false },
+                { id: 3, q: "How long does the in-office laser teeth whitening session take?", a: "The entire in-office whitening procedure takes approximately 60 minutes and provides instant, visible results up to 8 shades brighter.", open: false }
+            ]
+        };
+
+        let appData = {};
+        let isEditMode = false;
+        let activeChartTab = 'weekly';
+        let currentReviewIndex = 0;
+
+        // Initialize Application Data
+        function initApp() {
+            const saved = localStorage.getItem('prakash_dentist_data');
+            if (saved) {
+                try {
+                    appData = JSON.parse(saved);
+                } catch(e) {
+                    appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+                }
             } else {
-                drawer.classList.add('translate-x-full');
-                openIcon.classList.remove('hidden');
-                closeIcon.classList.add('hidden');
-                document.body.style.overflow = 'auto';
+                appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+            }
+
+            renderClinicInfo();
+            renderKPIs();
+            renderAppointments();
+            renderCalculator();
+            renderServices();
+            renderReviews();
+            renderFAQs();
+            renderChart('weekly');
+
+            document.getElementById('lastUpdatedTime').textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+
+        // Render Clinic Details & Info
+        function renderClinicInfo() {
+            for (let key in appData.clinicInfo) {
+                const el = document.getElementById(key);
+                if (el) {
+                    el.textContent = appData.clinicInfo[key];
+                }
             }
         }
 
-        // 2. Navigation Blur on Scroll
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('glass-panel', 'shadow-2xl');
-                navbar.classList.remove('border-b', 'border-white/5');
-            } else {
-                navbar.classList.remove('glass-panel', 'shadow-2xl');
-                navbar.classList.add('border-b', 'border-white/5');
-            }
-        });
-
-        // 3. Modal Management
-        function openModal() {
-            const modal = document.getElementById('consultation-modal');
-            const modalBox = modal.querySelector('div');
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            modalBox.classList.remove('scale-95');
-            modalBox.classList.add('scale-100');
-            document.body.style.overflow = 'hidden';
+        // Render KPI Cards
+        function renderKPIs() {
+            const container = document.getElementById('kpiContainer');
+            container.innerHTML = appData.kpis.map((kpi, idx) => `
+                <div class="bg-surface border border-slate-800/80 rounded-xl p-4 glass-panel space-y-2 relative group">
+                    <div class="flex items-center justify-between text-slate-400">
+                        <span class="text-xs font-semibold uppercase tracking-wider editable-field" data-type="kpi" data-idx="${idx}" data-field="title">${kpi.title}</span>
+                        <div class="w-8 h-8 rounded-lg bg-brand-500/10 text-brand-400 flex items-center justify-center">
+                            ${getKpiIcon(kpi.icon)}
+                        </div>
+                    </div>
+                    <div class="text-2xl font-bold text-slate-900 dark:text-white font-mono editable-field" data-type="kpi" data-idx="${idx}" data-field="value">${kpi.value}</div>
+                    <div class="text-[11px] font-medium text-emerald-400 flex items-center gap-1">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                        <span class="editable-field" data-type="kpi" data-idx="${idx}" data-field="change">${kpi.change}</span>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('kpiCountBadge').textContent = appData.kpis.length + ' KPIs';
         }
 
-        function closeModal() {
-            const modal = document.getElementById('consultation-modal');
-            const modalBox = modal.querySelector('div');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            modalBox.classList.remove('scale-100');
-            modalBox.classList.add('scale-95');
-            document.body.style.overflow = 'auto';
-            
-            // Reset form after close animation delay
-            setTimeout(() => {
-                document.getElementById('mandate-form').classList.remove('hidden');
-                document.getElementById('form-success').classList.add('hidden');
-                document.getElementById('mandate-form').reset();
-            }, 300);
+        function getKpiIcon(type) {
+            if (type === 'users') return `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>`;
+            if (type === 'dollar') return `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V6m0 8v2m0-6c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+            if (type === 'check') return `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+            return `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>`;
         }
 
-        function handleFormSubmit(e) {
-            e.preventDefault();
-            document.getElementById('mandate-form').classList.add('hidden');
-            document.getElementById('form-success').classList.remove('hidden');
-        }
+        // Render Appointments Table
+        function renderAppointments() {
+            const tbody = document.getElementById('appointmentTableBody');
+            const search = (document.getElementById('globalSearch')?.value || '').toLowerCase();
+            const filter = document.getElementById('statusFilter')?.value || 'ALL';
 
-        // 4. Interactive ROI Calculator Logic
-        const revenueRange = document.getElementById('revenue-range');
-        const revenueVal = document.getElementById('revenue-val');
-        const initiativeSelect = document.getElementById('initiative-select');
-        const projectedVal = document.getElementById('projected-value');
+            const filtered = appData.appointments.filter(app => {
+                const matchesSearch = app.name.toLowerCase().includes(search) || app.treatment.toLowerCase().includes(search);
+                const matchesFilter = filter === 'ALL' || app.status === filter;
+                return matchesSearch && matchesFilter;
+            });
 
-        function updateCalculations() {
-            const revNum = parseFloat(revenueRange.value);
-            const multiplier = parseFloat(initiativeSelect.value);
-            
-            // Format revenue display
-            if (revNum >= 1000) {
-                revenueVal.textContent = `$${(revNum / 1000).toFixed(1)} Billion`;
-            } else {
-                revenueVal.textContent = `$${revNum} Million`;
+            document.getElementById('apptsBadge').textContent = appData.appointments.length;
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-500">No patient records found matching criteria.</td></tr>`;
+                return;
             }
 
-            // Compute Projected Lift
-            const rawLift = revNum * (multiplier - 1);
-            if (rawLift >= 1000) {
-                projectedVal.textContent = `$${(rawLift / 1000).toFixed(2)}B`;
-            } else {
-                projectedVal.textContent = `$${rawLift.toFixed(1)}M`;
+            tbody.innerHTML = filtered.map((app, idx) => `
+                <tr class="hover:bg-slate-800/30 transition">
+                    <td class="py-3 px-2 font-semibold text-slate-100 editable-field" data-type="appt" data-id="${app.id}" data-field="name">${app.name}</td>
+                    <td class="py-3 px-2 text-slate-300 editable-field" data-type="appt" data-id="${app.id}" data-field="treatment">${app.treatment}</td>
+                    <td class="py-3 px-2 text-slate-400 font-mono text-[11px] editable-field" data-type="appt" data-id="${app.id}" data-field="time">${app.time}</td>
+                    <td class="py-3 px-2">
+                        <button onclick="toggleApptStatus(${app.id})" class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold ${getStatusBadge(app.status)}">
+                            ${app.status}
+                        </button>
+                    </td>
+                    <td class="py-3 px-2 font-mono text-brand-400 font-semibold editable-field" data-type="appt" data-id="${app.id}" data-field="fee">$${app.fee}</td>
+                    <td class="py-3 px-2 text-right">
+                        <button onclick="deleteAppointment(${app.id})" class="text-rose-400 hover:text-rose-300 p-1 transition" title="Delete record">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getStatusBadge(status) {
+            if (status === 'Confirmed') return 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+            if (status === 'Pending') return 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
+            return 'bg-brand-500/10 text-brand-400 border border-brand-500/20';
+        }
+
+        function toggleApptStatus(id) {
+            const app = appData.appointments.find(a => a.id === id);
+            if (app) {
+                if (app.status === 'Confirmed') app.status = 'Completed';
+                else if (app.status === 'Completed') app.status = 'Pending';
+                else app.status = 'Confirmed';
+                saveToLocalStorage();
+                renderAppointments();
             }
         }
 
-        if (revenueRange && initiativeSelect) {
-            revenueRange.addEventListener('input', updateCalculations);
-            initiativeSelect.addEventListener('change', updateCalculations);
+        // Render Services Catalog
+        function renderServices() {
+            const grid = document.getElementById('servicesGrid');
+            grid.innerHTML = appData.services.map((svc, idx) => `
+                <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col justify-between space-y-3 relative group">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <h4 class="font-bold text-slate-100 text-sm editable-field" data-type="service" data-id="${svc.id}" data-field="name">${svc.name}</h4>
+                            <span class="text-brand-400 font-mono font-bold text-sm editable-field" data-type="service" data-id="${svc.id}" data-field="price">$${svc.price}</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed editable-field" data-type="service" data-id="${svc.id}" data-field="desc">${svc.desc}</p>
+                    </div>
+                    <div class="flex justify-between items-center pt-2 border-t border-slate-800/80 text-xs">
+                        <span class="text-slate-500 text-[10px]">Prakash Care Standard</span>
+                        <button onclick="deleteService(${svc.id})" class="text-rose-400/80 hover:text-rose-400 transition" title="Delete Procedure">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        // 5. Testimonial Carousel Logic
-        const slides = document.querySelectorAll('.testimonial-slide');
-        const dots = document.querySelectorAll('#carousel-dots button');
-        const prevBtn = document.getElementById('prev-testimonial');
-        const nextBtn = document.getElementById('next-testimonial');
-        let currentSlide = 0;
+        // Treatment Calculator Logic
+        function renderCalculator() {
+            const container = document.getElementById('calcProcedureList');
+            container.innerHTML = appData.services.map((svc) => `
+                <label class="flex items-center justify-between bg-slate-900/60 border border-slate-800/80 rounded-xl p-3 cursor-pointer hover:border-brand-500/50 transition">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" onchange="toggleCalcService(${svc.id})" ${svc.selected ? 'checked' : ''} class="w-4 h-4 rounded text-brand-600 bg-slate-950 border-slate-700 focus:ring-brand-500">
+                        <span class="text-xs font-semibold text-slate-200">${svc.name}</span>
+                    </div>
+                    <span class="text-xs font-mono font-bold text-brand-400">$${svc.price}</span>
+                </label>
+            `).join('');
 
-        function showSlide(index) {
-            slides.forEach((slide, i) => {
-                if (i === index) {
-                    slide.classList.remove('hidden');
-                    dots[i].classList.remove('bg-slate-800');
-                    dots[i].classList.add('bg-gold-500');
-                } else {
-                    slide.classList.add('hidden');
-                    dots[i].classList.remove('bg-gold-500');
-                    dots[i].classList.add('bg-slate-800');
+            updateCalculatorTotal();
+        }
+
+        function toggleCalcService(id) {
+            const svc = appData.services.find(s => s.id === id);
+            if (svc) {
+                svc.selected = !svc.selected;
+                saveToLocalStorage();
+                updateCalculatorTotal();
+            }
+        }
+
+        function updateCalculatorTotal() {
+            const selected = appData.services.filter(s => s.selected);
+            const subtotal = selected.reduce((sum, s) => sum + parseFloat(s.price || 0), 0);
+            const insurance = subtotal * 0.50; // 50% estimated coverage
+            const total = subtotal - insurance;
+            const monthly = total > 0 ? (total / 12) : 0;
+
+            document.getElementById('calcSubtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('calcInsurance').textContent = `-$${insurance.toFixed(2)}`;
+            document.getElementById('calcTotal').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('calcMonthly').textContent = `$${monthly.toFixed(2)}`;
+        }
+
+        // Render Reviews Slider
+        function renderReviews() {
+            const container = document.getElementById('testimonialContainer');
+            const dots = document.getElementById('sliderDots');
+
+            if (!appData.reviews || appData.reviews.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-500">No patient reviews available.</p>`;
+                return;
+            }
+
+            if (currentReviewIndex >= appData.reviews.length) currentReviewIndex = 0;
+            const rev = appData.reviews[currentReviewIndex];
+
+            container.innerHTML = `
+                <div class="text-center space-y-3 max-w-xl mx-auto">
+                    <div class="flex justify-center gap-1 text-amber-400">
+                        ${Array(rev.rating || 5).fill(0).map(() => `
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        `).join('')}
+                    </div>
+                    <p class="text-sm italic text-slate-200 leading-relaxed editable-field" data-type="review" data-id="${rev.id}" data-field="comment">"${rev.comment}"</p>
+                    <div>
+                        <h5 class="font-bold text-xs text-slate-100 editable-field" data-type="review" data-id="${rev.id}" data-field="name">${rev.name}</h5>
+                        <p class="text-[11px] text-brand-400 editable-field" data-type="review" data-id="${rev.id}" data-field="treatment">${rev.treatment}</p>
+                    </div>
+                </div>
+            `;
+
+            dots.innerHTML = appData.reviews.map((_, i) => `
+                <button onclick="goToReview(${i})" class="w-2 h-2 rounded-full transition ${i === currentReviewIndex ? 'bg-brand-500 w-4' : 'bg-slate-700'}"></button>
+            `).join('');
+        }
+
+        function nextReview() {
+            currentReviewIndex = (currentReviewIndex + 1) % appData.reviews.length;
+            renderReviews();
+        }
+
+        function prevReview() {
+            currentReviewIndex = (currentReviewIndex - 1 + appData.reviews.length) % appData.reviews.length;
+            renderReviews();
+        }
+
+        function goToReview(i) {
+            currentReviewIndex = i;
+            renderReviews();
+        }
+
+        // FAQ Accordion
+        function renderFAQs() {
+            const container = document.getElementById('faqAccordion');
+            container.innerHTML = appData.faqs.map((faq) => `
+                <div class="border border-slate-800/80 rounded-xl bg-slate-900/50 overflow-hidden transition">
+                    <button onclick="toggleFaq(${faq.id})" class="w-full text-left p-4 flex items-center justify-between text-xs font-semibold text-slate-200 hover:text-white">
+                        <span class="editable-field" data-type="faq" data-id="${faq.id}" data-field="q">${faq.q}</span>
+                        <svg class="w-4 h-4 text-slate-400 transform transition-transform ${faq.open ? 'rotate-180' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    ${faq.open ? `
+                        <div class="px-4 pb-4 pt-1 text-xs text-slate-400 border-t border-slate-800/60 leading-relaxed editable-field" data-type="faq" data-id="${faq.id}" data-field="a">
+                            ${faq.a}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function toggleFaq(id) {
+            const faq = appData.faqs.find(f => f.id === id);
+            if (faq) {
+                faq.open = !faq.open;
+                renderFAQs();
+            }
+        }
+
+        // SVG Interactive Analytics Chart Switcher
+        function switchChartTab(tab) {
+            activeChartTab = tab;
+            ['weekly', 'monthly', 'yearly'].forEach(t => {
+                const btn = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
+                if (btn) {
+                    if (t === tab) {
+                        btn.className = "px-3 py-1.5 rounded-lg text-xs font-medium text-brand-400 bg-brand-500/10 transition";
+                    } else {
+                        btn.className = "px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition";
+                    }
                 }
             });
+            renderChart(tab);
         }
 
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % slides.length;
-            showSlide(currentSlide);
+        function renderChart(type) {
+            const wrapper = document.getElementById('svgChartWrapper');
+            const xAxis = document.getElementById('chartXAxis');
+
+            let labels = [];
+            let values = [];
+
+            if (type === 'weekly') {
+                labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+                values = [42, 68, 55, 90, 78, 95, 30];
+            } else if (type === 'monthly') {
+                labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
+                values = [280, 420, 390, 510];
+            } else {
+                labels = ['Q1', 'Q2', 'Q3', 'Q4'];
+                values = [1200, 1580, 1820, 2100];
+            }
+
+            const maxVal = Math.max(...values);
+
+            wrapper.innerHTML = values.map((val, idx) => {
+                const heightPercent = (val / maxVal) * 100;
+                return `
+                    <div class="flex-1 flex flex-col items-center h-full justify-end group px-1">
+                        <div class="opacity-0 group-hover:opacity-100 text-[10px] text-brand-400 font-mono mb-1 transition font-bold">$${val * 10}</div>
+                        <div style="height: ${heightPercent}%;" class="w-full max-w-[36px] bg-gradient-to-t from-brand-600 to-cyan-400 rounded-t-lg shadow-lg shadow-brand-500/20 group-hover:from-brand-500 group-hover:to-cyan-300 transition-all duration-300"></div>
+                    </div>
+                `;
+            }).join('');
+
+            xAxis.innerHTML = labels.map(l => `<span class="flex-1 text-center">${l}</span>`).join('');
         }
 
-        function prevSlide() {
-            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-            showSlide(currentSlide);
-        }
+        // Toggle Edit Mode Engine
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            document.body.classList.toggle('edit-mode-active', isEditMode);
 
-        if (prevBtn && nextBtn) {
-            nextBtn.addEventListener('click', nextSlide);
-            prevBtn.addEventListener('click', prevSlide);
-            
-            dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => {
-                    currentSlide = index;
-                    showSlide(currentSlide);
-                });
+            const btnText = document.getElementById('editModeBtnText');
+            btnText.textContent = isEditMode ? "Exit Edit Mode" : "Owner Edit Mode";
+
+            const fields = document.querySelectorAll('.editable-field');
+            fields.forEach(field => {
+                field.setAttribute('contenteditable', isEditMode ? 'true' : 'false');
+                if (isEditMode) {
+                    field.addEventListener('blur', handleFieldBlur);
+                } else {
+                    field.removeEventListener('blur', handleFieldBlur);
+                }
             });
 
-            // Auto advance carousel every 8 seconds
-            setInterval(nextSlide, 8000);
+            showToast(isEditMode ? "Edit Mode Enabled: Click any highlighted text to modify." : "Edit Mode Disabled. Changes synced.");
         }
+
+        // Handle inline editable field blur (saving directly to state)
+        function handleFieldBlur(e) {
+            const target = e.target;
+            const key = target.dataset.key;
+            const type = target.dataset.type;
+            const id = parseInt(target.dataset.id);
+            const idx = parseInt(target.dataset.idx);
+            const field = target.dataset.field;
+            const newValue = target.textContent.trim();
+
+            if (key) {
+                appData.clinicInfo[key] = newValue;
+            } else if (type === 'kpi') {
+                appData.kpis[idx][field] = newValue;
+            } else if (type === 'appt') {
+                const app = appData.appointments.find(a => a.id === id);
+                if (app) app[field] = field === 'fee' ? parseFloat(newValue.replace('$', '')) || 0 : newValue;
+            } else if (type === 'service') {
+                const svc = appData.services.find(s => s.id === id);
+                if (svc) svc[field] = field === 'price' ? parseFloat(newValue.replace('$', '')) || 0 : newValue;
+            } else if (type === 'review') {
+                const rev = appData.reviews.find(r => r.id === id);
+                if (rev) rev[field] = newValue;
+            } else if (type === 'faq') {
+                const faq = appData.faqs.find(f => f.id === id);
+                if (faq) faq[field] = newValue;
+            }
+
+            saveToLocalStorage();
+        }
+
+        // Save State to Local Storage
+        function saveToLocalStorage() {
+            localStorage.setItem('prakash_dentist_data', JSON.stringify(appData));
+        }
+
+        function saveAllChanges() {
+            saveToLocalStorage();
+            showToast("All dashboard information saved to storage!");
+        }
+
+        // Modal Handlers
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        // Appointment Creation
+        function handleNewAppointment(e) {
+            e.preventDefault();
+            const name = document.getElementById('appPatientName').value;
+            const treatment = document.getElementById('appTreatment').value;
+            const time = document.getElementById('appDateTime').value;
+            const fee = parseFloat(document.getElementById('appFee').value) || 0;
+            const status = document.getElementById('appStatus').value;
+
+            const newApp = {
+                id: Date.now(),
+                name,
+                treatment,
+                time,
+                fee,
+                status
+            };
+
+            appData.appointments.unshift(newApp);
+            saveToLocalStorage();
+            renderAppointments();
+            closeModal('appointmentModal');
+            showToast("New patient appointment added!");
+            e.target.reset();
+        }
+
+        function deleteAppointment(id) {
+            appData.appointments = appData.appointments.filter(a => a.id !== id);
+            saveToLocalStorage();
+            renderAppointments();
+            showToast("Appointment record removed.");
+        }
+
+        // Service Creation
+        function handleNewService(e) {
+            e.preventDefault();
+            const name = document.getElementById('serviceName').value;
+            const price = parseFloat(document.getElementById('serviceCost').value) || 0;
+            const desc = document.getElementById('serviceDesc').value;
+
+            appData.services.push({ id: Date.now(), name, price, desc, selected: false });
+            saveToLocalStorage();
+            renderServices();
+            renderCalculator();
+            closeModal('serviceModal');
+            showToast("Dental procedure added to catalog.");
+            e.target.reset();
+        }
+
+        function deleteService(id) {
+            appData.services = appData.services.filter(s => s.id !== id);
+            saveToLocalStorage();
+            renderServices();
+            renderCalculator();
+            showToast("Procedure removed.");
+        }
+
+        // Review Creation
+        function handleNewReview(e) {
+            e.preventDefault();
+            const name = document.getElementById('revName').value;
+            const treatment = document.getElementById('revTreatment').value;
+            const comment = document.getElementById('revComment').value;
+
+            appData.reviews.push({ id: Date.now(), name, treatment, comment, rating: 5 });
+            saveToLocalStorage();
+            currentReviewIndex = appData.reviews.length - 1;
+            renderReviews();
+            closeModal('reviewModal');
+            showToast("Patient review added.");
+            e.target.reset();
+        }
+
+        // FAQ Creation
+        function handleNewFaq(e) {
+            e.preventDefault();
+            const q = document.getElementById('faqQ').value;
+            const a = document.getElementById('faqA').value;
+
+            appData.faqs.push({ id: Date.now(), q, a, open: true });
+            saveToLocalStorage();
+            renderFAQs();
+            closeModal('faqModal');
+            showToast("Patient FAQ item added.");
+            e.target.reset();
+        }
+
+        // Filter Function
+        function filterAppointments() {
+            renderAppointments();
+        }
+
+        // Scroll helper
+        function scrollToSection(id) {
+            document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Theme Switcher
+        function toggleTheme() {
+            const html = document.documentElement;
+            const sun = document.getElementById('themeIconSun');
+            const moon = document.getElementById('themeIconMoon');
+
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                document.body.classList.remove('bg-[#07090e]', 'text-slate-100');
+                document.body.classList.add('bg-slate-50', 'text-slate-900');
+                sun.classList.remove('hidden');
+                moon.classList.add('hidden');
+            } else {
+                html.classList.remove('light');
+                html.classList.add('dark');
+                document.body.classList.remove('bg-slate-50', 'text-slate-900');
+                document.body.classList.add('bg-[#07090e]', 'text-slate-100');
+                sun.classList.add('hidden');
+                moon.classList.remove('hidden');
+            }
+        }
+
+        // Export Data JSON
+        function exportDataJSON() {
+            const blob = new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `prakash_dentist_dashboard_backup_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            showToast("Dashboard data exported to JSON file.");
+        }
+
+        // Reset Defaults
+        function resetDefaults() {
+            if (confirm("Reset all dashboard information back to initial defaults?")) {
+                appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+                saveToLocalStorage();
+                initApp();
+                showToast("Dashboard restored to original defaults.");
+            }
+        }
+
+        // Toast Helper
+        function showToast(msg) {
+            const toast = document.getElementById('toastNotification');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.textContent = msg;
+            toast.classList.remove('hidden');
+            toast.classList.remove('translate-y-2');
+            setTimeout(() => {
+                toast.classList.add('translate-y-2');
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Initialize on Load
+        window.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
