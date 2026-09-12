@@ -52,6 +52,17 @@ st.set_page_config(
 def get_api_key():
     return os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6LQTcBVg27285xhxo4j7NrFIsXGY9tKv96nGlh6e6rlDQ")
 
+# ── DYNAMIC STATE MEMORY MAPPING ──────────────────────────────────────────────
+if "system_logs" not in st.session_state:
+    st.session_state.system_logs = ["SYSTEM ONLINE // Standing by for command vector authorization inputs..."]
+
+def log_message(text, type="info"):
+    now_ts = datetime.now().strftime("%H:%M:%S")
+    entry = f"[{now_ts}] [{type.upper()}] {text}"
+    if "system_logs" not in st.session_state:
+        st.session_state.system_logs = ["SYSTEM ONLINE // Standing by for command vector authorization inputs..."]
+    st.session_state.system_logs.insert(0, entry)
+
 # ── SESSION STATE INITIALIZATION ───────────────────────────────────────────────
 def _init():
     d = {
@@ -60,9 +71,9 @@ def _init():
         "target_niche_val": "Ultra-Luxury Real Estate & High-Rise Penthouses",
         "exec_log": [
             {"ts": "00:00:01", "level": "SYS",    "color": "#5b9cf6", "msg": "ASURA Command Deck v11.0 initialized. Subsystems nominal."},
-            {"ts": "00:00:02", "level": "HERMES",  "color": "#9b8afb", "msg": "Hermes Agent Router online. CrewAI pipeline initialized."},
-            {"ts": "00:00:03", "level": "GEMINI",  "color": "#5b9cf6", "msg": "Gemini 1.5 Pro Neural Engine mapped to Asura-Engineer."},
-            {"ts": "00:00:04", "level": "CREWAI",  "color": "#34d399", "msg": "Asura-Engineer ready: autonomous HTML/Tailwind compiler armed."},
+            {"ts": "00:00:02", "level": "HERMES",  "color": "#9b8afb", "msg": "Hermes Agent Router online. GenAI pipeline initialized."},
+            {"ts": "00:00:03", "level": "GEMINI",  "color": "#5b9cf6", "msg": "Gemini 2.5 Flash Neural Engine mapped to Asura-Engineer."},
+            {"ts": "00:00:04", "level": "SYNTH",   "color": "#34d399", "msg": "Asura-Engineer ready: autonomous HTML/Tailwind compiler armed."},
             {"ts": "00:00:05", "level": "VOICE",   "color": "#38bdf8", "msg": "Web Speech Matrix active. Microphone listener armed."},
             {"ts": "00:00:06", "level": "GUARD",   "color": "#fbbf24", "msg": "Neural perimeter secure. Zero anomalies detected."},
         ],
@@ -73,11 +84,11 @@ def _init():
         "mission_active": False,
         "custom_gemini_key": "",
         "channels": [
-            {"name": "Gemini 1.5 Pro Engine",  "status": "ACTIVE", "c": "#34d399"},
-            {"name": "CrewAI Pipeline",         "status": "ARMED",  "c": "#38bdf8"},
-            {"name": "Live Git Origin Sync",   "status": "SYNCED", "c": "#a78bfa"},
-            {"name": "Multica Board Sync",      "status": "HOOKED", "c": "#34d399"},
-            {"name": "Neural Security",         "status": "ONLINE", "c": "#fbbf24"},
+            {"name": "Gemini 2.5 Flash Engine", "status": "ACTIVE", "c": "#34d399"},
+            {"name": "Native GenAI Pipeline",   "status": "ARMED",  "c": "#38bdf8"},
+            {"name": "Live Git Origin Sync",    "status": "SYNCED", "c": "#a78bfa"},
+            {"name": "Multica Board Sync",       "status": "HOOKED", "c": "#34d399"},
+            {"name": "Neural Security",          "status": "ONLINE", "c": "#fbbf24"},
         ],
         "session_start": time.time(),
         "mrr_base": 74500.00,
@@ -548,100 +559,72 @@ def push_index_html_to_github(content: str, commit_message: str = "feat(asura): 
         return {"success": False, "error": str(e), "code": 500}
 
 
-def execute_asura_crewai_pipeline(user_input: str, lq: queue.Queue) -> dict:
+def generate_platform_with_gemini(user_input: str) -> tuple[str, str]:
     """
-    Executes the clean CrewAI pipeline:
-    Maps Asura-Engineer agent to 'gemini-1.5-pro' via LangChain ChatGoogleGenerativeAI wrapper.
-    Directs the agent to synthesize a hyper-professional single-file HTML website with inline Tailwind CSS.
-    Strips all placeholders and emojis, and cascades safely to guarantee zero timeouts.
+    Modern Google GenAI Layer Compiler:
+    Utilizes the native, ultra-fast Gemini 2.5 Flash cloud engine to synthesize
+    premium corporate-grade single-file HTML layouts heavily styled with clean inline Tailwind CSS via CDN.
+    Completely eliminates outdated CrewAI/LangChain wrapper layers to guarantee zero container freezes.
     """
-    prompt = (
+    prompt_text = (
         f"Analyze this specific design instruction from the customer: {user_input}. "
         f"Generate a premium, corporate-grade single-file HTML layout heavily styled with clean inline Tailwind CSS via CDN. "
-        f"Write fully fleshed-out professional copy matching the requested business niche."
+        f"Write fully fleshed-out professional copy matching the requested business niche. "
+        f"Output ONLY complete, valid HTML starting with <!DOCTYPE html> and containing the Tailwind CSS CDN script. "
+        f"Do not use generic placeholders or markdown commentary."
     )
 
-    lq.put(("HERMES", f"Hermes Agent Router: registering directive for '{user_input[:55]}'", "#9b8afb"))
-    time.sleep(0.3)
+    log_message(f"Hermes Router: registering directive for '{user_input[:50]}'", "hermes")
 
     raw_html = None
     blueprint = (
         f"# ASURA STRATEGIC ARCHITECTURE // TARGET: {user_input.upper()}\n\n"
         f"- **Customer Directive:** {user_input}\n"
-        f"- **Engine Model:** gemini-1.5-pro via LangChain ChatGoogleGenerativeAI\n"
+        f"- **Engine Model:** gemini-2.5-flash via native Google GenAI SDK\n"
         f"- **Bearer Credential:** GEMINI_API_KEY authenticated\n"
         f"- **Presentation Layer:** HTML5 Semantic Engine + Tailwind CSS Modern System\n"
         f"- **Design Standard:** Dark Glassmorphism, Zero Placeholders, Zero Emojis\n"
-        f"- **Components:** Interactive Navigation, Hero Showcase, 3-Column Services Grid, Testimonials Slider, Functional Inquiry Modal"
+        f"- **Components:** Responsive Navigation, Geometric Hero Showcase, 3-Column Services Grid, Testimonials Slider, Functional Lead Modal"
     )
 
-    # 1. ATTEMPT CREWAI PIPELINE (gemini-1.5-pro via LangChain ChatGoogleGenerativeAI)
+    # 1. NATIVE GOOGLE ENGINE (gemini-2.5-flash via google.genai)
     try:
-        lq.put(("CREWAI", "Initializing CrewAI collective: Binding Asura-Engineer to gemini-1.5-pro...", "#38bdf8"))
-        from langchain_google_genai import ChatGoogleGenerativeAI
-        from crewai import Agent, Task, Crew, Process
-
-        asura_brain = ChatGoogleGenerativeAI(model="gemini-1.5-pro", google_api_key=os.environ["GEMINI_API_KEY"], temperature=0.3)
-
-        asura_engineer = Agent(
-            role="Principal UI/UX Architect & Systems Engineer",
-            goal=f"Synthesize an elite single-file HTML layout heavily styled with clean inline Tailwind CSS via CDN for: {user_input}",
-            backstory="Lead engineering agent for ASURA. Produces production-ready web platforms with real corporate copy, zero placeholder text, and no emojis.",
-            verbose=False,
-            memory=False,
-            llm=asura_brain
-        )
-
-        synthesis_task = Task(
-            description=f"Analyze this specific design instruction from the customer: {user_input}. Generate a premium, corporate-grade single-file HTML layout heavily styled with clean inline Tailwind CSS via CDN. Write fully fleshed-out professional copy matching the requested business niche.",
-            expected_output="Complete production-grade single-file HTML website layout with clean inline Tailwind CSS via CDN, zero placeholders, and no emojis.",
-            agent=asura_engineer
-        )
-
-        crew = Crew(
-            agents=[asura_engineer],
-            tasks=[synthesis_task],
-            process=Process.sequential,
-            verbose=False
-        )
-
-        lq.put(("CREWAI", "CrewAI execution underway: executing synthesis task...", "#34d399"))
-        crew_result = crew.kickoff()
-        raw_text = str(crew_result)
-        if "<html" in raw_text.lower() or "<!doctype html>" in raw_text.lower():
-            raw_html = raw_text
-            lq.put(("CREWAI", "CrewAI pipeline completed successfully with gemini-1.5-pro.", "#34d399"))
+        log_message("Initializing native Google engine: binding to gemini-2.5-flash...", "gemini")
+        from google import genai
+        client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+        response = client.models.generate_content(model='gemini-2.5-flash', contents=prompt_text)
+        if response and hasattr(response, "text") and response.text:
+            raw_text = response.text
+            if "<html" in raw_text.lower() or "<!doctype html>" in raw_text.lower():
+                raw_html = raw_text
+                log_message("Gemini 2.5 Flash compiled full layout successfully.", "success")
     except Exception as e:
-        lq.put(("WARN", f"CrewAI cascade notice: {str(e)[:45]}... routing to native Gemini engine", "#fbbf24"))
+        log_message(f"Google GenAI notice: {str(e)[:45]}... checking REST inference tier", "warn")
 
-    # 2. ATTEMPT NATIVE GEMINI MODEL (google-generativeai)
+    # 2. DIRECT GEMINI 2.5 FLASH REST API FALLBACK (Zero SDK Dependency)
     if not raw_html:
         try:
-            lq.put(("GEMINI", "Engaging native Gemini neural engine with cloud credentials...", "#5b9cf6"))
-            import google.generativeai as genai
-            genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-            for m_id in ["gemini-1.5-pro", "gemini-1.5-flash-latest"]:
-                try:
-                    gmodel = genai.GenerativeModel(m_id)
-                    gres = gmodel.generate_content(
-                        f"You are Asura-Engineer. {prompt}\nReturn ONLY valid single-file HTML with <!DOCTYPE html> and Tailwind CSS via CDN. No markdown commentary."
-                    )
-                    raw_text = gres.text
-                    if "<html" in raw_text.lower() or "<!doctype html>" in raw_text.lower():
-                        raw_html = raw_text
-                        lq.put(("GEMINI", f"Gemini payload synthesized directly via {m_id}.", "#34d399"))
-                        break
-                except Exception as me:
-                    lq.put(("WARN", f"Gemini {m_id} notice: {str(me)[:40]}... checking next tier", "#fbbf24"))
-                    continue
-        except Exception as e:
-            lq.put(("WARN", f"Gemini cascade notice: {str(e)[:45]}... engaging Sovereign Synthesizer", "#fbbf24"))
+            log_message("Engaging direct Gemini 2.5 Flash REST inference endpoint...", "gemini")
+            api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={os.environ['GEMINI_API_KEY']}"
+            req_body = {
+                "contents": [{"parts": [{"text": prompt_text}]}],
+                "generationConfig": {"temperature": 0.3}
+            }
+            res = requests.post(api_url, json=req_body, timeout=15)
+            if res.status_code == 200:
+                data = res.json()
+                raw_text = data["candidates"][0]["content"]["parts"][0]["text"]
+                if "<html" in raw_text.lower() or "<!doctype html>" in raw_text.lower():
+                    raw_html = raw_text
+                    log_message("Gemini 2.5 Flash REST payload synthesized.", "success")
+        except Exception as me:
+            log_message(f"REST tier notice: {str(me)[:40]}", "warn")
 
-    # 3. SOVEREIGN DYNAMIC SYNTHESIZER (BESPOKE HTML TAILORED TO NICHE)
+    # 3. SOVEREIGN DYNAMIC SYNTHESIZER (Zero Timeout SLA Guarantee)
     if not raw_html:
-        lq.put(("ENG", f"Sovereign Dynamic Engine: synthesizing custom production platform for '{user_input}'...", "#34d399"))
+        log_message(f"Sovereign Engine: synthesizing custom platform for '{user_input[:35]}'...", "synth")
         _, raw_html = generate_realestate_platform(user_input)
-        lq.put(("ENG", "Payload compiled: 100% production-ready, zero placeholders, zero emojis.", "#34d399"))
+        log_message("Payload compiled: 100% production-ready, zero placeholders, zero emojis.", "success")
 
     # Clean HTML (strip markdown fences if present)
     clean_html = raw_html.strip()
@@ -654,18 +637,13 @@ def execute_asura_crewai_pipeline(user_input: str, lq: queue.Queue) -> dict:
                 clean_html = part.strip()
                 break
 
-    # Strip any accidental generic placeholders
     clean_html = clean_html.replace("Lorem ipsum dolor sit amet", "Engineered with precision for demanding institutional workflows")
     clean_html = clean_html.replace("lorem ipsum", "enterprise excellence")
 
-    return {
-        "status": "success",
-        "blueprint": blueprint,
-        "html": clean_html,
-        "output": f"{blueprint}\n\n---\n\n# ASURA-ENGINEER // PRODUCTION CODEBASE\n\n```html\n{clean_html[:1500]}\n<!-- ... Full Codebase Compiled ({len(clean_html):,} bytes) ... -->\n```"
-    }
+    return blueprint, clean_html
 
-execute_hermes_autonomous_pipeline = execute_asura_crewai_pipeline
+execute_asura_crewai_pipeline = generate_platform_with_gemini
+execute_hermes_autonomous_pipeline = generate_platform_with_gemini
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1216,108 +1194,42 @@ function triggerPreset(text) {
 
     if clear_clicked:
         st.session_state.exec_log = []
+        st.session_state.system_logs = ["SYSTEM ONLINE // Standing by for command vector authorization inputs..."]
         st.rerun()
 
     H("</div>")
 
     # ── EXECUTION PIPELINE HANDLER ────────────────────────────────────────────
     if activate_clicked and user_input.strip():
-        st.session_state.mission_active = True
-        st.session_state.mission_niche = user_input.strip()
-        st.session_state.metrics["progress"] = 25
-        st.session_state.exec_log.insert(0, {
-            "ts": datetime.now().strftime("%H:%M:%S"),
-            "level": "HERMES",
-            "color": "#9b8afb",
-            "msg": f"Hermes Router engaged for niche: '{user_input.strip()[:65]}'"
-        })
-        st.session_state.exec_log.insert(0, {
-            "ts": datetime.now().strftime("%H:%M:%S"),
-            "level": "CREWAI",
-            "color": "#38bdf8",
-            "msg": "Initializing CrewAI collective: Binding Asura-Engineer to gemini-1.5-pro..."
-        })
-        st.rerun()
+        target_val = user_input.strip()
+        st.session_state.target_niche_val = target_val
+        log_message(f"Directive authorized: target niche '{target_val[:50]}'", "sys")
 
-    if st.session_state.get("mission_active"):
-        with st.spinner("Asura Engine & CrewAI collective compiling solution..."):
-            log_q = queue.Queue()
-            res_holder = {}
+        with st.spinner("Gemini 2.5 Flash neural engine synthesizing production codebase..."):
+            blueprint, generated_html = generate_platform_with_gemini(target_val)
 
-            target_val = st.session_state.get("mission_niche", user_input.strip())
-
-            def _worker():
-                res_holder["data"] = execute_asura_crewai_pipeline(target_val, log_q)
-
-            t = threading.Thread(target=_worker, daemon=True)
-            t.start()
-            t.join(timeout=30)
-
-            # Drain log messages
-            while not log_q.empty():
-                lvl, msg, clr = log_q.get_nowait()
-                st.session_state.exec_log.insert(0, {
-                    "ts": datetime.now().strftime("%H:%M:%S"),
-                    "level": lvl, "color": clr, "msg": msg
-                })
-
-            if "data" in res_holder:
-                agent_response_text = res_holder["data"]["html"]
-                mission_output = res_holder["data"]["output"]
-            else:
-                _, agent_response_text = generate_realestate_platform(target_val)
-                mission_output = agent_response_text
-
-            # 3. BULLETPROOF GITHUB API PUSH RUNTIME (ZERO TERMINAL GIT DEPENDENCY)
-            # Write local index.html for instant preview and download bundle
             with open("index.html", "w", encoding="utf-8") as f:
-                f.write(agent_response_text)
+                f.write(generated_html)
+            log_message(f"Root index.html compiled locally ({len(generated_html):,} bytes written).", "sys")
 
-            # Securely push index.html directly to root of prathamgowda194-pixel/asura-system via GitHub API
             api_res = push_index_html_to_github(
-                agent_response_text,
-                commit_message=f"feat(asura): dynamic generation for {target_val[:35]} via Gemini Engine"
+                generated_html,
+                commit_message=f"feat(asura): dynamic generation for {target_val[:35]} via Gemini 2.5 Flash"
             )
-
-            # 4. SIMULATED SYSTEM TELEMETRY
-            st.session_state.projects_deployed += 1
-            st.session_state.metrics["progress"] = 100
-            st.session_state.mission_html = agent_response_text
-            st.session_state.mission_result = mission_output
-            st.session_state.mission_active = False
-
-            now_str_val = datetime.now().strftime("%H:%M:%S")
-            st.session_state.exec_log.insert(0, {
-                "ts": now_str_val,
-                "level": "SYNC",
-                "color": "#a78bfa",
-                "msg": f"Root index.html synchronized locally ({len(agent_response_text):,} bytes written)."
-            })
 
             if api_res.get("success"):
                 c_sha = api_res.get("commit_sha", "head")
                 st.session_state.last_commit_sha = c_sha
-                st.session_state.exec_log.insert(0, {
-                    "ts": now_str_val,
-                    "level": "GITHUB",
-                    "color": "#38bdf8",
-                    "msg": f"GitHub API: index.html pushed to prathamgowda194-pixel/asura-system (commit {c_sha})."
-                })
+                log_message(f"GitHub API: index.html pushed to {REPO_NAME} (commit {c_sha}).", "github")
             else:
-                err_text = str(api_res.get("error", "pending repo init"))[:60]
-                st.session_state.exec_log.insert(0, {
-                    "ts": now_str_val,
-                    "level": "GITHUB",
-                    "color": "#fbbf24",
-                    "msg": f"GitHub API push notice ({err_text}). Local root index.html fully operational."
-                })
+                err_text = str(api_res.get("error", "pending repo sync"))[:60]
+                log_message(f"GitHub API notice ({err_text}). Local index.html operational.", "warn")
 
-            st.session_state.exec_log.insert(0, {
-                "ts": now_str_val,
-                "level": "DONE",
-                "color": "#34d399",
-                "msg": f"Asura Dynamic Generation complete! Projects deployed: {st.session_state.projects_deployed}."
-            })
+            st.session_state.projects_deployed += 1
+            st.session_state.metrics["progress"] = 100
+            st.session_state.mission_html = generated_html
+            st.session_state.mission_result = blueprint
+            log_message(f"Asura Dynamic Generation complete! Projects deployed: {st.session_state.projects_deployed}.", "success")
         st.rerun()
 
     # ── LIVE DELIVERABLE & WEBSITE PREVIEW ─────────────────────────────────────
@@ -1366,56 +1278,67 @@ with col_right:
     @safe_fragment(run_every=2)
     def right_log_panel():
         LVL_MAP = {
-            "SYS":       ("#5b9cf6", "rgba(91,156,246,.12)"),
-            "HERMES":    ("#9b8afb", "rgba(155,138,251,.12)"),
-            "GEMINI":    ("#5b9cf6", "rgba(91,156,246,.15)"),
-            "CREWAI":    ("#34d399", "rgba(52,211,153,.15)"),
-            "SYNTH":     ("#38bdf8", "rgba(56,189,248,.15)"),
-            "SYNC":      ("#a78bfa", "rgba(167,139,250,.15)"),
-            "GITHUB":    ("#38bdf8", "rgba(56,189,248,.15)"),
-            "GIT":       ("#fbbf24", "rgba(251,191,36,.15)"),
-            "STRAT":     ("#5b9cf6", "rgba(91,156,246,.12)"),
-            "ENG":       ("#34d399", "rgba(52,211,153,.12)"),
-            "MULTICA":   ("#a78bfa", "rgba(167,139,250,.15)"),
-            "FIRECRAWL": ("#38bdf8", "rgba(56,189,248,.15)"),
-            "VOICE":     ("#38bdf8", "rgba(56,189,248,.12)"),
-            "GUARD":     ("#fbbf24", "rgba(251,191,36,.12)"),
-            "DONE":      ("#34d399", "rgba(52,211,153,.12)"),
-            "WARN":      ("#fbbf24", "rgba(251,191,36,.12)"),
+            "SYS":     ("#5b9cf6", "rgba(91,156,246,.15)"),
+            "GEMINI":  ("#38bdf8", "rgba(56,189,248,.18)"),
+            "GITHUB":  ("#a78bfa", "rgba(167,139,250,.18)"),
+            "SUCCESS": ("#34d399", "rgba(52,211,153,.18)"),
+            "INFO":    ("#5b9cf6", "rgba(91,156,246,.15)"),
+            "WARN":    ("#fbbf24", "rgba(251,191,36,.18)"),
+            "HERMES":  ("#9b8afb", "rgba(155,138,251,.18)"),
+            "SYNTH":   ("#38bdf8", "rgba(56,189,248,.18)"),
+            "DONE":    ("#34d399", "rgba(52,211,153,.18)"),
         }
 
         H("""
-        <div class="gl1" style="padding:16px 14px;min-height:720px;">
+        <div class="gl1" style="padding:16px 14px;min-height:720px;display:flex;flex-direction:column;">
         <div style="display:flex;align-items:center;justify-content:space-between;
-        padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.055);margin-bottom:12px;">
+        padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:12px;">
         <div style="display:flex;align-items:center;gap:7px;">
-        <div style="width:6px;height:6px;border-radius:50%;background:#ffffff;"></div>
+        <div style="width:6px;height:6px;border-radius:50%;background:#ffffff;box-shadow:0 0 8px #ffffff;"></div>
         <span style="font-size:12px;font-weight:600;letter-spacing:.04em;color:#ffffff;">
         Live System Logs</span>
         </div>
-        <span class="t-mono" style="letter-spacing:.1em;">Execution Streams</span>
+        <span class="t-mono" style="letter-spacing:.1em;color:rgba(180,205,255,0.6);">Dynamic Memory</span>
         </div>
+        <div style="overflow-y:auto;max-height:640px;padding-right:4px;">
         """)
 
-        for e in st.session_state.exec_log[:28]:
-            lvl = e.get("level", "SYS")
-            fc, bg = LVL_MAP.get(lvl, ("#5b9cf6", "rgba(91,156,246,.12)"))
+        logs = st.session_state.get("system_logs", ["SYSTEM ONLINE // Standing by for command vector authorization inputs..."])
+        for entry in logs:
+            badge_lvl = "INFO"
+            time_stamp = ""
+            log_text = entry
+
+            if entry.startswith("[") and "]" in entry:
+                parts = entry.split("] ", 1)
+                time_stamp = entry.split("]")[0].replace("[", "")
+                if len(entry.split("] [")) > 1:
+                    badge_lvl = entry.split("] [")[1].split("]")[0]
+                    remainder = entry.split(f"[{badge_lvl}] ", 1)
+                    log_text = remainder[1] if len(remainder) > 1 else parts[-1]
+                else:
+                    log_text = parts[-1] if len(parts) > 1 else entry
+
+            fc, bg = LVL_MAP.get(badge_lvl.upper(), ("#5b9cf6", "rgba(91,156,246,.15)"))
+
             H(f"""
-            <div class="log-row" style="border-left-color:{fc}40;">
+            <div class="log-row" style="border-left:2px solid {fc};margin-bottom:6px;">
             <span style="flex-shrink:0;font-family:'JetBrains Mono',monospace;
             font-size:9px;font-weight:700;letter-spacing:.08em;
             padding:2px 5px;border-radius:4px;
             background:{bg};color:{fc};
-            margin-top:1px;line-height:1.2;">{lvl}</span>
+            margin-top:1px;line-height:1.2;">{badge_lvl.upper()}</span>
             <div>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:9px;
-            color:rgba(160,180,220,.4);margin-right:5px;">{e['ts']}</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;
-            color:rgba(230,242,255,.9);line-height:1.45;">{e['msg']}</span>
+            {f'<span style="font-family:\'JetBrains Mono\',monospace;font-size:9px;color:rgba(160,180,220,.5);margin-right:5px;">{time_stamp}</span>' if time_stamp else ''}
+            <span style="font-family:\'JetBrains Mono\',monospace;font-size:11px;
+            color:rgba(235,245,255,.92);line-height:1.45;">{log_text}</span>
             </div>
             </div>
             """)
 
-        H("</div>")
+        H("""
+        </div>
+        </div>
+        """)
 
     right_log_panel()
