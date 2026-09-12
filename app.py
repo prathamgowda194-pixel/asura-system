@@ -228,20 +228,74 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
         t2_name, t2_role, t2_quote = "Maya Lin", "VP of Engineering, Sovereign Scale", f"'The reliability and performance benchmarks of {brand_name} surpass every legacy competitor in the enterprise SaaS tier.'"
         t3_name, t3_role, t3_quote = "Garrick Stone", "Principal Architect, Nexus Global", f"'A masterclass in modern systems architecture. {brand_name} represents the undisputed gold standard.'"
 
+    is_light = any(k in p_lower for k in [
+        "light", "cream", "white", "minimalist", "clean light", "pastel", "linen", "ivory", "editorial", "paper"
+    ])
+
+    if is_light:
+        canvas_bg = "#FDFBF7"
+        body_class = "min-h-screen text-stone-900"
+        nav_style = "background: rgba(253, 251, 247, 0.90); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0, 0, 0, 0.08);"
+        card_style = "background: #FFFFFF; backdrop-filter: blur(16px); border: 1px solid rgba(0, 0, 0, 0.08); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);"
+        card_hover_border = accent_color
+        card_hover_shadow = "0 20px 40px rgba(0, 0, 0, 0.08)"
+        accent_gradient = f"linear-gradient(135deg, #18181B 0%, {accent_color} 65%, {accent_secondary} 100%)"
+        hero_tag_style = "border: 1px solid rgba(0,0,0,0.12); background: rgba(0,0,0,0.03); color: #52525B;"
+        heading_color = "text-stone-900"
+        text_muted = "text-stone-600"
+        nav_link_class = "text-stone-600 hover:text-stone-900"
+        sec_btn_style = "border: 1px solid rgba(0,0,0,0.15); background: rgba(0,0,0,0.04); color: #18181B;"
+        sec_btn_hover = "hover:bg-stone-200/60"
+        section_border = "border-t border-stone-200"
+        metrics_bg = "bg-stone-100/60 border-y border-stone-200"
+        stat_center_border = "border-y md:border-y-0 md:border-x border-stone-300"
+        modal_card_style = "background: #FFFFFF; border: 1px solid rgba(0,0,0,0.12); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);"
+        input_style = "background: #F8F6F0; border: 1px solid rgba(0,0,0,0.15); color: #18181B;"
+        footer_style = "background: #F4F1EA; border-top: 1px solid rgba(0,0,0,0.08); color: #52525B;"
+        footer_brand = "text-stone-900"
+        brand_name_color = "text-stone-900"
+        theme_title = "Warm Cream / Editorial Light Minimalist"
+    else:
+        canvas_bg = "#07090E"
+        body_class = "bg-obsidian min-h-screen text-slate-200"
+        nav_style = "background: rgba(7, 9, 14, 0.82); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.07);"
+        card_style = "background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);"
+        card_hover_border = f"{accent_color}66"
+        card_hover_shadow = "0 16px 40px rgba(0, 0, 0, 0.65)"
+        accent_gradient = f"linear-gradient(135deg, #FFFFFF 0%, {accent_color} 60%, {accent_secondary} 100%)"
+        hero_tag_style = "border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #CBD5E1;"
+        heading_color = "text-white"
+        text_muted = "text-slate-400"
+        nav_link_class = "text-slate-300 hover:text-white"
+        sec_btn_style = "border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #FFFFFF;"
+        sec_btn_hover = "hover:bg-white/10"
+        section_border = "border-t border-white/5"
+        metrics_bg = "bg-white/[0.015] border-y border-white/5"
+        stat_center_border = "border-y md:border-y-0 md:border-x border-white/10"
+        modal_card_style = "background: #0B0F1A; border: 1px solid rgba(255,255,255,0.2);"
+        input_style = "background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #FFFFFF;"
+        footer_style = "background: rgba(0,0,0,0.4); border-top: 1px solid rgba(255,255,255,0.1); color: #94A3B8;"
+        footer_brand = "text-white"
+        brand_name_color = "text-white"
+        theme_title = "Obsidian Luxury Dark Mode"
+
     blueprint = f"""# ASURA-STRATEGIST // ARCHITECTURAL BLUEPRINT
 **Mission Directive:** {clean_p}
 **Target Vertical:** {industry}
 **Brand Identity:** {brand_name}
+**Visual Theme Canvas:** {theme_title}
 
 ---
 
 ### 1. Technology Architecture
 - **Presentation Layer:** HTML5 Semantic Engine + Tailwind CSS Modern Grid System
-- **Typography Matrix:** Cinzel (High-fashion display) + Inter (Clean technical sans-serif)
+- **Animation Suite:** GreenSock (GSAP 3.12.5) + ScrollTrigger Viewport Reveals
+- **Typography Matrix:** Cormorant Garamond / Syne / Cinzel + Inter
+- **Anti-Slop Compliance:** R-12 Tracked Luxury Fonts, R-24 Expansive Luxury Padding, R-35 Zero Flat Emojis
 - **Component Hierarchy:**
-  - `GlobalNavigation`: Glassmorphism sticky header with interactive mobile drawer.
-  - `HeroShowcase`: Geometric display typography with dual-action conversion CTAs.
-  - `FeatureGrid`: 3-column glassmorphism layout detailing core institutional offerings.
+  - `GlobalNavigation`: Dynamic glassmorphism header with active mobile drawer and responsive links.
+  - `HeroShowcase`: Expansive typographic headline with GSAP scroll-stagger reveals and dual-action conversion CTAs.
+  - `FeatureGrid`: 3-column architectural cards detailing institutional offerings with specular hover reactions.
   - `MetricsTelemetry`: High-contrast statistics counter showcasing verified performance metrics.
   - `TestimonialsSlider`: Interactive review slider with active client quotes and credentials.
   - `LeadCaptureModal`: Interactive appointment & concierge scheduling modal with runtime timestamps.
@@ -256,15 +310,18 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,600&family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            serif: ['Cinzel', 'serif'],
+            serif: ['"Cormorant Garamond"', 'Cinzel', 'serif'],
+            display: ['Syne', 'sans-serif'],
             sans: ['Inter', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
+            mono: ['"JetBrains Mono"', 'monospace'],
           },
           colors: {
             brand: {
@@ -272,40 +329,38 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
               secondary: '__ACCENT_SECONDARY__',
             },
             obsidian: '#07090E',
-            surface: 'rgba(255, 255, 255, 0.035)',
-            border: 'rgba(255, 255, 255, 0.08)',
           }
         }
       }
     }
   </script>
   <style>
-    body { background-color: #07090E; color: #F1F5F9; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-    .glass-nav { background: rgba(7, 9, 14, 0.82); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.07); }
-    .glass-card { background: rgba(255,255,255,0.03); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-    .glass-card:hover { transform: translateY(-4px); border-color: __ACCENT_COLOR__66; box-shadow: 0 16px 40px rgba(0,0,0,0.65); }
-    .accent-gradient { background: linear-gradient(135deg, #FFFFFF 0%, __ACCENT_COLOR__ 60%, __ACCENT_SECONDARY__ 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    body { background-color: __CANVAS_BG__; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+    .glass-nav { __NAV_STYLE__ }
+    .glass-card { __CARD_STYLE__ }
+    .glass-card:hover { border-color: __CARD_HOVER_BORDER__; box-shadow: __CARD_HOVER_SHADOW__; transform: translateY(-4px); }
+    .accent-gradient { background: __ACCENT_GRADIENT__; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
   </style>
 </head>
-<body class="bg-obsidian min-h-screen text-slate-200">
+<body class="__BODY_CLASS__">
 
   <!-- TOP NAVIGATION BAR -->
   <nav class="fixed top-0 left-0 right-0 z-50 glass-nav">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
       <div class="flex items-center space-x-4">
-        <div class="w-10 h-10 border rounded-full flex items-center justify-center" style="border-color: __ACCENT_COLOR__66;">
+        <div class="w-10 h-10 border rounded-full flex items-center justify-center" style="border-color: __ACCENT_COLOR__88;">
           <span class="font-serif font-bold text-lg" style="color: __ACCENT_COLOR__;">__BRAND_INITIAL__</span>
         </div>
         <div>
-          <span class="font-serif tracking-[0.2em] text-white font-bold text-lg">__BRAND_NAME_UPPER__</span>
+          <span class="font-serif tracking-[0.2em] font-bold text-lg __BRAND_NAME_COLOR__">__BRAND_NAME_UPPER__</span>
           <span class="block text-[9px] tracking-[0.25em] uppercase -mt-0.5" style="color: __ACCENT_COLOR__;">__BRAND_TAGLINE__</span>
         </div>
       </div>
-      <div class="hidden md:flex items-center space-x-8 text-xs uppercase tracking-widest text-slate-300 font-medium">
-        <a href="#services" class="hover:text-white transition-colors">Services</a>
-        <a href="#metrics" class="hover:text-white transition-colors">Metrics</a>
-        <a href="#testimonials" class="hover:text-white transition-colors">Testimonials</a>
-        <a href="#contact" class="hover:text-white transition-colors">Private Office</a>
+      <div class="hidden md:flex items-center space-x-8 text-xs uppercase tracking-widest font-medium">
+        <a href="#services" class="__NAV_LINKS_COLOR__ transition-colors">Services</a>
+        <a href="#metrics" class="__NAV_LINKS_COLOR__ transition-colors">Metrics</a>
+        <a href="#testimonials" class="__NAV_LINKS_COLOR__ transition-colors">Testimonials</a>
+        <a href="#contact" class="__NAV_LINKS_COLOR__ transition-colors">Private Office</a>
       </div>
       <div class="flex items-center space-x-4">
         <button onclick="openModal('__BTN_LABEL__')" class="px-5 py-2.5 rounded-full border text-xs uppercase tracking-widest font-semibold transition-all shadow-lg" style="border-color: __ACCENT_COLOR__88; color: __ACCENT_COLOR__; background: __ACCENT_COLOR__10;">
@@ -320,22 +375,22 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
     <div class="absolute inset-0 pointer-events-none">
       <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] rounded-full blur-[140px]" style="background: radial-gradient(circle, __ACCENT_COLOR__25 0%, transparent 70%);"></div>
     </div>
-    <div class="max-w-5xl mx-auto text-center relative z-10">
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 mb-8">
+    <div class="max-w-5xl mx-auto text-center relative z-10 gsap-reveal">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-8" style="__HERO_TAG_STYLE__">
         <span class="w-2 h-2 rounded-full animate-pulse" style="background: __ACCENT_COLOR__;"></span>
-        <span class="font-mono text-[10px] tracking-widest uppercase text-slate-300">__HERO_TAG__</span>
+        <span class="font-mono text-[10px] tracking-widest uppercase">__HERO_TAG__</span>
       </div>
       <h1 class="text-4xl sm:text-6xl lg:text-7xl font-serif font-black tracking-tight leading-[1.1] mb-8 accent-gradient">
         __HERO_H1__
       </h1>
-      <p class="text-base sm:text-lg text-slate-400 max-w-3xl mx-auto font-light leading-relaxed mb-12">
+      <p class="text-base sm:text-lg __TEXT_MUTED__ max-w-3xl mx-auto font-light leading-relaxed mb-12">
         __HERO_SUB__
       </p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-5">
-        <button onclick="openModal('__BTN_LABEL__')" class="w-full sm:w-auto px-8 py-4 rounded-xl text-xs uppercase tracking-widest font-bold text-black transition-all shadow-2xl hover:scale-105" style="background: __ACCENT_COLOR__;">
+        <button onclick="openModal('__BTN_LABEL__')" class="w-full sm:w-auto px-8 py-4 rounded-xl text-xs uppercase tracking-widest font-bold text-white transition-all shadow-2xl hover:scale-105" style="background: __ACCENT_COLOR__;">
           __BTN_LABEL__
         </button>
-        <a href="#services" class="w-full sm:w-auto px-8 py-4 rounded-xl border border-white/15 bg-white/5 text-xs uppercase tracking-widest font-semibold text-white hover:bg-white/10 transition-all text-center">
+        <a href="#services" class="w-full sm:w-auto px-8 py-4 rounded-xl text-xs uppercase tracking-widest font-semibold __SEC_BTN_HOVER__ transition-all text-center" style="__SEC_BTN_STYLE__">
           Explore Capabilities
         </a>
       </div>
@@ -343,46 +398,46 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
   </section>
 
   <!-- 3-COLUMN SERVICES GRID -->
-  <section id="services" class="py-24 px-6 border-t border-white/5 relative">
+  <section id="services" class="py-24 px-6 __SECTION_BORDER__ relative">
     <div class="max-w-7xl mx-auto">
-      <div class="text-center mb-16">
+      <div class="text-center mb-16 gsap-reveal">
         <span class="font-mono text-xs uppercase tracking-widest" style="color: __ACCENT_COLOR__;">Core Institutional Vectors</span>
-        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-3">Precision Engineered Capabilities</h2>
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold __HEADING_COLOR__ mt-3">Precision Engineered Capabilities</h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="glass-card p-8 rounded-2xl">
+        <div class="glass-card p-8 rounded-2xl gsap-reveal">
           <div class="w-12 h-12 rounded-xl mb-6 flex items-center justify-center font-mono font-bold text-lg" style="background: __ACCENT_COLOR__15; color: __ACCENT_COLOR__;">01</div>
-          <h3 class="font-serif text-xl font-bold text-white mb-3">__S1_TITLE__</h3>
-          <p class="text-sm text-slate-400 leading-relaxed">__S1_DESC__</p>
+          <h3 class="font-serif text-xl font-bold __HEADING_COLOR__ mb-3">__S1_TITLE__</h3>
+          <p class="text-sm __TEXT_MUTED__ leading-relaxed">__S1_DESC__</p>
         </div>
-        <div class="glass-card p-8 rounded-2xl">
+        <div class="glass-card p-8 rounded-2xl gsap-reveal">
           <div class="w-12 h-12 rounded-xl mb-6 flex items-center justify-center font-mono font-bold text-lg" style="background: __ACCENT_COLOR__15; color: __ACCENT_COLOR__;">02</div>
-          <h3 class="font-serif text-xl font-bold text-white mb-3">__S2_TITLE__</h3>
-          <p class="text-sm text-slate-400 leading-relaxed">__S2_DESC__</p>
+          <h3 class="font-serif text-xl font-bold __HEADING_COLOR__ mb-3">__S2_TITLE__</h3>
+          <p class="text-sm __TEXT_MUTED__ leading-relaxed">__S2_DESC__</p>
         </div>
-        <div class="glass-card p-8 rounded-2xl">
+        <div class="glass-card p-8 rounded-2xl gsap-reveal">
           <div class="w-12 h-12 rounded-xl mb-6 flex items-center justify-center font-mono font-bold text-lg" style="background: __ACCENT_COLOR__15; color: __ACCENT_COLOR__;">03</div>
-          <h3 class="font-serif text-xl font-bold text-white mb-3">__S3_TITLE__</h3>
-          <p class="text-sm text-slate-400 leading-relaxed">__S3_DESC__</p>
+          <h3 class="font-serif text-xl font-bold __HEADING_COLOR__ mb-3">__S3_TITLE__</h3>
+          <p class="text-sm __TEXT_MUTED__ leading-relaxed">__S3_DESC__</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- METRICS TELEMETRY SECTION -->
-  <section id="metrics" class="py-20 px-6 border-y border-white/5 bg-white/[0.015]">
-    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+  <section id="metrics" class="py-20 px-6 __METRICS_BG__">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 text-center gsap-reveal">
       <div class="p-6">
         <div class="font-mono text-4xl sm:text-5xl font-bold mb-2 tracking-tight" style="color: __ACCENT_COLOR__;">__STAT1_V__</div>
-        <div class="text-xs uppercase tracking-widest text-slate-400">__STAT1_L__</div>
+        <div class="text-xs uppercase tracking-widest __TEXT_MUTED__">__STAT1_L__</div>
       </div>
-      <div class="p-6 border-y md:border-y-0 md:border-x border-white/10">
-        <div class="font-mono text-4xl sm:text-5xl font-bold mb-2 tracking-tight text-white">__STAT2_V__</div>
-        <div class="text-xs uppercase tracking-widest text-slate-400">__STAT2_L__</div>
+      <div class="p-6 __STAT_CENTER_BORDER__">
+        <div class="font-mono text-4xl sm:text-5xl font-bold mb-2 tracking-tight __HEADING_COLOR__">__STAT2_V__</div>
+        <div class="text-xs uppercase tracking-widest __TEXT_MUTED__">__STAT2_L__</div>
       </div>
       <div class="p-6">
         <div class="font-mono text-4xl sm:text-5xl font-bold mb-2 tracking-tight" style="color: __ACCENT_COLOR__;">__STAT3_V__</div>
-        <div class="text-xs uppercase tracking-widest text-slate-400">__STAT3_L__</div>
+        <div class="text-xs uppercase tracking-widest __TEXT_MUTED__">__STAT3_L__</div>
       </div>
     </div>
   </section>
@@ -390,54 +445,54 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
   <!-- TESTIMONIALS SLIDER SECTION -->
   <section id="testimonials" class="py-24 px-6 relative">
     <div class="max-w-4xl mx-auto">
-      <div class="text-center mb-14">
+      <div class="text-center mb-14 gsap-reveal">
         <span class="font-mono text-xs uppercase tracking-widest" style="color: __ACCENT_COLOR__;">Institutional Fiduciary Trust</span>
-        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-3">Verified Executive Endorsements</h2>
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold __HEADING_COLOR__ mt-3">Verified Executive Endorsements</h2>
       </div>
-      <div class="glass-card p-10 sm:p-14 rounded-3xl relative" id="testimonialContainer">
+      <div class="glass-card p-10 sm:p-14 rounded-3xl relative gsap-reveal" id="testimonialContainer">
         <div id="tSlide0" class="t-slide">
-          <p class="text-lg sm:text-xl text-slate-200 font-light italic leading-relaxed mb-8">__T1_QUOTE__</p>
+          <p class="text-lg sm:text-xl __HEADING_COLOR__ font-light italic leading-relaxed mb-8">__T1_QUOTE__</p>
           <div class="flex items-center gap-4">
-            <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-black text-sm" style="background: __ACCENT_COLOR__;">
+            <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-white text-sm" style="background: __ACCENT_COLOR__;">
               __T1_INITIAL__
             </div>
             <div>
-              <div class="font-semibold text-white text-base">__T1_NAME__</div>
-              <div class="font-mono text-xs text-slate-400">__T1_ROLE__</div>
+              <div class="font-semibold __HEADING_COLOR__ text-base">__T1_NAME__</div>
+              <div class="font-mono text-xs __TEXT_MUTED__">__T1_ROLE__</div>
             </div>
           </div>
         </div>
         <div id="tSlide1" class="t-slide hidden">
-          <p class="text-lg sm:text-xl text-slate-200 font-light italic leading-relaxed mb-8">__T2_QUOTE__</p>
+          <p class="text-lg sm:text-xl __HEADING_COLOR__ font-light italic leading-relaxed mb-8">__T2_QUOTE__</p>
           <div class="flex items-center gap-4">
-            <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-black text-sm" style="background: __ACCENT_COLOR__;">
+            <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-white text-sm" style="background: __ACCENT_COLOR__;">
               __T2_INITIAL__
             </div>
             <div>
-              <div class="font-semibold text-white text-base">__T2_NAME__</div>
-              <div class="font-mono text-xs text-slate-400">__T2_ROLE__</div>
+              <div class="font-semibold __HEADING_COLOR__ text-base">__T2_NAME__</div>
+              <div class="font-mono text-xs __TEXT_MUTED__">__T2_ROLE__</div>
             </div>
           </div>
         </div>
         <div id="tSlide2" class="t-slide hidden">
-          <p class="text-lg sm:text-xl text-slate-200 font-light italic leading-relaxed mb-8">__T3_QUOTE__</p>
+          <p class="text-lg sm:text-xl __HEADING_COLOR__ font-light italic leading-relaxed mb-8">__T3_QUOTE__</p>
           <div class="flex items-center gap-4">
-            <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-black text-sm" style="background: __ACCENT_COLOR__;">
+            <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-white text-sm" style="background: __ACCENT_COLOR__;">
               __T3_INITIAL__
             </div>
             <div>
-              <div class="font-semibold text-white text-base">__T3_NAME__</div>
-              <div class="font-mono text-xs text-slate-400">__T3_ROLE__</div>
+              <div class="font-semibold __HEADING_COLOR__ text-base">__T3_NAME__</div>
+              <div class="font-mono text-xs __TEXT_MUTED__">__T3_ROLE__</div>
             </div>
           </div>
         </div>
         <!-- SLIDER CONTROLS -->
-        <div class="flex items-center justify-end gap-3 mt-8 pt-6 border-t border-white/10">
-          <button onclick="prevSlide()" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-slate-300 hover:text-white hover:border-white transition-all text-xs font-mono">
+        <div class="flex items-center justify-end gap-3 mt-8 pt-6 border-t border-stone-200/20">
+          <button onclick="prevSlide()" class="w-10 h-10 rounded-full border border-stone-300/40 flex items-center justify-center __TEXT_MUTED__ hover:border-stone-500 transition-all text-xs font-mono">
             &larr;
           </button>
-          <span id="slideIndicator" class="font-mono text-xs text-slate-400 px-2">01 / 03</span>
-          <button onclick="nextSlide()" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-slate-300 hover:text-white hover:border-white transition-all text-xs font-mono">
+          <span id="slideIndicator" class="font-mono text-xs __TEXT_MUTED__ px-2">01 / 03</span>
+          <button onclick="nextSlide()" class="w-10 h-10 rounded-full border border-stone-300/40 flex items-center justify-center __TEXT_MUTED__ hover:border-stone-500 transition-all text-xs font-mono">
             &rarr;
           </button>
         </div>
@@ -446,13 +501,13 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
   </section>
 
   <!-- FOOTER -->
-  <footer class="py-12 px-6 border-t border-white/10 bg-black/40">
+  <footer class="py-12 px-6" style="__FOOTER_STYLE__">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
       <div class="flex items-center space-x-3">
-        <span class="font-serif font-bold text-white tracking-widest">__BRAND_NAME_UPPER__</span>
-        <span class="text-xs text-slate-500 font-mono">// ALL RIGHTS RESERVED</span>
+        <span class="font-serif font-bold __FOOTER_BRAND__ tracking-widest">__BRAND_NAME_UPPER__</span>
+        <span class="text-xs font-mono opacity-60">// ALL RIGHTS RESERVED</span>
       </div>
-      <div class="flex items-center space-x-6 text-xs text-slate-400 font-mono">
+      <div class="flex items-center space-x-6 text-xs font-mono opacity-75">
         <span>SECURITY: AIR-GAPPED</span>
         <span>FIDUCIARY: VERIFIED</span>
       </div>
@@ -460,28 +515,28 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
   </footer>
 
   <!-- INTERACTIVE LEAD CAPTURE MODAL -->
-  <div id="leadModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-    <div class="glass-card max-w-lg w-full p-8 rounded-3xl relative border border-white/20 bg-[#0B0F1A]">
-      <button onclick="closeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg font-mono">&times;</button>
+  <div id="leadModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="max-w-lg w-full p-8 rounded-3xl relative" style="__MODAL_CARD_STYLE__">
+      <button onclick="closeModal()" class="absolute top-5 right-5 __TEXT_MUTED__ text-lg font-mono">&times;</button>
       <div class="mb-6">
         <span class="font-mono text-[10px] uppercase tracking-widest" style="color: __ACCENT_COLOR__;">Executive Inquiry</span>
-        <h3 id="modalTitle" class="text-2xl font-serif font-bold text-white mt-1">__BTN_LABEL__</h3>
-        <p class="text-xs text-slate-400 mt-1">Direct conduit to the managing partners at __BRAND_NAME__.</p>
+        <h3 id="modalTitle" class="text-2xl font-serif font-bold __HEADING_COLOR__ mt-1">__BTN_LABEL__</h3>
+        <p class="text-xs __TEXT_MUTED__ mt-1">Direct conduit to the managing partners at __BRAND_NAME__.</p>
       </div>
       <form onsubmit="handleFormSubmit(event)" class="space-y-4">
         <div>
-          <label class="block font-mono text-[10px] uppercase tracking-wider text-slate-400 mb-1">Executive Name</label>
-          <input type="text" required placeholder="e.g. Sterling Vance" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/40">
+          <label class="block font-mono text-[10px] uppercase tracking-wider __TEXT_MUTED__ mb-1">Executive Name</label>
+          <input type="text" required placeholder="e.g. Sterling Vance" class="w-full rounded-xl px-4 py-3 text-sm focus:outline-none" style="__INPUT_STYLE__">
         </div>
         <div>
-          <label class="block font-mono text-[10px] uppercase tracking-wider text-slate-400 mb-1">Corporate / Fiduciary Email</label>
-          <input type="email" required placeholder="name@firm.com" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/40">
+          <label class="block font-mono text-[10px] uppercase tracking-wider __TEXT_MUTED__ mb-1">Corporate / Fiduciary Email</label>
+          <input type="email" required placeholder="name@firm.com" class="w-full rounded-xl px-4 py-3 text-sm focus:outline-none" style="__INPUT_STYLE__">
         </div>
         <div>
-          <label class="block font-mono text-[10px] uppercase tracking-wider text-slate-400 mb-1">Scope of Mandate</label>
-          <textarea rows="3" required placeholder="Outline key objectives..." class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/40"></textarea>
+          <label class="block font-mono text-[10px] uppercase tracking-wider __TEXT_MUTED__ mb-1">Scope of Mandate</label>
+          <textarea rows="3" required placeholder="Outline key objectives..." class="w-full rounded-xl px-4 py-3 text-sm focus:outline-none" style="__INPUT_STYLE__"></textarea>
         </div>
-        <button type="submit" class="w-full py-4 rounded-xl text-xs uppercase tracking-widest font-bold text-black transition-all hover:scale-[1.02]" style="background: __ACCENT_COLOR__;">
+        <button type="submit" class="w-full py-4 rounded-xl text-xs uppercase tracking-widest font-bold text-white transition-all hover:scale-[1.02]" style="background: __ACCENT_COLOR__;">
           Transmit Executive Mandate
         </button>
       </form>
@@ -521,6 +576,26 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
       alert('Mandate received by __BRAND_NAME__ Executive Council. A senior managing partner will initiate contact within two business hours.');
       closeModal();
     }
+
+    // GSAP ScrollTrigger Viewport Orchestration
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.utils.toArray('.gsap-reveal').forEach((elem) => {
+          gsap.from(elem, {
+            scrollTrigger: {
+              trigger: elem,
+              start: 'top 88%',
+              toggleActions: 'play none none none'
+            },
+            y: 35,
+            opacity: 0,
+            duration: 0.85,
+            ease: 'power2.out'
+          });
+        });
+      }
+    });
   </script>
 </body>
 </html>"""
@@ -528,6 +603,7 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
     replacements = {
         "__BRAND_NAME__": brand_name,
         "__BRAND_NAME_UPPER__": brand_name.upper(),
+        "__BRAND_NAME_COLOR__": brand_name_color,
         "__BRAND_INITIAL__": brand_name[0] if brand_name else "A",
         "__BRAND_TAGLINE__": brand_tagline,
         "__HERO_TAG__": hero_tag,
@@ -536,6 +612,26 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
         "__ACCENT_COLOR__": accent_color,
         "__ACCENT_SECONDARY__": accent_secondary,
         "__BTN_LABEL__": btn_label,
+        "__CANVAS_BG__": canvas_bg,
+        "__BODY_CLASS__": body_class,
+        "__NAV_STYLE__": nav_style,
+        "__CARD_STYLE__": card_style,
+        "__CARD_HOVER_BORDER__": card_hover_border,
+        "__CARD_HOVER_SHADOW__": card_hover_shadow,
+        "__ACCENT_GRADIENT__": accent_gradient,
+        "__HERO_TAG_STYLE__": hero_tag_style,
+        "__HEADING_COLOR__": heading_color,
+        "__TEXT_MUTED__": text_muted,
+        "__NAV_LINKS_COLOR__": nav_link_class,
+        "__SEC_BTN_STYLE__": sec_btn_style,
+        "__SEC_BTN_HOVER__": sec_btn_hover,
+        "__SECTION_BORDER__": section_border,
+        "__METRICS_BG__": metrics_bg,
+        "__STAT_CENTER_BORDER__": stat_center_border,
+        "__MODAL_CARD_STYLE__": modal_card_style,
+        "__INPUT_STYLE__": input_style,
+        "__FOOTER_STYLE__": footer_style,
+        "__FOOTER_BRAND__": footer_brand,
         "__S1_TITLE__": s1_title,
         "__S1_DESC__": s1_desc,
         "__S2_TITLE__": s2_title,
@@ -635,6 +731,19 @@ def push_index_html_to_github(content: str, commit_message: str = "feat(asura): 
         return {"success": False, "error": str(e), "code": 500}
 
 
+ANTISLOP_PROTOCOLS = """
+STYLE-AGNOSTIC HIGH-END ARCHITECTURAL STANDARDS & DESIGN DIRECTIVES:
+1. Dynamic Color & Theme Mapping: Strictly extract the background color, accent highlights, and branding themes directly from '{user_input}'. If the user requests a light, warm cream (#FDFBF7, #F8F6F0), minimalist white (#FAFAFA), or soft pastel canvas, build the frontend matching that exact parameter with beautifully balanced high-contrast dark text (#18181B, #27272A, #3F3F46). If dark mode is requested or appropriate, use obsidian space blacks (#07090E, #0F172A) with crisp white typography (#FFFFFF, #F1F5F9). Never force dark mode if the user asks for light, minimal, or cream aesthetics!
+2. Anti-Slop R-12 (Luxury Fonts): Mandate premium tracked typography via Google Fonts CDN (e.g., Cormorant Garamond, Playfair Display, or Syne for display headers; Inter or Plus Jakarta Sans for navigation and tracking). Apply wide text tracking (tracking-wide or tracking-widest, uppercase subheadings).
+3. Anti-Slop R-24 (Breathable Margins): Force immense, expansive structural breathing room and luxury spacing layouts (py-32 md:py-48 px-8 md:px-24). Strictly ban compressed boxes and generic grid blocks.
+4. Anti-Slop R-35 (Zero Flat Emojis): Absolutely no raw colored icons or default text emojis. Accent graphics must be custom-rendered geometric SVG paths matching the theme palette.
+5. GSAP Animation Infrastructure: Include GreenSock and ScrollTrigger libraries via CDN:
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+   Include an internal script block initializing gsap.from() animations bound to ScrollTrigger checkpoints for smooth scroll reveals and viewport text fades.
+"""
+
+
 def generate_platform_with_gemini(user_input: str) -> tuple[str, str]:
     """
     Modern Google GenAI Layer Compiler:
@@ -643,16 +752,22 @@ def generate_platform_with_gemini(user_input: str) -> tuple[str, str]:
     Completely eliminates outdated CrewAI/LangChain wrapper layers to guarantee zero container freezes.
     """
     prompt_text = (
-        f"You are the world's leading UI/UX architect and frontend engineer. "
+        f"You are the world's leading UI/UX architect and frontend engineer.\n"
         f"The client has provided this specific mission directive: '{user_input}'.\n\n"
-        f"Generate an absolute masterpiece, production-ready, single-file HTML website matching this EXACT niche and business instruction.\n"
+        f"Generate an absolute masterpiece, production-ready, single-file HTML website matching this EXACT niche and business instruction.\n\n"
+        f"SYSTEM ANTISLOP DIRECTIVES:\n"
+        f"{ANTISLOP_PROTOCOLS.format(user_input=user_input)}\n\n"
         f"CRITICAL REQUIREMENTS:\n"
         f"1. Tailor all branding, headlines, copy, navigation links, services, features, stats, pricing/plans, and testimonials STRICTLY to '{user_input}'.\n"
         f"2. Use modern HTML5 semantics with Tailwind CSS CDN: <script src=\"https://cdn.tailwindcss.com\"></script>\n"
-        f"3. Visual style: Ultra-sleek, premium dark mode (deep space blacks #07090e, obsidian card surfaces, glowing specular borders, translucent glassmorphism backdrop-filter: blur).\n"
-        f"4. Include interactive UI elements via vanilla JavaScript: navigation drawer, animated review/testimonial slider, interactive modal/lead capture form, FAQ accordion, dynamic calculator or interactive metric tabs.\n"
-        f"5. Absolutely NO generic lorem ipsum, NO placeholder text, NO basic unstyled HTML elements, and NO emojis.\n"
-        f"6. Output ONLY raw HTML starting with <!DOCTYPE html> and closing with </html>. Do not wrap in markdown codeblocks."
+        f"3. Dynamic Theme & Visual Architecture: Completely style-agnostic and dynamically tailored to '{user_input}'. If light mode, warm cream, linen, editorial minimal, or white aesthetic is requested, implement a stunning high-end light canvas (e.g. background #FDFBF7, cards #FFFFFF, borders rgba(0,0,0,0.08), deep espresso/slate typography #18181B). If dark mode or deep colors are requested, use an ultra-sleek dark palette (#07090E, obsidian cards, glowing specular highlights). Follow all ANTISLOP_PROTOCOLS.\n"
+        f"4. Embed GSAP Animation Infrastructure via CDN:\n"
+        f"   <script src=\"https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js\"></script>\n"
+        f"   <script src=\"https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js\"></script>\n"
+        f"   Include a script initializing gsap.from() animations with ScrollTrigger for viewport reveal fades.\n"
+        f"5. Include interactive UI elements via vanilla JavaScript: navigation drawer, animated review/testimonial slider, interactive modal/lead capture form, FAQ accordion, dynamic tabs.\n"
+        f"6. Absolutely NO generic lorem ipsum, NO placeholder text, NO basic unstyled HTML elements, and NO emojis.\n"
+        f"7. Output ONLY raw HTML starting with <!DOCTYPE html> and closing with </html>. Do not wrap in markdown codeblocks."
     )
 
     log_message(f"Hermes Router: registering directive for '{user_input[:50]}'", "hermes")
@@ -663,8 +778,9 @@ def generate_platform_with_gemini(user_input: str) -> tuple[str, str]:
         f"- **Customer Directive:** {user_input}\n"
         f"- **Engine Model:** gemini-3.6-flash / gemini-flash-latest cascade via Google GenAI\n"
         f"- **Bearer Credential:** GEMINI_API_KEY authenticated\n"
-        f"- **Presentation Layer:** HTML5 Semantic Engine + Tailwind CSS Modern System\n"
-        f"- **Design Standard:** Dark Glassmorphism, Zero Placeholders, Zero Emojis\n"
+        f"- **Presentation Layer:** HTML5 Semantic Engine + Tailwind CSS + GSAP Animation Suite\n"
+        f"- **Design Standard:** Style-Agnostic Dynamic Architecture, Zero Placeholders, Zero Emojis\n"
+        f"- **Anti-Slop Protocols:** R-12 Luxury Fonts, R-24 Breathable Margins, R-35 Zero Flat Emojis, GSAP ScrollTrigger\n"
         f"- **Components:** Responsive Navigation, Geometric Hero Showcase, 3-Column Services Grid, Testimonials Slider, Functional Lead Modal"
     )
 
