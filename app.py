@@ -247,44 +247,44 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
   - `LeadCaptureModal`: Interactive appointment & concierge scheduling modal with runtime timestamps.
 """
 
-    html_code = f"""<!DOCTYPE html>
+    html_template = """<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{brand_name} // {brand_tagline}</title>
+  <title>__BRAND_NAME__ // __BRAND_TAGLINE__</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <script>
-    tailwind.config = {{
-      theme: {{
-        extend: {{
-          fontFamily: {{
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
             serif: ['Cinzel', 'serif'],
             sans: ['Inter', 'sans-serif'],
             mono: ['JetBrains Mono', 'monospace'],
-          }},
-          colors: {{
-            brand: {{
-              accent: '{accent_color}',
-              secondary: '{accent_secondary}',
-            }},
+          },
+          colors: {
+            brand: {
+              accent: '__ACCENT_COLOR__',
+              secondary: '__ACCENT_SECONDARY__',
+            },
             obsidian: '#07090E',
             surface: 'rgba(255, 255, 255, 0.035)',
             border: 'rgba(255, 255, 255, 0.08)',
-          }}
-        }}
-      }}
-    }}
+          }
+        }
+      }
+    }
   </script>
   <style>
-    body {{ background-color: #07090E; color: #F1F5F9; font-family: 'Inter', sans-serif; overflow-x: hidden; }}
-    .glass-nav {{ background: rgba(7, 9, 14, 0.82); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.07); }}
-    .glass-card {{ background: rgba(255,255,255,0.03); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }}
-    .glass-card:hover {{ transform: translateY(-4px); border-color: {accent_color}66; box-shadow: 0 16px 40px rgba(0,0,0,0.65); }}
-    .accent-gradient {{ background: linear-gradient(135deg, #FFFFFF 0%, {accent_color} 60%, {accent_secondary} 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }}
+    body { background-color: #07090E; color: #F1F5F9; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+    .glass-nav { background: rgba(7, 9, 14, 0.82); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .glass-card { background: rgba(255,255,255,0.03); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    .glass-card:hover { transform: translateY(-4px); border-color: __ACCENT_COLOR__66; box-shadow: 0 16px 40px rgba(0,0,0,0.65); }
+    .accent-gradient { background: linear-gradient(135deg, #FFFFFF 0%, __ACCENT_COLOR__ 60%, __ACCENT_SECONDARY__ 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
   </style>
 </head>
 <body class="bg-obsidian min-h-screen text-slate-200">
@@ -293,12 +293,12 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
   <nav class="fixed top-0 left-0 right-0 z-50 glass-nav">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
       <div class="flex items-center space-x-4">
-        <div class="w-10 h-10 border rounded-full flex items-center justify-center" style="border-color: {accent_color}66;">
-          <span class="font-serif font-bold text-lg" style="color: {accent_color};">{brand_name[0]}</span>
+        <div class="w-10 h-10 border rounded-full flex items-center justify-center" style="border-color: __ACCENT_COLOR__66;">
+          <span class="font-serif font-bold text-lg" style="color: __ACCENT_COLOR__;">__BRAND_INITIAL__</span>
         </div>
         <div>
-          <span class="font-serif tracking-[0.2em] text-white font-bold text-lg">{brand_name.upper()}</span>
-          <span class="block text-[9px] tracking-[0.25em] uppercase -mt-0.5" style="color: {accent_color};">{brand_tagline}</span>
+          <span class="font-serif tracking-[0.2em] text-white font-bold text-lg">__BRAND_NAME_UPPER__</span>
+          <span class="block text-[9px] tracking-[0.25em] uppercase -mt-0.5" style="color: __ACCENT_COLOR__;">__BRAND_TAGLINE__</span>
         </div>
       </div>
       <div class="hidden md:flex items-center space-x-8 text-xs uppercase tracking-widest text-slate-300 font-medium">
@@ -308,8 +308,8 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
         <a href="#contact" class="hover:text-white transition-colors">Private Office</a>
       </div>
       <div class="flex items-center space-x-4">
-        <button onclick="openModal('{btn_label}')" class="px-5 py-2.5 rounded-full border text-xs uppercase tracking-widest font-semibold transition-all shadow-lg" style="border-color: {accent_color}88; color: {accent_color}; background: {accent_color}10;">
-          {btn_label}
+        <button onclick="openModal('__BTN_LABEL__')" class="px-5 py-2.5 rounded-full border text-xs uppercase tracking-widest font-semibold transition-all shadow-lg" style="border-color: __ACCENT_COLOR__88; color: __ACCENT_COLOR__; background: __ACCENT_COLOR__10;">
+          __BTN_LABEL__
         </button>
       </div>
     </div>
@@ -318,22 +318,22 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
   <!-- HERO SECTION -->
   <section class="relative pt-44 pb-28 px-6 overflow-hidden">
     <div class="absolute inset-0 pointer-events-none">
-      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] rounded-full blur-[140px]" style="background: radial-gradient(circle, {accent_color}25 0%, transparent 70%);"></div>
+      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] rounded-full blur-[140px]" style="background: radial-gradient(circle, __ACCENT_COLOR__25 0%, transparent 70%);"></div>
     </div>
     <div class="max-w-5xl mx-auto text-center relative z-10">
       <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 mb-8">
-        <span class="w-2 h-2 rounded-full animate-pulse" style="background: {accent_color};"></span>
-        <span class="font-mono text-[10px] tracking-widest uppercase text-slate-300">{hero_tag}</span>
+        <span class="w-2 h-2 rounded-full animate-pulse" style="background: __ACCENT_COLOR__;"></span>
+        <span class="font-mono text-[10px] tracking-widest uppercase text-slate-300">__HERO_TAG__</span>
       </div>
       <h1 class="text-4xl sm:text-6xl lg:text-7xl font-serif font-black tracking-tight leading-[1.1] mb-8 accent-gradient">
-        {hero_h1}
+        __HERO_H1__
       </h1>
       <p class="text-base sm:text-lg text-slate-400 max-w-3xl mx-auto font-light leading-relaxed mb-12">
-        {hero_sub}
+        __HERO_SUB__
       </p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-5">
-        <button onclick="openModal('{btn_label}')" class="w-full sm:w-auto px-8 py-4 rounded-xl text-xs uppercase tracking-widest font-bold text-black transition-all shadow-2xl hover:scale-105" style="background: {accent_color};">
-          {btn_label}
+        <button onclick="openModal('__BTN_LABEL__')" class="w-full sm:w-auto px-8 py-4 rounded-xl text-xs uppercase tracking-widest font-bold text-black transition-all shadow-2xl hover:scale-105" style="background: __ACCENT_COLOR__;">
+          __BTN_LABEL__
         </button>
         <a href="#services" class="w-full sm:w-auto px-8 py-4 rounded-xl border border-white/15 bg-white/5 text-xs uppercase tracking-widest font-semibold text-white hover:bg-white/10 transition-all text-center">
           Explore Capabilities
@@ -346,24 +346,24 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
   <section id="services" class="py-24 px-6 border-t border-white/5 relative">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-16">
-        <span class="font-mono text-xs uppercase tracking-widest" style="color: {accent_color};">Core Institutional Vectors</span>
+        <span class="font-mono text-xs uppercase tracking-widest" style="color: __ACCENT_COLOR__;">Core Institutional Vectors</span>
         <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-3">Precision Engineered Capabilities</h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="glass-card p-8 rounded-2xl">
-          <div class="w-12 h-12 rounded-xl mb-6 flex items-center justify-center font-mono font-bold text-lg" style="background: {accent_color}15; color: {accent_color};">01</div>
-          <h3 class="font-serif text-xl font-bold text-white mb-3">{s1_title}</h3>
-          <p class="text-sm text-slate-400 leading-relaxed">{s1_desc}</p>
+          <div class="w-12 h-12 rounded-xl mb-6 flex items-center justify-center font-mono font-bold text-lg" style="background: __ACCENT_COLOR__15; color: __ACCENT_COLOR__;">01</div>
+          <h3 class="font-serif text-xl font-bold text-white mb-3">__S1_TITLE__</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">__S1_DESC__</p>
         </div>
         <div class="glass-card p-8 rounded-2xl">
-          <div class="w-12 h-12 rounded-xl mb-6 flex items-center justify-center font-mono font-bold text-lg" style="background: {accent_color}15; color: {accent_color};">02</div>
-          <h3 class="font-serif text-xl font-bold text-white mb-3">{s2_title}</h3>
-          <p class="text-sm text-slate-400 leading-relaxed">{s2_desc}</p>
+          <div class="w-12 h-12 rounded-xl mb-6 flex items-center justify-center font-mono font-bold text-lg" style="background: __ACCENT_COLOR__15; color: __ACCENT_COLOR__;">02</div>
+          <h3 class="font-serif text-xl font-bold text-white mb-3">__S2_TITLE__</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">__S2_DESC__</p>
         </div>
         <div class="glass-card p-8 rounded-2xl">
-          <div class="w-12 h-12 rounded-xl mb-6 flex items-center justify-center font-mono font-bold text-lg" style="background: {accent_color}15; color: {accent_color};">03</div>
-          <h3 class="font-serif text-xl font-bold text-white mb-3">{s3_title}</h3>
-          <p class="text-sm text-slate-400 leading-relaxed">{s3_desc}</p>
+          <div class="w-12 h-12 rounded-xl mb-6 flex items-center justify-center font-mono font-bold text-lg" style="background: __ACCENT_COLOR__15; color: __ACCENT_COLOR__;">03</div>
+          <h3 class="font-serif text-xl font-bold text-white mb-3">__S3_TITLE__</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">__S3_DESC__</p>
         </div>
       </div>
     </div>
@@ -373,16 +373,16 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
   <section id="metrics" class="py-20 px-6 border-y border-white/5 bg-white/[0.015]">
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
       <div class="p-6">
-        <div class="font-mono text-4xl sm:text-5xl font-bold mb-2 tracking-tight" style="color: {accent_color};">{stat1_v}</div>
-        <div class="text-xs uppercase tracking-widest text-slate-400">{stat1_l}</div>
+        <div class="font-mono text-4xl sm:text-5xl font-bold mb-2 tracking-tight" style="color: __ACCENT_COLOR__;">__STAT1_V__</div>
+        <div class="text-xs uppercase tracking-widest text-slate-400">__STAT1_L__</div>
       </div>
       <div class="p-6 border-y md:border-y-0 md:border-x border-white/10">
-        <div class="font-mono text-4xl sm:text-5xl font-bold mb-2 tracking-tight text-white">{stat2_v}</div>
-        <div class="text-xs uppercase tracking-widest text-slate-400">{stat2_l}</div>
+        <div class="font-mono text-4xl sm:text-5xl font-bold mb-2 tracking-tight text-white">__STAT2_V__</div>
+        <div class="text-xs uppercase tracking-widest text-slate-400">__STAT2_L__</div>
       </div>
       <div class="p-6">
-        <div class="font-mono text-4xl sm:text-5xl font-bold mb-2 tracking-tight" style="color: {accent_color};">{stat3_v}</div>
-        <div class="text-xs uppercase tracking-widest text-slate-400">{stat3_l}</div>
+        <div class="font-mono text-4xl sm:text-5xl font-bold mb-2 tracking-tight" style="color: __ACCENT_COLOR__;">__STAT3_V__</div>
+        <div class="text-xs uppercase tracking-widest text-slate-400">__STAT3_L__</div>
       </div>
     </div>
   </section>
@@ -391,43 +391,43 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
   <section id="testimonials" class="py-24 px-6 relative">
     <div class="max-w-4xl mx-auto">
       <div class="text-center mb-14">
-        <span class="font-mono text-xs uppercase tracking-widest" style="color: {accent_color};">Institutional Fiduciary Trust</span>
+        <span class="font-mono text-xs uppercase tracking-widest" style="color: __ACCENT_COLOR__;">Institutional Fiduciary Trust</span>
         <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-3">Verified Executive Endorsements</h2>
       </div>
       <div class="glass-card p-10 sm:p-14 rounded-3xl relative" id="testimonialContainer">
         <div id="tSlide0" class="t-slide">
-          <p class="text-lg sm:text-xl text-slate-200 font-light italic leading-relaxed mb-8">{t1_quote}</p>
+          <p class="text-lg sm:text-xl text-slate-200 font-light italic leading-relaxed mb-8">__T1_QUOTE__</p>
           <div class="flex items-center gap-4">
-            <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-black text-sm" style="background: {accent_color};">
-              {t1_name[0]}
+            <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-black text-sm" style="background: __ACCENT_COLOR__;">
+              __T1_INITIAL__
             </div>
             <div>
-              <div class="font-semibold text-white text-base">{t1_name}</div>
-              <div class="font-mono text-xs text-slate-400">{t1_role}</div>
+              <div class="font-semibold text-white text-base">__T1_NAME__</div>
+              <div class="font-mono text-xs text-slate-400">__T1_ROLE__</div>
             </div>
           </div>
         </div>
         <div id="tSlide1" class="t-slide hidden">
-          <p class="text-lg sm:text-xl text-slate-200 font-light italic leading-relaxed mb-8">{t2_quote}</p>
+          <p class="text-lg sm:text-xl text-slate-200 font-light italic leading-relaxed mb-8">__T2_QUOTE__</p>
           <div class="flex items-center gap-4">
-            <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-black text-sm" style="background: {accent_color};">
-              {t2_name[0]}
+            <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-black text-sm" style="background: __ACCENT_COLOR__;">
+              __T2_INITIAL__
             </div>
             <div>
-              <div class="font-semibold text-white text-base">{t2_name}</div>
-              <div class="font-mono text-xs text-slate-400">{t2_role}</div>
+              <div class="font-semibold text-white text-base">__T2_NAME__</div>
+              <div class="font-mono text-xs text-slate-400">__T2_ROLE__</div>
             </div>
           </div>
         </div>
         <div id="tSlide2" class="t-slide hidden">
-          <p class="text-lg sm:text-xl text-slate-200 font-light italic leading-relaxed mb-8">{t3_quote}</p>
+          <p class="text-lg sm:text-xl text-slate-200 font-light italic leading-relaxed mb-8">__T3_QUOTE__</p>
           <div class="flex items-center gap-4">
-            <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-black text-sm" style="background: {accent_color};">
-              {t3_name[0]}
+            <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-black text-sm" style="background: __ACCENT_COLOR__;">
+              __T3_INITIAL__
             </div>
             <div>
-              <div class="font-semibold text-white text-base">{t3_name}</div>
-              <div class="font-mono text-xs text-slate-400">{t3_role}</div>
+              <div class="font-semibold text-white text-base">__T3_NAME__</div>
+              <div class="font-mono text-xs text-slate-400">__T3_ROLE__</div>
             </div>
           </div>
         </div>
@@ -449,7 +449,7 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
   <footer class="py-12 px-6 border-t border-white/10 bg-black/40">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
       <div class="flex items-center space-x-3">
-        <span class="font-serif font-bold text-white tracking-widest">{brand_name.upper()}</span>
+        <span class="font-serif font-bold text-white tracking-widest">__BRAND_NAME_UPPER__</span>
         <span class="text-xs text-slate-500 font-mono">// ALL RIGHTS RESERVED</span>
       </div>
       <div class="flex items-center space-x-6 text-xs text-slate-400 font-mono">
@@ -464,9 +464,9 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
     <div class="glass-card max-w-lg w-full p-8 rounded-3xl relative border border-white/20 bg-[#0B0F1A]">
       <button onclick="closeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg font-mono">&times;</button>
       <div class="mb-6">
-        <span class="font-mono text-[10px] uppercase tracking-widest" style="color: {accent_color};">Executive Inquiry</span>
-        <h3 id="modalTitle" class="text-2xl font-serif font-bold text-white mt-1">{btn_label}</h3>
-        <p class="text-xs text-slate-400 mt-1">Direct conduit to the managing partners at {brand_name}.</p>
+        <span class="font-mono text-[10px] uppercase tracking-widest" style="color: __ACCENT_COLOR__;">Executive Inquiry</span>
+        <h3 id="modalTitle" class="text-2xl font-serif font-bold text-white mt-1">__BTN_LABEL__</h3>
+        <p class="text-xs text-slate-400 mt-1">Direct conduit to the managing partners at __BRAND_NAME__.</p>
       </div>
       <form onsubmit="handleFormSubmit(event)" class="space-y-4">
         <div>
@@ -481,7 +481,7 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
           <label class="block font-mono text-[10px] uppercase tracking-wider text-slate-400 mb-1">Scope of Mandate</label>
           <textarea rows="3" required placeholder="Outline key objectives..." class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/40"></textarea>
         </div>
-        <button type="submit" class="w-full py-4 rounded-xl text-xs uppercase tracking-widest font-bold text-black transition-all hover:scale-[1.02]" style="background: {accent_color};">
+        <button type="submit" class="w-full py-4 rounded-xl text-xs uppercase tracking-widest font-bold text-black transition-all hover:scale-[1.02]" style="background: __ACCENT_COLOR__;">
           Transmit Executive Mandate
         </button>
       </form>
@@ -518,12 +518,53 @@ def generate_dynamic_platform(prompt: str) -> tuple[str, str]:
     }
     function handleFormSubmit(e) {
       e.preventDefault();
-      alert('Mandate received by ' + {repr(brand_name)} + ' Executive Council. A senior managing partner will initiate contact within two business hours.');
+      alert('Mandate received by __BRAND_NAME__ Executive Council. A senior managing partner will initiate contact within two business hours.');
       closeModal();
     }
   </script>
 </body>
 </html>"""
+
+    replacements = {
+        "__BRAND_NAME__": brand_name,
+        "__BRAND_NAME_UPPER__": brand_name.upper(),
+        "__BRAND_INITIAL__": brand_name[0] if brand_name else "A",
+        "__BRAND_TAGLINE__": brand_tagline,
+        "__HERO_TAG__": hero_tag,
+        "__HERO_H1__": hero_h1,
+        "__HERO_SUB__": hero_sub,
+        "__ACCENT_COLOR__": accent_color,
+        "__ACCENT_SECONDARY__": accent_secondary,
+        "__BTN_LABEL__": btn_label,
+        "__S1_TITLE__": s1_title,
+        "__S1_DESC__": s1_desc,
+        "__S2_TITLE__": s2_title,
+        "__S2_DESC__": s2_desc,
+        "__S3_TITLE__": s3_title,
+        "__S3_DESC__": s3_desc,
+        "__STAT1_V__": stat1_v,
+        "__STAT1_L__": stat1_l,
+        "__STAT2_V__": stat2_v,
+        "__STAT2_L__": stat2_l,
+        "__STAT3_V__": stat3_v,
+        "__STAT3_L__": stat3_l,
+        "__T1_NAME__": t1_name,
+        "__T1_INITIAL__": t1_name[0] if t1_name else "M",
+        "__T1_ROLE__": t1_role,
+        "__T1_QUOTE__": t1_quote,
+        "__T2_NAME__": t2_name,
+        "__T2_INITIAL__": t2_name[0] if t2_name else "E",
+        "__T2_ROLE__": t2_role,
+        "__T2_QUOTE__": t2_quote,
+        "__T3_NAME__": t3_name,
+        "__T3_INITIAL__": t3_name[0] if t3_name else "D",
+        "__T3_ROLE__": t3_role,
+        "__T3_QUOTE__": t3_quote,
+    }
+
+    html_code = html_template
+    for k, v in replacements.items():
+        html_code = html_code.replace(k, str(v))
 
     return blueprint, html_code
 
@@ -1385,6 +1426,7 @@ with col_right:
                     log_text = parts[-1] if len(parts) > 1 else entry
 
             fc, bg = LVL_MAP.get(badge_lvl.upper(), ("#5b9cf6", "rgba(91,156,246,.15)"))
+            ts_html = f'<span style="font-family:\'JetBrains Mono\',monospace;font-size:9px;color:rgba(160,180,220,.5);margin-right:5px;">{time_stamp}</span>' if time_stamp else ''
 
             H(f"""
             <div class="log-row" style="border-left:2px solid {fc};margin-bottom:6px;">
@@ -1394,7 +1436,7 @@ with col_right:
             background:{bg};color:{fc};
             margin-top:1px;line-height:1.2;">{badge_lvl.upper()}</span>
             <div>
-            {f'<span style="font-family:\'JetBrains Mono\',monospace;font-size:9px;color:rgba(160,180,220,.5);margin-right:5px;">{time_stamp}</span>' if time_stamp else ''}
+            {ts_html}
             <span style="font-family:\'JetBrains Mono\',monospace;font-size:11px;
             color:rgba(235,245,255,.92);line-height:1.45;">{log_text}</span>
             </div>
