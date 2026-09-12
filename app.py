@@ -584,7 +584,7 @@ def execute_asura_crewai_pipeline(user_input: str, lq: queue.Queue) -> dict:
 
         llm = ChatGoogleGenerativeAI(
             model="gemini-1.5-pro",
-            google_api_key=os.environ["GEMINI_API_KEY"],
+            google_api_key=os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6LQTcBVg27285xhxo4j7NrFIsXGY9tKv96nGlh6e6rlDQ"),
             temperature=0.3
         )
 
@@ -624,8 +624,8 @@ def execute_asura_crewai_pipeline(user_input: str, lq: queue.Queue) -> dict:
         try:
             lq.put(("GEMINI", "Engaging native Gemini neural engine with cloud credentials...", "#5b9cf6"))
             import google.generativeai as genai
-            genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-            for m_id in ["gemini-1.5-pro", "gemini-flash-latest", "gemini-1.5-flash"]:
+            genai.configure(api_key=os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6LQTcBVg27285xhxo4j7NrFIsXGY9tKv96nGlh6e6rlDQ"))
+            for m_id in ["gemini-1.5-pro", "gemini-1.5-flash-latest", "gemini-flash-latest", "gemini-1.5-flash"]:
                 try:
                     gmodel = genai.GenerativeModel(m_id)
                     gres = gmodel.generate_content(
