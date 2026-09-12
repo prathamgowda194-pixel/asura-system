@@ -33,6 +33,12 @@ os.environ["CREWAI_TELEMETRY_OPT_OUT"] = "true"
 
 REPO_NAME = "prathamgowda194-pixel/asura-system"
 
+try:
+    from google import genai
+    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+except Exception:
+    client = None
+
 # Safe fragment wrapper for older/newer Streamlit compatibility
 if hasattr(st, "fragment"):
     safe_fragment = st.fragment
@@ -734,11 +740,9 @@ def push_index_html_to_github(html_content, project_slug):
 
 ANTISLOP_PROTOCOLS = """
 STYLE-AGNOSTIC HIGH-END ARCHITECTURAL STANDARDS & DESIGN DIRECTIVES:
-1. Dynamic Color & Theme Mapping: Strictly extract the background color, accent highlights, and branding themes directly from '{user_input}'. If the user requests a light, warm cream (#FDFBF7, #F8F6F0), minimalist white (#FAFAFA), or soft pastel canvas, build the frontend matching that exact parameter with beautifully balanced high-contrast dark text (#18181B, #27272A, #3F3F46). If dark mode is requested or appropriate, use obsidian space blacks (#07090E, #0F172A) with crisp white typography (#FFFFFF, #F1F5F9). Never force dark mode if the user asks for light, minimal, or cream aesthetics!
-2. Anti-Slop R-12 (Luxury Fonts): Mandate premium tracked typography via Google Fonts CDN (e.g., Cormorant Garamond, Playfair Display, or Syne for display headers; Inter or Plus Jakarta Sans for navigation and tracking). Apply wide text tracking (tracking-wide or tracking-widest, uppercase subheadings).
-3. Anti-Slop R-24 (Breathable Margins): Force immense, expansive structural breathing room and luxury spacing layouts (py-32 md:py-48 px-8 md:px-24). Strictly ban compressed boxes and generic grid blocks.
-4. Anti-Slop R-35 (Zero Flat Emojis): Absolutely no raw colored icons or default text emojis. Accent graphics must be custom-rendered geometric SVG paths matching the theme palette.
-5. GSAP Animation Infrastructure: Include GreenSock and ScrollTrigger libraries via CDN:
+1. Dynamic Color Mapping: The system must strictly extract the background canvas theme directly from '{user_input}'. If a light cream minimalist white layout (#FDFBF7, #FAFAFA) or professional slate-grey canvas (#F1F5F9, #E2E8F0) is requested, match the styling flawlessly with balanced high-contrast dark text (#18181B, #27272A, #334155). If dark mode is requested or appropriate, use obsidian space blacks (#07090E, #0F172A) with crisp white typography (#FFFFFF, #F1F5F9). Never force dark mode if the user asks for light, cream, or slate-grey aesthetics!
+2. Typography & Spacing: Mandate premium tracked Google Fonts combinations via CDN (Cormorant Garamond, Inter, Syne) with wide letter-spacing (tracking-widest, uppercase subheadings). Force immense structural breathing room (py-32 px-16 md:px-24). Strictly ban compressed boxes and generic grid blocks. Absolutely zero unstyled text emojis. Accent graphics must be custom-rendered geometric SVG paths matching the theme palette.
+3. Motion Design: Force the native injection of GreenSock animation platform components (gsap.min.js and ScrollTrigger.min.js) via standard CDN script tags to create fluid scrolling entrance animations:
    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
    Include an internal script block initializing gsap.from() animations bound to ScrollTrigger checkpoints for smooth scroll reveals and viewport text fades.
@@ -1403,7 +1407,7 @@ function triggerPreset(text) {
     )
     st.session_state.target_niche_val = user_input
 
-    project_slug = st.text_input("Project Folder Slug (e.g., apex-strategy, carlouel-beach):")
+    project_slug = st.text_input("Project URL Folder Slug (e.g., prakash-dental, neon-gym, carlouel-beach):")
 
     btn_col1, btn_col2, btn_col3 = st.columns([2.5, 1.5, 1.0])
     with btn_col1:
@@ -1455,9 +1459,9 @@ function triggerPreset(text) {
                 c_sha = api_res.get("commit_sha", "head")
                 st.session_state.last_commit_sha = c_sha
                 log_message(f"GitHub API: projects/{project_slug}/index.html pushed to {REPO_NAME} (commit {c_sha}).", "github")
-                log_message(f"⚡ SUCCESS // Project deployed live at: https://vercel.app{project_slug}/", "success")
-                st.success(f"⚡ SUCCESS // Project deployed live at: https://vercel.app{project_slug}/")
-                st.session_state.last_deployed_url = f"https://vercel.app{project_slug}/"
+                log_message(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: https://vercel.app{project_slug}/index.html", "success")
+                st.success(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: https://vercel.app{project_slug}/index.html")
+                st.session_state.last_deployed_url = f"https://vercel.app{project_slug}/index.html"
             else:
                 err_text = str(api_res.get("error", "pending repo sync"))[:60]
                 log_message(f"GitHub API notice ({err_text}). Local projects/{project_slug}/index.html operational.", "warn")
@@ -1472,7 +1476,7 @@ function triggerPreset(text) {
     # ── LIVE DELIVERABLE & WEBSITE PREVIEW ─────────────────────────────────────
     if st.session_state.mission_result:
         if st.session_state.get("last_deployed_url"):
-            st.success(f"⚡ SUCCESS // Project deployed live at: {st.session_state.last_deployed_url}")
+            st.success(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: {st.session_state.last_deployed_url}")
         H("""
         <div class="gl1" style="padding:16px 18px;margin-top:14px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
