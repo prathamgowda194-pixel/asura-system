@@ -674,6 +674,104 @@ generate_realestate_platform = generate_dynamic_platform
 
 
 # ── 3. BULLETPROOF GITHUB API PUSH RUNTIME ─────────────────────────────────────
+def extract_clean_slug(raw_input: str, fallback_prompt: str = "") -> str:
+    import re
+    if raw_input and str(raw_input).strip():
+        s = str(raw_input).strip()
+        # Handle full URL or path input (e.g. https://asura-system.vercel.app/projects/elite-digital-agency-developer/index.html)
+        if "/projects/" in s:
+            s = s.split("/projects/")[-1]
+        # Strip query params, hashes, and file extensions
+        s = s.split("?")[0].split("#")[0]
+        s = re.sub(r'(/index\.html|\.html|/)$', '', s, flags=re.IGNORECASE)
+        if "://" in s:
+            s = s.split("/")[-1]
+        slug = re.sub(r'[^a-zA-Z0-9_-]+', '-', s.lower()).strip('-')
+        if slug:
+            return slug
+
+    # If empty, extract keywords from prompt text
+    clean_text = str(fallback_prompt).lower()
+    for prefix in [
+        "now ", "please ", "act as a ", "act as an ", "act as ", "create a ", "create an ", "create ",
+        "generate a ", "generate an ", "generate ", "build a ", "build an ", "build ",
+        "design a ", "design an ", "design ", "website for a ", "website for an ", "website for ",
+        "platform for ", "landing page for ", "world-class ", "luxury ", "professional ", "premium "
+    ]:
+        clean_text = clean_text.replace(prefix, " ")
+    slug_cand = re.sub(r'[^a-zA-Z0-9]+', '-', clean_text.strip()).strip('-')
+    if len(slug_cand) > 35:
+        slug_cand = slug_cand[:35].rsplit('-', 1)[0]
+    return slug_cand if slug_cand else "client-platform"
+
+
+def get_existing_project_html(slug: str):
+    """Fetch existing project HTML from local filesystem or remote GitHub API."""
+    local_path = os.path.join("projects", slug, "index.html")
+    if os.path.exists(local_path):
+        try:
+            with open(local_path, "r", encoding="utf-8", errors="ignore") as f:
+                c = f.read()
+                if len(c) > 200:
+                    return c
+        except Exception:
+            pass
+
+    token = os.environ.get("GITHUB_TOKEN", "").strip()
+    api_url = f"https://api.github.com/repos/{REPO_NAME}/contents/projects/{slug}/index.html"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github.v3+json",
+        "User-Agent": "ASURA-Autonomous-Engine"
+    }
+    try:
+        res = requests.get(api_url, headers=headers, timeout=10)
+        if res.status_code == 200:
+            b64_content = res.json().get("content", "")
+            return base64.b64decode(b64_content).decode("utf-8")
+    except Exception:
+        pass
+    return None
+
+
+def list_available_projects():
+    """Scans and lists all isolated client projects currently available."""
+    projects = []
+    seen = set()
+    if os.path.exists("projects"):
+        for item in os.listdir("projects"):
+            p_dir = os.path.join("projects", item)
+            if os.path.isdir(p_dir) and os.path.exists(os.path.join(p_dir, "index.html")):
+                projects.append({
+                    "slug": item,
+                    "url": f"https://asura-system.vercel.app/projects/{item}/index.html",
+                    "source": "local"
+                })
+                seen.add(item)
+    token = os.environ.get("GITHUB_TOKEN", "").strip()
+    api_url = f"https://api.github.com/repos/{REPO_NAME}/contents/projects"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github.v3+json",
+        "User-Agent": "ASURA-Autonomous-Engine"
+    }
+    try:
+        res = requests.get(api_url, headers=headers, timeout=8)
+        if res.status_code == 200:
+            for entry in res.json():
+                name = entry.get("name")
+                if name and name not in seen and entry.get("type") == "dir":
+                    projects.append({
+                        "slug": name,
+                        "url": f"https://asura-system.vercel.app/projects/{name}/index.html",
+                        "source": "github"
+                    })
+                    seen.add(name)
+    except Exception:
+        pass
+    return projects
+
+
 def push_index_html_to_github(html_content, project_slug):
     """
     Direct HTTP API pipeline utilizing requests and base64 python modules.
@@ -681,7 +779,7 @@ def push_index_html_to_github(html_content, project_slug):
     Checks for existing file SHA token, base64 encodes content, and executes requests.put.
     Does NOT use os.system('git add...') to prevent Streamlit Cloud crashes.
     """
-    clean_slug = project_slug.strip().lower().replace(" ", "-") if project_slug else "apex-strategy"
+    clean_slug = extract_clean_slug(project_slug)
     url = f"https://github.com{REPO_NAME}/contents/projects/{clean_slug}/index.html"
     token = os.environ.get("GITHUB_TOKEN", "").strip()
     file_path = f"projects/{clean_slug}/index.html"
@@ -872,6 +970,98 @@ def generate_platform_with_gemini(user_input: str) -> tuple[str, str]:
 
 execute_asura_crewai_pipeline = generate_platform_with_gemini
 execute_hermes_autonomous_pipeline = generate_platform_with_gemini
+
+
+def update_existing_platform_with_gemini(existing_html: str, change_request: str) -> tuple[str, str]:
+    """
+    Surgically updates an existing live website based on specific modification directives,
+    preserving established design architecture while executing requested fixes.
+    """
+    prompt_text = (
+        f"You are the world's leading UI/UX architect and principal frontend engineer.\n"
+        f"The client has an EXISTING, live single-file HTML website and has requested specific revisions.\n\n"
+        f"=== USER'S REVISION DIRECTIVE ===\n"
+        f"'{change_request}'\n\n"
+        f"=== EXISTING WEBSITE HTML CODE ===\n"
+        f"{existing_html[:25000]}\n\n"
+        f"CRITICAL REVISION INSTRUCTIONS:\n"
+        f"1. Precisely execute the user's requested changes: fix text glow intensity (use subtle clean text-shadow, not harsh rectangular box-shadows), adjust character sizing/overflow (use break-words, proper max-widths, and fluid line-heights), typography line-heights, container bounds, colors, wording, or layout.\n"
+        f"2. PRESERVE the rest of the existing page structure, sections, Tailwind styling, and GSAP animations.\n"
+        f"3. Ensure the result is a 100% complete, functional, single-file HTML starting with <!DOCTYPE html> and ending with </html>.\n"
+        f"4. Do NOT wrap in markdown codeblocks. Output ONLY raw HTML."
+    )
+
+    log_message(f"Hermes Router: registering revision directive '{change_request[:45]}'", "hermes")
+
+    raw_html = None
+    blueprint = (
+        f"# ASURA REVISION DIRECTIVE // UPDATE EXECUTION\n\n"
+        f"- **Requested Revision:** {change_request}\n"
+        f"- **Status:** Codebase Refactored & Recompiled via Gemini Neural Engine\n"
+        f"- **Presentation Layer:** HTML5 Semantic Engine + Tailwind CSS + GSAP Animation Suite\n"
+        f"- **Quality Standard:** Clean character bounds, refined text shadows, zero overflow"
+    )
+
+    ACTIVE_MODELS = [
+        "gemini-3.6-flash",
+        "gemini-flash-latest",
+        "gemini-3.5-flash",
+        "gemini-2.5-pro",
+    ]
+
+    try:
+        from google import genai
+        client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+        for m_name in ACTIVE_MODELS:
+            try:
+                log_message(f"Binding {m_name} to codebase revision pipeline...", "gemini")
+                response = client.models.generate_content(model=m_name, contents=prompt_text)
+                if response and hasattr(response, "text") and response.text:
+                    cand = response.text.strip()
+                    if "<html" in cand.lower() or "<!doctype html>" in cand.lower():
+                        raw_html = cand
+                        log_message(f"Gemini {m_name} recompiled revised platform ({len(raw_html):,} bytes).", "success")
+                        break
+            except Exception as ge:
+                log_message(f"Google GenAI ({m_name}) notice: {str(ge)[:40]}", "warn")
+    except Exception:
+        pass
+
+    if not raw_html:
+        for m_name in ACTIVE_MODELS:
+            try:
+                api_url = f"https://generativelanguage.googleapis.com/v1beta/models/{m_name}:generateContent?key={os.environ['GEMINI_API_KEY']}"
+                req_body = {
+                    "contents": [{"parts": [{"text": prompt_text}]}],
+                    "generationConfig": {"temperature": 0.2}
+                }
+                res = requests.post(api_url, json=req_body, timeout=35)
+                if res.status_code == 200:
+                    candidates = res.json().get("candidates", [])
+                    if candidates:
+                        parts = candidates[0].get("content", {}).get("parts", [])
+                        if parts and "text" in parts[0]:
+                            cand = parts[0]["text"].strip()
+                            if "<html" in cand.lower() or "<!doctype html>" in cand.lower():
+                                raw_html = cand
+                                log_message(f"REST endpoint ({m_name}) recompiled revised platform ({len(raw_html):,} bytes).", "success")
+                                break
+            except Exception:
+                pass
+
+    if not raw_html:
+        raw_html = existing_html
+
+    clean_html = raw_html.strip()
+    if "```html" in clean_html:
+        clean_html = clean_html.split("```html")[1].split("```")[0].strip()
+    elif "```" in clean_html:
+        for part in clean_html.split("```"):
+            if "<!DOCTYPE html" in part or "<html" in part:
+                clean_html = part.strip()
+                break
+
+    return blueprint, clean_html
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1408,7 +1598,49 @@ function triggerPreset(text) {
     )
     st.session_state.target_niche_val = user_input
 
-    project_slug = st.text_input("Project URL Folder Slug (e.g., prakash-dental, neon-gym, carlouel-beach):")
+    project_slug = st.text_input(
+        "Project URL Folder Slug or Pasted Vercel URL (leave empty for auto-slug, or paste URL to update):",
+        value=st.session_state.get("selected_project_slug", ""),
+        key="project_slug_input",
+        help="Paste a live Vercel URL (e.g. https://asura-system.vercel.app/projects/elite-digital-agency-developer/index.html) or slug to modify an existing website!"
+    )
+
+    with st.expander("📁 DEPLOYED CLIENT SITES & 1-CLICK HANDOVER", expanded=False):
+        st.markdown("<div style='font-size:12px;color:#94a3b8;margin-bottom:8px;'>Track all live client websites on Vercel, select for iterative edits, or export client bundles:</div>", unsafe_allow_html=True)
+        all_projs = list_available_projects()
+        if all_projs:
+            for p in all_projs:
+                p_col1, p_col2, p_col3 = st.columns([2.2, 1.3, 1.5])
+                with p_col1:
+                    st.markdown(f"**`{p['slug']}`**")
+                    st.caption(f"[Live on Vercel ↗]({p['url']})")
+                with p_col2:
+                    if st.button(f"Edit Site", key=f"edit_{p['slug']}", use_container_width=True):
+                        st.session_state.selected_project_slug = p['slug']
+                        st.session_state.target_niche_val = f"Update {p['slug']} website: "
+                        st.rerun()
+                with p_col3:
+                    p_path = os.path.join("projects", p['slug'], "index.html")
+                    p_html = ""
+                    if os.path.exists(p_path):
+                        try:
+                            with open(p_path, "r", encoding="utf-8", errors="ignore") as pf:
+                                p_html = pf.read()
+                        except Exception:
+                            pass
+                    if p_html:
+                        st.download_button(
+                            label="Export .html",
+                            data=p_html,
+                            file_name=f"{p['slug']}_index.html",
+                            mime="text/html",
+                            key=f"dl_{p['slug']}",
+                            use_container_width=True
+                        )
+                    else:
+                        st.caption("Active in Cloud")
+        else:
+            st.info("No sub-projects detected yet. Generate a website to see it cataloged here!")
 
     btn_col1, btn_col2, btn_col3 = st.columns([2.5, 1.5, 1.0])
     with btn_col1:
@@ -1434,67 +1666,61 @@ function triggerPreset(text) {
         target_val = user_input.strip()
         st.session_state.target_niche_val = target_val
 
-        # Sanitize and ensure valid project_slug
-        raw_slug = project_slug.strip() if (project_slug and project_slug.strip()) else ""
-        if not raw_slug:
-            import re
-            # Extract clean keyword slug from target_val (filtering conversational prompts)
-            clean_text = target_val.lower()
-            for prefix in [
-                "act as a ", "act as an ", "act as ", "create a ", "create an ", "create ",
-                "generate a ", "generate an ", "generate ", "build a ", "build an ", "build ",
-                "design a ", "design an ", "design ", "website for a ", "website for an ", "website for ",
-                "platform for ", "landing page for ", "world-class ", "luxury ", "professional ", "premium "
-            ]:
-                clean_text = clean_text.replace(prefix, " ")
-            slug_cand = re.sub(r'[^a-zA-Z0-9]+', '-', clean_text.strip()).strip('-')
-            if len(slug_cand) > 35:
-                slug_cand = slug_cand[:35].rsplit('-', 1)[0]
-            raw_slug = slug_cand if slug_cand else "client-platform"
-        project_slug = raw_slug
-        clean_slug = project_slug.strip().lower().replace(" ", "-")
+        # 1. Cleanly extract slug (handles full URLs, partial paths, or conversational text)
+        clean_slug = extract_clean_slug(project_slug, target_val)
 
-        log_message(f"Directive authorized: target niche '{target_val[:50]}' [Slug: {clean_slug}]", "sys")
+        # 2. Check if this is an iteration / update on an existing project
+        existing_html = get_existing_project_html(clean_slug)
+        is_iteration = existing_html is not None and len(existing_html) > 200
 
-        with st.spinner("Gemini neural engine synthesizing production codebase..."):
-            blueprint, generated_html = generate_platform_with_gemini(target_val)
+        if is_iteration:
+            log_message(f"Iteration detected on '{clean_slug}': updating existing codebase per user instructions...", "hermes")
+            with st.spinner(f"Surgically updating '{clean_slug}' platform with Gemini Neural Engine..."):
+                blueprint, generated_html = update_existing_platform_with_gemini(existing_html, target_val)
+        else:
+            log_message(f"Directive authorized: synthesizing new target '{target_val[:50]}' [Slug: {clean_slug}]", "sys")
+            with st.spinner("Gemini neural engine synthesizing production codebase..."):
+                blueprint, generated_html = generate_platform_with_gemini(target_val)
 
-            # Preserve isolated sub-project locally without overwriting root
-            proj_local_dir = os.path.join("projects", clean_slug)
-            os.makedirs(proj_local_dir, exist_ok=True)
-            with open(os.path.join(proj_local_dir, "index.html"), "w", encoding="utf-8") as f:
-                f.write(generated_html)
-            log_message(f"Project '{clean_slug}' compiled locally ({len(generated_html):,} bytes written).", "sys")
+        # Preserve isolated sub-project locally
+        proj_local_dir = os.path.join("projects", clean_slug)
+        os.makedirs(proj_local_dir, exist_ok=True)
+        with open(os.path.join(proj_local_dir, "index.html"), "w", encoding="utf-8") as f:
+            f.write(generated_html)
+        log_message(f"Project '{clean_slug}' compiled locally ({len(generated_html):,} bytes written).", "sys")
 
-            api_res = push_index_html_to_github(generated_html, clean_slug)
+        api_res = push_index_html_to_github(generated_html, clean_slug)
 
-            if api_res.get("success") or api_res.get("code") in (200, 201):
-                c_sha = api_res.get("commit_sha", "head")
-                st.session_state.last_commit_sha = c_sha
-                deployed_url = f"https://asura-system.vercel.app/projects/{clean_slug}/index.html"
-                st.session_state.last_deployed_url = deployed_url
-                log_message(f"GitHub API: projects/{clean_slug}/index.html pushed to {REPO_NAME} (commit {c_sha}).", "github")
-                log_message(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: {deployed_url}", "success")
-                st.success(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: {deployed_url}")
-            else:
-                err_text = str(api_res.get("error", "pending repo sync"))[:60]
-                log_message(f"GitHub API notice ({err_text}). Local projects/{clean_slug}/index.html operational.", "warn")
+        if api_res.get("success") or api_res.get("code") in (200, 201):
+            c_sha = api_res.get("commit_sha", "head")
+            st.session_state.last_commit_sha = c_sha
+            deployed_url = f"https://asura-system.vercel.app/projects/{clean_slug}/index.html"
+            st.session_state.last_deployed_url = deployed_url
+            st.session_state.last_deployed_sha = c_sha
+            log_message(f"GitHub API: projects/{clean_slug}/index.html pushed to {REPO_NAME} (commit {c_sha}).", "github")
+            log_message(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: {deployed_url}?v={c_sha}", "success")
+            st.success(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: {deployed_url}")
+        else:
+            err_text = str(api_res.get("error", "pending repo sync"))[:60]
+            log_message(f"GitHub API notice ({err_text}). Local projects/{clean_slug}/index.html operational.", "warn")
 
-            st.session_state.projects_deployed += 1
-            st.session_state.metrics["progress"] = 100
-            st.session_state.mission_html = generated_html
-            st.session_state.mission_result = blueprint
-            log_message(f"Asura Dynamic Generation complete! Projects deployed: {st.session_state.projects_deployed}.", "success")
+        st.session_state.projects_deployed += 1
+        st.session_state.metrics["progress"] = 100
+        st.session_state.mission_html = generated_html
+        st.session_state.mission_result = blueprint
+        log_message(f"Asura Dynamic Generation complete! Projects deployed: {st.session_state.projects_deployed}.", "success")
         st.rerun()
 
     # ── LIVE DELIVERABLE & WEBSITE PREVIEW ─────────────────────────────────────
     if st.session_state.mission_result:
         if st.session_state.get("last_deployed_url"):
             dep_url = st.session_state.last_deployed_url
+            c_sha = st.session_state.get("last_deployed_sha", "")
+            fresh_url = f"{dep_url}?v={c_sha}" if c_sha else dep_url
             st.success(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: {dep_url}")
             st.markdown(f'''
-            <div style="margin: 8px 0 16px 0;">
-                <a href="{dep_url}" target="_blank" style="
+            <div style="margin: 8px 0 16px 0; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+                <a href="{fresh_url}" target="_blank" style="
                     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
                     background: linear-gradient(135deg, #059669 0%, #10b981 100%);
                     color: #ffffff; font-weight: 700; font-size: 13px; letter-spacing: 0.05em;
@@ -1503,6 +1729,9 @@ function triggerPreset(text) {
                 ">
                     🌐 OPEN CLIENT WEBSITE ON VERCEL ↗
                 </a>
+                <span style="font-size: 11px; color: #94a3b8; font-family: monospace;">
+                    ⚡ Edge cache bypassed via git SHA commit token.
+                </span>
             </div>
             ''', unsafe_allow_html=True)
         H("""
