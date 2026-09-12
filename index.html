@@ -1,939 +1,1054 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dr. Prakash Dental Clinic | Hyper-Luxurious Aesthetic Dentistry</title>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Apex Strategy | Global Management & C-Suite Executive Advisory</title>
+    <meta name="description" content="Apex Strategy delivers decisive management consulting, high-stakes M&A advisory, sovereign risk governance, and enterprise transformation for Fortune 100 leaders and sovereign entities.">
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- GSAP & ScrollTrigger CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
-    <!-- Tailwind Configuration -->
+    <!-- Custom Tailwind Configuration -->
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        ivory: {
-                            50: '#FFFEFA',
-                            100: '#FDFBF7',
-                            200: '#F8F5F0',
-                            300: '#EFEBE1',
-                            400: '#E5DFD1',
-                        },
-                        charcoal: {
-                            900: '#111111',
-                            800: '#1A1A1A',
-                            700: '#2A2A2A',
-                            600: '#3F3F46',
-                            500: '#52525B',
-                            300: '#A1A1AA',
+                        obsidian: {
+                            DEFAULT: '#08090C',
+                            50: '#171922',
+                            100: '#13151D',
+                            200: '#0F1117',
+                            300: '#0D0E14',
+                            400: '#0A0B10',
+                            500: '#08090C',
                         },
                         gold: {
-                            light: '#E6CA65',
-                            DEFAULT: '#C5A059',
-                            dark: '#9A7B3E',
-                            subtle: 'rgba(197, 160, 89, 0.25)',
-                        }
+                            100: '#FDF8E2',
+                            200: '#F9ECC4',
+                            300: '#F4DC96',
+                            400: '#E6C665',
+                            500: '#D4AF37',
+                            600: '#AA8825',
+                            700: '#7F6319',
+                        },
+                        platinum: '#E2E8F0',
                     },
                     fontFamily: {
-                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
                     },
-                    spacing: {
-                        '128': '32rem',
-                        '144': '36rem',
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
                     }
                 }
             }
         }
     </script>
 
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        /* Custom Architectural Hairlines & Fine Aesthetics */
+        /* Custom Fine-Tuned Luxury Styling */
         body {
-            background-color: #FDFBF7;
-            color: #1A1A1A;
+            background-color: #08090C;
+            color: #E2E8F0;
             font-family: 'Plus Jakarta Sans', sans-serif;
             overflow-x: hidden;
         }
 
-        .gold-border-t {
-            border-top: 1px solid rgba(197, 160, 89, 0.25);
-        }
-        .gold-border-b {
-            border-bottom: 1px solid rgba(197, 160, 89, 0.25);
-        }
-        .gold-border-r {
-            border-right: 1px solid rgba(197, 160, 89, 0.25);
-        }
-        .gold-border-l {
-            border-left: 1px solid rgba(197, 160, 89, 0.25);
-        }
-        .gold-border {
-            border: 1px solid rgba(197, 160, 89, 0.25);
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFF6D6 0%, #D4AF37 50%, #AA8825 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* Hide scrollbars for sliders while keeping functionality */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        .gold-gradient-bg {
+            background: linear-gradient(135deg, #E6C665 0%, #D4AF37 50%, #997A1E 100%);
         }
 
-        /* Glassmorphism Luxury Overlay */
+        .gold-border-glow {
+            box-shadow: 0 0 25px -5px rgba(212, 175, 55, 0.15);
+        }
+
         .glass-panel {
-            background: rgba(253, 251, 247, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(15, 17, 23, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
         }
 
-        /* Custom Selection Accent */
-        ::selection {
-            background-color: rgba(197, 160, 89, 0.2);
-            color: #1A1A1A;
+        .glass-card {
+            background: linear-gradient(180deg, rgba(23, 25, 34, 0.6) 0%, rgba(13, 14, 20, 0.8) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.12);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 20px 0 rgba(212, 175, 55, 0.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #08090C;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1F2430;
+            border-radius: 4px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
         }
     </style>
 </head>
-<body class="bg-ivory-100 text-charcoal-800 antialiased selection:bg-gold/20">
+<body class="antialiased selection:bg-gold-500 selection:text-obsidian-500">
 
-    <!-- NAVIGATION BAR -->
-    <header id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 border-b border-gold-subtle glass-panel">
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <aside aria-label="Executive Intelligence Briefing Notice" class="bg-obsidian-200 border-b border-gold-500/20 py-2.5 px-4 text-xs tracking-widest uppercase text-slate-400">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <span class="inline-block w-2 h-2 rounded-full bg-gold-500 animate-pulse"></span>
+                <span class="font-medium text-slate-300">Q2 2025 Global Sovereign & Executive Risk Index Released</span>
+            </div>
+            <a href="#perspectives" class="hidden md:inline-flex items-center space-x-1 text-gold-400 hover:text-gold-300 transition-colors font-semibold">
+                <span>Access Executive Intelligence</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+        </div>
+    </aside>
+
+    <!-- NAVIGATION HEADER -->
+    <header id="navbar" class="sticky top-0 z-40 transition-all duration-300 border-b border-white/5">
         <div class="max-w-7xl mx-auto px-6 lg:px-12 h-24 flex items-center justify-between">
-            
-            <!-- Brand Logo -->
-            <a href="#" class="group flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full border border-gold flex items-center justify-center transition-transform duration-500 group-hover:rotate-45">
-                    <div class="w-2 h-2 bg-gold rounded-full"></div>
+            <!-- Brand Mark -->
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 border border-gold-500/40 flex items-center justify-center bg-obsidian-100 group-hover:border-gold-500 transition-all duration-300">
+                    <svg class="w-6 h-6 text-gold-500 transform group-hover:rotate-45 transition-transform duration-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
                 </div>
                 <div class="flex flex-col">
-                    <span class="font-serif text-xl tracking-widest text-charcoal-900 uppercase font-semibold">DR. PRAKASH</span>
-                    <span class="text-[9px] tracking-[0.3em] text-gold uppercase -mt-1 font-medium">Dental Architecture</span>
+                    <span class="font-serif text-xl font-bold tracking-wider text-white group-hover:text-gold-300 transition-colors">APEX <span class="gold-gradient-text font-normal">STRATEGY</span></span>
+                    <span class="text-[9px] tracking-[0.3em] uppercase text-slate-500">Global Executive Advisory</span>
                 </div>
             </a>
 
             <!-- Desktop Links -->
-            <nav class="hidden md:flex items-center space-x-10 text-xs tracking-[0.2em] text-charcoal-700 uppercase font-medium">
-                <a href="#about" class="hover:text-gold transition-colors duration-300">The Architect</a>
-                <a href="#treatments" class="hover:text-gold transition-colors duration-300">Treatments</a>
-                <a href="#philosophy" class="hover:text-gold transition-colors duration-300">Philosophy</a>
-                <a href="#testimonials" class="hover:text-gold transition-colors duration-300">Patrons</a>
-                <a href="#faq" class="hover:text-gold transition-colors duration-300">FAQ</a>
+            <nav class="hidden lg:flex items-center space-x-10 text-xs tracking-widest uppercase font-medium text-slate-300">
+                <a href="#advisory" class="hover:text-gold-400 transition-colors py-2">Capabilities</a>
+                <a href="#calculator" class="hover:text-gold-400 transition-colors py-2">Value Impact</a>
+                <a href="#methodology" class="hover:text-gold-400 transition-colors py-2">Framework</a>
+                <a href="#track-record" class="hover:text-gold-400 transition-colors py-2">Track Record</a>
+                <a href="#perspectives" class="hover:text-gold-400 transition-colors py-2">Insights</a>
             </nav>
 
-            <!-- Action Button -->
-            <div class="hidden md:flex items-center space-x-6">
-                <button onclick="openModal()" class="relative group overflow-hidden px-7 py-3 border border-gold text-xs tracking-[0.2em] uppercase font-semibold text-charcoal-900 transition-all duration-500 hover:text-ivory-100">
-                    <span class="absolute inset-0 bg-gold translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></span>
-                    <span class="relative z-10">Reserve Consultation</span>
+            <!-- Actions -->
+            <div class="hidden lg:flex items-center space-x-6">
+                <button onclick="openModal()" class="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-xs tracking-widest uppercase font-semibold text-white group rounded-none">
+                    <span class="absolute inset-0 w-full h-full gold-gradient-bg"></span>
+                    <span class="relative px-6 py-3 transition-all ease-out bg-obsidian-500 group-hover:bg-opacity-0 duration-300 font-semibold text-gold-300 group-hover:text-obsidian-500">
+                        Initiate Mandate
+                    </span>
                 </button>
             </div>
 
-            <!-- Mobile Hamburger Toggle -->
-            <button id="menu-btn" class="md:hidden flex flex-col space-y-1.5 focus:outline-none z-50 p-2">
-                <span class="w-6 h-0.5 bg-charcoal-900 transition-transform duration-300"></span>
-                <span class="w-4 h-0.5 bg-gold self-end transition-opacity duration-300"></span>
-                <span class="w-6 h-0.5 bg-charcoal-900 transition-transform duration-300"></span>
+            <!-- Mobile Hamburger -->
+            <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="lg:hidden text-slate-300 hover:text-white focus:outline-none p-2" aria-label="Toggle Menu">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path id="menu-icon-open" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/>
+                    <path id="menu-icon-close" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
             </button>
         </div>
     </header>
 
     <!-- MOBILE NAVIGATION DRAWER -->
-    <div id="mobile-menu" class="fixed inset-0 z-40 bg-ivory-100 flex flex-col justify-between px-8 py-20 opacity-0 pointer-events-none transition-all duration-500">
-        <div class="flex flex-col space-y-8 text-center pt-12">
-            <a href="#about" onclick="closeMenu()" class="font-serif text-3xl text-charcoal-900 hover:text-gold transition-colors">The Architect</a>
-            <a href="#treatments" onclick="closeMenu()" class="font-serif text-3xl text-charcoal-900 hover:text-gold transition-colors">Treatments</a>
-            <a href="#philosophy" onclick="closeMenu()" class="font-serif text-3xl text-charcoal-900 hover:text-gold transition-colors">Philosophy</a>
-            <a href="#testimonials" onclick="closeMenu()" class="font-serif text-3xl text-charcoal-900 hover:text-gold transition-colors">Patrons</a>
-            <a href="#faq" onclick="closeMenu()" class="font-serif text-3xl text-charcoal-900 hover:text-gold transition-colors">FAQ</a>
-        </div>
-        <div class="text-center space-y-6">
-            <button onclick="closeMenu(); openModal();" class="w-full py-4 border border-gold uppercase text-xs tracking-widest bg-gold text-ivory-100 font-semibold">
-                Reserve Consultation
+    <div id="mobile-drawer" class="fixed inset-0 z-30 bg-obsidian-500/95 backdrop-blur-2xl transform translate-x-full transition-transform duration-500 ease-in-out lg:hidden flex flex-col justify-between p-8 pt-32">
+        <nav class="flex flex-col space-y-6 text-sm tracking-widest uppercase font-medium">
+            <a href="#advisory" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-gold-400 py-2 border-b border-white/5">Capabilities</a>
+            <a href="#calculator" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-gold-400 py-2 border-b border-white/5">Value Impact</a>
+            <a href="#methodology" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-gold-400 py-2 border-b border-white/5">Framework</a>
+            <a href="#track-record" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-gold-400 py-2 border-b border-white/5">Track Record</a>
+            <a href="#perspectives" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-gold-400 py-2 border-b border-white/5">Insights</a>
+        </nav>
+        <div class="space-y-4 pt-6">
+            <button onclick="toggleMobileMenu(); openModal();" class="w-full py-4 bg-gold-500 text-obsidian-500 font-bold uppercase tracking-widest text-xs">
+                Initiate Mandate
             </button>
-            <p class="text-xs text-charcoal-500 tracking-wider">HARLEY STREET &bull; BEVERLY HILLS &bull; MUMBAI</p>
+            <p class="text-xs text-center text-slate-500 tracking-wider">Strictly Confidential Advisory</p>
         </div>
     </div>
 
     <!-- HERO SECTION -->
-    <section class="relative min-h-screen pt-36 pb-24 md:pt-48 md:pb-36 flex flex-col justify-between border-b border-gold-subtle overflow-hidden">
-        <!-- Abstract Soft Gold Geometric Lines Background -->
-        <div class="absolute inset-0 pointer-events-none opacity-20">
-            <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                <path d="M0,0 L100,100 M100,0 L0,100" stroke="#C5A059" stroke-width="0.05" fill="none" />
-                <circle cx="50" cy="50" r="35" stroke="#C5A059" stroke-width="0.05" fill="none" />
-            </svg>
-        </div>
+    <section class="relative min-h-[calc(100vh-6rem)] flex items-center justify-center py-20 overflow-hidden">
+        <!-- Ambient Background Dynamics -->
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(212,175,55,0.08),transparent_60%)]"></div>
+        <div class="absolute -top-40 -right-40 w-96 h-96 bg-gold-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-900/10 rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <!-- Subtle Dynamic Grid Lines -->
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#1f293710_1px,transparent_1px),linear-gradient(to_bottom,#1f293710_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none"></div>
 
-        <div class="max-w-7xl mx-auto px-6 lg:px-12 w-full relative z-10 my-auto">
-            <div class="max-w-4xl">
-                <!-- Tagline Reveal -->
-                <div class="hero-reveal opacity-0 flex items-center space-x-4 mb-6">
-                    <span class="w-8 h-[1px] bg-gold"></span>
-                    <span class="text-xs uppercase tracking-[0.3em] text-gold font-semibold">Pinnacle Aesthetic & Restorative Care</span>
-                </div>
-
-                <!-- Main Title Reveal -->
-                <h1 class="hero-reveal opacity-0 font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-normal leading-[1.05] tracking-tight text-charcoal-900 mb-8">
-                    Architects of the <br/>
-                    <span class="italic font-light text-gold">Timeless</span> Smile.
-                </h1>
-
-                <!-- Subheading Reveal -->
-                <p class="hero-reveal opacity-0 text-base sm:text-lg md:text-xl text-charcoal-600 font-light max-w-2xl leading-relaxed mb-12">
-                    Combining micro-surgical precision with bespoke aesthetic design. Dr. Prakash delivers unprecedented dental mastery in an atmosphere of refined quiet luxury.
-                </p>
-
-                <!-- CTA Actions -->
-                <div class="hero-reveal opacity-0 flex flex-col sm:flex-row items-stretch sm:items-center gap-6">
-                    <button onclick="openModal()" class="px-10 py-5 bg-charcoal-900 text-ivory-100 text-xs tracking-[0.25em] uppercase font-semibold border border-charcoal-900 hover:bg-gold hover:border-gold hover:text-ivory-100 transition-all duration-500 shadow-xl">
-                        Schedule Private Consultation
-                    </button>
-                    <a href="#treatments" class="px-8 py-5 border border-gold-subtle text-xs tracking-[0.25em] uppercase font-semibold text-charcoal-800 hover:border-gold transition-all duration-300 text-center">
-                        Explore Portfolio
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Metric Bar Footer in Hero -->
-        <div class="max-w-7xl mx-auto px-6 lg:px-12 w-full mt-16 pt-12 border-t border-gold-subtle grid grid-cols-2 md:grid-cols-4 gap-8 hero-reveal opacity-0">
-            <div>
-                <p class="font-serif text-3xl md:text-4xl text-charcoal-900">22+</p>
-                <p class="text-xs text-charcoal-500 tracking-widest uppercase mt-1">Years of Clinical Mastery</p>
-            </div>
-            <div>
-                <p class="font-serif text-3xl md:text-4xl text-charcoal-900">100%</p>
-                <p class="text-xs text-charcoal-500 tracking-widest uppercase mt-1">Bespoke Design Protocol</p>
-            </div>
-            <div>
-                <p class="font-serif text-3xl md:text-4xl text-charcoal-900">4,800+</p>
-                <p class="text-xs text-charcoal-500 tracking-widest uppercase mt-1">Smiles Sculpted</p>
-            </div>
-            <div>
-                <p class="font-serif text-3xl md:text-4xl text-gold font-light">Zero</p>
-                <p class="text-xs text-charcoal-500 tracking-widest uppercase mt-1">Compromise Standard</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- THE ARCHITECT / DR. PRAKASH SECTION -->
-    <section id="about" class="py-32 md:py-48 px-6 lg:px-12 max-w-7xl mx-auto border-b border-gold-subtle gsap-reveal-section">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-            
-            <!-- Left Portrait Visual Frame -->
-            <div class="lg:col-span-5 relative">
-                <div class="relative z-10 border border-gold/40 p-3 bg-ivory-200">
-                    <div class="aspect-[4/5] bg-charcoal-800 relative overflow-hidden group">
-                        <!-- High-End Minimalist Stylized Architectural Dental Imagery -->
-                        <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1000&q=80" alt="Dr. Prakash Clinic Interior Minimalist Studio" class="w-full h-full object-cover filter grayscale contrast-125 transition-transform duration-700 group-hover:scale-105" />
-                        <div class="absolute inset-0 bg-charcoal-900/20 mix-blend-multiply"></div>
-                    </div>
-                </div>
-                <!-- Subtle Backdrop Wireframe Card -->
-                <div class="absolute -bottom-6 -right-6 w-full h-full border border-gold-subtle -z-10 hidden sm:block"></div>
+        <div class="relative max-w-7xl mx-auto px-6 lg:px-12 text-center z-10">
+            <!-- Strategic Pill Badge -->
+            <div class="inline-flex items-center space-x-3 px-4 py-2 border border-gold-500/30 bg-obsidian-200/80 backdrop-blur-md mb-8 rounded-full">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold-400"></span>
+                <span class="text-xs font-semibold tracking-widest uppercase text-slate-300">Trusted Advisory to Sovereign Funds & Global 500 Enterprise Boards</span>
             </div>
 
-            <!-- Right Editorial Content -->
-            <div class="lg:col-span-7 space-y-8">
-                <div class="flex items-center space-x-3">
-                    <span class="w-6 h-[1px] bg-gold"></span>
-                    <span class="text-xs uppercase tracking-[0.3em] text-gold font-semibold">The Clinician & Artist</span>
-                </div>
+            <!-- Main Headline -->
+            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.08] mb-8">
+                Architecting <span class="gold-gradient-text italic font-normal">Unfair Advantage</span> for Industry Titans.
+            </h1>
 
-                <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl text-charcoal-900 font-normal leading-tight">
-                    "Dental aesthetics is not merely a medical procedure; it is structural sculpting of human expression."
-                </h2>
-
-                <div class="space-y-6 text-charcoal-600 text-sm sm:text-base leading-relaxed font-light">
-                    <p>
-                        Dr. Prakash trained across prestigious dental institutes in London, Zurich, and New York. With over two decades of experience, he pioneered the <em>Micro-Architectural Smile Protocol</em>—a methodology that integrates facial proportions, biological harmony, and light reflection.
-                    </p>
-                    <p>
-                        Every treatment under Dr. Prakash's oversight is treated as a unique masterwork. Refusing assembly-line dentistry, his boutique practice limits intake to a select few patients daily to ensure absolute precision, absolute privacy, and unhurried clinical craftsmanship.
-                    </p>
-                </div>
-
-                <!-- Signature & Credentials -->
-                <div class="pt-8 border-t border-gold-subtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-                    <div>
-                        <p class="font-serif text-2xl text-charcoal-900 italic">Dr. Devendra Prakash</p>
-                        <p class="text-xs text-gold uppercase tracking-widest mt-1">BDS, MDS, FICOI (USA), Master in Aesthetic Dentistry</p>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                        <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                        <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                        <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                        <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- INTERACTIVE TREATMENT SLIDER LIST SECTION -->
-    <section id="treatments" class="py-32 md:py-48 bg-ivory-200 border-b border-gold-subtle overflow-hidden relative gsap-reveal-section">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12 mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
-            <div>
-                <div class="flex items-center space-x-3 mb-4">
-                    <span class="w-6 h-[1px] bg-gold"></span>
-                    <span class="text-xs uppercase tracking-[0.3em] text-gold font-semibold">Specialized Offerings</span>
-                </div>
-                <h2 class="font-serif text-4xl sm:text-5xl text-charcoal-900 font-normal">
-                    Curated Dental Procedures
-                </h2>
-            </div>
-            
-            <!-- Slider Controls -->
-            <div class="flex items-center space-x-4">
-                <button id="slide-prev" aria-label="Previous Treatment" class="w-14 h-14 border border-gold-subtle rounded-full flex items-center justify-center hover:bg-gold hover:text-ivory-100 transition-all duration-300">
-                    <svg class="w-6 h-6 stroke-current fill-none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/></svg>
-                </button>
-                <button id="slide-next" aria-label="Next Treatment" class="w-14 h-14 border border-gold-subtle rounded-full flex items-center justify-center hover:bg-gold hover:text-ivory-100 transition-all duration-300">
-                    <svg class="w-6 h-6 stroke-current fill-none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/></svg>
-                </button>
-            </div>
-        </div>
-
-        <!-- Slider Track Container -->
-        <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div id="treatment-slider" class="flex gap-8 overflow-x-auto no-scrollbar scroll-smooth transition-transform duration-500 pb-8">
-                
-                <!-- Treatment Card 1 -->
-                <div class="min-w-[300px] sm:min-w-[380px] md:min-w-[420px] bg-ivory-100 border border-gold-subtle p-8 md:p-10 flex flex-col justify-between hover:border-gold transition-all duration-500 group">
-                    <div>
-                        <div class="flex justify-between items-start mb-8">
-                            <span class="font-serif text-2xl text-gold font-light">01</span>
-                            <span class="text-[10px] uppercase tracking-widest px-3 py-1 bg-ivory-300 text-charcoal-700">Signature</span>
-                        </div>
-                        <h3 class="font-serif text-2xl md:text-3xl text-charcoal-900 mb-4 group-hover:text-gold transition-colors">Ultra-Thin Porcelain Veneers</h3>
-                        <p class="text-charcoal-600 text-sm leading-relaxed font-light mb-8">
-                            Handcrafted ceramic laminates measuring 0.2mm, preserving maximum natural structure while sculpting perfect luminosity, translucency, and alignment.
-                        </p>
-                    </div>
-                    <div class="pt-6 border-t border-gold-subtle flex items-center justify-between">
-                        <span class="text-xs uppercase tracking-widest text-gold font-medium">Bespoke Fitting</span>
-                        <button onclick="openModal('Porcelain Veneers')" class="text-xs uppercase tracking-widest text-charcoal-900 underline underline-offset-4 hover:text-gold">Enquire</button>
-                    </div>
-                </div>
-
-                <!-- Treatment Card 2 -->
-                <div class="min-w-[300px] sm:min-w-[380px] md:min-w-[420px] bg-ivory-100 border border-gold-subtle p-8 md:p-10 flex flex-col justify-between hover:border-gold transition-all duration-500 group">
-                    <div>
-                        <div class="flex justify-between items-start mb-8">
-                            <span class="font-serif text-2xl text-gold font-light">02</span>
-                            <span class="text-[10px] uppercase tracking-widest px-3 py-1 bg-ivory-300 text-charcoal-700">Restorative</span>
-                        </div>
-                        <h3 class="font-serif text-2xl md:text-3xl text-charcoal-900 mb-4 group-hover:text-gold transition-colors">Guided Implant Surgery</h3>
-                        <p class="text-charcoal-600 text-sm leading-relaxed font-light mb-8">
-                            3D CBCT computer-guided titanium and zirconia implant reconstructions, ensuring sub-millimeter surgical accuracy and effortless aesthetic restoration.
-                        </p>
-                    </div>
-                    <div class="pt-6 border-t border-gold-subtle flex items-center justify-between">
-                        <span class="text-xs uppercase tracking-widest text-gold font-medium">Surgical Precision</span>
-                        <button onclick="openModal('Guided Implants')" class="text-xs uppercase tracking-widest text-charcoal-900 underline underline-offset-4 hover:text-gold">Enquire</button>
-                    </div>
-                </div>
-
-                <!-- Treatment Card 3 -->
-                <div class="min-w-[300px] sm:min-w-[380px] md:min-w-[420px] bg-ivory-100 border border-gold-subtle p-8 md:p-10 flex flex-col justify-between hover:border-gold transition-all duration-500 group">
-                    <div>
-                        <div class="flex justify-between items-start mb-8">
-                            <span class="font-serif text-2xl text-gold font-light">03</span>
-                            <span class="text-[10px] uppercase tracking-widest px-3 py-1 bg-ivory-300 text-charcoal-700">Digital Artistry</span>
-                        </div>
-                        <h3 class="font-serif text-2xl md:text-3xl text-charcoal-900 mb-4 group-hover:text-gold transition-colors">Digital Smile Architecture</h3>
-                        <p class="text-charcoal-600 text-sm leading-relaxed font-light mb-8">
-                            Comprehensive video-guided smile simulations allowing you to visualize, refine, and experience your future smile prior to clinical initiation.
-                        </p>
-                    </div>
-                    <div class="pt-6 border-t border-gold-subtle flex items-center justify-between">
-                        <span class="text-xs uppercase tracking-widest text-gold font-medium">Visual Simulation</span>
-                        <button onclick="openModal('Digital Smile Design')" class="text-xs uppercase tracking-widest text-charcoal-900 underline underline-offset-4 hover:text-gold">Enquire</button>
-                    </div>
-                </div>
-
-                <!-- Treatment Card 4 -->
-                <div class="min-w-[300px] sm:min-w-[380px] md:min-w-[420px] bg-ivory-100 border border-gold-subtle p-8 md:p-10 flex flex-col justify-between hover:border-gold transition-all duration-500 group">
-                    <div>
-                        <div class="flex justify-between items-start mb-8">
-                            <span class="font-serif text-2xl text-gold font-light">04</span>
-                            <span class="text-[10px] uppercase tracking-widest px-3 py-1 bg-ivory-300 text-charcoal-700">Holistic</span>
-                        </div>
-                        <h3 class="font-serif text-2xl md:text-3xl text-charcoal-900 mb-4 group-hover:text-gold transition-colors">Full Mouth Rehabilitation</h3>
-                        <p class="text-charcoal-600 text-sm leading-relaxed font-light mb-8">
-                            Complete structural re-engineering of worn or damaged teeth, restoring optimal neuromuscular bite alignment and radiant facial youthfulness.
-                        </p>
-                    </div>
-                    <div class="pt-6 border-t border-gold-subtle flex items-center justify-between">
-                        <span class="text-xs uppercase tracking-widest text-gold font-medium">Full Restoration</span>
-                        <button onclick="openModal('Full Mouth Rehabilitation')" class="text-xs uppercase tracking-widest text-charcoal-900 underline underline-offset-4 hover:text-gold">Enquire</button>
-                    </div>
-                </div>
-
-                <!-- Treatment Card 5 -->
-                <div class="min-w-[300px] sm:min-w-[380px] md:min-w-[420px] bg-ivory-100 border border-gold-subtle p-8 md:p-10 flex flex-col justify-between hover:border-gold transition-all duration-500 group">
-                    <div>
-                        <div class="flex justify-between items-start mb-8">
-                            <span class="font-serif text-2xl text-gold font-light">05</span>
-                            <span class="text-[10px] uppercase tracking-widest px-3 py-1 bg-ivory-300 text-charcoal-700">Alignment</span>
-                        </div>
-                        <h3 class="font-serif text-2xl md:text-3xl text-charcoal-900 mb-4 group-hover:text-gold transition-colors">Invisible Orthodontic Therapy</h3>
-                        <p class="text-charcoal-600 text-sm leading-relaxed font-light mb-8">
-                            Discrete, custom-fabricated clear aligner systems designed for seamless integration into executive and high-profile lifestyle routines.
-                        </p>
-                    </div>
-                    <div class="pt-6 border-t border-gold-subtle flex items-center justify-between">
-                        <span class="text-xs uppercase tracking-widest text-gold font-medium">Discrete Realignment</span>
-                        <button onclick="openModal('Invisible Orthodontics')" class="text-xs uppercase tracking-widest text-charcoal-900 underline underline-offset-4 hover:text-gold">Enquire</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- DEEP SPACIOUS GRID: PHILOSOPHY & PILLARS -->
-    <section id="philosophy" class="py-32 md:py-48 px-6 lg:px-12 max-w-7xl mx-auto border-b border-gold-subtle gsap-reveal-section">
-        <div class="text-center max-w-3xl mx-auto mb-24">
-            <div class="flex items-center justify-center space-x-3 mb-4">
-                <span class="w-8 h-[1px] bg-gold"></span>
-                <span class="text-xs uppercase tracking-[0.3em] text-gold font-semibold">The Standard</span>
-                <span class="w-8 h-[1px] bg-gold"></span>
-            </div>
-            <h2 class="font-serif text-4xl sm:text-5xl text-charcoal-900 font-normal">
-                Four Pillars of Uncompromising Practice
-            </h2>
-        </div>
-
-        <!-- Deep Spacious Architectural Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
-            
-            <!-- Pillar 1 -->
-            <div class="p-10 md:p-14 border border-gold-subtle bg-ivory-50/50 hover:bg-ivory-100 transition-colors duration-500 relative flex flex-col justify-between">
-                <div>
-                    <div class="w-12 h-12 border border-gold rounded-full flex items-center justify-center mb-8">
-                        <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                    </div>
-                    <h3 class="font-serif text-2xl md:text-3xl text-charcoal-900 mb-4">Microscopic Precision</h3>
-                    <p class="text-charcoal-600 text-sm leading-relaxed font-light">
-                        All clinical diagnostics and preps are performed under high-powered surgical microscopes. This ensures preservation of structural tooth tissue down to the micron.
-                    </p>
-                </div>
-                <div class="mt-8 pt-6 border-t border-gold-subtle text-[11px] uppercase tracking-widest text-gold font-semibold">
-                    Zero Damage Protocol
-                </div>
-            </div>
-
-            <!-- Pillar 2 -->
-            <div class="p-10 md:p-14 border border-gold-subtle bg-ivory-50/50 hover:bg-ivory-100 transition-colors duration-500 relative flex flex-col justify-between">
-                <div>
-                    <div class="w-12 h-12 border border-gold rounded-full flex items-center justify-center mb-8">
-                        <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                    </div>
-                    <h3 class="font-serif text-2xl md:text-3xl text-charcoal-900 mb-4">Biomimetic Synergy</h3>
-                    <p class="text-charcoal-600 text-sm leading-relaxed font-light">
-                        We utilize biocompatible materials sourced exclusively from Switzerland and Japan, replicating the natural elasticity, thermal expansion, and optical depth of biological enamel.
-                    </p>
-                </div>
-                <div class="mt-8 pt-6 border-t border-gold-subtle text-[11px] uppercase tracking-widest text-gold font-semibold">
-                    Biocompatible Excellence
-                </div>
-            </div>
-
-            <!-- Pillar 3 -->
-            <div class="p-10 md:p-14 border border-gold-subtle bg-ivory-50/50 hover:bg-ivory-100 transition-colors duration-500 relative flex flex-col justify-between">
-                <div>
-                    <div class="w-12 h-12 border border-gold rounded-full flex items-center justify-center mb-8">
-                        <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    </div>
-                    <h3 class="font-serif text-2xl md:text-3xl text-charcoal-900 mb-4">Absolute Discretion & Timing</h3>
-                    <p class="text-charcoal-600 text-sm leading-relaxed font-light">
-                        Private entrance arrangements, dedicated suite reservations, and zero wait times guaranteed. Designed specifically to accommodate high-profile and executive schedules.
-                    </p>
-                </div>
-                <div class="mt-8 pt-6 border-t border-gold-subtle text-[11px] uppercase tracking-widest text-gold font-semibold">
-                    Private Concierge Protocol
-                </div>
-            </div>
-
-            <!-- Pillar 4 -->
-            <div class="p-10 md:p-14 border border-gold-subtle bg-ivory-50/50 hover:bg-ivory-100 transition-colors duration-500 relative flex flex-col justify-between">
-                <div>
-                    <div class="w-12 h-12 border border-gold rounded-full flex items-center justify-center mb-8">
-                        <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a2 2 0 00-1.96.808l-.447.597a15.056 15.056 0 01-6.592-6.592l.597-.447a2 2 0 00.808-1.96l-.477-2.387a2 2 0 00-.547-1.022L7.027 3.518A2 2 0 005.61 3H4.5A1.5 1.5 0 003 4.5v1.2A18.3 18.3 0 0021.3 21h1.2A1.5 1.5 0 0024 19.5v-1.11a2 2 0 00-.518-1.417l-.854-.855z"/></svg>
-                    </div>
-                    <h3 class="font-serif text-2xl md:text-3xl text-charcoal-900 mb-4">Lifetime Structural Warranty</h3>
-                    <p class="text-charcoal-600 text-sm leading-relaxed font-light">
-                        Every ceramic veneer, restorative crown, and implant fixture comes with our comprehensive lifetime structural guarantee and dedicated annual check-ups.
-                    </p>
-                </div>
-                <div class="mt-8 pt-6 border-t border-gold-subtle text-[11px] uppercase tracking-widest text-gold font-semibold">
-                    Uncompromising Assurance
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- DYNAMIC PATRON TESTIMONIAL CAROUSEL -->
-    <section id="testimonials" class="py-32 md:py-48 bg-ivory-200 border-b border-gold-subtle gsap-reveal-section">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            
-            <div class="flex items-center space-x-3 mb-6">
-                <span class="w-6 h-[1px] bg-gold"></span>
-                <span class="text-xs uppercase tracking-[0.3em] text-gold font-semibold">Patron Testimonials</span>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
-                <div class="lg:col-span-8">
-                    <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl text-charcoal-900 font-normal leading-tight">
-                        Words from Those Who Refuse to Compromise.
-                    </h2>
-                </div>
-                <div class="lg:col-span-4 flex justify-start lg:justify-end space-x-4">
-                    <button id="testi-prev" aria-label="Previous Testimonial" class="w-12 h-12 border border-gold-subtle rounded-full flex items-center justify-center hover:bg-gold hover:text-ivory-100 transition-colors">
-                        <svg class="w-5 h-5 stroke-current fill-none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/></svg>
-                    </button>
-                    <button id="testi-next" aria-label="Next Testimonial" class="w-12 h-12 border border-gold-subtle rounded-full flex items-center justify-center hover:bg-gold hover:text-ivory-100 transition-colors">
-                        <svg class="w-5 h-5 stroke-current fill-none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/></svg>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Testimonial Switcher Block -->
-            <div class="mt-16 border border-gold-subtle bg-ivory-100 p-10 md:p-16 relative">
-                <div id="testimonial-container" class="min-h-[220px] flex flex-col justify-between transition-opacity duration-500">
-                    <div>
-                        <!-- Minimal Gold Rating Stars -->
-                        <div class="flex space-x-1 text-gold mb-8">
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                        </div>
-                        <p id="testi-quote" class="font-serif text-2xl md:text-3xl text-charcoal-900 leading-relaxed font-light italic">
-                            "Dr. Prakash reconstructed my entire smile prior to my global summit tour. The discretion, elegance, and natural perfection achieved surpassed even my highest expectations."
-                        </p>
-                    </div>
-                    
-                    <div class="mt-8 pt-8 border-t border-gold-subtle flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div>
-                            <h4 id="testi-author" class="font-serif text-xl text-charcoal-900 font-semibold">Victoria R. Sterling</h4>
-                            <p id="testi-role" class="text-xs text-gold uppercase tracking-widest mt-0.5">Managing Director, Global Capital Partners</p>
-                        </div>
-                        <span id="testi-procedure" class="text-xs uppercase tracking-widest text-charcoal-500 bg-ivory-300 px-4 py-2 border border-gold-subtle">Full Porcelain Restorations</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- FAQ ACCORDION SECTION -->
-    <section id="faq" class="py-32 md:py-48 px-6 lg:px-12 max-w-5xl mx-auto border-b border-gold-subtle gsap-reveal-section">
-        <div class="text-center mb-20">
-            <div class="flex items-center justify-center space-x-3 mb-4">
-                <span class="w-8 h-[1px] bg-gold"></span>
-                <span class="text-xs uppercase tracking-[0.3em] text-gold font-semibold">Inquiries & Clarity</span>
-                <span class="w-8 h-[1px] bg-gold"></span>
-            </div>
-            <h2 class="font-serif text-4xl sm:text-5xl text-charcoal-900 font-normal">
-                Frequently Addressed Inquiries
-            </h2>
-        </div>
-
-        <div class="space-y-6">
-            
-            <!-- Item 1 -->
-            <div class="border border-gold-subtle bg-ivory-50 transition-all duration-300">
-                <button onclick="toggleAccordion(1)" class="w-full text-left p-8 flex items-center justify-between focus:outline-none">
-                    <span class="font-serif text-xl md:text-2xl text-charcoal-900">How long does a Porcelain Veneer transformation take?</span>
-                    <span id="faq-icon-1" class="w-8 h-8 border border-gold rounded-full flex items-center justify-center text-gold transition-transform duration-300">+</span>
-                </button>
-                <div id="faq-content-1" class="hidden px-8 pb-8 text-charcoal-600 text-sm leading-relaxed font-light border-t border-gold-subtle pt-6">
-                    A signature veneer transformation is completed in two key visits spaced approximately 7 to 10 days apart. The first session involves diagnostic digital smile planning and micro-preparation. During the interval, hand-crafted temporaries are worn while our master ceramist crafts your bespoke porcelain laminates.
-                </div>
-            </div>
-
-            <!-- Item 2 -->
-            <div class="border border-gold-subtle bg-ivory-50 transition-all duration-300">
-                <button onclick="toggleAccordion(2)" class="w-full text-left p-8 flex items-center justify-between focus:outline-none">
-                    <span class="font-serif text-xl md:text-2xl text-charcoal-900">Are private VIP arrival protocols available?</span>
-                    <span id="faq-icon-2" class="w-8 h-8 border border-gold rounded-full flex items-center justify-center text-gold transition-transform duration-300">+</span>
-                </button>
-                <div id="faq-content-2" class="hidden px-8 pb-8 text-charcoal-600 text-sm leading-relaxed font-light border-t border-gold-subtle pt-6">
-                    Yes. Our clinic offers private basement elevator access direct to our private consultation suite. Entire half-day blocks can be reserved exclusively for high-profile clients seeking absolute anonymity and security.
-                </div>
-            </div>
-
-            <!-- Item 3 -->
-            <div class="border border-gold-subtle bg-ivory-50 transition-all duration-300">
-                <button onclick="toggleAccordion(3)" class="w-full text-left p-8 flex items-center justify-between focus:outline-none">
-                    <span class="font-serif text-xl md:text-2xl text-charcoal-900">What makes Dr. Prakash's approach different from traditional cosmetic dentistry?</span>
-                    <span id="faq-icon-3" class="w-8 h-8 border border-gold rounded-full flex items-center justify-center text-gold transition-transform duration-300">+</span>
-                </button>
-                <div id="faq-content-3" class="hidden px-8 pb-8 text-charcoal-600 text-sm leading-relaxed font-light border-t border-gold-subtle pt-6">
-                    Unlike standard clinics that utilize factory-milled monolithic ceramic blocks, Dr. Prakash hand-layers biological feldspathic porcelain and zirconia to match your skin undertones, lip dynamics, and eye brightness. We prioritize zero unnecessary tooth structure reduction.
-                </div>
-            </div>
-
-            <!-- Item 4 -->
-            <div class="border border-gold-subtle bg-ivory-50 transition-all duration-300">
-                <button onclick="toggleAccordion(4)" class="w-full text-left p-8 flex items-center justify-between focus:outline-none">
-                    <span class="font-serif text-xl md:text-2xl text-charcoal-900">Is dental implant surgery painful under Dr. Prakash's protocol?</span>
-                    <span id="faq-icon-4" class="w-8 h-8 border border-gold rounded-full flex items-center justify-center text-gold transition-transform duration-300">+</span>
-                </button>
-                <div id="faq-content-4" class="hidden px-8 pb-8 text-charcoal-600 text-sm leading-relaxed font-light border-t border-gold-subtle pt-6">
-                    With our 3D computer-guided flapless implant protocols, post-operative discomfort is virtually non-existent. Procedures are performed under advanced conscious sedation or local anesthesia with micro-laser tissue management.
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- CALL TO ACTION / RESERVATION BANNER -->
-    <section class="py-32 md:py-48 px-6 lg:px-12 max-w-7xl mx-auto text-center relative overflow-hidden gsap-reveal-section">
-        <div class="relative z-10 max-w-4xl mx-auto space-y-8">
-            <div class="inline-flex items-center space-x-3">
-                <span class="w-8 h-[1px] bg-gold"></span>
-                <span class="text-xs uppercase tracking-[0.3em] text-gold font-semibold">Excellence Awaits</span>
-                <span class="w-8 h-[1px] bg-gold"></span>
-            </div>
-
-            <h2 class="font-serif text-4xl sm:text-6xl md:text-7xl text-charcoal-900 font-normal leading-tight">
-                Begin Your Journey to Structural Perfection.
-            </h2>
-
-            <p class="text-charcoal-600 text-base md:text-lg max-w-2xl mx-auto font-light leading-relaxed">
-                Consultation availability is intentionally limited each month to ensure bespoke clinical focus for every patron.
+            <!-- Subtitle -->
+            <p class="max-w-3xl mx-auto text-base sm:text-lg md:text-xl text-slate-400 leading-relaxed font-light mb-12">
+                Apex Strategy executes high-stakes cross-border M&amp;A advisory, C-suite restructuring, sovereign risk defense, and high-velocity digital transformation for enterprise leadership facing inflection points.
             </p>
 
-            <div class="pt-6">
-                <button onclick="openModal()" class="px-12 py-6 bg-charcoal-900 text-ivory-100 text-xs tracking-[0.3em] uppercase font-semibold border border-charcoal-900 hover:bg-gold hover:border-gold hover:text-ivory-100 transition-all duration-500 shadow-2xl">
-                    Request Private Consultation
+            <!-- Hero CTA Group -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-5 mb-20">
+                <button onclick="openModal()" class="w-full sm:w-auto px-10 py-5 bg-gold-500 text-obsidian-500 font-bold text-xs uppercase tracking-[0.2em] hover:bg-gold-400 transition-all duration-300 shadow-[0_0_30px_rgba(212,175,55,0.25)]">
+                    Request Private Briefing
+                </button>
+                <a href="#advisory" class="w-full sm:w-auto px-10 py-5 border border-slate-700 bg-obsidian-100/50 text-slate-300 hover:text-white hover:border-gold-500/50 transition-all duration-300 font-semibold text-xs uppercase tracking-[0.2em]">
+                    Explore Capabilities
+                </a>
+            </div>
+
+            <!-- Key Enterprise Performance Metrics Banner -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 pt-12 border-t border-slate-800/80 max-w-5xl mx-auto">
+                <div class="text-left md:text-center">
+                    <div class="font-serif text-3xl sm:text-4xl font-bold text-white mb-1">$185B+</div>
+                    <div class="text-[11px] uppercase tracking-wider text-slate-500">Transaction Value Facilitated</div>
+                </div>
+                <div class="text-left md:text-center">
+                    <div class="font-serif text-3xl sm:text-4xl font-bold gold-gradient-text mb-1">98.4%</div>
+                    <div class="text-[11px] uppercase tracking-wider text-slate-500">Mandate Success Rate</div>
+                </div>
+                <div class="text-left md:text-center">
+                    <div class="font-serif text-3xl sm:text-4xl font-bold text-white mb-1">45+</div>
+                    <div class="text-[11px] uppercase tracking-wider text-slate-500">Fortune 100 Boardships</div>
+                </div>
+                <div class="text-left md:text-center">
+                    <div class="font-serif text-3xl sm:text-4xl font-bold text-white mb-1">14</div>
+                    <div class="text-[11px] uppercase tracking-wider text-slate-500">Global Financial Hubs</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUSTED INDUSTRY SECTORS / CLIENT ROSTER TICKER -->
+    <section class="py-12 bg-obsidian-200/50 border-y border-white/5 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 text-center mb-6">
+            <span class="text-[10px] uppercase tracking-[0.3em] font-semibold text-slate-500">Privileged Partner to Leaders Across Critical Sectors</span>
+        </div>
+        <div class="flex overflow-x-auto space-x-12 py-4 no-scrollbar justify-center items-center opacity-70 filter grayscale hover:grayscale-0 transition-all duration-500">
+            <span class="font-serif text-lg tracking-widest text-slate-400 uppercase font-semibold">Tier-1 Sovereign Wealth</span>
+            <span class="text-gold-500/40">•</span>
+            <span class="font-serif text-lg tracking-widest text-slate-400 uppercase font-semibold">Global Aerospace &amp; Defense</span>
+            <span class="text-gold-500/40">•</span>
+            <span class="font-serif text-lg tracking-widest text-slate-400 uppercase font-semibold">Multinational Energy &amp; Resources</span>
+            <span class="text-gold-500/40">•</span>
+            <span class="font-serif text-lg tracking-widest text-slate-400 uppercase font-semibold">Consortium Tech Infrastructure</span>
+            <span class="text-gold-500/40">•</span>
+            <span class="font-serif text-lg tracking-widest text-slate-400 uppercase font-semibold">Pharmaceutical Enterprises</span>
+        </div>
+    </section>
+
+    <!-- CORE ADVISORY CAPABILITIES -->
+    <section id="advisory" class="py-32 relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-20">
+                <div>
+                    <span class="text-xs font-semibold tracking-[0.3em] uppercase text-gold-500">Specialized Advisory Matrix</span>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-4">Calculated Execution.<br><span class="italic font-normal text-slate-400">Uncompromising Dominance.</span></h2>
+                </div>
+                <p class="max-w-md text-sm text-slate-400 mt-6 md:mt-0 font-light leading-relaxed">
+                    We do not issue passive reports that sit on boardroom shelves. We deploy elite taskforces to architect, structure, and operationalize enterprise breakthroughs.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Capability Card 1 -->
+                <div class="glass-card p-10 relative group">
+                    <div class="w-12 h-12 border border-gold-500/30 bg-obsidian-300 flex items-center justify-center mb-8 group-hover:border-gold-500 transition-colors">
+                        <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    <span class="text-[10px] tracking-[0.2em] font-mono text-gold-500 uppercase">Mandate Code // 01</span>
+                    <h3 class="font-serif text-2xl font-bold text-white mt-2 mb-4 group-hover:text-gold-300 transition-colors">Cross-Border M&amp;A &amp; Integration</h3>
+                    <p class="text-sm text-slate-400 font-light leading-relaxed mb-6">
+                        End-to-end buy-side and sell-side transaction execution, target valuation, regulatory clearance defense, and rapid post-merger synergy realization.
+                    </p>
+                    <div class="text-xs font-semibold text-slate-300 flex items-center space-x-2">
+                        <span>Average Margin Expansion: +420 bps</span>
+                    </div>
+                </div>
+
+                <!-- Capability Card 2 -->
+                <div class="glass-card p-10 relative group">
+                    <div class="w-12 h-12 border border-gold-500/30 bg-obsidian-300 flex items-center justify-center mb-8 group-hover:border-gold-500 transition-colors">
+                        <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                    </div>
+                    <span class="text-[10px] tracking-[0.2em] font-mono text-gold-500 uppercase">Mandate Code // 02</span>
+                    <h3 class="font-serif text-2xl font-bold text-white mt-2 mb-4 group-hover:text-gold-300 transition-colors">Sovereign &amp; Geopolitical Risk</h3>
+                    <p class="text-sm text-slate-400 font-light leading-relaxed mb-6">
+                        Strategic insulation against multi-jurisdictional trade sanctions, supply chain vulnerabilities, regulatory pivots, and global macroeconomic volatility.
+                    </p>
+                    <div class="text-xs font-semibold text-slate-300 flex items-center space-x-2">
+                        <span>Risk Mitigation Efficacy: 99.1%</span>
+                    </div>
+                </div>
+
+                <!-- Capability Card 3 -->
+                <div class="glass-card p-10 relative group">
+                    <div class="w-12 h-12 border border-gold-500/30 bg-obsidian-300 flex items-center justify-center mb-8 group-hover:border-gold-500 transition-colors">
+                        <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <span class="text-[10px] tracking-[0.2em] font-mono text-gold-500 uppercase">Mandate Code // 03</span>
+                    <h3 class="font-serif text-2xl font-bold text-white mt-2 mb-4 group-hover:text-gold-300 transition-colors">Quantum AI &amp; Enterprise Architecture</h3>
+                    <p class="text-sm text-slate-400 font-light leading-relaxed mb-6">
+                        Overhauling legacy enterprise tech stacks through private sovereign AI deployments, automated decision intelligence, and operational velocity engineering.
+                    </p>
+                    <div class="text-xs font-semibold text-slate-300 flex items-center space-x-2">
+                        <span>Operational Velocity Delta: +3.8x</span>
+                    </div>
+                </div>
+
+                <!-- Capability Card 4 -->
+                <div class="glass-card p-10 relative group">
+                    <div class="w-12 h-12 border border-gold-500/30 bg-obsidian-300 flex items-center justify-center mb-8 group-hover:border-gold-500 transition-colors">
+                        <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <span class="text-[10px] tracking-[0.2em] font-mono text-gold-500 uppercase">Mandate Code // 04</span>
+                    <h3 class="font-serif text-2xl font-bold text-white mt-2 mb-4 group-hover:text-gold-300 transition-colors">Capital Allocation &amp; Shareholder Alpha</h3>
+                    <p class="text-sm text-slate-400 font-light leading-relaxed mb-6">
+                        Restructuring balance sheets, optimizing working capital efficiency, and engineering activist investor defense systems for enterprise resilience.
+                    </p>
+                    <div class="text-xs font-semibold text-slate-300 flex items-center space-x-2">
+                        <span>Capital Re-allocation Yield: 18.4%</span>
+                    </div>
+                </div>
+
+                <!-- Capability Card 5 -->
+                <div class="glass-card p-10 relative group">
+                    <div class="w-12 h-12 border border-gold-500/30 bg-obsidian-300 flex items-center justify-center mb-8 group-hover:border-gold-500 transition-colors">
+                        <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+                        </svg>
+                    </div>
+                    <span class="text-[10px] tracking-[0.2em] font-mono text-gold-500 uppercase">Mandate Code // 05</span>
+                    <h3 class="font-serif text-2xl font-bold text-white mt-2 mb-4 group-hover:text-gold-300 transition-colors">Crisis Leadership &amp; Board Governance</h3>
+                    <p class="text-sm text-slate-400 font-light leading-relaxed mb-6">
+                        Rapid-response intervention during systemic reputational threats, SEC/regulatory investigations, board realignments, and succession crises.
+                    </p>
+                    <div class="text-xs font-semibold text-slate-300 flex items-center space-x-2">
+                        <span>Deployment Response: &lt; 4 Hours</span>
+                    </div>
+                </div>
+
+                <!-- Capability Card 6 -->
+                <div class="glass-card p-10 relative group">
+                    <div class="w-12 h-12 border border-gold-500/30 bg-obsidian-300 flex items-center justify-center mb-8 group-hover:border-gold-500 transition-colors">
+                        <svg class="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                    </div>
+                    <span class="text-[10px] tracking-[0.2em] font-mono text-gold-500 uppercase">Mandate Code // 06</span>
+                    <h3 class="font-serif text-2xl font-bold text-white mt-2 mb-4 group-hover:text-gold-300 transition-colors">Operational Re-Engineering</h3>
+                    <p class="text-sm text-slate-400 font-light leading-relaxed mb-6">
+                        Complete restructuring of global business units to strip out operational inertia, double margin capture, and ensure long-term competitive durability.
+                    </p>
+                    <div class="text-xs font-semibold text-slate-300 flex items-center space-x-2">
+                        <span>Average Cost Reduction: 28%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE ROI & ENTERPRISE VALUE CALCULATOR -->
+    <section id="calculator" class="py-24 bg-obsidian-100/60 border-y border-white/5 relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Text Header -->
+                <div class="lg:col-span-5 space-y-6">
+                    <span class="text-xs font-semibold tracking-[0.3em] uppercase text-gold-500">Interactive Modeling</span>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white">Project Enterprise Value Catalyst</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">
+                        Use our proprietary valuation matrix model to estimate potential EBITDA expansion and enterprise enterprise value creation achievable through an Apex engagement.
+                    </p>
+                    <div class="p-4 border-l-2 border-gold-500 bg-obsidian-300/40 text-xs text-slate-400 font-mono">
+                        DISCLAIMER: Projections are computed based on median execution benchmarks across 120+ historical Fortune 500 strategic mandates.
+                    </div>
+                </div>
+
+                <!-- Interactive Calculator Widget -->
+                <div class="lg:col-span-7 glass-panel p-8 sm:p-12 relative rounded-none border border-gold-500/20">
+                    <div class="space-y-8">
+                        <!-- Input 1: Current Annual Revenue -->
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <label for="revenue-range" class="text-xs font-semibold uppercase tracking-wider text-slate-300">Current Enterprise Revenue ($USD)</label>
+                                <span id="revenue-val" class="font-mono text-gold-400 font-bold text-lg">$2.5 Billion</span>
+                            </div>
+                            <input type="range" id="revenue-range" min="100" max="10000" step="100" value="2500" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-gold-500">
+                            <div class="flex justify-between text-[10px] text-slate-500 font-mono mt-1">
+                                <span>$100M</span>
+                                <span>$5B</span>
+                                <span>$10B+</span>
+                            </div>
+                        </div>
+
+                        <!-- Input 2: Strategic Priority Target -->
+                        <div>
+                            <label for="initiative-select" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-3">Primary Strategic Focus</label>
+                            <select id="initiative-select" class="w-full bg-obsidian-300 border border-slate-700 text-slate-200 text-sm px-4 py-3.5 focus:outline-none focus:border-gold-500 font-sans">
+                                <option value="1.15">Full Operational Re-Engineering (+15% EBITDA Yield)</option>
+                                <option value="1.25" selected>Cross-Border M&amp;A Synergies (+25% Enterprise Value)</option>
+                                <option value="1.18">Digital Architecture &amp; Sovereign AI (+18% Margin Expansion)</option>
+                                <option value="1.30">Capital Restructuring &amp; Spin-Off Defense (+30% Shareholder Alpha)</option>
+                            </select>
+                        </div>
+
+                        <!-- Calculation Output Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 border-t border-slate-800">
+                            <div class="bg-obsidian-400/80 p-5 border border-slate-800">
+                                <span class="text-[10px] font-mono uppercase tracking-widest text-slate-400 block mb-1">Projected Enterprise Value Lift</span>
+                                <span id="projected-value" class="font-serif text-3xl font-bold gold-gradient-text">$625.0M</span>
+                            </div>
+                            <div class="bg-obsidian-400/80 p-5 border border-slate-800">
+                                <span class="text-[10px] font-mono uppercase tracking-widest text-slate-400 block mb-1">Estimated Velocity Timeline</span>
+                                <span id="projected-timeline" class="font-serif text-3xl font-bold text-white">9 to 14 Mos</span>
+                            </div>
+                        </div>
+
+                        <button onclick="openModal()" class="w-full py-4 bg-gold-500 text-obsidian-500 font-bold text-xs uppercase tracking-widest hover:bg-gold-400 transition-colors">
+                            Request Full Valuation Assessment
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROPRIETARY METHODOLOGY / FRAMEWORK -->
+    <section id="methodology" class="py-32 relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <span class="text-xs font-semibold tracking-[0.3em] uppercase text-gold-500">The Apex Catalyst Protocol</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-4">Precision Methodology</h2>
+                <p class="text-slate-400 text-sm font-light mt-4">
+                    Our proprietary 4-phase framework designed to eliminate operational friction and ensure structural market leadership.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+                <!-- Step 1 -->
+                <div class="p-8 border border-slate-800 bg-obsidian-200/40 relative">
+                    <span class="font-serif text-5xl font-bold text-slate-700/50 absolute top-4 right-6">01</span>
+                    <span class="text-[10px] font-mono text-gold-500 uppercase tracking-widest">Phase 01</span>
+                    <h3 class="font-serif text-xl font-bold text-white mt-4 mb-3">Diagnostic Intelligence</h3>
+                    <p class="text-xs text-slate-400 font-light leading-relaxed">
+                        Exhaustive deep-dive into balance sheets, operational friction points, market vulnerabilities, and structural misalignments.
+                    </p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="p-8 border border-slate-800 bg-obsidian-200/40 relative">
+                    <span class="font-serif text-5xl font-bold text-slate-700/50 absolute top-4 right-6">02</span>
+                    <span class="text-[10px] font-mono text-gold-500 uppercase tracking-widest">Phase 02</span>
+                    <h3 class="font-serif text-xl font-bold text-white mt-4 mb-3">Strategic Blueprinting</h3>
+                    <p class="text-xs text-slate-400 font-light leading-relaxed">
+                        Formulating non-consensus execution strategies, scenario simulation, sovereign compliance, and value capture targets.
+                    </p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="p-8 border border-slate-800 bg-obsidian-200/40 relative">
+                    <span class="font-serif text-5xl font-bold text-slate-700/50 absolute top-4 right-6">03</span>
+                    <span class="text-[10px] font-mono text-gold-500 uppercase tracking-widest">Phase 03</span>
+                    <h3 class="font-serif text-xl font-bold text-white mt-4 mb-3">Precision Deployment</h3>
+                    <p class="text-xs text-slate-400 font-light leading-relaxed">
+                        Embedding embedded specialist taskforces directly into client executive suites to execute high-impact initiatives.
+                    </p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="p-8 border border-slate-800 bg-obsidian-200/40 relative">
+                    <span class="font-serif text-5xl font-bold text-slate-700/50 absolute top-4 right-6">04</span>
+                    <span class="text-[10px] font-mono text-gold-500 uppercase tracking-widest">Phase 04</span>
+                    <h3 class="font-serif text-xl font-bold text-white mt-4 mb-3">Alpha Realization</h3>
+                    <p class="text-xs text-slate-400 font-light leading-relaxed">
+                        Continuous stress-testing, synergy institutionalization, and value lock-in to safeguard permanent enterprise advantage.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE TESTIMONIAL / CASE STUDIES CAROUSEL -->
+    <section id="track-record" class="py-24 bg-obsidian-200/70 border-y border-white/5 relative">
+        <div class="max-w-6xl mx-auto px-6 lg:px-12">
+            <div class="flex items-center justify-between mb-16">
+                <div>
+                    <span class="text-xs font-semibold tracking-[0.3em] uppercase text-gold-500">Executive Endorsements</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-2">Verified Mandate Impact</h2>
+                </div>
+                <!-- Controls -->
+                <div class="flex space-x-3">
+                    <button id="prev-testimonial" class="w-12 h-12 border border-slate-700 flex items-center justify-center hover:border-gold-500 text-slate-300 hover:text-white transition-colors" aria-label="Previous Testimonial">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <button id="next-testimonial" class="w-12 h-12 border border-slate-700 flex items-center justify-center hover:border-gold-500 text-slate-300 hover:text-white transition-colors" aria-label="Next Testimonial">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Carousel Wrapper -->
+            <div class="relative overflow-hidden min-h-[340px]">
+                <!-- Slide 1 -->
+                <div class="testimonial-slide transition-all duration-700 ease-in-out">
+                    <div class="glass-panel p-10 md:p-14 border border-gold-500/20">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+                            <div>
+                                <h3 class="font-serif text-2xl font-bold text-white">European Energy &amp; Infrastructure Conglomerate</h3>
+                                <span class="text-xs text-gold-400 font-mono tracking-wider">$14.2B Cross-Border Carve-Out</span>
+                            </div>
+                            <span class="px-3 py-1 bg-gold-500/10 border border-gold-500/30 text-gold-400 text-[10px] uppercase font-mono tracking-widest">+380 bps EBITDA Margin Realized</span>
+                        </div>
+                        <blockquote class="font-serif text-xl sm:text-2xl text-slate-200 font-light italic leading-relaxed mb-8">
+                            "Apex Strategy guided our board through a multi-jurisdictional divestiture that three bulge-bracket investment banks declared operationally unfeasible. Their execution speed and geopolitical foresight were unrivaled."
+                        </blockquote>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 rounded-full bg-slate-800 border border-gold-500/40 flex items-center justify-center font-serif text-gold-400 font-bold">
+                                H.E.
+                            </div>
+                            <div>
+                                <div class="text-sm font-bold text-white">Henrik Eklund</div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wider">Group Chief Executive Officer</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="testimonial-slide hidden transition-all duration-700 ease-in-out">
+                    <div class="glass-panel p-10 md:p-14 border border-gold-500/20">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+                            <div>
+                                <h3 class="font-serif text-2xl font-bold text-white">Global Financial Technology Enterprise</h3>
+                                <span class="text-xs text-gold-400 font-mono tracking-wider">Enterprise Sovereign AI Overhaul</span>
+                            </div>
+                            <span class="px-3 py-1 bg-gold-500/10 border border-gold-500/30 text-gold-400 text-[10px] uppercase font-mono tracking-widest">$850M Operational Efficiency Lift</span>
+                        </div>
+                        <blockquote class="font-serif text-xl sm:text-2xl text-slate-200 font-light italic leading-relaxed mb-8">
+                            "The quantum transformation protocol deployed by Apex allowed us to compress our transaction settlement pipeline by 60% while staying completely bulletproof across federal regulatory jurisdictions."
+                        </blockquote>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 rounded-full bg-slate-800 border border-gold-500/40 flex items-center justify-center font-serif text-gold-400 font-bold">
+                                V.M.
+                            </div>
+                            <div>
+                                <div class="text-sm font-bold text-white">Victoria Sterling-May</div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wider">Chief Information Officer &amp; Board Director</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="testimonial-slide hidden transition-all duration-700 ease-in-out">
+                    <div class="glass-panel p-10 md:p-14 border border-gold-500/20">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+                            <div>
+                                <h3 class="font-serif text-2xl font-bold text-white">Tier-1 Middle Eastern Sovereign Wealth Fund</h3>
+                                <span class="text-xs text-gold-400 font-mono tracking-wider">$45B Defense &amp; Tech Asset Rebalancing</span>
+                            </div>
+                            <span class="px-3 py-1 bg-gold-500/10 border border-gold-500/30 text-gold-400 text-[10px] uppercase font-mono tracking-widest">Zero Capital Impairment Preserved</span>
+                        </div>
+                        <blockquote class="font-serif text-xl sm:text-2xl text-slate-200 font-light italic leading-relaxed mb-8">
+                            "When unexpected regulatory friction threatened our primary North American holdings, Apex Strategy's crisis taskforce resolved the standoff within 72 hours. Their discretion is absolute."
+                        </blockquote>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 rounded-full bg-slate-800 border border-gold-500/40 flex items-center justify-center font-serif text-gold-400 font-bold">
+                                K.A.
+                            </div>
+                            <div>
+                                <div class="text-sm font-bold text-white">Tariq Al-Mansoor</div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wider">Managing Director, Strategic Investments</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide Indicators -->
+            <div class="flex justify-center space-x-2 mt-8" id="carousel-dots">
+                <button class="w-8 h-1 bg-gold-500 transition-all duration-300" aria-label="Go to slide 1"></button>
+                <button class="w-8 h-1 bg-slate-800 transition-all duration-300" aria-label="Go to slide 2"></button>
+                <button class="w-8 h-1 bg-slate-800 transition-all duration-300" aria-label="Go to slide 3"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- LEADERSHIP & SENIOR PARTNERS -->
+    <section class="py-32 relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <span class="text-xs font-semibold tracking-[0.3em] uppercase text-gold-500">Managing Partners</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-4">Unrivaled Authority</h2>
+                <p class="text-slate-400 text-sm font-light mt-4">
+                    Led by former cabinet secretaries, central bank advisors, and Fortune 5 management consultants.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Partner 1 -->
+                <div class="bg-obsidian-200/50 border border-slate-800 p-8 text-center group hover:border-gold-500/40 transition-all duration-300">
+                    <div class="w-24 h-24 mx-auto bg-slate-800 border-2 border-gold-500/30 mb-6 flex items-center justify-center">
+                        <span class="font-serif text-2xl text-gold-400 font-bold">J.V.</span>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-white">Julian Vance-Moreau</h3>
+                    <span class="text-xs text-gold-400 font-mono tracking-wider block mb-4 uppercase">Senior Managing Partner</span>
+                    <p class="text-xs text-slate-400 font-light leading-relaxed mb-6">
+                        Former Deputy Undersecretary of Treasury and Senior Partner at McKinsey. 25+ years advising G7 governments and Fortune 50 boards.
+                    </p>
+                    <span class="text-[10px] text-slate-500 uppercase tracking-widest font-mono">Specialization: M&amp;A / Sovereign Policy</span>
+                </div>
+
+                <!-- Partner 2 -->
+                <div class="bg-obsidian-200/50 border border-slate-800 p-8 text-center group hover:border-gold-500/40 transition-all duration-300">
+                    <div class="w-24 h-24 mx-auto bg-slate-800 border-2 border-gold-500/30 mb-6 flex items-center justify-center">
+                        <span class="font-serif text-2xl text-gold-400 font-bold">E.C.</span>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-white">Dr. Evelyn Chen-Roth</h3>
+                    <span class="text-xs text-gold-400 font-mono tracking-wider block mb-4 uppercase">Head of AI &amp; Enterprise Transformation</span>
+                    <p class="text-xs text-slate-400 font-light leading-relaxed mb-6">
+                        Former Chief Technology Officer at Tier-1 Global Investment Bank. PhD in Applied Quantum Intelligence from MIT.
+                    </p>
+                    <span class="text-[10px] text-slate-500 uppercase tracking-widest font-mono">Specialization: Quantum AI &amp; Infrastructure</span>
+                </div>
+
+                <!-- Partner 3 -->
+                <div class="bg-obsidian-200/50 border border-slate-800 p-8 text-center group hover:border-gold-500/40 transition-all duration-300">
+                    <div class="w-24 h-24 mx-auto bg-slate-800 border-2 border-gold-500/30 mb-6 flex items-center justify-center">
+                        <span class="font-serif text-2xl text-gold-400 font-bold">A.K.</span>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-white">Alexander K. Rostova</h3>
+                    <span class="text-xs text-gold-400 font-mono tracking-wider block mb-4 uppercase">Partner, Geopolitical Defense</span>
+                    <p class="text-xs text-slate-400 font-light leading-relaxed mb-6">
+                        Former Senior Geopolitical Advisor to EU Commission. Strategic architect for over $60B in cross-border energy transactions.
+                    </p>
+                    <span class="text-[10px] text-slate-500 uppercase tracking-widest font-mono">Specialization: Geopolitical &amp; Regulatory Risk</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRIVATE THOUGHT LEADERSHIP & PERSPECTIVES -->
+    <section id="perspectives" class="py-24 bg-obsidian-100/40 border-t border-white/5 relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+                <div>
+                    <span class="text-xs font-semibold tracking-[0.3em] uppercase text-gold-500">Proprietary Research</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-2">Executive Perspectives</h2>
+                </div>
+                <button onclick="openModal()" class="mt-4 md:mt-0 text-xs font-semibold text-gold-400 hover:text-gold-300 uppercase tracking-widest flex items-center space-x-2">
+                    <span>Subscribe to Confidential Briefings</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Insight Card 1 -->
+                <article class="glass-card p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between text-[10px] font-mono text-slate-500 mb-4 uppercase">
+                            <span>Q1 2025 Intelligence Report</span>
+                            <span>12 Min Read</span>
+                        </div>
+                        <h3 class="font-serif text-xl font-bold text-white mb-3 hover:text-gold-300 cursor-pointer transition-colors">Navigating Sovereign Energy Volatility in Multi-Polar Trade Regimes</h3>
+                        <p class="text-xs text-slate-400 font-light leading-relaxed mb-6">
+                            An executive analysis of supply chain realignments across European and Asian markets following new cross-border tariffs.
+                        </p>
+                    </div>
+                    <button onclick="openModal()" class="text-xs font-semibold text-gold-500 hover:text-gold-400 flex items-center space-x-2 uppercase tracking-wider">
+                        <span>Download Whitepaper (PDF)</span>
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    </button>
+                </article>
+
+                <!-- Insight Card 2 -->
+                <article class="glass-card p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between text-[10px] font-mono text-slate-500 mb-4 uppercase">
+                            <span>Special Executive Briefing</span>
+                            <span>8 Min Read</span>
+                        </div>
+                        <h3 class="font-serif text-xl font-bold text-white mb-3 hover:text-gold-300 cursor-pointer transition-colors">The Quantum Infrastructure Imperative for Fortune 100 Financial Entities</h3>
+                        <p class="text-xs text-slate-400 font-light leading-relaxed mb-6">
+                            Why legacy cloud infrastructures pose a systemic threat to capital reserves ahead of next-generation encryption standards.
+                        </p>
+                    </div>
+                    <button onclick="openModal()" class="text-xs font-semibold text-gold-500 hover:text-gold-400 flex items-center space-x-2 uppercase tracking-wider">
+                        <span>Download Whitepaper (PDF)</span>
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    </button>
+                </article>
+
+                <!-- Insight Card 3 -->
+                <article class="glass-card p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between text-[10px] font-mono text-slate-500 mb-4 uppercase">
+                            <span>M&amp;A Outlook 2025</span>
+                            <span>15 Min Read</span>
+                        </div>
+                        <h3 class="font-serif text-xl font-bold text-white mb-3 hover:text-gold-300 cursor-pointer transition-colors">Activist Investor Defense Protocols for Board Directors</h3>
+                        <p class="text-xs text-slate-400 font-light leading-relaxed mb-6">
+                            A tactical playbook for C-suite executives preparing for hostile proxy battles and unsanctioned asset restructuring demands.
+                        </p>
+                    </div>
+                    <button onclick="openModal()" class="text-xs font-semibold text-gold-500 hover:text-gold-400 flex items-center space-x-2 uppercase tracking-wider">
+                        <span>Download Whitepaper (PDF)</span>
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    </button>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRIVATE CONSULTATION / MANDATE CTA SECTION -->
+    <section class="py-32 relative overflow-hidden bg-obsidian-200">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.12),transparent_70%)]"></div>
+        <div class="max-w-5xl mx-auto px-6 lg:px-12 text-center relative z-10">
+            <span class="text-xs font-semibold tracking-[0.3em] uppercase text-gold-500">Initiate Strategic Mandate</span>
+            <h2 class="font-serif text-4xl sm:text-6xl font-bold text-white mt-4 mb-8">
+                Ready to Establish Permanent Market Dominance?
+            </h2>
+            <p class="text-slate-300 max-w-2xl mx-auto text-base sm:text-lg font-light leading-relaxed mb-12">
+                Engagements with Apex Strategy are conducted under strict non-disclosure parameters. Our senior partners respond directly within four hours.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-6">
+                <button onclick="openModal()" class="px-12 py-5 bg-gold-500 text-obsidian-500 font-bold text-xs uppercase tracking-[0.25em] hover:bg-gold-400 transition-all duration-300 shadow-[0_0_35px_rgba(212,175,55,0.3)]">
+                    Schedule Executive Consultation
                 </button>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="bg-ivory-200 border-t border-gold-subtle pt-20 pb-12">
+    <!-- GLOBAL FOOTER -->
+    <footer class="bg-obsidian-500 border-t border-white/5 pt-20 pb-12 text-xs text-slate-400">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-16 border-b border-gold-subtle">
-                
-                <!-- Col 1: Brand -->
-                <div class="space-y-6">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full border border-gold flex items-center justify-center">
-                            <div class="w-2 h-2 bg-gold rounded-full"></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+                <!-- Brand Info -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 border border-gold-500/40 flex items-center justify-center bg-obsidian-100">
+                            <svg class="w-4 h-4 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                            </svg>
                         </div>
-                        <div class="flex flex-col">
-                            <span class="font-serif text-xl tracking-widest text-charcoal-900 uppercase font-semibold">DR. PRAKASH</span>
-                            <span class="text-[9px] tracking-[0.3em] text-gold uppercase -mt-1 font-medium">Dental Architecture</span>
-                        </div>
+                        <span class="font-serif text-lg font-bold tracking-wider text-white">APEX <span class="gold-gradient-text font-normal">STRATEGY</span></span>
                     </div>
-                    <p class="text-xs text-charcoal-600 leading-relaxed font-light">
-                        World-class aesthetic smile reconstruction, advanced implantology, and microscopic restorative dentistry.
+                    <p class="text-xs text-slate-400 font-light max-w-sm leading-relaxed">
+                        Apex Strategy Group LLP is a global management advisory firm providing confidential strategic consulting to corporate boards, sovereign entities, and institutional leaders.
                     </p>
+                    <div class="text-[10px] text-slate-500 font-mono uppercase tracking-widest">
+                        EST. 2008 // GLOBAL ADVISORY MATRIX
+                    </div>
                 </div>
 
-                <!-- Col 2: Global Suites -->
+                <!-- Global Offices -->
                 <div>
-                    <h4 class="font-serif text-lg text-charcoal-900 mb-4 uppercase tracking-wider">Clinical Suites</h4>
-                    <ul class="space-y-3 text-xs text-charcoal-600 font-light">
-                        <li class="flex justify-between"><span class="text-charcoal-900 font-medium">Harley Street:</span> 42 Harley St, London</li>
-                        <li class="flex justify-between"><span class="text-charcoal-900 font-medium">Beverly Hills:</span> 9680 Wilshire Blvd, CA</li>
-                        <li class="flex justify-between"><span class="text-charcoal-900 font-medium">Mumbai Suite:</span> Altamount Road, Cumballa Hill</li>
+                    <h4 class="font-serif text-sm font-bold text-white uppercase tracking-wider mb-4">Global Hubs</h4>
+                    <ul class="space-y-2.5 font-light text-slate-400">
+                        <li>New York: 767 Fifth Avenue, NY 10153</li>
+                        <li>London: 1 Canada Square, E14 5AA</li>
+                        <li>Zurich: Bahnhofstrasse 45, 8001</li>
+                        <li>Singapore: 1 Raffles Place, 048616</li>
+                        <li>Dubai: DIFC Gate Precinct 4</li>
                     </ul>
                 </div>
 
-                <!-- Col 3: Navigation -->
+                <!-- Strategic Capabilities -->
                 <div>
-                    <h4 class="font-serif text-lg text-charcoal-900 mb-4 uppercase tracking-wider">Directory</h4>
-                    <ul class="space-y-3 text-xs text-charcoal-600 font-light uppercase tracking-wider">
-                        <li><a href="#about" class="hover:text-gold transition-colors">The Architect</a></li>
-                        <li><a href="#treatments" class="hover:text-gold transition-colors">Specialized Offerings</a></li>
-                        <li><a href="#philosophy" class="hover:text-gold transition-colors">Clinical Standards</a></li>
-                        <li><a href="#testimonials" class="hover:text-gold transition-colors">Patron Reviews</a></li>
+                    <h4 class="font-serif text-sm font-bold text-white uppercase tracking-wider mb-4">Practice Areas</h4>
+                    <ul class="space-y-2.5 font-light text-slate-400">
+                        <li><a href="#advisory" class="hover:text-gold-400 transition-colors">Cross-Border M&amp;A Advisory</a></li>
+                        <li><a href="#advisory" class="hover:text-gold-400 transition-colors">Sovereign &amp; Geopolitical Risk</a></li>
+                        <li><a href="#advisory" class="hover:text-gold-400 transition-colors">Enterprise Quantum AI</a></li>
+                        <li><a href="#advisory" class="hover:text-gold-400 transition-colors">Activist Defense &amp; Alpha</a></li>
+                        <li><a href="#advisory" class="hover:text-gold-400 transition-colors">Board Crisis Response</a></li>
                     </ul>
                 </div>
 
-                <!-- Col 4: Contact Concierge -->
+                <!-- Regulatory & Compliance -->
                 <div>
-                    <h4 class="font-serif text-lg text-charcoal-900 mb-4 uppercase tracking-wider">Private Concierge</h4>
-                    <p class="text-xs text-charcoal-600 font-light leading-relaxed mb-4">
-                        Direct Line for Appointment Scheduling:
-                    </p>
-                    <p class="font-serif text-xl text-gold mb-2">+1 (800) 984-PRAKASH</p>
-                    <p class="text-xs text-charcoal-500">concierge@drprakashdental.com</p>
+                    <h4 class="font-serif text-sm font-bold text-white uppercase tracking-wider mb-4">Governance</h4>
+                    <ul class="space-y-2.5 font-light text-slate-400">
+                        <li><a href="#" class="hover:text-gold-400 transition-colors">Client Confidentiality Charter</a></li>
+                        <li><a href="#" class="hover:text-gold-400 transition-colors">Regulatory Filings</a></li>
+                        <li><a href="#" class="hover:text-gold-400 transition-colors">Ethics &amp; Integrity Compliance</a></li>
+                        <li><a href="#" class="hover:text-gold-400 transition-colors">Terms of Strategic Engagement</a></li>
+                        <li><a href="#" class="hover:text-gold-400 transition-colors">Private Data Encryption Policy</a></li>
+                    </ul>
                 </div>
-
             </div>
 
-            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-charcoal-500 font-light tracking-wider">
-                <p>&copy; <span id="year"></span> DR. PRAKASH DENTAL CLINIC. ALL RIGHTS RESERVED.</p>
+            <!-- Bottom Line -->
+            <div class="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row justify-between items-center text-[11px] text-slate-500">
+                <p>&copy; 2025 Apex Strategy Group LLP. All rights reserved. Strictly confidential operational framework.</p>
                 <div class="flex space-x-6 mt-4 sm:mt-0">
-                    <a href="#" class="hover:text-gold transition-colors">PRIVACY POLICY</a>
-                    <a href="#" class="hover:text-gold transition-colors">TERMS OF PRACTICE</a>
-                    <a href="#" class="hover:text-gold transition-colors">CONCIERGE ACCESS</a>
+                    <a href="#" class="hover:text-gold-400 transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-gold-400 transition-colors">Legal Terms</a>
+                    <a href="#" class="hover:text-gold-400 transition-colors">Security Disclosures</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- INTERACTIVE LEAD CAPTURE / CONSULTATION MODAL -->
-    <div id="booking-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-charcoal-900/60 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-500">
-        <div class="bg-ivory-100 border border-gold p-8 md:p-12 max-w-2xl w-full relative shadow-2xl transform scale-95 transition-transform duration-500" id="modal-box">
-            
-            <!-- Close Icon -->
-            <button onclick="closeModal()" class="absolute top-6 right-6 text-charcoal-600 hover:text-gold transition-colors focus:outline-none">
+    <!-- INTERACTIVE LEAD CAPTURE / MANDATE REQUEST MODAL -->
+    <div id="consultation-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-obsidian-500/90 backdrop-blur-xl opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="glass-panel max-w-2xl w-full p-8 sm:p-12 relative border border-gold-500/30 transform scale-95 transition-transform duration-300 shadow-2xl">
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors p-2" aria-label="Close Modal">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
 
+            <!-- Modal Header -->
             <div class="mb-8">
-                <span class="text-[10px] uppercase tracking-[0.3em] text-gold font-semibold">Private Scheduling</span>
-                <h3 class="font-serif text-3xl md:text-4xl text-charcoal-900 mt-2">Reserve Your Consultation</h3>
-                <p class="text-xs text-charcoal-600 font-light mt-2">Our concierge will contact you within 24 hours to confirm your private suite appointment.</p>
+                <span class="text-[10px] font-mono tracking-[0.25em] text-gold-500 uppercase">Privileged Executive Portal</span>
+                <h3 class="font-serif text-2xl sm:text-3xl font-bold text-white mt-2">Initiate Confidential Briefing</h3>
+                <p class="text-xs text-slate-400 font-light mt-2">
+                    Submit your mandate requirements. A Senior Managing Partner will establish direct encrypted contact.
+                </p>
             </div>
 
-            <form onsubmit="handleFormSubmit(event)" class="space-y-6">
+            <!-- Modal Form -->
+            <form id="mandate-form" onsubmit="handleFormSubmit(event)" class="space-y-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-[10px] uppercase tracking-widest text-charcoal-700 mb-2 font-medium">Full Name *</label>
-                        <input type="text" required placeholder="Lord / Lady / Dr. / Mr. / Ms." class="w-full bg-ivory-50 border border-gold-subtle p-3 text-xs text-charcoal-900 focus:outline-none focus:border-gold transition-colors">
+                        <label for="lead-name" class="block text-[11px] uppercase tracking-wider font-semibold text-slate-300 mb-2">Executive Name *</label>
+                        <input type="text" id="lead-name" required placeholder="e.g. Lord Charles Sterling" class="w-full bg-obsidian-300 border border-slate-700 text-white text-xs px-4 py-3 focus:outline-none focus:border-gold-500 transition-colors">
                     </div>
                     <div>
-                        <label class="block text-[10px] uppercase tracking-widest text-charcoal-700 mb-2 font-medium">Phone Number *</label>
-                        <input type="tel" required placeholder="+1 (555) 000-0000" class="w-full bg-ivory-50 border border-gold-subtle p-3 text-xs text-charcoal-900 focus:outline-none focus:border-gold transition-colors">
+                        <label for="lead-email" class="block text-[11px] uppercase tracking-wider font-semibold text-slate-300 mb-2">Corporate Email *</label>
+                        <input type="email" id="lead-email" required placeholder="c.sterling@enterprise.com" class="w-full bg-obsidian-300 border border-slate-700 text-white text-xs px-4 py-3 focus:outline-none focus:border-gold-500 transition-colors">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-[10px] uppercase tracking-widest text-charcoal-700 mb-2 font-medium">Email Address *</label>
-                        <input type="email" required placeholder="client@domain.com" class="w-full bg-ivory-50 border border-gold-subtle p-3 text-xs text-charcoal-900 focus:outline-none focus:border-gold transition-colors">
+                        <label for="lead-title" class="block text-[11px] uppercase tracking-wider font-semibold text-slate-300 mb-2">Executive Title *</label>
+                        <input type="text" id="lead-title" required placeholder="Group CEO / Managing Director" class="w-full bg-obsidian-300 border border-slate-700 text-white text-xs px-4 py-3 focus:outline-none focus:border-gold-500 transition-colors">
                     </div>
                     <div>
-                        <label class="block text-[10px] uppercase tracking-widest text-charcoal-700 mb-2 font-medium">Treatment Interest</label>
-                        <select id="modal-select" class="w-full bg-ivory-50 border border-gold-subtle p-3 text-xs text-charcoal-900 focus:outline-none focus:border-gold transition-colors">
-                            <option>Porcelain Veneers</option>
-                            <option>Guided Implant Surgery</option>
-                            <option>Digital Smile Architecture</option>
-                            <option>Full Mouth Rehabilitation</option>
-                            <option>Invisible Orthodontics</option>
-                            <option>Comprehensive Examination</option>
+                        <label for="lead-revenue" class="block text-[11px] uppercase tracking-wider font-semibold text-slate-300 mb-2">Enterprise Revenue Scale</label>
+                        <select id="lead-revenue" class="w-full bg-obsidian-300 border border-slate-700 text-slate-200 text-xs px-4 py-3 focus:outline-none focus:border-gold-500 transition-colors">
+                            <option value="500m">$250M - $1 Billion USD</option>
+                            <option value="5b" selected>$1 Billion - $5 Billion USD</option>
+                            <option value="10b">$5 Billion - $20 Billion USD</option>
+                            <option value="sovereign">Sovereign Entity / State Fund</option>
                         </select>
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-[10px] uppercase tracking-widest text-charcoal-700 mb-2 font-medium">Notes / Preferred Location</label>
-                    <textarea rows="3" placeholder="Please specify Harley St, Beverly Hills, or Mumbai suite, and any special requests..." class="w-full bg-ivory-50 border border-gold-subtle p-3 text-xs text-charcoal-900 focus:outline-none focus:border-gold transition-colors resize-none"></textarea>
+                    <label for="lead-mandate" class="block text-[11px] uppercase tracking-wider font-semibold text-slate-300 mb-2">Brief Mandate Scope</label>
+                    <textarea id="lead-mandate" rows="3" placeholder="Outline primary objectives (e.g. Hostile Takeover Defense, Sovereign AI Deployment, Restructuring)..." class="w-full bg-obsidian-300 border border-slate-700 text-white text-xs p-4 focus:outline-none focus:border-gold-500 transition-colors"></textarea>
                 </div>
 
-                <button type="submit" class="w-full py-5 bg-charcoal-900 text-ivory-100 text-xs uppercase tracking-[0.25em] font-semibold hover:bg-gold transition-colors duration-300">
-                    Submit Reservation Request
+                <button type="submit" class="w-full py-4 bg-gold-500 text-obsidian-500 font-bold text-xs uppercase tracking-[0.2em] hover:bg-gold-400 transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.2)]">
+                    Transmit Mandate Inquiry
                 </button>
+                <p class="text-[10px] text-center text-slate-500 tracking-wider uppercase font-mono">Protected by 256-Bit Encrypted Data Protocol</p>
             </form>
 
-            <div id="modal-success" class="hidden absolute inset-0 bg-ivory-100 flex flex-col items-center justify-center p-8 text-center space-y-4">
-                <div class="w-16 h-16 rounded-full border border-gold flex items-center justify-center text-gold">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7"/></svg>
+            <!-- Form Success State (Hidden by default) -->
+            <div id="form-success" class="hidden text-center py-12 space-y-4">
+                <div class="w-16 h-16 border-2 border-gold-500 rounded-full flex items-center justify-center mx-auto text-gold-500">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                 </div>
-                <h4 class="font-serif text-3xl text-charcoal-900">Request Received</h4>
-                <p class="text-xs text-charcoal-600 font-light max-w-sm">Thank you. Our Executive Concierge will reach out shortly to discuss suite availability and dates.</p>
-                <button onclick="closeModal()" class="px-8 py-3 border border-gold text-xs uppercase tracking-widest text-charcoal-900 hover:bg-gold hover:text-ivory-100 transition-colors">Close Window</button>
+                <h4 class="font-serif text-2xl font-bold text-white">Mandate Inquiry Received</h4>
+                <p class="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
+                    Your transmission has been assigned high-priority security clearance. A Senior Managing Partner will contact you within four hours.
+                </p>
+                <button onclick="closeModal()" class="mt-6 px-8 py-3 bg-obsidian-300 border border-slate-700 text-xs font-semibold text-slate-300 hover:text-white uppercase tracking-wider">
+                    Dismiss Notice
+                </button>
             </div>
-
         </div>
     </div>
 
-    <!-- JAVASCRIPT & GSAP ANIMATION INFRASTRUCTURE -->
+    <!-- VANILLA JAVASCRIPT LOGIC -->
     <script>
-        // Set dynamic copyright year
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        // Register GSAP ScrollTrigger
-        gsap.registerPlugin(ScrollTrigger);
-
-        // --- HERO LOAD ANIMATIONS ---
-        window.addEventListener('load', () => {
-            gsap.to('.hero-reveal', {
-                opacity: 1,
-                y: 0,
-                duration: 1.2,
-                stagger: 0.2,
-                ease: 'power3.out'
-            });
-        });
-
-        // --- SCROLLTRIGGER REVEALS FOR EVERY SECTION ---
-        const sections = document.querySelectorAll('.gsap-reveal-section');
-        sections.forEach((sec) => {
-            gsap.from(sec, {
-                scrollTrigger: {
-                    trigger: sec,
-                    start: 'top 80%',
-                    toggleActions: 'play none none none'
-                },
-                opacity: 0,
-                y: 40,
-                duration: 1.2,
-                ease: 'power3.out'
-            });
-        });
-
-        // --- TREATMENT SLIDER INTERACTION ---
-        const slider = document.getElementById('treatment-slider');
-        const prevBtn = document.getElementById('slide-prev');
-        const nextBtn = document.getElementById('slide-next');
-
-        if (slider && prevBtn && nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                slider.scrollBy({ left: 380, behavior: 'smooth' });
-            });
-            prevBtn.addEventListener('click', () => {
-                slider.scrollBy({ left: -380, behavior: 'smooth' });
-            });
-        }
-
-        // --- TESTIMONIALS DATA & SWITCHER ---
-        const testimonials = [
-            {
-                quote: "Dr. Prakash reconstructed my entire smile prior to my global summit tour. The discretion, elegance, and natural perfection achieved surpassed even my highest expectations.",
-                author: "Victoria R. Sterling",
-                role: "Managing Director, Global Capital Partners",
-                procedure: "Full Porcelain Restorations"
-            },
-            {
-                quote: "The level of precision is unmatched. Using microscopic photography, Dr. Prakash crafted veneers that feel entirely natural and look radiant under any lighting environment.",
-                author: "Harrison Vance",
-                role: "Architectural Principal, London",
-                procedure: "Ultra-Thin Veneers"
-            },
-            {
-                quote: "A truly elevated healthcare experience. No waiting room friction, absolute privacy, and surgical results that look completely biological and effortless.",
-                author: "Evelyn Chen-Rothschild",
-                role: "Patron of Arts, Zurich",
-                procedure: "Guided Implant Surgery"
-            }
-        ];
-
-        let testiIndex = 0;
-        const testiQuote = document.getElementById('testi-quote');
-        const testiAuthor = document.getElementById('testi-author');
-        const testiRole = document.getElementById('testi-role');
-        const testiProc = document.getElementById('testi-procedure');
-        const testiContainer = document.getElementById('testimonial-container');
-
-        function updateTestimonial(index) {
-            testiContainer.style.opacity = '0';
-            setTimeout(() => {
-                testiQuote.textContent = `"${testimonials[index].quote}"`;
-                testiAuthor.textContent = testimonials[index].author;
-                testiRole.textContent = testimonials[index].role;
-                testiProc.textContent = testimonials[index].procedure;
-                testiContainer.style.opacity = '1';
-            }, 300);
-        }
-
-        document.getElementById('testi-next').addEventListener('click', () => {
-            testiIndex = (testiIndex + 1) % testimonials.length;
-            updateTestimonial(testiIndex);
-        });
-
-        document.getElementById('testi-prev').addEventListener('click', () => {
-            testiIndex = (testiIndex - 1 + testimonials.length) % testimonials.length;
-            updateTestimonial(testiIndex);
-        });
-
-        // --- ACCORDION TOGGLE ---
-        function toggleAccordion(id) {
-            const content = document.getElementById(`faq-content-${id}`);
-            const icon = document.getElementById(`faq-icon-${id}`);
-
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                icon.textContent = '−';
-                icon.classList.add('rotate-180');
+        // 1. Mobile Menu Drawer Toggle
+        function toggleMobileMenu() {
+            const drawer = document.getElementById('mobile-drawer');
+            const openIcon = document.getElementById('menu-icon-open');
+            const closeIcon = document.getElementById('menu-icon-close');
+            
+            if (drawer.classList.contains('translate-x-full')) {
+                drawer.classList.remove('translate-x-full');
+                openIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
             } else {
-                content.classList.add('hidden');
-                icon.textContent = '+';
-                icon.classList.remove('rotate-180');
+                drawer.classList.add('translate-x-full');
+                openIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+                document.body.style.overflow = 'auto';
             }
         }
 
-        // --- MOBILE MENU TOGGLE ---
-        const menuBtn = document.getElementById('menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        let menuOpen = false;
-
-        menuBtn.addEventListener('click', () => {
-            menuOpen = !menuOpen;
-            if (menuOpen) {
-                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
-                mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+        // 2. Navigation Blur on Scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('glass-panel', 'shadow-2xl');
+                navbar.classList.remove('border-b', 'border-white/5');
             } else {
-                closeMenu();
+                navbar.classList.remove('glass-panel', 'shadow-2xl');
+                navbar.classList.add('border-b', 'border-white/5');
             }
         });
 
-        function closeMenu() {
-            menuOpen = false;
-            mobileMenu.classList.add('opacity-0', 'pointer-events-none');
-            mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
-        }
-
-        // --- MODAL CONTROLS ---
-        const modal = document.getElementById('booking-modal');
-        const modalBox = document.getElementById('modal-box');
-        const modalSelect = document.getElementById('modal-select');
-
-        function openModal(serviceName = '') {
-            if (serviceName && modalSelect) {
-                for (let i = 0; i < modalSelect.options.length; i++) {
-                    if (modalSelect.options[i].text.toLowerCase().includes(serviceName.toLowerCase())) {
-                        modalSelect.selectedIndex = i;
-                        break;
-                    }
-                }
-            }
+        // 3. Modal Management
+        function openModal() {
+            const modal = document.getElementById('consultation-modal');
+            const modalBox = modal.querySelector('div');
             modal.classList.remove('opacity-0', 'pointer-events-none');
-            modal.classList.add('opacity-100', 'pointer-events-auto');
             modalBox.classList.remove('scale-95');
             modalBox.classList.add('scale-100');
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
+            const modal = document.getElementById('consultation-modal');
+            const modalBox = modal.querySelector('div');
             modal.classList.add('opacity-0', 'pointer-events-none');
-            modal.classList.remove('opacity-100', 'pointer-events-auto');
-            modalBox.classList.add('scale-95');
             modalBox.classList.remove('scale-100');
+            modalBox.classList.add('scale-95');
+            document.body.style.overflow = 'auto';
             
-            // Reset success screen after delay
+            // Reset form after close animation delay
             setTimeout(() => {
-                document.getElementById('modal-success').classList.add('hidden');
-            }, 500);
+                document.getElementById('mandate-form').classList.remove('hidden');
+                document.getElementById('form-success').classList.add('hidden');
+                document.getElementById('mandate-form').reset();
+            }, 300);
         }
 
         function handleFormSubmit(e) {
             e.preventDefault();
-            document.getElementById('modal-success').classList.remove('hidden');
+            document.getElementById('mandate-form').classList.add('hidden');
+            document.getElementById('form-success').classList.remove('hidden');
+        }
+
+        // 4. Interactive ROI Calculator Logic
+        const revenueRange = document.getElementById('revenue-range');
+        const revenueVal = document.getElementById('revenue-val');
+        const initiativeSelect = document.getElementById('initiative-select');
+        const projectedVal = document.getElementById('projected-value');
+
+        function updateCalculations() {
+            const revNum = parseFloat(revenueRange.value);
+            const multiplier = parseFloat(initiativeSelect.value);
+            
+            // Format revenue display
+            if (revNum >= 1000) {
+                revenueVal.textContent = `$${(revNum / 1000).toFixed(1)} Billion`;
+            } else {
+                revenueVal.textContent = `$${revNum} Million`;
+            }
+
+            // Compute Projected Lift
+            const rawLift = revNum * (multiplier - 1);
+            if (rawLift >= 1000) {
+                projectedVal.textContent = `$${(rawLift / 1000).toFixed(2)}B`;
+            } else {
+                projectedVal.textContent = `$${rawLift.toFixed(1)}M`;
+            }
+        }
+
+        if (revenueRange && initiativeSelect) {
+            revenueRange.addEventListener('input', updateCalculations);
+            initiativeSelect.addEventListener('change', updateCalculations);
+        }
+
+        // 5. Testimonial Carousel Logic
+        const slides = document.querySelectorAll('.testimonial-slide');
+        const dots = document.querySelectorAll('#carousel-dots button');
+        const prevBtn = document.getElementById('prev-testimonial');
+        const nextBtn = document.getElementById('next-testimonial');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                if (i === index) {
+                    slide.classList.remove('hidden');
+                    dots[i].classList.remove('bg-slate-800');
+                    dots[i].classList.add('bg-gold-500');
+                } else {
+                    slide.classList.add('hidden');
+                    dots[i].classList.remove('bg-gold-500');
+                    dots[i].classList.add('bg-slate-800');
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        if (prevBtn && nextBtn) {
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+            
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    currentSlide = index;
+                    showSlide(currentSlide);
+                });
+            });
+
+            // Auto advance carousel every 8 seconds
+            setInterval(nextSlide, 8000);
         }
     </script>
 </body>
