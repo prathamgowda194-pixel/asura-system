@@ -16,6 +16,18 @@ const API_URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
 
 const CLIENT_PORTFOLIO = [
   {
+    name: "BYOB Restaurant Experience Gurgaon",
+    niche: "Artisanal Dining & Alfresco BYOB Sanctuary",
+    city: "Gurgaon, Delhi NCR",
+    address: "Golf Course Extension Road, Sector 58, Gurgaon 122102",
+    phone: "+91 96541 20004",
+    cleanPhone: "9654120004",
+    rating: "4.9",
+    reviews: "114",
+    slug: "byob-restaurant-experience-in-gurgaon",
+    archetype: "The Smoked Merlot (Deep Merlot & Antique Brass)"
+  },
+  {
     name: "Hyderabad Real Estate",
     niche: "Luxury Real Estate & Villa Developers",
     city: "Hyderabad, Telangana",
