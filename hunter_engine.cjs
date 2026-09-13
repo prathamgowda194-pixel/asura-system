@@ -2,13 +2,11 @@
  * ══════════════════════════════════════════════════════════════════════════════
  * ASURA HUNTER ENGINE // 24/7 AUTONOMOUS CLIENT RADAR & LEAD PIPELINE (Node.js)
  * ══════════════════════════════════════════════════════════════════════════════
- * - Autonomous Scraping: Firecrawl Search + Social/Directory SERP for genuine businesses with NO website
  * - Strictly India Focused: Bangalore, Mumbai, Delhi NCR, Hyderabad, Pune, etc.
+ * - Genuine Legit Businesses Only: Verified names, +91 10-digit mobile, physical addresses
  * - Real Estate Specialization: Luxury Villas, Property Consultants, Commercial Brokers
- * - Indian Phone & WhatsApp Routing: +91 10-digit mobile extraction + 1-click WhatsApp pitch
- * - Master Anti-Slop Protocol: ZERO unstyled emojis, Lucide SVG icons, GSAP scroll animations,
- *   interactive lead modals, and Indian Rupee (₹) pricing.
- * - Dual Cloud Hosting: Cloudflare Pages (Unlimited) + Vercel Edge Gateway.
+ * - Master Anti-Slop Protocol: ZERO unstyled emojis, Lucide SVG icons, GSAP scroll animations
+ * - Live Vercel Edge Hosting: https://asura-system.vercel.app/projects/<slug>/index.html
  * - Real-Time Telegram Dispatch: Broadcasts to @Asura_Hunter_bot (Commander: 7025916840)
  */
 
@@ -25,7 +23,6 @@ const CONFIG = {
   GITHUB_TOKEN: process.env.GITHUB_TOKEN || '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',
   REPO_OWNER: 'prathamgowda194-pixel',
   REPO_NAME: 'asura-system',
-  CLOUDFLARE_BASE: 'https://asura-system.pages.dev',
   VERCEL_BASE: 'https://asura-system.vercel.app'
 };
 
@@ -60,7 +57,7 @@ const TARGET_NICHES = [
   },
   {
     id: 'interior',
-    name: 'Interior Architecture & Modular Studio',
+    name: 'Interior Architecture & Modular Living',
     shortName: 'Interior Designer',
     keywords: ['interior designer', 'modular kitchen', 'luxury home interiors', 'architectural design'],
     theme: 'linen-sage',
@@ -164,7 +161,10 @@ function getSavedLeads() {
 
 function saveLead(lead) {
   const leads = getSavedLeads();
-  const existingIdx = leads.findIndex(l => (l.phone && l.phone === lead.phone) || (l.name && l.name.toLowerCase() === lead.name.toLowerCase() && l.city === lead.city));
+  const existingIdx = leads.findIndex(l => 
+    (l.cleanPhone && l.cleanPhone === lead.cleanPhone) || 
+    (l.name && l.name.toLowerCase() === lead.name.toLowerCase() && l.city === lead.city)
+  );
   if (existingIdx >= 0) {
     leads[existingIdx] = { ...leads[existingIdx], ...lead };
   } else {
@@ -196,7 +196,7 @@ function addSubscriber(chatId) {
   fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify(Array.from(subs), null, 2), 'utf8');
 }
 
-// ── GENUINE BUSINESS NAME & ADDRESS EXTRACTION (INDIA CALIBRATED) ─────────────
+// ── STRICT GENUINE BUSINESS FILTER (ZERO NOISE / SCAMS) ───────────────────────
 function cleanBusinessName(rawTitle, nicheName, city) {
   if (!rawTitle) return null;
 
@@ -207,13 +207,15 @@ function cleanBusinessName(rawTitle, nicheName, city) {
     .replace(/\.{2,}/g, '')
     .trim();
 
-  // Filter non-business queries and generic noise
+  // Banned non-business patterns (categories, directory portals, forum questions, spam)
   const lower = name.toLowerCase();
   const banned = [
     'best 10', 'top 10', 'reviews for', 'recommendation', 'how to', 'directory', 
     'near me', 'forum', 'classified', 'what are', 'has anyone', 'looking for', 
     'need a', 'who is', 'reddit', 'quora', 'community', 'circle', 'group', 'services in',
-    'photos & reviews', 'phone number', 'contact details', 'address & map', 'ratings'
+    'photos & reviews', 'phone number', 'contact details', 'address & map', 'ratings',
+    'free classifieds', 'agents in', 'dealers in', 'contractors in', 'brokers in',
+    'cheap', 'discount 50%', 'click here'
   ];
   for (const b of banned) {
     if (lower.includes(b)) return null;
@@ -221,7 +223,7 @@ function cleanBusinessName(rawTitle, nicheName, city) {
 
   if (name.length < 3 || name.length > 50) return null;
 
-  // Title case
+  // Title case formatting
   name = name.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
   return name;
 }
@@ -237,6 +239,8 @@ function extractIndianPhone(text) {
   const tenDigits = digits.length >= 10 ? digits.slice(-10) : digits;
 
   if (tenDigits.length === 10 && /^[6-9]/.test(tenDigits)) {
+    // Ignore repeating dummy numbers like 9999999999, 8888888888
+    if (/^(\d)\1{9}$/.test(tenDigits)) return null;
     return {
       formatted: `+91 ${tenDigits.slice(0, 5)} ${tenDigits.slice(5)}`,
       clean10: tenDigits
@@ -251,58 +255,7 @@ function extractPhysicalAddress(text, defaultCity) {
   return match ? match[0].trim() : defaultCity;
 }
 
-// ── TELEGRAM DISPATCHER & SUBSCRIPTIONS ───────────────────────────────────────
-let lastUpdateId = 0;
-
-async function syncTelegramUpdates() {
-  const url = `https://api.telegram.org/bot${CONFIG.TELEGRAM_BOT_TOKEN}/getUpdates?offset=${lastUpdateId + 1}&timeout=5`;
-  try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
-    if (res.status === 200) {
-      const data = await res.json();
-      if (data.ok && Array.isArray(data.result)) {
-        for (const u of data.result) {
-          lastUpdateId = Math.max(lastUpdateId, u.update_id || 0);
-          const msg = u.message;
-          if (msg && msg.chat && msg.chat.id) {
-            addSubscriber(msg.chat.id);
-            const text = (msg.text || '').trim();
-            if (text === '/start') {
-              await sendTelegramWelcome(msg.chat.id);
-            } else if (text === '/status') {
-              const leads = getSavedLeads();
-              const statusMsg = 
-                `⚡ <b>ASURA HUNTER 24/7 // TELEMETRY REPORT</b>\n` +
-                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                `🟢 <b>Radar Status:</b> ACTIVE & HUNTING 24/7\n` +
-                `🇮🇳 <b>Territory:</b> ALL OVER INDIA (16 Commercial Hubs)\n` +
-                `🏢 <b>Priority Niche:</b> Real Estate & Property Developers\n` +
-                `🎯 <b>Total Verified Indian Leads:</b> ${leads.length}\n` +
-                `☁️ <b>Hosting Infrastructure:</b> Cloudflare Pages (Unlimited) + Vercel Edge\n` +
-                `🛡️ <b>Anti-Slop Protocol:</b> ACTIVE (Zero Emojis • Vector SVGs • GSAP Motion)\n` +
-                `📱 <b>Linked Commander:</b> @TeChPlAyZ194\n\n` +
-                `<i>Your autonomous bot continues scanning and generating live prototypes 24/7!</i>`;
-              await sendTelegramMessage(msg.chat.id, statusMsg);
-            } else if (text === '/latest') {
-              const leads = getSavedLeads();
-              if (leads.length === 0) {
-                await sendTelegramMessage(msg.chat.id, "No leads cataloged yet. An autonomous sweep across Indian metros is active right now!");
-              } else {
-                for (const l of leads.slice(0, 3)) {
-                  await broadcastLeadCard(l, l.prototypeUrl);
-                }
-              }
-            } else if (text.startsWith('/hunt')) {
-              await sendTelegramMessage(msg.chat.id, "🎯 <b>Authorized!</b> Initiating instant high-priority sweep across Indian Real Estate & High-Ticket Commercial services...");
-              runSweep({ maxNiches: 1, leadsPerNiche: 1 });
-            }
-          }
-        }
-      }
-    }
-  } catch (e) {}
-}
-
+// ── TELEGRAM DISPATCHER ───────────────────────────────────────────────────────
 async function sendTelegramMessage(chatId, text, replyMarkup = null) {
   const url = `https://api.telegram.org/bot${CONFIG.TELEGRAM_BOT_TOKEN}/sendMessage`;
   const body = {
@@ -326,31 +279,6 @@ async function sendTelegramMessage(chatId, text, replyMarkup = null) {
   }
 }
 
-async function sendTelegramWelcome(chatId) {
-  const text = 
-    `⚡ <b>ASURA HUNTER ENGINE // ONLINE</b>\n` +
-    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-    `Greetings Commander <b>Tech Playz</b> (@TeChPlAyZ194)!\n\n` +
-    `Your system has been upgraded to the <b>INDIA MASTER RADAR</b>.\n\n` +
-    `🇮🇳 <b>Territory Radar:</b> India Metros Only (Bangalore, Mumbai, Delhi NCR, Hyderabad, Pune, Chennai, etc.)\n` +
-    `🏢 <b>Primary Hunting Niche:</b> Real Estate & Property Developers (High-Ticket ₹ Crores)\n` +
-    `🛡️ <b>Master Anti-Slop Protocol:</b> STRICTLY ZERO RAW EMOJIS. All prototypes feature Lucide vector SVGs, GSAP scroll animations, working lead booking modals, and Indian Rupee (₹) pricing.\n` +
-    `☁️ <b>Dual Hosting Engine:</b> Cloudflare Pages (Unlimited Deployments) + Vercel Edge\n` +
-    `💬 <b>Direct 1-Click WhatsApp:</b> Every verified business includes a pre-composed WhatsApp pitch button!\n\n` +
-    `<b>Commands:</b>\n` +
-    `• <code>/hunt</code> — Trigger immediate high-priority sweep\n` +
-    `• <code>/latest</code> — View recent verified leads & prototypes\n` +
-    `• <code>/status</code> — Radar telemetry & live statistics\n\n` +
-    `<i>Hunting 24/7 in the cloud with zero laptop dependency!</i>`;
-
-  const markup = {
-    inline_keyboard: [
-      [{ text: "⚡ Trigger Instant Scan", callback_data: "hunt_now" }, { text: "📂 View Latest Leads", callback_data: "view_latest" }]
-    ]
-  };
-  await sendTelegramMessage(chatId, text, markup);
-}
-
 async function broadcastLeadCard(lead, prototypeUrl) {
   const subs = getSubscribers();
 
@@ -359,45 +287,37 @@ async function broadcastLeadCard(lead, prototypeUrl) {
   const city = lead.city || "India";
   const phone = lead.phone || "Not Listed";
   const cleanPhone = lead.cleanPhone || phone.replace(/\D/g, '').slice(-10);
-  const email = lead.email || "Direct WhatsApp Pitch";
   const address = lead.address || city;
   const rating = lead.rating || "4.8";
   const reviews = lead.reviews || "42";
 
-  const cloudflareUrl = `${CONFIG.CLOUDFLARE_BASE}/projects/${lead.slug}/index.html`;
+  // Verified Vercel URL
   const vercelUrl = `${CONFIG.VERCEL_BASE}/projects/${lead.slug}/index.html`;
 
   let card = 
-    `🎯 <b>NEW VERIFIED INDIAN LEAD // NO WEBSITE</b>\n` +
+    `🎯 <b>NEW VERIFIED INDIAN CLIENT // NO WEBSITE</b>\n` +
     `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
     `🏢 <b>Business:</b> <b>${escapeHtml(name)}</b>\n` +
     `🏷 <b>Niche:</b> ${escapeHtml(niche)}\n` +
     `📍 <b>Location:</b> ${escapeHtml(address)}\n` +
     `📞 <b>Phone:</b> <code>${escapeHtml(phone)}</code>\n` +
-    `⭐ <b>Reputation:</b> ${rating} ★ (${reviews} Google / JustDial reviews)\n` +
+    `⭐ <b>Reputation:</b> ${rating} ★ (${reviews} Verified Reviews)\n` +
     `🌐 <b>Online Status:</b> ❌ <b>NO OFFICIAL WEBSITE DETECTED</b>\n\n`;
 
-  // WhatsApp Pitch tailored for Indian market
   let pitchMsg = "";
   if (niche.toLowerCase().includes('real estate') || niche.toLowerCase().includes('villa')) {
-    pitchMsg = `Hi ${name}! I noticed your premium properties in ${city}. In today's market, high-net-worth buyers expect an immersive luxury digital showcase with floor plans, 3D layouts, and direct WhatsApp booking. I auto-built this bespoke live website prototype for your brand: ${cloudflareUrl} . Would you like to claim it?`;
+    pitchMsg = `Hi ${name}! I noticed your properties in ${city}. Today's high-net-worth buyers expect an immersive luxury website with floor plans and WhatsApp inquiry. I auto-built this bespoke live website prototype for your brand: ${vercelUrl} . Would you like to claim it?`;
   } else {
-    pitchMsg = `Hi ${name}! I saw your excellent reviews in ${city}, but noticed you don't have an official modern website for clients to book consultations. I designed a custom high-converting live website for you: ${cloudflareUrl} . Would you like to review and claim it?`;
+    pitchMsg = `Hi ${name}! I noticed your stellar reviews in ${city}, but you don't have an official website for clients to book consultations. I designed a custom live website prototype for you: ${vercelUrl} . Would you like to review and claim it?`;
   }
 
-  if (prototypeUrl) {
-    card += 
-      `⚡ <b>BESPOKE LIVE PROTOTYPE READY:</b>\n` +
-      `👉 <b>Cloudflare (Unlimited):</b> <code>${cloudflareUrl}</code>\n` +
-      `👉 <b>Vercel Mirror:</b> <code>${vercelUrl}</code>\n\n` +
-      `<i>💡 Built with Zero AI-Slop, Lucide vector icons, GSAP scroll triggers, and Indian Rupee (₹) pricing!</i>`;
-  } else {
-    card += `<i>💡 Prime candidate for high-converting website sales outreach.</i>`;
-  }
+  card += 
+    `⚡ <b>BESPOKE LIVE CLIENT PROTOTYPE READY:</b>\n` +
+    `👉 <code>${vercelUrl}</code>\n\n` +
+    `<i>💡 Built with Zero AI-Slop, Lucide vector icons, GSAP scroll triggers, and Indian Rupee (₹) pricing!</i>`;
 
   const buttons = [];
-  buttons.push([{ text: "🚀 Open Live Prototype (Cloudflare) ↗", url: cloudflareUrl }]);
-  buttons.push([{ text: "⚡ Open Vercel Edge Mirror ↗", url: vercelUrl }]);
+  buttons.push([{ text: "🚀 Open Live Client Website ↗", url: vercelUrl }]);
 
   if (cleanPhone && cleanPhone.length === 10) {
     const encodedPitch = encodeURIComponent(pitchMsg);
@@ -434,7 +354,7 @@ function generateSlug(businessName, city) {
   return slug || 'indian-enterprise';
 }
 
-// ── GITHUB UPLOADER (DUAL CLOUDFLARE + VERCEL SYNC) ───────────────────────────
+// ── GITHUB UPLOADER (VERCEL PRODUCTION SYNC) ──────────────────────────────────
 async function pushPrototypeToGitHub(slug, htmlContent) {
   const filePath = `projects/${slug}/index.html`;
   const url = `https://api.github.com/repos/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}/contents/${filePath}`;
@@ -456,9 +376,8 @@ async function pushPrototypeToGitHub(slug, htmlContent) {
   } catch (e) {}
 
   const base64Content = Buffer.from(htmlContent, 'utf8').toString('base64');
-  // Add [skip ci] to prevent burning Vercel Hobby 100/day limit on internal commits
   const body = {
-    message: `feat(prototype): bespoke animated platform for ${slug} via Gemini 3.6 Flash [skip ci]`,
+    message: `feat(prototype): bespoke animated platform for ${slug} via Gemini 3.6 Flash`,
     content: base64Content,
     branch: 'main'
   };
@@ -491,7 +410,7 @@ async function pushPrototypeToGitHub(slug, htmlContent) {
     fs.writeFileSync(path.join(localDir, 'index.html'), htmlContent, 'utf8');
   } catch (e) {}
 
-  return `${CONFIG.CLOUDFLARE_BASE}/projects/${slug}/index.html`;
+  return `${CONFIG.VERCEL_BASE}/projects/${slug}/index.html`;
 }
 
 // ── MASTER ANTI-SLOP GEMINI 3.6 FLASH PROTOTYPE SYNTHESIZER ───────────────────
@@ -570,7 +489,6 @@ STRICT ANTI-SLOP PROTOCOLS (VIOLATIONS WILL CAUSE AUTOMATIC REJECTION):
       const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
       if (text && (text.includes('<html') || text.includes('<!DOCTYPE html>'))) {
         let cleanHtml = text.replace(/^```html\s*/i, '').replace(/^```\s*/i, '').replace(/```$/i, '').trim();
-        // Strict anti-slop verification: ensure no raw emojis leaked into DOM
         cleanHtml = sanitizeEmojis(cleanHtml);
         return cleanHtml;
       }
@@ -583,12 +501,11 @@ STRICT ANTI-SLOP PROTOCOLS (VIOLATIONS WILL CAUSE AUTOMATIC REJECTION):
   return generateMasterAntislopTemplate(businessName, niche, city, phone);
 }
 
-// ── EMOJI SANITIZER (STRICT ANTI-SLOP ENFORCER) ──────────────────────────────
 function sanitizeEmojis(html) {
   return html.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '');
 }
 
-// ── MASTER HAND-CRAFTED ANTI-SLOP TEMPLATE (ZERO-SLOP GUARANTEE) ─────────────
+// ── MASTER HAND-CRAFTED ANTI-SLOP TEMPLATE ────────────────────────────────────
 function generateMasterAntislopTemplate(businessName, niche, city, phone) {
   const cleanPhone = phone || '+91 98450 12345';
   const digits = cleanPhone.replace(/\D/g, '').slice(-10);
@@ -616,8 +533,6 @@ function generateMasterAntislopTemplate(businessName, niche, city, phone) {
   </style>
 </head>
 <body class="bg-[#080b12] text-[#e2e8f0] antialiased selection:bg-amber-500 selection:text-black">
-
-  <!-- STICKY NAVBAR -->
   <header class="fixed top-0 left-0 right-0 z-50 bg-[#080b12]/80 backdrop-blur-xl border-b border-white/[0.08]">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
       <div class="flex items-center space-x-3">
@@ -648,7 +563,6 @@ function generateMasterAntislopTemplate(businessName, niche, city, phone) {
     </div>
   </header>
 
-  <!-- HERO SECTION -->
   <section class="relative pt-36 pb-24 px-6 overflow-hidden">
     <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(212,175,55,0.15),rgba(0,0,0,0))]"></div>
     <div class="max-w-5xl mx-auto text-center relative z-10">
@@ -666,7 +580,7 @@ function generateMasterAntislopTemplate(businessName, niche, city, phone) {
           : `Delivering industry-defining ${niche.toLowerCase()} to discerning clients across ${city}. Certified specialists, cutting-edge infrastructure, and guaranteed results.`}
       </p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <button onclick="openBooking()" class="w-full sm:w-auto px-8 py-4 rounded-xl gold-gradient text-black font-bold text-base shadow-xl shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-[1.02] transition-all flex items-center justify-center space-x-2">
+        <button onclick="openBooking()" class="w-full sm:w-auto px-8 py-4 rounded-xl gold-gradient text-black font-bold text-base shadow-xl shadow-amber-500/25 hover:scale-[1.02] transition-all flex items-center justify-center space-x-2">
           <span>${isRealEstate ? 'Explore Masterplan & Pricing' : 'Schedule Free Discovery Session'}</span>
           <i data-lucide="sparkles" class="w-5 h-5"></i>
         </button>
@@ -678,174 +592,28 @@ function generateMasterAntislopTemplate(businessName, niche, city, phone) {
     </div>
   </section>
 
-  <!-- TRUST METRICS & BADGES -->
-  <section class="border-y border-white/[0.08] bg-white/[0.01] py-12 px-6">
-    <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-      <div>
-        <div class="font-display text-3xl md:text-4xl font-extrabold text-white">4.9 ★</div>
-        <div class="text-xs font-mono uppercase tracking-wider text-slate-400 mt-1 flex items-center justify-center space-x-1">
-          <i data-lucide="award" class="w-3.5 h-3.5 text-amber-400"></i>
-          <span>Client Rating</span>
-        </div>
-      </div>
-      <div>
-        <div class="font-display text-3xl md:text-4xl font-extrabold text-amber-400">${isRealEstate ? '₹450+ Cr' : '1,200+'}</div>
-        <div class="text-xs font-mono uppercase tracking-wider text-slate-400 mt-1 flex items-center justify-center space-x-1">
-          <i data-lucide="check-check" class="w-3.5 h-3.5 text-amber-400"></i>
-          <span>${isRealEstate ? 'Assets Developed' : 'Discerning Clients'}</span>
-        </div>
-      </div>
-      <div>
-        <div class="font-display text-3xl md:text-4xl font-extrabold text-white">100%</div>
-        <div class="text-xs font-mono uppercase tracking-wider text-slate-400 mt-1 flex items-center justify-center space-x-1">
-          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-amber-400"></i>
-          <span>RERA & Title Clear</span>
-        </div>
-      </div>
-      <div>
-        <div class="font-display text-3xl md:text-4xl font-extrabold text-amber-400">12+ Yrs</div>
-        <div class="text-xs font-mono uppercase tracking-wider text-slate-400 mt-1 flex items-center justify-center space-x-1">
-          <i data-lucide="history" class="w-3.5 h-3.5 text-amber-400"></i>
-          <span>Excellence in ${city}</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SHOWCASE PORTFOLIO -->
-  <section id="portfolio" class="py-24 px-6">
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-16">
-        <span class="text-xs font-mono uppercase tracking-widest text-amber-400">Signature Collection</span>
-        <h2 class="text-3xl sm:text-5xl font-display font-bold text-white mt-2">${isRealEstate ? 'Iconic Developments' : 'Core Capabilities'}</h2>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Card 1 -->
-        <div class="glass-panel p-8 rounded-3xl hover:border-amber-500/50 hover:-translate-y-1 transition-all duration-300">
-          <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center mb-6">
-            <i data-lucide="${isRealEstate ? 'building-2' : 'sparkles'}" class="w-6 h-6"></i>
-          </div>
-          <div class="text-xs font-mono uppercase text-amber-400 mb-1">${isRealEstate ? '3 & 4 BHK Sky Villas' : 'Signature Tier'}</div>
-          <h3 class="text-xl font-display font-bold text-white mb-3">${isRealEstate ? 'The Grand Solitaire' : 'Bespoke Advisory'}</h3>
-          <p class="text-slate-400 text-sm leading-relaxed mb-6">
-            ${isRealEstate 
-              ? 'Ultra-luxury high-rise residences with private plunge pools, 11-ft ceiling heights, and panoramic skyline vistas.' 
-              : 'End-to-end customized engagements tailored specifically to high-net-worth requirements.'}
-          </p>
-          <div class="flex items-center justify-between pt-4 border-t border-white/[0.08]">
-            <span class="text-lg font-bold text-white">${isRealEstate ? '₹2.45 Cr*' : '₹25,000*'}</span>
-            <button onclick="openBooking()" class="text-xs font-semibold text-amber-400 hover:text-white flex items-center space-x-1">
-              <span>${isRealEstate ? 'View Floorplan' : 'Book Session'}</span>
-              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="glass-panel p-8 rounded-3xl hover:border-amber-500/50 hover:-translate-y-1 transition-all duration-300 border-amber-500/30">
-          <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-300 flex items-center justify-center mb-6">
-            <i data-lucide="${isRealEstate ? 'home' : 'zap'}" class="w-6 h-6"></i>
-          </div>
-          <div class="text-xs font-mono uppercase text-amber-400 mb-1">${isRealEstate ? 'Signature Gated Enclave' : 'Rapid Delivery'}</div>
-          <h3 class="text-xl font-display font-bold text-white mb-3">${isRealEstate ? 'Aura Sanctuary Estates' : 'Accelerated Execution'}</h3>
-          <p class="text-slate-400 text-sm leading-relaxed mb-6">
-            ${isRealEstate 
-              ? 'Limited-edition 5,500 sq.ft private garden villas nestled within 40 acres of lush landscaped private greenery.' 
-              : 'Precision execution with priority scheduling, dedicated project director, and SLA guarantees.'}
-          </p>
-          <div class="flex items-center justify-between pt-4 border-t border-white/[0.08]">
-            <span class="text-lg font-bold text-white">${isRealEstate ? '₹4.20 Cr*' : '₹45,000*'}</span>
-            <button onclick="openBooking()" class="text-xs font-semibold text-amber-400 hover:text-white flex items-center space-x-1">
-              <span>${isRealEstate ? 'View Floorplan' : 'Book Session'}</span>
-              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="glass-panel p-8 rounded-3xl hover:border-amber-500/50 hover:-translate-y-1 transition-all duration-300">
-          <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center mb-6">
-            <i data-lucide="${isRealEstate ? 'gem' : 'shield'}" class="w-6 h-6"></i>
-          </div>
-          <div class="text-xs font-mono uppercase text-amber-400 mb-1">${isRealEstate ? 'Prime Commercial' : 'Enterprise Standard'}</div>
-          <h3 class="text-xl font-display font-bold text-white mb-3">${isRealEstate ? 'Apex Sovereign Towers' : 'Complete Retainer'}</h3>
-          <p class="text-slate-400 text-sm leading-relaxed mb-6">
-            ${isRealEstate 
-              ? 'Grade-A corporate office suites and luxury retail promenades located in the heart of the central business district.' 
-              : 'Full-spectrum annual maintenance and consulting coverage backed by our signature warranty.'}
-          </p>
-          <div class="flex items-center justify-between pt-4 border-t border-white/[0.08]">
-            <span class="text-lg font-bold text-white">${isRealEstate ? '₹1.85 Cr*' : '₹75,000*'}</span>
-            <button onclick="openBooking()" class="text-xs font-semibold text-amber-400 hover:text-white flex items-center space-x-1">
-              <span>${isRealEstate ? 'View Floorplan' : 'Book Session'}</span>
-              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT & INQUIRY MODAL -->
-  <section id="contact" class="py-20 px-6 bg-gradient-to-b from-transparent to-amber-950/20">
-    <div class="max-w-4xl mx-auto text-center p-12 rounded-3xl glass-panel border-white/10">
-      <h2 class="text-3xl sm:text-4xl font-display font-bold text-white mb-4">Connect Directly with ${businessName}</h2>
-      <p class="text-slate-300 mb-8 max-w-xl mx-auto">Schedule a private site walk-through, obtain master brochures, or speak with an authorized executive in ${city}.</p>
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a href="tel:+91${digits}" class="px-8 py-4 rounded-xl gold-gradient text-black font-bold flex items-center space-x-2 transition-all">
-          <i data-lucide="phone-call" class="w-5 h-5"></i>
-          <span>Call ${cleanPhone}</span>
-        </a>
-        <a href="https://wa.me/91${digits}" target="_blank" class="px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold flex items-center space-x-2 transition-all">
-          <i data-lucide="message-circle" class="w-5 h-5"></i>
-          <span>Instant WhatsApp Chat</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
   <footer class="py-12 px-6 border-t border-white/[0.08] text-center text-xs text-slate-500">
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-      <div class="flex items-center space-x-2">
-        <div class="w-6 h-6 rounded gold-gradient text-black font-bold flex items-center justify-center text-[10px]">${businessName.charAt(0)}</div>
-        <span class="text-slate-400 font-semibold">${businessName}</span>
-      </div>
       <div>&copy; ${new Date().getFullYear()} ${businessName} // ${city}, India. All rights reserved. RERA Compliant.</div>
-      <div class="flex space-x-6">
-        <a href="#" class="hover:text-amber-400">Privacy Policy</a>
-        <a href="#" class="hover:text-amber-400">Terms of Service</a>
-      </div>
     </div>
   </footer>
 
-  <!-- FLOATING WHATSAPP PILL -->
   <a href="https://wa.me/91${digits}" target="_blank" class="fixed bottom-6 right-6 z-50 px-4 py-3 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white font-bold text-sm shadow-2xl shadow-emerald-500/40 flex items-center space-x-2 hover:scale-105 transition-all">
     <span class="w-2.5 h-2.5 rounded-full bg-white animate-ping"></span>
     <i data-lucide="message-square" class="w-4 h-4"></i>
     <span>WhatsApp Consultation</span>
   </a>
 
-  <!-- INTERACTIVE BOOKING MODAL -->
   <div id="bookingModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
     <div class="bg-[#10141f] border border-white/15 rounded-3xl max-w-md w-full p-8 relative shadow-2xl">
       <button onclick="closeBooking()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
-      <div class="w-12 h-12 rounded-2xl gold-gradient text-black flex items-center justify-center mb-4">
-        <i data-lucide="calendar" class="w-6 h-6"></i>
-      </div>
       <h3 class="text-2xl font-display font-bold text-white mb-2">Priority Registration</h3>
       <p class="text-sm text-slate-400 mb-6">Leave your details and a dedicated representative from ${businessName} will contact you promptly.</p>
       <form onsubmit="handleSubmit(event)" class="space-y-4">
         <input type="text" required placeholder="Your Full Name" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-amber-400">
         <input type="tel" required placeholder="10-Digit Mobile (+91)" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-amber-400">
-        <select class="w-full px-4 py-3 rounded-xl bg-[#181f2f] border border-white/10 text-white text-sm focus:outline-none focus:border-amber-400">
-          <option>Schedule In-Person Site Visit</option>
-          <option>Request Comprehensive Brochure & Pricing</option>
-          <option>Immediate Callback</option>
-        </select>
         <button type="submit" class="w-full py-3.5 rounded-xl gold-gradient text-black font-bold text-sm shadow-lg shadow-amber-500/25 hover:scale-[1.01] transition-all">
           Submit Priority Request
         </button>
@@ -854,33 +622,15 @@ function generateMasterAntislopTemplate(businessName, niche, city, phone) {
   </div>
 
   <script>
-    // Initialize Lucide Icons
     lucide.createIcons();
-
-    // GSAP Scroll Animations
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
       gsap.registerPlugin(ScrollTrigger);
-      gsap.from('.glass-panel', {
-        y: 35,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        scrollTrigger: {
-          trigger: '#portfolio',
-          start: 'top 80%'
-        }
-      });
     }
-
-    function openBooking() {
-      document.getElementById('bookingModal').classList.remove('hidden');
-    }
-    function closeBooking() {
-      document.getElementById('bookingModal').classList.add('hidden');
-    }
+    function openBooking() { document.getElementById('bookingModal').classList.remove('hidden'); }
+    function closeBooking() { document.getElementById('bookingModal').classList.add('hidden'); }
     function handleSubmit(e) {
       e.preventDefault();
-      alert('Thank you! Your request has been transmitted directly to ${businessName}. An executive will call you within 15 minutes.');
+      alert('Thank you! Your request has been transmitted directly to ${businessName}.');
       closeBooking();
     }
   </script>
@@ -895,13 +645,11 @@ async function huntLeadsForNiche(nicheObj, city, limit = 2) {
   const leadsFound = [];
   const existingLeads = getSavedLeads();
 
-  // Search queries targeting Indian directories & social pages where businesses have phone but no website
   const queries = [
     `"${nicheObj.name}" "${city}" site:justdial.com "Phone"`,
     `"${nicheObj.name}" "${city}" site:sulekha.com "Phone"`,
     `"${nicheObj.name}" "${city}" site:facebook.com "whatsapp" OR "call" -site:instagram.com`,
-    `"${nicheObj.keywords[0]}" "${city}" site:indiamart.com "Call"`,
-    `"${nicheObj.keywords[0]}" "${city}" "Contact" site:yellowpages.in`
+    `"${nicheObj.keywords[0]}" "${city}" site:indiamart.com "Call"`
   ];
 
   for (const q of queries) {
@@ -982,24 +730,23 @@ async function processLead(lead) {
 
   const slug = generateSlug(lead.name, lead.city);
 
-  // 1. Generate bespoke HTML prototype via Gemini 3.6 Flash with Master Antislop Protocols
+  // 1. Generate bespoke HTML prototype via Gemini 3.6 Flash
   const html = await generatePrototypeWithGemini(lead.name, lead.niche, lead.city, lead.phone);
 
-  // 2. Deploy directly to GitHub (Cloudflare Pages + Vercel Edge)
+  // 2. Deploy directly to GitHub (Vercel Production)
   const prototypeUrl = await pushPrototypeToGitHub(slug, html);
 
   lead.prototypeUrl = prototypeUrl;
-  lead.cloudflareUrl = `${CONFIG.CLOUDFLARE_BASE}/projects/${slug}/index.html`;
-  lead.vercelUrl = `${CONFIG.VERCEL_BASE}/projects/${slug}/index.html`;
+  lead.vercelUrl = prototypeUrl;
   lead.slug = slug;
   lead.status = "PROTOTYPE_DEPLOYED";
 
   // 3. Save to database
   saveLead(lead);
 
-  // 4. Dispatch rich alert card to Telegram
+  // 4. Dispatch alert card to Telegram
   await broadcastLeadCard(lead, prototypeUrl);
-  console.log(`[PIPELINE COMPLETE] Dispatched to Telegram @TeChPlAyZ194 with live URL: ${prototypeUrl}`);
+  console.log(`[PIPELINE COMPLETE] Dispatched to Telegram @TeChPlAyZ194 with live Vercel URL: ${prototypeUrl}`);
   return lead;
 }
 
@@ -1011,7 +758,6 @@ async function runSweep(options = {}) {
   const specificCity = options.city;
 
   console.log("⚡ ASURA HUNTER INDIA SWEEP INITIATED");
-  await syncTelegramUpdates();
 
   const nichesToScan = specificNiche 
     ? TARGET_NICHES.filter(n => n.id === specificNiche || n.name.toLowerCase().includes(specificNiche.toLowerCase()))
@@ -1033,64 +779,14 @@ async function runSweep(options = {}) {
   console.log(`\n✅ SWEEP COMPLETE. Processed ${totalProcessed} genuine Indian leads with bespoke prototypes.`);
 }
 
-async function runDaemon() {
-  console.log("🚀 ASURA HUNTER 24/7 AUTONOMOUS DAEMON ONLINE (INDIA TERRITORY)");
-  let nicheIndex = 0;
-  let cityIndex = 0;
-
-  while (true) {
-    try {
-      await syncTelegramUpdates();
-      const currentNiche = TARGET_NICHES[nicheIndex % TARGET_NICHES.length];
-      const currentCity = TARGET_CITIES[cityIndex % TARGET_CITIES.length];
-
-      console.log(`\n[DAEMON CYCLE] Target: ${currentNiche.name} in ${currentCity}`);
-      const leads = await huntLeadsForNiche(currentNiche, currentCity, 1);
-      for (const lead of leads) {
-        await processLead(lead);
-      }
-
-      nicheIndex++;
-      if (nicheIndex % TARGET_NICHES.length === 0) {
-        cityIndex++;
-      }
-
-      console.log("[DAEMON SLEEP] Standing by for 60 seconds until next autonomous sweep...");
-      await new Promise(r => setTimeout(r, 60000));
-    } catch (err) {
-      console.error("[DAEMON ERROR]", err.message);
-      await new Promise(r => setTimeout(r, 15000));
-    }
-  }
-}
-
 // ── CLI DISPATCHER ────────────────────────────────────────────────────────────
 if (require.main === module) {
   const args = process.argv.slice(2);
-  if (args.includes('--daemon')) {
-    runDaemon();
-  } else if (args.includes('--cron')) {
+  if (args.includes('--cron')) {
     const rCity = TARGET_CITIES[Math.floor(Math.random() * TARGET_CITIES.length)];
     const rNiche = TARGET_NICHES[Math.floor(Math.random() * TARGET_NICHES.length)];
     console.log(`[CRON RUNNER] Scanning ${rNiche.name} in ${rCity}...`);
     runSweep({ niche: rNiche.id, city: rCity, leadsPerNiche: 1 });
-  } else if (args.includes('--test-ping')) {
-    const sampleLead = {
-      name: "Sovereign Heritage Estates",
-      niche: "Luxury Real Estate & Villa Developers",
-      city: "Bangalore, Karnataka",
-      phone: "+91 98450 88219",
-      cleanPhone: "9845088219",
-      email: "director@sovereignheritage.in",
-      address: "14/2 Lavelle Road, Shanthala Nagar, Bangalore, Karnataka 560001",
-      rating: "4.9",
-      reviews: "112",
-      hasWebsite: false,
-      slug: "sovereign-heritage-estates-bangalore"
-    };
-    const sampleUrl = "https://asura-system.pages.dev/projects/sovereign-heritage-estates-bangalore/index.html";
-    console.log("Sending luxury Indian Real Estate test card to Telegram...");
-    broadcastLeadCard(sampleLead, sampleUrl).then(() => console.log("Test ping sent!"));
   } else {
     runSweep({ maxNiches: 1, leadsPerNiche: 1 });
   }
@@ -1107,6 +803,5 @@ module.exports = {
   broadcastLeadCard,
   getSavedLeads,
   getSubscribers,
-  addSubscriber,
-  syncTelegramUpdates
+  addSubscriber
 };
