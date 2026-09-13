@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Smiles Dental Clinic & Implantology Center | Bengaluru</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        teal: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            400: '#2dd4bf',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            900: '#134e4a',
+                            950: '#042f2e',
+                        },
+                        cyan: {
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                        },
+                        dark: {
+                            900: '#030712',
+                            800: '#0b1120',
+                            700: '#111827',
+                            600: '#1f2937',
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Syne', 'sans-serif'],
+                        body: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030712;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+
+        .font-heading {
+            font-family: 'Syne', sans-serif;
+        }
+
+        /* Luxury Glassmorphism */
+        .glass-card {
+            background: rgba(11, 17, 32, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .glass-card-hover {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card-hover:hover {
+            transform: translateY(-5px);
+            border-color: rgba(20, 184, 166, 0.4);
+            box-shadow: 0 20px 40px -15px rgba(20, 184, 166, 0.15);
+        }
+
+        .glow-mesh {
+            background-image: 
+                radial-gradient(at 20% 15%, rgba(20, 184, 166, 0.15) 0px, transparent 50%),
+                radial-gradient(at 80% 10%, rgba(6, 182, 212, 0.12) 0px, transparent 50%),
+                radial-gradient(at 50% 70%, rgba(15, 23, 42, 0.8) 0px, transparent 70%);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-gradient-teal {
+            background: linear-gradient(135deg, #2dd4bf 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030712;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0d9488;
+        }
+
+        .before-after-slider input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: ew-resize;
+        }
+
+        .before-after-slider input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            background: #14b8a6;
+            border: 3px solid #ffffff;
+            box-shadow: 0 0 15px rgba(20, 184, 166, 0.8);
+            cursor: ew-resize;
+        }
+    </style>
+</head>
+<body class="antialiased bg-dark-900 text-slate-100 glow-mesh">
+
+    <!-- STICKY NAVBAR -->
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 backdrop-blur-xl bg-dark-900/80 border-b border-white/5" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-400 to-cyan-600 flex items-center justify-center text-dark-900 font-bold font-heading text-xl shadow-lg shadow-teal-500/20 group-hover:scale-105 transition-transform duration-300">
+                    AS
+                </div>
+                <div>
+                    <span class="font-heading font-extrabold text-xl tracking-tight text-white block leading-none">ALL SMILES</span>
+                    <span class="text-[10px] tracking-widest text-teal-400 font-semibold uppercase block mt-1">Dental & Implantology</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#about" class="hover:text-teal-400 transition-colors">About</a>
+                <a href="#services" class="hover:text-teal-400 transition-colors">Treatments</a>
+                <a href="#tech" class="hover:text-teal-400 transition-colors">Technology</a>
+                <a href="#transformations" class="hover:text-teal-400 transition-colors">Results</a>
+                <a href="#reviews" class="hover:text-teal-400 transition-colors">Reviews</a>
+                <a href="#contact" class="hover:text-teal-400 transition-colors">Contact</a>
+            </nav>
+
+            <!-- CTA Actions -->
+            <div class="flex items-center gap-4">
+                <a href="tel:+917975192509" class="hidden sm:flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-300 hover:text-white bg-slate-800/60 px-3.5 py-2.5 rounded-full border border-white/10 transition-all">
+                    <i data-lucide="phone" class="w-3.5 h-3.5 text-teal-400"></i>
+                    <span>+91 79751 92509</span>
+                </a>
+                
+                <button onclick="openModal()" class="relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold tracking-wide text-dark-900 transition-all duration-300 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full shadow-lg shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.98]">
+                    <span>Book Appointment</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 ml-1.5"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-36 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+        <!-- Ambient background glows -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-teal-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+        <div class="absolute top-1/3 right-10 w-[350px] h-[350px] bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Column Copy -->
+                <div class="lg:col-span-7 space-y-8 text-left">
+                    <div class="reveal inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border-teal-500/30 text-teal-300 text-xs font-semibold tracking-wide uppercase">
+                        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-teal-400"></i>
+                        <span>Indiranagar & HSR Layout, Bengaluru</span>
+                    </div>
+
+                    <h1 class="reveal font-heading font-extrabold text-4xl sm:text-6xl lg:text-7xl text-white tracking-tight leading-[1.08]">
+                        Crafting Flawless Smiles With <span class="text-gradient-teal">Micro-Precision.</span>
+                    </h1>
+
+                    <p class="reveal text-lg sm:text-xl text-slate-400 max-w-2xl font-normal leading-relaxed">
+                        Experience world-class, painless dentistry in Bengaluru. Specializing in Swiss Dental Implants, Invisible Aligners, and Digital Smile Rehabilitation in an ultra-modern aesthetic clinic.
+                    </p>
+
+                    <!-- Hero Action Buttons -->
+                    <div class="reveal flex flex-wrap items-center gap-4 pt-2">
+                        <button onclick="openModal()" class="px-8 py-4 text-base font-bold text-dark-900 bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400 rounded-full shadow-xl shadow-teal-500/20 hover:shadow-teal-500/40 hover:scale-105 transition-all duration-300 flex items-center gap-2">
+                            <span>Reserve Your Consultation</span>
+                            <i data-lucide="calendar" class="w-5 h-5"></i>
+                        </button>
+
+                        <a href="https://wa.me/917975192509" target="_blank" class="px-7 py-4 text-base font-semibold text-white glass-card rounded-full hover:bg-white/10 transition-all duration-300 flex items-center gap-2 border border-white/15">
+                            <i data-lucide="message-circle" class="w-5 h-5 text-emerald-400"></i>
+                            <span>WhatsApp Us</span>
+                        </a>
+                    </div>
+
+                    <!-- Trust Signals Badge -->
+                    <div class="reveal pt-6 border-t border-white/10 grid grid-cols-3 gap-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400">
+                                <i data-lucide="award" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 uppercase tracking-wider">Certified</p>
+                                <p class="text-sm font-bold text-white">Swiss Implant Tech</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400">
+                                <i data-lucide="shield-check" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 uppercase tracking-wider">Comfort</p>
+                                <p class="text-sm font-bold text-white">100% Painless Tech</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400">
+                                <i data-lucide="star" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 uppercase tracking-wider">Rating</p>
+                                <p class="text-sm font-bold text-white">4.9/5 (1,200+ Google)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column Media Card -->
+                <div class="lg:col-span-5 relative">
+                    <div class="glass-card rounded-3xl p-4 border border-white/15 relative overflow-hidden group">
+                        <div class="relative h-[440px] sm:h-[500px] rounded-2xl overflow-hidden bg-slate-800">
+                            <!-- High End Dental Clinic Image -->
+                            <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1000&q=80" alt="All Smiles Dental Clinic Studio" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/20 to-transparent"></div>
+
+                            <!-- Floating Info Overlay Card -->
+                            <div class="absolute bottom-6 left-6 right-6 glass-card p-5 rounded-2xl border border-white/10 backdrop-blur-md">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                                        <span class="text-xs font-semibold uppercase tracking-wider text-emerald-300">Open Today in Indiranagar</span>
+                                    </div>
+                                    <span class="text-xs font-mono text-slate-400">09:00 AM - 08:30 PM</span>
+                                </div>
+                                <h4 class="font-heading font-bold text-lg text-white">Digital Smile Studio & 3D Scanning</h4>
+                                <p class="text-xs text-slate-300 mt-1">Book zero-wait appointments with Lead Implantologists.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS METRICS BAR -->
+    <section class="py-12 border-y border-white/10 bg-dark-800/50 backdrop-blur-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                
+                <div class="text-center">
+                    <div class="font-heading font-extrabold text-3xl sm:text-5xl text-teal-400 mb-1">
+                        <span class="counter" data-target="18">0</span>+
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-400 font-medium uppercase tracking-wider">Years of Clinical Mastery</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="font-heading font-extrabold text-3xl sm:text-5xl text-teal-400 mb-1">
+                        <span class="counter" data-target="15000">0</span>+
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-400 font-medium uppercase tracking-wider">Smiles Transformed</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="font-heading font-extrabold text-3xl sm:text-5xl text-teal-4
