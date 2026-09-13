@@ -274,8 +274,24 @@ async function sendTelegramMessage(chatId, text, replyMarkup = null) {
       body: JSON.stringify(body),
       signal: AbortSignal.timeout(10000)
     });
-    return res.status === 200;
+    if (res.status !== 200) {
+      const errBody = await res.text();
+      console.error(`[TELEGRAM ERROR ${res.status}]`, errBody);
+      // Fallback: send as plain text if HTML parsing failed
+      if (errBody.includes("can't parse entities")) {
+        delete body.parse_mode;
+        const retryRes = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        return retryRes.status === 200;
+      }
+      return false;
+    }
+    return true;
   } catch (e) {
+    console.error(`[TELEGRAM EXCEPTION] ${e.message}`);
     return false;
   }
 }
