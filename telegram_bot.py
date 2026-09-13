@@ -5,6 +5,7 @@ import urllib.parse
 import requests
 
 DEFAULT_TOKEN = "8909145509:AAF8UhbWxPR5JGt8ddcAd9D1gqZ3L13ZuAo"
+DEFAULT_CHAT_ID = "7025916840"
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 SUBSCRIBERS_FILE = os.path.join(DATA_DIR, "telegram_subscribers.json")
 
@@ -24,6 +25,7 @@ class TelegramBot:
 
     def get_subscribers(self):
         subs = set()
+        subs.add(DEFAULT_CHAT_ID)
         env_chat = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
         if env_chat:
             subs.add(str(env_chat))
