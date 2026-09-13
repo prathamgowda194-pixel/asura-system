@@ -323,7 +323,7 @@ async function broadcastLeadCard(lead, prototypeUrl) {
     const encodedPitch = encodeURIComponent(pitchMsg);
     buttons.push([
       { text: "💬 WhatsApp Pitch (1-Click)", url: `https://wa.me/91${cleanPhone}?text=${encodedPitch}` },
-      { text: "📞 Call +91 Direct", url: `tel:+91${cleanPhone}` }
+      { text: "📞 Call via WhatsApp", url: `https://wa.me/91${cleanPhone}` }
     ]);
   }
 
@@ -377,7 +377,7 @@ async function pushPrototypeToGitHub(slug, htmlContent) {
 
   const base64Content = Buffer.from(htmlContent, 'utf8').toString('base64');
   const body = {
-    message: `feat(prototype): bespoke animated platform for ${slug} via Gemini 3.6 Flash`,
+    message: `feat(prototype): bespoke animated platform for ${slug} via Gemini 3.6 Flash [skip ci]`,
     content: base64Content,
     branch: 'main'
   };
