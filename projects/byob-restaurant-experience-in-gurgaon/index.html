@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BYOB Restaurant Experience Gurgaon | Fine Dining & Artisan Bistro</title>
+    <meta name="description" content="Gurgaon's premier luxury BYOB open-air restaurant and artisan bistro. Bring your finest spirits, enjoy gourmet culinary pairings, private cabanas, and live acoustic ambient evenings on Golf Course Extension Road.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Custom Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#090A0F',
+                        charcoal: '#12141C',
+                        'charcoal-light': '#1A1D28',
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            light: '#F3E5AB',
+                            dark: '#AA7C11',
+                            accent: '#E5C158'
+                        },
+                        amber: {
+                            950: '#1c0d02'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        heading: ['Syne', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Ultra-Luxury Styling */
+        body {
+            background-color: #090A0F;
+            color: #E2E8F0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-heading { font-family: 'Syne', sans-serif; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+
+        /* Glassmorphism Refinements */
+        .glass-panel {
+            background: rgba(18, 20, 28, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .glass-panel-hover {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-panel-hover:hover {
+            background: rgba(26, 29, 40, 0.85);
+            border-color: rgba(212, 175, 55, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -15px rgba(212, 175, 55, 0.12);
+        }
+
+        .glass-nav {
+            background: rgba(9, 10, 15, 0.82);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Gold Gradient Text */
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #FFF1C5 0%, #D4AF37 50%, #9A7B1C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bg-gold-gradient {
+            background: linear-gradient(135deg, #E5C158 0%, #D4AF37 50%, #A37F1A 100%);
+        }
+
+        .bg-gold-gradient-hover:hover {
+            background: linear-gradient(135deg, #F3E5AB 0%, #E5C158 50%, #B89223 100%);
+        }
+
+        /* Ambient Glow Effect */
+        .ambient-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090A0F;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1A1D28;
+            border-radius: 4px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+
+        /* Noise Texture Overlay */
+        .bg-noise {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="relative bg-obsidian text-slate-200 antialiased selection:bg-gold selection:text-obsidian bg-noise">
+
+    <!-- Ambient Glow BG elements -->
+    <div class="ambient-glow top-0 left-1/4"></div>
+    <div class="ambient-glow top-1/3 right-0"></div>
+    <div class="ambient-glow bottom-1/4 left-10"></div>
+
+    <!-- Sticky Navigation Bar -->
+    <header class="fixed top-0 left-0 w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-full bg-gold/10 border border-gold/40 flex items-center justify-center transition-transform group-hover:scale-105">
+                    <span class="font-serif text-gold font-bold text-xl tracking-wider">BYOB</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-heading font-bold text-lg tracking-wider text-white group-hover:text-gold transition-colors">ESTATE & BISTRO</span>
+                    <span class="text-[10px] text-gold/80 tracking-[0.25em] uppercase font-medium">Golf Course Rd, Gurgaon</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#experience" class="text-sm font-medium text-slate-300 hover:text-gold transition-colors">The Experience</a>
+                <a href="#gastronomy" class="text-sm font-medium text-slate-300 hover:text-gold transition-colors">Artisan Menu</a>
+                <a href="#byob-concept" class="text-sm font-medium text-slate-300 hover:text-gold transition-colors">BYOB Policy</a>
+                <a href="#cabanas" class="text-sm font-medium text-slate-300 hover:text-gold transition-colors">Private Cabanas</a>
+                <a href="#testimonials" class="text-sm font-medium text-slate-300 hover:text-gold transition-colors">Guest Reviews</a>
+            </nav>
+
+            <!-- Action Buttons -->
+            <div class="hidden sm:flex items-center gap-4">
+                <a href="tel:+919654120004" class="text-xs uppercase font-semibold tracking-wider text-slate-300 hover:text-white flex items-center gap-2 px-3 py-2 border border-slate-800 rounded-full hover:border-gold/50 transition-all">
+                    <i data-lucide="phone" class="w-3.5 h-3.5 text-gold"></i>
+                    <span>+91 96541 20004</span>
+                </a>
+                <button onclick="openModal()" class="px-5 py-2.5 rounded-full bg-gold-gradient text-obsidian font-heading font-bold text-xs uppercase tracking-wider shadow-lg shadow-gold/10 hover:shadow-gold/25 transition-all transform hover:-translate-y-0.5">
+                    Reserve Table
+                </button>
+            </div>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button class="md:hidden text-slate-300 hover:text-gold p-2" id="mobileMenuBtn" aria-label="Toggle Navigation">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Nav Menu Panel -->
+        <div id="mobileMenu" class="hidden md:hidden bg-charcoal/95 border-b border-gold/20 backdrop-blur-2xl px-6 py-6 transition-all">
+            <div class="flex flex-col gap-4">
+                <a href="#experience" onclick="closeMobileMenu()" class="text-slate-300 hover:text-gold font-medium">The Experience</a>
+                <a href="#gastronomy" onclick="closeMobileMenu()" class="text-slate-300 hover:text-gold font-medium">Artisan Menu</a>
+                <a href="#byob-concept" onclick="closeMobileMenu()" class="text-slate-300 hover:text-gold font-medium">BYOB Policy & Ice Program</a>
+                <a href="#cabanas" onclick="closeMobileMenu()" class="text-slate-300 hover:text-gold font-medium">Private Cabanas</a>
+                <a href="#testimonials" onclick="closeMobileMenu()" class="text-slate-300 hover:text-gold font-medium">Guest Reviews</a>
+                <div class="pt-4 border-t border-slate-800 flex flex-col gap-3">
+                    <a href="tel:+919654120004" class="flex items-center gap-2 text-gold font-medium text-sm">
+                        <i data-lucide="phone" class="w-4 h-4"></i> +91 96541 20004
+                    </a>
+                    <button onclick="closeMobileMenu(); openModal();" class="w-full py-3 rounded-full bg-gold-gradient text-obsidian font-heading font-bold text-xs uppercase tracking-wider">
+                        Reserve Table
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative min-h-screen pt-32 pb-20 flex items-center justify-center overflow-hidden">
+        <!-- Background Imagery Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2000&q=80" alt="Luxury Restaurant Atmosphere" class="w-full h-full object-cover object-center opacity-25 filter brightness-75 scale-105 transform animate-pulse duration-[10000ms]">
+            <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/70 to-obsidian/40"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-obsidian via-transparent to-obsidian"></div>
+        </div>
+
+        <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/10 border border-gold/30 text-gold text-xs font-semibold tracking-widest uppercase mb-8 backdrop-blur-md">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                <span>Gurgaon's Premier Open-Air Fine Dining BYOB Sanctuary</span>
+            </div>
+
+            <!-- Headline -->
+            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-tight text-white leading-[1.1] mb-6">
+                Bring Your Spirits. <br>
+                <span class="italic font-light text-gold-gradient">We Craft The Sublime.</span>
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="max-w-2xl mx-auto text-base sm:text-lg text-slate-300 font-normal leading-relaxed mb-10">
+                Elevate your dining ritual on Golf Course Extension Road. Pair your prized single malts, vintage wines, and craft brews with our chef-curated artisan gastronomy, bespoke glassware, crystal ice, and starry alfresco cabanas.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+                <button onclick="openModal()" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gold-gradient text-obsidian font-heading font-bold text-sm uppercase tracking-widest hover:shadow-2xl hover:shadow-gold/30 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 group">
+                    <span>Reserve Private Cabana</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+                </button>
+                
+                <a href="#gastronomy" class="w-full sm:w-auto px-8 py-4 rounded-full glass-panel text-white font-heading font-semibold text-sm uppercase tracking-widest hover:border-gold/50 transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="utensils" class="w-4 h-4 text-gold"></i>
+                    <span>Explore Culinary Menu</span>
+                </a>
+            </div>
+
+            <!-- Quick Info Bar -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-white/10 text-left">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                        <i data-lucide="wine" class="w-5 h-5 text-gold"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-medium">BYOB Policy</p>
+                        <p class="text-xs font-semibold text-white">Bring Your Own Bottles</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                        <i data-lucide="map-pin" class="w-5 h-5 text-gold"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-medium">Location</p>
+                        <p class="text-xs font-semibold text-white">Golf Course Ext. Rd, Gurgaon</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                        <i data-lucide="music" class="w-5 h-5 text-gold"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-medium">Ambiance</p>
+                        <p class="text-xs font-semibold text-white">Live Acoustic & Jazz Nights</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                        <i data-lucide="clock" class="w-5 h-5 text-gold"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-medium">Timings</p>
+                        <p class="text-xs font-semibold text-white">1:00 PM  1:00 AM Daily</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS COUNTER BAR -->
+    <section class="py-12 bg-charcoal border-y border-white/5 relative z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="reveal">
+                    <div class="font-heading font-extrabold text-3xl sm:text-4xl text-gold mb-1">
+                        <span class="counter" data-target="50">0</span>K+
+                    </div>
+                    <p class="text-xs uppercase tracking-wider text-slate-400">Bottles Uncorked</p>
+                </div>
+                <div class="reveal">
+                    <div class="font-heading font-extrabold text-3xl sm:text-4xl text-white mb-1">
+                        <span class="counter" data-target="12">0</span>+
+                    </div>
+                    <p class="text-xs uppercase tracking-wider text-slate-400">Luxury Cabanas</p>
+                </div>
+                <div class="reveal">
+                    <div class="font-heading font-extrabold text-3xl sm:text-4xl text-gold mb-1">
+                        4.<span class="counter" data-target="9">0</span> / 5
+                    </div>
+                    <p class="text-xs uppercase tracking-wider text-slate-400">Dining Rating (2k+ Reviews)</p>
+                </div>
+                <div class="reveal">
+                    <div class="font-heading font-extrabold text-3xl sm:text-4xl text-white mb-1">
+                        <span class="counter" data-target="100">0</span>%
+                    </div>
+                    <p class="text-xs uppercase tracking-wider text-slate-400">Artisan Ice & Mixer Craft</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE ELEVATED BYOB CONCEPT -->
+    <section id="byob-concept" class="py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="text-gold text-xs uppercase font-bold tracking-widest block mb-3">Redefining Nightlife in Delhi NCR</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-normal text-white mb-6">How The Ultimate BYOB Experience Unfolds</h2>
+                <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+                    Unlike standard venues, we seamlessly bridge the freedom of carrying your own premium collection with the luxury service, stemware, and gourmet dining of a world-class bistro.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- Step 1 -->
+                <div class="glass-panel glass-panel-hover p-8 rounded-2xl relative group reveal">
+                    <div class="text-gold/20 font-heading font-extrabold text-5xl absolute top-6 right-6 group-hover:text-gold/40 transition-colors">01</div>
+                    <div class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center text-gold mb-6">
+                        <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-lg text-white mb-3">Bring Your Reserve</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                        Carry your choice of Single Malts, Fine Wines, Gin, or Craft Beers from any liquor superstore in Gurgaon. Zero corkage barriers.
+                    </p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="glass-panel glass-panel-hover p-8 rounded-2xl relative group reveal">
+                    <div class="text-gold/20 font-heading font-extrabold text-5xl absolute top-6 right-6 group-hover:text-gold/40 transition-colors">02</div>
+                    <div class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center text-gold mb-6">
+                        <i data-lucide="glass-water" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-lg text-white mb-3">Artisanal Sommelier Service</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                        Our staff presents chilled Riedel crystal stemware, slow-melt clear ice spheres, and custom herbal tonic setups tailored to your bottle.
+                    </p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="glass-panel glass-panel-hover p-8 rounded-2xl relative group reveal">
+                    <div class="text-gold/20 font-heading font-extrabold text-5xl absolute top-6 right-6 group-hover:text-gold/40 transition-colors">03</div>
+                    <div class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center text-gold mb-6">
+                        <i data-lucide="flame" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-lg text-white mb-3">Chef's Flavor Pairing</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                        Order from our progressive North Indian charcoal grills, Mediterranean wood-fired bistro fare, and pan-Asian dim sum selections.
+                    </p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="glass-panel glass-panel-hover p-8 rounded-2xl relative group reveal">
+                    <div class="text-gold/20 font-heading font-extrabold text-5xl absolute top
