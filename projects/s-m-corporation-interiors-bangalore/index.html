@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S M Corporation Interiors | Architectural Precision & Modular Living | Bangalore</title>
+  <meta name="description" content="Bangalore's premier interior architecture studio specializing in ultra-luxury modular kitchens, bespoke villa interiors, and spatial design in Indiranagar, Sadashivanagar & Whitefield.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              gold: '#D4AF37',
+              accent: '#E6CA65',
+              dark: '#07080B',
+              surface: '#0F1117',
+              card: '#161922',
+              border: '#262A36'
+            }
+          },
+          fontFamily: {
+            syne: ['Syne', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          animation: {
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- GSAP & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      background-color: #07080B;
+      color: #F3F4F6;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .glass-nav {
+      background: rgba(7, 8, 11, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-card {
+      background: rgba(22, 25, 34, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(212, 175, 55, 0.4);
+      box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.15);
+    }
+
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #FFF 20%, #E6CA65 60%, #B89228 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gold-button {
+      background: linear-gradient(135deg, #D4AF37 0%, #B89228 100%);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .gold-button:hover {
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #07080B;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #262A36;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #D4AF37;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-brand-gold selection:text-black">
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-gold to-yellow-700 flex items-center justify-center font-syne font-extrabold text-black text-lg tracking-tighter shadow-lg shadow-brand-gold/20 group-hover:scale-105 transition-transform">
+          SM
+        </div>
+        <div class="flex flex-col">
+          <span class="font-syne font-bold tracking-wider text-base text-white group-hover:text-brand-gold transition-colors">
+            S M CORPORATION
+          </span>
+          <span class="text-[10px] tracking-[0.25em] text-gray-400 uppercase font-medium">
+            Interiors & Modular Living
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
+        <a href="#services" class="hover:text-brand-gold transition-colors">Services</a>
+        <a href="#estimator" class="hover:text-brand-gold transition-colors flex items-center gap-1.5">
+          <span>Cost Estimator</span>
+          <span class="px-1.5 py-0.5 text-[9px] uppercase font-bold tracking-wider bg-brand-gold/20 text-brand-gold rounded border border-brand-gold/30">Live</span>
+        </a>
+        <a href="#portfolio" class="hover:text-brand-gold transition-colors">Portfolio</a>
+        <a href="#process" class="hover:text-brand-gold transition-colors">Craftsmanship</a>
+        <a href="#testimonials" class="hover:text-brand-gold transition-colors">Reviews</a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="hidden sm:flex items-center gap-4">
+        <a href="tel:+919980815604" class="text-xs text-gray-300 hover:text-white flex items-center gap-2 border border-white/10 px-3.5 py-2 rounded-lg backdrop-blur-md hover:border-white/30 transition-all">
+          <i data-lucide="phone-call" class="w-3.5 h-3.5 text-brand-gold"></i>
+          <span>+91 99808 15604</span>
+        </a>
+        <button onclick="openModal()" class="gold-button px-5 py-2.5 rounded-lg text-black font-semibold text-xs tracking-wider uppercase flex items-center gap-2">
+          <span>Book Studio Consultation</span>
+          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-300 hover:text-white focus:outline-none">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden glass-nav border-t border-white/10 px-6 py-6 flex-col gap-4">
+      <a href="#services" class="text-gray-300 hover:text-brand-gold text-base font-medium py-1">Services</a>
+      <a href="#estimator" class="text-gray-300 hover:text-brand-gold text-base font-medium py-1">Cost Estimator</a>
+      <a href="#portfolio" class="text-gray-300 hover:text-brand-gold text-base font-medium py-1">Portfolio</a>
+      <a href="#process" class="text-gray-300 hover:text-brand-gold text-base font-medium py-1">Craftsmanship</a>
+      <a href="#testimonials" class="text-gray-300 hover:text-brand-gold text-base font-medium py-1">Reviews</a>
+      <div class="pt-4 border-t border-white/10 flex flex-col gap-3">
+        <a href="tel:+919980815604" class="text-sm text-gray-300 flex items-center gap-2">
+          <i data-lucide="phone" class="w-4 h-4 text-brand-gold"></i>
+          <span>+91 99808 15604</span>
+        </a>
+        <button onclick="openModal()" class="gold-button w-full py-3 rounded-lg text-black font-semibold text-xs tracking-wider uppercase flex items-center justify-center gap-2">
+          <span>Book Studio Consultation</span>
+          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="relative min-h-screen pt-32 pb-20 flex items-center justify-center overflow-hidden">
+    <!-- Ambient Lighting FX -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-gold/10 rounded-full blur-[140px] pointer-events-none"></div>
+    <div class="absolute bottom-10 right-10 w-[400px] h-[400px] bg-amber-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10 w-full">
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left Hero Copy -->
+        <div class="lg:col-span-7 space-y-8 text-left">
+          
+          <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full glass-card border-brand-gold/30 reveal-up">
+            <span class="flex h-2 w-2 relative">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-gold opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-gold"></span>
+            </span>
+            <span class="text-xs font-medium tracking-wide text-gray-300">
+              Bespoke Interior Architecture  Bangalore, KA
+            </span>
+          </div>
+
+          <h1 class="font-syne font-extrabold text-4xl sm:text-6xl lg:text-7xl leading-[1.08] tracking-tight reveal-up">
+            Architectural Precision. <br>
+            <span class="gold-gradient-text">Modular Luxury.</span>
+          </h1>
+
+          <p class="text-gray-400 text-lg sm:text-xl max-w-2xl font-normal leading-relaxed reveal-up">
+            Transforming luxury apartments, penthouses, and private villas in Indiranagar, Sadashivanagar & Whitefield into living works of art with German precision hardware and 45-day guaranteed execution.
+          </p>
+
+          <!-- Hero Actions -->
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2 reveal-up">
+            <button onclick="openModal()" class="gold-button px-8 py-4 rounded-xl text-black font-bold text-sm tracking-wider uppercase flex items-center justify-center gap-3">
+              <i data-lucide="calendar" class="w-5 h-5"></i>
+              <span>Book Design Consultation</span>
+            </button>
+            <a href="#estimator" class="px-8 py-4 rounded-xl glass-card hover:bg-white/10 font-semibold text-sm tracking-wider text-gray-200 flex items-center justify-center gap-2 transition-all">
+              <i data-lucide="calculator" class="w-5 h-5 text-brand-gold"></i>
+              <span>Calculate Project Cost</span>
+            </a>
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="pt-8 border-t border-white/10 grid grid-cols-3 gap-6 reveal-up">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2 text-brand-gold font-syne font-bold text-2xl">
+                <span>10</span><span class="text-sm font-sans font-normal text-gray-400">Years</span>
+              </div>
+              <p class="text-xs text-gray-400">Material Warranty</p>
+            </div>
+            <div class="space-y-1">
+              <div class="flex items-center gap-2 text-brand-gold font-syne font-bold text-2xl">
+                <span>45</span><span class="text-sm font-sans font-normal text-gray-400">Days</span>
+              </div>
+              <p class="text-xs text-gray-400">Move-in Guarantee</p>
+            </div>
+            <div class="space-y-1">
+              <div class="flex items-center gap-2 text-brand-gold font-syne font-bold text-2xl">
+                <span>100%</span>
+              </div>
+              <p class="text-xs text-gray-400">Factory Precision</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Hero Visual Showcase -->
+        <div class="lg:col-span-5 relative reveal-up">
+          <div class="relative mx-auto max-w-md lg:max-w-none">
+            
+            <!-- Main Featured Image Card -->
+            <div class="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-brand-card aspect-[4/5] group">
+              <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=80" 
+                   alt="Luxury Living Room Interior Bangalore" 
+                   class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+              
+              <!-- Floating Highlight Badge inside image -->
+              <div class="absolute bottom-6 left-6 right-6 p-5 rounded-2xl glass-card backdrop-blur-xl border border-white/15">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-semibold uppercase tracking-widest text-brand-gold">Recent Masterpiece</span>
+                  <span class="text-[10px] bg-white/10 px-2 py-0.5 rounded text-gray-300">Kingfisher Tower</span>
+                </div>
+                <h3 class="font-syne font-bold text-lg text-white">4 BHK Luxury Suite Interior</h3>
+                <p class="text-xs text-gray-400 mt-1 flex items-center gap-1">
+                  <i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-gold"></i>
+                  UB City, Bangalore
+                </p>
+              </div>
+            </div>
+
+            <!-- Floating Micro Accent Card -->
+            <div class="absolute -top-6 -right-6 hidden sm:flex items-center gap-3 p-4 rounded-2xl glass-card border border-brand-gold/30 shadow-2xl animate-pulse-slow">
+              <div class="w-10 h-10 rounded-xl bg-brand-gold/20 flex items-center justify-center text-brand-gold">
+                <i data-lucide="award" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="text-xs font-bold text-white">German Blum Fittings</div>
+                <div class="text-[10px] text-gray-400">Official Partner Standards</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- METRICS & NUMBERS COUNTER SECTION -->
+  <section class="py-16 border-y border-white/10 bg-brand-surface/50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        
+        <div class="text-center space-y-2 reveal-up">
+          <div class="font-syne font-extrabold text-4xl lg:text-5xl text-white">
+            <span class="stat-counter" data-target="450">0</span>+
+          </div>
+          <p class="text-xs lg:text-sm text-gray-400 uppercase tracking-wider font-medium">Homes Transformed</p>
+        </div>
+
+        <div class="text-center space-y-2 reveal-up">
+          <div class="font-syne font-extrabold text-4xl lg:text-5xl text-brand-gold">
+            <span class="stat-counter" data-target="85">0</span>Cr+
+          </div>
+          <p class="text-xs lg:text-sm text-gray-400 uppercase tracking-wider font-medium">Real Estate Styled</p>
+        </div>
+
+        <div class="text-center space-y-2 reveal-up">
+          <div class="font-syne font-extrabold text-4xl lg:text-5xl text-white">
+            <span class="stat-counter" data-target="12">0</span>+
+          </div>
+          <p class="text-xs lg:text-sm text-gray-400 uppercase tracking-wider font-medium">Years Studio Heritage</p>
+        </div>
+
+        <div class="text-center space-y-2 reveal-up">
+          <div class="font-syne font-extrabold text-4xl lg:text-5xl text-brand-gold">
+            <span class="stat-counter" data-target="99">0</span>.4%
+          </div>
+          <p class="text-xs lg:text-sm text-gray-400 uppercase tracking-wider font-medium">On-Time Completion</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES MATRIX -->
+  <section id="services" class="py-28 relative">
+    <div class="max-w-7xl mx-auto px-6">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-20 reveal-up">
+        <span class="text-xs font-semibold uppercase tracking-widest text-brand-gold">Bespoke Architectural Offerings</span>
+        <h2 class="font-syne font-extrabold text-3xl sm:text-5xl text-white">
+          Crafted for the Discerning Visionary.
+        </h2>
+        <p class="text-gray-400 text-base">
+          From German modular factory mechanics to bespoke handcrafted woodwork, we deliver turnkey interior solutions tailored to Bangalore's architectural landscapes.
+        </p>
+      </div>
+
+      <!-- Services Grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Service Card 1 -->
+        <div class="glass-card p-8 rounded-3xl transition-all duration-300 group hover:-translate-y-2 reveal-up">
+          <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-gold mb-6 group-hover:bg-brand-gold group-hover:text-black transition-all duration-300">
+            <i data-lucide="chef-hat" class="w-7 h-7"></i>
+          </div>
+          <h3 class="font-syne font-bold text-xl text-white mb-3">Modular Italian Kitchens</h3>
+          <p class="text-gray-400 text-sm leading-relaxed mb-6">
+            Handleless lacquered acrylic finishes, anti-scratch quartz countertops, integrated pantry solutions, and soft-close Blum hardware engineered for high-durability usage.
+          </p>
+          <ul class="space-y-2 text-xs text-gray-300 border-t border-white/10 pt-4">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-gold"></i> Waterproof Marine Ply Construction</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-gold"></i> Integrated Hafele Appliances</li>
+          </ul>
+        </div>
+
+        <!-- Service Card 2 -->
+        <div class="glass-card p-8 rounded-3xl transition-all duration-300 group hover:-translate-y-2 reveal-up">
+          <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-gold mb-6 group-hover:bg-brand-gold group-hover:text-black transition-all duration-300">
+            <i data-lucide="home" class="w-7 h-7"></i>
+          </div>
+          <h3 class="font-syne font-bold text-xl text-white mb-3">Full Home Architectural Turnkey</h3>
+          <p class="text-gray-400 text-sm leading-relaxed mb-6">
+            End-to-end transformation of luxury 2, 3 & 4 BHK apartments and villas. Inclusive of False Ceilings, Lighting Automation, Wall Panelings, and Custom Furniture.
+          </p>
+          <ul class="space-y-2 text-xs text-gray-300 border-t border-white/10 pt-4">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-gold"></i> Architectural 3D VR Renders</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-gold"></i> Dedicated Site Supervisor</li>
+          </ul>
+        </div>
+
+        <!-- Service Card 3 -->
+        <div class="glass-card p-8 rounded-3xl transition-all duration-300 group hover:-translate-y-2 reveal-up">
+          <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-gold mb-6 group-hover:bg-brand-gold group-hover:text-black transition-all duration-300">
+            <i data-lucide="shirt" class="w-7 h-7"></i>
+          </div>
+          <h3 class="font-syne font-bold text-xl text-white mb-3">Bespoke Walk-in Wardrobes</h3>
