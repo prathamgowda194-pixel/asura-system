@@ -97,7 +97,7 @@ export default async function handler(req, res) {
           `🤖 <b>AI Model:</b> Gemini 3.6 Flash (Niche-First Luxury Architecture)\n` +
           `📱 <b>Linked Telegram User ID:</b> <code>${chatId}</code> (@TeChPlAyZ194)\n` +
           `🇮🇳 <b>Coverage:</b> Mumbai, Bangalore, Delhi NCR, Hyderabad, Pune, Kochi, Jaipur\n` +
-          `🛡️ <b>Anti-Slop Protocol:</b> 100% ACTIVE (Zero raw emojis, Lucide vector icons, GSAP motion, Solid INR ₹ pricing, 12 Never-Repeat Archetypes)\n` +
+          `🛡️ <b>Anti-Slop Protocol:</b> 100% ACTIVE (Zero raw emojis, Lucide vector icons, GSAP motion, Solid INR ₹ pricing, 120 Never-Repeat Luxury Palettes)\n` +
           `⚡ <b>Status:</b> Ready for instant on-demand sweeps via <code>/hunt</code>!`;
         await sendTelegram(chatId, statusMsg);
       } else if (text === '/latest' || text.startsWith('/hunt')) {
@@ -121,7 +121,7 @@ export default async function handler(req, res) {
               rating: "4.9",
               reviews: "114",
               slug: "byob-restaurant-experience-in-gurgaon",
-              archetype: "The Smoked Merlot (Merlot & Antique Brass)"
+              archetype: "Smoked Merlot with Rose Gold"
             }
           ];
         }
@@ -135,9 +135,11 @@ export default async function handler(req, res) {
           let pitchMsg = "";
           if (lowerNiche.includes('dining') || lowerNiche.includes('restaurant') || lowerNiche.includes('byob') || lowerNiche.includes('bistro')) {
             pitchMsg = `Hi ${lead.name}! I noticed your dining venue in ${lead.city}. Discerning guests expect an editorial interactive menu, alfresco cabana showcases, and seamless WhatsApp reservations. I custom-built this bespoke live website prototype for your brand: ${protoUrl} . Would you like to review and claim it?`;
-          } else if (lowerNiche.includes('real estate') || lowerNiche.includes('villa') || lowerNiche.includes('land')) {
+          } else if (lowerNiche.includes('real estate') || lowerNiche.includes('villa') || lowerNiche.includes('land') || lowerNiche.includes('property')) {
             pitchMsg = `Hi ${lead.name}! I noticed your properties in ${lead.city}. High-net-worth buyers expect an immersive luxury website with floor plans and direct WhatsApp inquiries. I auto-built this bespoke live website prototype for your brand: ${protoUrl} . Would you like to claim it?`;
-          } else if (lowerNiche.includes('skin') || lowerNiche.includes('derma') || lowerNiche.includes('aesthetic') || lowerNiche.includes('clinic')) {
+          } else if (lowerNiche.includes('car') || lowerNiche.includes('detail') || lowerNiche.includes('ceramic') || lowerNiche.includes('auto')) {
+            pitchMsg = `Hi ${lead.name}! I noticed your detailing studio in ${lead.city}. Supercar and luxury vehicle owners expect high-gloss portfolio showcases, ceramic coating warranty cards, and seamless WhatsApp bookings. I built this bespoke live website prototype for your studio: ${protoUrl} . Would you like to review and claim it?`;
+          } else if (lowerNiche.includes('skin') || lowerNiche.includes('derma') || lowerNiche.includes('aesthetic') || lowerNiche.includes('clinic') || lowerNiche.includes('dental')) {
             pitchMsg = `Hi ${lead.name}! I noticed your top-rated clinic in ${lead.city}. High-ticket patients look for verified clinical protocols, dermatologist credentials, and 1-click consultation bookings. I designed this bespoke live website prototype for your clinic: ${protoUrl} . Would you like to review and claim it?`;
           } else {
             pitchMsg = `Hi ${lead.name}! I noticed your high ratings in ${lead.city}, but you don't have an official modern website for clients to book consultations. I designed a custom live website prototype for your business: ${protoUrl} . Would you like to review and claim it?`;
@@ -155,7 +157,7 @@ export default async function handler(req, res) {
             `🌐 <b>Online Status:</b> ❌ <b>NO OFFICIAL WEBSITE DETECTED</b>\n\n` +
             `⚡ <b>BESPOKE LIVE CLIENT PROTOTYPE READY:</b>\n` +
             `👉 <code>${protoUrl}</code>\n\n` +
-            `<i>💡 Built with 13 Luxury Mechanics, 12 Never-Repeat Archetypes, Zero Broken Counters, and Indian Rupee (₹) pricing!</i>`;
+            `<i>💡 Built with 120 Never-Repeat Luxury Palettes, Pin-Parallax, Zero AI-Slop, and Solid INR (₹) pricing!</i>`;
 
           const buttons = [
             [{ text: "🚀 Open Live Client Website ↗", url: protoUrl }],
