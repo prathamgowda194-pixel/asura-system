@@ -3,105 +3,94 @@
  * ASURA EDGE PROJECT SERVICER // ZERO-404 GUARANTEE ENGINE
  * Route: /api/serve_project?slug=:slug
  * ══════════════════════════════════════════════════════════════════════════════
- * - Dynamically serves verified client prototypes directly from GitHub.
- * - ZERO-404 FALLBACK: If a project was freshly scraped and not yet committed,
- *   it compiles the bespoke luxury prototype on-the-fly in <2ms, serves it
- *   instantly with HTTP 200, and commits it asynchronously to GitHub.
- * - NEVER RETURNS 404. Every single link sent on Telegram is 100% guaranteed live.
- * - ZERO AI-SLOP: Hardcoded verified metrics, niche-first domain models, 12 archetypes.
+ * - 120 Curated Professional Luxury Color Combinations
+ * - Zero Neo-Clinic Style
+ * - Dedicated Automotive Detailing & Ceramic Studio Niche
+ * - Full-Screen Pin-Parallax Hero Photography on ALL Websites
+ * - Two Full-Viewport Photo Chapters (FLOWERS/SIM Pattern)
+ * - Solid Pre-Rendered Metrics (Zero 0-start broken counters)
  */
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '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';
 const REPO = 'prathamgowda194-pixel/asura-system';
 
-const ARCHETYPES = [
-  {
-    id: "smoked-merlot",
-    name: "The Smoked Merlot",
-    nicheBias: "dining",
-    fonts: { heading: "'Fraunces', Georgia, serif", body: "'Manrope', -apple-system, sans-serif", headingImport: "family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,400&family=Manrope:wght@300;400;500;600;700" },
-    colors: { bg: "#150a0e", bgAlt: "#220f16", surface: "#2f1620", text: "#fdf2f4", muted: "#c9a4b0", accent: "#dfa86a", accentLight: "#f4d0a5", border: "rgba(223, 168, 106, 0.28)", wash: "rgba(34, 15, 22, 0.85)" }
-  },
-  {
-    id: "atelier-noir",
-    name: "The Atelier Noir",
-    nicheBias: "realestate",
-    fonts: { heading: "'Playfair Display', Georgia, serif", body: "'Inter Tight', -apple-system, sans-serif", headingImport: "family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Inter+Tight:wght@300;400;500;600" },
-    colors: { bg: "#070b16", bgAlt: "#0d1424", surface: "#131d33", text: "#f8fafc", muted: "#94a3b8", accent: "#d4af37", accentLight: "#fef08a", border: "rgba(212, 175, 55, 0.2)", wash: "rgba(19, 29, 51, 0.85)" }
-  },
-  {
-    id: "emerald-estate",
-    name: "The Emerald Estate",
-    nicheBias: "realestate",
-    fonts: { heading: "'Cinzel', Georgia, serif", body: "'Manrope', sans-serif", headingImport: "family=Cinzel:wght@600;700;800&family=Manrope:wght@300;400;500;600" },
-    colors: { bg: "#08140f", bgAlt: "#0e221a", surface: "#152e24", text: "#f0fdf4", muted: "#86efac", accent: "#c5a880", accentLight: "#e9d5b8", border: "rgba(197, 168, 128, 0.25)", wash: "rgba(14, 34, 26, 0.85)" }
-  },
-  {
-    id: "imperial-citadel",
-    name: "The Imperial Citadel",
-    nicheBias: "realestate",
-    fonts: { heading: "'Cormorant Garamond', Georgia, serif", body: "'Plus Jakarta Sans', sans-serif", headingImport: "family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700" },
-    colors: { bg: "#1c0a10", bgAlt: "#291019", surface: "#381723", text: "#fdf2f4", muted: "#f4aab8", accent: "#d97706", accentLight: "#fde68a", border: "rgba(217, 119, 6, 0.28)", wash: "rgba(41, 16, 25, 0.85)" }
-  },
-  {
-    id: "cocoon-sanctuary",
-    name: "The Cocoon Sanctuary",
-    nicheBias: "medspa",
-    fonts: { heading: "'Marcellus', serif", body: "'Inter Tight', -apple-system, sans-serif", headingImport: "family=Marcellus&family=Inter+Tight:wght@300;400;500;600;700" },
-    colors: { bg: "#161311", bgAlt: "#211c19", surface: "#2d2622", text: "#f7f4ef", muted: "#b0a79e", accent: "#b85d38", accentLight: "#e3916e", border: "rgba(184, 93, 56, 0.25)", wash: "rgba(43, 27, 23, 0.8)" }
-  },
-  {
-    id: "skyline-brutalist",
-    name: "The Skyline Brutalist",
-    nicheBias: "construction",
-    fonts: { heading: "'Syne', -apple-system, sans-serif", body: "'Plus Jakarta Sans', sans-serif", headingImport: "family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700" },
-    colors: { bg: "#0c0d10", bgAlt: "#14161c", surface: "#1c1f27", text: "#ffffff", muted: "#a1a1aa", accent: "#e59500", accentLight: "#fbbf24", border: "rgba(229, 149, 0, 0.28)", wash: "rgba(20, 22, 28, 0.85)" }
-  },
-  {
-    id: "neo-clinic",
-    name: "The Neo-Clinic Avant-Garde",
-    nicheBias: "dental",
-    fonts: { heading: "'Outfit', sans-serif", body: "'Plus Jakarta Sans', sans-serif", headingImport: "family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600" },
-    colors: { bg: "#050b14", bgAlt: "#0b1526", surface: "#101e38", text: "#f8fafc", muted: "#94a3b8", accent: "#0ea5e9", accentLight: "#7dd3fc", border: "rgba(14, 165, 233, 0.28)", wash: "rgba(11, 21, 38, 0.85)" }
-  },
-  {
-    id: "nordic-craft",
-    name: "The Scandinavian Craft",
-    nicheBias: "interior",
-    fonts: { heading: "'Fraunces', serif", body: "'Manrope', sans-serif", headingImport: "family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,400&family=Manrope:wght@400;500;600;700" },
-    colors: { bg: "#151412", bgAlt: "#211f1c", surface: "#2c2a26", text: "#faf7f2", muted: "#beb8ae", accent: "#d4a373", accentLight: "#f0caa1", border: "rgba(212, 163, 115, 0.24)", wash: "rgba(33, 31, 28, 0.85)" }
-  },
-  {
-    id: "industrial-kinetic",
-    name: "The Industrial Kinetic",
-    nicheBias: "fitness",
-    fonts: { heading: "'Syne', -apple-system, sans-serif", body: "'Inter Tight', sans-serif", headingImport: "family=Syne:wght@800&family=Inter+Tight:wght@400;600;700;800" },
-    colors: { bg: "#08080a", bgAlt: "#111115", surface: "#18181f", text: "#f4f4f5", muted: "#a1a1aa", accent: "#ef4444", accentLight: "#fca5a5", border: "rgba(239, 68, 68, 0.28)", wash: "rgba(24, 24, 31, 0.85)" }
-  },
-  {
-    id: "velvet-obsidian",
-    name: "The Velvet Obsidian",
-    nicheBias: "medspa",
-    fonts: { heading: "'Cormorant Garamond', serif", body: "'Outfit', sans-serif", headingImport: "family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Outfit:wght@300;400;500;600" },
-    colors: { bg: "#0a0a0d", bgAlt: "#15151b", surface: "#1e1e27", text: "#fbfbfc", muted: "#a8a8b8", accent: "#e0a996", accentLight: "#f7d7ce", border: "rgba(224, 169, 150, 0.25)", wash: "rgba(21, 21, 27, 0.85)" }
-  },
-  {
-    id: "mineral-slate",
-    name: "The Mineral Slate",
-    nicheBias: "construction",
-    fonts: { heading: "'Space Grotesk', sans-serif", body: "'Plus Jakarta Sans', sans-serif", headingImport: "family=Space+Grotesk:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600" },
-    colors: { bg: "#0a0e17", bgAlt: "#111827", surface: "#1a2336", text: "#f8fafc", muted: "#94a3b8", accent: "#38bdf8", accentLight: "#bae6fd", border: "rgba(56, 189, 248, 0.25)", wash: "rgba(17, 24, 39, 0.85)" }
-  },
-  {
-    id: "olive-tuscan",
-    name: "The Olive Tuscan",
-    nicheBias: "dining",
-    fonts: { heading: "'Cinzel', Georgia, serif", body: "'Manrope', sans-serif", headingImport: "family=Cinzel:wght@600;700&family=Manrope:wght@300;400;500;600" },
-    colors: { bg: "#10130e", bgAlt: "#1a1e16", surface: "#24291f", text: "#f4f6f2", muted: "#b0b8aa", accent: "#c2a66e", accentLight: "#e5d5b0", border: "rgba(194, 166, 110, 0.25)", wash: "rgba(26, 30, 22, 0.85)" }
-  }
+const BASE_TONES = [
+  { name: "Smoked Merlot", bg: "#150a0e", bgAlt: "#220f16", surface: "#2f1620", text: "#fdf2f4", muted: "#c9a4b0", wash: "rgba(34, 15, 22, 0.85)" },
+  { name: "French Navy", bg: "#070b16", bgAlt: "#0d1424", surface: "#131d33", text: "#f8fafc", muted: "#94a3b8", wash: "rgba(19, 29, 51, 0.85)" },
+  { name: "Forest Emerald", bg: "#08140f", bgAlt: "#0e221a", surface: "#152e24", text: "#f0fdf4", muted: "#86efac", wash: "rgba(14, 34, 26, 0.85)" },
+  { name: "Royal Burgundy", bg: "#1c0a10", bgAlt: "#291019", surface: "#381723", text: "#fdf2f4", muted: "#f4aab8", wash: "rgba(41, 16, 25, 0.85)" },
+  { name: "Bone Charcoal", bg: "#161311", bgAlt: "#211c19", surface: "#2d2622", text: "#f7f4ef", muted: "#b0a79e", wash: "rgba(43, 27, 23, 0.80)" },
+  { name: "Deep Carbon", bg: "#0c0d10", bgAlt: "#14161c", surface: "#1c1f27", text: "#ffffff", muted: "#a1a1aa", wash: "rgba(20, 22, 28, 0.85)" },
+  { name: "Nordic Espresso", bg: "#151412", bgAlt: "#211f1c", surface: "#2c2a26", text: "#faf7f2", muted: "#beb8ae", wash: "rgba(33, 31, 28, 0.85)" },
+  { name: "Matte Gunmetal", bg: "#08080a", bgAlt: "#111115", surface: "#18181f", text: "#f4f4f5", muted: "#a1a1aa", wash: "rgba(24, 24, 31, 0.85)" },
+  { name: "Mineral Slate", bg: "#0a0e17", bgAlt: "#111827", surface: "#1a2336", text: "#f8fafc", muted: "#94a3b8", wash: "rgba(17, 24, 39, 0.85)" },
+  { name: "Tuscan Olive", bg: "#10130e", bgAlt: "#1a1e16", surface: "#24291f", text: "#f4f6f2", muted: "#b0b8aa", wash: "rgba(26, 30, 22, 0.85)" },
+  { name: "Cognac Amber", bg: "#18100a", bgAlt: "#261a10", surface: "#362417", text: "#fdf7f2", muted: "#d9b89e", wash: "rgba(38, 26, 16, 0.85)" },
+  { name: "Midnight Velvet", bg: "#090918", bgAlt: "#121226", surface: "#1b1b36", text: "#f6f6fc", muted: "#a2a2cc", wash: "rgba(18, 18, 38, 0.85)" }
 ];
 
+const ACCENTS = [
+  { name: "Champagne Gold", accent: "#d4af37", accentLight: "#fef08a", border: "rgba(212, 175, 55, 0.28)" },
+  { name: "Antique Brass", accent: "#dfa86a", accentLight: "#f4d0a5", border: "rgba(223, 168, 106, 0.28)" },
+  { name: "Regal Amber", accent: "#d97706", accentLight: "#fde68a", border: "rgba(217, 119, 6, 0.28)" },
+  { name: "Signal Gold", accent: "#e59500", accentLight: "#fbbf24", border: "rgba(229, 149, 0, 0.28)" },
+  { name: "Burnt Terracotta", accent: "#b85d38", accentLight: "#e3916e", border: "rgba(184, 93, 56, 0.28)" },
+  { name: "Rose Gold", accent: "#e0a996", accentLight: "#f7d7ce", border: "rgba(224, 169, 150, 0.28)" },
+  { name: "Warm Sandstone", accent: "#d4a373", accentLight: "#f0caa1", border: "rgba(212, 163, 115, 0.28)" },
+  { name: "Lapis Azure", accent: "#38bdf8", accentLight: "#bae6fd", border: "rgba(56, 189, 248, 0.28)" },
+  { name: "Burnished Bronze", accent: "#c2a66e", accentLight: "#e5d5b0", border: "rgba(194, 166, 110, 0.28)" },
+  { name: "Crimson Flare", accent: "#ef4444", accentLight: "#fca5a5", border: "rgba(239, 68, 68, 0.28)" }
+];
+
+const FONT_SETS = [
+  { heading: "'Playfair Display', Georgia, serif", body: "'Inter Tight', sans-serif", headingImport: "family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Inter+Tight:wght@300;400;500;600" },
+  { heading: "'Fraunces', serif", body: "'Manrope', sans-serif", headingImport: "family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,400&family=Manrope:wght@300;400;500;600;700" },
+  { heading: "'Cinzel', Georgia, serif", body: "'Plus Jakarta Sans', sans-serif", headingImport: "family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700" },
+  { heading: "'Cormorant Garamond', serif", body: "'Manrope', sans-serif", headingImport: "family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Manrope:wght@300;400;500;600" },
+  { heading: "'Syne', -apple-system, sans-serif", body: "'Plus Jakarta Sans', sans-serif", headingImport: "family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600" },
+  { heading: "'Marcellus', serif", body: "'Inter Tight', sans-serif", headingImport: "family=Marcellus&family=Inter+Tight:wght@300;400;500;600;700" }
+];
+
+const PALETTE_MATRIX_100 = [];
+let pCount = 0;
+for (let b = 0; b < BASE_TONES.length; b++) {
+  for (let a = 0; a < ACCENTS.length; a++) {
+    pCount++;
+    const base = BASE_TONES[b];
+    const acc = ACCENTS[a];
+    const fonts = FONT_SETS[(b + a) % FONT_SETS.length];
+    PALETTE_MATRIX_100.push({
+      id: `palette-${String(pCount).padStart(3, '0')}`,
+      name: `${base.name} with ${acc.name}`,
+      fonts: fonts,
+      colors: {
+        bg: base.bg,
+        bgAlt: base.bgAlt,
+        surface: base.surface,
+        text: base.text,
+        muted: base.muted,
+        accent: acc.accent,
+        accentLight: acc.accentLight,
+        border: acc.border,
+        wash: base.wash
+      },
+      headerStyle: (b + a) % 2 === 0 ? "chanel-grid" : "dtc-pill"
+    });
+  }
+}
+
 const ASSETS = {
+  autodetailing: {
+    hero: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=2000&auto=format&fit=crop",
+    c1: "https://images.unsplash.com/photo-1601362840469-51e4d8d58785?q=80&w=2000&auto=format&fit=crop",
+    c2: "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?q=80&w=2000&auto=format&fit=crop",
+    c3: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2000&auto=format&fit=crop",
+    items: [
+      { no: "001", title: "9H Dual-Layer Graphene Ceramic Shield", spec: "Self-Healing Hydrophobic Armor with 5-Year National Warranty", price: "₹28,500 protocol", img: "https://images.unsplash.com/photo-1601362840469-51e4d8d58785?q=80&w=1200&auto=format&fit=crop" },
+      { no: "002", title: "Multi-Stage Paint Correction Mastery", spec: "Micron Paint Depth Profiling & 99% Swirl-Free Mirror Gloss", price: "₹18,000 protocol", img: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=1200&auto=format&fit=crop" },
+      { no: "003", title: "Full-Body Self-Healing TPU PPF Armor", spec: "Optical Grade 8.5 Mil Paint Protection Film with Hydrophobic Topcoat", price: "₹1,25,000 portfolio", img: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=1200&auto=format&fit=crop" }
+    ]
+  },
   dining: {
     hero: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2000&auto=format&fit=crop",
     c1: "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=2000&auto=format&fit=crop",
@@ -182,9 +171,29 @@ const ASSETS = {
 };
 
 const NICHE_PROFILES = {
+  autodetailing: {
+    category: "Luxury Car Detailing & Ceramic Studio",
+    headlines: [
+      "Precision Ceramic Coating & Supercar Detailing in {city}.",
+      "9H Graphene Armor & Multi-Stage Paint Correction in {city}."
+    ],
+    subtitle: "Protecting and elevating automotive masterworks with micron-level paint depth profiling, 9H graphene ceramic shields, and dust-free infrared curing bays.",
+    stats: [
+      { val: "4.7 ★", lbl: "100+ Verified Client Reviews" },
+      { val: "100%", lbl: "9H Ceramic & PPF Warranty" },
+      { val: "12+ Yrs", lbl: "Master Detailing Provenance" },
+      { val: "5,000+", lbl: "Exotic & Supercars Protected" }
+    ],
+    ctaText: "Book Detailing Bay",
+    deliverablesTitle: "Signature Protection Packages",
+    complianceText: "Statutory Standards & Service Warranty Certified."
+  },
   dining: {
     category: "Artisanal Dining & Alfresco BYOB Sanctuary",
-    headlines: ["Artisanal Gastronomy & Alfresco BYOB Sanctuary in {city}.", "Bespoke Culinary Pairings & Starlit Cabanas in {city}."],
+    headlines: [
+      "Artisanal Gastronomy & Alfresco BYOB Sanctuary in {city}.",
+      "Bespoke Culinary Pairings & Starlit Cabanas in {city}."
+    ],
     subtitle: "Pair your finest personal spirits with chef-curated artisan pairings, chilled Riedel crystal stemware, and private starlit cabanas.",
     stats: [
       { val: "4.9 ★", lbl: "Verified Public Reviews" },
@@ -192,11 +201,16 @@ const NICHE_PROFILES = {
       { val: "₹1,800 - ₹3,500", lbl: "Average Cover For Two" },
       { val: "100% BYOB", lbl: "Chilled Stemware & Butler Service" }
     ],
-    ctaText: "Reserve Private Cabana"
+    ctaText: "Reserve Private Cabana",
+    deliverablesTitle: "Curated Gastronomic Journey",
+    complianceText: "FSSAI & Statutory Hospitality Compliance Guaranteed."
   },
   medspa: {
     category: "Dermatology & Aesthetic Clinic",
-    headlines: ["Dermatologist-Led Clinical Aesthetics & Laser Skin Science in {city}.", "Advanced Cellular Rejuvenation in {city}."],
+    headlines: [
+      "Dermatologist-Led Clinical Aesthetics & Laser Skin Science in {city}.",
+      "Advanced Cellular Rejuvenation in {city}."
+    ],
     subtitle: "Evidence-based clinical anti-aging, targeted laser resurfacing, and bespoke dermatological protocols designed exclusively for Indian skin profiles.",
     stats: [
       { val: "15+ Yrs", lbl: "Clinical Dermatology Experience" },
@@ -204,11 +218,16 @@ const NICHE_PROFILES = {
       { val: "4.9 ★", lbl: "Verified Patient Reviews" },
       { val: "US-FDA", lbl: "Approved Laser Protocols" }
     ],
-    ctaText: "Book Clinical Consultation"
+    ctaText: "Book Clinical Consultation",
+    deliverablesTitle: "Signature Clinical Protocols",
+    complianceText: "Clinical Board & Medical Council Approved."
   },
   realestate: {
     category: "Luxury Real Estate & Villa Developers",
-    headlines: ["Curating Iconic Seafront Sky Villas & Penthouses in {city}.", "Sovereign Gated Farmlands & Nature Sanctuaries in {city}."],
+    headlines: [
+      "Curating Iconic Seafront Sky Villas & Penthouses in {city}.",
+      "Sovereign Gated Farmlands & Nature Sanctuaries in {city}."
+    ],
     subtitle: "Curating the most coveted prime addresses, sea-facing penthouses, and bespoke residential parcels across {city}. RERA compliant with verified clear titles.",
     stats: [
       { val: "₹500+ Cr", lbl: "Transaction Advisory Portfolio" },
@@ -216,11 +235,16 @@ const NICHE_PROFILES = {
       { val: "4.8 ★", lbl: "Verified Investor Reviews" },
       { val: "18+ Yrs", lbl: "Regional Market Provenance" }
     ],
-    ctaText: "Request Private Advisory"
+    ctaText: "Request Private Advisory",
+    deliverablesTitle: "Signature Enclaves & Portfolios",
+    complianceText: "RERA & Statutory Title Guarantees Guaranteed."
   },
   construction: {
     category: "Civil Construction & Turnkey High-Rises",
-    headlines: ["Engineering Enduring Commercial Towers & High-Rises in {city}.", "Turnkey Civil Infrastructure in {city}."],
+    headlines: [
+      "Engineering Enduring Commercial Towers & High-Rises in {city}.",
+      "Turnkey Civil Infrastructure in {city}."
+    ],
     subtitle: "Turnkey civil infrastructure, monolithic high-rises, and industrial facilities engineered with German structural rigor and zero-tolerance safety standards.",
     stats: [
       { val: "2.5M+ Sq.Ft.", lbl: "Civil Infrastructure Delivered" },
@@ -228,11 +252,16 @@ const NICHE_PROFILES = {
       { val: "Grade-A", lbl: "Structural Materials & Rigor" },
       { val: "22+ Yrs", lbl: "Engineering Provenance" }
     ],
-    ctaText: "Request Project Tender"
+    ctaText: "Request Project Tender",
+    deliverablesTitle: "Turnkey Civil Contracts",
+    complianceText: "IS Code & Structural Engineering Compliance Verified."
   },
   interior: {
     category: "Haute Interior Architecture & Custom Modular Living",
-    headlines: ["Haute Interior Architecture & Custom Modular Living in {city}.", "Curating Bespoke Living Sanctuaries in {city}."],
+    headlines: [
+      "Haute Interior Architecture & Custom Modular Living in {city}.",
+      "Curating Bespoke Living Sanctuaries in {city}."
+    ],
     subtitle: "Transforming bare residential shells into editorial sanctuaries using imported Italian veneers, acoustic fluting, and precision German hardware.",
     stats: [
       { val: "450+", lbl: "Turnkey Residences Completed" },
@@ -240,11 +269,16 @@ const NICHE_PROFILES = {
       { val: "4.9 ★", lbl: "Verified Client Reviews" },
       { val: "100%", lbl: "Italian Veneers & Blum Hardware" }
     ],
-    ctaText: "Schedule Design Consultation"
+    ctaText: "Schedule Design Consultation",
+    deliverablesTitle: "Signature Interior Suites",
+    complianceText: "Architectural Council & Material Warranty Guaranteed."
   },
   dental: {
-    category: "Advanced Dental Implantology & Laser Surgery",
-    headlines: ["Advanced Pain-Free Implantology & Laser Smile Styling in {city}.", "Digital Intraoral 3D CAD/CAM Smile Reconstruction in {city}."],
+    category: "Advanced Dental Implantology & Aesthetic Dentistry",
+    headlines: [
+      "Advanced Pain-Free Implantology & Laser Smile Styling in {city}.",
+      "Digital Intraoral 3D CAD/CAM Smile Reconstruction in {city}."
+    ],
     subtitle: "Pioneering pain-free digital implantology, German 3D ceramic veneers, and laser restorative dentistry under senior maxillofacial specialists.",
     stats: [
       { val: "25,000+", lbl: "Successful Smile Restorations" },
@@ -252,11 +286,16 @@ const NICHE_PROFILES = {
       { val: "4.9 ★", lbl: "Pain-Free Patient Satisfaction" },
       { val: "Lifetime", lbl: "Straumann Implant Warranty" }
     ],
-    ctaText: "Book Dental Consultation"
+    ctaText: "Book Dental Consultation",
+    deliverablesTitle: "Specialist Dental Procedures",
+    complianceText: "Dental Council of India & ISO Sterilization Certified."
   },
   fitness: {
     category: "High-Performance Strength & Athletic Clubs",
-    headlines: ["High-Performance Strength & Athletic Biomechanics in {city}.", "Olympic Rig Conditioning in {city}."],
+    headlines: [
+      "High-Performance Strength & Athletic Biomechanics in {city}.",
+      "Olympic Rig Conditioning in {city}."
+    ],
     subtitle: "Olympic barbell rigs, Eleiko competition plates, and data-driven VO2 metabolic programming designed for high-performance athletic development.",
     stats: [
       { val: "1-on-1", lbl: "Athletic Biomechanics & VO2 Max" },
@@ -264,7 +303,9 @@ const NICHE_PROFILES = {
       { val: "98.4%", lbl: "Client Goal Achievement" },
       { val: "4.8 ★", lbl: "Member Satisfaction Rating" }
     ],
-    ctaText: "Claim Trial Pass"
+    ctaText: "Claim Trial Pass",
+    deliverablesTitle: "High-Performance Protocols",
+    complianceText: "Certified Strength & Conditioning Standards."
   }
 };
 
@@ -281,17 +322,23 @@ function parseSlugInfo(slug) {
   else if (/hyderabad/i.test(slug)) city = "Hyderabad, Telangana";
   else if (/jaipur/i.test(slug)) city = "Jaipur, Rajasthan";
   else if (/cochin|kochi/i.test(slug)) city = "Kochi, Kerala";
-  else if (/gurgaon|delhi|noida/i.test(slug)) {
-    city = "Gurgaon, Delhi NCR";
+  else if (/gurgaon|delhi|noida/i.test(slug)) city = "Gurgaon, Delhi NCR";
+  else if (/pune/i.test(slug)) city = "Pune, Maharashtra";
+
+  let nicheKey = "realestate";
+  if (/detail|ceramic|car|auto|paint|ppf|wrap|vehicle|motors|garage/i.test(slug)) {
+    nicheKey = "autodetailing";
+    if (/architectural-exports/i.test(slug)) {
+      phone = "+91 93723 17501";
+      cleanPhone = "9372317501";
+    }
+  } else if (/dining|restaurant|bistro|byob|cafe|lounge|food/i.test(slug)) {
+    nicheKey = "dining";
     if (/byob/i.test(slug)) {
       phone = "+91 96541 20004";
       cleanPhone = "9654120004";
     }
-  } else if (/pune/i.test(slug)) city = "Pune, Maharashtra";
-
-  let nicheKey = "realestate";
-  if (/dining|restaurant|bistro|byob|cafe|lounge|food/i.test(slug)) nicheKey = "dining";
-  else if (/dental|dentist/i.test(slug)) nicheKey = "dental";
+  } else if (/dental|dentist/i.test(slug)) nicheKey = "dental";
   else if (/construction|builder|civil/i.test(slug)) nicheKey = "construction";
   else if (/interior|modular/i.test(slug)) nicheKey = "interior";
   else if (/skin|aesthetic|derma|medspa/i.test(slug)) nicheKey = "medspa";
@@ -304,6 +351,8 @@ function parseSlugInfo(slug) {
   let name = cleanWords.slice(0, 4).join(' ') || "Signature Enterprise";
   if (slug === "byob-restaurant-experience-in-gurgaon") {
     name = "BYOB Restaurant Experience Gurgaon";
+  } else if (slug === "architectural-exports-in-sion-west") {
+    name = "Architectural Exports In Sion West";
   }
 
   return { name, city, nicheKey, phone, cleanPhone, slug };
@@ -314,17 +363,10 @@ function buildLuxuryHTML(lead) {
   const profile = NICHE_PROFILES[nicheKey] || NICHE_PROFILES.realestate;
   const pack = ASSETS[nicheKey] || ASSETS.realestate;
 
-  // Distinct archetype via slug hash
+  // 120-Palette Selection via slug hash
   let hash = 0;
   for (let i = 0; i < lead.slug.length; i++) hash = (hash << 5) - hash + lead.slug.charCodeAt(i);
-  
-  const matchingIndices = [];
-  ARCHETYPES.forEach((arch, idx) => {
-    if (arch.nicheBias === nicheKey) matchingIndices.push(idx);
-  });
-  const arch = matchingIndices.length > 0 
-    ? ARCHETYPES[matchingIndices[Math.abs(hash) % matchingIndices.length]]
-    : ARCHETYPES[Math.abs(hash) % ARCHETYPES.length];
+  const pal = PALETTE_MATRIX_100[Math.abs(hash) % PALETTE_MATRIX_100.length];
 
   const initials = lead.name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase() || "AS";
   const headline = profile.headlines[Math.abs(hash) % profile.headlines.length].replace("{city}", lead.city);
@@ -337,7 +379,7 @@ function buildLuxuryHTML(lead) {
   <title>${lead.name} // ${profile.category} in ${lead.city}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?${arch.fonts.headingImport}&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?${pal.fonts.headingImport}&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -345,18 +387,18 @@ function buildLuxuryHTML(lead) {
 
   <style>
     :root {
-      --bg: ${arch.colors.bg};
-      --bg-alt: ${arch.colors.bgAlt};
-      --surface: ${arch.colors.surface};
-      --text: ${arch.colors.text};
-      --muted: ${arch.colors.muted};
-      --accent: ${arch.colors.accent};
-      --accent-light: ${arch.colors.accentLight};
-      --border: ${arch.colors.border};
-      --wash: ${arch.colors.wash};
+      --bg: ${pal.colors.bg};
+      --bg-alt: ${pal.colors.bgAlt};
+      --surface: ${pal.colors.surface};
+      --text: ${pal.colors.text};
+      --muted: ${pal.colors.muted};
+      --accent: ${pal.colors.accent};
+      --accent-light: ${pal.colors.accentLight};
+      --border: ${pal.colors.border};
+      --wash: ${pal.colors.wash};
     }
-    body { background-color: var(--bg); color: var(--text); font-family: ${arch.fonts.body}; overflow-x: hidden; }
-    h1, h2, h3, .font-heading { font-family: ${arch.fonts.heading}; letter-spacing: -0.02em; }
+    body { background-color: var(--bg); color: var(--text); font-family: ${pal.fonts.body}; overflow-x: hidden; }
+    h1, h2, h3, .font-heading { font-family: ${pal.fonts.heading}; letter-spacing: -0.02em; }
     .pinwrap { position: relative; }
     .pin { position: sticky; top: 0; height: 100vh; overflow: hidden; z-index: 0; }
     .spacer { height: 26vh; }
@@ -371,7 +413,7 @@ function buildLuxuryHTML(lead) {
     .winewrap > .wb { position: absolute; inset: -15%; z-index: 0; pointer-events: none; }
     .winewrap > .wb img { width: 100%; height: 100%; object-fit: cover; filter: blur(64px) saturate(1.4); opacity: 0.35; }
     .winewrap > *:not(.wb) { position: relative; z-index: 2; }
-    .giant { font-family: ${arch.fonts.heading}; text-transform: uppercase; text-align: center; font-size: clamp(2.5rem, 11vw, 10rem); letter-spacing: .04em; line-height: 0.9; color: transparent; -webkit-text-stroke: 1px var(--border); opacity: 0.7; }
+    .giant { font-family: ${pal.fonts.heading}; text-transform: uppercase; text-align: center; font-size: clamp(2.5rem, 11vw, 10rem); letter-spacing: .04em; line-height: 0.9; color: transparent; -webkit-text-stroke: 1px var(--border); opacity: 0.7; }
     .glass-pill { background: rgba(255,255,255,0.04); backdrop-filter: blur(16px); border: 1px solid var(--border); }
   </style>
 </head>
@@ -431,7 +473,7 @@ function buildLuxuryHTML(lead) {
 
         <div class="mb-32">
           <span class="text-xs font-mono uppercase tracking-widest text-[var(--accent)] block mb-3">CURATED DELIVERABLES // 2026</span>
-          <h2 class="text-3xl sm:text-5xl font-bold text-white mb-12">Signature Offerings</h2>
+          <h2 class="text-3xl sm:text-5xl font-bold text-white mb-12">${profile.deliverablesTitle}</h2>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             ${pack.items.map(it => `
               <div class="rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--accent)] transition-all flex flex-col">
@@ -485,7 +527,7 @@ function buildLuxuryHTML(lead) {
     </div>
     <div class="giant select-none my-12">${lead.name}</div>
     <footer class="max-w-7xl mx-auto pt-12 border-t border-[var(--border)] flex flex-col md:flex-row items-center justify-between text-xs text-[var(--muted)] gap-4">
-      <div>&copy; 2026 ${lead.name}. ${lead.city}, India. All Rights Reserved.</div>
+      <div>&copy; 2026 ${lead.name}. ${profile.complianceText}</div>
       <div class="font-mono">TEL: ${lead.phone}</div>
     </footer>
   </section>
@@ -539,7 +581,6 @@ export default async function handler(req, res) {
     const leadInfo = parseSlugInfo(slug);
     const html = buildLuxuryHTML(leadInfo);
 
-    // Asynchronously save to GitHub in background (never blocks the user)
     (async () => {
       try {
         const putUrl = `https://api.github.com/repos/${REPO}/contents/projects/${slug}/index.html`;

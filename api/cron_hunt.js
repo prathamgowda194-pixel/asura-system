@@ -16,6 +16,18 @@ const API_URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
 
 const CLIENT_PORTFOLIO = [
   {
+    name: "Architectural Exports In Sion West",
+    niche: "Car Detailing & Ceramic Studio",
+    city: "Mumbai, Maharashtra",
+    address: "Sion West, Mumbai 400022",
+    phone: "+91 93723 17501",
+    cleanPhone: "9372317501",
+    rating: "4.7",
+    reviews: "104",
+    slug: "architectural-exports-in-sion-west",
+    archetype: "Bone Charcoal with Champagne Gold"
+  },
+  {
     name: "BYOB Restaurant Experience Gurgaon",
     niche: "Artisanal Dining & Alfresco BYOB Sanctuary",
     city: "Gurgaon, Delhi NCR",

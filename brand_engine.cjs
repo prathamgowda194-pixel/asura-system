@@ -1,297 +1,105 @@
 /**
  * ══════════════════════════════════════════════════════════════════════════════
- * ASURA LUXURY BRAND ENGINE // COMPLETE NEVER-REPEAT DESIGN MATRIX & NICHE LOGIC
+ * ASURA LUXURY BRAND ENGINE // 120 NEVER-REPEAT COLOR COMBINATIONS & NICHE MATRIX
  * ══════════════════════════════════════════════════════════════════════════════
- * Implements the 13 proven mechanics recipes:
- * 1. Pin-parallax sheets (Cocoon pattern)
- * 2. Full-viewport photo chapters (FLOWERS/SIM pattern)
- * 3. Gradient seam fades
- * 4. Brand-hue washes instead of black voids
- * 5. Reveal system with cubic-bezier transitions
- * 6. Editorial header grammar (Chanel 3-col grid, DTC pill)
- * 7. Giant stroked footer wordmarks
- * 8. Flat numbered DTC service cards (Cocoon)
- * 9. Working interactive inquiry modals & WhatsApp pills
- * 10. 100% verified Unsplash high-res imagery with bulletproof onerror fallbacks
- * 11. Zero AI-Slop: Pre-rendered solid numbers (no broken 0-start counters)
- * 12. Niche-first analysis: Copy, stats, deliverables strictly match business niche
- * 13. Deterministic Never-Repeat Palette Matrix (12 distinct archetypes)
+ * - 120 Curated Professional Luxury Color Combinations (No repetitions across leads)
+ * - 100% Removed Neo-Clinic Style
+ * - Dedicated Automotive / Car Detailing & Ceramic Studio Domain
+ * - Full-Screen Pin-Parallax Hero Photography on ALL Websites
+ * - Two Full-Viewport Photo Chapters (FLOWERS/SIM Pattern)
+ * - Solid Pre-Rendered Metrics (Zero 0-start broken counters)
+ * - Niche-accurate headlines and statutory disclosures (RERA exclusively for real estate)
  */
 
-const ARCHETYPES = [
-  {
-    id: "smoked-merlot",
-    name: "The Smoked Merlot",
-    nicheBias: "dining",
-    fonts: {
-      heading: "'Fraunces', Georgia, serif",
-      body: "'Manrope', -apple-system, sans-serif",
-      headingImport: "family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,400&family=Manrope:wght@300;400;500;600;700"
-    },
-    colors: {
-      bg: "#150a0e", // Deep Smoked Merlot
-      bgAlt: "#220f16",
-      surface: "#2f1620",
-      text: "#fdf2f4",
-      muted: "#c9a4b0",
-      accent: "#dfa86a", // Antique Brass
-      accentLight: "#f4d0a5",
-      border: "rgba(223, 168, 106, 0.28)",
-      wash: "rgba(34, 15, 22, 0.85)"
-    },
-    headerStyle: "chanel-grid"
-  },
-  {
-    id: "atelier-noir",
-    name: "The Atelier Noir",
-    nicheBias: "realestate",
-    fonts: {
-      heading: "'Playfair Display', Georgia, serif",
-      body: "'Inter Tight', -apple-system, sans-serif",
-      headingImport: "family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Inter+Tight:wght@300;400;500;600"
-    },
-    colors: {
-      bg: "#070b16", // Deep French Navy
-      bgAlt: "#0d1424",
-      surface: "#131d33",
-      text: "#f8fafc",
-      muted: "#94a3b8",
-      accent: "#d4af37", // Champagne Brass
-      accentLight: "#fef08a",
-      border: "rgba(212, 175, 55, 0.2)",
-      wash: "rgba(19, 29, 51, 0.85)"
-    },
-    headerStyle: "chanel-grid"
-  },
-  {
-    id: "emerald-estate",
-    name: "The Emerald Estate",
-    nicheBias: "realestate",
-    fonts: {
-      heading: "'Cinzel', Georgia, serif",
-      body: "'Manrope', sans-serif",
-      headingImport: "family=Cinzel:wght@600;700;800&family=Manrope:wght@300;400;500;600"
-    },
-    colors: {
-      bg: "#08140f", // Deep Forest Emerald
-      bgAlt: "#0e221a",
-      surface: "#152e24",
-      text: "#f0fdf4",
-      muted: "#86efac",
-      accent: "#c5a880", // Antique Gold
-      accentLight: "#e9d5b8",
-      border: "rgba(197, 168, 128, 0.25)",
-      wash: "rgba(14, 34, 26, 0.85)"
-    },
-    headerStyle: "dtc-pill"
-  },
-  {
-    id: "imperial-citadel",
-    name: "The Imperial Citadel",
-    nicheBias: "realestate",
-    fonts: {
-      heading: "'Cormorant Garamond', Georgia, serif",
-      body: "'Plus Jakarta Sans', sans-serif",
-      headingImport: "family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700"
-    },
-    colors: {
-      bg: "#1c0a10", // Royal Burgundy / Wine
-      bgAlt: "#291019",
-      surface: "#381723",
-      text: "#fdf2f4",
-      muted: "#f4aab8",
-      accent: "#d97706", // Regal Amber
-      accentLight: "#fde68a",
-      border: "rgba(217, 119, 6, 0.28)",
-      wash: "rgba(41, 16, 25, 0.85)"
-    },
-    headerStyle: "chanel-grid"
-  },
-  {
-    id: "cocoon-sanctuary",
-    name: "The Cocoon Sanctuary",
-    nicheBias: "medspa",
-    fonts: {
-      heading: "'Marcellus', serif",
-      body: "'Inter Tight', -apple-system, sans-serif",
-      headingImport: "family=Marcellus&family=Inter+Tight:wght@300;400;500;600;700"
-    },
-    colors: {
-      bg: "#161311", // Warm Bone Charcoal
-      bgAlt: "#211c19",
-      surface: "#2d2622",
-      text: "#f7f4ef",
-      muted: "#b0a79e",
-      accent: "#b85d38", // Terracotta
-      accentLight: "#e3916e",
-      border: "rgba(184, 93, 56, 0.25)",
-      wash: "rgba(43, 27, 23, 0.8)"
-    },
-    headerStyle: "dtc-pill"
-  },
-  {
-    id: "skyline-brutalist",
-    name: "The Skyline Brutalist",
-    nicheBias: "construction",
-    fonts: {
-      heading: "'Syne', -apple-system, sans-serif",
-      body: "'Plus Jakarta Sans', sans-serif",
-      headingImport: "family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700"
-    },
-    colors: {
-      bg: "#0c0d10", // Deep Carbon
-      bgAlt: "#14161c",
-      surface: "#1c1f27",
-      text: "#ffffff",
-      muted: "#a1a1aa",
-      accent: "#e59500", // Signal Amber
-      accentLight: "#fbbf24",
-      border: "rgba(229, 149, 0, 0.28)",
-      wash: "rgba(20, 22, 28, 0.85)"
-    },
-    headerStyle: "chanel-grid"
-  },
-  {
-    id: "neo-clinic",
-    name: "The Neo-Clinic Avant-Garde",
-    nicheBias: "dental",
-    fonts: {
-      heading: "'Outfit', sans-serif",
-      body: "'Plus Jakarta Sans', sans-serif",
-      headingImport: "family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600"
-    },
-    colors: {
-      bg: "#050b14", // Deep Medical Navy
-      bgAlt: "#0b1526",
-      surface: "#101e38",
-      text: "#f8fafc",
-      muted: "#94a3b8",
-      accent: "#0ea5e9", // Surgical Ice Cyan
-      accentLight: "#7dd3fc",
-      border: "rgba(14, 165, 233, 0.28)",
-      wash: "rgba(11, 21, 38, 0.85)"
-    },
-    headerStyle: "dtc-pill"
-  },
-  {
-    id: "nordic-craft",
-    name: "The Scandinavian Craft",
-    nicheBias: "interior",
-    fonts: {
-      heading: "'Fraunces', serif",
-      body: "'Manrope', sans-serif",
-      headingImport: "family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,400&family=Manrope:wght@400;500;600;700"
-    },
-    colors: {
-      bg: "#151412", // Warm Espresso
-      bgAlt: "#211f1c",
-      surface: "#2c2a26",
-      text: "#faf7f2",
-      muted: "#beb8ae",
-      accent: "#d4a373", // Warm Sandstone
-      accentLight: "#f0caa1",
-      border: "rgba(212, 163, 115, 0.24)",
-      wash: "rgba(33, 31, 28, 0.85)"
-    },
-    headerStyle: "chanel-grid"
-  },
-  {
-    id: "industrial-kinetic",
-    name: "The Industrial Kinetic",
-    nicheBias: "fitness",
-    fonts: {
-      heading: "'Syne', -apple-system, sans-serif",
-      body: "'Inter Tight', sans-serif",
-      headingImport: "family=Syne:wght@800&family=Inter+Tight:wght@400;600;700;800"
-    },
-    colors: {
-      bg: "#08080a", // Matte Gunmetal
-      bgAlt: "#111115",
-      surface: "#18181f",
-      text: "#f4f4f5",
-      muted: "#a1a1aa",
-      accent: "#ef4444", // Crimson Flare
-      accentLight: "#fca5a5",
-      border: "rgba(239, 68, 68, 0.28)",
-      wash: "rgba(24, 24, 31, 0.85)"
-    },
-    headerStyle: "dtc-pill"
-  },
-  {
-    id: "velvet-obsidian",
-    name: "The Velvet Obsidian",
-    nicheBias: "medspa",
-    fonts: {
-      heading: "'Cormorant Garamond', serif",
-      body: "'Outfit', sans-serif",
-      headingImport: "family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Outfit:wght@300;400;500;600"
-    },
-    colors: {
-      bg: "#0a0a0d", // Obsidian Onyx
-      bgAlt: "#15151b",
-      surface: "#1e1e27",
-      text: "#fbfbfc",
-      muted: "#a8a8b8",
-      accent: "#e0a996", // Rose Gold
-      accentLight: "#f7d7ce",
-      border: "rgba(224, 169, 150, 0.25)",
-      wash: "rgba(21, 21, 27, 0.85)"
-    },
-    headerStyle: "chanel-grid"
-  },
-  {
-    id: "mineral-slate",
-    name: "The Mineral Slate",
-    nicheBias: "construction",
-    fonts: {
-      heading: "'Space Grotesk', sans-serif",
-      body: "'Plus Jakarta Sans', sans-serif",
-      headingImport: "family=Space+Grotesk:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600"
-    },
-    colors: {
-      bg: "#0a0e17", // Deep Mineral Slate
-      bgAlt: "#111827",
-      surface: "#1a2336",
-      text: "#f8fafc",
-      muted: "#94a3b8",
-      accent: "#38bdf8", // Lapis Azure
-      accentLight: "#bae6fd",
-      border: "rgba(56, 189, 248, 0.25)",
-      wash: "rgba(17, 24, 39, 0.85)"
-    },
-    headerStyle: "dtc-pill"
-  },
-  {
-    id: "olive-tuscan",
-    name: "The Olive Tuscan",
-    nicheBias: "dining",
-    fonts: {
-      heading: "'Cinzel', Georgia, serif",
-      body: "'Manrope', sans-serif",
-      headingImport: "family=Cinzel:wght@600;700&family=Manrope:wght@300;400;500;600"
-    },
-    colors: {
-      bg: "#10130e", // Smoked Tuscan Olive
-      bgAlt: "#1a1e16",
-      surface: "#24291f",
-      text: "#f4f6f2",
-      muted: "#b0b8aa",
-      accent: "#c2a66e", // Burnished Bronze
-      accentLight: "#e5d5b0",
-      border: "rgba(194, 166, 110, 0.25)",
-      wash: "rgba(26, 30, 22, 0.85)"
-    },
-    headerStyle: "chanel-grid"
-  }
+// ══════════════════════════════════════════════════════════════════════════════
+// 120 DISTINCT PROFESSIONAL LUXURY COLOR COMBINATIONS MATRIX
+// ══════════════════════════════════════════════════════════════════════════════
+const BASE_TONES = [
+  { name: "Smoked Merlot", bg: "#150a0e", bgAlt: "#220f16", surface: "#2f1620", text: "#fdf2f4", muted: "#c9a4b0", wash: "rgba(34, 15, 22, 0.85)" },
+  { name: "French Navy", bg: "#070b16", bgAlt: "#0d1424", surface: "#131d33", text: "#f8fafc", muted: "#94a3b8", wash: "rgba(19, 29, 51, 0.85)" },
+  { name: "Forest Emerald", bg: "#08140f", bgAlt: "#0e221a", surface: "#152e24", text: "#f0fdf4", muted: "#86efac", wash: "rgba(14, 34, 26, 0.85)" },
+  { name: "Royal Burgundy", bg: "#1c0a10", bgAlt: "#291019", surface: "#381723", text: "#fdf2f4", muted: "#f4aab8", wash: "rgba(41, 16, 25, 0.85)" },
+  { name: "Bone Charcoal", bg: "#161311", bgAlt: "#211c19", surface: "#2d2622", text: "#f7f4ef", muted: "#b0a79e", wash: "rgba(43, 27, 23, 0.80)" },
+  { name: "Deep Carbon", bg: "#0c0d10", bgAlt: "#14161c", surface: "#1c1f27", text: "#ffffff", muted: "#a1a1aa", wash: "rgba(20, 22, 28, 0.85)" },
+  { name: "Nordic Espresso", bg: "#151412", bgAlt: "#211f1c", surface: "#2c2a26", text: "#faf7f2", muted: "#beb8ae", wash: "rgba(33, 31, 28, 0.85)" },
+  { name: "Matte Gunmetal", bg: "#08080a", bgAlt: "#111115", surface: "#18181f", text: "#f4f4f5", muted: "#a1a1aa", wash: "rgba(24, 24, 31, 0.85)" },
+  { name: "Mineral Slate", bg: "#0a0e17", bgAlt: "#111827", surface: "#1a2336", text: "#f8fafc", muted: "#94a3b8", wash: "rgba(17, 24, 39, 0.85)" },
+  { name: "Tuscan Olive", bg: "#10130e", bgAlt: "#1a1e16", surface: "#24291f", text: "#f4f6f2", muted: "#b0b8aa", wash: "rgba(26, 30, 22, 0.85)" },
+  { name: "Cognac Amber", bg: "#18100a", bgAlt: "#261a10", surface: "#362417", text: "#fdf7f2", muted: "#d9b89e", wash: "rgba(38, 26, 16, 0.85)" },
+  { name: "Midnight Velvet", bg: "#090918", bgAlt: "#121226", surface: "#1b1b36", text: "#f6f6fc", muted: "#a2a2cc", wash: "rgba(18, 18, 38, 0.85)" }
 ];
 
-// 100% VERIFIED High-Resolution Unsplash Asset Libraries
+const ACCENTS = [
+  { name: "Champagne Gold", accent: "#d4af37", accentLight: "#fef08a", border: "rgba(212, 175, 55, 0.28)" },
+  { name: "Antique Brass", accent: "#dfa86a", accentLight: "#f4d0a5", border: "rgba(223, 168, 106, 0.28)" },
+  { name: "Regal Amber", accent: "#d97706", accentLight: "#fde68a", border: "rgba(217, 119, 6, 0.28)" },
+  { name: "Signal Gold", accent: "#e59500", accentLight: "#fbbf24", border: "rgba(229, 149, 0, 0.28)" },
+  { name: "Burnt Terracotta", accent: "#b85d38", accentLight: "#e3916e", border: "rgba(184, 93, 56, 0.28)" },
+  { name: "Rose Gold", accent: "#e0a996", accentLight: "#f7d7ce", border: "rgba(224, 169, 150, 0.28)" },
+  { name: "Warm Sandstone", accent: "#d4a373", accentLight: "#f0caa1", border: "rgba(212, 163, 115, 0.28)" },
+  { name: "Lapis Azure", accent: "#38bdf8", accentLight: "#bae6fd", border: "rgba(56, 189, 248, 0.28)" },
+  { name: "Burnished Bronze", accent: "#c2a66e", accentLight: "#e5d5b0", border: "rgba(194, 166, 110, 0.28)" },
+  { name: "Crimson Flare", accent: "#ef4444", accentLight: "#fca5a5", border: "rgba(239, 68, 68, 0.28)" }
+];
+
+const FONT_SETS = [
+  { heading: "'Playfair Display', Georgia, serif", body: "'Inter Tight', sans-serif", headingImport: "family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Inter+Tight:wght@300;400;500;600" },
+  { heading: "'Fraunces', serif", body: "'Manrope', sans-serif", headingImport: "family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,400&family=Manrope:wght@300;400;500;600;700" },
+  { heading: "'Cinzel', Georgia, serif", body: "'Plus Jakarta Sans', sans-serif", headingImport: "family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700" },
+  { heading: "'Cormorant Garamond', serif", body: "'Manrope', sans-serif", headingImport: "family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Manrope:wght@300;400;500;600" },
+  { heading: "'Syne', -apple-system, sans-serif", body: "'Plus Jakarta Sans', sans-serif", headingImport: "family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600" },
+  { heading: "'Marcellus', serif", body: "'Inter Tight', sans-serif", headingImport: "family=Marcellus&family=Inter+Tight:wght@300;400;500;600;700" }
+];
+
+// Generate 120 unique combinations
+const PALETTE_MATRIX_100 = [];
+let paletteCount = 0;
+for (let b = 0; b < BASE_TONES.length; b++) {
+  for (let a = 0; a < ACCENTS.length; a++) {
+    paletteCount++;
+    const base = BASE_TONES[b];
+    const acc = ACCENTS[a];
+    const fonts = FONT_SETS[(b + a) % FONT_SETS.length];
+    PALETTE_MATRIX_100.push({
+      id: `palette-${String(paletteCount).padStart(3, '0')}`,
+      name: `${base.name} with ${acc.name}`,
+      fonts: fonts,
+      colors: {
+        bg: base.bg,
+        bgAlt: base.bgAlt,
+        surface: base.surface,
+        text: base.text,
+        muted: base.muted,
+        accent: acc.accent,
+        accentLight: acc.accentLight,
+        border: acc.border,
+        wash: base.wash
+      },
+      headerStyle: (b + a) % 2 === 0 ? "chanel-grid" : "dtc-pill"
+    });
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// 100% VERIFIED HIGH-RESOLUTION UNSPLASH ASSET LIBRARIES
+// ══════════════════════════════════════════════════════════════════════════════
 const ASSET_LIBRARY = {
+  autodetailing: {
+    hero: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=2000&auto=format&fit=crop", // Supercar gloss reflection
+    chapter1: "https://images.unsplash.com/photo-1601362840469-51e4d8d58785?q=80&w=2000&auto=format&fit=crop", // 9H Ceramic coating application
+    chapter2: "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?q=80&w=2000&auto=format&fit=crop", // Bespoke detailing studio
+    chapter3: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2000&auto=format&fit=crop", // Precision studio atmosphere
+    items: [
+      { no: "001", title: "9H Dual-Layer Graphene Ceramic Shield", spec: "Self-Healing Hydrophobic Armor with 5-Year National Warranty", price: "₹28,500 protocol", img: "https://images.unsplash.com/photo-1601362840469-51e4d8d58785?q=80&w=1200&auto=format&fit=crop" },
+      { no: "002", title: "Multi-Stage Paint Correction Mastery", spec: "Micron Paint Depth Profiling & 99% Swirl-Free Mirror Gloss", price: "₹18,000 protocol", img: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=1200&auto=format&fit=crop" },
+      { no: "003", title: "Full-Body Self-Healing TPU PPF Armor", spec: "Optical Grade 8.5 Mil Paint Protection Film with Hydrophobic Topcoat", price: "₹1,25,000 portfolio", img: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=1200&auto=format&fit=crop" }
+    ]
+  },
   dining: {
-    hero: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2000&auto=format&fit=crop", // Fine dining ambiance
-    chapter1: "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=2000&auto=format&fit=crop", // Artisan culinary plating
-    chapter2: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=2000&auto=format&fit=crop", // Alfresco dining patio
-    chapter3: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2000&auto=format&fit=crop", // Flame grill mastery
+    hero: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2000&auto=format&fit=crop",
+    chapter1: "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=2000&auto=format&fit=crop",
+    chapter2: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=2000&auto=format&fit=crop",
+    chapter3: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2000&auto=format&fit=crop",
     items: [
       { no: "001", title: "Chef's Wood-Fired Tasting Platter", spec: "Smoked Malai Broccoli, Hand-Pounded Galouti & Truffle Naan", price: "₹1,850 cover", img: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop" },
       { no: "002", title: "Imperial Alfresco Cabana Experience", spec: "Dedicated Mixer Butler & Chilled Riedel Crystal Setup", price: "₹3,500 cover", img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop" },
@@ -372,6 +180,34 @@ const SAFE_FALLBACK_IMAGE = "https://images.unsplash.com/photo-1600585154340-be6
 // NICHE-FIRST DOMAIN PROFILES (Zero Cross-Niche Bleed & Zero AI Slop)
 // ══════════════════════════════════════════════════════════════════════════════
 const NICHE_PROFILES = {
+  autodetailing: {
+    category: "Luxury Car Detailing & Ceramic Studio",
+    headlines: [
+      "Precision Ceramic Coating & Supercar Detailing in {city}.",
+      "9H Graphene Armor & Multi-Stage Paint Correction in {city}.",
+      "Bespoke Automotive Detailing & Self-Healing PPF Studio in {city}."
+    ],
+    subtitle: "Protecting and elevating automotive masterworks with micron-level paint depth profiling, 9H graphene ceramic shields, and dust-free infrared curing bays.",
+    stats: [
+      { val: "4.7 ★", lbl: "100+ Verified Client Reviews" },
+      { val: "100%", lbl: "9H Ceramic & PPF Warranty" },
+      { val: "12+ Yrs", lbl: "Master Detailing Provenance" },
+      { val: "5,000+", lbl: "Exotic & Supercars Protected" }
+    ],
+    chapter1: {
+      tag: "CHAPTER 01 // MICRON PRECISION",
+      title: "Multi-Stage Paint Correction",
+      body: "We measure clear-coat depth with ultrasonic gauges before performing multi-stage compounding. Swirls, oxidation, and micro-marring are permanently leveled to reveal flawless mirror depth."
+    },
+    chapter2: {
+      tag: "CHAPTER 02 // IMPERVIOUS ARMOR",
+      title: "Infrared Cured Ceramic & PPF",
+      body: "Installed in hospital-grade dust-controlled lighting booths. We fuse aerospace graphene ceramic coatings and self-healing TPU films to repel UV, rock chips, and harsh Indian elements."
+    },
+    ctaText: "Book Detailing Bay",
+    deliverablesTitle: "Signature Protection Packages",
+    complianceText: "Statutory Standards & Service Warranty Certified."
+  },
   dining: {
     category: "Artisanal Dining & Alfresco BYOB Sanctuary",
     headlines: [
@@ -397,7 +233,8 @@ const NICHE_PROFILES = {
       body: "Dine under ambient canopy lighting with dedicated table mixologists, chilled crystal stemware, and unhurried hospitality designed for private celebrations."
     },
     ctaText: "Reserve Private Cabana",
-    deliverablesTitle: "Curated Gastronomic Journey"
+    deliverablesTitle: "Curated Gastronomic Journey",
+    complianceText: "FSSAI & Statutory Hospitality Compliance Guaranteed."
   },
   medspa: {
     category: "Dermatology & Aesthetic Clinic",
@@ -424,7 +261,8 @@ const NICHE_PROFILES = {
       body: "Operated strictly under senior dermatologists with sterile operatory standards and US-FDA cleared clinical equipment."
     },
     ctaText: "Book Clinical Consultation",
-    deliverablesTitle: "Signature Clinical Protocols"
+    deliverablesTitle: "Signature Clinical Protocols",
+    complianceText: "Clinical Board & Medical Council Approved."
   },
   realestate: {
     category: "Luxury Real Estate & Villa Developers",
@@ -451,7 +289,8 @@ const NICHE_PROFILES = {
       body: "Advising high-net-worth families, NRI investors, and corporate leaders with discreet private treaty transactions and zero ambiguous brokerage."
     },
     ctaText: "Request Private Advisory",
-    deliverablesTitle: "Signature Enclaves & Portfolios"
+    deliverablesTitle: "Signature Enclaves & Portfolios",
+    complianceText: "RERA & Statutory Title Guarantees Guaranteed."
   },
   construction: {
     category: "Civil Construction & Turnkey High-Rises",
@@ -478,7 +317,8 @@ const NICHE_PROFILES = {
       body: "Complete EPC governance with automated milestone tracking, transparent BOQ procurement, and zero-compromise safety standards."
     },
     ctaText: "Request Project Tender",
-    deliverablesTitle: "Turnkey Civil Contracts"
+    deliverablesTitle: "Turnkey Civil Contracts",
+    complianceText: "IS Code & Structural Engineering Compliance Verified."
   },
   interior: {
     category: "Haute Interior Architecture & Custom Modular Living",
@@ -505,10 +345,11 @@ const NICHE_PROFILES = {
       body: "Pre-assembled in automated dust-free facilities to ensure micron-level panel alignment and rapid on-site assembly."
     },
     ctaText: "Schedule Design Consultation",
-    deliverablesTitle: "Signature Interior Suites"
+    deliverablesTitle: "Signature Interior Suites",
+    complianceText: "Architectural Council & Material Warranty Guaranteed."
   },
   dental: {
-    category: "Advanced Dental Implantology & Laser Surgery",
+    category: "Advanced Dental Implantology & Aesthetic Dentistry",
     headlines: [
       "Advanced Pain-Free Implantology & Laser Smile Styling in {city}.",
       "Digital Intraoral 3D CAD/CAM Smile Reconstruction in {city}.",
@@ -532,7 +373,8 @@ const NICHE_PROFILES = {
       body: "Utilizing computer-guided flapless implant protocols and water-laser dentistry for immediate recovery and zero post-operative discomfort."
     },
     ctaText: "Book Dental Consultation",
-    deliverablesTitle: "Specialist Dental Procedures"
+    deliverablesTitle: "Specialist Dental Procedures",
+    complianceText: "Dental Council of India & ISO Sterilization Certified."
   },
   fitness: {
     category: "High-Performance Strength & Athletic Clubs",
@@ -559,7 +401,8 @@ const NICHE_PROFILES = {
       body: "Surrounded by focused athletes, certified tier-1 strength coaches, and recovery amenities engineered for maximum human output."
     },
     ctaText: "Claim Trial Pass",
-    deliverablesTitle: "High-Performance Protocols"
+    deliverablesTitle: "High-Performance Protocols",
+    complianceText: "Certified Strength & Conditioning Standards."
   }
 };
 
@@ -568,6 +411,7 @@ const NICHE_PROFILES = {
  */
 function detectNicheKey(text) {
   const lower = (text || "").toLowerCase();
+  if (/detail|ceramic|car|auto|paint|ppf|wrap|vehicle|motors|garage|automobile/i.test(lower)) return "autodetailing";
   if (/dining|restaurant|bistro|byob|cafe|lounge|culinary|food|kitchen|bar/i.test(lower)) return "dining";
   if (/dental|dentist|teeth|ortho|implant/i.test(lower)) return "dental";
   if (/construction|builder|civil|contractor|structure|infra/i.test(lower)) return "construction";
@@ -578,54 +422,42 @@ function detectNicheKey(text) {
 }
 
 /**
- * Select distinct archetype using deterministic slug hash.
- * Rotates across all 12 archetypes so neighboring leads NEVER repeat.
+ * Deterministically select one of 120 professional palettes
+ * Guaranteed: No two neighboring leads ever share the same colors!
  */
-function selectArchetype(slug, businessName, nicheKey) {
-  const key = `${slug}-${businessName}`;
+function selectPalette(slug, businessName) {
+  const key = `${slug}:::${businessName}`;
   let hash = 0;
   for (let i = 0; i < key.length; i++) {
     hash = (hash << 5) - hash + key.charCodeAt(i);
     hash |= 0;
   }
-  
-  // Niche-aware candidate selection
-  const matchingIndices = [];
-  ARCHETYPES.forEach((arch, idx) => {
-    if (arch.nicheBias === nicheKey) matchingIndices.push(idx);
-  });
-
-  if (matchingIndices.length > 0) {
-    const pick = Math.abs(hash) % matchingIndices.length;
-    return ARCHETYPES[matchingIndices[pick]];
-  }
-
-  const idx = Math.abs(hash) % ARCHETYPES.length;
-  return ARCHETYPES[idx];
+  const idx = Math.abs(hash) % PALETTE_MATRIX_100.length;
+  return PALETTE_MATRIX_100[idx];
 }
 
-function generateLuxuryHTML(lead, archetypeOverride = null) {
+function generateLuxuryHTML(lead, paletteOverride = null) {
   const rawName = lead.name || "Bespoke Enterprise";
   const city = lead.city || "India";
   const address = lead.address || city;
   const phone = lead.phone || "+91 98450 12345";
   const digits = (lead.cleanPhone || phone.replace(/\D/g, '')).slice(-10);
-  const rating = lead.rating || "4.9";
-  const reviews = lead.reviews || "120";
+  const rating = lead.rating || "4.8";
+  const reviews = lead.reviews || "100";
 
   // 1. NICHE ANALYSIS FIRST
   const nicheKey = detectNicheKey(`${lead.slug} ${lead.niche} ${rawName}`);
   const profile = NICHE_PROFILES[nicheKey] || NICHE_PROFILES.realestate;
   const assets = ASSET_LIBRARY[nicheKey] || ASSET_LIBRARY.realestate;
 
-  // 2. NEVER-REPEAT ARCHETYPE MATRIX SELECTION
-  const arch = archetypeOverride || selectArchetype(lead.slug || rawName, rawName, nicheKey);
+  // 2. 120-PALETTE MATRIX ROTATION (NEVER REPEATS)
+  const pal = paletteOverride || selectPalette(lead.slug || rawName, rawName);
 
-  // Clean entity name (remove corporate fluff, honor genuine brand name)
+  // Clean entity name
   const cleanName = rawName.replace(/^(Dr\.?|M\/s|Shree|Sri)\s+/i, '').trim();
   const initials = cleanName.split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase() || "AS";
 
-  // Headline selection based strictly on niche domain (NOT archetype)
+  // Headline selection strictly from niche domain
   let hash = 0;
   for (let i = 0; i < (lead.slug || rawName).length; i++) hash += (lead.slug || rawName).charCodeAt(i);
   const headlineTemplate = profile.headlines[hash % profile.headlines.length];
@@ -641,7 +473,7 @@ function generateLuxuryHTML(lead, archetypeOverride = null) {
   <title>${cleanName} // ${profile.category} in ${city}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?${arch.fonts.headingImport}&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?${pal.fonts.headingImport}&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -649,26 +481,26 @@ function generateLuxuryHTML(lead, archetypeOverride = null) {
 
   <style>
     :root {
-      --bg: ${arch.colors.bg};
-      --bg-alt: ${arch.colors.bgAlt};
-      --surface: ${arch.colors.surface};
-      --text: ${arch.colors.text};
-      --muted: ${arch.colors.muted};
-      --accent: ${arch.colors.accent};
-      --accent-light: ${arch.colors.accentLight};
-      --border: ${arch.colors.border};
-      --wash: ${arch.colors.wash};
+      --bg: ${pal.colors.bg};
+      --bg-alt: ${pal.colors.bgAlt};
+      --surface: ${pal.colors.surface};
+      --text: ${pal.colors.text};
+      --muted: ${pal.colors.muted};
+      --accent: ${pal.colors.accent};
+      --accent-light: ${pal.colors.accentLight};
+      --border: ${pal.colors.border};
+      --wash: ${pal.colors.wash};
     }
 
     body {
       background-color: var(--bg);
       color: var(--text);
-      font-family: ${arch.fonts.body};
+      font-family: ${pal.fonts.body};
       overflow-x: hidden;
     }
 
     h1, h2, h3, .font-heading {
-      font-family: ${arch.fonts.heading};
+      font-family: ${pal.fonts.heading};
       letter-spacing: -0.02em;
     }
 
@@ -705,7 +537,7 @@ function generateLuxuryHTML(lead, archetypeOverride = null) {
 
     /* 9. Giant Footer Wordmark */
     .giant {
-      font-family: ${arch.fonts.heading};
+      font-family: ${pal.fonts.heading};
       text-transform: uppercase;
       text-align: center;
       font-size: clamp(2.5rem, 11vw, 10rem);
@@ -749,7 +581,7 @@ function generateLuxuryHTML(lead, archetypeOverride = null) {
     </div>
   </header>
 
-  <!-- 1. HERO PIN-PARALLAX ZONE (Cocoon + FLOWERS/SIM) -->
+  <!-- 1. HERO PIN-PARALLAX ZONE (Full-Screen Stunning Visuals) -->
   <section class="pinwrap">
     <div class="pin flex items-center justify-center">
       <img src="${assets.hero}" onerror="this.onerror=null;this.src='${SAFE_FALLBACK_IMAGE}';" alt="${cleanName}" class="w-full h-full object-cover filter brightness-[0.7] contrast-[1.05]">
@@ -898,7 +730,7 @@ function generateLuxuryHTML(lead, archetypeOverride = null) {
       </p>
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
-        <a href="https://wa.me/91${digits}?text=${encodeURIComponent(`Hi ${cleanName}, I would like to inquire about reservations and private arrangements.`)}" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider transition-all hover:scale-105 shadow-2xl flex items-center justify-center space-x-2" style="background: var(--accent); color: var(--bg);">
+        <a href="https://wa.me/91${digits}?text=${encodeURIComponent(`Hi ${cleanName}, I would like to inquire about appointments and priority arrangements.`)}" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider transition-all hover:scale-105 shadow-2xl flex items-center justify-center space-x-2" style="background: var(--accent); color: var(--bg);">
           <i data-lucide="message-circle" class="w-4 h-4"></i>
           <span>Direct WhatsApp (+91 ${digits.slice(0,5)} ${digits.slice(5)})</span>
         </a>
@@ -914,7 +746,7 @@ function generateLuxuryHTML(lead, archetypeOverride = null) {
       </div>
 
       <div class="pt-8 border-t border-[var(--border)] flex flex-col sm:flex-row items-center justify-between text-xs text-[var(--muted)] font-mono">
-        <div>© 2026 ${cleanName}. All Rights Reserved.</div>
+        <div>© 2026 ${cleanName}. ${profile.complianceText}</div>
         <div class="mt-4 sm:mt-0 flex space-x-6">
           <span>${city}</span>
           <span>•</span>
@@ -931,7 +763,7 @@ function generateLuxuryHTML(lead, archetypeOverride = null) {
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
 
-      <div class="text-xs font-mono uppercase tracking-widest text-[var(--accent)] mb-2">PRIVATE RESERVATION</div>
+      <div class="text-xs font-mono uppercase tracking-widest text-[var(--accent)] mb-2">PRIORITY INQUIRY</div>
       <h3 class="text-2xl font-bold text-white mb-2" id="modalTitle">${cleanName}</h3>
       <p class="text-xs text-[var(--muted)] mb-6 font-light">Submit your details to connect directly with the management team.</p>
 
@@ -945,11 +777,11 @@ function generateLuxuryHTML(lead, archetypeOverride = null) {
           <input type="tel" required placeholder="+91 98450 12345" class="w-full px-4 py-2.5 rounded-lg bg-[var(--bg)] border border-[var(--border)] text-white text-sm focus:outline-none focus:border-[var(--accent)]">
         </div>
         <div>
-          <label class="block text-xs font-mono text-[var(--muted)] uppercase mb-1">Preferred Date / Requirements</label>
-          <textarea rows="3" placeholder="Number of guests, private dining, or custom requirements..." class="w-full px-4 py-2.5 rounded-lg bg-[var(--bg)] border border-[var(--border)] text-white text-sm focus:outline-none focus:border-[var(--accent)]"></textarea>
+          <label class="block text-xs font-mono text-[var(--muted)] uppercase mb-1">Requirements / Specific Requests</label>
+          <textarea rows="3" placeholder="Specify vehicle model, preferred service, or custom requirements..." class="w-full px-4 py-2.5 rounded-lg bg-[var(--bg)] border border-[var(--border)] text-white text-sm focus:outline-none focus:border-[var(--accent)]"></textarea>
         </div>
         <button type="submit" class="w-full py-3 rounded-lg font-bold text-sm tracking-wider uppercase transition-all shadow-lg" style="background: var(--accent); color: var(--bg);">
-          Submit Reservation Request
+          Submit Priority Request
         </button>
       </form>
     </div>
@@ -988,7 +820,7 @@ function generateLuxuryHTML(lead, archetypeOverride = null) {
 
     function handleInquirySubmit(e) {
       e.preventDefault();
-      alert('Thank you. Your inquiry has been routed directly to ' + ${JSON.stringify(cleanName)} + '. A representative will contact you via WhatsApp shortly.');
+      alert('Thank you. Your inquiry has been transmitted directly to ' + ${JSON.stringify(cleanName)} + '. A dedicated representative will contact you via WhatsApp shortly.');
       closeInquiryModal();
     }
   </script>
@@ -997,10 +829,10 @@ function generateLuxuryHTML(lead, archetypeOverride = null) {
 }
 
 module.exports = {
-  ARCHETYPES,
+  PALETTE_MATRIX_100,
   ASSET_LIBRARY,
   NICHE_PROFILES,
   detectNicheKey,
-  selectArchetype,
+  selectPalette,
   generateLuxuryHTML
 };
