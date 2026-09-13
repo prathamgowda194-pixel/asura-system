@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>India Sotheby's International Realty | Luxury Estates & Sky Villas Pune</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#05070c',
+                        'obsidian-card': '#0b0f19',
+                        'obsidian-light': '#131926',
+                        gold: {
+                            DEFAULT: '#d4af37',
+                            light: '#f3e5ab',
+                            dark: '#aa820a',
+                            glow: 'rgba(212, 175, 55, 0.25)'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Custom Ultra-Luxury Scrollbar & Glass Effects */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #05070c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 3px;
+        }
+        
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fff7d6 0%, #d4af37 50%, #997a15 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-border-glow {
+            box-shadow: 0 0 25px -5px rgba(212, 175, 55, 0.2);
+        }
+
+        .glass-panel {
+            background: rgba(11, 15, 25, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .hero-mask {
+            background: radial-gradient(circle at center, rgba(5,7,12,0.3) 0%, rgba(5,7,12,0.95) 100%);
+        }
+
+        /* Range Slider Styling */
+        input[type=range] {
+            accent-color: #d4af37;
+        }
+    </style>
+</head>
+<body class="bg-obsidian text-slate-200 font-sans selection:bg-gold selection:text-obsidian overflow-x-hidden">
+
+    <!-- Sticky Navigation -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b border-white/5 py-4">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-sm border border-gold/40 flex items-center justify-center bg-obsidian-card group-hover:border-gold transition-colors">
+                    <span class="font-serif text-gold font-bold text-xl tracking-wider">S</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-serif text-lg tracking-widest text-white font-semibold leading-tight group-hover:text-gold transition-colors">SOTHEBY'S</span>
+                    <span class="text-[9px] uppercase tracking-[0.25em] text-gold/80 font-medium">International Realty | Pune</span>
+                </div>
+            </a>
+
+            <!-- Nav Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm uppercase tracking-widest text-slate-300 font-medium">
+                <a href="#residences" class="hover:text-gold transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-gold hover:after:w-full after:transition-all">Residences</a>
+                <a href="#micromarkets" class="hover:text-gold transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-gold hover:after:w-full after:transition-all">Micro-Markets</a>
+                <a href="#calculator" class="hover:text-gold transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-gold hover:after:w-full after:transition-all">Investment ROI</a>
+                <a href="#amenities" class="hover:text-gold transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-gold hover:after:w-full after:transition-all">Private Lifestyle</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-4">
+                <a href="tel:+919810823600" class="hidden sm:flex items-center gap-2 text-xs uppercase tracking-wider text-slate-300 hover:text-gold transition-colors border border-white/10 rounded-full px-4 py-2 bg-white/[0.02]">
+                    <i data-lucide="phone" class="w-3.5 h-3.5 text-gold"></i>
+                    <span>+91 98108 23600</span>
+                </a>
+                <button onclick="openBookingModal('Private Viewing Request')" class="relative group overflow-hidden rounded-full p-[1px] focus:outline-none">
+                    <span class="absolute inset-0 bg-gradient-to-r from-gold via-yellow-200 to-gold rounded-full opacity-70 group-hover:opacity-100 transition-opacity"></span>
+                    <span class="relative block px-6 py-2.5 rounded-full bg-obsidian text-gold group-hover:bg-gold group-hover:text-obsidian font-semibold text-xs tracking-wider uppercase transition-all duration-300">
+                        Request Private Tour
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden">
+        <!-- Background Imagery & Gradient Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=90" alt="Luxury Villa Pune" class="w-full h-full object-cover object-center scale-105 transform animate-pulse duration-[10000ms]">
+            <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/80 to-obsidian/40"></div>
+            <div class="absolute inset-0 hero-mask"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 text-center mt-12">
+            <!-- RERA & Distinction Badge -->
+            <div class="reveal inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold/30 bg-obsidian-card/90 backdrop-blur-md mb-8">
+                <i data-lucide="shield-check" class="w-4 h-4 text-gold"></i>
+                <span class="text-xs uppercase tracking-[0.2em] font-medium text-gold">MahaRERA Registered & Curated Estates</span>
+            </div>
+
+            <!-- Main Title -->
+            <h1 class="reveal font-serif text-4xl md:text-6xl lg:text-7xl font-light text-white leading-tight mb-6 max-w-5xl mx-auto">
+                Architectural Masterpieces & Sky Mansions in <span class="gold-gradient-text italic font-normal">Pune</span>
+            </h1>
+
+            <p class="reveal text-slate-300 text-base md:text-xl max-w-3xl mx-auto font-light leading-relaxed mb-10">
+                Exclusive collection of ultra-luxury residences in Koregaon Park, Boat Club Road, and Kalyani Nagar. Crafted for discerning global industrialists & leaders.
+            </p>
+
+            <!-- Hero CTAs -->
+            <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-5 mb-16">
+                <a href="#residences" class="w-full sm:w-auto px-8 py-4 bg-gold hover:bg-gold-light text-obsidian font-semibold text-xs uppercase tracking-widest rounded-full transition-all transform hover:-translate-y-0.5 shadow-lg shadow-gold/20 flex items-center justify-center gap-3">
+                    <span>Explore Portfolio</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+                <button onclick="openBookingModal('Hero VIP Dossier')" class="w-full sm:w-auto px-8 py-4 bg-obsidian-card/80 hover:bg-obsidian-light text-white border border-gold/30 hover:border-gold font-semibold text-xs uppercase tracking-widest rounded-full transition-all backdrop-blur-md flex items-center justify-center gap-3">
+                    <i data-lucide="download" class="w-4 h-4 text-gold"></i>
+                    <span>Download Confidential Dossier</span>
+                </button>
+            </div>
+
+            <!-- Stats Bar Banner -->
+            <div class="reveal max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 p-6 rounded-2xl glass-panel text-left">
+                <div class="border-r border-white/10 pr-4">
+                    <p class="text-xs uppercase tracking-widest text-slate-400 mb-1">Portfolio Value</p>
+                    <p class="font-serif text-2xl lg:text-3xl text-gold font-semibold flex items-center">
+                        <span class="counter" data-target="4800">0</span>+ Cr
+                    </p>
+                </div>
+                <div class="border-r border-white/10 pr-4 pl-2">
+                    <p class="text-xs uppercase tracking-widest text-slate-400 mb-1">Avg Villa Area</p>
+                    <p class="font-serif text-2xl lg:text-3xl text-white font-semibold">
+                        <span class="counter" data-target="7200">0</span> <span class="text-xs text-gold">Sq.Ft</span>
+                    </p>
+                </div>
+                <div class="border-r border-white/10 pr-4 pl-2">
+                    <p class="text-xs uppercase tracking-widest text-slate-400 mb-1">Clear Title Assurance</p>
+                    <p class="font-serif text-2xl lg:text-3xl text-gold font-semibold">100% Guaranteed</p>
+                </div>
+                <div class="pl-2">
+                    <p class="text-xs uppercase tracking-widest text-slate-400 mb-1">Prime Micro-Markets</p>
+                    <p class="font-serif text-2xl lg:text-3xl text-white font-semibold">Pune Prime</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Property Showcase Section -->
+    <section id="residences" class="py-24 relative bg-obsidian">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 border-b border-white/10 pb-8">
+                <div>
+                    <div class="flex items-center gap-2 text-gold text-xs uppercase tracking-widest mb-3 font-semibold">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                        <span>Curated Luxury Catalog</span>
+                    </div>
+                    <h2 class="font-serif text-3xl md:text-5xl font-light text-white">Signature Residences</h2>
+                </div>
+                <p class="text-slate-400 max-w-md text-sm mt-4 md:mt-0 leading-relaxed">
+                    Handpicked trophy properties featuring private infinity pools, high-security biometric access, and sprawling terraces.
+                </p>
+            </div>
+
+            <!-- Category Filter Tabs -->
+            <div class="flex flex-wrap items-center gap-3 mb-12">
+                <button onclick="filterProperties('all')" class="property-tab active px-6 py-2.5 rounded-full text-xs uppercase tracking-wider font-semibold border transition-all bg-gold text-obsidian border-gold" data-category="all">
+                    All Estates
+                </button>
+                <button onclick="filterProperties('sky-villas')" class="property-tab px-6 py-2.5 rounded-full text-xs uppercase tracking-wider font-semibold border border-white/10 text-slate-400 hover:text-white hover:border-gold/50 transition-all" data-category="sky-villas">
+                    Sky Villas & Penthouses
+                </button>
+                <button onclick="filterProperties('villas')" class="property-tab px-6 py-2.5 rounded-full text-xs uppercase tracking-wider font-semibold border border-white/10 text-slate-400 hover:text-white hover:border-gold/50 transition-all" data-category="villas">
+                    Bespoke Independent Villas
+                </button>
+                <button onclick="filterProperties('plots')" class="property-tab px-6 py-2.5 rounded-full text-xs uppercase tracking-wider font-semibold border border-white/10 text-slate-400 hover:text-white hover:border-gold/50 transition-all" data-category="plots">
+                    Signature Land Plots
+                </button>
+            </div>
+
+            <!-- Property Card Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="property-grid">
+                
+                <!-- Property 1 -->
+                <div class="property-card group bg-obsidian-card rounded-2xl overflow-hidden border border-white/10 hover:border-gold/40 transition-all duration-500 flex flex-col" data-type="sky-villas">
+                    <div class="relative overflow-hidden h-72">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80" alt="The Sovereign Sky Manor" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-obsidian-card via-transparent to-black/30"></div>
+                        <span class="absolute top-4 left-4 bg-obsidian/90 border border-gold/40 text-gold text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full backdrop-blur-md">
+                            Koregaon Park
+                        </span>
+                        <span class="absolute top-4 right-4 bg-gold text-obsidian font-bold text-xs px-3 py-1 rounded-full">
+                             14.50 Cr*
+                        </span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-serif text-2xl text-white font-normal mb-2 group-hover:text-gold transition-colors">The Sovereign Sky Manor</h3>
+                            <p class="text-slate-400 text-xs line-clamp-2 mb-6">Double-height glass curtain penthouse overlooking the lush foliage of Lane 6 Koregaon Park with private plunge pool.</p>
+                            
+                            <div class="grid grid-cols-3 gap-2 py-3 border-y border-white/10 text-xs text-slate-300 mb-6">
+                                <div class="flex items-center gap-1.5">
+                                    <i data-lucide="bed" class="w-4 h-4 text-gold"></i>
+                                    <span>5 BHK Sky Villa</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <i data-lucide="maximize" class="w-4 h-4 text-gold"></i>
+                                    <span>8,400 Sq.Ft</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <i data-lucide="layers" class="w-4 h-4 text-gold"></i>
+                                    <span>Top 2 Floors</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3 pt-2">
+                            <button onclick="openBookingModal('The Sovereign Sky Manor - Koregaon Park')" class="flex-1 py-3 bg-white/5 hover:bg-gold hover:text-obsidian text-white border border-white/10 text-xs uppercase tracking-wider font-semibold rounded-xl transition-all text-center">
+                                Schedule Tour
+                            </button>
+                            <button onclick="openBookingModal('Brochure Request - Sovereign Sky Manor')" class="p-3 bg-obsidian-light border border-white/10 hover:border-gold rounded-xl text-gold transition-all" title="Download Floor Plan">
+                                <i data-lucide="download" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 2 -->
+                <div class="property-card group bg-obsidian-card rounded-2xl overflow-hidden border border-white/10 hover:border-gold/40 transition-all duration-500 flex flex-col" data-type="villas">
+                    <div class="relative overflow-hidden h-72">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80" alt="The Imperial Crest Estate" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-obsidian-card via-transparent to-black/30"></div>
+                        <span class="absolute top-4 left-4 bg-obsidian/90 border border-gold/40 text-gold text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full backdrop-blur-md">
+                            Boat Club Road
+                        </span>
+                        <span class="absolute top-4 right-4 bg-gold text-obsidian font-bold text-xs px-3 py-1 rounded-full">
+                             22.00 Cr*
+                        </span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-serif text-2xl text-white font-normal mb-2 group-hover:text-gold transition-colors">The Imperial Crest Mansion</h3>
+                            <p class="text-slate-400 text-xs line-clamp-2 mb-6">Bespoke 3-level waterfront mansion featuring private riverfront lawns, heated lap pool, and 6-car basement garage.</p>
+                            
+                            <div class="grid grid-cols-3 gap-2 py-3 border-y border-white/10 text-xs text-slate-300 mb-6">
+                                <div class="flex items-center gap-
