@@ -12,6 +12,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const brandEngine = require('./brand_engine.cjs');
 
 // ── CONFIGURATION & CREDENTIALS ──────────────────────────────────────────────
 const CONFIG = {
@@ -51,7 +52,7 @@ const TARGET_NICHES = [
     name: 'Dental Clinic & Implantology Center',
     shortName: 'Dental Clinic',
     keywords: ['dental clinic', 'implantologist', 'cosmetic dental', 'root canal specialist'],
-    theme: 'light-cyan',
+    theme: 'bone-rosegold',
     currency: '₹',
     avgTicket: '₹15,000'
   },
@@ -292,29 +293,28 @@ async function broadcastLeadCard(lead, prototypeUrl) {
   const reviews = lead.reviews || "42";
 
   // Verified Vercel URL
-  const vercelUrl = `${CONFIG.VERCEL_BASE}/projects/${lead.slug}/index.html`;
-
-  let card = 
-    `🎯 <b>NEW VERIFIED INDIAN CLIENT // NO WEBSITE</b>\n` +
-    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-    `🏢 <b>Business:</b> <b>${escapeHtml(name)}</b>\n` +
-    `🏷 <b>Niche:</b> ${escapeHtml(niche)}\n` +
-    `📍 <b>Location:</b> ${escapeHtml(address)}\n` +
-    `📞 <b>Phone:</b> <code>${escapeHtml(phone)}</code>\n` +
-    `⭐ <b>Reputation:</b> ${rating} ★ (${reviews} Verified Reviews)\n` +
-    `🌐 <b>Online Status:</b> ❌ <b>NO OFFICIAL WEBSITE DETECTED</b>\n\n`;
+  const vercelUrl = `${CONFIG.VERCEL_BASE}/api/serve_project?slug=${lead.slug}`;
+  const archetype = lead.archetype || "Bespoke Luxury Matrix";
 
   let pitchMsg = "";
-  if (niche.toLowerCase().includes('real estate') || niche.toLowerCase().includes('villa')) {
+  const lowerNiche = (niche || "").toLowerCase();
+  if (lowerNiche.includes('dining') || lowerNiche.includes('restaurant') || lowerNiche.includes('byob') || lowerNiche.includes('bistro')) {
+    pitchMsg = `Hi ${name}! I noticed your dining venue in ${city}. Discerning guests expect an editorial interactive menu, alfresco cabana showcases, and seamless WhatsApp reservations. I custom-built this bespoke live website prototype for your brand: ${vercelUrl} . Would you like to review and claim it?`;
+  } else if (lowerNiche.includes('real estate') || lowerNiche.includes('villa') || lowerNiche.includes('property')) {
     pitchMsg = `Hi ${name}! I noticed your properties in ${city}. Today's high-net-worth buyers expect an immersive luxury website with floor plans and WhatsApp inquiry. I auto-built this bespoke live website prototype for your brand: ${vercelUrl} . Would you like to claim it?`;
+  } else if (lowerNiche.includes('car') || lowerNiche.includes('detail') || lowerNiche.includes('ceramic') || lowerNiche.includes('auto')) {
+    pitchMsg = `Hi ${name}! I noticed your detailing studio in ${city}. Supercar and luxury vehicle owners expect high-gloss portfolio showcases, ceramic coating warranty cards, and seamless WhatsApp bookings. I built this bespoke live website prototype for your studio: ${vercelUrl} . Would you like to review and claim it?`;
+  } else if (lowerNiche.includes('skin') || lowerNiche.includes('derma') || lowerNiche.includes('aesthetic') || lowerNiche.includes('clinic') || lowerNiche.includes('dental')) {
+    pitchMsg = `Hi ${name}! I noticed your clinic in ${city}. High-ticket patients look for verified clinical protocols, credentials, and 1-click consultation bookings. I designed this bespoke live website prototype for your clinic: ${vercelUrl} . Would you like to review and claim it?`;
   } else {
     pitchMsg = `Hi ${name}! I noticed your stellar reviews in ${city}, but you don't have an official website for clients to book consultations. I designed a custom live website prototype for you: ${vercelUrl} . Would you like to review and claim it?`;
   }
 
   card += 
+    `🎨 <b>Design Archetype:</b> <i>${escapeHtml(archetype)}</i>\n` +
     `⚡ <b>BESPOKE LIVE CLIENT PROTOTYPE READY:</b>\n` +
     `👉 <code>${vercelUrl}</code>\n\n` +
-    `<i>💡 Built with Zero AI-Slop, Lucide vector icons, GSAP scroll triggers, and Indian Rupee (₹) pricing!</i>`;
+    `<i>💡 Built with 120 Never-Repeat Luxury Palettes, GSAP Pin-Parallax, Zero AI-Slop, and Solid INR (₹) pricing!</i>`;
 
   const buttons = [];
   buttons.push([{ text: "🚀 Open Live Client Website ↗", url: vercelUrl }]);
@@ -413,229 +413,27 @@ async function pushPrototypeToGitHub(slug, htmlContent) {
   return `${CONFIG.VERCEL_BASE}/projects/${slug}/index.html`;
 }
 
-// ── MASTER ANTI-SLOP GEMINI 3.6 FLASH PROTOTYPE SYNTHESIZER ───────────────────
-async function generatePrototypeWithGemini(businessName, niche, city, phone) {
-  console.log(`[GEMINI 3.6 FLASH] Synthesizing luxury animated platform for "${businessName}" (${niche}) in ${city}...`);
-
-  const cleanPhone = phone || '+91 98450 12345';
-  const isRealEstate = niche.toLowerCase().includes('real estate') || niche.toLowerCase().includes('villa');
-
-  const prompt = `You are an elite Principal Creative Technologist and Lead UI/UX Engineer at Apple/Linear.
-You are tasked with building a breathtaking, ultra-premium single-page production website for an Indian business.
-
-TARGET BUSINESS:
-- Business Name: ${businessName}
-- Industry / Niche: ${niche}
-- City / State: ${city}, India
-- Contact Phone: ${cleanPhone}
-- Currency: Indian Rupee (₹) - Use Lakhs (L) and Crores (Cr) for Real Estate / High-Ticket Services.
-
-STRICT ANTI-SLOP PROTOCOLS (VIOLATIONS WILL CAUSE AUTOMATIC REJECTION):
-1. ABSOLUTELY ZERO RAW EMOJIS ANYWHERE IN THE CODE.
-   - Do NOT output: 🦷, 🏋️, 📞, 📍, ⭐, 🚀, 💎, 💼, 🏆, etc.
-   - Use Lucide Icons (<i data-lucide="phone"></i>, <i data-lucide="map-pin"></i>, <i data-lucide="check-circle"></i>) OR inline clean SVG paths.
-   - Always include the Lucide script: <script src="https://unpkg.com/lucide@latest"></script> and call lucide.createIcons(); at the end of the <body>.
-
-2. FULL ANIMATION & INTERACTIVITY INFRASTRUCTURE:
-   - Include Tailwind CSS CDN: <script src="https://cdn.tailwindcss.com"></script>
-   - Include GSAP 3.12.5 + ScrollTrigger:
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-   - Include Google Fonts: Plus Jakarta Sans & Syne (or Playfair Display for Luxury Real Estate).
-   - Write real GSAP ScrollTrigger code at the bottom that smoothly animates .reveal elements with stagger and fade-up on scroll.
-   - Write an animated stat counter script using GSAP or requestAnimationFrame.
-
-3. LUXURY DESIGN SYSTEM & THEME:
-   ${isRealEstate ? `
-   - Aesthetic: Ultra-luxury Obsidian & Champagne Gold (#080b12 dark background, #d4af37 gold accents, #131926 glass cards, crisp 1px borders border-white/10).
-   - Real Estate Specialization:
-     * High-impact Hero with headline: e.g. "Architectural Masterpieces & Ultra-Luxury Residences in ${city}".
-     * Property Showcase / Featured Portfolio: 3-4 properties with BHK, Super Built-up Area in Sq.Ft, and pricing in ₹ Crores (e.g. "₹2.45 Cr*", "₹3.80 Cr*").
-     * Filter tabs: "All Residences", "3 BHK Sky Villas", "4 BHK Penthouses", "Signature Plots".
-     * Interactive Schedule Private Site Visit / Download Brochure modal.
-     * Trust badges: RERA Approved (e.g. RERA No: PRM/KA/RERA/2026/001), 100% Clear Titles, Premium Bank Approvals.
-   ` : `
-   - Aesthetic: Polished modern enterprise with subtle glassmorphism (backdrop-blur-xl bg-white/[0.03] border border-white/10), refined typography, generous white-space.
-   - Hero Section tailored to ${city}, India with persuasive conversion copy.
-   - Core Services matrix (3-4 cards with custom hover glow and Lucide icons).
-   - Real Indian testimonials with authentic names from ${city}.
-   - Interactive Appointment / Free Quote Request modal with form validation.
-   `}
-
-4. WORKING COMPONENTS:
-   - Sticky navbar with blur backdrop, contact button, and brand initials badge.
-   - Floating 1-click WhatsApp button at bottom right (pulsing green indicator, links to https://wa.me/91${cleanPhone.replace(/\D/g, '').slice(-10)}).
-   - Fully functioning Booking / Inquiry Modal with form submission alert and close button.
-   - Comprehensive footer with business hours, address (${city}, India), phone (${cleanPhone}), and copyright.
-
-5. OUTPUT FORMAT:
-   - Output ONLY clean raw valid HTML starting with <!DOCTYPE html> and ending with </html>.
-   - No markdown backticks, no explanatory text.`;
-
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${CONFIG.GEMINI_KEY}`;
-  try {
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.3, maxOutputTokens: 8192 }
-      }),
-      signal: AbortSignal.timeout(50000)
-    });
-
-    if (res.status === 200) {
-      const data = await res.json();
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (text && (text.includes('<html') || text.includes('<!DOCTYPE html>'))) {
-        let cleanHtml = text.replace(/^```html\s*/i, '').replace(/^```\s*/i, '').replace(/```$/i, '').trim();
-        cleanHtml = sanitizeEmojis(cleanHtml);
-        return cleanHtml;
-      }
-    }
-  } catch (e) {
-    console.error(`[GEMINI ERROR] ${e.message}`);
-  }
-
-  // Fallback to our master anti-slop hand-crafted template
-  return generateMasterAntislopTemplate(businessName, niche, city, phone);
+// ── MASTER 120-PALETTE LUXURY PROTOTYPE SYNTHESIZER ──────────────────────────
+async function generatePrototypeWithGemini(businessName, niche, city, phone, lead = {}) {
+  console.log(`[BRAND ENGINE // 120-PALETTE MATRIX] Synthesizing bespoke luxury platform for "${businessName}" (${niche}) in ${city}...`);
+  const slug = lead.slug || generateSlug(businessName, city);
+  const leadObj = {
+    name: businessName,
+    niche: niche,
+    city: city,
+    phone: phone,
+    cleanPhone: lead.cleanPhone || (phone ? phone.replace(/\D/g, '').slice(-10) : '9845012345'),
+    address: lead.address || city,
+    rating: lead.rating || "4.8",
+    reviews: lead.reviews || "100",
+    slug: slug
+  };
+  const pal = brandEngine.selectPalette(slug, businessName);
+  return brandEngine.generateLuxuryHTML(leadObj, pal);
 }
 
 function sanitizeEmojis(html) {
   return html.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '');
-}
-
-// ── MASTER HAND-CRAFTED ANTI-SLOP TEMPLATE ────────────────────────────────────
-function generateMasterAntislopTemplate(businessName, niche, city, phone) {
-  const cleanPhone = phone || '+91 98450 12345';
-  const digits = cleanPhone.replace(/\D/g, '').slice(-10);
-  const isRealEstate = niche.toLowerCase().includes('real estate') || niche.toLowerCase().includes('villa');
-
-  return `<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${businessName} // Luxury ${niche} in ${city}</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    h1, h2, h3, .font-display { font-family: ${isRealEstate ? "'Playfair Display', serif" : "'Syne', sans-serif"}; }
-    .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
-    .gold-gradient { background: linear-gradient(135deg, #d4af37 0%, #f3e5ab 50%, #aa7c11 100%); }
-    .gold-text { background: linear-gradient(135deg, #e8c86d 0%, #ffffff 50%, #d4af37 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  </style>
-</head>
-<body class="bg-[#080b12] text-[#e2e8f0] antialiased selection:bg-amber-500 selection:text-black">
-  <header class="fixed top-0 left-0 right-0 z-50 bg-[#080b12]/80 backdrop-blur-xl border-b border-white/[0.08]">
-    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl gold-gradient flex items-center justify-center font-display font-extrabold text-black text-lg shadow-lg shadow-amber-500/20">
-          ${businessName.charAt(0)}
-        </div>
-        <div>
-          <span class="font-display font-bold text-lg text-white tracking-tight">${businessName}</span>
-          <span class="block text-[10px] font-mono uppercase text-amber-400 tracking-wider">${city}</span>
-        </div>
-      </div>
-      <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
-        <a href="#portfolio" class="hover:text-amber-400 transition-colors">${isRealEstate ? 'Residences' : 'Services'}</a>
-        <a href="#about" class="hover:text-amber-400 transition-colors">Philosophy</a>
-        <a href="#reviews" class="hover:text-amber-400 transition-colors">Client Accolades</a>
-        <a href="#contact" class="hover:text-amber-400 transition-colors">Inquire</a>
-      </nav>
-      <div class="flex items-center space-x-4">
-        <a href="tel:+91${digits}" class="hidden sm:inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl border border-white/15 text-sm font-semibold text-white hover:bg-white/5 transition-all">
-          <i data-lucide="phone" class="w-4 h-4 text-amber-400"></i>
-          <span>${cleanPhone}</span>
-        </a>
-        <button onclick="openBooking()" class="px-5 py-2.5 rounded-xl gold-gradient text-black text-sm font-bold shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 hover:scale-[1.02] transition-all flex items-center space-x-2">
-          <span>${isRealEstate ? 'Schedule Site Visit' : 'Book Consultation'}</span>
-          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <section class="relative pt-36 pb-24 px-6 overflow-hidden">
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(212,175,55,0.15),rgba(0,0,0,0))]"></div>
-    <div class="max-w-5xl mx-auto text-center relative z-10">
-      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-mono tracking-widest uppercase mb-8">
-        <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-        <span>Premier ${niche} // ${city}, India</span>
-      </div>
-      <h1 class="text-4xl sm:text-6xl md:text-7xl font-display font-extrabold text-white tracking-tight leading-[1.1] mb-6">
-        ${isRealEstate ? 'Architectural Brilliance & Luxury Living at ' : 'Uncompromising Excellence & Mastery at '}
-        <span class="gold-text">${businessName}</span>
-      </h1>
-      <p class="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed mb-10">
-        ${isRealEstate 
-          ? `Crafting world-class residential landmarks, private sky villas, and signature estates across prime neighborhoods of ${city}. Verified RERA certified.` 
-          : `Delivering industry-defining ${niche.toLowerCase()} to discerning clients across ${city}. Certified specialists, cutting-edge infrastructure, and guaranteed results.`}
-      </p>
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <button onclick="openBooking()" class="w-full sm:w-auto px-8 py-4 rounded-xl gold-gradient text-black font-bold text-base shadow-xl shadow-amber-500/25 hover:scale-[1.02] transition-all flex items-center justify-center space-x-2">
-          <span>${isRealEstate ? 'Explore Masterplan & Pricing' : 'Schedule Free Discovery Session'}</span>
-          <i data-lucide="sparkles" class="w-5 h-5"></i>
-        </button>
-        <a href="https://wa.me/91${digits}" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold text-base transition-all flex items-center justify-center space-x-2">
-          <i data-lucide="message-square" class="w-5 h-5 text-emerald-400"></i>
-          <span>Direct WhatsApp Pitch</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <footer class="py-12 px-6 border-t border-white/[0.08] text-center text-xs text-slate-500">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-      <div>&copy; ${new Date().getFullYear()} ${businessName} // ${city}, India. All rights reserved. RERA Compliant.</div>
-    </div>
-  </footer>
-
-  <a href="https://wa.me/91${digits}" target="_blank" class="fixed bottom-6 right-6 z-50 px-4 py-3 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white font-bold text-sm shadow-2xl shadow-emerald-500/40 flex items-center space-x-2 hover:scale-105 transition-all">
-    <span class="w-2.5 h-2.5 rounded-full bg-white animate-ping"></span>
-    <i data-lucide="message-square" class="w-4 h-4"></i>
-    <span>WhatsApp Consultation</span>
-  </a>
-
-  <div id="bookingModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
-    <div class="bg-[#10141f] border border-white/15 rounded-3xl max-w-md w-full p-8 relative shadow-2xl">
-      <button onclick="closeBooking()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-      <h3 class="text-2xl font-display font-bold text-white mb-2">Priority Registration</h3>
-      <p class="text-sm text-slate-400 mb-6">Leave your details and a dedicated representative from ${businessName} will contact you promptly.</p>
-      <form onsubmit="handleSubmit(event)" class="space-y-4">
-        <input type="text" required placeholder="Your Full Name" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-amber-400">
-        <input type="tel" required placeholder="10-Digit Mobile (+91)" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-amber-400">
-        <button type="submit" class="w-full py-3.5 rounded-xl gold-gradient text-black font-bold text-sm shadow-lg shadow-amber-500/25 hover:scale-[1.01] transition-all">
-          Submit Priority Request
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    lucide.createIcons();
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-      gsap.registerPlugin(ScrollTrigger);
-    }
-    function openBooking() { document.getElementById('bookingModal').classList.remove('hidden'); }
-    function closeBooking() { document.getElementById('bookingModal').classList.add('hidden'); }
-    function handleSubmit(e) {
-      e.preventDefault();
-      alert('Thank you! Your request has been transmitted directly to ${businessName}.');
-      closeBooking();
-    }
-  </script>
-</body>
-</html>`;
 }
 
 // ── AUTONOMOUS LEAD SCRAPER (STRICT GENUINE RADAR - INDIA FOCUSED) ────────────
@@ -728,25 +526,28 @@ async function processLead(lead) {
   console.log(`🎯 PROCESSING INDIAN CLIENT LEAD: ${lead.name} (${lead.city})`);
   console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
 
-  const slug = generateSlug(lead.name, lead.city);
+  const slug = lead.slug || generateSlug(lead.name, lead.city);
+  lead.slug = slug;
 
-  // 1. Generate bespoke HTML prototype via Gemini 3.6 Flash
-  const html = await generatePrototypeWithGemini(lead.name, lead.niche, lead.city, lead.phone);
+  const pal = brandEngine.selectPalette(slug, lead.name);
+  lead.archetype = pal.name;
+
+  // 1. Generate bespoke HTML prototype via Brand Engine (120 Never-Repeat Palettes, Zero AI-Slop)
+  const html = brandEngine.generateLuxuryHTML(lead, pal);
 
   // 2. Deploy directly to GitHub (Vercel Production)
   const prototypeUrl = await pushPrototypeToGitHub(slug, html);
 
   lead.prototypeUrl = prototypeUrl;
-  lead.vercelUrl = prototypeUrl;
-  lead.slug = slug;
+  lead.vercelUrl = `${CONFIG.VERCEL_BASE}/api/serve_project?slug=${slug}`;
   lead.status = "PROTOTYPE_DEPLOYED";
 
   // 3. Save to database
   saveLead(lead);
 
   // 4. Dispatch alert card to Telegram
-  await broadcastLeadCard(lead, prototypeUrl);
-  console.log(`[PIPELINE COMPLETE] Dispatched to Telegram @TeChPlAyZ194 with live Vercel URL: ${prototypeUrl}`);
+  await broadcastLeadCard(lead, lead.vercelUrl);
+  console.log(`[PIPELINE COMPLETE] Dispatched to Telegram @TeChPlAyZ194 with live Vercel URL: ${lead.vercelUrl}`);
   return lead;
 }
 
