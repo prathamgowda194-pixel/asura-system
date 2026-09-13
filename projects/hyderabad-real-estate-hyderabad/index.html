@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hyderabad Real Estate // Luxury Real Estate & Villa Developers in Hyderabad, Telangana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg: #1c0a10;
+      --bg-alt: #291019;
+      --surface: #381723;
+      --text: #fdf2f4;
+      --muted: #f4aab8;
+      --accent: #d97706;
+      --accent-light: #fde68a;
+      --border: rgba(217, 119, 6, 0.28);
+      --wash: rgba(41, 16, 25, 0.85);
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .font-heading {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      letter-spacing: -0.02em;
+    }
+
+    /* 1. Pin-Parallax Sheets (Cocoon Pattern) */
+    .pinwrap { position: relative; }
+    .pin { position: sticky; top: 0; height: 100vh; overflow: hidden; z-index: 0; }
+    .spacer { height: 26vh; }
+    .sheet { position: relative; z-index: 2; background: var(--bg); border-top: 1px solid var(--border); }
+
+    /* 2. Full-Viewport Photo Chapters (FLOWERS/SIM Pattern) */
+    .ch { position: relative; }
+    .ch .bg { position: sticky; top: 0; height: 100vh; overflow: hidden; z-index: 0; }
+    .ch .bg img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.06); }
+    .ch .fl { position: relative; z-index: 2; margin-top: -100vh; }
+    .scene { min-height: 100vh; position: relative; padding: 0 4vw; display: flex; align-items: flex-end; }
+    .catplate { position: relative; margin-bottom: 12vh; width: min(440px, 92vw); background: var(--surface); border: 1px solid var(--border); backdrop-blur: 24px; padding: 2rem; border-radius: 1.25rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6); }
+
+    /* 3. Gradient Seam Fades */
+    .ch .bg::before { content:''; position: absolute; inset: 0 0 auto 0; height: 20vh; background: linear-gradient(to bottom, var(--bg), transparent); z-index: 1; pointer-events: none; }
+    .ch .bg::after { content:''; position: absolute; inset: auto 0 0 0; height: 26vh; background: linear-gradient(to top, var(--bg), transparent); z-index: 1; pointer-events: none; }
+
+    /* 4. Brand-Hue Washes */
+    .winewrap { position: relative; overflow: hidden; background: var(--bg); }
+    .winewrap > .wb { position: absolute; inset: -15%; z-index: 0; pointer-events: none; }
+    .winewrap > .wb img { width: 100%; height: 100%; object-fit: cover; filter: blur(64px) saturate(1.4); opacity: 0.35; }
+    .winewrap > *:not(.wb) { position: relative; z-index: 2; }
+
+    /* 7. Reveal Cascade System */
+    .rv { overflow: hidden; }
+    .rv img { transform: scale(1.12); opacity: 0; transition: transform 1.5s cubic-bezier(.16,1,.3,1), opacity 1s ease; }
+    .rv.in img { transform: scale(1); opacity: 1; }
+    .rt > * { opacity: 0; transform: translateY(28px); transition: opacity .9s ease, transform .9s cubic-bezier(.16,1,.3,1); }
+    .rt.in > * { opacity: 1; transform: none; }
+
+    /* 9. Giant Footer Wordmark */
+    .giant {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      text-transform: uppercase;
+      text-align: center;
+      font-size: clamp(2.5rem, 11vw, 10rem);
+      letter-spacing: .04em;
+      line-height: 0.9;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--border);
+      opacity: 0.7;
+    }
+
+    .glass-pill {
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-[var(--accent)] selection:text-black">
+
+  <!-- 8. HEADER SYSTEM (Chanel / Editorial / DTC) -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between glass-pill rounded-full px-6 py-3">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs" style="background: var(--accent); color: var(--bg);">
+          HR
+        </div>
+        <span class="font-heading font-bold text-sm tracking-wider uppercase text-white">Hyderabad Real Estate</span>
+      </div>
+
+      <nav class="hidden md:flex items-center space-x-8 text-xs font-mono uppercase tracking-widest text-[var(--muted)]">
+        <a href="#portfolio" class="hover:text-white transition-colors">Portfolio</a>
+        <a href="#philosophy" class="hover:text-white transition-colors">Philosophy</a>
+        <a href="#credentials" class="hover:text-white transition-colors">Credentials</a>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <a href="https://wa.me/917337526868" target="_blank" class="px-4 py-2 rounded-full font-semibold text-xs transition-all hover:scale-105 shadow-lg" style="background: var(--accent); color: var(--bg);">
+          Consultation
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 1. HERO PIN-PARALLAX ZONE (Cocoon + FLOWERS/SIM) -->
+  <section class="pinwrap">
+    <div class="pin flex items-center justify-center">
+      <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop';" alt="Hyderabad Real Estate" class="w-full h-full object-cover filter brightness-[0.7] contrast-[1.05]">
+      <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg)] via-transparent to-[var(--bg)]/60"></div>
+
+      <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6 max-w-5xl mx-auto z-10">
+        <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full glass-pill mb-6 text-xs font-mono uppercase tracking-widest text-[var(--accent-light)]">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+          <span>VERIFIED LUXURY REAL ESTATE & VILLA DEVELOPERS // HYDERABAD, TELANGANA</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl md:text-7xl font-bold leading-[1.05] mb-6 text-white max-w-4xl">
+          Royal Heritage Villas & Gated Mansions in Hyderabad, Telangana.
+        </h1>
+
+        <p class="text-base sm:text-lg text-[var(--muted)] max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+          Curating the most coveted prime addresses, sea-facing penthouses, and bespoke residential parcels across Hyderabad, Telangana. RERA compliant with title guarantees.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center gap-4">
+          <button onclick="openInquiryModal()" class="w-full sm:w-auto px-8 py-4 rounded-full font-bold text-sm tracking-wider uppercase transition-all hover:scale-105 shadow-2xl flex items-center justify-center space-x-2" style="background: var(--accent); color: var(--bg);">
+            <span>Request Private Advisory</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+          <a href="https://wa.me/917337526868" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-full glass-pill text-white font-semibold text-sm hover:bg-white/10 transition-all flex items-center justify-center space-x-2">
+            <i data-lucide="message-square" class="w-4 h-4 text-emerald-400"></i>
+            <span>WhatsApp (+91 73375 26868)</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- SHEET OVERLAY SLIDES OVER HERO -->
+    <div class="sheet px-6 py-24">
+      <div class="max-w-7xl mx-auto">
+
+        <!-- 4. VERIFIED CREDENTIALS / STATS STRIP -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 py-8 border-y border-[var(--border)] mb-24 text-center">
+          <div class="p-4">
+            <div class="text-3xl sm:text-4xl font-heading font-bold text-white mb-1">₹500+ Cr</div>
+            <div class="text-xs font-mono uppercase tracking-widest text-[var(--muted)]">Portfolio Value</div>
+          </div>
+          <div class="p-4">
+            <div class="text-3xl sm:text-4xl font-heading font-bold text-white mb-1">4.7 ★</div>
+            <div class="text-xs font-mono uppercase tracking-widest text-[var(--muted)]">53 Verified Audits</div>
+          </div>
+          <div class="p-4">
+            <div class="text-3xl sm:text-4xl font-heading font-bold text-white mb-1">100%</div>
+            <div class="text-xs font-mono uppercase tracking-widest text-[var(--muted)]">Title & Compliance Guarantee</div>
+          </div>
+          <div class="p-4">
+            <div class="text-3xl sm:text-4xl font-heading font-bold text-white mb-1">18+ Yrs</div>
+            <div class="text-xs font-mono uppercase tracking-widest text-[var(--muted)]">Hyderabad, Telangana Market Leadership</div>
+          </div>
+        </div>
+
+        <!-- 10. FLAT NUMBERED DTC SERVICE / PRODUCT CARDS -->
+        <div id="portfolio" class="mb-32">
+          <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+            <div>
+              <span class="text-xs font-mono uppercase tracking-widest text-[var(--accent)] block mb-3">CURATED PORTFOLIO // 2026</span>
+              <h2 class="text-3xl sm:text-5xl font-bold text-white">Signature Deliverables</h2>
+            </div>
+            <p class="text-sm text-[var(--muted)] max-w-md mt-4 md:mt-0">
+              Each engagement is delivered with dedicated senior partner oversight, tailored specifications, and guaranteed milestones.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+              <div class="group relative rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--accent)] transition-all duration-500 flex flex-col">
+                <div class="aspect-[4/3] overflow-hidden relative">
+                  <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?q=80&w=1200&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop';" alt="The Sovereign Penthouse" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                  <div class="absolute top-4 left-4 px-3 py-1 rounded-full glass-pill text-[10px] font-mono tracking-widest text-white">
+                    NO. 001
+                  </div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 class="font-heading font-bold text-xl text-white mb-2">The Sovereign Penthouse</h3>
+                    <p class="text-xs font-mono text-[var(--muted)] mb-4">4 BHK Duplex · 4,850 Sq. Ft.</p>
+                  </div>
+                  <div class="pt-4 border-t border-[var(--border)] flex items-center justify-between">
+                    <span class="font-bold text-sm text-[var(--accent-light)]">₹8.45 Cr*</span>
+                    <button onclick="openInquiryModal('The Sovereign Penthouse')" class="text-xs font-mono uppercase tracking-wider text-white hover:text-[var(--accent)] flex items-center space-x-1">
+                      <span>Reserve</span>
+                      <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            
+              <div class="group relative rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--accent)] transition-all duration-500 flex flex-col">
+                <div class="aspect-[4/3] overflow-hidden relative">
+                  <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1200&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop';" alt="The Riviera Sky Villa" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                  <div class="absolute top-4 left-4 px-3 py-1 rounded-full glass-pill text-[10px] font-mono tracking-widest text-white">
+                    NO. 002
+                  </div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 class="font-heading font-bold text-xl text-white mb-2">The Riviera Sky Villa</h3>
+                    <p class="text-xs font-mono text-[var(--muted)] mb-4">3 BHK Seafront · 3,200 Sq. Ft.</p>
+                  </div>
+                  <div class="pt-4 border-t border-[var(--border)] flex items-center justify-between">
+                    <span class="font-bold text-sm text-[var(--accent-light)]">₹5.20 Cr*</span>
+                    <button onclick="openInquiryModal('The Riviera Sky Villa')" class="text-xs font-mono uppercase tracking-wider text-white hover:text-[var(--accent)] flex items-center space-x-1">
+                      <span>Reserve</span>
+                      <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            
+              <div class="group relative rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--accent)] transition-all duration-500 flex flex-col">
+                <div class="aspect-[4/3] overflow-hidden relative">
+                  <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=1200&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop';" alt="The Horizon Grand Estate" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                  <div class="absolute top-4 left-4 px-3 py-1 rounded-full glass-pill text-[10px] font-mono tracking-widest text-white">
+                    NO. 003
+                  </div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 class="font-heading font-bold text-xl text-white mb-2">The Horizon Grand Estate</h3>
+                    <p class="text-xs font-mono text-[var(--muted)] mb-4">5 BHK Signature · 6,400 Sq. Ft.</p>
+                  </div>
+                  <div class="pt-4 border-t border-[var(--border)] flex items-center justify-between">
+                    <span class="font-bold text-sm text-[var(--accent-light)]">₹12.80 Cr*</span>
+                    <button onclick="openInquiryModal('The Horizon Grand Estate')" class="text-xs font-mono uppercase tracking-wider text-white hover:text-[var(--accent)] flex items-center space-x-1">
+                      <span>Reserve</span>
+                      <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. FULL-VIEWPORT PHOTO CHAPTERS (FLOWERS/SIM Pattern) -->
+  <section class="ch">
+    <div class="bg">
+      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop';" alt="Hyderabad Real Estate Craft" class="w-full h-full object-cover">
+    </div>
+    <div class="fl">
+      <div class="scene">
+        <div class="catplate">
+          <span class="text-[10px] font-mono uppercase tracking-widest text-[var(--accent)] block mb-2">CHAPTER 01 // DISCIPLINE</span>
+          <h3 class="font-heading text-2xl font-bold text-white mb-3">Unflinching Material Mastery</h3>
+          <p class="text-xs text-[var(--muted)] leading-relaxed mb-4">
+            We reject mass replication. Every project commissioned under Hyderabad Real Estate is engineered with uncompromising bespoke specifications tailored specifically to Hyderabad, Telangana.
+          </p>
+          <a href="https://wa.me/917337526868" target="_blank" class="text-xs font-mono uppercase tracking-wider text-[var(--accent-light)] flex items-center space-x-1 hover:underline">
+            <span>Inquire About Specifications</span>
+            <i data-lucide="chevron-right" class="w-3 h-3"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch">
+    <div class="bg">
+      <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop';" alt="Hyderabad Real Estate Heritage" class="w-full h-full object-cover">
+    </div>
+    <div class="fl">
+      <div class="scene">
+        <div class="catplate">
+          <span class="text-[10px] font-mono uppercase tracking-widest text-[var(--accent)] block mb-2">CHAPTER 02 // PROVENANCE</span>
+          <h3 class="font-heading text-2xl font-bold text-white mb-3">Institutional Trust & Integrity</h3>
+          <p class="text-xs text-[var(--muted)] leading-relaxed mb-4">
+            Backed by 53 verified public reviews and an impeccable record in Hyderabad, Telangana, our reputation is built on delivery, transparent pricing, and zero ambiguity.
+          </p>
+          <a href="https://wa.me/917337526868" target="_blank" class="text-xs font-mono uppercase tracking-wider text-[var(--accent-light)] flex items-center space-x-1 hover:underline">
+            <span>Direct Partner WhatsApp</span>
+            <i data-lucide="chevron-right" class="w-3 h-3"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. BRAND-HUE WASH CONSULTATION / FOOTER ZONE -->
+  <section class="winewrap py-32 px-6 border-t border-[var(--border)]">
+    <div class="wb">
+      <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=2070&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop';" alt="Ambience Wash">
+    </div>
+
+    <div class="max-w-4xl mx-auto text-center relative z-10 mb-20">
+      <span class="text-xs font-mono uppercase tracking-widest text-[var(--accent)] block mb-4">DIRECT ENGAGEMENT</span>
+      <h2 class="text-3xl sm:text-6xl font-bold text-white mb-6">
+        Claim Your Bespoke Consultation in Hyderabad, Telangana.
+      </h2>
+      <p class="text-base text-[var(--muted)] max-w-xl mx-auto mb-10">
+        Connect directly with our senior directors. Receive our full confidential prospectus and bespoke feasibility brief within 2 hours.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="https://wa.me/917337526868" target="_blank" class="w-full sm:w-auto px-10 py-5 rounded-full font-bold text-sm tracking-wider uppercase transition-all hover:scale-105 shadow-2xl flex items-center justify-center space-x-2" style="background: var(--accent); color: var(--bg);">
+          <i data-lucide="message-square" class="w-4 h-4"></i>
+          <span>Direct WhatsApp Consultation (+91)</span>
+        </a>
+        <button onclick="openInquiryModal()" class="w-full sm:w-auto px-8 py-5 rounded-full glass-pill text-white font-semibold text-sm hover:bg-white/10 transition-all">
+          Request Call Back
+        </button>
+      </div>
+    </div>
+
+    <!-- 9. GIANT FOOTER WORDMARK -->
+    <div class="giant select-none my-12">
+      Hyderabad Real Estate
+    </div>
+
+    <footer class="max-w-7xl mx-auto pt-12 border-t border-[var(--border)] flex flex-col md:flex-row items-center justify-between text-xs text-[var(--muted)] gap-4">
+      <div>
+        &copy; 2026 Hyderabad Real Estate. Road No. 36, Jubilee Hills, Hyderabad 500033. RERA & Statutory Compliant.
+      </div>
+      <div class="flex items-center space-x-6 font-mono">
+        <span>TEL: +91 73375 26868</span>
+        <span>Hyderabad, Telangana, INDIA</span>
+      </div>
+    </footer>
+  </section>
+
+  <!-- WORKING INQUIRY MODAL (13. Working Features) -->
+  <div id="inquiryModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="bg-[var(--surface)] border border-[var(--border)] rounded-3xl max-w-lg w-full p-8 relative shadow-2xl">
+      <button onclick="closeInquiryModal()" class="absolute top-5 right-5 text-[var(--muted)] hover:text-white p-2">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <span class="text-[10px] font-mono uppercase tracking-widest text-[var(--accent)] block mb-2">PRIORITY INQUIRY // 2026</span>
+      <h3 class="text-2xl font-heading font-bold text-white mb-2">Engage Hyderabad Real Estate</h3>
+      <p class="text-xs text-[var(--muted)] mb-6">
+        Submit your requirements for direct transmission to our executive desk in Hyderabad, Telangana.
+      </p>
+
+      <form onsubmit="handleInquirySubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-[10px] font-mono uppercase tracking-widest text-[var(--muted)] mb-1">Your Full Name</label>
+          <input type="text" id="modalName" required placeholder="e.g. Vikram Singhania" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-[var(--border)] text-white text-sm focus:outline-none focus:border-[var(--accent)]">
+        </div>
+        <div>
+          <label class="block text-[10px] font-mono uppercase tracking-widest text-[var(--muted)] mb-1">10-Digit Mobile (+91)</label>
+          <input type="tel" id="modalPhone" required placeholder="e.g. 98450 12345" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-[var(--border)] text-white text-sm focus:outline-none focus:border-[var(--accent)]">
+        </div>
+        <div>
+          <label class="block text-[10px] font-mono uppercase tracking-widest text-[var(--muted)] mb-1">Requirement Overview</label>
+          <input type="text" id="modalReq" placeholder="Specific service, dates, or specifications" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-[var(--border)] text-white text-sm focus:outline-none focus:border-[var(--accent)]">
+        </div>
+
+        <button type="submit" class="w-full py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all hover:scale-[1.01] shadow-lg flex items-center justify-center space-x-2" style="background: var(--accent); color: var(--bg);">
+          <span>Confirm & Transmit via WhatsApp</span>
+          <i data-lucide="send" class="w-3.5 h-3.5"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FLOATING WHATSAPP PILL -->
+  <a href="https://wa.me/917337526868?text=Hi%20Hyderabad%20Real%20Estate!%20I%20am%20reviewing%20your%20platform%20and%20would%20like%20to%20schedule%20a%20priority%20consultation." target="_blank" class="fixed bottom-6 right-6 z-40 px-5 py-3.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white font-bold text-xs uppercase tracking-wider shadow-2xl shadow-emerald-500/40 flex items-center space-x-2 hover:scale-105 transition-all">
+    <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+    <i data-lucide="message-square" class="w-4 h-4"></i>
+    <span>WhatsApp (Hyderabad Real Estate)</span>
+  </a>
+
+  <script>
+    lucide.createIcons();
+
+    function openInquiryModal(reqTitle = '') {
+      const modal = document.getElementById('inquiryModal');
+      modal.classList.remove('hidden');
+      if (reqTitle) {
+        document.getElementById('modalReq').value = reqTitle;
+      }
+    }
+
+    function closeInquiryModal() {
+      document.getElementById('inquiryModal').classList.add('hidden');
+    }
+
+    function handleInquirySubmit(e) {
+      e.preventDefault();
+      const n = document.getElementById('modalName').value;
+      const p = document.getElementById('modalPhone').value;
+      const r = document.getElementById('modalReq').value;
+      const text = encodeURIComponent('Hi ' + "Hyderabad Real Estate" + '! My name is ' + n + ' (' + p + '). I would like to inquire about: ' + (r || 'General Consultation'));
+      window.open('https://wa.me/917337526868?text=' + text, '_blank');
+      closeInquiryModal();
+    }
+  </script>
+</body>
+</html>
