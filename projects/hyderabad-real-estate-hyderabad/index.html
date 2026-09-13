@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyderabad Real Estate | Ultra-Luxury Mansions, Sky Villas & Estates</title>
+    <meta name="description" content="Discover Hyderabad's most exclusive architectural masterpieces, ultra-luxury sky villas, and lakefront mansions in Jubilee Hills, Kokapet & Financial District.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: {
+                            DEFAULT: '#080b12',
+                            light: '#0f1523',
+                            card: '#131926',
+                            border: '#1e293b'
+                        },
+                        gold: {
+                            100: '#fef3c7',
+                            300: '#fcd34d',
+                            400: '#e5c158',
+                            500: '#d4af37',
+                            600: '#b89028',
+                            700: '#926c15'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- GSAP 3.12.5 & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            background-color: #080b12;
+            color: #f3f4f6;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFF1C5 0%, #D4AF37 50%, #926C15 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-gradient-bg {
+            background: linear-gradient(135deg, #e5c158 0%, #d4af37 50%, #b89028 100%);
+        }
+
+        .gold-border-gradient {
+            border-image: linear-gradient(to right, rgba(212, 175, 55, 0.4), rgba(255, 255, 255, 0.05)) 1;
+        }
+
+        .glass-panel {
+            background: rgba(19, 25, 38, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-nav {
+            background: rgba(8, 11, 18, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        /* Smooth custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080b12;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d4af37;
+        }
+
+        .property-card {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .property-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -15px rgba(212, 175, 55, 0.15);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-gold-500 selection:text-black">
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="bg-gradient-to-r from-obsidian via-gold-900/30 to-obsidian border-b border-gold-500/20 py-2 px-4 text-xs tracking-wider uppercase text-center text-gold-300 font-medium">
+        <span class="inline-flex items-center gap-2">
+            <i data-lucide="award" class="w-3.5 h-3.5 text-gold-400"></i>
+            TSIIC & HMDA Approved Lakefront Sky Villas Now Open For Private Preview in Kokapet
+            <button onclick="openModal('Kokapet Private Preview')" class="underline hover:text-white transition-colors ml-2 font-semibold">Reserve Experience</button>
+        </span>
+    </div>
+
+    <!-- NAVIGATION BAR -->
+    <nav class="sticky top-0 z-40 glass-nav border-b border-white/10 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-sm gold-gradient-bg flex items-center justify-center text-black font-serif font-bold text-xl shadow-lg shadow-gold-500/10 group-hover:scale-105 transition-transform">
+                    H
+                </div>
+                <div>
+                    <span class="font-serif text-xl tracking-wide font-bold block leading-none text-white group-hover:text-gold-400 transition-colors">HYDERABAD</span>
+                    <span class="text-[9px] tracking-[0.25em] text-gold-400/90 font-semibold uppercase block mt-1">Real Estate & Luxury Mansions</span>
+                </div>
+            </a>
+
+            <!-- Desktop Links -->
+            <div class="hidden lg:flex items-center space-x-8 text-sm font-medium tracking-wide">
+                <a href="#residences" class="text-gray-300 hover:text-gold-400 transition-colors">Residences</a>
+                <a href="#locations" class="text-gray-300 hover:text-gold-400 transition-colors">Prime Locations</a>
+                <a href="#specifications" class="text-gray-300 hover:text-gold-400 transition-colors">Craftsmanship</a>
+                <a href="#about" class="text-gray-300 hover:text-gold-400 transition-colors">The Developer</a>
+                <a href="#contact" class="text-gray-300 hover:text-gold-400 transition-colors">Private Lounge</a>
+            </div>
+
+            <!-- Header Action Buttons -->
+            <div class="hidden sm:flex items-center gap-4">
+                <a href="tel:+917337526868" class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-gray-300 hover:text-gold-400 px-3 py-2 border border-white/10 rounded-sm transition-all hover:border-gold-500/40">
+                    <i data-lucide="phone-call" class="w-3.5 h-3.5 text-gold-400"></i>
+                    <span>+91 73375 26868</span>
+                </a>
+                <button onclick="openModal('General Consultation')" class="gold-gradient-bg hover:opacity-95 text-black px-5 py-2.5 rounded-sm font-semibold text-xs tracking-wider uppercase transition-all shadow-lg shadow-gold-500/20 active:scale-95">
+                    Schedule Private Visit
+                </button>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-btn" class="lg:hidden text-gray-300 hover:text-white focus:outline-none p-2">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-obsidian-card border-b border-white/10 px-6 py-6 space-y-4">
+            <a href="#residences" class="block text-gray-300 hover:text-gold-400 text-base font-medium">Residences</a>
+            <a href="#locations" class="block text-gray-300 hover:text-gold-400 text-base font-medium">Prime Locations</a>
+            <a href="#specifications" class="block text-gray-300 hover:text-gold-400 text-base font-medium">Craftsmanship</a>
+            <a href="#about" class="block text-gray-300 hover:text-gold-400 text-base font-medium">The Developer</a>
+            <a href="#contact" class="block text-gray-300 hover:text-gold-400 text-base font-medium">Contact Advisory</a>
+            <div class="pt-4 border-t border-white/10 flex flex-col gap-3">
+                <a href="tel:+917337526868" class="flex items-center justify-center gap-2 text-sm text-gold-400 py-2 border border-gold-500/30 rounded-sm">
+                    <i data-lucide="phone" class="w-4 h-4"></i>
+                    <span>+91 73375 26868</span>
+                </a>
+                <button onclick="openModal('Mobile Header')" class="w-full gold-gradient-bg text-black py-3 rounded-sm font-semibold text-xs tracking-wider uppercase">
+                    Schedule Site Visit
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="relative min-h-[90vh] flex items-center justify-center pt-12 pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <!-- Background Ambient Glow & Architectural Image Layer -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2000" alt="Luxury Villa Architecture" class="w-full h-full object-cover object-center opacity-25 scale-105 transition-transform duration-10000" id="hero-bg" />
+            <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/80 to-obsidian/40"></div>
+            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gold-500/10 via-transparent to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto text-center space-y-8">
+            <div class="reveal inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border border-gold-500/30 text-gold-300 text-xs tracking-widest uppercase font-medium">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-gold-400"></i>
+                Telangana's Premier Luxury Real Estate Developer
+            </div>
+
+            <h1 class="reveal font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-tight text-white leading-[1.08]">
+                Architectural Masterpieces & <span class="gold-gradient-text italic font-normal">Ultra-Luxury Residences</span>
+            </h1>
+
+            <p class="reveal max-w-2xl mx-auto text-base sm:text-lg text-gray-300 font-light leading-relaxed">
+                Handcrafted Sky Mansions, Lakefront Estates & Gated Communities in Jubilee Hills, Kokapet, and Financial District. Engineered for discerning high-net-worth families.
+            </p>
+
+            <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                <button onclick="openModal('Hero Primary')" class="w-full sm:w-auto gold-gradient-bg hover:opacity-95 text-black px-8 py-4 rounded-sm font-semibold text-sm tracking-widest uppercase transition-all shadow-xl shadow-gold-500/20 flex items-center justify-center gap-2 group">
+                    <span>Explore Private Portfolio</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+                <a href="#residences" class="w-full sm:w-auto glass-panel hover:bg-white/10 text-white border border-white/20 px-8 py-4 rounded-sm font-medium text-sm tracking-widest uppercase transition-all text-center flex items-center justify-center gap-2">
+                    <i data-lucide="compass" class="w-4 h-4 text-gold-400"></i>
+                    <span>Browse Locations</span>
+                </a>
+            </div>
+
+            <!-- Key Highlights Ribbon -->
+            <div class="reveal pt-12 grid grid-cols-2 md:grid-cols-4 gap-4 border-t border-white/10 max-w-4xl mx-auto text-left">
+                <div class="glass-panel p-4 rounded-sm border border-white/5">
+                    <p class="text-xs text-gray-400 uppercase tracking-wider">Prices From</p>
+                    <p class="text-xl font-serif text-gold-400 font-bold mt-1">3.80 Cr  25 Cr*</p>
+                </div>
+                <div class="glass-panel p-4 rounded-sm border border-white/5">
+                    <p class="text-xs text-gray-400 uppercase tracking-wider">Prime Locations</p>
+                    <p class="text-base font-semibold text-white mt-1">Jubilee Hills & Kokapet</p>
+                </div>
+                <div class="glass-panel p-4 rounded-sm border border-white/5">
+                    <p class="text-xs text-gray-400 uppercase tracking-wider">Compliance</p>
+                    <p class="text-base font-semibold text-white mt-1">100% RERA & HMDA</p>
+                </div>
+                <div class="glass-panel p-4 rounded-sm border border-white/5">
+                    <p class="text-xs text-gray-400 uppercase tracking-wider">Title Security</p>
+                    <p class="text-base font-semibold text-white mt-1">100% Clear Titles</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RERA & TRUST BADGES BAR -->
+    <section class="border-y border-white/10 bg-obsidian-light/50 py-10 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-xs tracking-widest text-gray-400 uppercase mb-8">Official Compliance & Premier Banking Advisory Partners</p>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6 items-center opacity-80 grayscale hover:grayscale-0 transition-all duration-500 text-center text-xs font-semibold tracking-wider text-gray-300">
+                <div class="flex flex-col items-center gap-2 p-3 rounded glass-panel">
+                    <i data-lucide="shield-check" class="w-6 h-6 text-gold-400"></i>
+                    <span>TS-RERA APPROVED</span>
+                    <span class="text-[10px] text-gray-500 font-mono">P02400005829</span>
+                </div>
+                <div class="flex flex-col items-center gap-2 p-3 rounded glass-panel">
+                    <i data-lucide="building-2" class="w-6 h-6 text-gold-400"></i>
+                    <span>HMDA PERMITTED</span>
+                    <span class="text-[10px] text-gray-500">Urban Planning Auth</span>
+                </div>
+                <div class="flex flex-col items-center gap-2 p-3 rounded glass-panel">
+                    <i data-lucide="file-text" class="w-6 h-6 text-gold-400"></i>
+                    <span>CLEAR LEGAL TITLE</span>
+                    <span class="text-[10px] text-gray-500">Verified Legal Opinion</span>
+                </div>
+                <div class="flex flex-col items-center gap-2 p-3 rounded glass-panel">
+                    <i data-lucide="landmark" class="w-6 h-6 text-gold-400"></i>
+                    <span>HDFC BANK LUXURY</span>
+                    <span class="text-[10px] text-gray-500">Pre-Approved Funding</span>
+                </div>
+                <div class="flex flex-col items-center gap-2 p-3 rounded glass-panel col-span-2 md:col-span-1">
+                    <i data-lucide="award" class="w-6 h-6 text-gold-400"></i>
+                    <span>ICICI WEALTH APPROVED</span>
+                    <span class="text-[10px] text-gray-500">Custom Financing</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURED RESIDENCES SHOWCASE (FILTERABLE) -->
+    <section id="residences" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+            <div>
+                <span class="text-xs font-semibold text-gold-400 tracking-widest uppercase block mb-2">Curated Luxury Portfolio</span>
+                <h2 class="font-serif text-3xl sm:text-5xl text-white font-normal">Flagship <span class="italic text-gold-300">Residences</span></h2>
+            </div>
+            
+            <!-- Category Filter Buttons -->
+            <div class="mt-6 md:mt-0 flex flex-wrap gap-2 text-xs font-medium uppercase tracking-wider">
+                <button onclick="filterProperties('all')" class="filter-btn active-filter px-4 py-2.5 rounded-sm border border-gold-500/50 bg-gold-500 text-black transition-all">All</button>
+                <button onclick="filterProperties('villas')" class="filter-btn px-4 py-2.5 rounded-sm border border-white/10 glass-panel text-gray-300 hover:border-gold-500/40 transition-all">Triplex Villas</button>
+                <button onclick="filterProperties('skyvillas')" class="filter-btn px-4 py-2.5 rounded-sm border border-white/10 glass-panel text-gray-300 hover:border-gold-500/40 transition-all">Sky Mansions</button>
+                <button onclick="filterProperties('plots')" class="filter-btn px-4 py-2.5 rounded-sm border border-white/10 glass-panel text-gray-300 hover:border-gold-500/40 transition-all">Signature Estate Plots</button>
+            </div>
+        </div>
+
+        <!-- Property Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="property-grid">
+            
+            <!-- Property Card 1 -->
+            <div class="property-card glass-panel rounded-sm overflow-hidden border border-white/10 flex flex-col group" data-category="skyvillas">
+                <div class="relative h-72 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=1000" alt="The Crown Sky Mansions" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute top-4 left-4 bg-obsidian/90 border border-gold-500/30 text-gold-300 text-[10px] tracking-widest font-semibold uppercase px-3 py-1 rounded-sm">
+                        Jubilee Hills
+                    </div>
+                    <div class="absolute top-4 right-4 bg-gold-500 text-black text-xs font-bold px-3 py-1 rounded-sm">
+                        12.50 Cr Onwards
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent"></div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                    <div>
+                        <h3 class="font-serif text-2xl text-white group-hover:text-gold-400 transition-colors">The Crown Residences</h3>
+                        <p class="text-xs text-gray-400 mt-1 flex items-center gap-1">
+                            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-gold-400"></i>
+                            Road No. 36, Jubilee Hills, Hyderabad
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2 py-3 border-y border-white/10 text-center">
+                        <div>
+                            <span class="block text-[10px] uppercase text-gray-400">Configuration</span>
+                            <span class="text-sm font-semibold text-white">4 & 5 BHK</span>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] uppercase text-gray-400">Super Area</span>
+                            <span class="text-sm font-semibold text-white">7,800 Sft</span>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] uppercase text-gray-400">Possession</span>
+                            <span class="text-sm font-semibold text-white">Dec 2025</span>
+                        </div>
+                    </div>
+
+                    <ul class="text-xs text-gray-300 space-y-1.5 pt-1">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-gold-400"></i> Private Sky Deck with Temperature Controlled Pool</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-gold-400"></i> Italian Travertine Marble & Double Height Living</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-gold-400"></i> 4 Reserved Underground Car Parks</li>
+                    </ul>
+
+                    <div class="pt-4 flex items-center gap-3">
+                        <button onclick="openModal('The Crown Residences Jubilee Hills')" class="flex-1 gold-gradient-bg text-black py-3 rounded-sm font-semibold text-xs tracking-wider uppercase text-center hover:opacity-90">
+                            Request Private Tour
+                        </button>
+                        <button onclick="downloadBrochure('The Crown Residences')" class="p-3 border border-white/10 hover:border-gold-500/40 text-gray-300 hover:text-gold-400 rounded-sm">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Property Card 2 -->
+            <div class="property-card glass-panel rounded-sm overflow-hidden border border-white/10 flex flex-col group" data-category="villas">
+                <div class="relative h-72 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&q=80&w=1000" alt="Aurelia Ultra Triplex Villas" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute top-4 left-4 bg-obsidian/90 border border-gold-500/30 text-gold-300 text-[10px] tracking-widest font-semibold uppercase px-3 py-1 rounded-sm">
+                        Kokapet Golden Mile
+                    </div>
+                    <div class="absolute top-4 right-4 bg-gold-500 text-black text-xs font-bold px-3 py-1 rounded-sm">
+                        7.80 Cr Onwards
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent"></div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                    <div>
+                        <h3 class="font-serif text-2xl text-white group-hover:text-gold-400 transition-colors">Aurelia Luxury Triplex Villas</h3>
+                        <p class="text-xs text-gray-400 mt-1 flex items-center gap-1">
+                            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-gold-400"></i>
+                            Neopolis Buffer Zone, Kokapet, Hyderabad
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2 py-3 border-y border-white/10
