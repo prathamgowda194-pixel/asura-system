@@ -1,350 +1,416 @@
 <!DOCTYPE html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bhoomiputra Real Estate Developers | Ultra-Luxury Residences & Estates in Bangalore</title>
-    <meta name="description" content="Pioneering luxury living and sovereign land developments across Bangalore. Discover RERA-approved sky villas, signature penthouses, and bespoke gated enclaves.">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        obsidian: '#06080d',
-                        'obsidian-card': '#0e131f',
-                        'obsidian-light': '#161d2f',
-                        gold: {
-                            DEFAULT: '#d4af37',
-                            light: '#f3e5ab',
-                            dark: '#aa7c11',
-                            glow: '#e5c158'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
-                        display: ['Syne', 'sans-serif'],
-                    },
-                    backgroundImage: {
-                        'gold-gradient': 'linear-gradient(135deg, #d4af37 0%, #f3e5ab 50%, #aa7c11 100%)',
-                        'gold-subtle': 'linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(243,229,171,0.05) 100%)',
-                        'dark-gradient': 'linear-gradient(180deg, rgba(6,8,13,0.4) 0%, #06080d 100%)',
-                    }
-                }
-            }
-        }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bhoomiputra Real Estate Developers // Luxury Real Estate & Land Promoters in Bangalore, Karnataka</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- GSAP & ScrollTrigger CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    
-    <!-- Lucide Icons CDN -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --bg: #08140f;
+      --bg-alt: #0e2019;
+      --surface: #142d23;
+      --text: #f0fdf4;
+      --muted: #86efac;
+      --accent: #c5a880;
+      --accent-light: #e9d5b8;
+      --border: rgba(197, 168, 128, 0.22);
+      --wash: rgba(12, 36, 25, 0.85);
+    }
 
-    <style>
-        /* Custom Ultra-Luxury Glassmorphism & Effects */
-        .gold-border-glow {
-            box-shadow: 0 0 25px -5px rgba(212, 175, 55, 0.25);
-        }
-        .gold-text-gradient {
-            background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 50%, #aa7c11 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .gold-button {
-            background: linear-gradient(135deg, #d4af37 0%, #e5c158 50%, #aa7c11 100%);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .gold-button:hover {
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
-            transform: translateY(-2px);
-        }
-        .glass-panel {
-            background: rgba(14, 19, 31, 0.7);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(212, 175, 55, 0.15);
-        }
-        .glass-nav {
-            background: rgba(6, 8, 13, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-        /* Hide scrollbars for crisp UI */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Manrope', sans-serif;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .font-heading {
+      font-family: 'Cinzel', Georgia, serif;
+      letter-spacing: -0.02em;
+    }
+
+    /* 1. Pin-Parallax Sheets (Cocoon Pattern) */
+    .pinwrap { position: relative; }
+    .pin { position: sticky; top: 0; height: 100vh; overflow: hidden; z-index: 0; }
+    .spacer { height: 26vh; }
+    .sheet { position: relative; z-index: 2; background: var(--bg); border-top: 1px solid var(--border); }
+
+    /* 2. Full-Viewport Photo Chapters (FLOWERS/SIM Pattern) */
+    .ch { position: relative; }
+    .ch .bg { position: sticky; top: 0; height: 100vh; overflow: hidden; z-index: 0; }
+    .ch .bg img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.06); }
+    .ch .fl { position: relative; z-index: 2; margin-top: -100vh; }
+    .scene { min-height: 100vh; position: relative; padding: 0 4vw; display: flex; align-items: flex-end; }
+    .catplate { position: relative; margin-bottom: 12vh; width: min(440px, 92vw); background: var(--surface); border: 1px solid var(--border); backdrop-blur: 24px; padding: 2rem; border-radius: 1.25rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6); }
+
+    /* 3. Gradient Seam Fades */
+    .ch .bg::before { content:''; position: absolute; inset: 0 0 auto 0; height: 20vh; background: linear-gradient(to bottom, var(--bg), transparent); z-index: 1; pointer-events: none; }
+    .ch .bg::after { content:''; position: absolute; inset: auto 0 0 0; height: 26vh; background: linear-gradient(to top, var(--bg), transparent); z-index: 1; pointer-events: none; }
+
+    /* 4. Brand-Hue Washes */
+    .winewrap { position: relative; overflow: hidden; background: var(--bg); }
+    .winewrap > .wb { position: absolute; inset: -15%; z-index: 0; pointer-events: none; }
+    .winewrap > .wb img { width: 100%; height: 100%; object-fit: cover; filter: blur(64px) saturate(1.4); opacity: 0.35; }
+    .winewrap > *:not(.wb) { position: relative; z-index: 2; }
+
+    /* 7. Reveal Cascade System */
+    .rv { overflow: hidden; }
+    .rv img { transform: scale(1.12); opacity: 0; transition: transform 1.5s cubic-bezier(.16,1,.3,1), opacity 1s ease; }
+    .rv.in img { transform: scale(1); opacity: 1; }
+    .rt > * { opacity: 0; transform: translateY(28px); transition: opacity .9s ease, transform .9s cubic-bezier(.16,1,.3,1); }
+    .rt.in > * { opacity: 1; transform: none; }
+
+    /* 9. Giant Footer Wordmark */
+    .giant {
+      font-family: 'Cinzel', Georgia, serif;
+      text-transform: uppercase;
+      text-align: center;
+      font-size: clamp(2.5rem, 11vw, 10rem);
+      letter-spacing: .04em;
+      line-height: 0.9;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--border);
+      opacity: 0.7;
+    }
+
+    .glass-pill {
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+    }
+  </style>
 </head>
-<body class="bg-obsidian text-slate-100 font-sans antialiased selection:bg-gold selection:text-obsidian overflow-x-hidden">
+<body class="antialiased selection:bg-[var(--accent)] selection:text-black">
 
-    <!-- TOP ANNOUNCEMENT BAR -->
-    <div class="bg-gradient-to-r from-obsidian via-amber-950/40 to-obsidian border-b border-amber-500/20 py-2 text-xs text-center text-amber-200/90 tracking-wider uppercase font-medium">
-        <span class="inline-flex items-center gap-2">
-            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-gold"></i>
-            Introducing "Bhoomiputra Sovereignty" - Prime Devanahalli Aerotropolis Enclaves Now Open for Booking
-            <a href="#portfolio" class="underline hover:text-white transition-colors ml-1 font-semibold">View Masterplan</a>
-        </span>
+  <!-- 8. HEADER SYSTEM (Chanel / Editorial / DTC) -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between glass-pill rounded-full px-6 py-3">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs" style="background: var(--accent); color: var(--bg);">
+          BR
+        </div>
+        <span class="font-heading font-bold text-sm tracking-wider uppercase text-white">Bhoomiputra Real Estate Developers</span>
+      </div>
+
+      <nav class="hidden md:flex items-center space-x-8 text-xs font-mono uppercase tracking-widest text-[var(--muted)]">
+        <a href="#portfolio" class="hover:text-white transition-colors">Portfolio</a>
+        <a href="#philosophy" class="hover:text-white transition-colors">Philosophy</a>
+        <a href="#credentials" class="hover:text-white transition-colors">Credentials</a>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <a href="https://wa.me/916363273458" target="_blank" class="px-4 py-2 rounded-full font-semibold text-xs transition-all hover:scale-105 shadow-lg" style="background: var(--accent); color: var(--bg);">
+          Consultation
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 1. HERO PIN-PARALLAX ZONE (Cocoon + FLOWERS/SIM) -->
+  <section class="pinwrap">
+    <div class="pin flex items-center justify-center">
+      <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop" alt="Bhoomiputra Real Estate Developers" class="w-full h-full object-cover filter brightness-[0.7] contrast-[1.05]">
+      <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg)] via-transparent to-[var(--bg)]/60"></div>
+
+      <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6 max-w-5xl mx-auto z-10">
+        <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full glass-pill mb-6 text-xs font-mono uppercase tracking-widest text-[var(--accent-light)]">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+          <span>VERIFIED LUXURY REAL ESTATE & LAND PROMOTERS // BANGALORE, KARNATAKA</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl md:text-7xl font-bold leading-[1.05] mb-6 text-white max-w-4xl">
+          Architectural Grandeur & Signature Estates.
+        </h1>
+
+        <p class="text-base sm:text-lg text-[var(--muted)] max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+          Curating the most coveted prime addresses, sea-facing penthouses, and bespoke residential parcels across Bangalore, Karnataka. RERA compliant with title guarantees.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center gap-4">
+          <button onclick="openInquiryModal()" class="w-full sm:w-auto px-8 py-4 rounded-full font-bold text-sm tracking-wider uppercase transition-all hover:scale-105 shadow-2xl flex items-center justify-center space-x-2" style="background: var(--accent); color: var(--bg);">
+            <span>Request Private Advisory</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+          <a href="https://wa.me/916363273458" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-full glass-pill text-white font-semibold text-sm hover:bg-white/10 transition-all flex items-center justify-center space-x-2">
+            <i data-lucide="message-square" class="w-4 h-4 text-emerald-400"></i>
+            <span>WhatsApp (+91 63632 73458)</span>
+          </a>
+        </div>
+      </div>
     </div>
 
-    <!-- MAIN NAVIGATION -->
-    <header id="navbar" class="sticky top-0 z-40 transition-all duration-300 border-b border-white/5 glass-nav">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <!-- Brand Logo -->
-            <a href="#" class="flex items-center gap-3 group">
-                <div class="w-11 h-11 rounded-sm bg-gradient-to-br from-gold via-amber-300 to-amber-700 p-[1px] shadow-lg group-hover:scale-105 transition-transform duration-300">
-                    <div class="w-full h-full bg-obsidian flex items-center justify-center font-serif text-xl font-bold text-gold">
-                        B
-                    </div>
-                </div>
-                <div class="flex flex-col">
-                    <span class="font-display font-bold text-lg sm:text-xl tracking-wider text-white uppercase leading-none">
-                        Bhoomiputra
-                    </span>
-                    <span class="text-[10px] tracking-[0.25em] text-gold uppercase font-semibold mt-1">
-                        Developers & Promoters
-                    </span>
-                </div>
-            </a>
+    <div class="spacer"></div>
 
-            <!-- Desktop Menu Links -->
-            <nav class="hidden md:flex items-center space-x-8 text-sm uppercase tracking-widest text-slate-300 font-medium">
-                <a href="#overview" class="hover:text-gold transition-colors duration-200">Overview</a>
-                <a href="#portfolio" class="hover:text-gold transition-colors duration-200">Residences</a>
-                <a href="#plots" class="hover:text-gold transition-colors duration-200">Land Enclaves</a>
-                <a href="#amenities" class="hover:text-gold transition-colors duration-200">Lifestyle</a>
-                <a href="#calculator" class="hover:text-gold transition-colors duration-200">ROI Calculator</a>
-            </nav>
+    <!-- SHEET OVERLAY SLIDES OVER HERO -->
+    <div class="sheet px-6 py-24">
+      <div class="max-w-7xl mx-auto">
 
-            <!-- Right Call CTA & Modal Trigger -->
-            <div class="hidden sm:flex items-center gap-4">
-                <a href="tel:+916363273458" class="flex items-center gap-2 text-xs font-semibold text-slate-300 hover:text-gold transition-colors border border-white/10 px-4 py-2.5 rounded-sm">
-                    <i data-lucide="phone" class="w-3.5 h-3.5 text-gold"></i>
-                    <span>+91 63632 73458</span>
-                </a>
-                <button onclick="openModal()" class="gold-button text-obsidian font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-sm flex items-center gap-2">
-                    <i data-lucide="calendar" class="w-4 h-4"></i>
-                    Book Private Tour
-                </button>
-            </div>
-
-            <!-- Mobile Hamburger Button -->
-            <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="md:hidden text-slate-300 hover:text-gold focus:outline-none">
-                <i data-lucide="menu" class="w-7 h-7"></i>
-            </button>
+        <!-- 4. VERIFIED CREDENTIALS / STATS STRIP -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 py-8 border-y border-[var(--border)] mb-24 text-center">
+          <div class="p-4">
+            <div class="text-3xl sm:text-4xl font-heading font-bold text-white mb-1">₹500+ Cr</div>
+            <div class="text-xs font-mono uppercase tracking-widest text-[var(--muted)]">Portfolio Value</div>
+          </div>
+          <div class="p-4">
+            <div class="text-3xl sm:text-4xl font-heading font-bold text-white mb-1">4.8 ★</div>
+            <div class="text-xs font-mono uppercase tracking-widest text-[var(--muted)]">145 Verified Audits</div>
+          </div>
+          <div class="p-4">
+            <div class="text-3xl sm:text-4xl font-heading font-bold text-white mb-1">100%</div>
+            <div class="text-xs font-mono uppercase tracking-widest text-[var(--muted)]">Title & RERA Compliance</div>
+          </div>
+          <div class="p-4">
+            <div class="text-3xl sm:text-4xl font-heading font-bold text-white mb-1">18+ Yrs</div>
+            <div class="text-xs font-mono uppercase tracking-widest text-[var(--muted)]">Bangalore, Karnataka Market Leadership</div>
+          </div>
         </div>
 
-        <!-- Mobile Drawer Menu -->
-        <div id="mobileMenu" class="hidden md:hidden glass-panel border-b border-amber-500/20 px-6 py-6 space-y-4 text-center text-sm font-medium tracking-wider uppercase">
-            <a href="#overview" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-gold py-2">Overview</a>
-            <a href="#portfolio" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-gold py-2">Residences</a>
-            <a href="#plots" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-gold py-2">Land Enclaves</a>
-            <a href="#amenities" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-gold py-2">Lifestyle</a>
-            <a href="#calculator" onclick="toggleMobileMenu()" class="block text-slate-200 hover:text-gold py-2">ROI Calculator</a>
-            <div class="pt-4 border-t border-white/10 flex flex-col gap-3">
-                <a href="tel:+916363273458" class="flex items-center justify-center gap-2 text-gold py-2 border border-gold/30 rounded-sm">
-                    <i data-lucide="phone" class="w-4 h-4"></i>
-                    +91 63632 73458
-                </a>
-                <button onclick="toggleMobileMenu(); openModal()" class="gold-button text-obsidian font-bold py-3 rounded-sm uppercase tracking-wider">
-                    Book Private Tour
-                </button>
+        <!-- 10. FLAT NUMBERED DTC SERVICE / PRODUCT CARDS -->
+        <div id="portfolio" class="mb-32">
+          <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+            <div>
+              <span class="text-xs font-mono uppercase tracking-widest text-[var(--accent)] block mb-3">CURATED SELECTIONS // 2026</span>
+              <h2 class="text-3xl sm:text-5xl font-bold text-white">Signature Offerings</h2>
             </div>
-        </div>
-    </header>
-
-    <!-- HERO SECTION -->
-    <section id="overview" class="relative min-h-[90vh] flex items-center justify-center overflow-hidden py-24">
-        <!-- Hero Background Image & Gradient Overlays -->
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop" 
-                 alt="Luxury Real Estate Bangalore" 
-                 class="w-full h-full object-cover object-center scale-105 transform transition-transform duration-[10000ms] ease-out hover:scale-100">
-            <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/80 to-obsidian/40"></div>
-            <div class="absolute inset-0 bg-radial-at-c from-transparent via-obsidian/60 to-obsidian"></div>
-        </div>
-
-        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-10">
-            <!-- RERA Badge Tag -->
-            <div class="reveal inline-flex items-center gap-2 bg-obsidian-card/90 border border-gold/40 px-4 py-1.5 rounded-full mb-8 backdrop-blur-md">
-                <i data-lucide="shield-check" class="w-4 h-4 text-gold"></i>
-                <span class="text-xs uppercase tracking-widest text-amber-200 font-semibold">
-                    RERA Registered | PRM/KA/RERA/2026/001489
-                </span>
-            </div>
-
-            <!-- Headline -->
-            <h1 class="reveal font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-tight text-white max-w-5xl mx-auto leading-[1.1]">
-                Architectural Masterpieces & <span class="italic font-light gold-text-gradient">Sovereign Estates</span> in Bangalore
-            </h1>
-
-            <p class="reveal mt-6 text-base sm:text-xl text-slate-300 max-w-3xl mx-auto font-light leading-relaxed">
-                Pioneering ultra-luxury sky villas, penthouses, and high-appreciation land developments across Indiranagar, Sadashivanagar & Devanahalli Smart City.
+            <p class="text-sm text-[var(--muted)] max-w-md mt-4 md:mt-0">
+              Each engagement is delivered with dedicated senior partner oversight, tailored contracts, and guaranteed deliverables.
             </p>
+          </div>
 
-            <!-- Call to Actions -->
-            <div class="reveal mt-10 flex flex-col sm:flex-row items-center justify-center gap-5">
-                <button onclick="openModal()" class="gold-button w-full sm:w-auto px-8 py-4 rounded-sm text-obsidian font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-3">
-                    <span>Schedule Private Site Visit</span>
-                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </button>
-                <a href="#portfolio" class="w-full sm:w-auto px-8 py-4 rounded-sm border border-gold/40 hover:bg-gold/10 text-white font-semibold text-sm uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-3 glass-panel">
-                    <i data-lucide="compass" class="w-4 h-4 text-gold"></i>
-                    <span>Explore Portfolio</span>
-                </a>
-            </div>
-
-            <!-- Key Metric Counters Bar -->
-            <div class="reveal mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 glass-panel p-6 sm:p-8 rounded-sm max-w-5xl mx-auto border border-amber-500/20">
-                <div class="text-center">
-                    <div class="font-display text-3xl sm:text-4xl font-bold text-white mb-1">
-                        <span class="stat-number" data-target="1850">0</span>+ Cr
-                    </div>
-                    <div class="text-xs uppercase tracking-widest text-gold font-medium">Assets Delivered</div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+              <div class="group relative rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--accent)] transition-all duration-500 flex flex-col">
+                <div class="aspect-[4/3] overflow-hidden relative">
+                  <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?q=80&w=1200&auto=format&fit=crop" alt="The Sovereign Penthouse" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                  <div class="absolute top-4 left-4 px-3 py-1 rounded-full glass-pill text-[10px] font-mono tracking-widest text-white">
+                    NO. 001
+                  </div>
                 </div>
-                <div class="text-center border-l border-white/10">
-                    <div class="font-display text-3xl sm:text-4xl font-bold text-white mb-1">
-                        <span class="stat-number" data-target="28">0</span>+
-                    </div>
-                    <div class="text-xs uppercase tracking-widest text-gold font-medium">Landmark Projects</div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 class="font-heading font-bold text-xl text-white mb-2">The Sovereign Penthouse</h3>
+                    <p class="text-xs font-mono text-[var(--muted)] mb-4">4 BHK Duplex · 4,850 Sq. Ft.</p>
+                  </div>
+                  <div class="pt-4 border-t border-[var(--border)] flex items-center justify-between">
+                    <span class="font-bold text-sm text-[var(--accent-light)]">₹8.45 Cr*</span>
+                    <button onclick="openInquiryModal('The Sovereign Penthouse')" class="text-xs font-mono uppercase tracking-wider text-white hover:text-[var(--accent)] flex items-center space-x-1">
+                      <span>Reserve</span>
+                      <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
                 </div>
-                <div class="text-center border-l border-white/10">
-                    <div class="font-display text-3xl sm:text-4xl font-bold text-white mb-1">
-                        <span class="stat-number" data-target="100">0</span>%
-                    </div>
-                    <div class="text-xs uppercase tracking-widest text-gold font-medium">Clear Title Guarantee</div>
+              </div>
+            
+              <div class="group relative rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--accent)] transition-all duration-500 flex flex-col">
+                <div class="aspect-[4/3] overflow-hidden relative">
+                  <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1200&auto=format&fit=crop" alt="The Riviera Sky Villa" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                  <div class="absolute top-4 left-4 px-3 py-1 rounded-full glass-pill text-[10px] font-mono tracking-widest text-white">
+                    NO. 002
+                  </div>
                 </div>
-                <div class="text-center border-l border-white/10">
-                    <div class="font-display text-3xl sm:text-4xl font-bold text-white mb-1">
-                        <span class="stat-number" data-target="18">0</span>+ Yrs
-                    </div>
-                    <div class="text-xs uppercase tracking-widest text-gold font-medium">Bangalore Trust</div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 class="font-heading font-bold text-xl text-white mb-2">The Riviera Sky Villa</h3>
+                    <p class="text-xs font-mono text-[var(--muted)] mb-4">3 BHK Seafront · 3,200 Sq. Ft.</p>
+                  </div>
+                  <div class="pt-4 border-t border-[var(--border)] flex items-center justify-between">
+                    <span class="font-bold text-sm text-[var(--accent-light)]">₹5.20 Cr*</span>
+                    <button onclick="openInquiryModal('The Riviera Sky Villa')" class="text-xs font-mono uppercase tracking-wider text-white hover:text-[var(--accent)] flex items-center space-x-1">
+                      <span>Reserve</span>
+                      <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
                 </div>
-            </div>
+              </div>
+            
+              <div class="group relative rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--accent)] transition-all duration-500 flex flex-col">
+                <div class="aspect-[4/3] overflow-hidden relative">
+                  <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=1200&auto=format&fit=crop" alt="The Horizon Grand Estate" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                  <div class="absolute top-4 left-4 px-3 py-1 rounded-full glass-pill text-[10px] font-mono tracking-widest text-white">
+                    NO. 003
+                  </div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 class="font-heading font-bold text-xl text-white mb-2">The Horizon Grand Estate</h3>
+                    <p class="text-xs font-mono text-[var(--muted)] mb-4">5 BHK Signature · 6,400 Sq. Ft.</p>
+                  </div>
+                  <div class="pt-4 border-t border-[var(--border)] flex items-center justify-between">
+                    <span class="font-bold text-sm text-[var(--accent-light)]">₹12.80 Cr*</span>
+                    <button onclick="openInquiryModal('The Horizon Grand Estate')" class="text-xs font-mono uppercase tracking-wider text-white hover:text-[var(--accent)] flex items-center space-x-1">
+                      <span>Reserve</span>
+                      <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
         </div>
-    </section>
 
-    <!-- TRUST & APPROVAL BADGES -->
-    <section class="py-10 bg-obsidian-card/60 border-y border-white/5">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p class="text-center text-xs uppercase tracking-[0.2em] text-slate-400 mb-8 font-semibold">
-                Approved by Banking Partners & Regulatory Authorities
-            </p>
-            <div class="flex flex-wrap items-center justify-center gap-8 sm:gap-16 opacity-75">
-                <div class="flex items-center gap-2 text-slate-300 font-bold tracking-wider">
-                    <i data-lucide="building-2" class="w-5 h-5 text-gold"></i>
-                    <span>HDFC LUXURY HOME LOANS</span>
-                </div>
-                <div class="flex items-center gap-2 text-slate-300 font-bold tracking-wider">
-                    <i data-lucide="award" class="w-5 h-5 text-gold"></i>
-                    <span>ICICI BANK WEALTH</span>
-                </div>
-                <div class="flex items-center gap-2 text-slate-300 font-bold tracking-wider">
-                    <i data-lucide="check-circle-2" class="w-5 h-5 text-gold"></i>
-                    <span>SBI APPROVED REALTY</span>
-                </div>
-                <div class="flex items-center gap-2 text-slate-300 font-bold tracking-wider">
-                    <i data-lucide="shield" class="w-5 h-5 text-gold"></i>
-                    <span>AXIS BANK CAPITAL</span>
-                </div>
-            </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. FULL-VIEWPORT PHOTO CHAPTERS (FLOWERS/SIM Pattern) -->
+  <section class="ch">
+    <div class="bg">
+      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" alt="Bhoomiputra Real Estate Developers Architectural Craft" class="w-full h-full object-cover">
+    </div>
+    <div class="fl">
+      <div class="scene">
+        <div class="catplate">
+          <span class="text-[10px] font-mono uppercase tracking-widest text-[var(--accent)] block mb-2">CHAPTER 01 // DISCIPLINE</span>
+          <h3 class="font-heading text-2xl font-bold text-white mb-3">Unflinching Material Mastery</h3>
+          <p class="text-xs text-[var(--muted)] leading-relaxed mb-4">
+            We reject mass replication. Every project commissioned under Bhoomiputra Real Estate Developers is engineered with uncompromising bespoke specifications tailored specifically to Bangalore, Karnataka.
+          </p>
+          <a href="https://wa.me/916363273458" target="_blank" class="text-xs font-mono uppercase tracking-wider text-[var(--accent-light)] flex items-center space-x-1 hover:underline">
+            <span>Inquire About Standards</span>
+            <i data-lucide="chevron-right" class="w-3 h-3"></i>
+          </a>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- FEATURED PROPERTY PORTFOLIO -->
-    <section id="portfolio" class="py-24 relative z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Header with Filter Tabs -->
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-                <div>
-                    <div class="text-xs uppercase tracking-[0.25em] text-gold font-bold mb-3 flex items-center gap-2">
-                        <i data-lucide="sparkles" class="w-4 h-4"></i>
-                        Curated Collection
-                    </div>
-                    <h2 class="font-serif text-3xl sm:text-5xl font-normal text-white">
-                        Featured <span class="italic text-gold">Residences & Enclaves</span>
-                    </h2>
-                </div>
+  <section class="ch">
+    <div class="bg">
+      <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop" alt="Bhoomiputra Real Estate Developers Heritage" class="w-full h-full object-cover">
+    </div>
+    <div class="fl">
+      <div class="scene">
+        <div class="catplate">
+          <span class="text-[10px] font-mono uppercase tracking-widest text-[var(--accent)] block mb-2">CHAPTER 02 // PROVENANCE</span>
+          <h3 class="font-heading text-2xl font-bold text-white mb-3">Institutional Trust & Integrity</h3>
+          <p class="text-xs text-[var(--muted)] leading-relaxed mb-4">
+            Backed by 145 verified public reviews and an impeccable record in Bangalore, Karnataka, our reputation is built on delivery, transparent pricing, and zero ambiguity.
+          </p>
+          <a href="https://wa.me/916363273458" target="_blank" class="text-xs font-mono uppercase tracking-wider text-[var(--accent-light)] flex items-center space-x-1 hover:underline">
+            <span>Direct Partner WhatsApp</span>
+            <i data-lucide="chevron-right" class="w-3 h-3"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-                <!-- Filter Tabs -->
-                <div class="flex flex-wrap gap-2 glass-panel p-1.5 rounded-sm border border-white/10">
-                    <button onclick="filterProperties('all')" class="tab-btn active border border-gold/50 bg-gold/20 text-gold px-4 py-2 text-xs uppercase tracking-wider font-semibold rounded-sm transition-all">
-                        All Portfolio
-                    </button>
-                    <button onclick="filterProperties('sky-villas')" class="tab-btn text-slate-400 hover:text-white px-4 py-2 text-xs uppercase tracking-wider font-semibold rounded-sm transition-all">
-                        Sky Villas
-                    </button>
-                    <button onclick="filterProperties('penthouses')" class="tab-btn text-slate-400 hover:text-white px-4 py-2 text-xs uppercase tracking-wider font-semibold rounded-sm transition-all">
-                        Penthouses
-                    </button>
-                    <button onclick="filterProperties('plots')" class="tab-btn text-slate-400 hover:text-white px-4 py-2 text-xs uppercase tracking-wider font-semibold rounded-sm transition-all">
-                        Signature Land
-                    </button>
-                </div>
-            </div>
+  <!-- 4. BRAND-HUE WASH CONSULTATION / FOOTER ZONE -->
+  <section class="winewrap py-32 px-6 border-t border-[var(--border)]">
+    <div class="wb">
+      <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=2070&auto=format&fit=crop" alt="Ambience Wash">
+    </div>
 
-            <!-- Property Grid -->
-            <div id="propertyGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <!-- Card 1: Sky Villa -->
-                <div class="property-card reveal glass-panel rounded-sm overflow-hidden border border-amber-500/20 group hover:border-gold transition-all duration-500" data-category="sky-villas">
-                    <div class="relative h-72 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=1000&auto=format&fit=crop" 
-                             alt="Bhoomiputra Luminaria Sky Villa" 
-                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent"></div>
-                        <div class="absolute top-4 left-4 bg-obsidian/90 text-gold text-xs font-bold px-3 py-1 uppercase tracking-widest border border-gold/40 rounded-sm">
-                            4 BHK Sky Villa
-                        </div>
-                        <div class="absolute bottom-4 right-4 bg-obsidian-card/90 text-slate-200 text-xs px-3 py-1 flex items-center gap-1.5 border border-white/10 rounded-sm">
-                            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-gold"></i>
-                            Indiranagar, Bangalore
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="font-serif text-2xl font-normal text-white mb-2 group-hover:text-gold transition-colors">
-                            Bhoomiputra Luminaria
-                        </h3>
-                        <p class="text-xs text-slate-400 font-light mb-6 line-clamp-2">
-                            Ultra-private Italian marble residences with floor-to-ceiling glass wrapping around double-height private infinity plunge pools.
-                        </p>
-                        
-                        <div class="grid grid-cols-2 gap-4 border-y border-white/10 py-4 mb-6 text-xs text-slate-300">
-                            <div>
-                                <span class="text-slate-500 block text-[10px] uppercase tracking-wider">Super Built-up Area</span>
-                                <span class="font-semibold text-white">4,850 Sq. Ft.</span>
-                            </div>
-                            <div>
-                                <span class="text-slate-500 block text-[10px] uppercase tracking-wider">RERA Status</span>
-                                <span class="font-semibold text-gold">Ready to Move</span>
-                            </div>
-                        </div>
+    <div class="max-w-4xl mx-auto text-center relative z-10 mb-20">
+      <span class="text-xs font-mono uppercase tracking-widest text-[var(--accent)] block mb-4">DIRECT ENGAGEMENT</span>
+      <h2 class="text-3xl sm:text-6xl font-bold text-white mb-6">
+        Claim Your Bespoke Consultation in Bangalore, Karnataka.
+      </h2>
+      <p class="text-base text-[var(--muted)] max-w-xl mx-auto mb-10">
+        Connect directly with our senior directors. Receive our full confidential prospectus and bespoke feasibility brief within 2 hours.
+      </p>
 
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Starting Investment</span>
-                                <span class="font-display text-2xl font-bold text-white"> 4.85 Cr*</span>
-                            </div>
-                            <button onclick="openModal('Bhoomiputra Luminaria')" class="gold-button text-obsidian p-3 rounded-sm">
-                                <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="https://wa.me/916363273458" target="_blank" class="w-full sm:w-auto px-10 py-5 rounded-full font-bold text-sm tracking-wider uppercase transition-all hover:scale-105 shadow-2xl flex items-center justify-center space-x-2" style="background: var(--accent); color: var(--bg);">
+          <i data-lucide="message-square" class="w-4 h-4"></i>
+          <span>Direct WhatsApp Consultation (+91)</span>
+        </a>
+        <button onclick="openInquiryModal()" class="w-full sm:w-auto px-8 py-5 rounded-full glass-pill text-white font-semibold text-sm hover:bg-white/10 transition-all">
+          Request Call Back
+        </button>
+      </div>
+    </div>
 
-                <!-- Card 2: Penthouse -->
-                <div class="property-card reveal glass-panel rounded-sm overflow-hidden border border-amber-500/20 group hover:border-gold transition-all duration-500" data-category="penthouses">
-                    <div class="relative h-72 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1000&auto=format&fit=crop" 
-                             alt="The Crown Penthouse Sadashivanagar" 
-                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        <div class="absolute inset
+    <!-- 9. GIANT FOOTER WORDMARK -->
+    <div class="giant select-none my-12">
+      Bhoomiputra Real Estate Developers
+    </div>
+
+    <footer class="max-w-7xl mx-auto pt-12 border-t border-[var(--border)] flex flex-col md:flex-row items-center justify-between text-xs text-[var(--muted)] gap-4">
+      <div>
+        &copy; 2026 Bhoomiputra Real Estate Developers. Nagadevanahalli & Kengeri, Bangalore, Karnataka 560060. RERA & Statutory Compliant.
+      </div>
+      <div class="flex items-center space-x-6 font-mono">
+        <span>TEL: +91 63632 73458</span>
+        <span>Bangalore, Karnataka, INDIA</span>
+      </div>
+    </footer>
+  </section>
+
+  <!-- WORKING INQUIRY MODAL (13. Working Features) -->
+  <div id="inquiryModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="bg-[var(--surface)] border border-[var(--border)] rounded-3xl max-w-lg w-full p-8 relative shadow-2xl">
+      <button onclick="closeInquiryModal()" class="absolute top-5 right-5 text-[var(--muted)] hover:text-white p-2">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <span class="text-[10px] font-mono uppercase tracking-widest text-[var(--accent)] block mb-2">PRIORITY INQUIRY // 2026</span>
+      <h3 class="text-2xl font-heading font-bold text-white mb-2">Engage Bhoomiputra Real Estate Developers</h3>
+      <p class="text-xs text-[var(--muted)] mb-6">
+        Submit your requirements for direct transmission to our executive desk in Bangalore, Karnataka.
+      </p>
+
+      <form onsubmit="handleInquirySubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-[10px] font-mono uppercase tracking-widest text-[var(--muted)] mb-1">Your Full Name</label>
+          <input type="text" id="modalName" required placeholder="e.g. Vikram Singhania" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-[var(--border)] text-white text-sm focus:outline-none focus:border-[var(--accent)]">
+        </div>
+        <div>
+          <label class="block text-[10px] font-mono uppercase tracking-widest text-[var(--muted)] mb-1">10-Digit Mobile (+91)</label>
+          <input type="tel" id="modalPhone" required placeholder="e.g. 98450 12345" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-[var(--border)] text-white text-sm focus:outline-none focus:border-[var(--accent)]">
+        </div>
+        <div>
+          <label class="block text-[10px] font-mono uppercase tracking-widest text-[var(--muted)] mb-1">Requirement Overview</label>
+          <input type="text" id="modalReq" placeholder="Specific service, dates, or specifications" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-[var(--border)] text-white text-sm focus:outline-none focus:border-[var(--accent)]">
+        </div>
+
+        <button type="submit" class="w-full py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all hover:scale-[1.01] shadow-lg flex items-center justify-center space-x-2" style="background: var(--accent); color: var(--bg);">
+          <span>Confirm & Transmit via WhatsApp</span>
+          <i data-lucide="send" class="w-3.5 h-3.5"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FLOATING WHATSAPP PILL -->
+  <a href="https://wa.me/916363273458?text=Hi%20Bhoomiputra%20Real%20Estate%20Developers!%20I%20am%20reviewing%20your%20platform%20and%20would%20like%20to%20schedule%20a%20priority%20consultation." target="_blank" class="fixed bottom-6 right-6 z-40 px-5 py-3.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white font-bold text-xs uppercase tracking-wider shadow-2xl shadow-emerald-500/40 flex items-center space-x-2 hover:scale-105 transition-all">
+    <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+    <i data-lucide="message-square" class="w-4 h-4"></i>
+    <span>WhatsApp (Bhoomiputra Real Estate Developers)</span>
+  </a>
+
+  <script>
+    lucide.createIcons();
+
+    function openInquiryModal(reqTitle = '') {
+      const modal = document.getElementById('inquiryModal');
+      modal.classList.remove('hidden');
+      if (reqTitle) {
+        document.getElementById('modalReq').value = reqTitle;
+      }
+    }
+
+    function closeInquiryModal() {
+      document.getElementById('inquiryModal').classList.add('hidden');
+    }
+
+    function handleInquirySubmit(e) {
+      e.preventDefault();
+      const n = document.getElementById('modalName').value;
+      const p = document.getElementById('modalPhone').value;
+      const r = document.getElementById('modalReq').value;
+      const text = encodeURIComponent('Hi ' + "Bhoomiputra Real Estate Developers" + '! My name is ' + n + ' (' + p + '). I would like to inquire about: ' + (r || 'General Consultation'));
+      window.open('https://wa.me/916363273458?text=' + text, '_blank');
+      closeInquiryModal();
+    }
+  </script>
+</body>
+</html>
