@@ -165,7 +165,7 @@ export default async function handler(req, res) {
             [{ text: "🚀 Open Live Client Website ↗", url: protoUrl }],
             [
               { text: "💬 WhatsApp Pitch (1-Click)", url: `https://wa.me/91${cleanPhone}?text=${encodeURIComponent(pitchMsg)}` },
-              { text: "📞 Call +91 Direct", url: `tel:+91${cleanPhone}` }
+              { text: "📞 Call via WhatsApp", url: `https://wa.me/91${cleanPhone}` }
             ]
           ];
 
@@ -188,7 +188,7 @@ export default async function handler(req, res) {
             const pitch = `Hi ${lead.name}! I noticed your business in ${lead.city}, but saw you don't have an official website. I built a custom live website prototype for you: ${protoUrl} . Would you like to review and claim it?`;
             const buttons = [
               [{ text: "🚀 Open Live Client Website ↗", url: protoUrl }],
-              [{ text: "💬 WhatsApp Pitch (1-Click)", url: `https://wa.me/91${cleanPhone}?text=${encodeURIComponent(pitch)}` }, { text: "📞 Call Direct", url: `tel:+91${cleanPhone}` }]
+              [{ text: "💬 WhatsApp Pitch (1-Click)", url: `https://wa.me/91${cleanPhone}?text=${encodeURIComponent(pitch)}` }, { text: "📞 Call via WhatsApp", url: `https://wa.me/91${cleanPhone}` }]
             ];
             await sendTelegram(chatId, card, { inline_keyboard: buttons });
           }
