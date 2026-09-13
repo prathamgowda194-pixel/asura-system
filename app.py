@@ -39,6 +39,16 @@ try:
 except Exception:
     client = None
 
+try:
+    from telegram_bot import TelegramBot
+except Exception:
+    TelegramBot = None
+
+try:
+    import hunter_engine
+except Exception:
+    hunter_engine = None
+
 # Safe fragment wrapper for older/newer Streamlit compatibility
 if hasattr(st, "fragment"):
     safe_fragment = st.fragment
@@ -1354,259 +1364,643 @@ with col_center:
     </div>
     """)
 
-    # ── TESLA ORB + WEBSPEECH INTERFACE ─────────────────────────────────────────
-    ORB_COMPONENT = """<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@700&family=JetBrains+Mono:wght@400;500&display=swap');
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: transparent; font-family: 'Inter', sans-serif; overflow: hidden; color: #f0f4ff; }
+    tab_builder, tab_hunter, tab_portfolio = st.tabs([
+        "⚡ ASURA BUILDER // CLIENT PLATFORM GENERATOR",
+        "🎯 ASURA HUNTER // 24/7 TELEGRAM LEAD RADAR",
+        "📁 CLIENT ASSET PORTFOLIO"
+    ])
 
-@keyframes rotCW  { to { transform: rotate(360deg); } }
-@keyframes rotCCW { to { transform: rotate(-360deg); } }
-@keyframes pulseMic { 0%,100% { box-shadow: 0 0 8px rgba(0,240,255,0.4); } 50% { box-shadow: 0 0 20px rgba(0,240,255,0.8); } }
-@keyframes coreBreath { 0%,100% { opacity:0.8; transform:scale(0.97); } 50% { opacity:1; transform:scale(1.04); } }
-@keyframes sonarRing { 0% { r:14; opacity:0.8; } 100% { r:105; opacity:0; } }
+    with tab_builder:
+        # ── TESLA ORB + WEBSPEECH INTERFACE ─────────────────────────────────────────
+        ORB_COMPONENT = """<!DOCTYPE html>
+    <html>
+    <head>
+    <meta charset="utf-8">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@700&family=JetBrains+Mono:wght@400;500&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: transparent; font-family: 'Inter', sans-serif; overflow: hidden; color: #f0f4ff; }
 
-#deck { display: flex; flex-direction: column; align-items: center; padding: 6px 0 0; }
-#orb-frame { width: 250px; height: 250px; position: relative; display: flex; align-items: center; justify-content: center; }
+    @keyframes rotCW  { to { transform: rotate(360deg); } }
+    @keyframes rotCCW { to { transform: rotate(-360deg); } }
+    @keyframes pulseMic { 0%,100% { box-shadow: 0 0 8px rgba(0,240,255,0.4); } 50% { box-shadow: 0 0 20px rgba(0,240,255,0.8); } }
+    @keyframes coreBreath { 0%,100% { opacity:0.8; transform:scale(0.97); } 50% { opacity:1; transform:scale(1.04); } }
+    @keyframes sonarRing { 0% { r:14; opacity:0.8; } 100% { r:105; opacity:0; } }
 
-.gyro { position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(255,255,255,0.08); }
-#gyro1 { animation: rotCW 18s linear infinite; }
-#gyro2 { inset: 18px; border-style: dashed; border-color: rgba(255,255,255,0.05); animation: rotCCW 24s linear infinite; }
+    #deck { display: flex; flex-direction: column; align-items: center; padding: 6px 0 0; }
+    #orb-frame { width: 250px; height: 250px; position: relative; display: flex; align-items: center; justify-content: center; }
 
-#core-sphere {
-  width: 210px; height: 210px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(10,16,36,.92) 0%, rgba(4,6,16,.98) 85%);
-  border: 1px solid rgba(255,255,255,.07);
-  overflow: hidden; box-shadow: inset 0 0 30px rgba(0,0,0,.9);
-}
+    .gyro { position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(255,255,255,0.08); }
+    #gyro1 { animation: rotCW 18s linear infinite; }
+    #gyro2 { inset: 18px; border-style: dashed; border-color: rgba(255,255,255,0.05); animation: rotCCW 24s linear infinite; }
 
-#voice-bar {
-  display: flex; align-items: center; gap: 10px; margin-top: 14px;
-  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 30px; padding: 6px 16px; width: 90%; max-width: 420px;
-}
+    #core-sphere {
+      width: 210px; height: 210px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(10,16,36,.92) 0%, rgba(4,6,16,.98) 85%);
+      border: 1px solid rgba(255,255,255,.07);
+      overflow: hidden; box-shadow: inset 0 0 30px rgba(0,0,0,.9);
+    }
 
-#mic-btn {
-  width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.2); cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s; flex-shrink: 0;
-}
-#mic-btn.active { background: #00f0ff; animation: pulseMic 1.2s infinite; }
-#mic-btn.active svg { stroke: #000; }
+    #voice-bar {
+      display: flex; align-items: center; gap: 10px; margin-top: 14px;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 30px; padding: 6px 16px; width: 90%; max-width: 420px;
+    }
 
-#transcript-box {
-  font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(220,235,255,0.85);
-  flex-grow: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
+    #mic-btn {
+      width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2); cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; flex-shrink: 0;
+    }
+    #mic-btn.active { background: #00f0ff; animation: pulseMic 1.2s infinite; }
+    #mic-btn.active svg { stroke: #000; }
 
-.cmd-pill {
-  font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600;
-  padding: 5px 12px; border-radius: 20px; background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1); color: #d0e4ff; cursor: pointer; transition: all 0.15s;
-}
-.cmd-pill:hover { background: rgba(255,255,255,0.12); color: #ffffff; border-color: rgba(255,255,255,0.25); }
-</style>
-</head>
-<body>
-<div id="deck">
-  <div id="orb-frame">
-    <div class="gyro" id="gyro1"></div>
-    <div class="gyro" id="gyro2"></div>
-    <div id="core-sphere">
-      <svg viewBox="0 0 280 280" style="width:100%;height:100%;">
-        <defs>
-          <radialGradient id="plasmaCore" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#ffffff"/>
-            <stop offset="45%" stop-color="#ffffff" stop-opacity="0.95"/>
-            <stop offset="75%" stop-color="#e2e8f0" stop-opacity="0.5"/>
-            <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-        <!-- Pure White Sonar ripples -->
-        <circle cx="140" cy="140" r="14" fill="none" stroke="#ffffff" stroke-width="0.9" opacity="0.7">
-          <animate attributeName="r" from="14" to="108" dur="2.8s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" from="0.9" to="0" dur="2.8s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="140" cy="140" r="14" fill="none" stroke="#ffffff" stroke-width="0.6" opacity="0.5">
-          <animate attributeName="r" from="14" to="108" dur="2.8s" begin="1.4s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" from="0.7" to="0" dur="2.8s" begin="1.4s" repeatCount="indefinite"/>
-        </circle>
-        <!-- Pure White Fractal lightning filament paths -->
-        <g stroke="#ffffff" stroke-linecap="round" fill="none" stroke-width="1.5" style="filter:drop-shadow(0 0 8px rgba(255,255,255,0.95));">
-          <path d="M140,140 L136,117 L150,106 L132,84 L153,70 L142,48 M132,84 L117,75 L104,60"/>
-          <path d="M140,140 L163,123 L157,109 L184,94 L177,73 M184,94 L205,102 L222,98"/>
-          <path d="M140,140 L157,155 L174,145 L196,165 L216,155 M196,165 L204,186 L219,194"/>
-          <path d="M140,140 L150,167 L136,184 L158,204 L150,221 M158,204 L177,212 L190,228"/>
-          <path d="M140,140 L124,157 L135,172 L118,196 L129,214 M118,196 L100,205 L85,220"/>
-          <path d="M140,140 L114,148 L104,133 L81,146 L70,130 M81,146 L74,164 L58,173"/>
-          <path d="M140,140 L121,124 L108,131 L92,107 L76,114 M92,107 L97,85 L84,70"/>
-          <path d="M140,140 L128,110 L115,100 L127,77 L109,64 M127,77 L143,65 L150,48"/>
-        </g>
-        <!-- Pulsing Central White Power Core -->
-        <circle cx="140" cy="140" r="24" fill="url(#plasmaCore)" style="filter:drop-shadow(0 0 20px rgba(255,255,255,1.0));">
-          <animate attributeName="r" values="22;28;22" dur="2.4s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="140" cy="140" r="9" fill="#ffffff" style="filter:drop-shadow(0 0 10px #ffffff);">
-          <animate attributeName="r" values="8;12;8" dur="2.4s" repeatCount="indefinite"/>
-        </circle>
-      </svg>
+    #transcript-box {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(220,235,255,0.85);
+      flex-grow: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+
+    .cmd-pill {
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600;
+      padding: 5px 12px; border-radius: 20px; background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1); color: #d0e4ff; cursor: pointer; transition: all 0.15s;
+    }
+    .cmd-pill:hover { background: rgba(255,255,255,0.12); color: #ffffff; border-color: rgba(255,255,255,0.25); }
+    </style>
+    </head>
+    <body>
+    <div id="deck">
+      <div id="orb-frame">
+        <div class="gyro" id="gyro1"></div>
+        <div class="gyro" id="gyro2"></div>
+        <div id="core-sphere">
+          <svg viewBox="0 0 280 280" style="width:100%;height:100%;">
+            <defs>
+              <radialGradient id="plasmaCore" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffffff"/>
+                <stop offset="45%" stop-color="#ffffff" stop-opacity="0.95"/>
+                <stop offset="75%" stop-color="#e2e8f0" stop-opacity="0.5"/>
+                <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <!-- Pure White Sonar ripples -->
+            <circle cx="140" cy="140" r="14" fill="none" stroke="#ffffff" stroke-width="0.9" opacity="0.7">
+              <animate attributeName="r" from="14" to="108" dur="2.8s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" from="0.9" to="0" dur="2.8s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="140" cy="140" r="14" fill="none" stroke="#ffffff" stroke-width="0.6" opacity="0.5">
+              <animate attributeName="r" from="14" to="108" dur="2.8s" begin="1.4s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" from="0.7" to="0" dur="2.8s" begin="1.4s" repeatCount="indefinite"/>
+            </circle>
+            <!-- Pure White Fractal lightning filament paths -->
+            <g stroke="#ffffff" stroke-linecap="round" fill="none" stroke-width="1.5" style="filter:drop-shadow(0 0 8px rgba(255,255,255,0.95));">
+              <path d="M140,140 L136,117 L150,106 L132,84 L153,70 L142,48 M132,84 L117,75 L104,60"/>
+              <path d="M140,140 L163,123 L157,109 L184,94 L177,73 M184,94 L205,102 L222,98"/>
+              <path d="M140,140 L157,155 L174,145 L196,165 L216,155 M196,165 L204,186 L219,194"/>
+              <path d="M140,140 L150,167 L136,184 L158,204 L150,221 M158,204 L177,212 L190,228"/>
+              <path d="M140,140 L124,157 L135,172 L118,196 L129,214 M118,196 L100,205 L85,220"/>
+              <path d="M140,140 L114,148 L104,133 L81,146 L70,130 M81,146 L74,164 L58,173"/>
+              <path d="M140,140 L121,124 L108,131 L92,107 L76,114 M92,107 L97,85 L84,70"/>
+              <path d="M140,140 L128,110 L115,100 L127,77 L109,64 M127,77 L143,65 L150,48"/>
+            </g>
+            <!-- Pulsing Central White Power Core -->
+            <circle cx="140" cy="140" r="24" fill="url(#plasmaCore)" style="filter:drop-shadow(0 0 20px rgba(255,255,255,1.0));">
+              <animate attributeName="r" values="22;28;22" dur="2.4s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="140" cy="140" r="9" fill="#ffffff" style="filter:drop-shadow(0 0 10px #ffffff);">
+              <animate attributeName="r" values="8;12;8" dur="2.4s" repeatCount="indefinite"/>
+            </circle>
+          </svg>
+        </div>
+      </div>
+
+      <div id="voice-bar">
+        <button id="mic-btn" onclick="toggleVoice()" title="Click to Speak to ASURA">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/>
+          </svg>
+        </button>
+        <div id="transcript-box">Click mic or speak: "Asura, build real estate site"</div>
+      </div>
+
+      <div style="display:flex;gap:6px;margin-top:10px;">
+        <button class="cmd-pill" onclick="triggerPreset('Build me a professional realestate website for the client')">Real Estate Portal</button>
+        <button class="cmd-pill" onclick="triggerPreset('Build a modern luxury SaaS analytics landing page with pricing matrix')">SaaS Platform</button>
+      </div>
     </div>
-  </div>
 
-  <div id="voice-bar">
-    <button id="mic-btn" onclick="toggleVoice()" title="Click to Speak to ASURA">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/>
-      </svg>
-    </button>
-    <div id="transcript-box">Click mic or speak: "Asura, build real estate site"</div>
-  </div>
+    <script>
+    let recognizing = false;
+    let recognition = null;
 
-  <div style="display:flex;gap:6px;margin-top:10px;">
-    <button class="cmd-pill" onclick="triggerPreset('Build me a professional realestate website for the client')">Real Estate Portal</button>
-    <button class="cmd-pill" onclick="triggerPreset('Build a modern luxury SaaS analytics landing page with pricing matrix')">SaaS Platform</button>
-  </div>
-</div>
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRec();
+      recognition.continuous = false;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
 
-<script>
-let recognizing = false;
-let recognition = null;
+      recognition.onstart = () => {
+        recognizing = true;
+        document.getElementById('mic-btn').classList.add('active');
+        document.getElementById('transcript-box').innerText = 'ASURA Listening...';
+      };
 
-if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-  recognition = new SpeechRec();
-  recognition.continuous = false;
-  recognition.interimResults = true;
-  recognition.lang = 'en-US';
+      recognition.onresult = (e) => {
+        let interim = '', final = '';
+        for (let i = e.resultIndex; i < e.results.length; ++i) {
+          if (e.results[i].isFinal) final += e.results[i][0].transcript;
+          else interim += e.results[i][0].transcript;
+        }
+        const val = final || interim;
+        document.getElementById('transcript-box').innerText = val;
+        if (final) {
+          speakFeedback("Directive received. Routing through Hermes framework.");
+          // Copy to clipboard for easy pasting into textarea
+          navigator.clipboard.writeText(final);
+        }
+      };
 
-  recognition.onstart = () => {
-    recognizing = true;
-    document.getElementById('mic-btn').classList.add('active');
-    document.getElementById('transcript-box').innerText = 'ASURA Listening...';
-  };
-
-  recognition.onresult = (e) => {
-    let interim = '', final = '';
-    for (let i = e.resultIndex; i < e.results.length; ++i) {
-      if (e.results[i].isFinal) final += e.results[i][0].transcript;
-      else interim += e.results[i][0].transcript;
+      recognition.onend = () => {
+        recognizing = false;
+        document.getElementById('mic-btn').classList.remove('active');
+      };
+      recognition.onerror = () => {
+        recognizing = false;
+        document.getElementById('mic-btn').classList.remove('active');
+      };
     }
-    const val = final || interim;
-    document.getElementById('transcript-box').innerText = val;
-    if (final) {
-      speakFeedback("Directive received. Routing through Hermes framework.");
-      // Copy to clipboard for easy pasting into textarea
-      navigator.clipboard.writeText(final);
+
+    function toggleVoice() {
+      if (!recognition) {
+        alert('Web Speech API is supported on Chrome and Edge browsers.');
+        return;
+      }
+      if (recognizing) recognition.stop();
+      else recognition.start();
     }
-  };
 
-  recognition.onend = () => {
-    recognizing = false;
-    document.getElementById('mic-btn').classList.remove('active');
-  };
-  recognition.onerror = () => {
-    recognizing = false;
-    document.getElementById('mic-btn').classList.remove('active');
-  };
-}
+    function speakFeedback(text) {
+      if ('speechSynthesis' in window) {
+        const utt = new SpeechSynthesisUtterance(text);
+        utt.rate = 0.9;
+        utt.pitch = 0.75;
+        window.speechSynthesis.speak(utt);
+      }
+    }
 
-function toggleVoice() {
-  if (!recognition) {
-    alert('Web Speech API is supported on Chrome and Edge browsers.');
-    return;
-  }
-  if (recognizing) recognition.stop();
-  else recognition.start();
-}
+    function triggerPreset(text) {
+      document.getElementById('transcript-box').innerText = text;
+      speakFeedback("Executing directive: " + text.slice(0, 30));
+      navigator.clipboard.writeText(text);
+    }
+    </script>
+    </body>
+    </html>"""
 
-function speakFeedback(text) {
-  if ('speechSynthesis' in window) {
-    const utt = new SpeechSynthesisUtterance(text);
-    utt.rate = 0.9;
-    utt.pitch = 0.75;
-    window.speechSynthesis.speak(utt);
-  }
-}
+        components.html(ORB_COMPONENT, height=350, scrolling=False)
 
-function triggerPreset(text) {
-  document.getElementById('transcript-box').innerText = text;
-  speakFeedback("Executing directive: " + text.slice(0, 30));
-  navigator.clipboard.writeText(text);
-}
-</script>
-</body>
-</html>"""
+        # ── METRIC CARDS ───────────────────────────────────────────────────────────
+        # ── METRIC CARDS ───────────────────────────────────────────────────────────
+        @safe_fragment(run_every=6)
+        def metric_cards():
+            elapsed = int(time.time() - st.session_state.session_start)
+            rt_fmt = f"{elapsed//3600:02d}:{(elapsed%3600)//60:02d}:{elapsed%60:02d}"
+            tick_delta = random.uniform(-180, 290)
+            mrr = st.session_state.mrr_base + tick_delta
+            progress = st.session_state.metrics.get("progress", 100)
+            proj_count = st.session_state.get("projects_deployed", 14)
 
-    components.html(ORB_COMPONENT, height=350, scrolling=False)
+            H(f"""
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:14px;">
+            <div class="mc" style="border-top:1.5px solid #34d399;">
+            <div class="t-over" style="margin-bottom:6px;">Projects Deployed</div>
+            <div class="t-val">{proj_count}</div>
+            <div class="t-mono" style="margin-top:6px;color:#34d399;">+1 Synced to Git Origin</div>
+            </div>
 
-    # ── METRIC CARDS ───────────────────────────────────────────────────────────
-    # ── METRIC CARDS ───────────────────────────────────────────────────────────
-    @safe_fragment(run_every=6)
-    def metric_cards():
-        elapsed = int(time.time() - st.session_state.session_start)
-        rt_fmt = f"{elapsed//3600:02d}:{(elapsed%3600)//60:02d}:{elapsed%60:02d}"
-        tick_delta = random.uniform(-180, 290)
-        mrr = st.session_state.mrr_base + tick_delta
-        progress = st.session_state.metrics.get("progress", 100)
-        proj_count = st.session_state.get("projects_deployed", 14)
+            <div class="mc" style="border-top:1.5px solid #38bdf8;">
+            <div class="t-over" style="margin-bottom:6px;">Mission Progress</div>
+            <div class="t-val">{progress}%</div>
+            <div class="t-mono" style="margin-top:6px;color:#38bdf8;">Autonomous Pipeline Active</div>
+            </div>
 
-        H(f"""
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:14px;">
-        <div class="mc" style="border-top:1.5px solid #34d399;">
-        <div class="t-over" style="margin-bottom:6px;">Projects Deployed</div>
-        <div class="t-val">{proj_count}</div>
-        <div class="t-mono" style="margin-top:6px;color:#34d399;">+1 Synced to Git Origin</div>
+            <div class="mc" style="border-top:1.5px solid #a78bfa;">
+            <div class="t-over" style="margin-bottom:6px;">Session Runtime</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:#ffffff;">{rt_fmt}</div>
+            <div class="t-mono" style="margin-top:6px;color:#a78bfa;">99.98% System Uptime</div>
+            </div>
+
+            <div class="mc" style="border-top:1.5px solid #fbbf24;">
+            <div class="t-over" style="margin-bottom:6px;">Monthly Run Rate</div>
+            <div style="font-size:18px;font-weight:700;color:#ffffff;">${mrr:,.0f}</div>
+            <div class="t-mono" style="margin-top:6px;color:#fbbf24;">Hermes Tier IV Clearance</div>
+            </div>
+            </div>
+            """)
+
+        metric_cards()
+
+        # ── MISSION COMMAND DECK ──────────────────────────────────────────────────
+        H("""
+        <div class="gl1" style="padding:16px 18px;margin-bottom:14px;">
+        <div class="t-over" style="margin-bottom:10px;">Dynamic Business Target  //  CrewAI & Gemini Engine Execution</div>
+        """)
+
+        user_input = st.text_input(
+            "Enter Business Target Niche:",
+            value=st.session_state.get("target_niche_val", "Ultra-Luxury Real Estate & High-Rise Penthouses"),
+            key="target_niche_text_input"
+        )
+        st.session_state.target_niche_val = user_input
+
+        project_slug = st.text_input(
+            "Project URL Folder Slug or Pasted Vercel URL (leave empty for auto-slug, or paste URL to update):",
+            value=st.session_state.get("selected_project_slug", ""),
+            key="project_slug_input",
+            help="Paste a live Vercel URL (e.g. https://asura-system.vercel.app/projects/elite-digital-agency-developer/index.html) or slug to modify an existing website!"
+        )
+
+        with st.expander("📁 DEPLOYED CLIENT SITES & 1-CLICK HANDOVER", expanded=False):
+            st.markdown("<div style='font-size:12px;color:#94a3b8;margin-bottom:8px;'>Track all live client websites on Vercel, select for iterative edits, or export client bundles:</div>", unsafe_allow_html=True)
+            all_projs = list_available_projects()
+            if all_projs:
+                for p in all_projs:
+                    p_col1, p_col2, p_col3 = st.columns([2.2, 1.3, 1.5])
+                    with p_col1:
+                        st.markdown(f"**`{p['slug']}`**")
+                        st.caption(f"[Live on Vercel ↗]({p['url']})")
+                    with p_col2:
+                        if st.button(f"Edit Site", key=f"edit_{p['slug']}", use_container_width=True):
+                            st.session_state.selected_project_slug = p['slug']
+                            st.session_state.target_niche_val = f"Update {p['slug']} website: "
+                            st.rerun()
+                    with p_col3:
+                        p_path = os.path.join("projects", p['slug'], "index.html")
+                        p_html = ""
+                        if os.path.exists(p_path):
+                            try:
+                                with open(p_path, "r", encoding="utf-8", errors="ignore") as pf:
+                                    p_html = pf.read()
+                            except Exception:
+                                pass
+                        if p_html:
+                            st.download_button(
+                                label="Export .html",
+                                data=p_html,
+                                file_name=f"{p['slug']}_index.html",
+                                mime="text/html",
+                                key=f"dl_{p['slug']}",
+                                use_container_width=True
+                            )
+                        else:
+                            st.caption("Active in Cloud")
+            else:
+                st.info("No sub-projects detected yet. Generate a website to see it cataloged here!")
+
+        btn_col1, btn_col2, btn_col3 = st.columns([2.5, 1.5, 1.0])
+        with btn_col1:
+            activate_clicked = st.button("Activate Asura Engine", use_container_width=True)
+        with btn_col2:
+            quick_realestate = st.button("Preset: Real Estate", use_container_width=True)
+        with btn_col3:
+            clear_clicked = st.button("Clear Log", use_container_width=True)
+
+        if quick_realestate:
+            st.session_state.target_niche_val = "Ultra-Luxury Real Estate & High-Rise Penthouses"
+            st.rerun()
+
+        if clear_clicked:
+            st.session_state.exec_log = []
+            st.session_state.system_logs = ["SYSTEM ONLINE // Standing by for command vector authorization inputs..."]
+            st.rerun()
+
+        H("</div>")
+
+        # ── EXECUTION PIPELINE HANDLER ────────────────────────────────────────────
+        if activate_clicked and user_input.strip():
+            target_val = user_input.strip()
+            st.session_state.target_niche_val = target_val
+
+            # 1. Cleanly extract slug (handles full URLs, partial paths, or conversational text)
+            clean_slug = extract_clean_slug(project_slug, target_val)
+
+            # 2. Check if this is an iteration / update on an existing project
+            existing_html = get_existing_project_html(clean_slug)
+            is_iteration = existing_html is not None and len(existing_html) > 200
+
+            if is_iteration:
+                log_message(f"Iteration detected on '{clean_slug}': updating existing codebase per user instructions...", "hermes")
+                with st.spinner(f"Surgically updating '{clean_slug}' platform with Gemini Neural Engine..."):
+                    blueprint, generated_html = update_existing_platform_with_gemini(existing_html, target_val)
+            else:
+                log_message(f"Directive authorized: synthesizing new target '{target_val[:50]}' [Slug: {clean_slug}]", "sys")
+                with st.spinner("Gemini neural engine synthesizing production codebase..."):
+                    blueprint, generated_html = generate_platform_with_gemini(target_val)
+
+            # Preserve isolated sub-project locally
+            proj_local_dir = os.path.join("projects", clean_slug)
+            os.makedirs(proj_local_dir, exist_ok=True)
+            with open(os.path.join(proj_local_dir, "index.html"), "w", encoding="utf-8") as f:
+                f.write(generated_html)
+            log_message(f"Project '{clean_slug}' compiled locally ({len(generated_html):,} bytes written).", "sys")
+
+            api_res = push_index_html_to_github(generated_html, clean_slug)
+
+            if api_res.get("success") or api_res.get("code") in (200, 201):
+                c_sha = api_res.get("commit_sha", "head")
+                st.session_state.last_commit_sha = c_sha
+                deployed_url = f"https://asura-system.vercel.app/projects/{clean_slug}/index.html"
+                st.session_state.last_deployed_url = deployed_url
+                st.session_state.last_deployed_sha = c_sha
+                log_message(f"GitHub API: projects/{clean_slug}/index.html pushed to {REPO_NAME} (commit {c_sha}).", "github")
+                log_message(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: {deployed_url}?v={c_sha}", "success")
+                st.success(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: {deployed_url}")
+            else:
+                err_text = str(api_res.get("error", "pending repo sync"))[:60]
+                log_message(f"GitHub API notice ({err_text}). Local projects/{clean_slug}/index.html operational.", "warn")
+
+            st.session_state.projects_deployed += 1
+            st.session_state.metrics["progress"] = 100
+            st.session_state.mission_html = generated_html
+            st.session_state.mission_result = blueprint
+            log_message(f"Asura Dynamic Generation complete! Projects deployed: {st.session_state.projects_deployed}.", "success")
+            st.rerun()
+
+        # ── LIVE DELIVERABLE & WEBSITE PREVIEW ─────────────────────────────────────
+        if st.session_state.mission_result:
+            if st.session_state.get("last_deployed_url"):
+                dep_url = st.session_state.last_deployed_url
+                c_sha = st.session_state.get("last_deployed_sha", "")
+                fresh_url = f"{dep_url}?v={c_sha}" if c_sha else dep_url
+                st.success(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: {dep_url}")
+                st.markdown(f'''
+                <div style="margin: 8px 0 16px 0; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+                    <a href="{fresh_url}" target="_blank" style="
+                        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+                        background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+                        color: #ffffff; font-weight: 700; font-size: 13px; letter-spacing: 0.05em;
+                        padding: 10px 22px; border-radius: 8px; text-decoration: none;
+                        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+                    ">
+                        🌐 OPEN CLIENT WEBSITE ON VERCEL ↗
+                    </a>
+                    <span style="font-size: 11px; color: #94a3b8; font-family: monospace;">
+                        ⚡ Edge cache bypassed via git SHA commit token.
+                    </span>
+                </div>
+                ''', unsafe_allow_html=True)
+            H("""
+            <div class="gl1" style="padding:16px 18px;margin-top:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <span class="t-brand" style="font-size:12px;color:#34d399;">DEPLOYED MISSION DELIVERABLE</span>
+            <span class="t-mono" style="color:#34d399;">STATUS: PRODUCTION READY</span>
+            </div>
+            """)
+
+            tab_preview, tab_blueprint, tab_code = st.tabs([
+                "LIVE INTERACTIVE PREVIEW",
+                "STRATEGIST BLUEPRINT",
+                "ENGINEER SOURCE CODE"
+            ])
+
+            with tab_preview:
+                if st.session_state.mission_html:
+                    st.components.v1.html(st.session_state.mission_html, height=600, scrolling=True)
+                    st.download_button(
+                        label="DOWNLOAD INDEX.HTML (PRODUCTION BUNDLE)",
+                        data=st.session_state.mission_html,
+                        file_name="index.html",
+                        mime="text/html",
+                        use_container_width=True
+                    )
+                else:
+                    st.info("HTML asset compiled into raw blueprint view.")
+
+            with tab_blueprint:
+                st.markdown(st.session_state.mission_result)
+
+            with tab_code:
+                if st.session_state.mission_html:
+                    st.code(st.session_state.mission_html, language="html")
+
+            H("</div>")
+
+
+
+    with tab_hunter:
+        H("""
+        <div class="gl1" style="padding:16px 20px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+            <div>
+                <span class="t-over" style="color:#38bdf8;">AUTONOMOUS LEAD RADAR // MULTI-SOURCE SCRAPER</span>
+                <h3 style="font-family:'Orbitron',sans-serif;font-size:18px;font-weight:800;color:#ffffff;margin-top:2px;">
+                    ASURA HUNTER 24/7 // TELEGRAM MATRIX
+                </h3>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+                <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 10px #34d399;"></span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:#34d399;">@Asura_Hunter_bot ONLINE</span>
+            </div>
         </div>
-
-        <div class="mc" style="border-top:1.5px solid #38bdf8;">
-        <div class="t-over" style="margin-bottom:6px;">Mission Progress</div>
-        <div class="t-val">{progress}%</div>
-        <div class="t-mono" style="margin-top:6px;color:#38bdf8;">Autonomous Pipeline Active</div>
-        </div>
-
-        <div class="mc" style="border-top:1.5px solid #a78bfa;">
-        <div class="t-over" style="margin-bottom:6px;">Session Runtime</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:#ffffff;">{rt_fmt}</div>
-        <div class="t-mono" style="margin-top:6px;color:#a78bfa;">99.98% System Uptime</div>
-        </div>
-
-        <div class="mc" style="border-top:1.5px solid #fbbf24;">
-        <div class="t-over" style="margin-bottom:6px;">Monthly Run Rate</div>
-        <div style="font-size:18px;font-weight:700;color:#ffffff;">${mrr:,.0f}</div>
-        <div class="t-mono" style="margin-top:6px;color:#fbbf24;">Hermes Tier IV Clearance</div>
-        </div>
+        <p style="font-size:12px;color:#94a3b8;margin-top:6px;line-height:1.5;">
+            Autonomously searches for businesses <b>without websites</b> across all target niches, extracts verified business names, phone numbers, and locations, generates bespoke live prototypes via <b>Gemini 3.6 Flash</b>, and sends 1-click pitch cards directly to your Telegram.
+        </p>
         </div>
         """)
 
-    metric_cards()
+        bot_instance = TelegramBot(os.environ.get("TELEGRAM_BOT_TOKEN", "8909145509:AAF8UhbWxPR5JGt8ddcAd9D1gqZ3L13ZuAo")) if TelegramBot else None
+        active_subs = bot_instance.get_subscribers() if bot_instance else []
 
-    # ── MISSION COMMAND DECK ──────────────────────────────────────────────────
-    H("""
-    <div class="gl1" style="padding:16px 18px;margin-bottom:14px;">
-    <div class="t-over" style="margin-bottom:10px;">Dynamic Business Target  //  CrewAI & Gemini Engine Execution</div>
-    """)
+        h_col1, h_col2 = st.columns([2.5, 1.5])
+        with h_col1:
+            sub_count = len(active_subs)
+            sub_status = f"🟢 <b>{sub_count} Device(s) Paired</b>" if sub_count > 0 else "⚠️ <b>No Devices Paired Yet</b>"
+            st.markdown(f"""
+            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px 16px;">
+                <div style="font-size:11px;font-family:monospace;color:#94a3b8;margin-bottom:4px;">TELEGRAM DISPATCH STATUS</div>
+                <div style="font-size:13px;color:#f8fafc;margin-bottom:4px;">{sub_status}</div>
+                <div style="font-size:11px;color:#64748b;">
+                    Open Telegram, search <b><a href="https://t.me/Asura_Hunter_bot" target="_blank" style="color:#38bdf8;">@Asura_Hunter_bot</a></b>, and press <b>Start</b> to link your phone.
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+        with h_col2:
+            if st.button("⚡ Send Test Telegram Ping", use_container_width=True):
+                if bot_instance:
+                    test_lead = {
+                        "name": "Apex Precision Dental",
+                        "niche": "Cosmetic & Family Dentistry",
+                        "city": "Miami, FL",
+                        "phone": "(305) 555-0199",
+                        "email": "dr.vance@apexprecisiondental.com",
+                        "address": "Brickell Avenue, Miami, FL 33131",
+                        "rating": "4.9",
+                        "reviews": "128",
+                        "hasWebsite": False
+                    }
+                    sample_proto = "https://asura-system.vercel.app/projects/apex-precision-dental/index.html"
+                    cnt = bot_instance.send_lead_card(test_lead, sample_proto)
+                    log_message(f"Telegram dispatcher: test ping broadcasted to {cnt} subscriber(s).", "telegram")
+                    st.success(f"Dispatched test lead alert to {cnt} subscriber(s) on Telegram!")
+                    st.rerun()
 
-    user_input = st.text_input(
-        "Enter Business Target Niche:",
-        value=st.session_state.get("target_niche_val", "Ultra-Luxury Real Estate & High-Rise Penthouses"),
-        key="target_niche_text_input"
-    )
-    st.session_state.target_niche_val = user_input
+        st.markdown("<div style='margin-top:14px;margin-bottom:8px;font-size:11px;font-family:monospace;letter-spacing:0.08em;color:#38bdf8;'>DIRECT RADAR HUNT VECTOR</div>", unsafe_allow_html=True)
+        niche_names = [
+            "All Niches (Multi-Vector)",
+            "Dental Clinic",
+            "Fitness & Gym",
+            "Medical Spa",
+            "Roofing Contractor",
+            "Plumbing Services",
+            "HVAC & AC Repair",
+            "Licensed Electrician",
+            "Landscaping & Tree Service",
+            "Restaurant & Bistro",
+            "Hair Salon & Barbershop",
+            "Law Firm & Attorney",
+            "Auto Detailing & Repair",
+            "Painting Contractor",
+            "Chiropractic & Physical Therapy",
+            "Pet Grooming & Veterinary",
+            "Commercial Cleaning Services"
+        ]
 
-    project_slug = st.text_input(
-        "Project URL Folder Slug or Pasted Vercel URL (leave empty for auto-slug, or paste URL to update):",
-        value=st.session_state.get("selected_project_slug", ""),
-        key="project_slug_input",
-        help="Paste a live Vercel URL (e.g. https://asura-system.vercel.app/projects/elite-digital-agency-developer/index.html) or slug to modify an existing website!"
-    )
+        c_col1, c_col2 = st.columns(2)
+        with c_col1:
+            selected_niche_display = st.selectbox("Select Target Business Niche:", niche_names, index=0)
+        with c_col2:
+            target_city_input = st.text_input("Target City / Metro Area:", value="Miami, FL")
 
-    with st.expander("📁 DEPLOYED CLIENT SITES & 1-CLICK HANDOVER", expanded=False):
-        st.markdown("<div style='font-size:12px;color:#94a3b8;margin-bottom:8px;'>Track all live client websites on Vercel, select for iterative edits, or export client bundles:</div>", unsafe_allow_html=True)
+        h_btn1, h_btn2 = st.columns(2)
+        with h_btn1:
+            launch_hunt = st.button("🚀 Launch Autonomous Hunt (Generate & Deploy Prototype)", use_container_width=True)
+        with h_btn2:
+            sweep_all = st.button("⚡ Sweep All 16 Niches in Parallel", use_container_width=True)
+
+        if launch_hunt:
+            with st.spinner(f"Scanning '{selected_niche_display}' in '{target_city_input}' for businesses without websites..."):
+                log_message(f"Radar: initiating search for {selected_niche_display} in {target_city_input}...", "hunter")
+                if hunter_engine:
+                    matched_niche = None
+                    if "All" not in selected_niche_display:
+                        for n in hunter_engine.TARGET_NICHES:
+                            if n["name"] == selected_niche_display:
+                                matched_niche = n
+                                break
+                    found_count = 0
+                    if matched_niche:
+                        leads = hunter_engine.hunt_leads_for_niche(matched_niche, target_city_input, limit=2)
+                        for l in leads:
+                            log_message(f"Radar: found '{l['name']}' ({l['phone']}) - compiling bespoke prototype...", "hunter")
+                            hunter_engine.process_lead(l)
+                            found_count += 1
+                    else:
+                        for n in hunter_engine.TARGET_NICHES[:3]:
+                            leads = hunter_engine.hunt_leads_for_niche(n, target_city_input, limit=1)
+                            for l in leads:
+                                hunter_engine.process_lead(l)
+                                found_count += 1
+                    st.success(f"Sweep complete! Found, synthesized prototypes, and alerted Telegram for {found_count} leads.")
+                    log_message(f"Radar sweep complete: {found_count} leads processed.", "success")
+                    st.rerun()
+
+        if sweep_all:
+            with st.spinner(f"Executing high-yield sweep across all 16 business niches in {target_city_input}..."):
+                if hunter_engine:
+                    total_p = 0
+                    for n in hunter_engine.TARGET_NICHES:
+                        leads = hunter_engine.hunt_leads_for_niche(n, target_city_input, limit=1)
+                        for l in leads:
+                            hunter_engine.process_lead(l)
+                            total_p += 1
+                            time.sleep(2)
+                    st.success(f"All 16 Niches Swept! {total_p} live prototypes generated and dispatched to Telegram.")
+                    st.rerun()
+
+        st.markdown("<div style='margin-top:20px;margin-bottom:10px;font-size:11px;font-family:monospace;letter-spacing:0.08em;color:#34d399;'>LIVE DISCOVERED LEADS & OUTREACH MATRIX</div>", unsafe_allow_html=True)
+        saved_leads = []
+        leads_path = os.path.join("data", "hunter_leads.json")
+        if os.path.exists(leads_path):
+            try:
+                with open(leads_path, "r", encoding="utf-8") as f:
+                    saved_leads = json.load(f)
+            except Exception:
+                pass
+
+        if saved_leads:
+            for l_idx, lead in enumerate(saved_leads):
+                l_name = lead.get("name", "Local Business")
+                l_niche = lead.get("niche", "Service")
+                l_city = lead.get("city", "USA")
+                l_phone = lead.get("phone", "No phone")
+                l_rating = lead.get("rating", "4.8")
+                l_proto = lead.get("prototypeUrl", "")
+                l_slug = lead.get("slug", "")
+                clean_d = "".join(c for c in l_phone if c.isdigit())
+                if len(clean_d) == 10:
+                    clean_d = "1" + clean_d
+                wa_pitch = urllib.parse.quote(
+                    f"Hi {l_name}! I noticed your business has great customer ratings, "
+                    f"but doesn't currently have an official website. "
+                    f"I built a custom live website prototype for you to see: {l_proto} . Would you like to claim it?"
+                )
+                st.markdown(f"""
+                <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px;margin-bottom:12px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;">
+                        <div>
+                            <span style="display:inline-block;padding:2px 8px;border-radius:4px;background:rgba(56,189,248,0.15);color:#38bdf8;font-size:10px;font-family:monospace;font-weight:700;margin-bottom:6px;">{l_niche.upper()}</span>
+                            <div style="font-size:15px;font-weight:700;color:#ffffff;">{l_name}</div>
+                            <div style="font-size:12px;color:#94a3b8;margin-top:2px;">📍 {l_city} &nbsp;|&nbsp; 📞 <code style="color:#38bdf8;">{l_phone}</code> &nbsp;|&nbsp; ⭐ {l_rating} ★</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <span style="display:inline-block;padding:3px 10px;border-radius:6px;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#f87171;font-size:10px;font-family:monospace;font-weight:700;">
+                                ❌ NO WEBSITE
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+                lead_btn_c1, lead_btn_c2, lead_btn_c3 = st.columns([1.5, 1.5, 1.2])
+                with lead_btn_c1:
+                    if l_proto:
+                        st.markdown(f"""
+                        <a href="{l_proto}" target="_blank" style="
+                            display:block;text-align:center;padding:8px 12px;border-radius:8px;
+                            background:linear-gradient(135deg, #059669 0%, #10b981 100%);
+                            color:#ffffff;font-size:11px;font-weight:700;text-decoration:none;
+                        ">🌐 Open Live Prototype ↗</a>
+                        """, unsafe_allow_html=True)
+                with lead_btn_c2:
+                    if clean_d:
+                        st.markdown(f"""
+                        <a href="https://wa.me/{clean_d}?text={wa_pitch}" target="_blank" style="
+                            display:block;text-align:center;padding:8px 12px;border-radius:8px;
+                            background:linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+                            color:#ffffff;font-size:11px;font-weight:700;text-decoration:none;
+                        ">💬 WhatsApp Pitch (1-Click)</a>
+                        """, unsafe_allow_html=True)
+                with lead_btn_c3:
+                    if st.button("⚡ Edit in Builder", key=f"edit_lead_{l_idx}", use_container_width=True):
+                        st.session_state.selected_project_slug = l_slug
+                        st.session_state.target_niche_val = f"Update website for {l_name} ({l_niche}): "
+                        st.rerun()
+        else:
+            st.info("No leads discovered yet. Launch an autonomous hunt above to extract clients without websites!")
+
+    with tab_portfolio:
+        H("""
+        <div class="gl1" style="padding:16px 20px;margin-bottom:14px;">
+        <div class="t-over" style="color:#a78bfa;">CLIENT ASSET REPOSITORY // LIVE VERCEL DIRECTORY</div>
+        <h3 style="font-family:'Orbitron',sans-serif;font-size:18px;font-weight:800;color:#ffffff;margin-top:2px;">
+            DEPLOYED PRODUCTION PLATFORMS
+        </h3>
+        <p style="font-size:12px;color:#94a3b8;margin-top:6px;">
+            All client websites deployed on Vercel edge networks. Select any project to make iterative edits or export the HTML production bundle.
+        </p>
+        </div>
+        """)
         all_projs = list_available_projects()
         if all_projs:
             for p in all_projs:
@@ -1615,7 +2009,7 @@ function triggerPreset(text) {
                     st.markdown(f"**`{p['slug']}`**")
                     st.caption(f"[Live on Vercel ↗]({p['url']})")
                 with p_col2:
-                    if st.button(f"Edit Site", key=f"edit_{p['slug']}", use_container_width=True):
+                    if st.button(f"Edit Site", key=f"port_edit_{p['slug']}", use_container_width=True):
                         st.session_state.selected_project_slug = p['slug']
                         st.session_state.target_niche_val = f"Update {p['slug']} website: "
                         st.rerun()
@@ -1634,142 +2028,13 @@ function triggerPreset(text) {
                             data=p_html,
                             file_name=f"{p['slug']}_index.html",
                             mime="text/html",
-                            key=f"dl_{p['slug']}",
+                            key=f"port_dl_{p['slug']}",
                             use_container_width=True
                         )
                     else:
                         st.caption("Active in Cloud")
         else:
             st.info("No sub-projects detected yet. Generate a website to see it cataloged here!")
-
-    btn_col1, btn_col2, btn_col3 = st.columns([2.5, 1.5, 1.0])
-    with btn_col1:
-        activate_clicked = st.button("Activate Asura Engine", use_container_width=True)
-    with btn_col2:
-        quick_realestate = st.button("Preset: Real Estate", use_container_width=True)
-    with btn_col3:
-        clear_clicked = st.button("Clear Log", use_container_width=True)
-
-    if quick_realestate:
-        st.session_state.target_niche_val = "Ultra-Luxury Real Estate & High-Rise Penthouses"
-        st.rerun()
-
-    if clear_clicked:
-        st.session_state.exec_log = []
-        st.session_state.system_logs = ["SYSTEM ONLINE // Standing by for command vector authorization inputs..."]
-        st.rerun()
-
-    H("</div>")
-
-    # ── EXECUTION PIPELINE HANDLER ────────────────────────────────────────────
-    if activate_clicked and user_input.strip():
-        target_val = user_input.strip()
-        st.session_state.target_niche_val = target_val
-
-        # 1. Cleanly extract slug (handles full URLs, partial paths, or conversational text)
-        clean_slug = extract_clean_slug(project_slug, target_val)
-
-        # 2. Check if this is an iteration / update on an existing project
-        existing_html = get_existing_project_html(clean_slug)
-        is_iteration = existing_html is not None and len(existing_html) > 200
-
-        if is_iteration:
-            log_message(f"Iteration detected on '{clean_slug}': updating existing codebase per user instructions...", "hermes")
-            with st.spinner(f"Surgically updating '{clean_slug}' platform with Gemini Neural Engine..."):
-                blueprint, generated_html = update_existing_platform_with_gemini(existing_html, target_val)
-        else:
-            log_message(f"Directive authorized: synthesizing new target '{target_val[:50]}' [Slug: {clean_slug}]", "sys")
-            with st.spinner("Gemini neural engine synthesizing production codebase..."):
-                blueprint, generated_html = generate_platform_with_gemini(target_val)
-
-        # Preserve isolated sub-project locally
-        proj_local_dir = os.path.join("projects", clean_slug)
-        os.makedirs(proj_local_dir, exist_ok=True)
-        with open(os.path.join(proj_local_dir, "index.html"), "w", encoding="utf-8") as f:
-            f.write(generated_html)
-        log_message(f"Project '{clean_slug}' compiled locally ({len(generated_html):,} bytes written).", "sys")
-
-        api_res = push_index_html_to_github(generated_html, clean_slug)
-
-        if api_res.get("success") or api_res.get("code") in (200, 201):
-            c_sha = api_res.get("commit_sha", "head")
-            st.session_state.last_commit_sha = c_sha
-            deployed_url = f"https://asura-system.vercel.app/projects/{clean_slug}/index.html"
-            st.session_state.last_deployed_url = deployed_url
-            st.session_state.last_deployed_sha = c_sha
-            log_message(f"GitHub API: projects/{clean_slug}/index.html pushed to {REPO_NAME} (commit {c_sha}).", "github")
-            log_message(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: {deployed_url}?v={c_sha}", "success")
-            st.success(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: {deployed_url}")
-        else:
-            err_text = str(api_res.get("error", "pending repo sync"))[:60]
-            log_message(f"GitHub API notice ({err_text}). Local projects/{clean_slug}/index.html operational.", "warn")
-
-        st.session_state.projects_deployed += 1
-        st.session_state.metrics["progress"] = 100
-        st.session_state.mission_html = generated_html
-        st.session_state.mission_result = blueprint
-        log_message(f"Asura Dynamic Generation complete! Projects deployed: {st.session_state.projects_deployed}.", "success")
-        st.rerun()
-
-    # ── LIVE DELIVERABLE & WEBSITE PREVIEW ─────────────────────────────────────
-    if st.session_state.mission_result:
-        if st.session_state.get("last_deployed_url"):
-            dep_url = st.session_state.last_deployed_url
-            c_sha = st.session_state.get("last_deployed_sha", "")
-            fresh_url = f"{dep_url}?v={c_sha}" if c_sha else dep_url
-            st.success(f"⚡ PRODUCTION LIVE // Access Client Asset Directly: {dep_url}")
-            st.markdown(f'''
-            <div style="margin: 8px 0 16px 0; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
-                <a href="{fresh_url}" target="_blank" style="
-                    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-                    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-                    color: #ffffff; font-weight: 700; font-size: 13px; letter-spacing: 0.05em;
-                    padding: 10px 22px; border-radius: 8px; text-decoration: none;
-                    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
-                ">
-                    🌐 OPEN CLIENT WEBSITE ON VERCEL ↗
-                </a>
-                <span style="font-size: 11px; color: #94a3b8; font-family: monospace;">
-                    ⚡ Edge cache bypassed via git SHA commit token.
-                </span>
-            </div>
-            ''', unsafe_allow_html=True)
-        H("""
-        <div class="gl1" style="padding:16px 18px;margin-top:14px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <span class="t-brand" style="font-size:12px;color:#34d399;">DEPLOYED MISSION DELIVERABLE</span>
-        <span class="t-mono" style="color:#34d399;">STATUS: PRODUCTION READY</span>
-        </div>
-        """)
-
-        tab_preview, tab_blueprint, tab_code = st.tabs([
-            "LIVE INTERACTIVE PREVIEW",
-            "STRATEGIST BLUEPRINT",
-            "ENGINEER SOURCE CODE"
-        ])
-
-        with tab_preview:
-            if st.session_state.mission_html:
-                st.components.v1.html(st.session_state.mission_html, height=600, scrolling=True)
-                st.download_button(
-                    label="DOWNLOAD INDEX.HTML (PRODUCTION BUNDLE)",
-                    data=st.session_state.mission_html,
-                    file_name="index.html",
-                    mime="text/html",
-                    use_container_width=True
-                )
-            else:
-                st.info("HTML asset compiled into raw blueprint view.")
-
-        with tab_blueprint:
-            st.markdown(st.session_state.mission_result)
-
-        with tab_code:
-            if st.session_state.mission_html:
-                st.code(st.session_state.mission_html, language="html")
-
-        H("</div>")
-
 
 # ──────────────────────────────────────────────────────────────────────────────
 # RIGHT PANEL: LIVE SYSTEM LOGS & TELEMETRY
