@@ -138,7 +138,7 @@ export default async function handler(req, res) {
 
         if (text.startsWith('/hunt')) {
           const lead = leads[Math.floor(Math.random() * leads.length)];
-          const protoUrl = `${VERCEL_BASE}/projects/${lead.slug}/index.html`;
+          const protoUrl = `${VERCEL_BASE}/api/serve_project?slug=${lead.slug}`;
           const cleanPhone = (lead.cleanPhone || lead.phone.replace(/\D/g, '')).slice(-10);
 
           let pitchMsg = "";
@@ -173,7 +173,7 @@ export default async function handler(req, res) {
         } else {
           await sendTelegram(chatId, `🎯 <b>TOP VERIFIED INDIAN CLIENT LEADS & LIVE PROTOTYPES:</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
           for (const lead of leads.slice(0, 3)) {
-            const protoUrl = `${VERCEL_BASE}/projects/${lead.slug}/index.html`;
+            const protoUrl = `${VERCEL_BASE}/api/serve_project?slug=${lead.slug}`;
             const cleanPhone = (lead.cleanPhone || lead.phone.replace(/\D/g, '')).slice(-10);
 
             const card = 
