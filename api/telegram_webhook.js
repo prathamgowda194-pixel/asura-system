@@ -59,11 +59,11 @@ export default async function handler(req, res) {
           `Greetings Commander <b>${firstName}</b>!\n\n` +
           `Your Telegram account is <b>PERMANENTLY LINKED</b> to the Asura Autonomous Lead Matrix.\n\n` +
           `📱 <b>Telegram User ID:</b> <code>${chatId}</code> (@TeChPlAyZ194)\n` +
-          `🇮🇳 <b>Territory Radar:</b> ALL OVER INDIA (Bangalore, Mumbai, Delhi NCR, Hyderabad, Pune)\n` +
-          `🏢 <b>Priority Niches:</b> Luxury Real Estate, Dental Clinics, Fitness Studios, Interior Architecture\n` +
+          `🇮🇳 <b>Territory Radar:</b> ALL OVER INDIA (Bangalore, Mumbai, Delhi NCR, Hyderabad, Pune, Kochi)\n` +
+          `🏢 <b>Priority Niches:</b> Artisanal Dining & BYOB, Luxury Real Estate, Aesthetic Clinics, Turnkey Construction\n` +
           `🛡️ <b>Quality Protocol:</b> 100% Genuine Indian Businesses (Verified +91 Mobile, Zero AI-Slop)\n` +
           `☁️ <b>Hosting Infrastructure:</b> Vercel Production Edge (${VERCEL_BASE})\n` +
-          `💬 <b>Direct Outreach:</b> 1-Click WhatsApp Pitch buttons with custom pre-written proposals!\n\n` +
+          `💬 <b>Direct Outreach:</b> 1-Click WhatsApp Pitch buttons with niche-tailored high-converting proposals!\n\n` +
           `<b>Available Controls:</b>\n` +
           `• <code>/hunt</code> — Instantly deliver next verified client lead & live prototype\n` +
           `• <code>/latest</code> — Browse catalog of active client prototypes\n` +
@@ -94,10 +94,10 @@ export default async function handler(req, res) {
           `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
           `🟢 <b>Gateway Status:</b> ONLINE & ACTIVE 24/7\n` +
           `☁️ <b>Hosting Engine:</b> Vercel Serverless Production Edge\n` +
-          `🤖 <b>AI Model:</b> Gemini 3.6 Flash (Cascading Neural Compiler)\n` +
+          `🤖 <b>AI Model:</b> Gemini 3.6 Flash (Niche-First Luxury Architecture)\n` +
           `📱 <b>Linked Telegram User ID:</b> <code>${chatId}</code> (@TeChPlAyZ194)\n` +
-          `🇮🇳 <b>Coverage:</b> Mumbai, Bangalore, Delhi NCR, Hyderabad, Pune, Chennai\n` +
-          `🛡️ <b>Anti-Slop Protocol:</b> ACTIVE (Zero raw emojis, Lucide vector icons, GSAP motion, INR ₹ pricing)\n` +
+          `🇮🇳 <b>Coverage:</b> Mumbai, Bangalore, Delhi NCR, Hyderabad, Pune, Kochi, Jaipur\n` +
+          `🛡️ <b>Anti-Slop Protocol:</b> 100% ACTIVE (Zero raw emojis, Lucide vector icons, GSAP motion, Solid INR ₹ pricing, 12 Never-Repeat Archetypes)\n` +
           `⚡ <b>Status:</b> Ready for instant on-demand sweeps via <code>/hunt</code>!`;
         await sendTelegram(chatId, statusMsg);
       } else if (text === '/latest' || text.startsWith('/hunt')) {
@@ -112,26 +112,16 @@ export default async function handler(req, res) {
         if (!Array.isArray(leads) || leads.length === 0) {
           leads = [
             {
-              name: "Bridge Property Consultants",
-              niche: "Luxury Real Estate & Villa Developers",
-              city: "Mumbai, Maharashtra",
-              address: "Vile Parle West, Mumbai, Maharashtra",
-              phone: "+91 93202 93840",
-              cleanPhone: "9320293840",
+              name: "BYOB Restaurant Experience Gurgaon",
+              niche: "Artisanal Dining & Alfresco BYOB Sanctuary",
+              city: "Gurgaon, Delhi NCR",
+              address: "Golf Course Extension Road, Sector 58, Gurgaon 122102",
+              phone: "+91 96541 20004",
+              cleanPhone: "9654120004",
               rating: "4.9",
-              reviews: "129",
-              slug: "bridge-property-consultants-mumbai"
-            },
-            {
-              name: "Bhoomiputra Real Estate Developers",
-              niche: "Luxury Real Estate & Land Promoters",
-              city: "Bangalore, Karnataka",
-              address: "Nagadevanahalli, Bangalore, Karnataka",
-              phone: "+91 63632 73458",
-              cleanPhone: "6363273458",
-              rating: "4.8",
-              reviews: "145",
-              slug: "bhoomiputra-real-estate-bangalore"
+              reviews: "114",
+              slug: "byob-restaurant-experience-in-gurgaon",
+              archetype: "The Smoked Merlot (Merlot & Antique Brass)"
             }
           ];
         }
@@ -140,10 +130,15 @@ export default async function handler(req, res) {
           const lead = leads[Math.floor(Math.random() * leads.length)];
           const protoUrl = `${VERCEL_BASE}/api/serve_project?slug=${lead.slug}`;
           const cleanPhone = (lead.cleanPhone || lead.phone.replace(/\D/g, '')).slice(-10);
+          const lowerNiche = (lead.niche || "").toLowerCase();
 
           let pitchMsg = "";
-          if (lead.niche.toLowerCase().includes('real estate') || lead.niche.toLowerCase().includes('villa') || lead.niche.toLowerCase().includes('land')) {
+          if (lowerNiche.includes('dining') || lowerNiche.includes('restaurant') || lowerNiche.includes('byob') || lowerNiche.includes('bistro')) {
+            pitchMsg = `Hi ${lead.name}! I noticed your dining venue in ${lead.city}. Discerning guests expect an editorial interactive menu, alfresco cabana showcases, and seamless WhatsApp reservations. I custom-built this bespoke live website prototype for your brand: ${protoUrl} . Would you like to review and claim it?`;
+          } else if (lowerNiche.includes('real estate') || lowerNiche.includes('villa') || lowerNiche.includes('land')) {
             pitchMsg = `Hi ${lead.name}! I noticed your properties in ${lead.city}. High-net-worth buyers expect an immersive luxury website with floor plans and direct WhatsApp inquiries. I auto-built this bespoke live website prototype for your brand: ${protoUrl} . Would you like to claim it?`;
+          } else if (lowerNiche.includes('skin') || lowerNiche.includes('derma') || lowerNiche.includes('aesthetic') || lowerNiche.includes('clinic')) {
+            pitchMsg = `Hi ${lead.name}! I noticed your top-rated clinic in ${lead.city}. High-ticket patients look for verified clinical protocols, dermatologist credentials, and 1-click consultation bookings. I designed this bespoke live website prototype for your clinic: ${protoUrl} . Would you like to review and claim it?`;
           } else {
             pitchMsg = `Hi ${lead.name}! I noticed your high ratings in ${lead.city}, but you don't have an official modern website for clients to book consultations. I designed a custom live website prototype for your business: ${protoUrl} . Would you like to review and claim it?`;
           }
@@ -156,10 +151,11 @@ export default async function handler(req, res) {
             `📍 <b>Location:</b> ${escapeHtml(lead.address || lead.city)}\n` +
             `📞 <b>Phone:</b> <code>${escapeHtml(lead.phone)}</code>\n` +
             `⭐ <b>Reputation:</b> ${lead.rating} ★ (${lead.reviews} Verified Reviews)\n` +
+            `🎨 <b>Design Archetype:</b> <i>${escapeHtml(lead.archetype || "Bespoke Luxury Niche Matrix")}</i>\n` +
             `🌐 <b>Online Status:</b> ❌ <b>NO OFFICIAL WEBSITE DETECTED</b>\n\n` +
             `⚡ <b>BESPOKE LIVE CLIENT PROTOTYPE READY:</b>\n` +
             `👉 <code>${protoUrl}</code>\n\n` +
-            `<i>💡 Built with Zero AI-Slop, Lucide vector icons, GSAP scroll triggers, and Indian Rupee (₹) pricing!</i>`;
+            `<i>💡 Built with 13 Luxury Mechanics, 12 Never-Repeat Archetypes, Zero Broken Counters, and Indian Rupee (₹) pricing!</i>`;
 
           const buttons = [
             [{ text: "🚀 Open Live Client Website ↗", url: protoUrl }],
@@ -182,6 +178,7 @@ export default async function handler(req, res) {
               `📍 <b>Location:</b> ${escapeHtml(lead.address || lead.city)}\n` +
               `📞 <b>Phone:</b> <code>${escapeHtml(lead.phone)}</code>\n` +
               `⭐ <b>Rating:</b> ${lead.rating} ★ (${lead.reviews} reviews)\n` +
+              `🎨 <b>Archetype:</b> <i>${escapeHtml(lead.archetype || "Bespoke Niche")}</i>\n` +
               `🌐 <b>Status:</b> ❌ <b>NO OFFICIAL WEBSITE</b>\n\n` +
               `⚡ <b>Live Vercel Prototype:</b>\n👉 <code>${protoUrl}</code>`;
 
