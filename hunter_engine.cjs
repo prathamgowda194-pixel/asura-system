@@ -802,6 +802,7 @@ module.exports = {
   pushPrototypeToGitHub,
   broadcastLeadCard,
   getSavedLeads,
+  saveLead,
   getSubscribers,
   addSubscriber
 };
