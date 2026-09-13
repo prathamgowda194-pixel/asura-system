@@ -37,7 +37,7 @@ const CLIENT_PORTFOLIO = [
     rating: "4.9",
     reviews: "114",
     slug: "byob-restaurant-experience-in-gurgaon",
-    archetype: "The Smoked Merlot (Deep Merlot & Antique Brass)"
+    archetype: "Smoked Merlot with Rose Gold"
   },
   {
     name: "Hyderabad Real Estate",
@@ -49,7 +49,7 @@ const CLIENT_PORTFOLIO = [
     rating: "4.7",
     reviews: "53",
     slug: "hyderabad-real-estate-hyderabad",
-    archetype: "The Imperial Citadel (Royal Burgundy & Regal Amber)"
+    archetype: "Midnight Velvet with Antique Brass"
   },
   {
     name: "Bridge Property Consultants",
@@ -61,7 +61,7 @@ const CLIENT_PORTFOLIO = [
     rating: "4.9",
     reviews: "129",
     slug: "bridge-property-consultants-mumbai",
-    archetype: "The Atelier Noir (Deep French Navy & Champagne Brass)"
+    archetype: "French Navy with Warm Sandstone"
   },
   {
     name: "Bhoomiputra Real Estate Developers",
@@ -73,7 +73,7 @@ const CLIENT_PORTFOLIO = [
     rating: "4.8",
     reviews: "145",
     slug: "bhoomiputra-real-estate-developers",
-    archetype: "The Emerald Estate (Forest Green & Antique Gold)"
+    archetype: "Forest Emerald with Lapis Azure"
   },
   {
     name: "GKB Construction LLP",
@@ -85,7 +85,7 @@ const CLIENT_PORTFOLIO = [
     rating: "4.9",
     reviews: "114",
     slug: "gkb-gkb-construction-llp-building",
-    archetype: "The Skyline Brutalist (Deep Carbon & Signal Amber)"
+    archetype: "French Navy with Champagne Gold"
   },
   {
     name: "Skin Secrets Aesthetic Clinic",
@@ -97,7 +97,7 @@ const CLIENT_PORTFOLIO = [
     rating: "4.8",
     reviews: "168",
     slug: "skin-secrets-in-edappally-cochin-kochi",
-    archetype: "The Cocoon Sanctuary (Warm Bone & Terracotta)"
+    archetype: "Tuscan Olive with Regal Amber"
   },
   {
     name: "All Smiles Dental Clinic",
@@ -109,7 +109,7 @@ const CLIENT_PORTFOLIO = [
     rating: "4.9",
     reviews: "184",
     slug: "all-smiles-dental-clinic-bangalore",
-    archetype: "The Neo-Clinic Avant-Garde (Surgical Cyan & Ice)"
+    archetype: "Bone Charcoal with Rose Gold"
   },
   {
     name: "Impact Fitness Center",
@@ -121,7 +121,7 @@ const CLIENT_PORTFOLIO = [
     rating: "4.8",
     reviews: "96",
     slug: "impact-fitness-center-bangalore",
-    archetype: "The Industrial Kinetic (Matte Gunmetal & Crimson Flare)"
+    archetype: "Mineral Slate with Burnished Bronze"
   },
   {
     name: "S M Corporation Interiors",
@@ -133,7 +133,7 @@ const CLIENT_PORTFOLIO = [
     rating: "4.8",
     reviews: "72",
     slug: "s-m-corporation-interiors-bangalore",
-    archetype: "The Scandinavian Craft (Warm Espresso & Sandstone)"
+    archetype: "Midnight Velvet with Crimson Flare"
   },
   {
     name: "Xanadu Realty Estates",
@@ -145,7 +145,7 @@ const CLIENT_PORTFOLIO = [
     rating: "4.9",
     reviews: "88",
     slug: "xanadu-bangalore",
-    archetype: "The Minimalist Monolith (Chanel Editorial White & Black)"
+    archetype: "Mineral Slate with Warm Sandstone"
   },
   {
     name: "Mumbai Real Estate Professionals",
@@ -157,7 +157,7 @@ const CLIENT_PORTFOLIO = [
     rating: "4.8",
     reviews: "75",
     slug: "mumbai-real-estate-professionals",
-    archetype: "The Skyline Brutalist (Carbon & Signal Amber)"
+    archetype: "Tuscan Olive with Lapis Azure"
   },
   {
     name: "BLR Properties Consultants",
@@ -169,7 +169,7 @@ const CLIENT_PORTFOLIO = [
     rating: "4.8",
     reviews: "101",
     slug: "blr-properties-in-kammanahalli-main",
-    archetype: "The Cocoon Sanctuary (Terracotta & Alabaster)"
+    archetype: "Forest Emerald with Burnished Bronze"
   },
   {
     name: "Shankar Real Estate Agency",
@@ -181,7 +181,7 @@ const CLIENT_PORTFOLIO = [
     rating: "4.8",
     reviews: "166",
     slug: "shankar-real-estate-agency-bangalore",
-    archetype: "The Imperial Citadel (Royal Burgundy & Amber)"
+    archetype: "Mineral Slate with Rose Gold"
   }
 ];
 
@@ -210,9 +210,21 @@ async function dispatchLeadCard(lead, batchIndex, totalInBatch) {
   const protoUrl = `${VERCEL_BASE}/api/serve_project?slug=${lead.slug}`;
   const cleanPhone = (lead.cleanPhone || lead.phone.replace(/\D/g, '')).slice(-10);
 
-  const pitchMsg = encodeURIComponent(
-    `Hi ${lead.name}! I noticed your business in ${lead.city}. High-value clients expect an editorial-grade interactive website. I designed this bespoke live platform prototype for your brand: ${protoUrl} . Would you like to review and claim it?`
-  );
+  let rawPitch = "";
+  const lowerNiche = (lead.niche || "").toLowerCase();
+  if (lowerNiche.includes('dining') || lowerNiche.includes('restaurant') || lowerNiche.includes('byob') || lowerNiche.includes('bistro')) {
+    rawPitch = `Hi ${lead.name}! I noticed your dining venue in ${lead.city}. Discerning guests expect an editorial interactive menu, alfresco cabana showcases, and seamless WhatsApp reservations. I custom-built this bespoke live website prototype for your brand: ${protoUrl} . Would you like to review and claim it?`;
+  } else if (lowerNiche.includes('real estate') || lowerNiche.includes('villa') || lowerNiche.includes('property') || lowerNiche.includes('land')) {
+    rawPitch = `Hi ${lead.name}! I noticed your properties in ${lead.city}. High-net-worth buyers expect an immersive luxury website with floor plans and direct WhatsApp inquiries. I auto-built this bespoke live website prototype for your brand: ${protoUrl} . Would you like to claim it?`;
+  } else if (lowerNiche.includes('car') || lowerNiche.includes('detail') || lowerNiche.includes('ceramic') || lowerNiche.includes('auto')) {
+    rawPitch = `Hi ${lead.name}! I noticed your detailing studio in ${lead.city}. Supercar and luxury vehicle owners expect high-gloss portfolio showcases, ceramic coating warranty cards, and seamless WhatsApp bookings. I built this bespoke live website prototype for your studio: ${protoUrl} . Would you like to review and claim it?`;
+  } else if (lowerNiche.includes('skin') || lowerNiche.includes('derma') || lowerNiche.includes('aesthetic') || lowerNiche.includes('clinic') || lowerNiche.includes('dental')) {
+    rawPitch = `Hi ${lead.name}! I noticed your top-rated clinic in ${lead.city}. High-ticket patients look for verified clinical protocols, dermatologist credentials, and 1-click consultation bookings. I designed this bespoke live website prototype for your clinic: ${protoUrl} . Would you like to review and claim it?`;
+  } else {
+    rawPitch = `Hi ${lead.name}! I noticed your business in ${lead.city}. High-value clients expect an editorial-grade interactive website. I designed this bespoke live platform prototype for your brand: ${protoUrl} . Would you like to review and claim it?`;
+  }
+
+  const pitchMsg = encodeURIComponent(rawPitch);
 
   const card = 
     `🎯 <b>ASURA 30-MIN CLOUD SWEEP // [${batchIndex}/${totalInBatch}]</b>\n` +
@@ -226,7 +238,7 @@ async function dispatchLeadCard(lead, batchIndex, totalInBatch) {
     `🌐 <b>Website Status:</b> ❌ <b>NO OFFICIAL WEBSITE DETECTED</b>\n\n` +
     `⚡ <b>BESPOKE LUXURY PROTOTYPE READY:</b>\n` +
     `👉 <code>${protoUrl}</code>\n\n` +
-    `<i>💡 13 Mechanics Recipes, Pin-Parallax, Zero AI-Slop & Verified Non-Repeating Palettes!</i>`;
+    `<i>💡 Built with 120 Never-Repeat Luxury Palettes, Pin-Parallax, Zero AI-Slop & Indian Rupee (₹) Pricing!</i>`;
 
   const buttons = [
     [{ text: "🚀 Open Live Client Website ↗", url: protoUrl }],
