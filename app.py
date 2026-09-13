@@ -794,7 +794,8 @@ def push_index_html_to_github(html_content, project_slug):
     token = os.environ.get("GITHUB_TOKEN", "").strip()
     file_path = f"projects/{clean_slug}/index.html"
     api_target_url = f"https://api.github.com/repos/{REPO_NAME}/contents/projects/{clean_slug}/index.html"
-    commit_message = f"feat(asura): isolated project deployment for {clean_slug} via Gemini Neural Engine"
+    # [skip ci] ensures internal prototype commits don't exhaust the 100/day Vercel Hobby quota
+    commit_message = f"feat(asura): isolated project deployment for {clean_slug} via Gemini Neural Engine [skip ci]"
 
     headers = {
         "Authorization": f"Bearer {token}",
@@ -847,14 +848,32 @@ def push_index_html_to_github(html_content, project_slug):
         return {"success": False, "error": str(e), "code": 500}
 
 
+def sanitize_emojis(html: str) -> str:
+    """Strict Anti-Slop enforcer: strips out raw unicode emojis to prevent cheap AI-slop appearance."""
+    emoji_pattern = re.compile(
+        "["
+        "\U0001F600-\U0001F64F"  # emoticons
+        "\U0001F300-\U0001F5FF"  # symbols & pictographs
+        "\U0001F680-\U0001F6FF"  # transport & map symbols
+        "\U0001F1E0-\U0001F1FF"  # flags
+        "\U00002702-\U000027B0"
+        "\U000024C2-\U0001F251"
+        "\U0001F900-\U0001F9FF"
+        "\U0001FA70-\U0001FAFF"
+        "]+", flags=re.UNICODE
+    )
+    return emoji_pattern.sub(r'', html)
+
+
 ANTISLOP_PROTOCOLS = """
-STYLE-AGNOSTIC HIGH-END ARCHITECTURAL STANDARDS & DESIGN DIRECTIVES:
-1. Dynamic Color Mapping: The system must strictly extract the background canvas theme directly from '{user_input}'. If a light cream minimalist white layout (#FDFBF7, #FAFAFA) or professional slate-grey canvas (#F1F5F9, #E2E8F0) is requested, match the styling flawlessly with balanced high-contrast dark text (#18181B, #27272A, #334155). If dark mode is requested or appropriate, use obsidian space blacks (#07090E, #0F172A) with crisp white typography (#FFFFFF, #F1F5F9). Never force dark mode if the user asks for light, cream, or slate-grey aesthetics!
-2. Typography & Spacing: Mandate premium tracked Google Fonts combinations via CDN (Cormorant Garamond, Inter, Syne) with wide letter-spacing (tracking-widest, uppercase subheadings). Force immense structural breathing room (py-32 px-16 md:px-24). Strictly ban compressed boxes and generic grid blocks. Absolutely zero unstyled text emojis. Accent graphics must be custom-rendered geometric SVG paths matching the theme palette.
-3. Motion Design: Force the native injection of GreenSock animation platform components (gsap.min.js and ScrollTrigger.min.js) via standard CDN script tags to create fluid scrolling entrance animations:
+MASTER ANTI-SLOP ARCHITECTURAL DIRECTIVES & LUXURY PRODUCTION PROTOCOLS:
+1. STRICT ZERO-EMOJI MANDATE: Absolutely ZERO raw unstyled text emojis anywhere in the HTML DOM. Do NOT output 🦷, 🏋️, 📞, 📍, ⭐, 🚀, 💎, 💼, 🏢, etc. Every visual icon MUST be rendered as a Lucide vector icon (<i data-lucide="phone"></i>, <i data-lucide="map-pin"></i>, <i data-lucide="shield-check"></i>, <i data-lucide="award"></i>) OR bespoke inline SVG path. Always include the Lucide script (<script src="https://unpkg.com/lucide@latest"></script>) and invoke lucide.createIcons(); before closing </body>.
+2. Dynamic Color Mapping: The system must strictly extract the background canvas theme directly from '{user_input}'. If a light cream minimalist white layout (#FDFBF7, #FAFAFA) or professional slate-grey canvas (#F1F5F9, #E2E8F0) is requested, match the styling flawlessly with balanced high-contrast dark text (#18181B, #27272A, #334155). If dark mode or luxury real estate is requested, use obsidian space blacks (#080b12, #10141f) with champagne gold (#d4af37) and crisp white typography.
+3. Motion Design & Animation Infrastructure: Mandate GreenSock animation platform components (gsap.min.js and ScrollTrigger.min.js) via standard CDN script tags:
    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-   Include an internal script block initializing gsap.from() animations bound to ScrollTrigger checkpoints for smooth scroll reveals and viewport text fades.
+   Include an internal script block initializing gsap.from() animations with ScrollTrigger for viewport reveal fades, floating hover scale effects, and animated stat counters.
+4. Real Estate & High-Ticket Specialization: If real estate, builders, or Indian businesses are requested, format pricing in Indian Rupees (₹) with Lakhs (L) and Crores (Cr) (e.g. ₹2.45 Cr*), include RERA approval badges, and add a direct 1-click WhatsApp consultation widget.
 """
 
 
@@ -866,7 +885,7 @@ def generate_platform_with_gemini(user_input: str) -> tuple[str, str]:
     Completely eliminates outdated CrewAI/LangChain wrapper layers to guarantee zero container freezes.
     """
     prompt_text = (
-        f"You are the world's leading UI/UX architect and frontend engineer.\n"
+        f"You are an elite Principal Creative Technologist and Lead UI/UX Engineer at Apple/Linear.\n"
         f"The client has provided this specific mission directive: '{user_input}'.\n\n"
         f"Generate an absolute masterpiece, production-ready, single-file HTML website matching this EXACT niche and business instruction.\n\n"
         f"SYSTEM ANTISLOP DIRECTIVES:\n"
@@ -874,14 +893,15 @@ def generate_platform_with_gemini(user_input: str) -> tuple[str, str]:
         f"CRITICAL REQUIREMENTS:\n"
         f"1. Tailor all branding, headlines, copy, navigation links, services, features, stats, pricing/plans, and testimonials STRICTLY to '{user_input}'.\n"
         f"2. Use modern HTML5 semantics with Tailwind CSS CDN: <script src=\"https://cdn.tailwindcss.com\"></script>\n"
-        f"3. Dynamic Theme & Visual Architecture: Completely style-agnostic and dynamically tailored to '{user_input}'. If light mode, warm cream, linen, editorial minimal, or white aesthetic is requested, implement a stunning high-end light canvas (e.g. background #FDFBF7, cards #FFFFFF, borders rgba(0,0,0,0.08), deep espresso/slate typography #18181B). If dark mode or deep colors are requested, use an ultra-sleek dark palette (#07090E, obsidian cards, glowing specular highlights). Follow all ANTISLOP_PROTOCOLS.\n"
-        f"4. Embed GSAP Animation Infrastructure via CDN:\n"
+        f"3. Include Lucide Icons via CDN: <script src=\"https://unpkg.com/lucide@latest\"></script> and call lucide.createIcons(); at the end of the <body>.\n"
+        f"4. Dynamic Theme & Visual Architecture: Completely style-agnostic and dynamically tailored to '{user_input}'. Follow all ANTISLOP_PROTOCOLS.\n"
+        f"5. Embed GSAP Animation Infrastructure via CDN:\n"
         f"   <script src=\"https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js\"></script>\n"
         f"   <script src=\"https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js\"></script>\n"
         f"   Include a script initializing gsap.from() animations with ScrollTrigger for viewport reveal fades.\n"
-        f"5. Include interactive UI elements via vanilla JavaScript: navigation drawer, animated review/testimonial slider, interactive modal/lead capture form, FAQ accordion, dynamic tabs.\n"
-        f"6. Absolutely NO generic lorem ipsum, NO placeholder text, NO basic unstyled HTML elements, and NO emojis.\n"
-        f"7. Output ONLY raw HTML starting with <!DOCTYPE html> and closing with </html>. Do not wrap in markdown codeblocks."
+        f"6. Include interactive UI elements via vanilla JavaScript: navigation drawer, animated review/testimonial slider, interactive modal/lead capture form, FAQ accordion, dynamic tabs, and floating WhatsApp pill.\n"
+        f"7. Absolutely NO generic lorem ipsum, NO placeholder text, NO basic unstyled HTML elements, and STRICTLY ZERO EMOJIS.\n"
+        f"8. Output ONLY raw HTML starting with <!DOCTYPE html> and closing with </html>. Do not wrap in markdown codeblocks."
     )
 
     log_message(f"Hermes Router: registering directive for '{user_input[:50]}'", "hermes")
@@ -975,6 +995,7 @@ def generate_platform_with_gemini(user_input: str) -> tuple[str, str]:
 
     clean_html = clean_html.replace("Lorem ipsum dolor sit amet", "Engineered with precision for demanding institutional workflows")
     clean_html = clean_html.replace("lorem ipsum", "enterprise excellence")
+    clean_html = sanitize_emojis(clean_html)
 
     return blueprint, clean_html
 
@@ -1830,54 +1851,50 @@ with col_center:
             if st.button("⚡ Send Test Telegram Ping", use_container_width=True):
                 if bot_instance:
                     test_lead = {
-                        "name": "Apex Precision Dental",
-                        "niche": "Cosmetic & Family Dentistry",
-                        "city": "Miami, FL",
-                        "phone": "(305) 555-0199",
-                        "email": "dr.vance@apexprecisiondental.com",
-                        "address": "Brickell Avenue, Miami, FL 33131",
+                        "name": "Sovereign Heritage Estates",
+                        "niche": "Luxury Real Estate & Villa Developers",
+                        "city": "Bangalore, Karnataka",
+                        "phone": "+91 98450 88219",
+                        "cleanPhone": "9845088219",
+                        "email": "director@sovereignheritage.in",
+                        "address": "14/2 Lavelle Road, Shanthala Nagar, Bangalore, Karnataka 560001",
                         "rating": "4.9",
-                        "reviews": "128",
-                        "hasWebsite": False
+                        "reviews": "112",
+                        "hasWebsite": False,
+                        "slug": "sovereign-heritage-estates-bangalore"
                     }
-                    sample_proto = "https://asura-system.vercel.app/projects/apex-precision-dental/index.html"
+                    sample_proto = "https://asura-system.pages.dev/projects/sovereign-heritage-estates-bangalore/index.html"
                     cnt = bot_instance.send_lead_card(test_lead, sample_proto)
-                    log_message(f"Telegram dispatcher: test ping broadcasted to {cnt} subscriber(s).", "telegram")
-                    st.success(f"Dispatched test lead alert to {cnt} subscriber(s) on Telegram!")
+                    log_message(f"Telegram dispatcher: Indian Real Estate test alert broadcasted to {cnt} subscriber(s).", "telegram")
+                    st.success(f"Dispatched test Real Estate lead alert to {cnt} subscriber(s) on Telegram!")
                     st.rerun()
 
-        st.markdown("<div style='margin-top:14px;margin-bottom:8px;font-size:11px;font-family:monospace;letter-spacing:0.08em;color:#38bdf8;'>DIRECT RADAR HUNT VECTOR</div>", unsafe_allow_html=True)
+        st.markdown("<div style='margin-top:14px;margin-bottom:8px;font-size:11px;font-family:monospace;letter-spacing:0.08em;color:#38bdf8;'>DIRECT RADAR HUNT VECTOR (INDIA ONLY)</div>", unsafe_allow_html=True)
         niche_names = [
-            "All Niches (Multi-Vector)",
-            "Dental Clinic",
-            "Fitness & Gym",
-            "Medical Spa",
-            "Roofing Contractor",
-            "Plumbing Services",
-            "HVAC & AC Repair",
-            "Licensed Electrician",
-            "Landscaping & Tree Service",
-            "Restaurant & Bistro",
-            "Hair Salon & Barbershop",
-            "Law Firm & Attorney",
-            "Auto Detailing & Repair",
-            "Painting Contractor",
-            "Chiropractic & Physical Therapy",
-            "Pet Grooming & Veterinary",
-            "Commercial Cleaning Services"
+            "All Niches (India Multi-Vector)",
+            "Luxury Real Estate & Villa Developers",
+            "Dental Clinic & Implantology Center",
+            "Interior Architecture & Modular Living",
+            "Premium Fitness & Crossfit Studio",
+            "Dermatology & Aesthetic Clinic",
+            "Luxury Hair & Beauty Lounge",
+            "Advocates & Legal Associates",
+            "Car Detailing & Ceramic Studio",
+            "Civil Construction & Turnkey Builders",
+            "Fine Dining & Artisan Bistro"
         ]
 
         c_col1, c_col2 = st.columns(2)
         with c_col1:
             selected_niche_display = st.selectbox("Select Target Business Niche:", niche_names, index=0)
         with c_col2:
-            target_city_input = st.text_input("Target City / Metro Area:", value="Miami, FL")
+            target_city_input = st.text_input("Target City / Metro Area (India):", value="Bangalore, Karnataka")
 
         h_btn1, h_btn2 = st.columns(2)
         with h_btn1:
             launch_hunt = st.button("🚀 Launch Autonomous Hunt (Generate & Deploy Prototype)", use_container_width=True)
         with h_btn2:
-            sweep_all = st.button("⚡ Sweep All 16 Niches in Parallel", use_container_width=True)
+            sweep_all = st.button("⚡ Sweep Priority Niches in Parallel", use_container_width=True)
 
         if launch_hunt:
             with st.spinner(f"Scanning '{selected_niche_display}' in '{target_city_input}' for businesses without websites..."):
@@ -1938,12 +1955,10 @@ with col_center:
                 l_rating = lead.get("rating", "4.8")
                 l_proto = lead.get("prototypeUrl", "")
                 l_slug = lead.get("slug", "")
-                clean_d = "".join(c for c in l_phone if c.isdigit())
-                if len(clean_d) == 10:
-                    clean_d = "1" + clean_d
+                clean_d = "".join(c for c in l_phone if c.isdigit())[-10:]
                 wa_pitch = urllib.parse.quote(
-                    f"Hi {l_name}! I noticed your business has great customer ratings, "
-                    f"but doesn't currently have an official website. "
+                    f"Hi {l_name}! I noticed your business has stellar reviews in {l_city}, "
+                    f"but doesn't currently have an official modern website. "
                     f"I built a custom live website prototype for you to see: {l_proto} . Would you like to claim it?"
                 )
                 st.markdown(f"""
@@ -1962,27 +1977,35 @@ with col_center:
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
-                lead_btn_c1, lead_btn_c2, lead_btn_c3 = st.columns([1.5, 1.5, 1.2])
+                lead_btn_c1, lead_btn_c2, lead_btn_c3 = st.columns([1.8, 1.4, 1.0])
                 with lead_btn_c1:
-                    if l_proto:
-                        st.markdown(f"""
-                        <a href="{l_proto}" target="_blank" style="
-                            display:block;text-align:center;padding:8px 12px;border-radius:8px;
+                    cf_url = lead.get("cloudflareUrl") or f"https://asura-system.pages.dev/projects/{l_slug}/index.html"
+                    vc_url = lead.get("vercelUrl") or f"https://asura-system.vercel.app/projects/{l_slug}/index.html"
+                    st.markdown(f"""
+                    <div style="display:flex;gap:6px;">
+                        <a href="{cf_url}" target="_blank" style="
+                            flex:1;text-align:center;padding:8px 6px;border-radius:8px;
+                            background:linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+                            color:#000000;font-size:11px;font-weight:700;text-decoration:none;
+                        ">🚀 Cloudflare ↗</a>
+                        <a href="{vc_url}" target="_blank" style="
+                            flex:1;text-align:center;padding:8px 6px;border-radius:8px;
                             background:linear-gradient(135deg, #059669 0%, #10b981 100%);
                             color:#ffffff;font-size:11px;font-weight:700;text-decoration:none;
-                        ">🌐 Open Live Prototype ↗</a>
-                        """, unsafe_allow_html=True)
+                        ">⚡ Vercel ↗</a>
+                    </div>
+                    """, unsafe_allow_html=True)
                 with lead_btn_c2:
-                    if clean_d:
+                    if clean_d and len(clean_d) == 10:
                         st.markdown(f"""
-                        <a href="https://wa.me/{clean_d}?text={wa_pitch}" target="_blank" style="
+                        <a href="https://wa.me/91{clean_d}?text={wa_pitch}" target="_blank" style="
                             display:block;text-align:center;padding:8px 12px;border-radius:8px;
                             background:linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
                             color:#ffffff;font-size:11px;font-weight:700;text-decoration:none;
-                        ">💬 WhatsApp Pitch (1-Click)</a>
+                        ">💬 WhatsApp (+91)</a>
                         """, unsafe_allow_html=True)
                 with lead_btn_c3:
-                    if st.button("⚡ Edit in Builder", key=f"edit_lead_{l_idx}", use_container_width=True):
+                    if st.button("⚡ Edit", key=f"edit_lead_{l_idx}", use_container_width=True):
                         st.session_state.selected_project_slug = l_slug
                         st.session_state.target_niche_val = f"Update website for {l_name} ({l_niche}): "
                         st.rerun()
@@ -1992,12 +2015,12 @@ with col_center:
     with tab_portfolio:
         H("""
         <div class="gl1" style="padding:16px 20px;margin-bottom:14px;">
-        <div class="t-over" style="color:#a78bfa;">CLIENT ASSET REPOSITORY // LIVE VERCEL DIRECTORY</div>
+        <div class="t-over" style="color:#a78bfa;">CLIENT ASSET REPOSITORY // DUAL CLOUDFLARE + VERCEL DIRECTORY</div>
         <h3 style="font-family:'Orbitron',sans-serif;font-size:18px;font-weight:800;color:#ffffff;margin-top:2px;">
             DEPLOYED PRODUCTION PLATFORMS
         </h3>
         <p style="font-size:12px;color:#94a3b8;margin-top:6px;">
-            All client websites deployed on Vercel edge networks. Select any project to make iterative edits or export the HTML production bundle.
+            All client websites deployed across Cloudflare Pages (Unlimited) and Vercel edge networks. Select any project to make iterative edits or export the HTML production bundle.
         </p>
         </div>
         """)
@@ -2007,7 +2030,9 @@ with col_center:
                 p_col1, p_col2, p_col3 = st.columns([2.2, 1.3, 1.5])
                 with p_col1:
                     st.markdown(f"**`{p['slug']}`**")
-                    st.caption(f"[Live on Vercel ↗]({p['url']})")
+                    cf_url = f"https://asura-system.pages.dev/projects/{p['slug']}/index.html"
+                    vc_url = f"https://asura-system.vercel.app/projects/{p['slug']}/index.html"
+                    st.caption(f"[Cloudflare (Unlimited) ↗]({cf_url}) | [Vercel Mirror ↗]({vc_url})")
                 with p_col2:
                     if st.button(f"Edit Site", key=f"port_edit_{p['slug']}", use_container_width=True):
                         st.session_state.selected_project_slug = p['slug']
