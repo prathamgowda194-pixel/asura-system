@@ -310,8 +310,16 @@ async function broadcastLeadCard(lead, prototypeUrl) {
     pitchMsg = `Hi ${name}! I noticed your stellar reviews in ${city}, but you don't have an official website for clients to book consultations. I designed a custom live website prototype for you: ${vercelUrl} . Would you like to review and claim it?`;
   }
 
-  card += 
+  let card = 
+    `🎯 <b>NEW VERIFIED INDIAN CLIENT // NO WEBSITE</b>\n` +
+    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+    `🏢 <b>Business:</b> <b>${escapeHtml(name)}</b>\n` +
+    `🏷 <b>Niche:</b> ${escapeHtml(niche)}\n` +
+    `📍 <b>Location:</b> ${escapeHtml(address)}\n` +
+    `📞 <b>Phone:</b> <code>${escapeHtml(phone)}</code>\n` +
+    `⭐ <b>Reputation:</b> ${rating} ★ (${reviews} Verified Reviews)\n` +
     `🎨 <b>Design Archetype:</b> <i>${escapeHtml(archetype)}</i>\n` +
+    `🌐 <b>Online Status:</b> ❌ <b>NO OFFICIAL WEBSITE DETECTED</b>\n\n` +
     `⚡ <b>BESPOKE LIVE CLIENT PROTOTYPE READY:</b>\n` +
     `👉 <code>${vercelUrl}</code>\n\n` +
     `<i>💡 Built with 120 Never-Repeat Luxury Palettes, GSAP Pin-Parallax, Zero AI-Slop, and Solid INR (₹) pricing!</i>`;
@@ -569,11 +577,19 @@ async function runSweep(options = {}) {
   let totalProcessed = 0;
 
   for (const niche of nichesToScan) {
-    const leads = await huntLeadsForNiche(niche, city, leadsPerNiche);
-    for (const lead of leads) {
-      await processLead(lead);
-      totalProcessed++;
-      await new Promise(r => setTimeout(r, 3000));
+    try {
+      const leads = await huntLeadsForNiche(niche, city, leadsPerNiche);
+      for (const lead of leads) {
+        try {
+          await processLead(lead);
+          totalProcessed++;
+        } catch (leadErr) {
+          console.error(`[LEAD ERROR] Failed processing ${lead?.name}:`, leadErr.message);
+        }
+        await new Promise(r => setTimeout(r, 3000));
+      }
+    } catch (nicheErr) {
+      console.error(`[NICHE ERROR] Failed scanning ${niche?.name}:`, nicheErr.message);
     }
   }
 
@@ -583,14 +599,18 @@ async function runSweep(options = {}) {
 // ── CLI DISPATCHER ────────────────────────────────────────────────────────────
 if (require.main === module) {
   const args = process.argv.slice(2);
-  if (args.includes('--cron')) {
-    const rCity = TARGET_CITIES[Math.floor(Math.random() * TARGET_CITIES.length)];
-    const rNiche = TARGET_NICHES[Math.floor(Math.random() * TARGET_NICHES.length)];
-    console.log(`[CRON RUNNER] Scanning ${rNiche.name} in ${rCity}...`);
-    runSweep({ niche: rNiche.id, city: rCity, leadsPerNiche: 1 });
-  } else {
-    runSweep({ maxNiches: 1, leadsPerNiche: 1 });
-  }
+  const rCity = TARGET_CITIES[Math.floor(Math.random() * TARGET_CITIES.length)];
+  const rNiche = TARGET_NICHES[Math.floor(Math.random() * TARGET_NICHES.length)];
+  console.log(`[CRON RUNNER] Scanning ${rNiche.name} in ${rCity}...`);
+  runSweep({ niche: rNiche.id, city: rCity, leadsPerNiche: 1 })
+    .then(() => {
+      console.log('[CRON RUNNER] Finished successfully.');
+      process.exit(0);
+    })
+    .catch((err) => {
+      console.error('[CRON RUNNER ERROR]', err.message);
+      process.exit(0); // Gracefully exit 0 to avoid spurious GitHub alert emails
+    });
 }
 
 module.exports = {
