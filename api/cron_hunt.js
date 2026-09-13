@@ -200,7 +200,7 @@ async function sendLeadCard(lead, protoUrl) {
     [{ text: "🚀 Open Live Client Website ↗", url: protoUrl }],
     [
       { text: "💬 WhatsApp Pitch (1-Click)", url: `https://wa.me/91${cleanPhone}?text=${encodeURIComponent(pitch)}` },
-      { text: "📞 Call +91 Direct", url: `tel:+91${cleanPhone}` }
+      { text: "📞 Call via WhatsApp", url: `https://wa.me/91${cleanPhone}` }
     ]
   ];
 
