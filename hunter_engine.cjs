@@ -141,14 +141,17 @@ function extractPhysicalAddress(text, defaultCity) {
 }
 
 // ── TELEGRAM DISPATCHER ───────────────────────────────────────────────────────
+let lastUpdateId = 0;
+
 async function syncTelegramUpdates() {
-  const url = `https://api.telegram.org/bot${CONFIG.TELEGRAM_BOT_TOKEN}/getUpdates`;
+  const url = `https://api.telegram.org/bot${CONFIG.TELEGRAM_BOT_TOKEN}/getUpdates?offset=${lastUpdateId + 1}&timeout=5`;
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(6000) });
+    const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
     if (res.status === 200) {
       const data = await res.json();
       if (data.ok && Array.isArray(data.result)) {
         for (const u of data.result) {
+          lastUpdateId = Math.max(lastUpdateId, u.update_id || 0);
           const msg = u.message;
           if (msg && msg.chat && msg.chat.id) {
             addSubscriber(msg.chat.id);
