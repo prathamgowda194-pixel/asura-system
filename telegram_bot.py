@@ -125,7 +125,11 @@ class TelegramBot:
         niche = lead.get("niche", "Commercial Services").title()
         city = lead.get("city", "United States").title()
         phone = lead.get("phone", "Not Listed")
-        email = lead.get("email", "Direct Contact Needed")
+        email = lead.get("email") or ""
+        if not email or email == "Direct WhatsApp Outreach" or "Direct Contact" in email:
+            clean_name = "".join(c for c in lead.get("name", "").lower() if c.isalnum())
+            email = f"contact@{clean_name or 'client'}.in"
+
         rating = lead.get("rating", "4.8")
         reviews = lead.get("reviews", "45")
         address = lead.get("address", city)
@@ -144,7 +148,7 @@ class TelegramBot:
 
         clean_digits = "".join(c for c in phone if c.isdigit())
         if len(clean_digits) == 10:
-            clean_digits = "1" + clean_digits
+            clean_digits = "91" + clean_digits
 
         pitch_msg = (
             f"Hi {name}! I noticed your business has great customer ratings, "
@@ -169,7 +173,19 @@ class TelegramBot:
         actions = []
         if clean_digits and len(clean_digits) >= 10:
             actions.append({"text": "💬 WhatsApp Lead", "url": f"https://wa.me/{clean_digits}?text={encoded_pitch}"})
-            actions.append({"text": "📞 Call Direct", "url": f"tel:+{clean_digits}"})
+
+        email_subject = urllib.parse.quote(f"Custom Website Preview for {name} [Interactive Demo]")
+        email_body = urllib.parse.quote(
+            f"Hello Team {name},\n\n"
+            f"I came across your business in {city} and was impressed by your strong customer ratings ({rating} ★).\n\n"
+            f"I noticed that you don't currently have an official website for clients to explore your services and reach out directly.\n\n"
+            f"Our team has designed and deployed a live interactive website prototype specifically for your business:\n\n"
+            f"👉 Test Your Custom Website Prototype Here:\n{prototype_url or 'https://asura-system.vercel.app'}\n\n"
+            f"we build custom website designs according to your needs if interested you can contact our team we will help you out and my contact number is 8197261896\n\n"
+            f"Warm regards,\nWeb Design & Development Team\nContact: +91 8197261896"
+        )
+        if email and "@" in email:
+            actions.append({"text": "✉️ Email Pitch (1-Click)", "url": f"mailto:{email}?subject={email_subject}&body={email_body}"})
 
         if actions:
             buttons.append(actions)
