@@ -385,7 +385,8 @@ async function broadcastLeadCard(lead, prototypeUrl) {
     contactRow.push({ text: "💬 WhatsApp (1-Click)", url: `https://wa.me/91${cleanPhone}?text=${encodedPitch}` });
   }
   if (email && email.includes('@')) {
-    contactRow.push({ text: "✉️ Email Pitch (1-Click)", url: `mailto:${email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}` });
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    contactRow.push({ text: "✉️ Email Pitch (1-Click)", url: gmailUrl });
   }
 
   if (contactRow.length > 0) {
