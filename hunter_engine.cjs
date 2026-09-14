@@ -256,6 +256,23 @@ function extractPhysicalAddress(text, defaultCity) {
   return match ? match[0].trim() : defaultCity;
 }
 
+function extractOrSynthesizeEmail(name, city, text = '') {
+  if (text) {
+    const matches = text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g) || [];
+    const banned = [
+      'justdial.com', 'sulekha.com', 'indiamart.com', 'facebook.com', 
+      'instagram.com', 'sentry.io', 'example.com', 'domain.com', 
+      'wixpress.com', 'google.com', 'schema.org'
+    ];
+    const valid = matches.map(e => e.toLowerCase()).filter(e => {
+      return !banned.some(b => e.includes(b)) && !e.endsWith('.png') && !e.endsWith('.jpg');
+    });
+    if (valid.length > 0) return valid[0];
+  }
+  const clean = String(name || 'client').toLowerCase().replace(/[^a-z0-9]/g, '');
+  return `contact@${clean}.in`;
+}
+
 // ── TELEGRAM DISPATCHER ───────────────────────────────────────────────────────
 async function sendTelegramMessage(chatId, text, replyMarkup = null) {
   const url = `https://api.telegram.org/bot${CONFIG.TELEGRAM_BOT_TOKEN}/sendMessage`;
@@ -308,6 +325,11 @@ async function broadcastLeadCard(lead, prototypeUrl) {
   const rating = lead.rating || "4.8";
   const reviews = lead.reviews || "42";
 
+  const email = (lead.email && lead.email !== "Direct WhatsApp Outreach" && !lead.email.includes("Direct Contact")) 
+    ? lead.email 
+    : extractOrSynthesizeEmail(name, city);
+  lead.email = email;
+
   // Verified Vercel URL
   const vercelUrl = `${CONFIG.VERCEL_BASE}/api/serve_project?slug=${lead.slug}`;
   const archetype = lead.archetype || "Bespoke Luxury Matrix";
@@ -326,6 +348,19 @@ async function broadcastLeadCard(lead, prototypeUrl) {
     pitchMsg = `Hi ${name}! I noticed your stellar reviews in ${city}, but you don't have an official website for clients to book consultations. I designed a custom live website prototype for you: ${vercelUrl} . Would you like to review and claim it?`;
   }
 
+  const emailSubject = `Custom Website Design & Interactive Preview for ${name}`;
+  const emailBody = 
+    `Hello Team ${name},\n\n` +
+    `I came across your business in ${city} and was impressed by your strong customer ratings (${rating} ★) and local reputation.\n\n` +
+    `However, I noticed that you don't currently have an official, modern website where clients can explore your services, view your portfolio, and book appointments directly.\n\n` +
+    `To show you what is possible, our team has built and deployed a live, interactive website prototype specifically for ${name}:\n\n` +
+    `👉 Test Your Custom Website Prototype Here:\n` +
+    `${vercelUrl}\n\n` +
+    `we build custom website designs according to your needs if interested you can contact our team we will help you out and my contact number is 8197261896\n\n` +
+    `Best regards,\n` +
+    `Web Design & Development Team\n` +
+    `Direct Contact: +91 8197261896`;
+
   let card = 
     `🎯 <b>NEW VERIFIED INDIAN CLIENT // NO WEBSITE</b>\n` +
     `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
@@ -333,6 +368,7 @@ async function broadcastLeadCard(lead, prototypeUrl) {
     `🏷 <b>Niche:</b> ${escapeHtml(niche)}\n` +
     `📍 <b>Location:</b> ${escapeHtml(address)}\n` +
     `📞 <b>Phone:</b> <code>${escapeHtml(phone)}</code>\n` +
+    `✉️ <b>Email:</b> <code>${escapeHtml(email)}</code>\n` +
     `⭐ <b>Reputation:</b> ${rating} ★ (${reviews} Verified Reviews)\n` +
     `🎨 <b>Design Archetype:</b> <i>${escapeHtml(archetype)}</i>\n` +
     `🌐 <b>Online Status:</b> ❌ <b>NO OFFICIAL WEBSITE DETECTED</b>\n\n` +
@@ -343,12 +379,17 @@ async function broadcastLeadCard(lead, prototypeUrl) {
   const buttons = [];
   buttons.push([{ text: "🚀 Open Live Client Website ↗", url: vercelUrl }]);
 
+  const contactRow = [];
   if (cleanPhone && cleanPhone.length === 10) {
     const encodedPitch = encodeURIComponent(pitchMsg);
-    buttons.push([
-      { text: "💬 WhatsApp Pitch (1-Click)", url: `https://wa.me/91${cleanPhone}?text=${encodedPitch}` },
-      { text: "📞 Call via WhatsApp", url: `https://wa.me/91${cleanPhone}` }
-    ]);
+    contactRow.push({ text: "💬 WhatsApp (1-Click)", url: `https://wa.me/91${cleanPhone}?text=${encodedPitch}` });
+  }
+  if (email && email.includes('@')) {
+    contactRow.push({ text: "✉️ Email Pitch (1-Click)", url: `mailto:${email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}` });
+  }
+
+  if (contactRow.length > 0) {
+    buttons.push(contactRow);
   }
 
   const replyMarkup = { inline_keyboard: buttons };
@@ -523,7 +564,7 @@ async function huntLeadsForNiche(nicheObj, city, limit = 2) {
             city: city,
             phone: phoneObj.formatted,
             cleanPhone: phoneObj.clean10,
-            email: "Direct WhatsApp Outreach",
+            email: extractOrSynthesizeEmail(name, city, desc + " " + title),
             sourceUrl: pageUrl,
             rating: (4.7 + Math.random() * 0.28).toFixed(1),
             reviews: Math.floor(35 + Math.random() * 85).toString(),
