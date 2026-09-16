@@ -328,16 +328,8 @@ function parseSlugInfo(slug) {
   let nicheKey = "realestate";
   if (/detail|ceramic|car|auto|paint|ppf|wrap|vehicle|motors|garage/i.test(slug)) {
     nicheKey = "autodetailing";
-    if (/architectural-exports/i.test(slug)) {
-      phone = "+91 93723 17501";
-      cleanPhone = "9372317501";
-    }
   } else if (/dining|restaurant|bistro|byob|cafe|lounge|food/i.test(slug)) {
     nicheKey = "dining";
-    if (/byob/i.test(slug)) {
-      phone = "+91 96541 20004";
-      cleanPhone = "9654120004";
-    }
   } else if (/dental|dentist/i.test(slug)) nicheKey = "dental";
   else if (/construction|builder|civil/i.test(slug)) nicheKey = "construction";
   else if (/interior|modular/i.test(slug)) nicheKey = "interior";
@@ -349,11 +341,6 @@ function parseSlugInfo(slug) {
     .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
 
   let name = cleanWords.slice(0, 4).join(' ') || "Signature Enterprise";
-  if (slug === "byob-restaurant-experience-in-gurgaon") {
-    name = "BYOB Restaurant Experience Gurgaon";
-  } else if (slug === "architectural-exports-in-sion-west") {
-    name = "Architectural Exports In Sion West";
-  }
 
   return { name, city, nicheKey, phone, cleanPhone, slug };
 }
@@ -543,10 +530,56 @@ function buildLuxuryHTML(lead) {
 </html>`;
 }
 
+const BLACKLISTED_SLUGS = new Set([
+  "bridge-property-consultants-mumbai",
+  "all-smiles-dental-clinic-bangalore",
+  "s9-luxury-hair-studio-in-gachibowli",
+  "hyderabad-real-estate-hyderabad",
+  "byob-restaurant-experience-in-gurgaon",
+  "architectural-exports-in-sion-west",
+  "lee-space-interior-design-in",
+  "taaam-fine-dining-private-limited",
+  "indus-dental-clinic-coimbatore",
+  "dev-interior-design-work-in-lgb-nagar",
+  "sri-prathyangiradevi-real-estate",
+  "lawyer-advocates-at-1000-person",
+  "india-sotheby-s-international-realty",
+  "mr-mrs-detailing-studio-jaipur",
+  "ravi-construction-in-mohali",
+  "s-k-sahil-civil-contractor-in-mapusa",
+  "eternal-fitness-center-bengaluru",
+  "contractor-for-bathroom-construction",
+  "rahul-real-estate-in-vijay-nagar",
+  "hair-treatment-in-pune-id-14651660530",
+  "if-they-won-twe-will-call-9748654545",
+  "22-photos-of-naik-real-estate-in",
+  "building-construction-qamsham-infra",
+  "interior-designer-vendors-in"
+]);
+
 export default async function handler(req, res) {
   const slug = (req.query.slug || '').replace(/[^a-z0-9-]/gi, '');
   if (!slug) {
     return res.status(400).send("<h1>Missing project slug</h1>");
+  }
+
+  if (BLACKLISTED_SLUGS.has(slug)) {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0');
+    return res.status(410).send(`
+      <!DOCTYPE html>
+      <html>
+      <head><title>Website Removed // 410 Gone</title><script src="https://cdn.tailwindcss.com"></script></head>
+      <body class="bg-black text-slate-300 min-h-screen flex items-center justify-center p-6 font-sans">
+        <div class="max-w-md w-full bg-slate-900 border border-slate-800 p-8 rounded-2xl text-center shadow-2xl">
+          <div class="w-12 h-12 rounded-full bg-rose-500/10 text-rose-400 mx-auto flex items-center justify-center text-xl font-bold mb-4">✕</div>
+          <h1 class="text-xl font-bold text-white mb-2">Website Permanently Decommissioned</h1>
+          <p class="text-sm text-slate-400 mb-6">This website prototype has been permanently decommissioned and removed per client request. It is no longer hosted or supported.</p>
+          <a href="/" class="inline-block px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-semibold tracking-wide">Return Home</a>
+        </div>
+      </body>
+      </html>
+    `);
   }
 
   // 1. Try to fetch pre-compiled prototype from GitHub
