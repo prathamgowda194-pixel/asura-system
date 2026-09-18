@@ -585,11 +585,10 @@ async function huntLeadsForNiche(nicheObj, city, limit = 2) {
           leadsFound.push(lead);
           console.log(`[QUALIFIED INDIAN LEAD] ${lead.name} | Phone: ${lead.phone} | City: ${lead.city}`);
         }
+      } catch (e) {
+        console.error(`[SCRAPER ERROR] ${e.message}`);
       }
-    } catch (e) {
-      console.error(`[SCRAPER ERROR] ${e.message}`);
     }
-  }
 
   return leadsFound;
 }
