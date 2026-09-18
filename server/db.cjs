@@ -19,6 +19,28 @@ const path = require('path');
 
 const STORE_PATH = path.join(__dirname, '..', 'data', 'lottery_store.json');
 
+// Auto-load root .env if not loaded
+function loadEnv() {
+  const envPath = path.join(__dirname, '..', '.env');
+  if (fs.existsSync(envPath)) {
+    const lines = fs.readFileSync(envPath, 'utf8').split('\n');
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (trimmed && !trimmed.startsWith('#')) {
+        const eqIdx = trimmed.indexOf('=');
+        if (eqIdx > 0) {
+          const key = trimmed.substring(0, eqIdx).trim();
+          const val = trimmed.substring(eqIdx + 1).trim();
+          if (!process.env[key]) {
+            process.env[key] = val;
+          }
+        }
+      }
+    }
+  }
+}
+loadEnv();
+
 // Default initial state
 const INITIAL_STORE = {
   tickets: [],
@@ -165,6 +187,11 @@ class LotteryDatabaseManager {
 
   async connect() {
     const mongoUri = process.env.MONGODB_URI;
+    if (mongoUri && (mongoUri.includes('<db_username>') || mongoUri.includes('<password>') || mongoUri.includes('<username>'))) {
+      console.warn('[DB] MONGODB_URI contains unreplaced placeholder (<db_username>). Running on fast JSON Document Store until username is provided.');
+      this.isMongoActive = false;
+      return false;
+    }
     if (mongoUri && mongoUri.startsWith('mongodb')) {
       try {
         console.log('[DB] Connecting to MongoDB Atlas...');
