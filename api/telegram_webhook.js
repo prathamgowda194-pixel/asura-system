@@ -3,15 +3,128 @@
  * ASURA TELEGRAM WEBHOOK GATEWAY // VERCEL SERVERLESS EDGE FUNCTION
  * Route: /api/telegram_webhook
  * ══════════════════════════════════════════════════════════════════════════════
- * - 24/7/365 Serverless Execution on Vercel (Zero Laptop Power Dependency)
+ * - 24/7/365 Serverless Execution on Vercel
  * - Instant Response to /start, /status, /latest, /stop, and /hunt (< 1 second)
- * - Real-Time Indian Lead Dispatch & 1-Click WhatsApp Pitch Buttons (+91)
- * - Zero Timeouts: Instant delivery from verified pre-deployed prototype catalog
+ * - Zero Duplication & Root-Stem Regex Blacklist: 100% blocks all removed clients
+ * - 1-Click WhatsApp Pitch Buttons with +91 Mobile & High-Converting Pitch
  */
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8909145509:AAF8UhbWxPR5JGt8ddcAd9D1gqZ3L13ZuAo';
 const VERCEL_BASE = 'https://asura-system.vercel.app';
 const API_URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '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';
+const REPO = 'prathamgowda194-pixel/asura-system';
+
+const BLACKLIST_PATTERNS = [
+  /bridge\s*(property|consult|realt)/i,
+  /all\s*smiles/i,
+  /s\s*9\s*(luxury|hair|studio)/i,
+  /hyderabad\s*real\s*estate/i,
+  /byob/i,
+  /architectural\s*export/i,
+  /lee\s*space/i,
+  /taaam/i,
+  /indus\s*(dental|clinic|implant)/i,
+  /dev\s*interior/i,
+  /prath?yangi?r/i,
+  /(advocate|lawyer).*1000|1000.*(person|advocate|lawyer)/i,
+  /sotheby/i,
+  /mr\s*(&|and)?\s*mrs\s*detail/i,
+  /ravi\s*construct/i,
+  /s\s*k?\s*sahil|sahil\s*civil/i,
+  /eternal\s*fit/i,
+  /(contractor.*bath|bath.*contract|bath.*construct)/i,
+  /rahul\s*real/i,
+  /hair\s*treatment.*pune|14651660530/i,
+  /if\s*they\s*won/i,
+  /naik\s*real|santa\s*cruz.*naik/i,
+  /qamsham/i,
+  /interior.*vendor|vendor.*ahmedabad|vendor.*ahemadabad/i
+];
+
+const BLACKLIST_PHONES = new Set([
+  '9320293840', '9845012345', '9849012345', '7337526868',
+  '9654120004', '9372317501', '8460558718', '9748654545'
+]);
+
+function isBlacklisted(lead) {
+  if (!lead) return true;
+  const name = lead.name || '';
+  const slug = lead.slug || '';
+  const rawPhone = lead.cleanPhone || lead.phone || '';
+  const digits = String(rawPhone).replace(/\D/g, '');
+  const cleanPhone = digits.length >= 10 ? digits.slice(-10) : '';
+
+  if (cleanPhone && BLACKLIST_PHONES.has(cleanPhone)) return true;
+  const combined = `${name} ${slug} ${lead.city || ''} ${lead.niche || ''}`;
+  for (const pat of BLACKLIST_PATTERNS) {
+    if (pat.test(combined)) return true;
+  }
+  return false;
+}
+
+const CLEAN_FALLBACK_LEADS = [
+  {
+    name: "Bhoomiputra Real Estate Developers",
+    niche: "Luxury Real Estate & Land Promoters",
+    city: "Bangalore, Karnataka",
+    address: "Nagadevanahalli, Bangalore 560060",
+    phone: "+91 63632 73458",
+    cleanPhone: "6363273458",
+    rating: "4.8",
+    reviews: "145",
+    slug: "bhoomiputra-real-estate-developers",
+    archetype: "Forest Emerald with Lapis Azure"
+  },
+  {
+    name: "GKB Construction LLP",
+    niche: "Civil Construction & Turnkey High-Rises",
+    city: "Jaipur, Rajasthan",
+    address: "C-Scheme & Tonk Road, Jaipur 302001",
+    phone: "+91 93529 81701",
+    cleanPhone: "9352981701",
+    rating: "4.9",
+    reviews: "114",
+    slug: "gkb-gkb-construction-llp-building",
+    archetype: "French Navy with Champagne Gold"
+  },
+  {
+    name: "Skin Secrets Aesthetic Clinic",
+    niche: "Dermatology & Aesthetic Clinic",
+    city: "Kochi, Kerala",
+    address: "Metro Pillar 482, Edappally, Cochin 682024",
+    phone: "+91 75609 07255",
+    cleanPhone: "7560907255",
+    rating: "4.8",
+    reviews: "168",
+    slug: "skin-secrets-in-edappally-cochin-kochi",
+    archetype: "Tuscan Olive with Regal Amber"
+  },
+  {
+    name: "Impact Fitness Center",
+    niche: "Premium Fitness & Crossfit Studio",
+    city: "Bangalore, Karnataka",
+    address: "Electronics City Phase 1, Bangalore 560100",
+    phone: "+91 87920 38282",
+    cleanPhone: "8792038282",
+    rating: "4.8",
+    reviews: "96",
+    slug: "impact-fitness-center-bangalore",
+    archetype: "Mineral Slate with Burnished Bronze"
+  },
+  {
+    name: "S M Corporation Interiors",
+    niche: "Interior Architecture & Modular Living",
+    city: "Bangalore, Karnataka",
+    address: "27th Main Rd, HSR Layout, Bangalore 560102",
+    phone: "+91 99808 15604",
+    cleanPhone: "9980815604",
+    rating: "4.8",
+    reviews: "72",
+    slug: "s-m-corporation-interiors-bangalore",
+    archetype: "Midnight Velvet with Crimson Flare"
+  }
+];
 
 async function sendTelegram(chatId, text, markup = null) {
   const payload = {
@@ -26,7 +139,8 @@ async function sendTelegram(chatId, text, markup = null) {
     await fetch(`${API_URL}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(6000)
     });
   } catch (e) {}
 }
@@ -60,12 +174,12 @@ export default async function handler(req, res) {
           `Your Telegram account is <b>PERMANENTLY LINKED</b> to the Asura Autonomous Lead Matrix.\n\n` +
           `📱 <b>Telegram User ID:</b> <code>${chatId}</code> (@TeChPlAyZ194)\n` +
           `🇮🇳 <b>Territory Radar:</b> ALL OVER INDIA (Bangalore, Mumbai, Delhi NCR, Hyderabad, Pune, Kochi)\n` +
-          `🏢 <b>Priority Niches:</b> Artisanal Dining & BYOB, Luxury Real Estate, Aesthetic Clinics, Turnkey Construction\n` +
+          `🏢 <b>Priority Niches:</b> Luxury Real Estate, Civil Construction, Dental, Aesthetic Clinics, Interior Architecture\n` +
           `🛡️ <b>Quality Protocol:</b> 100% Genuine Indian Businesses (Verified +91 Mobile, Zero AI-Slop)\n` +
           `☁️ <b>Hosting Infrastructure:</b> Vercel Production Edge (${VERCEL_BASE})\n` +
           `💬 <b>Direct Outreach:</b> 1-Click WhatsApp Pitch buttons with niche-tailored high-converting proposals!\n\n` +
           `<b>Available Controls:</b>\n` +
-          `• <code>/hunt</code> — Instantly deliver next verified client lead & live prototype\n` +
+          `• <code>/hunt</code> — Instantly deliver next unique verified client lead & live prototype\n` +
           `• <code>/latest</code> — Browse catalog of active client prototypes\n` +
           `• <code>/status</code> — System telemetry & radar report\n` +
           `• <code>/stop</code> — Pause 30-minute autonomous sweeps\n` +
@@ -98,32 +212,31 @@ export default async function handler(req, res) {
           `📱 <b>Linked Telegram User ID:</b> <code>${chatId}</code> (@TeChPlAyZ194)\n` +
           `🇮🇳 <b>Coverage:</b> Mumbai, Bangalore, Delhi NCR, Hyderabad, Pune, Kochi, Jaipur\n` +
           `🛡️ <b>Anti-Slop Protocol:</b> 100% ACTIVE (Zero raw emojis, Lucide vector icons, GSAP motion, Solid INR ₹ pricing, 120 Never-Repeat Luxury Palettes)\n` +
+          `⚡ <b>Zero-Duplicate Vault:</b> 100% ACTIVE (Permanent Blacklist Active)\n` +
           `⚡ <b>Status:</b> Ready for instant on-demand sweeps via <code>/hunt</code>!`;
         await sendTelegram(chatId, statusMsg);
       } else if (text === '/latest' || text.startsWith('/hunt')) {
         let leads = [];
         try {
-          const rawRes = await fetch("https://raw.githubusercontent.com/prathamgowda194-pixel/asura-system/main/data/hunter_leads.json?t=" + Date.now());
-          if (rawRes.status === 200) {
-            leads = await rawRes.json();
+          const apiRes = await fetch(`https://api.github.com/repos/${REPO}/contents/data/hunter_leads.json`, {
+            headers: {
+              'Authorization': `Bearer ${GITHUB_TOKEN}`,
+              'User-Agent': 'ASURA-Telegram',
+              'Accept': 'application/vnd.github.v3+json'
+            },
+            signal: AbortSignal.timeout(4000)
+          });
+          if (apiRes.status === 200) {
+            const data = await apiRes.json();
+            const content = Buffer.from(data.content, 'base64').toString('utf8');
+            leads = JSON.parse(content);
           }
         } catch (e) {}
 
-        if (!Array.isArray(leads) || leads.length === 0) {
-          leads = [
-            {
-              name: "BYOB Restaurant Experience Gurgaon",
-              niche: "Artisanal Dining & Alfresco BYOB Sanctuary",
-              city: "Gurgaon, Delhi NCR",
-              address: "Golf Course Extension Road, Sector 58, Gurgaon 122102",
-              phone: "+91 96541 20004",
-              cleanPhone: "9654120004",
-              rating: "4.9",
-              reviews: "114",
-              slug: "byob-restaurant-experience-in-gurgaon",
-              archetype: "Smoked Merlot with Rose Gold"
-            }
-          ];
+        // Filter strictly against blacklist
+        leads = (Array.isArray(leads) ? leads : []).filter(l => !isBlacklisted(l));
+        if (leads.length === 0) {
+          leads = CLEAN_FALLBACK_LEADS;
         }
 
         if (text.startsWith('/hunt')) {
@@ -133,7 +246,7 @@ export default async function handler(req, res) {
           const lowerNiche = (lead.niche || "").toLowerCase();
 
           let pitchMsg = "";
-          if (lowerNiche.includes('dining') || lowerNiche.includes('restaurant') || lowerNiche.includes('byob') || lowerNiche.includes('bistro')) {
+          if (lowerNiche.includes('dining') || lowerNiche.includes('restaurant') || lowerNiche.includes('bistro')) {
             pitchMsg = `Hi ${lead.name}! I noticed your dining venue in ${lead.city}. Discerning guests expect an editorial interactive menu, alfresco cabana showcases, and seamless WhatsApp reservations. I custom-built this bespoke live website prototype for your brand: ${protoUrl} . Would you like to review and claim it?`;
           } else if (lowerNiche.includes('real estate') || lowerNiche.includes('villa') || lowerNiche.includes('land') || lowerNiche.includes('property')) {
             pitchMsg = `Hi ${lead.name}! I noticed your properties in ${lead.city}. High-net-worth buyers expect an immersive luxury website with floor plans and direct WhatsApp inquiries. I auto-built this bespoke live website prototype for your brand: ${protoUrl} . Would you like to claim it?`;
