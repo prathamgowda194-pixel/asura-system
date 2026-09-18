@@ -219,17 +219,35 @@ class OpenHiggsfieldEngine {
   }
 
   /**
-   * Connect to Hermes Agent Bot CLI
+   * Connect to Hermes Agent Bot CLI with Asura Luxury Training
    */
   connectHermesBridge() {
     return {
       name: 'Hermes-OpenHiggsfield Bridge',
       status: 'CONNECTED',
+      trainingLevel: 'ASURA_LUXURY_V3',
+      zeroEmojiMandate: true,
+      customMotionEngine: 'GSAP_THREE_ODOMETER',
       catalogSize: Object.keys(this.models).length,
       generateForLead: async (leadName, niche) => {
         const prompt = `Ultra luxury brand photography for ${leadName}, ${niche}, dark pitch black moody lighting, neon electric lime accents, hyper-clean commercial shot, architectural digest`;
         return this.generateVisual(prompt);
-      }
+      },
+      getLuxuryDesignRules: () => ({
+        primaryColor: '#050709',
+        accentColor: '#00FF66',
+        accentGlow: '#39FF14',
+        borderMuted: '#16221d',
+        fontDisplay: 'Syne, sans-serif',
+        fontMono: 'JetBrains Mono, monospace',
+        fontBody: 'Plus Jakarta Sans, sans-serif',
+        rules: [
+          'ZERO casual emojis in UI, buttons, badges, or alerts (SVG vector icons strictly required)',
+          'Continuous kinetic movement: 3D WebGL gyroscopic rotation, laser scanlines, and odometer rolling numbers',
+          '30% Founders Protocol explicitly tracked and displayed on all transaction receipts',
+          'End-to-end reactivity between Wallet, Cart, VRF Draw, and Dual-mode Database'
+        ]
+      })
     };
   }
 }
