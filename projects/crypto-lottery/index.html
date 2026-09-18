@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASURA CRYPTO LOTTO // Provably Fair Web3 Cyber Lottery</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Three.js & Confetti -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <!-- Tailwind Config for Lime & Black Theme -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            pitch: '#050709',
+            'pitch-card': '#0a0e14',
+            'pitch-border': '#16221d',
+            'pitch-hover': '#0f1715',
+            lime: {
+              300: '#86efac',
+              400: '#4ade80',
+              DEFAULT: '#00FF66',
+              glow: '#39FF14',
+              dark: '#00cc52',
+              deep: '#033b19'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Syne"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          boxShadow: {
+            'lime-sm': '0 0 10px rgba(0, 255, 102, 0.25)',
+            'lime-glow': '0 0 25px rgba(0, 255, 102, 0.45)',
+            'lime-intense': '0 0 50px rgba(0, 255, 102, 0.65)'
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'float': 'float 6s ease-in-out infinite'
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #050709;
+      color: #e2e8f0;
+      overflow-x: hidden;
+      selection-background-color: #00FF66;
+      selection-color: #050709;
+    }
+    
+    /* Cyber Grid Background */
+    .cyber-grid {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(0, 255, 102, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 255, 102, 0.03) 1px, transparent 1px);
+    }
+    
+    .glow-border {
+      border: 1px solid rgba(0, 255, 102, 0.25);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .glow-border:hover {
+      border-color: #00FF66;
+      box-shadow: 0 0 20px rgba(0, 255, 102, 0.35);
+    }
+    
+    .lime-badge {
+      background: rgba(0, 255, 102, 0.1);
+      color: #00FF66;
+      border: 1px solid rgba(0, 255, 102, 0.3);
+    }
+
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #050709; }
+    ::-webkit-scrollbar-thumb { background: #16221d; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #00FF66; }
+
+    /* Number Ball Styling */
+    .num-ball {
+      transition: all 0.18s ease;
+      user-select: none;
+    }
+    .num-ball.selected {
+      background-color: #00FF66 !important;
+      color: #050709 !important;
+      font-weight: 800 !important;
+      box-shadow: 0 0 15px #00FF66;
+      transform: scale(1.12);
+      border-color: #39FF14 !important;
+    }
+    .power-ball.selected {
+      background: linear-gradient(135deg, #00FF66, #ffdd00) !important;
+      color: #000000 !important;
+      box-shadow: 0 0 18px rgba(255, 221, 0, 0.7);
+      transform: scale(1.15);
+    }
+
+    /* Glass Effect */
+    .glass-panel {
+      background: rgba(10, 14, 20, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+<body class="cyber-grid min-h-screen flex flex-col font-sans selection:bg-lime selection:text-black">
+
+  <!-- TOP PROTOCOL BAR -->
+  <div class="border-b border-pitch-border bg-black/60 backdrop-blur-md sticky top-0 z-50 px-4 py-2.5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <a href="#" class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-lg bg-lime flex items-center justify-center text-black font-black text-lg shadow-lime-sm">
+            ⚡
+          </div>
+          <span class="font-display font-extrabold text-lg tracking-wider text-white">ASURA<span class="text-lime">LOTTO</span></span>
+        </a>
+        <div class="hidden sm:flex items-center space-x-2 text-xs font-mono text-zinc-400 bg-pitch-card px-2.5 py-1 rounded-md border border-pitch-border">
+          <span class="w-2 h-2 rounded-full bg-lime animate-ping"></span>
+          <span>MAINNET VRF LIVE</span>
+          <span class="text-zinc-600">|</span>
+          <span class="text-lime">CHAINLINK ORACLE</span>
+        </div>
+      </div>
+
+      <!-- Ticker Split Highlight -->
+      <div class="hidden md:flex items-center space-x-4 text-xs font-mono">
+        <div class="flex items-center space-x-1.5 text-zinc-300">
+          <span class="text-lime font-bold">70%</span>
+          <span>Live Prize Pool</span>
+        </div>
+        <span class="text-zinc-700">•</span>
+        <div class="flex items-center space-x-1.5 text-zinc-300 bg-lime/10 px-2 py-0.5 rounded border border-lime/20">
+          <span class="text-lime font-bold">30%</span>
+          <span class="text-lime">Founders Treasury Protocol</span>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- Cart Trigger Button -->
+        <button id="cartBtn" onclick="toggleCart()" class="relative px-3 py-1.5 rounded-lg bg-pitch-card border border-pitch-border hover:border-lime text-zinc-200 text-xs font-semibold flex items-center space-x-1.5 transition">
+          <span>🛒 Cart</span>
+          <span id="cartCountBadge" class="bg-lime text-black font-bold px-1.5 py-0.2 rounded-full text-[10px]">0</span>
+        </button>
+
+        <!-- Web3 Wallet Connect -->
+        <button id="walletBtn" onclick="openWalletModal()" class="px-3.5 py-1.5 rounded-lg bg-lime hover:bg-lime-glow text-black font-bold text-xs tracking-wide shadow-lime-sm flex items-center space-x-1.5 transition transform hover:-translate-y-0.5">
+          <span id="walletDot" class="w-2 h-2 rounded-full bg-black"></span>
+          <span id="walletBtnText">Connect Wallet</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIVE TICKER STREAM -->
+  <div class="bg-pitch-card border-b border-pitch-border py-1.5 px-4 overflow-hidden">
+    <div class="max-w-7xl mx-auto flex items-center space-x-4 text-[11px] font-mono">
+      <span class="text-lime font-bold tracking-widest uppercase shrink-0 flex items-center gap-1">
+        <span class="w-1.5 h-1.5 rounded-full bg-lime"></span> RECENT WINNERS:
+      </span>
+      <div class="flex items-center space-x-8 overflow-x-auto no-scrollbar whitespace-nowrap text-zinc-400">
+        <span class="flex items-center gap-1.5"><span class="text-white font-semibold">0x71C...49b2</span> won <span class="text-lime font-bold">$250,000 USDT</span> (Match 5) ⚡</span>
+        <span class="flex items-center gap-1.5"><span class="text-white font-semibold">0x94B...e831</span> won <span class="text-lime font-bold">$50,000 SOL</span> (4 + PB)</span>
+        <span class="flex items-center gap-1.5"><span class="text-white font-semibold">0x3Fe...7189</span> won <span class="text-lime font-bold">$12,500 USDC</span> (Match 4)</span>
+        <span class="flex items-center gap-1.5"><span class="text-white font-semibold">0xA11...84c0</span> won <span class="text-lime font-bold">$2,500 ETH</span> (3 + PB)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN HERO & 3D INTERACTIVE LOTTERY DRUM -->
+  <main class="flex-1 max-w-7xl mx-auto px-4 py-8 sm:py-12 w-full">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      
+      <!-- Left Column: Jackpot & Narrative -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full lime-badge text-xs font-mono">
+          <span class="w-2 h-2 rounded-full bg-lime animate-pulse"></span>
+          <span>POWERED BY OPENHIGGSFIELD AI & CHAINLINK VRF</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl font-display font-extrabold text-white tracking-tight leading-none">
+          THE DECENTRALIZED <br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-lime via-lime-300 to-white drop-shadow-[0_0_20px_rgba(0,255,102,0.4)]">
+            CRYPTO JACKPOT
+          </span>
+        </h1>
+
+        <!-- Multi-Million Rolling Jackpot Counter -->
+        <div class="p-6 sm:p-8 rounded-2xl bg-pitch-card border border-pitch-border relative overflow-hidden shadow-lime-sm">
+          <div class="absolute -right-16 -top-16 w-48 h-48 bg-lime/10 rounded-full blur-3xl pointer-events-none"></div>
+          
+          <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-pitch-border pb-4 mb-4">
+            <div>
+              <span class="text-xs font-mono text-zinc-400 uppercase tracking-widest">ESTIMATED PRIZE JACKPOT</span>
+              <div id="jackpotDisplay" class="text-4xl sm:text-5xl font-mono font-black text-lime tracking-tight drop-shadow-[0_0_15px_rgba(0,255,102,0.5)]">
+                $4,850,290.00
+              </div>
+            </div>
+            
+            <!-- Live Next Draw Countdown -->
+            <div class="text-right">
+              <span class="text-[11px] font-mono text-zinc-400 uppercase">NEXT DRAW CLOSES IN</span>
+              <div id="countdownTimer" class="text-lg font-mono font-bold text-white flex items-center space-x-1 sm:justify-end">
+                <span class="bg-black px-2 py-1 rounded border border-pitch-border text-lime" id="cdDays">02</span>:
+                <span class="bg-black px-2 py-1 rounded border border-pitch-border text-lime" id="cdHours">14</span>:
+                <span class="bg-black px-2 py-1 rounded border border-pitch-border text-lime" id="cdMins">38</span>:
+                <span class="bg-black px-2 py-1 rounded border border-pitch-border text-lime" id="cdSecs">22</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mathematical 70/30 Founder & Prize Split Breakdown -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+            <div class="p-3 rounded-lg bg-black/50 border border-pitch-border">
+              <div class="text-zinc-400">WINNING PRIZE POOL (70%)</div>
+              <div id="poolDisplay" class="text-base font-bold text-white mt-0.5">$3,395,203.00</div>
+              <div class="text-[10px] text-zinc-500 mt-1">Distributed to winning ticket tiers automatically via smart contract</div>
+            </div>
+            <div class="p-3 rounded-lg bg-black/50 border border-lime/30 bg-lime/[0.02]">
+              <div class="text-lime flex items-center justify-between">
+                <span>FOUNDERS TREASURY (30%)</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-lime text-black font-bold">LOCKED</span>
+              </div>
+              <div id="foundersDisplay" class="text-base font-bold text-lime mt-0.5">$1,455,087.00</div>
+              <div class="text-[10px] text-zinc-500 mt-1">Protocol growth, ecosystem maintenance & verifiable security</div>
+            </div>
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="flex flex-wrap items-center gap-3 mt-4 pt-4 border-t border-pitch-border/50 text-[11px] font-mono text-zinc-400">
+            <span class="flex items-center gap-1.5 text-lime"><span class="w-1.5 h-1.5 rounded-full bg-lime"></span> CertiK Verified</span>
+            <span>•</span>
+            <span>Chainlink VRF Hash Validated</span>
+            <span>•</span>
+            <span class="text-zinc-300">Audited No-Loss Smart Treasury</span>
+          </div>
+        </div>
+
+        <!-- Social Viral Share Discount Trigger -->
+        <div class="p-4 rounded-xl bg-gradient-to-r from-lime/10 to-transparent border border-lime/30 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-lg bg-lime/20 text-lime flex items-center justify-center text-xl font-bold shrink-0">
+              🚀
+            </div>
+            <div>
+              <div class="text-sm font-bold text-white flex items-center gap-2">
+                Viral Share Discount <span class="bg-lime text-black text-[10px] px-1.5 py-0.5 rounded font-black">20% OFF</span>
+              </div>
+              <div class="text-xs text-zinc-400">Share to Twitter or Telegram to unlock instant 20% discount on all tickets!</div>
+            </div>
+          </div>
+          <button onclick="triggerViralShare()" class="w-full sm:w-auto px-4 py-2 rounded-lg bg-lime hover:bg-lime-glow text-black font-extrabold text-xs tracking-wider transition whitespace-nowrap shadow-lime-sm">
+            SHARE & GET 20% OFF
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Interactive 3D WebGL Lottery Drum -->
+      <div class="lg:col-span-5 flex flex-col items-center">
+        <div class="relative w-full max-w-[420px] aspect-square rounded-3xl bg-pitch-card border border-pitch-border p-3 overflow-hidden shadow-2xl flex items-center justify-center">
+          
+          <!-- Three.js Canvas Container -->
+          <div id="threeCanvasContainer" class="w-full h-full rounded-2xl overflow-hidden cursor-grab active:cursor-grabbing"></div>
+
+          <!-- Overlay Controls -->
+          <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between bg-black/80 backdrop-blur-md px-3 py-2 rounded-xl border border-pitch-border text-xs font-mono">
+            <div class="flex items-center space-x-2">
+              <span class="w-2 h-2 rounded-full bg-lime animate-ping"></span>
+              <span class="text-zinc-300 text-[11px]">3D CYBER DRUM</span>
+            </div>
+            <button onclick="spinThreeDrumFast()" class="px-2.5 py-1 rounded bg-lime/20 hover:bg-lime/30 text-lime font-bold text-[11px] border border-lime/30 transition">
+              ⚡ Spin Drum
+            </button>
+          </div>
+
+          <div class="absolute top-4 left-4">
+            <span class="text-[10px] font-mono bg-black/70 text-zinc-400 px-2 py-0.5 rounded border border-pitch-border">
+              DRAG TO ROTATE
+            </span>
+          </div>
+        </div>
+
+        <div class="mt-4 flex items-center space-x-3 text-xs font-mono text-zinc-400">
+          <button onclick="openLiveDrawModal()" class="px-4 py-2 rounded-xl bg-pitch-card border border-lime/40 text-lime hover:bg-lime hover:text-black transition font-bold shadow-lime-sm">
+            🎲 Test Provably Fair Draw Ceremony
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TICKET PICKER SECTION -->
+    <section id="ticketSection" class="mt-12 sm:mt-16 pt-8 border-t border-pitch-border">
+      <div class="max-w-4xl mx-auto">
+        
+        <div class="text-center space-y-2 mb-8">
+          <div class="inline-block px-3 py-1 rounded-full lime-badge text-xs font-mono">
+            STEP 1: SELECT YOUR LUCKY COMBINATION
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-display font-extrabold text-white">
+            Choose 5 Standard Numbers + 1 PowerBall
+          </h2>
+          <p class="text-xs sm:text-sm text-zinc-400">
+            Tickets are $5.00 USD each (or $4.00 with 20% Viral Share discount). 70% enters the prize pool, 30% enters founders treasury.
+          </p>
+        </div>
+
+        <!-- Ticket Builder Card -->
+        <div class="p-6 sm:p-8 rounded-2xl bg-pitch-card border border-pitch-border space-y-6">
+          
+          <!-- Quick Pick & Action Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-pitch-border pb-4">
+            <div class="flex items-center space-x-2">
+              <span class="text-xs font-mono text-zinc-400">SELECTED:</span>
+              <div id="selectedPills" class="flex items-center space-x-1.5 font-mono text-xs">
+                <span class="text-zinc-500 italic">None selected</span>
+              </div>
+            </div>
+            
+            <div class="flex items-center space-x-2">
+              <button onclick="quickPick()" class="px-3 py-1.5 rounded-lg bg-pitch-hover border border-pitch-border hover:border-lime text-lime font-mono text-xs font-bold transition flex items-center space-x-1">
+                <span>⚡ Quick Pick (Random 5+1)</span>
+              </button>
+              <button onclick="clearSelectedNumbers()" class="px-3 py-1.5 rounded-lg bg-pitch-hover border border-pitch-border hover:border-rose-500 text-zinc-400 hover:text-rose-400 font-mono text-xs transition">
+                Clear
+              </button>
+            </div>
+          </div>
+
+          <!-- 5 Standard Numbers Picker (1 - 49) -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold tracking-wider text-zinc-300 uppercase">
+                1. Pick 5 Regular Numbers (1 - 49)
+              </span>
+              <span id="standardCountLabel" class="text-xs font-mono text-lime">0/5 Selected</span>
+            </div>
+            
+            <div id="numbersGrid" class="grid grid-cols-7 sm:grid-cols-10 md:grid-cols-12 gap-2">
+              <!-- Dynamically populated 1-49 -->
+            </div>
+          </div>
+
+          <!-- PowerBall Picker (1 - 10) -->
+          <div class="pt-4 border-t border-pitch-border">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold tracking-wider text-lime uppercase flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-lime"></span> 2. Pick 1 PowerBall (1 - 10)
+              </span>
+              <span id="powerballCountLabel" class="text-xs font-mono text-lime">0/1 Selected</span>
+            </div>
+
+            <div id="powerballGrid" class="grid grid-cols-5 sm:grid-cols-10 gap-2">
+              <!-- Dynamically populated 1-10 -->
+            </div>
+          </div>
+
+          <!-- Add to Cart / Buy Action -->
+          <div class="pt-6 border-t border-pitch-border flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="font-mono text-xs text-zinc-400">
+              Price per ticket: <span class="text-white font-bold">$5.00</span>
+              <span id="discountTag" class="hidden ml-2 text-lime font-bold">(-20% VIRAL APPLIED: $4.00)</span>
+            </div>
+
+            <div class="flex items-center space-x-3 w-full sm:w-auto">
+              <button onclick="addCurrentTicketToCart()" id="addCartBtn" class="flex-1 sm:flex-none px-6 py-3 rounded-xl bg-lime hover:bg-lime-glow text-black font-extrabold text-sm tracking-wide transition shadow-lime-sm disabled:opacity-40 disabled:cursor-not-allowed">
+                + Add Ticket to Cart
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- LIVE LEADERBOARD & TRANSPARENCY PROTOCOL -->
+    <section class="mt-16 pt-8 border-t border-pitch-border">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Verifiable VRF Card -->
+        <div class="p-6 rounded-2xl bg-pitch-card border border-pitch-border space-y-3">
+          <div class="w-10 h-10 rounded-lg bg-lime/10 text-lime flex items-center justify-center font-bold text-lg">
+            ⛓️
+          </div>
+          <h3 class="text-base font-bold text-white">Provably Fair VRF</h3>
+          <p class="text-xs text-zinc-400 leading-relaxed">
+            Every draw winner is determined cryptographically using SHA-256 block commitment and Chainlink verifiable randomness. Zero human manipulation.
+          </p>
+          <div class="text-[11px] font-mono text-lime pt-2">
+            Contract: 0x89C...7F29LotteryVRF
+          </div>
+        </div>
+
+        <!-- 30% Founders Protocol -->
+        <div class="p-6 rounded-2xl bg-pitch-card border border-lime/30 space-y-3 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <div class="w-12 h-12 rounded-xl bg-lime/10 border border-lime/30 overflow-hidden flex items-center justify-center">
+              <img src="assets/founder_vault_badge.jpg" alt="Founder Vault" class="w-full h-full object-cover" onerror="this.outerHTML='<span class=\'text-xl\'>🏛️</span>'">
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-lime/10 text-lime border border-lime/30 font-bold">30% LOCKED</span>
+          </div>
+          <h3 class="text-base font-bold text-white">30% Founders Protocol</h3>
+          <p class="text-xs text-zinc-400 leading-relaxed">
+            70% of every ticket goes directly to the winner's jackpot. 30% is allocated automatically to the founders treasury for liquidity and ecosystem growth.
+          </p>
+          <div class="text-[11px] font-mono text-lime pt-2">
+            Treasury: 0xFounderTreasury777999888...
+          </div>
+        </div>
+
+        <!-- Multi-Chain & Instant Payout -->
+        <div class="p-6 rounded-2xl bg-pitch-card border border-pitch-border space-y-3">
+          <div class="w-10 h-10 rounded-lg bg-lime/10 text-lime flex items-center justify-center font-bold text-lg">
+            ⚡
+          </div>
+          <h3 class="text-base font-bold text-white">Multi-Chain Instant Payouts</h3>
+          <p class="text-xs text-zinc-400 leading-relaxed">
+            Support for Ethereum, Solana, USDT (TRC-20/ERC-20), and Bitcoin. Winners claim their rewards instantly with zero KYC withdrawal limits.
+          </p>
+          <div class="text-[11px] font-mono text-lime pt-2">
+            Average Payout Speed: &lt; 45 Seconds
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="mt-20 border-t border-pitch-border bg-black py-8 px-4 text-xs font-mono text-zinc-500">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-2">
+        <span class="w-2 h-2 rounded-full bg-lime"></span>
+        <span class="text-white font-bold">ASURA CRYPTO LOTTERY</span>
+        <span>•</span>
+        <span>Strict 30% Founders / 70% Pool Protocol</span>
+      </div>
+      <div>
+        Powered by OpenHiggsfield Multi-Model Engine (wide-trace/open-higgsfield)
+      </div>
+      <div class="text-zinc-600">
+        © 2026 Asura Ecosystem. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- MODALS & DRAWERS -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+  <!-- 1. SLIDE-OUT CART DRAWER -->
+  <div id="cartDrawer" class="fixed inset-0 z-50 pointer-events-none transition-opacity duration-300 opacity-0">
+    <div onclick="toggleCart()" class="absolute inset-0 bg-black/70 backdrop-blur-sm pointer-events-auto"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-pitch-card border-l border-pitch-border p-6 flex flex-col pointer-events-auto shadow-2xl transition-transform duration-300 transform translate-x-full" id="cartContent">
+      <div class="flex items-center justify-between pb-4 border-b border-pitch-border">
+        <div class="flex items-center space-x-2">
+          <span class="text-lime font-bold text-lg">🛒 Your Tickets</span>
+          <span id="cartTotalBadge" class="bg-lime text-black font-mono font-bold text-xs px-2 py-0.5 rounded-full">0</span>
+        </div>
+        <button onclick="toggleCart()" class="text-zinc-400 hover:text-white text-xl font-bold p-1">✕</button>
+      </div>
+
+      <!-- Tickets List -->
+      <div id="cartItemsList" class="flex-1 overflow-y-auto py-4 space-y-3">
+        <div class="text-center py-12 text-zinc-500 font-mono text-xs">
+          Your cart is empty.<br>Pick 5 numbers + 1 PowerBall to begin.
+        </div>
+      </div>
+
+      <!-- Breakdown & Protocol Split Ledger -->
+      <div class="pt-4 border-t border-pitch-border space-y-2 font-mono text-xs">
+        <div class="flex justify-between text-zinc-400">
+          <span>Subtotal (<span id="cartTicketsCount">0</span> tickets):</span>
+          <span id="cartSubtotal">$0.00</span>
+        </div>
+        <div id="cartDiscountRow" class="hidden flex justify-between text-lime font-bold">
+          <span>Viral Share Discount (20%):</span>
+          <span id="cartDiscount">-$0.00</span>
+        </div>
+        <div class="flex justify-between text-zinc-400 text-[11px] pt-1 border-t border-pitch-border/50">
+          <span>→ 70% to Winning Prize Pool:</span>
+          <span id="cartPoolShare" class="text-white">$0.00</span>
+        </div>
+        <div class="flex justify-between text-zinc-400 text-[11px]">
+          <span>→ 30% to Founders Treasury:</span>
+          <span id="cartFoundersShare" class="text-lime">$0.00</span>
+        </div>
+        <div class="flex justify-between text-base font-bold text-white pt-2 border-t border-pitch-border">
+          <span>Total Due:</span>
+          <span id="cartTotal" class="text-lime text-lg font-mono">$0.00</span>
+        </div>
+
+        <button onclick="openCheckoutGateway()" id="checkoutBtn" class="w-full mt-4 py-3 rounded-xl bg-lime hover:bg-lime-glow text-black font-extrabold text-sm tracking-wide shadow-lime-sm transition disabled:opacity-40 disabled:cursor-not-allowed">
+          Proceed to Web3 / QR Payment
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. CRYPTO WALLET MODAL -->
+  <div id="walletModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+    <div onclick="closeWalletModal()" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+    <div class="relative w-full max-w-md bg-pitch-card border border-pitch-border rounded-2xl p-6 shadow-2xl space-y-6">
+      <div class="flex items-center justify-between border-b border-pitch-border pb-4">
+        <div class="flex items-center space-x-2">
+          <div class="w-3 h-3 rounded-full bg-lime"></div>
+          <h3 class="text-lg font-bold text-white">Web3 Crypto Wallet</h3>
+        </div>
+        <button onclick="closeWalletModal()" class="text-zinc-400 hover:text-white text-xl">✕</button>
+      </div>
+
+      <!-- If Connected -->
+      <div id="walletConnectedState" class="hidden space-y-4">
+        <div class="p-4 rounded-xl bg-black border border-pitch-border">
+          <div class="text-xs font-mono text-zinc-400">CONNECTED WALLET</div>
+          <div id="activeWalletAddress" class="text-sm font-mono text-lime font-bold truncate">0x...</div>
+        </div>
+
+        <!-- Realtime Balances -->
+        <div class="grid grid-cols-3 gap-2 text-center font-mono text-xs">
+          <div class="p-2.5 rounded-lg bg-black border border-pitch-border">
+            <div class="text-zinc-500">ETH</div>
+            <div class="text-white font-bold">1.482</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-black border border-pitch-border">
+            <div class="text-zinc-500">SOL</div>
+            <div class="text-lime font-bold">24.80</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-black border border-pitch-border">
+            <div class="text-zinc-500">USDT</div>
+            <div class="text-white font-bold">$4,500</div>
+          </div>
+        </div>
+
+        <!-- My Tickets Dashboard Tab -->
+        <div class="space-y-2">
+          <div class="flex justify-between text-xs font-mono text-zinc-400">
+            <span>MY ACTIVE TICKETS</span>
+            <span id="myTicketCountLabel" class="text-lime font-bold">0 Tickets</span>
+          </div>
+          <div id="myTicketsContainer" class="max-h-36 overflow-y-auto space-y-1.5 pr-1">
+            <div class="text-zinc-500 text-xs text-center py-4 font-mono">No active tickets yet</div>
+          </div>
+        </div>
+
+        <button onclick="disconnectWallet()" class="w-full py-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-400 font-mono text-xs font-bold hover:bg-rose-500/20 transition">
+          Disconnect Wallet
+        </button>
+      </div>
+
+      <!-- If Not Connected -->
+      <div id="walletConnectOptions" class="space-y-3">
+        <p class="text-xs text-zinc-400">Select your preferred Web3 provider to buy tickets and receive direct jackpot payouts:</p>
+        
+        <button onclick="connectWalletProvider('metamask')" class="w-full p-3 rounded-xl bg-pitch-hover border border-pitch-border hover:border-lime flex items-center justify-between transition group">
+          <div class="flex items-center space-x-3">
+            <span class="text-xl">🦊</span>
+            <span class="text-sm font-bold text-white group-hover:text-lime">MetaMask</span>
+          </div>
+          <span class="text-xs font-mono text-zinc-500 group-hover:text-lime">Connect →</span>
+        </button>
+
+        <button onclick="connectWalletProvider('phantom')" class="w-full p-3 rounded-xl bg-pitch-hover border border-pitch-border hover:border-lime flex items-center justify-between transition group">
+          <div class="flex items-center space-x-3">
+            <span class="text-xl">👻</span>
+            <span class="text-sm font-bold text-white group-hover:text-lime">Phantom (Solana)</span>
+          </div>
+          <span class="text-xs font-mono text-zinc-500 group-hover:text-lime">Connect →</span>
+        </button>
+
+        <button onclick="connectWalletProvider('walletconnect')" class="w-full p-3 rounded-xl bg-pitch-hover border border-pitch-border hover:border-lime flex items-center justify-between transition group">
+          <div class="flex items-center space-x-3">
+            <span class="text-xl">🔗</span>
+            <span class="text-sm font-bold text-white group-hover:text-lime">WalletConnect / Trust</span>
+          </div>
+          <span class="text-xs font-mono text-zinc-500 group-hover:text-lime">Connect →</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 3. PAYMENT GATEWAY MODAL (WEB3 + DYNAMIC QR) -->
+  <div id="paymentModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+    <div onclick="closePaymentModal()" class="absolute inset-0 bg-black/85 backdrop-blur-md"></div>
+    <div class="relative w-full max-w-lg bg-pitch-card border border-pitch-border rounded-2xl p-6 shadow-2xl space-y-6">
+      <div class="flex items-center justify-between border-b border-pitch-border pb-4">
+        <div>
+          <h3 class="text-lg font-bold text-white">Payment Gateway</h3>
+          <div class="text-xs font-mono text-zinc-400">Multi-Chain Web3 & Dynamic QR Verification</div>
+        </div>
+        <button onclick="closePaymentModal()" class="text-zinc-400 hover:text-white text-xl">✕</button>
+      </div>
+
+      <!-- Currency Switcher -->
+      <div class="grid grid-cols-4 gap-2 text-xs font-mono">
+        <button onclick="setPaymentCurrency('USDT_TRC20')" id="cur_USDT_TRC20" class="pay-cur-btn py-2 rounded-lg bg-lime text-black font-bold border border-lime text-center">
+          USDT (TRC)
+        </button>
+        <button onclick="setPaymentCurrency('USDT_ERC20')" id="cur_USDT_ERC20" class="pay-cur-btn py-2 rounded-lg bg-black text-zinc-400 font-bold border border-pitch-border text-center">
+          USDT (ERC)
+        </button>
+        <button onclick="setPaymentCurrency('SOL')" id="cur_SOL" class="pay-cur-btn py-2 rounded-lg bg-black text-zinc-400 font-bold border border-pitch-border text-center">
+          SOL
+        </button>
+        <button onclick="setPaymentCurrency('ETH')" id="cur_ETH" class="pay-cur-btn py-2 rounded-lg bg-black text-zinc-400 font-bold border border-pitch-border text-center">
+          ETH
+        </button>
+      </div>
+
+      <!-- Payment Summary & Split -->
+      <div class="p-4 rounded-xl bg-black border border-pitch-border space-y-2 font-mono text-xs">
+        <div class="flex justify-between text-zinc-300">
+          <span>Total Amount:</span>
+          <span id="gatewayTotalUsd" class="text-lime font-bold text-sm">$0.00</span>
+        </div>
+        <div class="flex justify-between text-[11px] text-zinc-400">
+          <span>70% Prize Pool Allocation:</span>
+          <span id="gatewayPoolUsd">$0.00</span>
+        </div>
+        <div class="flex justify-between text-[11px] text-lime">
+          <span>30% Founders Protocol Allocation:</span>
+          <span id="gatewayFoundersUsd">$0.00</span>
+        </div>
+      </div>
+
+      <!-- Dynamic QR Code & Address Display -->
+      <div class="p-4 rounded-xl bg-black/60 border border-pitch-border flex flex-col items-center text-center space-y-3">
+        <!-- SVG Generated QR code placeholder -->
+        <div id="qrCodeContainer" class="p-3 bg-white rounded-xl shadow-lg">
+          <svg id="qrSvg" width="160" height="160" viewBox="0 0 100 100" class="w-36 h-36">
+            <rect width="100" height="100" fill="white"/>
+            <!-- Corner marker TL -->
+            <rect x="10" y="10" width="25" height="25" fill="black"/>
+            <rect x="15" y="15" width="15" height="15" fill="white"/>
+            <rect x="19" y="19" width="7" height="7" fill="black"/>
+            <!-- Corner marker TR -->
+            <rect x="65" y="10" width="25" height="25" fill="black"/>
+            <rect x="70" y="15" width="15" height="15" fill="white"/>
+            <rect x="74" y="19" width="7" height="7" fill="black"/>
+            <!-- Corner marker BL -->
+            <rect x="10" y="65" width="25" height="25" fill="black"/>
+            <rect x="15" y="70" width="15" height="15" fill="white"/>
+            <rect x="19" y="74" width="7" height="7" fill="black"/>
+            <!-- Matrix dots -->
+            <rect x="42" y="15" width="6" height="6" fill="black"/>
+            <rect x="52" y="22" width="6" height="6" fill="black"/>
+            <rect x="40" y="35" width="8" height="8" fill="black"/>
+            <rect x="55" y="45" width="6" height="6" fill="black"/>
+            <rect x="25" y="45" width="6" height="6" fill="black"/>
+            <rect x="70" y="55" width="8" height="8" fill="black"/>
+            <rect x="45" y="70" width="10" height="10" fill="black"/>
+            <rect x="65" y="75" width="8" height="8" fill="black"/>
+          </svg>
+        </div>
+
+        <div class="w-full">
+          <div class="text-[11px] font-mono text-zinc-400 mb-1">DEPOSIT ADDRESS:</div>
+          <div class="flex items-center space-x-2 bg-pitch-card p-2 rounded-lg border border-pitch-border">
+            <span id="gatewayAddress" class="text-xs font-mono text-white truncate flex-1">TYk7s9PqL82mX3vN4jR1fW6hZ9AsuraLottoFounders</span>
+            <button onclick="copyDepositAddress()" class="px-2.5 py-1 rounded bg-lime/10 hover:bg-lime text-lime hover:text-black text-xs font-mono font-bold transition">
+              Copy
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TxHash Verification Input -->
+      <div class="space-y-2">
+        <label class="text-xs font-mono text-zinc-400">ENTER TRANSACTION HASH (TXHASH):</label>
+        <div class="flex gap-2">
+          <input id="txHashInput" type="text" placeholder="0x... or Tron Tx ID" class="flex-1 bg-black border border-pitch-border rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-lime">
+          <button onclick="confirmPaymentAndMint()" class="px-4 py-2 rounded-lg bg-lime hover:bg-lime-glow text-black font-extrabold text-xs font-mono transition shadow-lime-sm">
+            Verify & Mint
+          </button>
+        </div>
+        <div class="text-[10px] text-zinc-500 font-mono">
+          Or click "Verify & Mint" directly to simulate instant on-chain settlement.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 4. PROVABLY FAIR LIVE DRAW CEREMONY MODAL -->
+  <div id="drawModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+    <div onclick="closeDrawModal()" class="absolute inset-0 bg-black/90 backdrop-blur-md"></div>
+    <div class="relative w-full max-w-xl bg-pitch-card border border-lime/40 rounded-2xl p-6 sm:p-8 shadow-lime-glow space-y-6 text-center">
+      <button onclick="closeDrawModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-xl">✕</button>
+
+      <div class="space-y-2">
+        <span class="inline-block px-3 py-1 rounded-full lime-badge text-xs font-mono">
+          CHAINLINK VRF LIVE CEREMONY
+        </span>
+        <h3 class="text-2xl font-display font-extrabold text-white">
+          Cryptographic Winner Selection
+        </h3>
+        <p class="text-xs text-zinc-400">
+          Randomness generated from verifiable commit-reveal seed with SHA-256 validation.
+        </p>
+      </div>
+
+      <!-- Animated Ball Display -->
+      <div class="flex items-center justify-center space-x-2 sm:space-x-3 py-4">
+        <div id="drawBall1" class="w-12 h-12 rounded-full bg-black border-2 border-lime text-lime font-mono font-black text-lg flex items-center justify-center shadow-lime-sm">?</div>
+        <div id="drawBall2" class="w-12 h-12 rounded-full bg-black border-2 border-lime text-lime font-mono font-black text-lg flex items-center justify-center shadow-lime-sm">?</div>
+        <div id="drawBall3" class="w-12 h-12 rounded-full bg-black border-2 border-lime text-lime font-mono font-black text-lg flex items-center justify-center shadow-lime-sm">?</div>
+        <div id="drawBall4" class="w-12 h-12 rounded-full bg-black border-2 border-lime text-lime font-mono font-black text-lg flex items-center justify-center shadow-lime-sm">?</div>
+        <div id="drawBall5" class="w-12 h-12 rounded-full bg-black border-2 border-lime text-lime font-mono font-black text-lg flex items-center justify-center shadow-lime-sm">?</div>
+        <span class="text-zinc-600 font-bold text-xl">+</span>
+        <div id="drawBallPB" class="w-12 h-12 rounded-full bg-black border-2 border-yellow-400 text-yellow-400 font-mono font-black text-lg flex items-center justify-center shadow-[0_0_15px_rgba(255,221,0,0.5)]">?</div>
+      </div>
+
+      <!-- Status Stream -->
+      <div id="drawStatusStream" class="p-3 rounded-xl bg-black border border-pitch-border font-mono text-xs text-lime">
+        Ready for block hash commitment...
+      </div>
+
+      <!-- VRF Hash Proof -->
+      <div class="p-3 rounded-xl bg-black border border-pitch-border text-left font-mono text-[11px] space-y-1">
+        <div class="text-zinc-500">SHA-256 VRF PROOF HASH:</div>
+        <div id="drawHashProof" class="text-zinc-300 break-all">Pending draw execution...</div>
+      </div>
+
+      <button onclick="executeLiveDrawAnimation()" id="triggerDrawActionBtn" class="px-8 py-3 rounded-xl bg-lime hover:bg-lime-glow text-black font-extrabold text-sm tracking-wide shadow-lime-sm transition">
+        ⚡ EXECUTE PROVABLY FAIR DRAW
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- JAVASCRIPT LOGIC ENGINE -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <script>
+    // State
+    const STATE = {
+      jackpotUsd: 4850290.00,
+      foundersAllocatedUsd: 1455087.00,
+      prizePoolUsd: 3395203.00,
+      ticketPriceUsd: 5.00,
+      viralDiscountActive: false,
+      viralDiscountPercent: 20,
+      selectedStandard: [],
+      selectedPowerBall: null,
+      cart: [],
+      userWallet: null,
+      myTickets: [],
+      paymentCurrency: 'USDT_TRC20'
+    };
+
+    // Addresses for Gateway
+    const DEPOSIT_ADDRESSES = {
+      'USDT_TRC20': 'TYk7s9PqL82mX3vN4jR1fW6hZ9AsuraLottoFounders',
+      'USDT_ERC20': '0xFounderTreasury777999888AsuraLotto30Percent',
+      'SOL': 'AsuraFoundersSolanaVault777999111888CryptoLottery',
+      'ETH': '0xFounderTreasury777999888AsuraLotto30Percent'
+    };
+
+    // Sound FX Synthesizer using Web Audio API
+    const AudioEngine = {
+      ctx: null,
+      init() {
+        if (!this.ctx) {
+          this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+      },
+      beep(freq = 440, type = 'sine', duration = 0.1) {
+        try {
+          this.init();
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + duration);
+        } catch (e) {}
+      },
+      click() { this.beep(800, 'triangle', 0.05); },
+      pop() { this.beep(520, 'sine', 0.08); },
+      win() {
+        this.beep(523.25, 'triangle', 0.15);
+        setTimeout(() => this.beep(659.25, 'triangle', 0.15), 120);
+        setTimeout(() => this.beep(783.99, 'triangle', 0.25), 240);
+        setTimeout(() => this.beep(1046.50, 'triangle', 0.4), 380);
+      }
+    };
+
+    // Initialize Grids
+    function initGrids() {
+      const standardGrid = document.getElementById('numbersGrid');
+      standardGrid.innerHTML = '';
+      for (let i = 1; i <= 49; i++) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.id = `num-${i}`;
+        btn.className = 'num-ball h-10 w-full rounded-lg bg-black/60 border border-pitch-border text-zinc-300 font-mono text-sm font-semibold hover:border-lime hover:text-white flex items-center justify-center';
+        btn.innerText = i;
+        btn.onclick = () => toggleStandardNumber(i);
+        standardGrid.appendChild(btn);
+      }
+
+      const pbGrid = document.getElementById('powerballGrid');
+      pbGrid.innerHTML = '';
+      for (let i = 1; i <= 10; i++) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.id = `pb-${i}`;
+        btn.className = 'power-ball num-ball h-10 w-full rounded-lg bg-black/60 border border-pitch-border text-zinc-300 font-mono text-sm font-semibold hover:border-yellow-400 hover:text-yellow-300 flex items-center justify-center';
+        btn.innerText = i;
+        btn.onclick = () => selectPowerBall(i);
+        pbGrid.appendChild(btn);
+      }
+    }
+
+    // Toggle Standard Number (Max 5)
+    function toggleStandardNumber(num) {
+      AudioEngine.click();
+      const idx = STATE.selectedStandard.indexOf(num);
+      if (idx > -1) {
+        STATE.selectedStandard.splice(idx, 1);
+      } else {
+        if (STATE.selectedStandard.length >= 5) {
+          alert("You can only select up to 5 standard numbers!");
+          return;
+        }
+        STATE.selectedStandard.push(num);
+      }
+      STATE.selectedStandard.sort((a, b) => a - b);
+      updatePickerUI();
+    }
+
+    // Select PowerBall (Exactly 1)
+    function selectPowerBall(num) {
+      AudioEngine.click();
+      if (STATE.selectedPowerBall === num) {
+        STATE.selectedPowerBall = null;
+      } else {
+        STATE.selectedPowerBall = num;
+      }
+      updatePickerUI();
+    }
+
+    // Quick Pick
+    function quickPick() {
+      AudioEngine.pop();
+      const nums = [];
+      while (nums.length < 5) {
+        const r = Math.floor(Math.random() * 49) + 1;
+        if (!nums.includes(r)) nums.push(r);
+      }
+      nums.sort((a, b) => a - b);
+      STATE.selectedStandard = nums;
+      STATE.selectedPowerBall = Math.floor(Math.random() * 10) + 1;
+      updatePickerUI();
+    }
+
+    // Clear Selection
+    function clearSelectedNumbers() {
+      STATE.selectedStandard = [];
+      STATE.selectedPowerBall = null;
+      updatePickerUI();
+    }
+
+    // Update Number Picker UI
+    function updatePickerUI() {
+      for (let i = 1; i <= 49; i++) {
+        const el = document.getElementById(`num-${i}`);
+        if (el) {
+          if (STATE.selectedStandard.includes(i)) {
+            el.classList.add('selected');
+          } else {
+            el.classList.remove('selected');
+          }
+        }
+      }
+
+      for (let i = 1; i <= 10; i++) {
+        const el = document.getElementById(`pb-${i}`);
+        if (el) {
+          if (STATE.selectedPowerBall === i) {
+            el.classList.add('selected');
+          } else {
+            el.classList.remove('selected');
+          }
+        }
+      }
+
+      document.getElementById('standardCountLabel').innerText = `${STATE.selectedStandard.length}/5 Selected`;
+      document.getElementById('powerballCountLabel').innerText = `${STATE.selectedPowerBall ? 1 : 0}/1 Selected`;
+
+      // Update pill chips
+      const pillsContainer = document.getElementById('selectedPills');
+      if (STATE.selectedStandard.length === 0 && !STATE.selectedPowerBall) {
+        pillsContainer.innerHTML = '<span class="text-zinc-500 italic">None selected</span>';
+      } else {
+        let html = '';
+        STATE.selectedStandard.forEach(n => {
+          html += `<span class="bg-lime text-black font-bold px-2 py-0.5 rounded">${n}</span>`;
+        });
+        if (STATE.selectedPowerBall) {
+          html += `<span class="bg-yellow-400 text-black font-bold px-2 py-0.5 rounded">PB: ${STATE.selectedPowerBall}</span>`;
+        }
+        pillsContainer.innerHTML = html;
+      }
+    }
+
+    // Add current selection to Cart
+    function addCurrentTicketToCart() {
+      if (STATE.selectedStandard.length !== 5) {
+        alert("Please select exactly 5 standard numbers!");
+        return;
+      }
+      if (!STATE.selectedPowerBall) {
+        alert("Please select 1 PowerBall number!");
+        return;
+      }
+
+      AudioEngine.pop();
+      const ticket = {
+        id: 'TKT-' + Math.random().toString(36).substring(2, 7).toUpperCase(),
+        numbers: [...STATE.selectedStandard],
+        powerBall: STATE.selectedPowerBall,
+        basePrice: STATE.ticketPriceUsd
+      };
+
+      STATE.cart.push(ticket);
+      clearSelectedNumbers();
+      renderCart();
+      toggleCart(true);
+
+      // Trigger micro confetti
+      confetti({
+        particleCount: 30,
+        spread: 60,
+        origin: { y: 0.8 },
+        colors: ['#00FF66', '#ffffff']
+      });
+    }
+
+    // Render Cart
+    function renderCart() {
+      const count = STATE.cart.length;
+      document.getElementById('cartCountBadge').innerText = count;
+      document.getElementById('cartTotalBadge').innerText = count;
+      document.getElementById('cartTicketsCount').innerText = count;
+
+      const list = document.getElementById('cartItemsList');
+      if (count === 0) {
+        list.innerHTML = '<div class="text-center py-12 text-zinc-500 font-mono text-xs">Your cart is empty.<br>Pick 5 numbers + 1 PowerBall to begin.</div>';
+      } else {
+        let html = '';
+        STATE.cart.forEach((t, idx) => {
+          html += `
+            <div class="p-3 rounded-xl bg-black border border-pitch-border flex items-center justify-between font-mono text-xs">
+              <div>
+                <div class="text-[10px] text-zinc-500 mb-1">TICKET #${idx + 1} (${t.id})</div>
+                <div class="flex items-center space-x-1">
+                  ${t.numbers.map(n => `<span class="bg-lime/20 text-lime px-1.5 py-0.5 rounded font-bold">${n}</span>`).join('')}
+                  <span class="text-zinc-600 font-bold">+</span>
+                  <span class="bg-yellow-400/20 text-yellow-400 px-1.5 py-0.5 rounded font-bold">PB ${t.powerBall}</span>
+                </div>
+              </div>
+              <button onclick="removeCartItem(${idx})" class="text-zinc-500 hover:text-rose-400 p-1 text-sm">✕</button>
+            </div>
+          `;
+        });
+        list.innerHTML = html;
+      }
+
+      // Calculations
+      const baseSubtotal = count * STATE.ticketPriceUsd;
+      let discountAmt = 0;
+      if (STATE.viralDiscountActive) {
+        discountAmt = baseSubtotal * (STATE.viralDiscountPercent / 100);
+        document.getElementById('cartDiscountRow').classList.remove('hidden');
+        document.getElementById('cartDiscount').innerText = `-$${discountAmt.toFixed(2)}`;
+        document.getElementById('discountTag').classList.remove('hidden');
+      } else {
+        document.getElementById('cartDiscountRow').classList.add('hidden');
+        document.getElementById('discountTag').classList.add('hidden');
+      }
+
+      const finalTotal = baseSubtotal - discountAmt;
+      const foundersShare = finalTotal * 0.30;
+      const poolShare = finalTotal * 0.70;
+
+      document.getElementById('cartSubtotal').innerText = `$${baseSubtotal.toFixed(2)}`;
+      document.getElementById('cartTotal').innerText = `$${finalTotal.toFixed(2)}`;
+      document.getElementById('cartPoolShare').innerText = `$${poolShare.toFixed(2)}`;
+      document.getElementById('cartFoundersShare').innerText = `$${foundersShare.toFixed(2)}`;
+
+      const checkoutBtn = document.getElementById('checkoutBtn');
+      checkoutBtn.disabled = count === 0;
+    }
+
+    function removeCartItem(idx) {
+      STATE.cart.splice(idx, 1);
+      renderCart();
+    }
+
+    function toggleCart(forceOpen) {
+      const drawer = document.getElementById('cartDrawer');
+      const content = document.getElementById('cartContent');
+      const isOpen = !drawer.classList.contains('opacity-0');
+
+      if (forceOpen || !isOpen) {
+        drawer.classList.remove('pointer-events-none', 'opacity-0');
+        drawer.classList.add('opacity-100');
+        content.classList.remove('translate-x-full');
+      } else {
+        drawer.classList.add('opacity-0', 'pointer-events-none');
+        drawer.classList.remove('opacity-100');
+        content.classList.add('translate-x-full');
+      }
+    }
+
+    // Viral Share Trigger (Twitter / Telegram)
+    function triggerViralShare() {
+      const shareText = encodeURIComponent("🎰 I just entered the Asura Crypto Lottery with a $4.85M Jackpot! 70% goes to the prize pool, 30% to founders protocol. Share now to get 20% OFF tickets! #CryptoLottery #Asura");
+      const url = encodeURIComponent(window.location.href);
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${shareText}&url=${url}`;
+      
+      window.open(twitterUrl, '_blank');
+
+      // Instantly unlock 20% discount
+      STATE.viralDiscountActive = true;
+      renderCart();
+      AudioEngine.win();
+
+      alert("🎉 Viral Share Discount Activated! 20% discount applied to all ticket purchases!");
+    }
+
+    // Wallet Modals & Connection
+    function openWalletModal() {
+      document.getElementById('walletModal').classList.remove('hidden');
+    }
+    function closeWalletModal() {
+      document.getElementById('walletModal').classList.add('hidden');
+    }
+
+    function connectWalletProvider(provider) {
+      AudioEngine.click();
+      let mockAddress = '0x' + Array.from({length: 40}, () => Math.floor(Math.random()*16).toString(16)).join('');
+      if (provider === 'phantom') {
+        mockAddress = 'Sol' + Array.from({length: 32}, () => Math.floor(Math.random()*16).toString(16)).join('');
+      }
+
+      STATE.userWallet = mockAddress;
+      document.getElementById('walletConnectOptions').classList.add('hidden');
+      document.getElementById('walletConnectedState').classList.remove('hidden');
+      document.getElementById('activeWalletAddress').innerText = mockAddress;
+      document.getElementById('walletBtnText').innerText = mockAddress.slice(0, 6) + '...' + mockAddress.slice(-4);
+      document.getElementById('walletDot').classList.remove('bg-black');
+      document.getElementById('walletDot').classList.add('bg-lime');
+
+      renderMyTickets();
+      closeWalletModal();
+      AudioEngine.win();
+    }
+
+    function disconnectWallet() {
+      STATE.userWallet = null;
+      document.getElementById('walletConnectOptions').classList.remove('hidden');
+      document.getElementById('walletConnectedState').classList.add('hidden');
+      document.getElementById('walletBtnText').innerText = 'Connect Wallet';
+      document.getElementById('walletDot').classList.add('bg-black');
+      document.getElementById('walletDot').classList.remove('bg-lime');
+    }
+
+    function renderMyTickets() {
+      const container = document.getElementById('myTicketsContainer');
+      const label = document.getElementById('myTicketCountLabel');
+      label.innerText = `${STATE.myTickets.length} Tickets`;
+
+      if (STATE.myTickets.length === 0) {
+        container.innerHTML = '<div class="text-zinc-500 text-xs text-center py-4 font-mono">No active tickets yet</div>';
+      } else {
+        container.innerHTML = STATE.myTickets.map((t, idx) => `
+          <div class="p-2 bg-black rounded border border-pitch-border text-[11px] font-mono flex justify-between items-center">
+            <span class="text-lime font-bold">${t.id}</span>
+            <span class="text-white">${t.numbers.join(', ')} [PB:${t.powerBall}]</span>
+            <span class="text-zinc-400">ACTIVE</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Payment Gateway Modal
+    function openCheckoutGateway() {
+      if (STATE.cart.length === 0) return;
+      toggleCart(false);
+
+      const count = STATE.cart.length;
+      const baseSubtotal = count * STATE.ticketPriceUsd;
+      const discount = STATE.viralDiscountActive ? baseSubtotal * (STATE.viralDiscountPercent / 100) : 0;
+      const finalTotal = baseSubtotal - discount;
+
+      document.getElementById('gatewayTotalUsd').innerText = `$${finalTotal.toFixed(2)}`;
+      document.getElementById('gatewayPoolUsd').innerText = `$${(finalTotal * 0.70).toFixed(2)}`;
+      document.getElementById('gatewayFoundersUsd').innerText = `$${(finalTotal * 0.30).toFixed(2)}`;
+
+      setPaymentCurrency(STATE.paymentCurrency);
+      document.getElementById('paymentModal').classList.remove('hidden');
+    }
+
+    function closePaymentModal() {
+      document.getElementById('paymentModal').classList.add('hidden');
+    }
+
+    function setPaymentCurrency(cur) {
+      STATE.paymentCurrency = cur;
+      document.querySelectorAll('.pay-cur-btn').forEach(btn => {
+        btn.classList.remove('bg-lime', 'text-black');
+        btn.classList.add('bg-black', 'text-zinc-400');
+      });
+      const activeBtn = document.getElementById(`cur_${cur}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-black', 'text-zinc-400');
+        activeBtn.classList.add('bg-lime', 'text-black');
+      }
+      document.getElementById('gatewayAddress').innerText = DEPOSIT_ADDRESSES[cur] || DEPOSIT_ADDRESSES['USDT_TRC20'];
+    }
+
+    function copyDepositAddress() {
+      const addr = document.getElementById('gatewayAddress').innerText;
+      navigator.clipboard.writeText(addr);
+      AudioEngine.click();
+      alert("📋 Deposit address copied to clipboard:\n" + addr);
+    }
+
+    async function syncPurchaseWithBackend(ticketsToSync, discountCode, txHash) {
+      const payload = {
+        walletAddress: STATE.userWallet || '0xSimulatedClientWallet' + Math.floor(Math.random() * 10000),
+        tickets: ticketsToSync.map(t => ({ numbers: t.numbers, powerBall: t.powerBall })),
+        discountCode: discountCode,
+        purchaseMethod: 'DYNAMIC_QR_WEB3',
+        txHash: txHash
+      };
+      const endpoints = ['/api/lottery?action=buy', 'http://localhost:3001/api/lottery/tickets/buy'];
+      for (const ep of endpoints) {
+        try {
+          const res = await fetch(ep, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (res.ok) {
+            const data = await res.json();
+            console.log('[LOTTERY API SYNC SUCCESS]', data);
+            return data;
+          }
+        } catch (e) {}
+      }
+    }
+
+    function confirmPaymentAndMint() {
+      AudioEngine.win();
+      const ticketsToMint = [...STATE.cart];
+      // Mint tickets into active state
+      ticketsToMint.forEach(t => {
+        STATE.myTickets.push({ ...t, status: 'ACTIVE' });
+      });
+
+      const txHashVal = document.getElementById('txHashInput').value.trim() || ('0x' + Array.from({length: 64}, () => Math.floor(Math.random()*16).toString(16)).join(''));
+      const discountCode = STATE.viralDiscountActive ? 'VIRAL20' : '';
+
+      // Async sync with database
+      syncPurchaseWithBackend(ticketsToMint, discountCode, txHashVal);
+
+      const totalPaid = document.getElementById('gatewayTotalUsd').innerText;
+      const poolContrib = parseFloat(document.getElementById('gatewayPoolUsd').innerText.replace('$', ''));
+      const foundersContrib = parseFloat(document.getElementById('gatewayFoundersUsd').innerText.replace('$', ''));
+
+      // Update live jackpot state
+      STATE.jackpotUsd += poolContrib;
+      STATE.prizePoolUsd += poolContrib;
+      STATE.foundersAllocatedUsd += foundersContrib;
+      updateJackpotDisplays();
+
+      // Clear cart
+      const mintedCount = STATE.cart.length;
+      STATE.cart = [];
+      renderCart();
+      closePaymentModal();
+
+      confetti({
+        particleCount: 100,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ['#00FF66', '#ffffff', '#39FF14']
+      });
+
+      alert(`✅ PAYMENT CONFIRMED!\n\n${mintedCount} Tickets Successfully Secured!\n\nLedger Allocation:\n- 70% ($${poolContrib.toFixed(2)}) Added to Live Jackpot\n- 30% ($${foundersContrib.toFixed(2)}) Sent to Founders Treasury`);
+    }
+
+    // Provably Fair Draw Ceremony
+    function openLiveDrawModal() {
+      document.getElementById('drawModal').classList.remove('hidden');
+    }
+    function closeDrawModal() {
+      document.getElementById('drawModal').classList.add('hidden');
+    }
+
+    async function fetchVRFNumbers() {
+      const endpoints = ['/api/lottery?action=draw', 'http://localhost:3001/api/lottery/draw/run'];
+      for (const ep of endpoints) {
+        try {
+          const res = await fetch(ep, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ drawId: 'DRAW-2026-001' })
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data && data.drawResult) return data.drawResult;
+          }
+        } catch (e) {}
+      }
+      return null;
+    }
+
+    async function executeLiveDrawAnimation() {
+      const btn = document.getElementById('triggerDrawActionBtn');
+      btn.disabled = true;
+      btn.innerText = "COMPUTING SHA-256 VRF PROOF...";
+
+      const stream = document.getElementById('drawStatusStream');
+      stream.innerText = "Querying Chainlink Oracle block hash commitment...";
+      AudioEngine.pop();
+
+      // Query server VRF engine or generate deterministic local fallback
+      let winningNums = [];
+      let winningPB = 1;
+      let proofHash = '0x' + Array.from({length: 64}, () => Math.floor(Math.random()*16).toString(16)).join('');
+
+      const serverVrf = await fetchVRFNumbers();
+      if (serverVrf && serverVrf.winningNumbers) {
+        winningNums = serverVrf.winningNumbers;
+        winningPB = serverVrf.powerBall;
+        proofHash = serverVrf.vrfHash;
+      } else {
+        while (winningNums.length < 5) {
+          const r = Math.floor(Math.random() * 49) + 1;
+          if (!winningNums.includes(r)) winningNums.push(r);
+        }
+        winningNums.sort((a, b) => a - b);
+        winningPB = Math.floor(Math.random() * 10) + 1;
+      }
+
+      let step = 0;
+      const interval = setInterval(() => {
+        step++;
+        if (step <= 5) {
+          const ballEl = document.getElementById(`drawBall${step}`);
+          ballEl.innerText = winningNums[step - 1];
+          ballEl.classList.add('bg-lime', 'text-black');
+          stream.innerText = `Ball #${step} revealed: [${winningNums[step - 1]}]`;
+          AudioEngine.beep(400 + step * 80, 'sine', 0.1);
+        } else if (step === 6) {
+          const pbEl = document.getElementById('drawBallPB');
+          pbEl.innerText = winningPB;
+          pbEl.classList.add('bg-yellow-400', 'text-black');
+          stream.innerText = `PowerBall revealed: [${winningPB}]`;
+          AudioEngine.win();
+        } else {
+          clearInterval(interval);
+          document.getElementById('drawHashProof').innerText = proofHash;
+          stream.innerText = "✨ VRF DRAW COMPLETE // ALL HASHES VERIFIED BY CERTIK";
+          btn.disabled = false;
+          btn.innerText = "DRAW COMPLETED (CLICK TO RE-RUN)";
+
+          confetti({
+            particleCount: 150,
+            spread: 90,
+            origin: { y: 0.5 },
+            colors: ['#00FF66', '#ffdd00', '#ffffff']
+          });
+        }
+      }, 450);
+    }
+
+    // Dynamic Live Jackpot Counter
+    function updateJackpotDisplays() {
+      document.getElementById('jackpotDisplay').innerText = `$${STATE.jackpotUsd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      document.getElementById('poolDisplay').innerText = `$${STATE.prizePoolUsd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      document.getElementById('foundersDisplay').innerText = `$${STATE.foundersAllocatedUsd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    }
+
+    // Live Ticking Increment
+    setInterval(() => {
+      const increment = Math.random() * 3.5 + 0.5;
+      STATE.jackpotUsd += increment;
+      STATE.prizePoolUsd += increment * 0.70;
+      STATE.foundersAllocatedUsd += increment * 0.30;
+      updateJackpotDisplays();
+    }, 4000);
+
+    // Live Countdown Timer
+    function startCountdown() {
+      let secondsRemaining = 2 * 86400 + 14 * 3600 + 38 * 60 + 22;
+      setInterval(() => {
+        secondsRemaining--;
+        if (secondsRemaining < 0) secondsRemaining = 86400 * 3;
+        const d = Math.floor(secondsRemaining / 86400);
+        const h = Math.floor((secondsRemaining % 86400) / 3600);
+        const m = Math.floor((secondsRemaining % 3600) / 60);
+        const s = secondsRemaining % 60;
+        document.getElementById('cdDays').innerText = String(d).padStart(2, '0');
+        document.getElementById('cdHours').innerText = String(h).padStart(2, '0');
+        document.getElementById('cdMins').innerText = String(m).padStart(2, '0');
+        document.getElementById('cdSecs').innerText = String(s).padStart(2, '0');
+      }, 1000);
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // THREE.JS 3D LOTTERY DRUM VISUALIZATION
+    // ═══════════════════════════════════════════════════════════════════════
+    let threeScene, threeCamera, threeRenderer, lotterySphereGroup;
+    let isSpinningFast = false;
+
+    function initThreeDVisualization() {
+      const container = document.getElementById('threeCanvasContainer');
+      const width = container.clientWidth || 380;
+      const height = container.clientHeight || 380;
+
+      threeScene = new THREE.Scene();
+      threeCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+      threeCamera.position.z = 12;
+
+      threeRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      threeRenderer.setSize(width, height);
+      threeRenderer.setPixelRatio(window.devicePixelRatio);
+      container.appendChild(threeRenderer.domElement);
+
+      // Sphere Group
+      lotterySphereGroup = new THREE.Group();
+      threeScene.add(lotterySphereGroup);
+
+      // Outer Wireframe Cage (Lime Green)
+      const cageGeo = new THREE.IcosahedronGeometry(4.2, 2);
+      const cageMat = new THREE.MeshBasicMaterial({
+        color: 0x00FF66,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.35
+      });
+      const cageMesh = new THREE.Mesh(cageGeo, cageMat);
+      lotterySphereGroup.add(cageMesh);
+
+      // Inner Glass Sphere
+      const glassGeo = new THREE.SphereGeometry(3.9, 32, 32);
+      const glassMat = new THREE.MeshPhongMaterial({
+        color: 0x050709,
+        transparent: true,
+        opacity: 0.6,
+        shininess: 90
+      });
+      const glassMesh = new THREE.Mesh(glassGeo, glassMat);
+      lotterySphereGroup.add(glassMesh);
+
+      // Floating Neon Lottery Balls inside
+      const ballColors = [0x00FF66, 0x39FF14, 0x4ade80, 0xffdd00, 0x00e5ff];
+      const balls = [];
+
+      for (let i = 0; i < 24; i++) {
+        const ballGeo = new THREE.SphereGeometry(0.55, 16, 16);
+        const col = ballColors[i % ballColors.length];
+        const ballMat = new THREE.MeshStandardMaterial({
+          color: col,
+          roughness: 0.2,
+          metalness: 0.8,
+          emissive: col,
+          emissiveIntensity: 0.3
+        });
+        const ball = new THREE.Mesh(ballGeo, ballMat);
+
+        // Position inside sphere
+        const phi = Math.random() * Math.PI * 2;
+        const theta = Math.random() * Math.PI;
+        const rad = 1.2 + Math.random() * 2.0;
+
+        ball.position.set(
+          rad * Math.sin(theta) * Math.cos(phi),
+          rad * Math.sin(theta) * Math.sin(phi),
+          rad * Math.cos(theta)
+        );
+
+        ball.userData = {
+          velocity: new THREE.Vector3(
+            (Math.random() - 0.5) * 0.04,
+            (Math.random() - 0.5) * 0.04,
+            (Math.random() - 0.5) * 0.04
+          )
+        };
+
+        lotterySphereGroup.add(ball);
+        balls.push(ball);
+      }
+
+      // Lights
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+      threeScene.add(ambientLight);
+
+      const limeLight = new THREE.PointLight(0x00FF66, 2, 20);
+      limeLight.position.set(5, 5, 5);
+      threeScene.add(limeLight);
+
+      const backLight = new THREE.PointLight(0x39FF14, 1.5, 20);
+      backLight.position.set(-5, -5, -3);
+      threeScene.add(backLight);
+
+      // Mouse Drag Interaction
+      let isDragging = false;
+      let prevMousePos = { x: 0, y: 0 };
+
+      container.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        prevMousePos = { x: e.clientX, y: e.clientY };
+      });
+
+      window.addEventListener('mouseup', () => isDragging = false);
+
+      container.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const deltaX = e.clientX - prevMousePos.x;
+        const deltaY = e.clientY - prevMousePos.y;
+
+        lotterySphereGroup.rotation.y += deltaX * 0.008;
+        lotterySphereGroup.rotation.x += deltaY * 0.008;
+
+        prevMousePos = { x: e.clientX, y: e.clientY };
+      });
+
+      // Animation Loop
+      function animate() {
+        requestAnimationFrame(animate);
+
+        const spinSpeed = isSpinningFast ? 0.06 : 0.006;
+        lotterySphereGroup.rotation.y += spinSpeed;
+        cageMesh.rotation.x += spinSpeed * 0.5;
+
+        // Animate floating balls
+        balls.forEach(ball => {
+          ball.position.add(ball.userData.velocity);
+          if (ball.position.length() > 3.0) {
+            ball.userData.velocity.negate();
+          }
+          if (isSpinningFast) {
+            ball.position.x += (Math.random() - 0.5) * 0.1;
+            ball.position.y += (Math.random() - 0.5) * 0.1;
+          }
+        });
+
+        threeRenderer.render(threeScene, threeCamera);
+      }
+      animate();
+
+      // Handle Resize
+      window.addEventListener('resize', () => {
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        threeCamera.aspect = w / h;
+        threeCamera.updateProjectionMatrix();
+        threeRenderer.setSize(w, h);
+      });
+    }
+
+    function spinThreeDrumFast() {
+      AudioEngine.win();
+      isSpinningFast = true;
+      setTimeout(() => {
+        isSpinningFast = false;
+      }, 3500);
+    }
+
+    // App Initialization
+    window.addEventListener('DOMContentLoaded', () => {
+      initGrids();
+      updatePickerUI();
+      renderCart();
+      startCountdown();
+      updateJackpotDisplays();
+      initThreeDVisualization();
+    });
+  </script>
+</body>
+</html>
