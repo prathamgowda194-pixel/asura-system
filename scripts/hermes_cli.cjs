@@ -61,6 +61,7 @@ switch (cmd) {
     console.log(`Model:           ${cfg.model || 'gpt-4o-mini'}`);
     console.log(`GitHub User:     ${cfg.github_user || 'prathamgowda194-pixel'}`);
     console.log(`Authentication:  ACTIVE [${cfg.token ? 'PAT VERIFIED' : 'NONE'}]`);
+    console.log(`Visual Engine:   OPENHIGGSFIELD AI (38 Models / wide-trace/open-higgsfield)`);
     console.log(`Firecrawl API:   OPERATIONAL (Scraper Engine Live)`);
     console.log(`Multica Hook:    ACTIVE (Project Board Automated Sync)`);
     console.log(`Behavioral Rail: soul.md (High-Throughput / Minimal Overhead)`);
@@ -68,6 +69,16 @@ switch (cmd) {
     break;
   }
 
+  case 'generate-visual': {
+    const higgsfield = require('../open_higgsfield_engine.cjs');
+    const prompt = args.slice(1).join(' ') || 'Luxury crypto lottery visual banner';
+    console.log(`[HERMES AGENT] Calling OpenHiggsfield Studio for: "${prompt}"...`);
+    higgsfield.generateVisual(prompt).then(res => {
+      console.log(`[HERMES AGENT] Generation complete via ${res.source} (${res.model})`);
+    }).catch(err => console.error('[HERMES AGENT] Visual error:', err.message));
+    break;
+  }
+
   default:
-    console.log(`Usage: hermes-agent [config --provider <name> --token <pat> | status]`);
+    console.log(`Usage: hermes-agent [config --provider <name> --token <pat> | status | generate-visual <prompt>]`);
 }
