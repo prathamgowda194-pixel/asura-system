@@ -62,6 +62,7 @@ switch (cmd) {
     console.log(`GitHub User:     ${cfg.github_user || 'prathamgowda194-pixel'}`);
     console.log(`Authentication:  ACTIVE [${cfg.token ? 'PAT VERIFIED' : 'NONE'}]`);
     console.log(`Visual Engine:   OPENHIGGSFIELD AI (38 Models / wide-trace/open-higgsfield)`);
+    console.log(`Luxury Standard: ASURA LUXURY V3 (Zero-Emoji Mandate, Kinetic Motion Engine)`);
     console.log(`Firecrawl API:   OPERATIONAL (Scraper Engine Live)`);
     console.log(`Multica Hook:    ACTIVE (Project Board Automated Sync)`);
     console.log(`Behavioral Rail: soul.md (High-Throughput / Minimal Overhead)`);
