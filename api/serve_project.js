@@ -11,6 +11,8 @@
  * - Solid Pre-Rendered Metrics (Zero 0-start broken counters)
  */
 
+const fs = require('fs');
+const path = require('path');
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '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';
 const REPO = 'prathamgowda194-pixel/asura-system';
 
@@ -610,13 +612,23 @@ export default async function handler(req, res) {
     `);
   }
 
-  // 1. Try to fetch pre-compiled prototype from GitHub
+  // 1. Try local disk first or fetch pre-compiled prototype from GitHub
   const paths = [
     `projects/${slug}/index.html`,
     `prototypes/${slug}/index.html`
   ];
 
   for (const relPath of paths) {
+    try {
+      const localPath = path.join(process.cwd(), relPath);
+      if (fs.existsSync(localPath)) {
+        const html = fs.readFileSync(localPath, 'utf8');
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0');
+        return res.status(200).send(html);
+      }
+    } catch (e) {}
+
     try {
       const apiEndpoint = `https://api.github.com/repos/${REPO}/contents/${relPath}`;
       const apiRes = await fetch(apiEndpoint, {
