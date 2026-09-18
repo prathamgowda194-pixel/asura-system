@@ -25,3 +25,14 @@
   1. Source payloads are completely written and syntax-checked.
   2. Telemetry and task tracking cards are synchronized.
   3. Memory buffers are de-allocated.
+
+## 5. ASURA LUXURY FRONTEND DIRECTIVE // TRAINED WITH HIGGSFIELD INTELLIGENCE
+- **Zero-Emoji Mandate**: Absolute prohibition of casual emojis in all production web applications, UI components, buttons, and status modals. All iconography MUST use precision vector SVGs, geometric micro-glyphs, or cryptographic badges.
+- **Custom Movement Animation Standard**: All client websites must feature high-end kinetic motion:
+  1. 3D WebGL interactive canvas with real-time physics and mouse-driven gyroscopic parallax.
+  2. Dynamic odometer rolling digit reels for multi-million financial tickers and jackpots.
+  3. Interactive cyber grid with dynamic laser scanlines and particle vertex networking.
+  4. Spring-physics interactive selectors, tactile feedback, and smooth drawer transitions.
+- **Color Discipline**: Strict `#050709` Pitch Black and `#00FF66` / `#39FF14` Electric Lime Green cyber-luxury aesthetics.
+- **End-to-End Interconnection**: Every UI element (Wallet, Cart, Payment, Protocol Split, Draw Ceremony, Discounts) must be 100% interconnected with live state reactivity and dual-mode database persistence.
+
