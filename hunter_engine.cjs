@@ -13,6 +13,8 @@
 const fs = require('fs');
 const path = require('path');
 const brandEngine = require('./brand_engine.cjs');
+const { unifiedSearch } = require('./free_crawler_engine.cjs');
+const deduplicationVault = require('./deduplication_vault.cjs');
 
 // ── CONFIGURATION & CREDENTIALS ──────────────────────────────────────────────
 const CONFIG = {
@@ -314,6 +316,13 @@ async function sendTelegramMessage(chatId, text, replyMarkup = null) {
 }
 
 async function broadcastLeadCard(lead, prototypeUrl) {
+  // STRICT VAULT CHECK: Once mentioned, never mentioned again
+  const check = deduplicationVault.checkCandidate(lead);
+  if (!check.allowed) {
+    console.log(`[SKIP BROADCAST // STRICT VAULT] "${lead.name}": ${check.reason} (${check.details})`);
+    return false;
+  }
+
   const subs = getSubscribers();
 
   const name = lead.name || "Local Business";
@@ -398,6 +407,10 @@ async function broadcastLeadCard(lead, prototypeUrl) {
   for (const sub of subs) {
     await sendTelegramMessage(sub, card, replyMarkup);
   }
+
+  // Permanently lock into vault so it is NEVER dispatched again
+  deduplicationVault.recordDispatched(lead, { prototypeUrl });
+  return true;
 }
 
 function escapeHtml(str) {
@@ -519,42 +532,37 @@ async function huntLeadsForNiche(nicheObj, city, limit = 2) {
   for (const q of queries) {
     if (leadsFound.length >= limit) break;
     try {
-      const res = await fetch("https://api.firecrawl.dev/v1/search", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${CONFIG.FIRECRAWL_KEY}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ query: q, limit: 5 }),
-        signal: AbortSignal.timeout(14000)
-      });
+      const searchRes = await unifiedSearch(q, 5, CONFIG.FIRECRAWL_KEY, process.env.USE_FREE_CRAWLER === 'true');
+      const items = searchRes.data || [];
 
-      if (res.status === 200) {
-        const data = await res.json();
-        for (const item of (data.data || [])) {
-          if (leadsFound.length >= limit) break;
+      for (const item of items) {
+        if (leadsFound.length >= limit) break;
 
-          const title = item.title || "";
-          const desc = item.description || "";
-          const pageUrl = item.url || "";
+        const title = item.title || "";
+        const desc = item.description || "";
+        const pageUrl = item.url || "";
 
-          // Extract Indian Mobile Phone
-          const phoneObj = extractIndianPhone(desc + " " + title);
-          if (!phoneObj) continue;
+        // Extract Indian Mobile Phone
+        const phoneObj = extractIndianPhone(desc + " " + title);
+        if (!phoneObj) continue;
 
-          // Clean genuine entity name
-          const name = cleanBusinessName(title, nicheObj.name, city);
-          if (!name) continue;
+        // Clean genuine entity name
+        const name = cleanBusinessName(title, nicheObj.name, city);
+        if (!name) continue;
 
-          // Deduplication
-          const isDup = existingLeads.some(l => 
-            (l.cleanPhone && l.cleanPhone === phoneObj.clean10) || 
-            (l.name.toLowerCase() === name.toLowerCase() && l.city === city)
-          );
-          if (isDup) {
-            console.log(`[SKIP] Already cataloged: ${name} (${phoneObj.formatted})`);
-            continue;
-          }
+        const slug = generateSlug(name, city);
+
+        // STRICT DEDUPLICATION & BLACKLIST CHECK
+        const check = deduplicationVault.checkCandidate({
+          name: name,
+          phone: phoneObj.formatted,
+          cleanPhone: phoneObj.clean10,
+          slug: slug
+        });
+        if (!check.allowed) {
+          console.log(`[SKIP // STRICT DEDUP VAULT] ${name}: ${check.reason} (${check.details})`);
+          continue;
+        }
 
           const physicalAddress = extractPhysicalAddress(desc, city);
 
@@ -656,19 +664,22 @@ async function runSweep(options = {}) {
 
 // ── CLI DISPATCHER ────────────────────────────────────────────────────────────
 if (require.main === module) {
-  const args = process.argv.slice(2);
-  const rCity = TARGET_CITIES[Math.floor(Math.random() * TARGET_CITIES.length)];
-  const rNiche = TARGET_NICHES[Math.floor(Math.random() * TARGET_NICHES.length)];
-  console.log(`[CRON RUNNER] Scanning ${rNiche.name} in ${rCity}...`);
-  runSweep({ niche: rNiche.id, city: rCity, leadsPerNiche: 1 })
-    .then(() => {
+  (async () => {
+    try {
+      console.log('[CRON RUNNER] Syncing latest dispatched vault from GitHub...');
+      await deduplicationVault.syncFromGitHub();
+      const args = process.argv.slice(2);
+      const rCity = TARGET_CITIES[Math.floor(Math.random() * TARGET_CITIES.length)];
+      const rNiche = TARGET_NICHES[Math.floor(Math.random() * TARGET_NICHES.length)];
+      console.log(`[CRON RUNNER] Scanning ${rNiche.name} in ${rCity}...`);
+      await runSweep({ niche: rNiche.id, city: rCity, leadsPerNiche: 1 });
       console.log('[CRON RUNNER] Finished successfully.');
       process.exit(0);
-    })
-    .catch((err) => {
+    } catch (err) {
       console.error('[CRON RUNNER ERROR]', err.message);
       process.exit(0); // Gracefully exit 0 to avoid spurious GitHub alert emails
-    });
+    }
+  })();
 }
 
 module.exports = {
