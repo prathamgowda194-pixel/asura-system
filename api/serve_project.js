@@ -557,13 +557,41 @@ const BLACKLISTED_SLUGS = new Set([
   "interior-designer-vendors-in"
 ]);
 
+const BLACKLIST_PATTERNS = [
+  /bridge\s*(property|consult|realt)/i,
+  /all\s*smiles/i,
+  /s\s*9\s*(luxury|hair|studio)/i,
+  /hyderabad\s*real\s*estate/i,
+  /byob/i,
+  /architectural\s*export/i,
+  /lee\s*space/i,
+  /taaam/i,
+  /indus\s*(dental|clinic|implant)/i,
+  /dev\s*interior/i,
+  /prath?yangi?r/i,
+  /(advocate|lawyer).*1000|1000.*(person|advocate|lawyer)/i,
+  /sotheby/i,
+  /mr\s*(&|and)?\s*mrs\s*detail/i,
+  /ravi\s*construct/i,
+  /s\s*k?\s*sahil|sahil\s*civil/i,
+  /eternal\s*fit/i,
+  /(contractor.*bath|bath.*contract|bath.*construct)/i,
+  /rahul\s*real/i,
+  /hair\s*treatment.*pune|14651660530/i,
+  /if\s*they\s*won/i,
+  /naik\s*real|santa\s*cruz.*naik/i,
+  /qamsham/i,
+  /interior.*vendor|vendor.*ahmedabad|vendor.*ahemadabad/i
+];
+
 export default async function handler(req, res) {
   const slug = (req.query.slug || '').replace(/[^a-z0-9-]/gi, '');
   if (!slug) {
     return res.status(400).send("<h1>Missing project slug</h1>");
   }
 
-  if (BLACKLISTED_SLUGS.has(slug)) {
+  const isBlocked = BLACKLISTED_SLUGS.has(slug) || BLACKLIST_PATTERNS.some(p => p.test(slug));
+  if (isBlocked) {
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0');
     return res.status(410).send(`
