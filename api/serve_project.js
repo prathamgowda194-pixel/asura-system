@@ -613,7 +613,15 @@ export default async function handler(req, res) {
   }
 
   // 1. Try local disk first or fetch pre-compiled prototype from GitHub
-  const paths = [
+  const isAdmin = (req.query && (req.query.admin === 'true' || req.query.admin === '1')) || slug.includes('admin');
+  const cleanSlug = slug.replace(/\/(admin|index)(\.html)?$/, '').replace(/-admin$/, '');
+
+  const paths = isAdmin ? [
+    `projects/${cleanSlug}/admin.html`,
+    `projects/${slug}/admin.html`,
+    `projects/${slug}/index.html`,
+    `prototypes/${slug}/index.html`
+  ] : [
     `projects/${slug}/index.html`,
     `prototypes/${slug}/index.html`
   ];
