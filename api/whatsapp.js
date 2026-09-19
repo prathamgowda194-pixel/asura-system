@@ -9,8 +9,6 @@
  * ==============================================================================
  */
 
-import { MongoClient } from 'mongodb';
-
 const DEFAULT_CONFIG = {
   business_name: 'Asura Digital Agency',
   service_product: 'high-converting custom websites and automated growth systems',
@@ -31,11 +29,11 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  // --- 1. GET: META WEBHOOK VERIFICATION ---
+  // --- 1. GET: META WEBHOOK VERIFICATION & STATUS ---
   if (req.method === 'GET') {
-    const mode = req.query['hub.mode'];
-    const token = req.query['hub.verify_token'];
-    const challenge = req.query['hub.challenge'];
+    const mode = req.query ? req.query['hub.mode'] : null;
+    const token = req.query ? req.query['hub.verify_token'] : null;
+    const challenge = req.query ? req.query['hub.challenge'] : null;
 
     const expectedToken = process.env.WHATSAPP_VERIFY_TOKEN || DEFAULT_CONFIG.verify_token;
 
@@ -44,19 +42,18 @@ export default async function handler(req, res) {
       return res.status(200).send(challenge);
     }
 
-    // If accessed directly in browser, show status panel
     return res.status(200).json({
       status: 'ONLINE',
       service: 'Asura Automated WhatsApp Bot Gateway',
       environment: 'Vercel Serverless',
       welcome_template: DEFAULT_CONFIG.welcome_message_template,
       preview: DEFAULT_CONFIG.welcome_message_template
-        .replace('{business_name}', DEFAULT_CONFIG.business_name)
-        .replace('{service_product}', DEFAULT_CONFIG.service_product)
-        .replace('{reply_time}', DEFAULT_CONFIG.reply_time),
+        .replace('{business_name}', process.env.WHATSAPP_BUSINESS_NAME || DEFAULT_CONFIG.business_name)
+        .replace('{service_product}', process.env.WHATSAPP_SERVICE_PRODUCT || DEFAULT_CONFIG.service_product)
+        .replace('{reply_time}', process.env.WHATSAPP_REPLY_TIME || DEFAULT_CONFIG.reply_time),
       instructions: {
         step1: 'Configure Meta Webhook URL to: https://asura-system.vercel.app/api/whatsapp',
-        step2: `Set Verify Token in Meta to: ${expectedToken}`,
+        step2: 'Set Verify Token in Meta to: ' + expectedToken,
         step3: 'Subscribe to "messages" webhook field.'
       }
     });
@@ -66,19 +63,16 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
       const body = req.body || {};
-
-      // Parse Meta WhatsApp Webhook Payload
       const entry = body.entry?.[0];
       const changes = entry?.changes?.[0];
       const value = changes?.value;
       const message = value?.messages?.[0];
 
       if (!message) {
-        // May be a delivery receipt or status update
         return res.status(200).json({ status: 'ACKNOWLEDGED', reason: 'Non-message event' });
       }
 
-      const senderPhone = message.from; // e.g. "919876543210"
+      const senderPhone = message.from;
       const contact = value?.contacts?.[0];
       const senderName = contact?.profile?.name || 'Client';
       const messageText = message.text?.body || message.type || '';
@@ -92,8 +86,9 @@ export default async function handler(req, res) {
         .replace('{service_product}', serviceProduct)
         .replace('{reply_time}', replyTime);
 
-      // Async log to MongoDB Atlas
+      // Try dynamic MongoDB log if available
       try {
+        const { MongoClient } = await import('mongodb');
         const client = new MongoClient(MONGO_URI, { connectTimeoutMS: 3000 });
         await client.connect();
         const db = client.db('crypto_lottery');
@@ -108,7 +103,7 @@ export default async function handler(req, res) {
         );
         await client.close();
       } catch (dbErr) {
-        console.warn('[WHATSAPP API] DB Log warning:', dbErr.message);
+        console.warn('[WHATSAPP API] Optional DB log notice:', dbErr.message);
       }
 
       // Dispatch Reply via Meta Graph API if credentials exist
@@ -124,10 +119,10 @@ export default async function handler(req, res) {
           text: { preview_url: false, body: welcomeReply }
         });
 
-        await fetch(`https://graph.facebook.com/v19.0/${phoneNumberId}/messages`, {
+        await fetch('https://graph.facebook.com/v19.0/' + phoneNumberId + '/messages', {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${accessToken}`,
+            'Authorization': 'Bearer ' + accessToken,
             'Content-Type': 'application/json'
           },
           body: postData
