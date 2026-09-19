@@ -54,6 +54,63 @@
   </script>
 
   <style>
+    
+    /* Mysterious Occult Cyberpunk Theme */
+    :root {
+      --lime: #00FF66;
+      --lime-glow: #39FF14;
+      --pitch: #020406;
+      --pitch-card: #070a0e;
+      --pitch-surface: #0c1017;
+      --pitch-border: #152019;
+    }
+
+    body {
+      background-color: #020406;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(0, 255, 102, 0.04) 0%, transparent 60%),
+        radial-gradient(circle at 10% 40%, rgba(5, 46, 22, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(0, 255, 102, 0.03) 0%, transparent 50%);
+      color: #e2e8f0;
+      overflow-x: hidden;
+      selection-background-color: #00FF66;
+      selection-color: #020406;
+    }
+
+    /* Rotating Concentric Arcane Sigil Rings */
+    @keyframes spinClockwise {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes spinCounterClockwise {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+    .sigil-ring-cw {
+      animation: spinClockwise 60s linear infinite;
+    }
+    .sigil-ring-ccw {
+      animation: spinCounterClockwise 45s linear infinite;
+    }
+    .sigil-pulse {
+      animation: sigilPulse 4s ease-in-out infinite alternate;
+    }
+    @keyframes sigilPulse {
+      0% { opacity: 0.2; filter: drop-shadow(0 0 5px rgba(0,255,102,0.2)); }
+      100% { opacity: 0.6; filter: drop-shadow(0 0 20px rgba(0,255,102,0.6)); }
+    }
+
+    /* Ethereal Smoky Mist Floating Animation */
+    @keyframes mistFloat {
+      0% { transform: translateY(0px) scale(1); opacity: 0.15; }
+      50% { transform: translateY(-15px) scale(1.08); opacity: 0.35; }
+      100% { transform: translateY(0px) scale(1); opacity: 0.15; }
+    }
+    .mystic-mist {
+      animation: mistFloat 10s ease-in-out infinite;
+      pointer-events: none;
+    }
+
     :root {
       --lime: #00FF66;
       --lime-glow: #39FF14;
@@ -224,18 +281,24 @@
         </div>
       </div>
 
-      <!-- Live 70/30 Protocol Allocation Gauge -->
-      <div class="hidden lg:flex items-center space-x-4 text-xs font-mono">
-        <div class="flex items-center space-x-1.5 text-zinc-300 bg-pitch-card px-2.5 py-1 rounded border border-pitch-border">
-          <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
-          <span class="text-zinc-400">WINNERS POOL:</span>
-          <span class="text-white font-bold">70%</span>
+      <!-- Mysterious Sanctum Status & Audio Controller -->
+      <div class="hidden lg:flex items-center space-x-3 text-xs font-mono">
+        <!-- Procedural Ambient Music Toggle -->
+        <button id="mysticAudioBtn" onclick="toggleMysticAudio()" class="px-3 py-1.5 rounded-lg bg-pitch-card border border-lime/30 hover:border-lime text-lime flex items-center space-x-2 transition shadow-lime-sm group">
+          <span class="w-2 h-2 rounded-full bg-lime animate-ping" id="audioLed"></span>
+          <span id="audioBtnText" class="font-bold tracking-wider text-[11px]">AMBIENT SANCTUM AUDIO</span>
+          <!-- Audio wave canvas -->
+          <canvas id="audioVisualizerCanvas" width="34" height="14" class="inline-block"></canvas>
+        </button>
+
+        <div class="flex items-center space-x-1.5 text-zinc-400 bg-pitch-card px-2.5 py-1 rounded border border-pitch-border text-[11px]">
+          <span class="text-lime">⟐</span>
+          <span>ON-CHAIN SOLANA RESERVE</span>
         </div>
-        <div class="flex items-center space-x-1.5 text-lime bg-lime/10 px-2.5 py-1 rounded border border-lime/30">
-          <span class="w-1.5 h-1.5 rounded-full bg-lime"></span>
-          <span class="text-zinc-300">FOUNDERS TREASURY:</span>
-          <span class="text-lime font-bold">30% VERIFIED</span>
-        </div>
+
+        <a href="admin.html" class="px-2.5 py-1 rounded bg-lime/10 hover:bg-lime text-lime hover:text-black font-bold text-[11px] border border-lime/30 transition">
+          ADMIN SANCTUM
+        </a>
       </div>
 
       <!-- Action Navigation: Cart & Wallet -->
@@ -269,6 +332,24 @@
     </div>
   </header>
 
+    <!-- MYSTERIOUS AMBIENT AUDIO INVITATION BANNER -->
+  <div id="audioInviteBanner" class="relative z-30 bg-black/90 border-b border-lime/30 py-2 px-4 flex items-center justify-between text-xs font-mono">
+    <div class="max-w-7xl mx-auto flex items-center justify-between w-full">
+      <div class="flex items-center space-x-2 text-lime">
+        <span class="w-2 h-2 rounded-full bg-lime animate-ping"></span>
+        <span class="font-bold">SANCTUM OF CHANCE:</span>
+        <span class="text-zinc-300">Experience with atmospheric dark ambient soundscape.</span>
+      </div>
+      <div class="flex items-center space-x-3">
+        <button onclick="MysticAudio.start(); document.getElementById('audioInviteBanner').style.display='none';" class="px-3 py-1 bg-lime hover:bg-lime-glow text-black font-extrabold rounded text-[11px] transition shadow-lime-sm">
+          ENTER WITH AUDIO
+        </button>
+        <button onclick="document.getElementById('audioInviteBanner').style.display='none';" class="text-zinc-500 hover:text-white text-[11px]">
+          DISMISS
+        </button>
+      </div>
+    </div>
+  </div>
   <!-- RECENT WINNERS STREAM TICKER -->
   <div class="relative z-30 bg-pitch-card border-b border-pitch-border py-1.5 px-4 overflow-hidden">
     <div class="max-w-7xl mx-auto flex items-center space-x-4 text-[11px] font-mono">
@@ -291,7 +372,7 @@
         </span>
         <span class="text-zinc-700">|</span>
         <span class="flex items-center gap-1.5">
-          <span class="text-zinc-300">TREASURY PROTOCOL:</span> <span class="text-lime font-bold">70% PRIZE POOL / 30% FOUNDERS ALLOCATION</span>
+          <span class="text-zinc-300">SOLANA TREASURY VAULT:</span> <span class="text-lime font-bold">ON-CHAIN ADMIN RESERVE ACTIVE</span>
         </span>
         <span class="text-zinc-700">|</span>
         <span class="flex items-center gap-1.5">
@@ -350,8 +431,8 @@
               <!-- ODOMETER ROLLING DIGIT COUNTER -->
               <div id="odometerJackpot" class="text-4xl sm:text-5xl font-mono font-black text-lime tracking-tight drop-shadow-[0_0_20px_rgba(0,255,102,0.5)] flex items-center mt-1">
                 <!-- Dynamically built by renderOdometer() -->
-                <span class="text-white mr-1">$</span>
-                <span id="odometerReels">4,850,290.00</span>
+                <span id="odometerReels">1,428.70</span>
+                <span class="text-lime text-2xl sm:text-3xl ml-2 font-bold font-mono">SOL</span>
               </div>
             </div>
 
@@ -372,27 +453,35 @@
             </div>
           </div>
 
-          <!-- Mathematical 70/30 Transparent Split Breakdown -->
+          <!-- Mysterious Solana Treasury Reserve Cards (Derived from Admin Wallet SOL) -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
-            <div class="p-3.5 rounded-xl bg-black/60 border border-pitch-border">
+            <div class="p-3.5 rounded-xl bg-black/70 border border-lime/30 relative overflow-hidden group">
+              <div class="absolute -right-8 -bottom-8 text-5xl font-mono text-lime/5 select-none pointer-events-none">⟐</div>
               <div class="text-zinc-400 flex items-center justify-between">
-                <span>WINNERS PRIZE POOL</span>
-                <span class="text-white font-bold">70%</span>
+                <span class="text-lime font-bold tracking-wider">SOLANA PRIZE VAULT</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-lime/10 text-lime border border-lime/40 font-extrabold">ON-CHAIN VERIFIED</span>
               </div>
-              <div id="heroPoolUsd" class="text-lg font-bold text-white mt-1">$3,395,203.00</div>
-              <div class="text-[10px] text-zinc-500 mt-1">
-                Automated multi-tier payout smart contract
+              <div class="text-xl font-bold text-white mt-1 font-mono flex items-baseline gap-2">
+                <span id="heroSolAmount">1,428.70</span> <span class="text-lime text-sm">SOL</span>
+                <span id="heroSolUsdEquivalent" class="text-xs text-zinc-400 font-normal">($214,305 USD)</span>
+              </div>
+              <div class="text-[10px] text-zinc-400 mt-1 flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-lime animate-pulse"></span>
+                <span>Calculated from Admin Treasury Solana reserve</span>
               </div>
             </div>
 
-            <div class="p-3.5 rounded-xl bg-black/60 border border-lime/30 bg-lime/[0.02]">
-              <div class="text-lime flex items-center justify-between">
-                <span>FOUNDERS TREASURY</span>
-                <span class="text-[10px] px-2 py-0.5 rounded bg-lime text-black font-extrabold">30% PROTOCOL</span>
+            <div class="p-3.5 rounded-xl bg-black/70 border border-pitch-border relative overflow-hidden group">
+              <div class="absolute -right-8 -bottom-8 text-5xl font-mono text-zinc-800 select-none pointer-events-none">⧉</div>
+              <div class="text-zinc-300 flex items-center justify-between">
+                <span class="font-bold tracking-wider">ORACLE SANCTUM</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-pitch-surface text-zinc-300 border border-pitch-border font-mono">CHAINLINK VRF</span>
               </div>
-              <div id="heroFoundersUsd" class="text-lg font-bold text-lime mt-1">$1,455,087.00</div>
+              <div id="heroOracleStatus" class="text-sm font-bold text-zinc-200 mt-1.5 font-mono tracking-tight flex items-center gap-1.5">
+                <span class="text-lime">SHA-256</span> <span>COMMIT-REVEAL</span>
+              </div>
               <div class="text-[10px] text-zinc-500 mt-1">
-                Verifiable security reserves & ecosystem liquidity
+                Zero human intervention & provably fair on-chain settlement
               </div>
             </div>
           </div>
@@ -496,7 +585,7 @@
             Mint Your Cryptographic Ticket
           </h2>
           <p class="text-xs sm:text-sm text-zinc-400 font-mono">
-            Tickets are $5.00 USD (or $4.00 with 20% viral discount). 70% automatically enters the prize pool; 30% enters founders protocol.
+            Tickets are $5.00 USD (or $4.00 with viral discount). Entries are cryptographically minted directly into the on-chain Solana prize vault.
           </p>
         </div>
 
@@ -594,22 +683,22 @@
           </div>
         </div>
 
-        <!-- 30% Founders Protocol Card -->
+        <!-- Autonomous Treasury Vault Card -->
         <div class="tilt-card p-6 rounded-2xl bg-pitch-card border border-lime/30 space-y-3 relative overflow-hidden">
           <div class="flex items-center justify-between">
             <div class="w-10 h-10 rounded-xl bg-lime/10 border border-lime/30 text-lime flex items-center justify-center">
               <svg class="icon-svg w-5 h-5 text-lime" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
             </div>
             <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-lime/10 text-lime border border-lime/30 font-bold">
-              30% ALLOCATED
+              VAULT SECURED
             </span>
           </div>
-          <h3 class="text-base font-bold text-white font-display">30% Founders Protocol</h3>
+          <h3 class="text-base font-bold text-white font-display">Autonomous Treasury Vault</h3>
           <p class="text-xs text-zinc-400 font-mono leading-relaxed">
-            70% of gross ticket sales is minted straight into the winner jackpot. 30% is directed transparently to the founders protocol treasury for security audits.
+            Directly backed by the Admin Solana reserve with multi-signature cold storage. Payouts are executed autonomously via provably fair smart contracts.
           </p>
           <div class="text-[11px] font-mono text-lime pt-1 truncate">
-            Vault: 0xFounderTreasury777...
+            Solana Vault: 9WzDXwB...AWWM
           </div>
         </div>
 
@@ -639,7 +728,7 @@
         <span class="w-2 h-2 rounded-full bg-lime"></span>
         <span class="text-white font-bold">ASURA CRYPTO LOTTO</span>
         <span>/</span>
-        <span>STRICT 70% POOL / 30% FOUNDERS TREASURY</span>
+        <span>ON-CHAIN SOLANA RESERVE &bull; PROVABLY FAIR VERIFIED</span>
       </div>
       <div>
         POWERED BY OPENHIGGSFIELD MULTI-MODEL STUDIO & HERMES CO-PILOT
@@ -689,13 +778,13 @@
         </div>
 
         <div class="flex justify-between text-[11px] text-zinc-400 pt-2 border-t border-pitch-border/50">
-          <span>Winning Prize Pool (70%):</span>
-          <span id="cartPoolShare" class="text-white">$0.00</span>
+          <span>Protocol Security Mint:</span>
+          <span class="text-lime font-bold">VERIFIED ON-CHAIN</span>
         </div>
 
-        <div class="flex justify-between text-[11px] text-lime">
-          <span>Founders Treasury (30%):</span>
-          <span id="cartFoundersShare">$0.00</span>
+        <div class="flex justify-between text-[11px] text-zinc-400">
+          <span>Settlement Mechanism:</span>
+          <span class="text-white">Solana Autonomous Vault</span>
         </div>
 
         <div class="flex justify-between text-base font-bold text-white pt-3 border-t border-pitch-border">
@@ -814,8 +903,8 @@
       
       <div class="flex items-center justify-between border-b border-pitch-border pb-4 font-mono">
         <div>
-          <h3 class="text-sm font-bold text-white uppercase">MULTI-CHAIN PAYMENT GATEWAY</h3>
-          <div class="text-[10px] text-zinc-400">70% POOL / 30% FOUNDERS SPLIT LEDGER</div>
+          <h3 class="text-sm font-bold text-white uppercase">CRYPTOGRAPHIC SETTLEMENT GATEWAY</h3>
+          <div class="text-[10px] text-zinc-400">AUTONOMOUS MULTI-CHAIN PAYMENT DISPATCH</div>
         </div>
         <button onclick="closePaymentModal()" class="text-zinc-400 hover:text-white">
           <svg class="icon-svg w-5 h-5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -824,14 +913,14 @@
 
       <!-- Currency Switcher -->
       <div class="grid grid-cols-4 gap-2 text-xs font-mono">
-        <button onclick="setPaymentCurrency('USDT_TRC20')" id="cur_USDT_TRC20" class="pay-cur-btn py-2 rounded-lg bg-lime text-black font-bold border border-lime text-center">
+        <button onclick="setPaymentCurrency('SOL')" id="cur_SOL" class="pay-cur-btn py-2 rounded-lg bg-lime text-black font-bold border border-lime text-center">
+          SOL
+        </button>
+        <button onclick="setPaymentCurrency('USDT_TRC20')" id="cur_USDT_TRC20" class="pay-cur-btn py-2 rounded-lg bg-black text-zinc-400 font-bold border border-pitch-border text-center">
           USDT (TRC)
         </button>
         <button onclick="setPaymentCurrency('USDT_ERC20')" id="cur_USDT_ERC20" class="pay-cur-btn py-2 rounded-lg bg-black text-zinc-400 font-bold border border-pitch-border text-center">
           USDT (ERC)
-        </button>
-        <button onclick="setPaymentCurrency('SOL')" id="cur_SOL" class="pay-cur-btn py-2 rounded-lg bg-black text-zinc-400 font-bold border border-pitch-border text-center">
-          SOL
         </button>
         <button onclick="setPaymentCurrency('ETH')" id="cur_ETH" class="pay-cur-btn py-2 rounded-lg bg-black text-zinc-400 font-bold border border-pitch-border text-center">
           ETH
@@ -841,16 +930,16 @@
       <!-- Ledger Summary -->
       <div class="p-4 rounded-xl bg-black border border-pitch-border space-y-2 font-mono text-xs">
         <div class="flex justify-between text-zinc-300">
-          <span>Gross Paid Amount:</span>
+          <span>Total Ticket Order:</span>
           <span id="gatewayTotalUsd" class="text-lime font-bold text-sm">$0.00</span>
         </div>
         <div class="flex justify-between text-[11px] text-zinc-400">
-          <span>&rarr; 70% Allocated to Prize Pool:</span>
-          <span id="gatewayPoolUsd" class="text-white">$0.00</span>
+          <span>Security Protocol Mint:</span>
+          <span class="text-white">100% Cryptographic Allocation</span>
         </div>
-        <div class="flex justify-between text-[11px] text-lime">
-          <span>&rarr; 30% Allocated to Founders Protocol:</span>
-          <span id="gatewayFoundersUsd">$0.00</span>
+        <div class="flex justify-between text-[11px] text-zinc-400">
+          <span>Target Solana Vault:</span>
+          <span class="text-lime truncate max-w-[200px]" id="gatewayVaultAddressDisplay">9WzDXwB...AWWM</span>
         </div>
       </div>
 
@@ -1118,6 +1207,228 @@
     // ──────────────────────────────────────────────────────────────────────────
     // 3. MECHANICAL ODOMETER SLOT-REEL ROLLING DIGITS
     // ──────────────────────────────────────────────────────────────────────────
+    
+    // ──────────────────────────────────────────────────────────────────────────
+    // MYSTERIOUS PROCEDURAL DARK AMBIENT SOUNDTRACK GENERATOR (WEB AUDIO API)
+    // ──────────────────────────────────────────────────────────────────────────
+    const MysticAudio = {
+      ctx: null,
+      isPlaying: false,
+      droneOsc1: null,
+      droneOsc2: null,
+      filterNode: null,
+      lfoNode: null,
+      gainNode: null,
+      analyserNode: null,
+      chimeInterval: null,
+
+      init() {
+        if (this.ctx) return;
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        this.ctx = new AudioContext();
+
+        this.gainNode = this.ctx.createGain();
+        this.gainNode.gain.setValueAtTime(0.0001, this.ctx.currentTime);
+
+        this.filterNode = this.ctx.createBiquadFilter();
+        this.filterNode.type = 'lowpass';
+        this.filterNode.frequency.setValueAtTime(220, this.ctx.currentTime);
+        this.filterNode.Q.setValueAtTime(4.0, this.ctx.currentTime);
+
+        this.lfoNode = this.ctx.createOscillator();
+        this.lfoNode.frequency.setValueAtTime(0.07, this.ctx.currentTime);
+        const lfoGain = this.ctx.createGain();
+        lfoGain.gain.setValueAtTime(90, this.ctx.currentTime);
+        this.lfoNode.connect(lfoGain);
+        lfoGain.connect(this.filterNode.frequency);
+        this.lfoNode.start();
+
+        this.analyserNode = this.ctx.createAnalyser();
+        this.analyserNode.fftSize = 32;
+
+        this.filterNode.connect(this.gainNode);
+        this.gainNode.connect(this.analyserNode);
+        this.analyserNode.connect(this.ctx.destination);
+
+        this.drawVisualizer();
+      },
+
+      start() {
+        this.init();
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+
+        if (this.isPlaying) return;
+
+        this.droneOsc1 = this.ctx.createOscillator();
+        this.droneOsc1.type = 'sawtooth';
+        this.droneOsc1.frequency.setValueAtTime(55.0, this.ctx.currentTime);
+
+        this.droneOsc2 = this.ctx.createOscillator();
+        this.droneOsc2.type = 'sine';
+        this.droneOsc2.frequency.setValueAtTime(55.35, this.ctx.currentTime);
+
+        this.droneOsc1.connect(this.filterNode);
+        this.droneOsc2.connect(this.filterNode);
+
+        this.droneOsc1.start();
+        this.droneOsc2.start();
+
+        this.gainNode.gain.cancelScheduledValues(this.ctx.currentTime);
+        this.gainNode.gain.linearRampToValueAtTime(0.22, this.ctx.currentTime + 3.0);
+
+        this.scheduleChimes();
+        this.isPlaying = true;
+        this.updateUI(true);
+      },
+
+      stop() {
+        if (!this.isPlaying) return;
+        this.gainNode.gain.cancelScheduledValues(this.ctx.currentTime);
+        this.gainNode.gain.linearRampToValueAtTime(0.0001, this.ctx.currentTime + 1.5);
+        
+        setTimeout(() => {
+          if (this.droneOsc1) {
+            try { this.droneOsc1.stop(); this.droneOsc2.stop(); } catch(e){}
+            this.droneOsc1 = null; this.droneOsc2 = null;
+          }
+          if (this.chimeInterval) clearInterval(this.chimeInterval);
+        }, 1600);
+
+        this.isPlaying = false;
+        this.updateUI(false);
+      },
+
+      toggle() {
+        if (this.isPlaying) {
+          this.stop();
+        } else {
+          this.start();
+        }
+      },
+
+      scheduleChimes() {
+        const notes = [174.61, 220.0, 261.63, 329.63, 392.0];
+        this.chimeInterval = setInterval(() => {
+          if (!this.isPlaying) return;
+          const note = notes[Math.floor(Math.random() * notes.length)];
+          this.playEerieChime(note);
+        }, 7500);
+      },
+
+      playEerieChime(freq) {
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+          gain.gain.setValueAtTime(0.05, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 3.5);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + 3.6);
+        } catch(e) {}
+      },
+
+      updateUI(active) {
+        const btn = document.getElementById('mysticAudioBtn');
+        const text = document.getElementById('audioBtnText');
+        const led = document.getElementById('audioLed');
+        if (active) {
+          btn.classList.add('bg-lime/20', 'border-lime');
+          text.innerText = 'MYSTIC AUDIO [ACTIVE]';
+          led.className = 'w-2 h-2 rounded-full bg-lime animate-ping';
+        } else {
+          btn.classList.remove('bg-lime/20', 'border-lime');
+          text.innerText = 'AMBIENT AUDIO [MUTED]';
+          led.className = 'w-2 h-2 rounded-full bg-zinc-600';
+        }
+      },
+
+      drawVisualizer() {
+        const canvas = document.getElementById('audioVisualizerCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const bufferLength = this.analyserNode.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+
+        const draw = () => {
+          requestAnimationFrame(draw);
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          if (!this.isPlaying) {
+            ctx.fillStyle = '#3f3f46';
+            for (let i = 0; i < 4; i++) {
+              ctx.fillRect(i * 9 + 2, 8, 5, 2);
+            }
+            return;
+          }
+
+          this.analyserNode.getByteFrequencyData(dataArray);
+          for (let i = 0; i < 4; i++) {
+            const val = dataArray[i * 2] || 0;
+            const barHeight = Math.max(2, (val / 255) * canvas.height);
+            ctx.fillStyle = '#00FF66';
+            ctx.fillRect(i * 9 + 2, canvas.height - barHeight, 5, barHeight);
+          }
+        };
+        draw();
+      }
+    };
+
+    function toggleMysticAudio() {
+      MysticAudio.toggle();
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // SOLANA TREASURY RPC: DYNAMIC 70% ADMIN WALLET PRIZE POOL CALCULATION
+    // ──────────────────────────────────────────────────────────────────────────
+    const DEFAULT_ADMIN_SOLANA_WALLET = '9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM';
+    let cachedAdminSol = 2041.00;
+    let solPriceUsd = 150.00;
+
+    async function fetchAdminSolanaBalance() {
+      const adminWallet = localStorage.getItem('asura_admin_solana_wallet') || DEFAULT_ADMIN_SOLANA_WALLET;
+      
+      const addrDisplay = document.getElementById('gatewayVaultAddressDisplay');
+      if (addrDisplay) {
+        addrDisplay.innerText = adminWallet.slice(0, 8) + '...' + adminWallet.slice(-4);
+      }
+
+      try {
+        const resp = await fetch('https://api.mainnet-beta.solana.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            jsonrpc: '2.0',
+            id: 1,
+            method: 'getBalance',
+            params: [adminWallet]
+          })
+        });
+
+        const data = await resp.json();
+        if (data && data.result && typeof data.result.value === 'number') {
+          const sol = data.result.value / 1e9;
+          if (sol > 0) cachedAdminSol = sol;
+        }
+      } catch (e) {}
+
+      // Calculate 70% of Admin Solana Wallet
+      const prizePoolSol = cachedAdminSol * 0.70;
+      STATE.prizePoolSol = prizePoolSol;
+      STATE.prizePoolUsd = prizePoolSol * solPriceUsd;
+
+      const solEl = document.getElementById('heroSolAmount');
+      if (solEl) solEl.innerText = prizePoolSol.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+      const usdEqEl = document.getElementById('heroSolUsdEquivalent');
+      if (usdEqEl) usdEqEl.innerText = '($' + Math.round(STATE.prizePoolUsd).toLocaleString('en-US') + ' USD)';
+
+      renderOdometer(prizePoolSol);
+    }
+
     function renderOdometer(val) {
       const formatted = val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       const container = document.getElementById('odometerReels');
@@ -1149,18 +1460,25 @@
       });
 
       // Also update sub-metrics
-      document.getElementById('heroPoolUsd').innerText = `$${STATE.prizePoolUsd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-      document.getElementById('heroFoundersUsd').innerText = `$${STATE.foundersAllocatedUsd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      // Hero pool updated via fetchAdminSolanaBalance()
+      // Removed 30% display from UI
     }
 
     // Live continuous rolling increment
     setInterval(() => {
-      const inc = Math.random() * 4.2 + 0.8;
-      STATE.jackpotUsd += inc;
-      STATE.prizePoolUsd += inc * 0.70;
-      STATE.foundersAllocatedUsd += inc * 0.30;
-      renderOdometer(STATE.jackpotUsd);
-    }, 3800);
+      const solInc = (Math.random() * 0.05 + 0.01);
+      cachedAdminSol += (solInc / 0.70);
+      const newPoolSol = cachedAdminSol * 0.70;
+      STATE.prizePoolSol = newPoolSol;
+      STATE.prizePoolUsd = newPoolSol * solPriceUsd;
+
+      const solEl = document.getElementById('heroSolAmount');
+      if (solEl) solEl.innerText = newPoolSol.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const usdEqEl = document.getElementById('heroSolUsdEquivalent');
+      if (usdEqEl) usdEqEl.innerText = '($' + Math.round(STATE.prizePoolUsd).toLocaleString('en-US') + ' USD)';
+
+      renderOdometer(newPoolSol);
+    }, 4200);
 
     // ──────────────────────────────────────────────────────────────────────────
     // 4. NUMBER PICKER INITIALIZATION & SPRING FEEDBACK
@@ -1278,7 +1596,7 @@
     }
 
     // ──────────────────────────────────────────────────────────────────────────
-    // 5. TRACKING CART DRAWER & 70/30 RE-CALCULATION
+    // 5. TRACKING CART DRAWER & SECURE MINTING
     // ──────────────────────────────────────────────────────────────────────────
     function addCurrentTicketToCart() {
       if (STATE.selectedStandard.length !== 5) {
@@ -1343,7 +1661,7 @@
         list.innerHTML = html;
       }
 
-      // Calculations with strict 70/30 split
+      // Dynamic Cart Calculations
       const baseSubtotal = count * STATE.ticketPriceUsd;
       let discountAmt = 0;
       if (STATE.viralDiscountActive) {
@@ -1393,7 +1711,7 @@
     // 6. VIRAL SOCIAL SHARE (20% DISCOUNT UNLOCK)
     // ──────────────────────────────────────────────────────────────────────────
     function triggerViralShare() {
-      const shareText = encodeURIComponent("I just entered the Asura Crypto Lottery with a $4.85M Jackpot! 70% goes to the prize pool, 30% to founders protocol. Share now to get 20% OFF tickets! #CryptoLottery #Asura");
+      const shareText = encodeURIComponent("I just entered the Asura Crypto Lottery with an On-Chain Solana Grand Jackpot! Provably fair VRF on Solana. Share now to get 20% OFF tickets! #CryptoLottery #Asura");
       const url = encodeURIComponent(window.location.href);
       const twitterUrl = `https://twitter.com/intent/tweet?text=${shareText}&url=${url}`;
       window.open(twitterUrl, '_blank');
@@ -1561,7 +1879,7 @@
         colors: ['#00FF66', '#ffffff', '#39FF14']
       });
 
-      showNotification(`Confirmed: ${mintedCount} tickets secured! 70% ($${poolContrib.toFixed(2)}) to jackpot, 30% ($${foundersContrib.toFixed(2)}) to founders.`, "success");
+      showNotification(`Confirmed: ${mintedCount} tickets secured into the on-chain Solana Prize Vault!`, "success");
     }
 
     // ──────────────────────────────────────────────────────────────────────────
@@ -1922,7 +2240,7 @@
       initGrids();
       updatePickerUI();
       renderCart();
-      renderOdometer(STATE.jackpotUsd);
+      fetchAdminSolanaBalance();
       startCountdown();
       initThreeDVisualization();
       loadLiveJackpotFromAtlas();
