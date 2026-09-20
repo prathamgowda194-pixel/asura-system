@@ -1020,9 +1020,76 @@
       w.document.close();
     }
 
-    function deployCurrentWebsiteToVercel() {
-      alert('Website compiled and packaged for Vercel Cloud! Opening Vercel production dashboard...');
-      window.open('https://asura-system.vercel.app', '_blank');
+    async function deployCurrentWebsiteToVercel() {
+      if (!currentGeneratedHtml) {
+        alert('Generate a website first using the Asura Studio!');
+        return;
+      }
+
+      // Show deploying state in the trajectory pane
+      var traj = document.getElementById('agentTrajectory');
+      if (traj) {
+        var deployBtn = traj.querySelector('button');
+        if (deployBtn) { deployBtn.textContent = '⟳ DEPLOYING TO VERCEL...'; deployBtn.disabled = true; }
+      }
+
+      try {
+        // Get the current prompt to derive a slug
+        var currentPrompt = document.getElementById('chatStream')
+          ? (document.getElementById('chatStream').querySelector('p') || {}).innerText || 'custom-website'
+          : 'custom-website';
+        var slug = currentPrompt.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 35) + '-' + Date.now().toString(36);
+
+        // Save to GitHub via API
+        var token = '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';
+        var repo = 'prathamgowda194-pixel/asura-system';
+        var path = 'projects/' + slug + '/index.html';
+        var encoded = btoa(unescape(encodeURIComponent(currentGeneratedHtml)));
+
+        var putRes = await fetch('https://api.github.com/repos/' + repo + '/contents/' + path, {
+          method: 'PUT',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'User-Agent': 'ASURA-Studio-Browser',
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: 'ASURA Studio: Deploy ' + slug,
+            content: encoded,
+            branch: 'main'
+          })
+        });
+
+        if (putRes.ok) {
+          var liveUrl = 'https://asura-system.vercel.app/projects/' + slug;
+          // Update trajectory pane with success
+          if (traj) {
+            traj.innerHTML = '<div class="text-emerald-400 font-bold text-xs flex items-center gap-2">' +
+              '<span>✓</span> DEPLOYED TO VERCEL CLOUD!' +
+            '</div>' +
+            '<p class="text-xs text-zinc-300">Your website is now live at:</p>' +
+            '<a href="' + liveUrl + '" target="_blank" class="text-xs font-mono text-white underline break-all">' + liveUrl + '</a>' +
+            '<div class="flex gap-2 pt-2">' +
+              '<a href="' + liveUrl + '" target="_blank" class="px-3 py-1.5 rounded bg-emerald-500 text-black font-bold text-xs">OPEN LIVE SITE ↗</a>' +
+              '<button onclick="setSandboxTab(\'code\')" class="px-3 py-1.5 rounded bg-obsidian-100 hover:bg-obsidian-50 text-zinc-300 text-xs">INSPECT CODE</button>' +
+            '</div>';
+          }
+          window.open(liveUrl, '_blank');
+        } else {
+          throw new Error('GitHub save failed: ' + putRes.status);
+        }
+      } catch (err) {
+        // Fallback: open in new tab
+        if (traj) {
+          var dBtn = traj.querySelector('button');
+          if (dBtn) { dBtn.textContent = 'DEPLOY TO VERCEL'; dBtn.disabled = false; }
+        }
+        alert('Cloud deploy failed (' + (err.message || 'network error') + '). Opening website in new tab instead.');
+        var w = window.open();
+        w.document.write(currentGeneratedHtml);
+        w.document.close();
+      }
     }
 
     function exportWebsiteZip() {
