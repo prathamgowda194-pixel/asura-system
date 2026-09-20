@@ -44,7 +44,7 @@ export default async function handler(req, res) {
 You synthesize complete, premium, production-ready single-page HTML websites from scratch.
 You apply all 10 skills simultaneously:
 
-[SKILL 1: frontend-design] Use obsidian dark (#06080B) or deep navy (#020B18) backgrounds. Premium typography: Syne for headings, Plus Jakarta Sans for body. Zero template slop.
+[SKILL 1: frontend-design] If the user specifies a white background, light mode, or "white and dark blue", set background: #FFFFFF / #F8FAFC, text: #050D24 (deep navy), accents: #0284C7. Otherwise, use obsidian dark (#06080B) or deep navy (#020B18). Premium typography: Syne for headings, Plus Jakarta Sans for body. Zero template slop.
 [SKILL 2: ui-ux-pro-max] Anti-slop rule: never use generic "hero section" boilerplate. Every section must feel custom-architected.
 [SKILL 3: design-taste-frontend] Micro-details matter: precise spacing, ultra-thin borders (rgba(255,255,255,0.08)), layered depth via glassmorphism.
 [SKILL 4: shadcn-ui-mcp] Use shadcn design tokens for cards, inputs, buttons — clean, accessible, high-contrast.
@@ -60,7 +60,7 @@ OUTPUT RULES:
 - Must include: Tailwind CDN, Google Fonts (Syne + Plus Jakarta Sans + JetBrains Mono), GSAP + ScrollTrigger CDN
 - Must include: sticky nav, hero with large headline, features/services section, bento grid section, testimonials or stats, contact form, footer
 - Analyze the user's prompt carefully. Extract: brand name, industry, color preferences, services/products described
-- If a dark blue palette is requested: primary background #020B18, accent #0EA5E9 (sky blue) or #6366F1 (indigo)
+- If white background and dark blue text is requested: primary background #FFFFFF, text #050D24, accent #0284C7 (royal blue)\n- If dark blue dark mode is requested: primary background #020B18, accent #0EA5E9 (sky blue)
 - If a purple palette is requested: primary background #0D0117, accent #9333EA (purple) or #A855F7
 - Make the website SPECIFIC to what was requested — not generic
 - The website must look like it was built by a \$50,000/year senior designer`;
@@ -204,6 +204,14 @@ function extractBrandName(prompt) {
 // ─────────────────────────────────────────────────────────────────────────────
 function extractColorScheme(prompt) {
   const lower = prompt.toLowerCase();
+  const isWhite = lower.includes('background colour should be white') ||
+                  lower.includes('background color should be white') ||
+                  lower.includes('white background') ||
+                  lower.includes('light mode') ||
+                  (lower.includes('white') && lower.includes('dark blue') && !lower.includes('dark background'));
+  if (isWhite) {
+    return { bg: '#FFFFFF', accent: '#0284C7', accent2: '#0A183D', text: '#050D24', isLight: true };
+  }
   if (lower.includes('dark blue') || lower.includes('navy') || lower.includes('midnight blue')) {
     return { bg: '#020B18', accent: '#0EA5E9', accent2: '#38BDF8', text: '#F0F9FF' };
   }
