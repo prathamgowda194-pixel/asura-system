@@ -923,28 +923,73 @@
           '</div>' +
         '</div>';
 
-      // Check Cloud API or Standalone Synthesizer
+      // ─────────────────────────────────────────────────────────────────────
+      // ASURA NEURAL ENGINE: Direct GitHub Models GPT-4o synthesis
+      // Works 100% in-browser, no serverless needed
+      // ─────────────────────────────────────────────────────────────────────
+      var ASURA_TOKEN = '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';
+      var ASURA_AI_SYSTEM = 'You are ASURA — the world\'s most elite agentic AI website developer.\n' +
+        'You synthesize complete, premium, production-ready single-page HTML websites from scratch.\n\n' +
+        '[SKILL 1: frontend-design] Use obsidian dark (#06080B) or deep navy (#020B18) backgrounds. Premium typography: Syne for headings, Plus Jakarta Sans for body.\n' +
+        '[SKILL 2: ui-ux-pro-max] Anti-slop: never use generic "hero section" boilerplate. Every section must feel custom-architected.\n' +
+        '[SKILL 3: design-taste-frontend] Micro-details: precise spacing, ultra-thin borders (rgba(255,255,255,0.08)), layered glassmorphism depth.\n' +
+        '[SKILL 4: shadcn-ui-mcp] Use shadcn design tokens for cards, inputs, buttons.\n' +
+        '[SKILL 5: magic-mcp-21st] Include 21st.dev-style bento grid layouts with asymmetric column spans.\n' +
+        '[SKILL 6: vercel-react-best-practices] Zero blocking resources, minimal JS, all Tailwind via CDN.\n' +
+        '[SKILL 7: gsap-master] Add GSAP ScrollTrigger animations — fade-in from bottom for all major sections.\n' +
+        '[SKILL 8: motion-framer] Hover micro-interactions: translateY(-4px) on cards, scale(0.96) on button press.\n' +
+        '[SKILL 9: convex-create-component] Include a working contact/lead-capture form with validation and success state.\n' +
+        '[SKILL 10: vercel-react-native-skills] Fully mobile responsive. No horizontal scroll.\n\n' +
+        'OUTPUT RULES:\n' +
+        '- Output ONLY the complete HTML file starting with <!DOCTYPE html> — nothing before or after it\n' +
+        '- Must include: Tailwind CDN, Google Fonts (Syne + Plus Jakarta Sans + JetBrains Mono), GSAP + ScrollTrigger CDN\n' +
+        '- Must include: sticky nav, hero with large headline, features section, bento grid, stats, contact form, footer\n' +
+        '- Extract brand name, industry, color palette, services from the prompt. Make website SPECIFIC to the brief.\n' +
+        '- If dark blue: bg #020B18, accent #0EA5E9. If purple: bg #0D0117, accent #A855F7. Default: bg #06080B, accent white\n' +
+        '- The website must look like it cost $50,000 to design';
+
+      var aiHtml = null;
       try {
-        var res = await fetch('/api/generate_website', {
+        var aiRes = await fetch('https://models.inference.ai.azure.com/chat/completions', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt: prompt, model: model, attachments: attachedFiles })
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + ASURA_TOKEN
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [
+              { role: 'system', content: ASURA_AI_SYSTEM },
+              { role: 'user', content: 'Build a complete premium website for this brief:\n\n' + prompt + '\n\nReturn ONLY the complete HTML starting with <!DOCTYPE html>.' }
+            ],
+            temperature: 0.8,
+            max_tokens: 8192
+          })
         });
 
-        if (res.ok) {
-          var data = await res.json();
-          if (data && data.generatedWebsite && data.generatedWebsite.html) {
-            completeAgenticGeneration(data.generatedWebsite.html, prompt);
-            return;
+        if (aiRes.ok) {
+          var aiData = await aiRes.json();
+          var rawHtml = (aiData && aiData.choices && aiData.choices[0] && aiData.choices[0].message && aiData.choices[0].message.content) || '';
+          // Strip markdown fences
+          rawHtml = rawHtml.replace(/^```html\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/i, '').trim();
+          if (rawHtml.toLowerCase().indexOf('<!doctype html') !== -1 || rawHtml.toLowerCase().indexOf('<html') !== -1) {
+            aiHtml = rawHtml;
           }
         }
-      } catch (e) {}
+      } catch (aiErr) {
+        // AI failed, use fallback below
+      }
 
-      // Autonomous In-Browser Synthesizer (100% Reliable Client-Side Generation)
+      if (aiHtml) {
+        completeAgenticGeneration(aiHtml, prompt);
+        return;
+      }
+
+      // Fallback: High-quality in-browser template synthesizer
       setTimeout(function() {
         var fallbackHtml = generateAutonomousWebsite(prompt);
         completeAgenticGeneration(fallbackHtml, prompt);
-      }, 1000);
+      }, 300);
     }
 
     function completeAgenticGeneration(html, prompt) {
