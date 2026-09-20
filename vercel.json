@@ -1,15 +1,23 @@
 {
+  "version": 2,
   "crons": [
     {
       "path": "/api/cron_hunt",
       "schedule": "*/30 * * * *"
     }
   ],
-  "rewrites": [
+  "headers": [
     {
-      "source": "/",
-      "destination": "/api/studio"
-    },
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-ASURA-Build",
+          "value": "v5.0-2026-09-20"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
     {
       "source": "/studio",
       "destination": "/api/studio"
