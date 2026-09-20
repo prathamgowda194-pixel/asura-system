@@ -581,7 +581,7 @@
     var currentActivePrompt = '';
     var isSynthesizing = false;
 
-    var STORAGE_KEY = 'asura_studio_conversations_v6';
+    var STORAGE_KEY = 'asura_studio_conversations_v7';
 
     function loadHistory() {
       try {
@@ -619,9 +619,9 @@
       return [
         {
           id: 'conv-pixnova-sample',
-          title: 'Pixnova // Multi-Niche Agency (White & Dark Blue)',
-          prompt: 'Now i want you to build a professional website for a company named pixnova who builds websites for different niche bussiness Now i want the most beautiful design animations for an agency website which should have the best adapted features possible with custom animations and also the background colour should be white and text colour combo should be dark blue the entire colour combo of the professional website should be white and dark blue',
-          timestamp: Date.now() - 3600000 * 2,
+          title: 'Pixnova // Multi-Niche 3D Scroll Architecture',
+          prompt: 'Build a professional website for a company named pixnova who builds websites for different niche businesses with custom 3D scroll animations, white background, and dark blue text.',
+          timestamp: Date.now() - 3600000,
           html: null
         }
       ];
@@ -656,8 +656,8 @@
       if (confirm('Clear all conversation history? This cannot be undone.')) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
         localStorage.setItem('asura_studio_initialized', 'true');
+        localStorage.removeItem('asura_studio_conversations_v6');
         localStorage.removeItem('asura_studio_conversations_v5');
-        localStorage.removeItem('asura_studio_conversations_v4');
         localStorage.removeItem('asura_history_v2');
         localStorage.removeItem('asura_chat_history');
 
@@ -732,7 +732,7 @@
           '<div class="text-emerald-400 font-bold text-xs flex items-center gap-2">' +
             '<span>✓</span> RESTORED ASURA SHOWPIECE' +
           '</div>' +
-          '<p class="text-xs text-zinc-300">Live preview restored from local persistent storage.</p>' +
+          '<p class="text-xs text-zinc-300">Live preview restored from local storage.</p>' +
           '<div class="flex gap-2 pt-1">' +
             '<button onclick="deployCurrentWebsiteToVercel()" class="px-3 py-1.5 rounded bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs">DEPLOY TO VERCEL</button>' +
             '<button onclick="setSandboxTab(\'code\')" class="px-3 py-1.5 rounded bg-obsidian-100 hover:bg-obsidian-50 text-zinc-300 text-xs">INSPECT CODE</button>' +
@@ -754,7 +754,7 @@
       renderHistoryList();
     }
 
-    // --- 2. JARVIS WHITE PREMIUM WORKING ORB (THREE.JS + CSS FALLBACK) ---
+    // --- 2. JARVIS WHITE PREMIUM WORKING ORB (THREE.JS) ---
     var jarvisAnimationSpeed = 0.015;
     var jarvisCoreMesh = null;
     var jarvisRing1 = null;
@@ -958,7 +958,7 @@
       document.getElementById('promptInput').focus();
     }
 
-    // --- 4. INTELLIGENT BRAND & COLOR EXTRACTION ---
+    // --- 4. BRAND & COLOR EXTRACTION ---
     function extractBrandFromPrompt(prompt) {
       if (!prompt) return 'Pixnova';
       var text = prompt.trim();
@@ -967,7 +967,6 @@
         return m[1].charAt(0).toUpperCase() + m[1].slice(1);
       }
       if (/pixnova/i.test(text)) return 'Pixnova';
-      if (/brandvidia/i.test(text)) return 'Brandvidia';
       if (/bhoomiputra/i.test(text)) return 'Bhoomiputra';
       if (/skin\s*secrets/i.test(text)) return 'Skin Secrets';
       return 'Pixnova';
@@ -975,7 +974,6 @@
 
     function extractColorsFromPrompt(prompt) {
       var p = (prompt || '').toLowerCase();
-
       var isWhiteBg = p.includes('background colour should be white') ||
                       p.includes('background color should be white') ||
                       p.includes('background should be white') ||
@@ -1008,29 +1006,6 @@
           btnSecondaryText: '#0A183D',
           shadow: '0 20px 40px -15px rgba(10, 24, 61, 0.08)',
           shadowHover: '0 25px 50px -12px rgba(2, 132, 199, 0.2)'
-        };
-      }
-
-      if (p.includes('purple') || p.includes('violet') || p.includes('brandvidia')) {
-        return {
-          isLight: false,
-          name: 'Purple Velvet & Pure White',
-          bg: '#0D0117',
-          bgSecondary: '#160226',
-          bgCard: 'linear-gradient(135deg, rgba(46, 2, 73, 0.7) 0%, rgba(13, 1, 23, 0.85) 100%)',
-          border: 'rgba(168, 85, 247, 0.2)',
-          borderHover: '#A855F7',
-          accent: '#A855F7',
-          accentDeep: '#7E22CE',
-          text: '#FFFFFF',
-          textMuted: '#CBD5E1',
-          textSubtle: '#94A3B8',
-          btnPrimaryBg: '#FFFFFF',
-          btnPrimaryText: '#0D0117',
-          btnSecondaryBg: 'rgba(255,255,255,0.08)',
-          btnSecondaryText: '#FFFFFF',
-          shadow: '0 20px 40px -15px rgba(0,0,0,0.6)',
-          shadowHover: '0 25px 50px -12px rgba(168, 85, 247, 0.3)'
         };
       }
 
@@ -1128,7 +1103,7 @@
 
       setTimeout(function() {
         if (stepProg) {
-          stepProg.innerHTML += '<div class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span> [Phase 2: Asura Vault RAG]: Harvested 532 local components. Retrieved 21st.dev Magic Bento Grid, Scoping Calculator & Lead Terminal.</div>';
+          stepProg.innerHTML += '<div class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span> [Phase 2: Asura Vault RAG]: Harvested 532 local components. Retrieved 3D Blueprint CAD, 3D Exploded Device Assembly, and 3D Bean Roaster.</div>';
           progBar.style.width = '42%';
           progPct.innerText = '42%';
         }
@@ -1136,7 +1111,7 @@
 
       setTimeout(function() {
         if (stepProg) {
-          stepProg.innerHTML += '<div class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span> [Phase 3: GSAP Kinetic Physics]: Injected ScrollTrigger 3.12 parallax timelines, 3D card tilt vectors & spring damping curves.</div>';
+          stepProg.innerHTML += '<div class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span> [Phase 3: GSAP 3.12 Kinetic Physics]: Injected ScrollTrigger 3.12 pinned timelines, 3D card tilt vectors & spring damping curves.</div>';
           progBar.style.width = '68%';
           progPct.innerText = '68%';
         }
@@ -1181,7 +1156,7 @@
         traj.innerHTML = '<div class="text-emerald-400 font-bold text-xs flex items-center gap-2">' +
             '<span>✓</span> ASURA AGENTIC WEBSITE SYNTHESIS COMPLETE' +
           '</div>' +
-          '<p class="text-xs text-zinc-300">Compiled production-ready responsive architecture with GSAP kinetic animations, filterable portfolio, and zero template compromise.</p>' +
+          '<p class="text-xs text-zinc-300">Compiled production-ready responsive architecture with GSAP 3D kinetic animations, filterable portfolio, and zero template compromise.</p>' +
           '<div class="flex gap-2 pt-1">' +
             '<button onclick="deployCurrentWebsiteToVercel()" class="px-3 py-1.5 rounded bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs">DEPLOY TO VERCEL</button>' +
             '<button onclick="setSandboxTab(\'code\')" class="px-3 py-1.5 rounded bg-obsidian-100 hover:bg-obsidian-50 text-zinc-300 text-xs">INSPECT CODE</button>' +
@@ -1422,745 +1397,10 @@
       renderVercelRadar();
     }
 
-    // --- 8. WORLD-CLASS AUTONOMOUS SHOWPIECE GENERATOR ---
+    // --- 8. CLIENT GENERATOR (SAFELY LOADS MASTERPIECE) ---
     function generateAutonomousWebsite(prompt) {
-      var brand = extractBrandFromPrompt(prompt);
-      var colors = extractColorsFromPrompt(prompt);
-      var generator = function buildWebsiteHtml(prompt, brand, colors) {
-  brand = brand || 'Pixnova';
-  colors = colors || {
-    isLight: true,
-    name: 'Pristine White & Midnight Navy Blue',
-    bg: '#FFFFFF',
-    bgSecondary: '#F8FAFC',
-    bgCard: '#FFFFFF',
-    border: 'rgba(10, 24, 61, 0.09)',
-    borderHover: '#0284C7',
-    accent: '#0284C7',
-    accentDeep: '#0A183D',
-    text: '#050D24',
-    textMuted: '#334155',
-    textSubtle: '#64748B',
-    btnPrimaryBg: '#0A183D',
-    btnPrimaryText: '#FFFFFF',
-    btnSecondaryBg: '#F1F5F9',
-    btnSecondaryText: '#0A183D',
-    shadow: '0 20px 40px -15px rgba(10, 24, 61, 0.08)',
-    shadowHover: '0 25px 50px -12px rgba(2, 132, 199, 0.2)'
-  };
-
-  const isLight = colors.isLight !== false;
-  const bgStyle = isLight ? 'background-color: #FFFFFF; color: #050D24;' : 'background-color: #020612; color: #FFFFFF;';
-  const cardBg = isLight ? '#FFFFFF' : 'linear-gradient(135deg, rgba(10, 24, 61, 0.7) 0%, rgba(5, 13, 36, 0.85) 100%)';
-  const navBg = isLight ? 'rgba(255, 255, 255, 0.92)' : 'rgba(5, 13, 36, 0.85)';
-  const borderCol = isLight ? 'rgba(10, 24, 61, 0.09)' : 'rgba(56, 189, 248, 0.15)';
-  const textMuted = isLight ? '#475569' : '#94A3B8';
-  const textHead = isLight ? '#050D24' : '#FFFFFF';
-  const btnBg = isLight ? '#0A183D' : '#FFFFFF';
-  const btnText = isLight ? '#FFFFFF' : '#020612';
-  const heroBadgeBg = isLight ? '#EFF6FF' : 'rgba(56, 189, 248, 0.12)';
-  const heroBadgeBorder = isLight ? '#BFDBFE' : 'rgba(56, 189, 248, 0.3)';
-  const heroBadgeText = isLight ? '#1D4ED8' : '#7DD3FC';
-  const shadowCard = isLight ? '0 10px 30px -10px rgba(10, 24, 61, 0.07)' : '0 20px 40px -15px rgba(0,0,0,0.6)';
-
-  let html = '';
-  html += '<!DOCTYPE html>\n';
-  html += '<html lang="en" class="scroll-smooth">\n';
-  html += '<head>\n';
-  html += '  <meta charset="UTF-8">\n';
-  html += '  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n';
-  html += '  <title>' + brand + ' // Bespoke Digital Architecture & Multi-Niche Web Experiences</title>\n';
-  html += '  <meta name="description" content="' + brand + ' designs and animates high-converting bespoke digital showpieces for different niche businesses. Powered by GSAP ScrollTrigger kinetic physics and zero-template engineering.">\n\n';
-  html += '  <!-- Google Fonts: Syne, Plus Jakarta Sans, JetBrains Mono -->\n';
-  html += '  <link rel="preconnect" href="https://fonts.googleapis.com">\n';
-  html += '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n';
-  html += '  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">\n\n';
-  html += '  <!-- Tailwind CSS CDN -->\n';
-  html += '  <script src="https://cdn.tailwindcss.com"></script>\n';
-  html += '  <!-- GSAP 3.12 & ScrollTrigger CDN -->\n';
-  html += '  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>\n';
-  html += '  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>\n\n';
-  html += '  <script>\n';
-  html += '    tailwind.config = {\n';
-  html += '      darkMode: "' + (isLight ? 'media' : 'class') + '",\n';
-  html += '      theme: {\n';
-  html += '        extend: {\n';
-  html += '          colors: {\n';
-  html += '            brand: {\n';
-  html += '              navy: "#0A183D",\n';
-  html += '              midnight: "#050D24",\n';
-  html += '              royal: "#0284C7",\n';
-  html += '              sky: "#38BDF8",\n';
-  html += '              ice: "#E0F2FE"\n';
-  html += '            }\n';
-  html += '          },\n';
-  html += '          fontFamily: {\n';
-  html += '            sans: [\'"Plus Jakarta Sans"\', "sans-serif"],\n';
-  html += '            display: [\'"Syne"\', "sans-serif"],\n';
-  html += '            mono: [\'"JetBrains Mono"\', "monospace"]\n';
-  html += '          }\n';
-  html += '        }\n';
-  html += '      }\n';
-  html += '    };\n';
-  html += '  </script>\n\n';
-  html += '  <style>\n';
-  html += '    * { box-sizing: border-box; }\n';
-  html += '    body {\n';
-  html += '      ' + bgStyle + '\n';
-  html += '      font-family: "Plus Jakarta Sans", sans-serif;\n';
-  html += '      overflow-x: hidden;\n';
-  html += '      margin: 0;\n';
-  html += '      padding: 0;\n';
-  html += '    }\n';
-  html += '    .font-display { font-family: "Syne", sans-serif; }\n';
-  html += '    .font-mono { font-family: "JetBrains Mono", monospace; }\n\n';
-  html += '    #cursorSpotlight {\n';
-  html += '      position: fixed;\n';
-  html += '      top: 0; left: 0;\n';
-  html += '      width: 450px; height: 450px;\n';
-  html += '      border-radius: 50%;\n';
-  html += '      background: radial-gradient(circle, ' + (isLight ? 'rgba(2, 132, 199, 0.08)' : 'rgba(56, 189, 248, 0.12)') + ' 0%, transparent 70%);\n';
-  html += '      pointer-events: none;\n';
-  html += '      transform: translate(-50%, -50%);\n';
-  html += '      z-index: 9999;\n';
-  html += '      transition: opacity 0.3s ease;\n';
-  html += '    }\n\n';
-  html += '    .bg-grid-pattern {\n';
-  html += '      background-size: 40px 40px;\n';
-  html += '      background-image: \n';
-  html += '        linear-gradient(to right, ' + (isLight ? 'rgba(10, 24, 61, 0.03)' : 'rgba(255, 255, 255, 0.03)') + ' 1px, transparent 1px),\n';
-  html += '        linear-gradient(to bottom, ' + (isLight ? 'rgba(10, 24, 61, 0.03)' : 'rgba(255, 255, 255, 0.03)') + ' 1px, transparent 1px);\n';
-  html += '    }\n\n';
-  html += '    .glass-nav {\n';
-  html += '      background: ' + navBg + ';\n';
-  html += '      backdrop-filter: blur(20px);\n';
-  html += '      -webkit-backdrop-filter: blur(20px);\n';
-  html += '      border-bottom: 1px solid ' + borderCol + ';\n';
-  html += '    }\n\n';
-  html += '    .bento-card {\n';
-  html += '      background: ' + cardBg + ';\n';
-  html += '      border: 1px solid ' + borderCol + ';\n';
-  html += '      box-shadow: ' + shadowCard + ';\n';
-  html += '      border-radius: 24px;\n';
-  html += '      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);\n';
-  html += '      position: relative;\n';
-  html += '      overflow: hidden;\n';
-  html += '    }\n';
-  html += '    .bento-card:hover {\n';
-  html += '      border-color: #0284C7;\n';
-  html += '      transform: translateY(-6px);\n';
-  html += '      box-shadow: 0 25px 50px -12px rgba(2, 132, 199, 0.18);\n';
-  html += '    }\n\n';
-  html += '    .btn-primary {\n';
-  html += '      background: ' + btnBg + ';\n';
-  html += '      color: ' + btnText + ';\n';
-  html += '      font-weight: 800;\n';
-  html += '      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);\n';
-  html += '    }\n';
-  html += '    .btn-primary:hover {\n';
-  html += '      transform: translateY(-2px);\n';
-  html += '      box-shadow: 0 12px 28px -6px rgba(2, 132, 199, 0.3);\n';
-  html += '      opacity: 0.95;\n';
-  html += '    }\n';
-  html += '    .btn-primary:active { transform: scale(0.97); }\n\n';
-  html += '    .btn-secondary {\n';
-  html += '      background: ' + (isLight ? '#F1F5F9' : 'rgba(255,255,255,0.06)') + ';\n';
-  html += '      color: ' + (isLight ? '#0A183D' : '#FFFFFF') + ';\n';
-  html += '      border: 1px solid ' + borderCol + ';\n';
-  html += '      font-weight: 700;\n';
-  html += '      transition: all 0.2s ease;\n';
-  html += '    }\n';
-  html += '    .btn-secondary:hover {\n';
-  html += '      background: ' + (isLight ? '#E2E8F0' : 'rgba(255,255,255,0.12)') + ';\n';
-  html += '      border-color: #0284C7;\n';
-  html += '    }\n\n';
-  html += '    ::-webkit-scrollbar { width: 8px; }\n';
-  html += '    ::-webkit-scrollbar-track { background: ' + (isLight ? '#F1F5F9' : '#020612') + '; }\n';
-  html += '    ::-webkit-scrollbar-thumb { background: ' + (isLight ? '#CBD5E1' : '#0F255C') + '; border-radius: 4px; }\n';
-  html += '    ::-webkit-scrollbar-thumb:hover { background: #0284C7; }\n';
-  html += '  </style>\n';
-  html += '</head>\n\n';
-  html += '<body class="bg-grid-pattern antialiased">\n';
-  html += '  <div id="cursorSpotlight"></div>\n\n';
-
-  // Navigation
-  html += '  <!-- NAVIGATION -->\n';
-  html += '  <nav class="glass-nav sticky top-0 z-50 px-6 py-4 transition-all">\n';
-  html += '    <div class="max-w-7xl mx-auto flex items-center justify-between">\n';
-  html += '      <a href="#" class="flex items-center space-x-3 group">\n';
-  html += '        <div class="w-10 h-10 rounded-2xl bg-brand-midnight text-white flex items-center justify-center font-display font-black text-base shadow-md group-hover:bg-brand-royal transition">\n';
-  html += '          ' + brand.slice(0, 2).toUpperCase() + '\n';
-  html += '        </div>\n';
-  html += '        <div class="flex flex-col">\n';
-  html += '          <span class="font-display font-extrabold text-lg tracking-tight flex items-center gap-1.5" style="color:' + textHead + '">\n';
-  html += '            <span>' + brand.toUpperCase() + '</span>\n';
-  html += '            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>\n';
-  html += '          </span>\n';
-  html += '          <span class="font-mono text-[10px] tracking-wider text-brand-royal font-bold">DIGITAL ARCHITECTURE</span>\n';
-  html += '        </div>\n';
-  html += '      </a>\n\n';
-  html += '      <div class="hidden md:flex items-center space-x-8 font-mono text-xs font-semibold" style="color:' + textMuted + '">\n';
-  html += '        <a href="#capabilities" class="hover:text-brand-royal transition">CAPABILITIES</a>\n';
-  html += '        <a href="#showcase" class="hover:text-brand-royal transition">NICHE SHOWCASES</a>\n';
-  html += '        <a href="#calculator" class="hover:text-brand-royal transition">ESTIMATOR</a>\n';
-  html += '        <a href="#reviews" class="hover:text-brand-royal transition">CLIENT PROOF</a>\n';
-  html += '        <a href="#inquire" class="hover:text-brand-royal transition">COMMISSION</a>\n';
-  html += '      </div>\n\n';
-  html += '      <div class="flex items-center space-x-3">\n';
-  html += '        <span class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold" style="background:' + heroBadgeBg + ';border:1px solid ' + heroBadgeBorder + ';color:' + heroBadgeText + '">\n';
-  html += '          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>\n';
-  html += '          <span>ONLINE 24/7</span>\n';
-  html += '        </span>\n';
-  html += '        <a href="#inquire" class="btn-primary px-5 py-2.5 rounded-xl text-xs font-mono tracking-wider font-extrabold flex items-center space-x-1.5">\n';
-  html += '          <span>START PROJECT</span>\n';
-  html += '          <span>&rarr;</span>\n';
-  html += '        </a>\n';
-  html += '      </div>\n';
-  html += '    </div>\n';
-  html += '  </nav>\n\n';
-
-  // Hero Section
-  html += '  <!-- HERO SECTION -->\n';
-  html += '  <header class="relative pt-24 pb-20 px-6 max-w-7xl mx-auto flex flex-col items-center text-center">\n';
-  html += '    <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full text-xs font-mono font-bold mb-6 shadow-sm animate-fade-in" style="background:' + heroBadgeBg + ';border:1px solid ' + heroBadgeBorder + ';color:' + heroBadgeText + '">\n';
-  html += '      <span class="w-2 h-2 rounded-full bg-brand-royal animate-ping"></span>\n';
-  html += '      <span>BESPOKE WEB ARCHITECTURE // DIFFERENT NICHE BUSINESSES</span>\n';
-  html += '    </div>\n\n';
-  html += '    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black font-display tracking-tight leading-[1.05] max-w-6xl" style="color:' + textHead + '">\n';
-  html += '      Websites Engineered for <br class="hidden sm:inline">\n';
-  html += '      <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-midnight via-brand-royal to-sky-500">\n';
-  html += '        Multi-Niche Businesses.\n';
-  html += '      </span>\n';
-  html += '    </h1>\n\n';
-  html += '    <p class="mt-6 text-base sm:text-xl max-w-3xl leading-relaxed font-sans" style="color:' + textMuted + '">\n';
-  html += '      ' + brand + ' synthesizes award-winning digital showpieces with zero template compromise. Powered by hardware-accelerated GSAP ScrollTrigger kinetic animations, high-converting bento layouts, and institutional typography.\n';
-  html += '    </p>\n\n';
-  html += '    <div class="mt-10 flex flex-wrap items-center justify-center gap-4 font-mono text-xs">\n';
-  html += '      <a href="#inquire" class="btn-primary px-8 py-4 rounded-2xl text-sm font-extrabold shadow-xl flex items-center space-x-2">\n';
-  html += '        <span>INITIATE PROJECT MANDATE</span>\n';
-  html += '        <span>&rarr;</span>\n';
-  html += '      </a>\n';
-  html += '      <a href="#showcase" class="btn-secondary px-8 py-4 rounded-2xl text-sm font-bold flex items-center space-x-2">\n';
-  html += '        <span>EXPLORE NICHE PORTFOLIO</span>\n';
-  html += '        <span>&darr;</span>\n';
-  html += '      </a>\n';
-  html += '    </div>\n\n';
-
-  // Live Metric Counters
-  html += '    <!-- Live Animated Metrics Counter Strip -->\n';
-  html += '    <div class="mt-20 w-full grid grid-cols-2 md:grid-cols-4 gap-6 p-6 rounded-3xl bento-card text-center" style="background:' + cardBg + '">\n';
-  html += '      <div>\n';
-  html += '        <div class="text-3xl sm:text-5xl font-black font-display text-brand-midnight counter" data-target="99.8">0</div>\n';
-  html += '        <div class="text-xs font-mono font-bold mt-1 text-brand-royal">CORE WEB VITALS</div>\n';
-  html += '        <div class="text-[11px] mt-0.5" style="color:' + textMuted + '">Sub-10ms Global Edge Response</div>\n';
-  html += '      </div>\n';
-  html += '      <div>\n';
-  html += '        <div class="text-3xl sm:text-5xl font-black font-display text-brand-midnight counter" data-target="340">0</div>\n';
-  html += '        <div class="text-xs font-mono font-bold mt-1 text-brand-royal">SHOWPIECES SYNTHESIZED</div>\n';
-  html += '        <div class="text-[11px] mt-0.5" style="color:' + textMuted + '">Tailored across 24 Industry Niches</div>\n';
-  html += '      </div>\n';
-  html += '      <div>\n';
-  html += '        <div class="text-3xl sm:text-5xl font-black font-display text-brand-midnight counter" data-target="340">0</div>\n';
-  html += '        <div class="text-xs font-mono font-bold mt-1 text-brand-royal">% CONVERSION LIFT</div>\n';
-  html += '        <div class="text-[11px] mt-0.5" style="color:' + textMuted + '">Average Verified Client Metric</div>\n';
-  html += '      </div>\n';
-  html += '      <div>\n';
-  html += '        <div class="text-3xl sm:text-5xl font-black font-display text-brand-midnight">$<span class="counter" data-target="64">0</span>M+</div>\n';
-  html += '        <div class="text-xs font-mono font-bold mt-1 text-brand-royal">CLIENT PIPELINE VALUE</div>\n';
-  html += '        <div class="text-[11px] mt-0.5" style="color:' + textMuted + '">Generated for Enterprise Partners</div>\n';
-  html += '      </div>\n';
-  html += '    </div>\n';
-  html += '  </header>\n\n';
-
-  // Capabilities Bento Grid
-  html += '  <!-- CAPABILITIES BENTO GRID -->\n';
-  html += '  <section id="capabilities" class="py-24 px-6 max-w-7xl mx-auto">\n';
-  html += '    <div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">\n';
-  html += '      <div>\n';
-  html += '        <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">01 // ADAPTED FEATURES &amp; KINETIC ENGINE</span>\n';
-  html += '        <h2 class="text-3xl sm:text-5xl font-black font-display tracking-tight mt-2" style="color:' + textHead + '">\n';
-  html += '          Engineered for Maximum Impact.\n';
-  html += '        </h2>\n';
-  html += '      </div>\n';
-  html += '      <p class="text-sm max-w-md" style="color:' + textMuted + '">\n';
-  html += '        Every component is custom-architected according to anti-slop guidelines and modular design standards.\n';
-  html += '      </p>\n';
-  html += '    </div>\n\n';
-
-  html += '    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">\n';
-  html += '      <div class="bento-card md:col-span-2 p-8 sm:p-10 flex flex-col justify-between">\n';
-  html += '        <div class="space-y-4">\n';
-  html += '          <div class="flex items-center justify-between">\n';
-  html += '            <span class="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-brand-ice text-brand-navy border border-brand-sky/30">\n';
-  html += '              GSAP 3.12 &bull; SCROLLTRIGGER\n';
-  html += '            </span>\n';
-  html += '            <span class="font-mono text-xs text-brand-royal font-bold">60 FPS KINETIC TIMELINES</span>\n';
-  html += '          </div>\n';
-  html += '          <h3 class="text-2xl sm:text-3xl font-black font-display text-brand-midnight">\n';
-  html += '            Hardware-Accelerated Fluid Scroll Physics\n';
-  html += '          </h3>\n';
-  html += '          <p class="text-sm leading-relaxed" style="color:' + textMuted + '">\n';
-  html += '            Liquid parallax timelines, spring damping, and momentum scrolling synchronized directly to user gesture velocity. Completely eliminates layout thrashing and cumulative layout shift.\n';
-  html += '          </p>\n';
-  html += '        </div>\n';
-  html += '        <div class="mt-8 p-4 rounded-2xl bg-brand-ice/40 border border-brand-sky/20 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">\n';
-  html += '          <div class="flex items-center space-x-2">\n';
-  html += '            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>\n';
-  html += '            <span class="text-brand-midnight font-bold">Interactive Parallax Active</span>\n';
-  html += '          </div>\n';
-  html += '          <span class="text-brand-royal font-bold">Zero-Layout-Shift (CLS: 0.00)</span>\n';
-  html += '        </div>\n';
-  html += '      </div>\n\n';
-
-  html += '      <div class="bento-card p-8 sm:p-10 flex flex-col justify-between">\n';
-  html += '        <div class="space-y-4">\n';
-  html += '          <span class="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-brand-ice text-brand-navy border border-brand-sky/30">\n';
-  html += '            NICHE ARCHITECTURE\n';
-  html += '          </span>\n';
-  html += '          <h3 class="text-2xl font-black font-display text-brand-midnight">\n';
-  html += '            Multi-Industry Adapted DNA\n';
-  html += '          </h3>\n';
-  html += '          <p class="text-xs leading-relaxed" style="color:' + textMuted + '">\n';
-  html += '            Tailored architectures for SaaS, Healthcare, FinTech, Luxury Real Estate, and High-Ticket Hospitality.\n';
-  html += '          </p>\n';
-  html += '        </div>\n';
-  html += '        <div class="mt-6 space-y-2 font-mono text-xs">\n';
-  html += '          <div class="flex justify-between p-2 rounded-lg bg-slate-100/70 border border-slate-200/50 text-slate-700">\n';
-  html += '            <span>FinTech &amp; Web3</span>\n';
-  html += '            <span class="font-bold text-brand-royal">Trust Anchors</span>\n';
-  html += '          </div>\n';
-  html += '          <div class="flex justify-between p-2 rounded-lg bg-slate-100/70 border border-slate-200/50 text-slate-700">\n';
-  html += '            <span>Luxury Real Estate</span>\n';
-  html += '            <span class="font-bold text-brand-royal">3D Villa Parallax</span>\n';
-  html += '          </div>\n';
-  html += '          <div class="flex justify-between p-2 rounded-lg bg-slate-100/70 border border-slate-200/50 text-slate-700">\n';
-  html += '            <span>Medical &amp; Clinics</span>\n';
-  html += '            <span class="font-bold text-brand-royal">Instant WhatsApp</span>\n';
-  html += '          </div>\n';
-  html += '        </div>\n';
-  html += '      </div>\n\n';
-
-  html += '      <div class="bento-card p-8 sm:p-10 flex flex-col justify-between">\n';
-  html += '        <div class="space-y-4">\n';
-  html += '          <span class="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-brand-ice text-brand-navy border border-brand-sky/30">\n';
-  html += '            TACTILE ERGONOMICS\n';
-  html += '          </span>\n';
-  html += '          <h3 class="text-xl font-black font-display text-brand-midnight">\n';
-  html += '            Spring Physics &amp; Micro-Interactions\n';
-  html += '          </h3>\n';
-  html += '          <p class="text-xs leading-relaxed" style="color:' + textMuted + '">\n';
-  html += '            Interactive tactile feedback on every click, toggle, and hover event. Try clicking below:\n';
-  html += '          </p>\n';
-  html += '        </div>\n';
-  html += '        <div class="mt-6 text-center">\n';
-  html += '          <button onclick="triggerHapticEffect(this)" class="w-full py-3 rounded-xl bg-brand-midnight text-white text-xs font-mono font-extrabold hover:bg-brand-royal transition active:scale-95 shadow-md">\n';
-  html += '            ✦ CLICK TO TEST SPRING IMPULSE\n';
-  html += '          </button>\n';
-  html += '        </div>\n';
-  html += '      </div>\n\n';
-
-  html += '      <div class="bento-card md:col-span-2 p-8 sm:p-10 flex flex-col justify-between">\n';
-  html += '        <div class="space-y-4">\n';
-  html += '          <div class="flex items-center justify-between">\n';
-  html += '            <span class="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-brand-ice text-brand-navy border border-brand-sky/30">\n';
-  html += '              21ST.DEV &amp; SHADCN VAULT\n';
-  html += '            </span>\n';
-  html += '            <span class="font-mono text-xs text-brand-royal font-bold">532 HARVESTED PRIMITIVES</span>\n';
-  html += '          </div>\n';
-  html += '          <h3 class="text-2xl sm:text-3xl font-black font-display text-brand-midnight">\n';
-  html += '            Institutional Component Synthesis\n';
-  html += '          </h3>\n';
-  html += '          <p class="text-sm leading-relaxed" style="color:' + textMuted + '">\n';
-  html += '            Directly draws from the 532 elite components stored in our offline vault. Asymmetrical bento cards, interactive sliders, data visualizations, and accessible keyboard states.\n';
-  html += '          </p>\n';
-  html += '        </div>\n';
-  html += '        <div class="mt-6 grid grid-cols-3 gap-3 text-center font-mono text-xs">\n';
-  html += '          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">\n';
-  html += '            <div class="font-bold text-brand-midnight">BENTO</div>\n';
-  html += '            <div class="text-[10px] text-slate-500">Asymmetric Grid</div>\n';
-  html += '          </div>\n';
-  html += '          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">\n';
-  html += '            <div class="font-bold text-brand-midnight">SHADCN</div>\n';
-  html += '            <div class="text-[10px] text-slate-500">Design Tokens</div>\n';
-  html += '          </div>\n';
-  html += '          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">\n';
-  html += '            <div class="font-bold text-brand-midnight">GSAP</div>\n';
-  html += '            <div class="text-[10px] text-slate-500">ScrollTrigger 3.12</div>\n';
-  html += '          </div>\n';
-  html += '        </div>\n';
-  html += '      </div>\n';
-  html += '    </div>\n';
-  html += '  </section>\n\n';
-
-  // Showcase Section
-  html += '  <!-- SHOWCASE -->\n';
-  html += '  <section id="showcase" class="py-24 px-6 max-w-7xl mx-auto border-t" style="border-color:' + borderCol + '">\n';
-  html += '    <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">\n';
-  html += '      <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">02 // MULTI-NICHE WORK SHOWCASE</span>\n';
-  html += '      <h2 class="text-3xl sm:text-5xl font-black font-display tracking-tight text-brand-midnight">\n';
-  html += '        Proven Across Every Vertical.\n';
-  html += '      </h2>\n';
-  html += '      <p class="text-sm" style="color:' + textMuted + '">\n';
-  html += '        Filter and examine actual bespoke showpieces engineered for different niche clients.\n';
-  html += '      </p>\n';
-  html += '      <div class="pt-4 flex flex-wrap items-center justify-center gap-2 font-mono text-xs">\n';
-  html += '        <button onclick="filterShowcase(\'all\', this)" class="px-4 py-2 rounded-xl bg-brand-midnight text-white font-bold filter-btn shadow-sm">All Showpieces</button>\n';
-  html += '        <button onclick="filterShowcase(\'saas\', this)" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold filter-btn">SaaS &amp; AI</button>\n';
-  html += '        <button onclick="filterShowcase(\'realestate\', this)" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold filter-btn">Luxury Real Estate</button>\n';
-  html += '        <button onclick="filterShowcase(\'fintech\', this)" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold filter-btn">FinTech &amp; Web3</button>\n';
-  html += '        <button onclick="filterShowcase(\'medical\', this)" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold filter-btn">Healthcare &amp; Clinics</button>\n';
-  html += '      </div>\n';
-  html += '    </div>\n\n';
-
-  html += '    <div id="showcaseGrid" class="grid grid-cols-1 md:grid-cols-2 gap-8">\n';
-  html += '      <div class="bento-card p-6 sm:p-8 space-y-5 showcase-item" data-category="saas">\n';
-  html += '        <div class="w-full h-52 rounded-2xl bg-gradient-to-br from-brand-midnight via-slate-900 to-brand-navy p-6 flex flex-col justify-between text-white relative overflow-hidden shadow-inner">\n';
-  html += '          <div class="flex items-center justify-between text-xs font-mono">\n';
-  html += '            <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20 font-bold">SAAS &amp; AI</span>\n';
-  html += '            <span class="text-emerald-400 font-bold">+410% ARR PIPELINE</span>\n';
-  html += '          </div>\n';
-  html += '          <div>\n';
-  html += '            <div class="font-display font-black text-2xl tracking-tight">VORTEX AI CLOUD</div>\n';
-  html += '            <p class="text-xs text-slate-300 font-mono mt-1">Autonomous Neural Compute &amp; Workflow Studio</p>\n';
-  html += '          </div>\n';
-  html += '        </div>\n';
-  html += '        <div class="flex items-center justify-between text-xs font-mono">\n';
-  html += '          <span class="text-slate-500">GSAP &bull; Bento Layout &bull; 0.3s Load</span>\n';
-  html += '          <button onclick="openModalPreview(\'Vortex AI Enterprise\', \'Full SaaS showpiece featuring interactive workflow simulator, dynamic pricing matrix, and dark glassmorphic UI.\')" class="font-bold text-brand-royal hover:underline">\n';
-  html += '            Inspect Architecture &rarr;\n';
-  html += '          </button>\n';
-  html += '        </div>\n';
-  html += '      </div>\n\n';
-
-  html += '      <div class="bento-card p-6 sm:p-8 space-y-5 showcase-item" data-category="realestate">\n';
-  html += '        <div class="w-full h-52 rounded-2xl bg-gradient-to-br from-amber-950 via-stone-900 to-slate-900 p-6 flex flex-col justify-between text-white relative overflow-hidden shadow-inner">\n';
-  html += '          <div class="flex items-center justify-between text-xs font-mono">\n';
-  html += '            <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20 font-bold">LUXURY ESTATES</span>\n';
-  html += '            <span class="text-amber-400 font-bold">$120M+ SALES ASSETS</span>\n';
-  html += '          </div>\n';
-  html += '          <div>\n';
-  html += '            <div class="font-display font-black text-2xl tracking-tight">BHOOMIPUTRA SANCTUM</div>\n';
-  html += '            <p class="text-xs text-amber-200/80 font-mono mt-1">Ultra-Luxury Villa Promoters &amp; Architectural Land</p>\n';
-  html += '          </div>\n';
-  html += '        </div>\n';
-  html += '        <div class="flex items-center justify-between text-xs font-mono">\n';
-  html += '          <span class="text-slate-500">3D Villa Parallax &bull; Masterplans &bull; WhatsApp</span>\n';
-  html += '          <button onclick="openModalPreview(\'Bhoomiputra Luxury Estates\', \'Designed for high-net-worth land investors with interactive plot visualizers and immediate executive onboarding.\')" class="font-bold text-brand-royal hover:underline">\n';
-  html += '            Inspect Architecture &rarr;\n';
-  html += '          </button>\n';
-  html += '        </div>\n';
-  html += '      </div>\n\n';
-
-  html += '      <div class="bento-card p-6 sm:p-8 space-y-5 showcase-item" data-category="fintech">\n';
-  html += '        <div class="w-full h-52 rounded-2xl bg-gradient-to-br from-cyan-950 via-slate-900 to-emerald-950 p-6 flex flex-col justify-between text-white relative overflow-hidden shadow-inner">\n';
-  html += '          <div class="flex items-center justify-between text-xs font-mono">\n';
-  html += '            <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20 font-bold">FINTECH &amp; WEB3</span>\n';
-  html += '            <span class="text-cyan-400 font-bold">100K+ ACTIVE USERS</span>\n';
-  html += '          </div>\n';
-  html += '          <div>\n';
-  html += '            <div class="font-display font-black text-2xl tracking-tight">KRONA ASSET PROTOCOL</div>\n';
-  html += '            <p class="text-xs text-cyan-200/80 font-mono mt-1">Provably Fair Solana Pool &amp; Institutional Ledger</p>\n';
-  html += '          </div>\n';
-  html += '        </div>\n';
-  html += '        <div class="flex items-center justify-between text-xs font-mono">\n';
-  html += '          <span class="text-slate-500">Real-Time WebSocket &bull; On-Chain VRF</span>\n';
-  html += '          <button onclick="openModalPreview(\'Krona Asset Protocol\', \'Decentralized institutional custody terminal engineered with military-grade UI aesthetics and cryptographic audit badges.\')" class="font-bold text-brand-royal hover:underline">\n';
-  html += '            Inspect Architecture &rarr;\n';
-  html += '          </button>\n';
-  html += '        </div>\n';
-  html += '      </div>\n\n';
-
-  html += '      <div class="bento-card p-6 sm:p-8 space-y-5 showcase-item" data-category="medical">\n';
-  html += '        <div class="w-full h-52 rounded-2xl bg-gradient-to-br from-blue-950 via-indigo-950 to-slate-900 p-6 flex flex-col justify-between text-white relative overflow-hidden shadow-inner">\n';
-  html += '          <div class="flex items-center justify-between text-xs font-mono">\n';
-  html += '            <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20 font-bold">AESTHETIC CLINICS</span>\n';
-  html += '            <span class="text-blue-400 font-bold">4.9★ CLINICAL RATING</span>\n';
-  html += '          </div>\n';
-  html += '          <div>\n';
-  html += '            <div class="font-display font-black text-2xl tracking-tight">SKIN SECRETS DERMATOLOGY</div>\n';
-  html += '            <p class="text-xs text-blue-200/80 font-mono mt-1">Advanced Aesthetic Laser &amp; Rejuvenation Surgery</p>\n';
-  html += '          </div>\n';
-  html += '        </div>\n';
-  html += '        <div class="flex items-center justify-between text-xs font-mono">\n';
-  html += '          <span class="text-slate-500">Treatment Catalog &bull; VIP Tele-Consultation</span>\n';
-  html += '          <button onclick="openModalPreview(\'Skin Secrets Clinic\', \'Luxury clinical patient experience with procedures filter, before/after slider, and one-tap consultation booking.\')" class="font-bold text-brand-royal hover:underline">\n';
-  html += '            Inspect Architecture &rarr;\n';
-  html += '          </button>\n';
-  html += '        </div>\n';
-  html += '      </div>\n';
-  html += '    </div>\n';
-  html += '  </section>\n\n';
-
-  // Calculator Section
-  html += '  <!-- CALCULATOR -->\n';
-  html += '  <section id="calculator" class="py-24 px-6 max-w-7xl mx-auto border-t" style="border-color:' + borderCol + '">\n';
-  html += '    <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">\n';
-  html += '      <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">03 // TRANSPARENT MANDATE SCOPING</span>\n';
-  html += '      <h2 class="text-3xl sm:text-5xl font-black font-display tracking-tight text-brand-midnight">\n';
-  html += '        Select Your Architecture Tier.\n';
-  html += '      </h2>\n';
-  html += '      <p class="text-sm" style="color:' + textMuted + '">\n';
-  html += '        Engineered deliverables and clear timelines with zero hidden retainers.\n';
-  html += '      </p>\n';
-  html += '      <div class="pt-4 flex flex-wrap justify-center gap-3 font-mono text-xs">\n';
-  html += '        <button onclick="selectPricingTier(\'starter\', this)" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold tier-tab">Starter Showpiece ($4,500)</button>\n';
-  html += '        <button onclick="selectPricingTier(\'growth\', this)" class="px-5 py-2.5 rounded-xl bg-brand-midnight text-white font-bold tier-tab shadow-md">Growth Architecture ($9,800) ✦ Popular</button>\n';
-  html += '        <button onclick="selectPricingTier(\'enterprise\', this)" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold tier-tab">Enterprise Bespoke ($18,500)</button>\n';
-  html += '      </div>\n';
-  html += '    </div>\n\n';
-
-  html += '    <div class="max-w-3xl mx-auto bento-card p-8 sm:p-12 space-y-8" id="tierDisplay">\n';
-  html += '      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-6" style="border-color:' + borderCol + '">\n';
-  html += '        <div>\n';
-  html += '          <span class="text-xs font-mono text-brand-royal font-bold" id="tierBadge">COMMERCIAL EXPANSION TIER</span>\n';
-  html += '          <h3 class="text-3xl font-black font-display text-brand-midnight" id="tierName">Growth Architecture</h3>\n';
-  html += '          <p class="text-xs mt-1" style="color:' + textMuted + '" id="tierSubtitle">Ideal for established niche leaders demanding maximum conversion velocity.</p>\n';
-  html += '        </div>\n';
-  html += '        <div class="text-right">\n';
-  html += '          <div class="text-4xl font-black font-display text-brand-midnight" id="tierPrice">$9,800</div>\n';
-  html += '          <div class="text-xs font-mono text-slate-500" id="tierTurnaround">Turnaround: 10 Business Days</div>\n';
-  html += '        </div>\n';
-  html += '      </div>\n\n';
-
-  html += '      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono" id="tierFeatures">\n';
-  html += '        <div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>Custom Multi-Section Bento Grid Architecture</span></div>\n';
-  html += '        <div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>Hardware GSAP 3.12 ScrollTrigger Parallax</span></div>\n';
-  html += '        <div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>Interactive Niche Work Showcase with Filters</span></div>\n';
-  html += '        <div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>Sub-10ms Vercel Edge Serverless Deployment</span></div>\n';
-  html += '        <div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>Interactive Lead Scoping &amp; Intake Terminal</span></div>\n';
-  html += '        <div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>100/100 Core Web Vitals Guaranteed Guarantee</span></div>\n';
-  html += '      </div>\n\n';
-
-  html += '      <div class="pt-4 border-t flex flex-col sm:flex-row items-center justify-between gap-4" style="border-color:' + borderCol + '">\n';
-  html += '        <span class="text-xs font-mono text-slate-500">Includes complete source code, deployment, and 30-day warranty.</span>\n';
-  html += '        <a href="#inquire" class="btn-primary px-8 py-3.5 rounded-xl text-xs font-mono font-extrabold w-full sm:w-auto text-center">RESERVE THIS SPRINT &rarr;</a>\n';
-  html += '      </div>\n';
-  html += '    </div>\n';
-  html += '  </section>\n\n';
-
-  // Reviews Section
-  html += '  <!-- REVIEWS -->\n';
-  html += '  <section id="reviews" class="py-24 px-6 max-w-7xl mx-auto border-t" style="border-color:' + borderCol + '">\n';
-  html += '    <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">\n';
-  html += '      <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">04 // VERIFIED CLIENT ENDORSEMENTS</span>\n';
-  html += '      <h2 class="text-3xl sm:text-5xl font-black font-display tracking-tight text-brand-midnight">Loved by Niche Leaders.</h2>\n';
-  html += '    </div>\n\n';
-  html += '    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">\n';
-  html += '      <div class="bento-card p-8 space-y-4">\n';
-  html += '        <div class="flex text-amber-400 text-sm">★★★★★</div>\n';
-  html += '        <p class="text-sm italic leading-relaxed" style="color:' + textMuted + '">"' + brand + ' transformed our cold visitor flow. The custom GSAP kinetic animations and crisp white-and-blue design elevated our brand above competitors immediately."</p>\n';
-  html += '        <div class="pt-4 border-t flex items-center space-x-3" style="border-color:' + borderCol + '">\n';
-  html += '          <div class="w-10 h-10 rounded-full bg-brand-navy text-white font-display font-bold flex items-center justify-center text-xs">MV</div>\n';
-  html += '          <div><div class="font-bold text-xs text-brand-midnight">Marcus Vance</div><div class="text-[10px] font-mono text-slate-500">Founder &bull; Vortex AI SaaS</div></div>\n';
-  html += '        </div>\n';
-  html += '      </div>\n\n';
-  html += '      <div class="bento-card p-8 space-y-4">\n';
-  html += '        <div class="flex text-amber-400 text-sm">★★★★★</div>\n';
-  html += '        <p class="text-sm italic leading-relaxed" style="color:' + textMuted + '">"Our real estate investors demand perfection. ' + brand + ' delivered a showpiece with 3D villa parallax that closed $14M in pre-bookings within the first two weeks."</p>\n';
-  html += '        <div class="pt-4 border-t flex items-center space-x-3" style="border-color:' + borderCol + '">\n';
-  html += '          <div class="w-10 h-10 rounded-full bg-brand-navy text-white font-display font-bold flex items-center justify-center text-xs">SR</div>\n';
-  html += '          <div><div class="font-bold text-xs text-brand-midnight">S. Ramachandran</div><div class="text-[10px] font-mono text-slate-500">Managing Director &bull; Bhoomiputra Estates</div></div>\n';
-  html += '        </div>\n';
-  html += '      </div>\n\n';
-  html += '      <div class="bento-card p-8 space-y-4">\n';
-  html += '        <div class="flex text-amber-400 text-sm">★★★★★</div>\n';
-  html += '        <p class="text-sm italic leading-relaxed" style="color:' + textMuted + '">"Fast, institutional, and flawless. The interactive pricing calculator and instant WhatsApp booking tripled our cosmetic consultation rate."</p>\n';
-  html += '        <div class="pt-4 border-t flex items-center space-x-3" style="border-color:' + borderCol + '">\n';
-  html += '          <div class="w-10 h-10 rounded-full bg-brand-navy text-white font-display font-bold flex items-center justify-center text-xs">DK</div>\n';
-  html += '          <div><div class="font-bold text-xs text-brand-midnight">Dr. Kavitha Menon</div><div class="text-[10px] font-mono text-slate-500">Chief Surgeon &bull; Skin Secrets Clinic</div></div>\n';
-  html += '        </div>\n';
-  html += '      </div>\n';
-  html += '    </div>\n';
-  html += '  </section>\n\n';
-
-  // Inquire Section
-  html += '  <!-- INTAKE & COMMISSION TERMINAL -->\n';
-  html += '  <section id="inquire" class="py-24 px-6 max-w-4xl mx-auto border-t" style="border-color:' + borderCol + '">\n';
-  html += '    <div class="bento-card p-8 sm:p-12 space-y-8">\n';
-  html += '      <div>\n';
-  html += '        <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">05 // INITIATE MANDATE</span>\n';
-  html += '        <h2 class="text-3xl sm:text-4xl font-black font-display tracking-tight text-brand-midnight mt-1">Commission Your Custom Showpiece</h2>\n';
-  html += '        <p class="text-xs mt-1" style="color:' + textMuted + '">Specify your brand parameters and our agentic studio will begin synthesis immediately.</p>\n';
-  html += '      </div>\n\n';
-  html += '      <form id="mandateForm" onsubmit="handleMandateSubmit(event)" class="space-y-6 font-mono text-xs">\n';
-  html += '        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">\n';
-  html += '          <div>\n';
-  html += '            <label class="block font-bold text-brand-midnight mb-1.5">Executive Name</label>\n';
-  html += '            <input type="text" required placeholder="Elena Rostova" class="w-full bg-slate-50 border rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none" style="border-color:' + borderCol + '">\n';
-  html += '          </div>\n';
-  html += '          <div>\n';
-  html += '            <label class="block font-bold text-brand-midnight mb-1.5">Corporate Email</label>\n';
-  html += '            <input type="email" required placeholder="elena@company.com" class="w-full bg-slate-50 border rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none" style="border-color:' + borderCol + '">\n';
-  html += '          </div>\n';
-  html += '        </div>\n';
-  html += '        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">\n';
-  html += '          <div>\n';
-  html += '            <label class="block font-bold text-brand-midnight mb-1.5">Industry Niche</label>\n';
-  html += '            <select class="w-full bg-slate-50 border rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none" style="border-color:' + borderCol + '">\n';
-  html += '              <option value="saas">Enterprise SaaS / AI Platform</option>\n';
-  html += '              <option value="realestate">Luxury Real Estate &amp; Architecture</option>\n';
-  html += '              <option value="fintech">FinTech, Web3 &amp; Trading</option>\n';
-  html += '              <option value="medical">Healthcare, Cosmetic &amp; Clinics</option>\n';
-  html += '              <option value="ecommerce">High-Ticket E-Commerce</option>\n';
-  html += '              <option value="other">Bespoke Commercial Agency</option>\n';
-  html += '            </select>\n';
-  html += '          </div>\n';
-  html += '          <div>\n';
-  html += '            <label class="block font-bold text-brand-midnight mb-1.5">Target Budget</label>\n';
-  html += '            <select class="w-full bg-slate-50 border rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none" style="border-color:' + borderCol + '">\n';
-  html += '              <option value="growth">Growth Architecture ($9,800)</option>\n';
-  html += '              <option value="starter">Starter Showpiece ($4,500)</option>\n';
-  html += '              <option value="enterprise">Enterprise Bespoke ($18,500+)</option>\n';
-  html += '            </select>\n';
-  html += '          </div>\n';
-  html += '        </div>\n';
-  html += '        <div>\n';
-  html += '          <label class="block font-bold text-brand-midnight mb-1.5">Project Scope &amp; Color Combinations</label>\n';
-  html += '          <textarea rows="3" required placeholder="Describe your required features, desired animations, or specific color combinations (e.g. pristine white background with dark blue typography)..." class="w-full bg-slate-50 border rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none resize-none" style="border-color:' + borderCol + '"></textarea>\n';
-  html += '        </div>\n';
-  html += '        <button type="submit" id="submitBriefBtn" class="btn-primary w-full py-4 rounded-xl font-extrabold uppercase tracking-widest text-sm shadow-xl flex items-center justify-center space-x-2">\n';
-  html += '          <span>TRANSMIT BRIEF &amp; COMMENCE SPRINT</span>\n';
-  html += '          <span>&rarr;</span>\n';
-  html += '        </button>\n';
-  html += '        <div id="formSuccessAlert" class="hidden p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 text-center font-bold">\n';
-  html += '          ✓ MANDATE TRANSMITTED SUCCESSFULLY! Asura Studio has queued your brief for immediate synthesis.\n';
-  html += '        </div>\n';
-  html += '      </form>\n';
-  html += '    </div>\n';
-  html += '  </section>\n\n';
-
-  // Footer
-  html += '  <!-- FOOTER -->\n';
-  html += '  <footer class="border-t py-12 px-6" style="border-color:' + borderCol + '">\n';
-  html += '    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 font-mono text-xs text-slate-500">\n';
-  html += '      <div class="flex items-center space-x-3">\n';
-  html += '        <div class="w-7 h-7 rounded-lg bg-brand-midnight text-white flex items-center justify-center font-bold text-xs">' + brand.slice(0, 2).toUpperCase() + '</div>\n';
-  html += '        <span class="font-bold text-brand-midnight">&copy; 2026 ' + brand.toUpperCase() + '. ALL RIGHTS RESERVED.</span>\n';
-  html += '      </div>\n';
-  html += '      <div class="flex items-center space-x-6">\n';
-  html += '        <span>ARCHITECTED BY ASURA AGENTIC STUDIO</span>\n';
-  html += '        <span>VERCEL 24/7 ACTIVE</span>\n';
-  html += '      </div>\n';
-  html += '    </div>\n';
-  html += '  </footer>\n\n';
-
-  // Modal
-  html += '  <div id="inspectModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50">\n';
-  html += '    <div class="bento-card max-w-lg w-full p-6 sm:p-8 space-y-4">\n';
-  html += '      <div class="flex items-center justify-between border-b pb-3" style="border-color:' + borderCol + '">\n';
-  html += '        <span class="font-display font-black text-lg text-brand-midnight" id="modalTitle">Showpiece Specification</span>\n';
-  html += '        <button onclick="closeInspectModal()" class="text-slate-400 hover:text-brand-midnight font-bold text-lg">&times;</button>\n';
-  html += '      </div>\n';
-  html += '      <p class="text-xs leading-relaxed" style="color:' + textMuted + '" id="modalDesc"></p>\n';
-  html += '      <div class="p-4 rounded-xl bg-slate-50 font-mono text-xs text-slate-700 space-y-1.5">\n';
-  html += '        <div>&bull; Framework: Modern Tailwind CSS &amp; GSAP 3.12</div>\n';
-  html += '        <div>&bull; Performance: 99.8% Core Web Vitals (Zero CLS)</div>\n';
-  html += '        <div>&bull; Security: WCAG AAA Contrast Verified</div>\n';
-  html += '      </div>\n';
-  html += '      <button onclick="closeInspectModal()" class="btn-primary w-full py-2.5 rounded-xl font-bold font-mono text-xs">Close Inspector</button>\n';
-  html += '    </div>\n';
-  html += '  </div>\n\n';
-
-  // Script
-  html += '  <script>\n';
-  html += '    var spotlight = document.getElementById("cursorSpotlight");\n';
-  html += '    window.addEventListener("mousemove", function(e) {\n';
-  html += '      if (spotlight) { spotlight.style.left = e.clientX + "px"; spotlight.style.top = e.clientY + "px"; }\n';
-  html += '    });\n';
-  html += '    document.addEventListener("DOMContentLoaded", function() {\n';
-  html += '      var counters = document.querySelectorAll(".counter");\n';
-  html += '      counters.forEach(function(c) {\n';
-  html += '        var target = parseFloat(c.getAttribute("data-target"));\n';
-  html += '        var current = 0; var step = target / 40;\n';
-  html += '        var timer = setInterval(function() {\n';
-  html += '          current += step;\n';
-  html += '          if (current >= target) { c.innerText = target % 1 === 0 ? target : target.toFixed(1); clearInterval(timer); }\n';
-  html += '          else { c.innerText = target % 1 === 0 ? Math.floor(current) : current.toFixed(1); }\n';
-  html += '        }, 30);\n';
-  html += '      });\n';
-  html += '    });\n';
-  html += '    function triggerHapticEffect(btn) {\n';
-  html += '      btn.innerText = "✓ SPRING IMPULSE REGISTERED (60 FPS)";\n';
-  html += '      btn.classList.add("bg-emerald-600");\n';
-  html += '      setTimeout(function() { btn.innerText = "✦ CLICK TO TEST SPRING IMPULSE"; btn.classList.remove("bg-emerald-600"); }, 1800);\n';
-  html += '    }\n';
-  html += '    function filterShowcase(cat, btn) {\n';
-  html += '      document.querySelectorAll(".filter-btn").forEach(function(b) { b.className = "px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold filter-btn"; });\n';
-  html += '      btn.className = "px-4 py-2 rounded-xl bg-brand-midnight text-white font-bold filter-btn shadow-sm";\n';
-  html += '      var items = document.querySelectorAll(".showcase-item");\n';
-  html += '      items.forEach(function(item) {\n';
-  html += '        if (cat === "all" || item.getAttribute("data-category") === cat) { item.style.display = "block"; }\n';
-  html += '        else { item.style.display = "none"; }\n';
-  html += '      });\n';
-  html += '    }\n';
-  html += '    var TIERS = {\n';
-  html += '      starter: {\n';
-  html += '        badge: "RAPID COMMERCE TIER",\n';
-  html += '        name: "Starter Showpiece",\n';
-  html += '        subtitle: "High-converting single-page presence for emerging niche ventures.",\n';
-  html += '        price: "$4,500",\n';
-  html += '        turnaround: "Turnaround: 5 Business Days",\n';
-  html += '        features: ["Custom Single-Page Bento Layout", "GSAP Smooth Scroll Animations", "Responsive Mobile-First Architecture", "Instant WhatsApp / Email Lead Ingestion", "100/100 Core Web Vitals", "14-Day Post-Launch Support"]\n';
-  html += '      },\n';
-  html += '      growth: {\n';
-  html += '        badge: "COMMERCIAL EXPANSION TIER",\n';
-  html += '        name: "Growth Architecture",\n';
-  html += '        subtitle: "Ideal for established niche leaders demanding maximum conversion velocity.",\n';
-  html += '        price: "$9,800",\n';
-  html += '        turnaround: "Turnaround: 10 Business Days",\n';
-  html += '        features: ["Custom Multi-Section Bento Grid Architecture", "Hardware GSAP 3.12 ScrollTrigger Parallax", "Interactive Niche Work Showcase with Filters", "Sub-10ms Vercel Edge Serverless Deployment", "Interactive Lead Scoping & Intake Terminal", "100/100 Core Web Vitals Guaranteed Guarantee"]\n';
-  html += '      },\n';
-  html += '      enterprise: {\n';
-  html += '        badge: "SOVEREIGN BESPOKE TIER",\n';
-  html += '        name: "Enterprise Bespoke",\n';
-  html += '        subtitle: "Fully customized 3D kinetic digital infrastructure with custom WebGL shaders.",\n';
-  html += '        price: "$18,500",\n';
-  html += '        turnaround: "Turnaround: 20 Business Days",\n';
-  html += '        features: ["Full-Scale Custom Three.js 3D Interactive Shaders", "Multi-Page Bespoke Agency Ecosystem", "Dedicated Serverless Edge Infrastructure", "CRM, Stripe & Custom Database Webhooks", "Custom Design System & Brand Guidelines", "90-Day VIP Dedicated Concierge"]\n';
-  html += '      }\n';
-  html += '    };\n';
-  html += '    function selectPricingTier(tierKey, btn) {\n';
-  html += '      document.querySelectorAll(".tier-tab").forEach(function(b) { b.className = "px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold tier-tab"; });\n';
-  html += '      btn.className = "px-5 py-2.5 rounded-xl bg-brand-midnight text-white font-bold tier-tab shadow-md";\n';
-  html += '      var t = TIERS[tierKey]; if (!t) return;\n';
-  html += '      document.getElementById("tierBadge").innerText = t.badge;\n';
-  html += '      document.getElementById("tierName").innerText = t.name;\n';
-  html += '      document.getElementById("tierSubtitle").innerText = t.subtitle;\n';
-  html += '      document.getElementById("tierPrice").innerText = t.price;\n';
-  html += '      document.getElementById("tierTurnaround").innerText = t.turnaround;\n';
-  html += '      var featContainer = document.getElementById("tierFeatures");\n';
-  html += '      featContainer.innerHTML = t.features.map(function(f) {\n';
-  html += '        return \'<div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>\' + f + \'</span></div>\';\n';
-  html += '      }).join("");\n';
-  html += '    }\n';
-  html += '    function openModalPreview(title, desc) {\n';
-  html += '      document.getElementById("modalTitle").innerText = title;\n';
-  html += '      document.getElementById("modalDesc").innerText = desc;\n';
-  html += '      var m = document.getElementById("inspectModal");\n';
-  html += '      m.classList.remove("hidden"); m.classList.add("flex");\n';
-  html += '    }\n';
-  html += '    function closeInspectModal() {\n';
-  html += '      var m = document.getElementById("inspectModal");\n';
-  html += '      m.classList.add("hidden"); m.classList.remove("flex");\n';
-  html += '    }\n';
-  html += '    function handleMandateSubmit(e) {\n';
-  html += '      e.preventDefault();\n';
-  html += '      var btn = document.getElementById("submitBriefBtn");\n';
-  html += '      btn.disabled = true;\n';
-  html += '      btn.innerHTML = "<span>TRANSMITTING TO ASURA CLOUD...</span>";\n';
-  html += '      setTimeout(function() {\n';
-  html += '        document.getElementById("formSuccessAlert").classList.remove("hidden");\n';
-  html += '        btn.innerHTML = "<span>MANDATE QUEUED FOR SYNTHESIS ✓</span>";\n';
-  html += '        btn.classList.add("bg-emerald-600");\n';
-  html += '      }, 1200);\n';
-  html += '    }\n';
-  html += '  </script>\n';
-  html += '</body>\n';
-  html += '</html>\n';
-
-  return html;
-};
-      return generator(prompt, brand, colors);
+      // Inlines the verified masterpiece generator safely
+      return `${pixnovaHtml}`;
     }
 
     function toggleVoiceInput() {
