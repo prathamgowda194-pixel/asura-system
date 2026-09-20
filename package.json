@@ -5,15 +5,20 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node -e \"const fs=require('fs'); if(!fs.existsSync('dist')) fs.mkdirSync('dist'); fs.copyFileSync('index.html', 'dist/index.html'); console.log('Build OK: dist/index.html created');\"",
+    "build": "node -e \"const fs=require('fs'); if(!fs.existsSync('dist')) fs.mkdirSync('dist', {recursive:true}); if(!fs.existsSync('dist/projects/studio')) fs.mkdirSync('dist/projects/studio', {recursive:true}); fs.copyFileSync('index.html', 'dist/index.html'); fs.copyFileSync('projects/studio/index.html', 'dist/projects/studio/index.html'); console.log('Build OK: dist assets created');\"",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-three/drei": "^9.122.0",
+    "@react-three/fiber": "^8.18.0",
     "framer-motion": "^11.0.8",
     "lucide-react": "^0.344.0",
+    "maath": "^0.10.8",
     "mongodb": "^7.6.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "three": "^0.186.0",
+    "troika-three-text": "^0.52.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
