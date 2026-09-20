@@ -1,45 +1,40 @@
 <!DOCTYPE html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PIXNOVA // Bespoke Web Architecture & Digital Showpieces</title>
-  <meta name="description" content="Pixnova architects high-converting, luxury web experiences for high-growth businesses and enterprise clients. Zero templates. Pure engineering.">
+  <title>Pixnova // Bespoke Digital Architecture & Multi-Niche Web Experiences</title>
+  <meta name="description" content="Pixnova designs and animates high-converting bespoke digital showpieces for different niche businesses. Powered by GSAP ScrollTrigger kinetic physics and zero-template engineering.">
 
   <!-- Google Fonts: Syne, Plus Jakarta Sans, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- GSAP & ScrollTrigger -->
+  <!-- GSAP 3.12 & ScrollTrigger CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
   <script>
     tailwind.config = {
-      darkMode: 'class',
+      darkMode: "media",
       theme: {
         extend: {
           colors: {
-            midnight: {
-              950: '#020612',
-              900: '#050D24',
-              800: '#0A183D',
-              700: '#0F255C',
-              border: 'rgba(56, 189, 248, 0.15)'
-            },
-            cyan: {
-              glow: '#38BDF8',
-              electric: '#00F0FF',
-              deep: '#0284C7'
+            brand: {
+              navy: "#0A183D",
+              midnight: "#050D24",
+              royal: "#0284C7",
+              sky: "#38BDF8",
+              ice: "#E0F2FE"
             }
           },
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            display: ['"Syne"', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace']
+            sans: ['"Plus Jakarta Sans"', "sans-serif"],
+            display: ['"Syne"', "sans-serif"],
+            mono: ['"JetBrains Mono"', "monospace"]
           }
         }
       }
@@ -47,549 +42,661 @@
   </script>
 
   <style>
-    /* Premium Smooth Scrollbars */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #020612; }
-    ::-webkit-scrollbar-thumb { background: #0F255C; border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.2); }
-    ::-webkit-scrollbar-thumb:hover { background: #38BDF8; }
-
+    * { box-sizing: border-box; }
     body {
-      background-color: #020612;
-      color: #F8FAFC;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #FFFFFF; color: #050D24;
+      font-family: "Plus Jakarta Sans", sans-serif;
       overflow-x: hidden;
-      selection-background-color: #38BDF8;
-      selection-color: #020612;
+      margin: 0;
+      padding: 0;
+    }
+    .font-display { font-family: "Syne", sans-serif; }
+    .font-mono { font-family: "JetBrains Mono", monospace; }
+
+    #cursorSpotlight {
+      position: fixed;
+      top: 0; left: 0;
+      width: 450px; height: 450px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(2, 132, 199, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      transition: opacity 0.3s ease;
     }
 
-    .font-display { font-family: 'Syne', sans-serif; }
-    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .bg-grid-pattern {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(10, 24, 61, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(10, 24, 61, 0.03) 1px, transparent 1px);
+    }
 
-    /* Glassmorphism Primitives */
     .glass-nav {
-      background: rgba(5, 13, 36, 0.75);
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(56, 189, 248, 0.12);
+      border-bottom: 1px solid rgba(10, 24, 61, 0.09);
     }
 
     .bento-card {
-      background: linear-gradient(135deg, rgba(10, 24, 61, 0.7) 0%, rgba(5, 13, 36, 0.85) 100%);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(56, 189, 248, 0.12);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .bento-card:hover {
-      border-color: rgba(56, 189, 248, 0.45);
-      transform: translateY(-6px);
-      box-shadow: 0 20px 40px -15px rgba(2, 132, 199, 0.25), 0 0 30px rgba(56, 189, 248, 0.1);
-    }
-
-    /* Radial Ambient Glows */
-    .glow-sphere-1 {
-      position: absolute;
-      width: 700px;
-      height: 700px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, rgba(2, 6, 18, 0) 70%);
-      pointer-events: none;
-      filter: blur(80px);
-    }
-
-    .glow-sphere-2 {
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(0, 240, 255, 0.12) 0%, rgba(2, 6, 18, 0) 70%);
-      pointer-events: none;
-      filter: blur(70px);
-    }
-
-    /* Shimmer Button */
-    .btn-pixnova-primary {
       background: #FFFFFF;
-      color: #020612;
-      font-weight: 800;
+      border: 1px solid rgba(10, 24, 61, 0.09);
+      box-shadow: 0 10px 30px -10px rgba(10, 24, 61, 0.07);
+      border-radius: 24px;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
       overflow: hidden;
-      transition: all 0.25s ease;
-      box-shadow: 0 10px 25px -5px rgba(255, 255, 255, 0.25), 0 0 15px rgba(56, 189, 248, 0.2);
     }
-    .btn-pixnova-primary:hover {
+    .bento-card:hover {
+      border-color: #0284C7;
+      transform: translateY(-6px);
+      box-shadow: 0 25px 50px -12px rgba(2, 132, 199, 0.18);
+    }
+
+    .btn-primary {
+      background: #0A183D;
+      color: #FFFFFF;
+      font-weight: 800;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -6px rgba(2, 132, 199, 0.3);
+      opacity: 0.95;
+    }
+    .btn-primary:active { transform: scale(0.97); }
+
+    .btn-secondary {
       background: #F1F5F9;
-      transform: scale(1.02);
-      box-shadow: 0 15px 30px -5px rgba(56, 189, 248, 0.4), 0 0 25px rgba(255, 255, 255, 0.4);
+      color: #0A183D;
+      border: 1px solid rgba(10, 24, 61, 0.09);
+      font-weight: 700;
+      transition: all 0.2s ease;
     }
-    .btn-pixnova-primary:active {
-      transform: scale(0.97);
-    }
-
-    .btn-pixnova-outline {
-      background: rgba(10, 24, 61, 0.6);
-      color: #F8FAFC;
-      border: 1px solid rgba(56, 189, 248, 0.25);
-      transition: all 0.25s ease;
-    }
-    .btn-pixnova-outline:hover {
-      background: rgba(15, 37, 92, 0.8);
-      border-color: rgba(56, 189, 248, 0.6);
-      color: #38BDF8;
+    .btn-secondary:hover {
+      background: #E2E8F0;
+      border-color: #0284C7;
     }
 
-    /* Grid mesh background */
-    .grid-mesh {
-      background-size: 50px 50px;
-      background-image: 
-        linear-gradient(to right, rgba(56, 189, 248, 0.04) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
-    }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #F1F5F9; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #0284C7; }
   </style>
 </head>
-<body class="relative">
 
-  <!-- Ambient Glow Spheres -->
-  <div class="glow-sphere-1 top-[-150px] left-1/2 -translate-x-1/2"></div>
-  <div class="glow-sphere-2 top-[800px] right-[-100px]"></div>
+<body class="bg-grid-pattern antialiased">
+  <div id="cursorSpotlight"></div>
 
-  <!-- NAVIGATION HEADER -->
-  <nav class="glass-nav fixed top-0 left-0 right-0 z-50 px-6 py-4 transition-all duration-300">
+  <!-- NAVIGATION -->
+  <nav class="glass-nav sticky top-0 z-50 px-6 py-4 transition-all">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <!-- Logo Mark -->
       <a href="#" class="flex items-center space-x-3 group">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-white via-cyan-glow to-blue-600 p-[1px] shadow-lg shadow-cyan-deep/30">
-          <div class="w-full h-full bg-midnight-950 rounded-[11px] flex items-center justify-center font-display font-black text-white text-lg tracking-tighter group-hover:text-cyan-glow transition">
-            PX
-          </div>
+        <div class="w-10 h-10 rounded-2xl bg-brand-midnight text-white flex items-center justify-center font-display font-black text-base shadow-md group-hover:bg-brand-royal transition">
+          PI
         </div>
         <div class="flex flex-col">
-          <span class="font-display font-black text-xl text-white tracking-tight flex items-center gap-1.5">
-            PIXNOVA
-            <span class="w-2 h-2 rounded-full bg-cyan-glow animate-pulse"></span>
+          <span class="font-display font-extrabold text-lg tracking-tight flex items-center gap-1.5" style="color:#050D24">
+            <span>PIXNOVA</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
           </span>
-          <span class="text-[9px] font-mono text-cyan-glow/80 tracking-widest uppercase">Digital Showpiece Studio</span>
+          <span class="font-mono text-[10px] tracking-wider text-brand-royal font-bold">DIGITAL ARCHITECTURE</span>
         </div>
       </a>
 
-      <!-- Center Nav Links -->
-      <div class="hidden md:flex items-center space-x-8 text-xs font-mono tracking-wider text-slate-300">
-        <a href="#showpieces" class="hover:text-white transition hover:scale-105">SHOWPIECES</a>
-        <a href="#capabilities" class="hover:text-white transition hover:scale-105">CAPABILITIES</a>
-        <a href="#process" class="hover:text-white transition hover:scale-105">METHODOLOGY</a>
-        <a href="#estimator" class="hover:text-white transition hover:scale-105">INVESTMENT</a>
+      <div class="hidden md:flex items-center space-x-8 font-mono text-xs font-semibold" style="color:#475569">
+        <a href="#capabilities" class="hover:text-brand-royal transition">CAPABILITIES</a>
+        <a href="#showcase" class="hover:text-brand-royal transition">NICHE SHOWCASES</a>
+        <a href="#calculator" class="hover:text-brand-royal transition">ESTIMATOR</a>
+        <a href="#reviews" class="hover:text-brand-royal transition">CLIENT PROOF</a>
+        <a href="#inquire" class="hover:text-brand-royal transition">COMMISSION</a>
       </div>
 
-      <!-- Right Action CTA -->
-      <div class="flex items-center space-x-4">
-        <div class="hidden sm:flex items-center space-x-2 px-3 py-1.5 rounded-full bg-midnight-900 border border-midnight-border text-[11px] font-mono text-slate-300">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          <span>AVAILABLE FOR Q4 SCOPES</span>
-        </div>
-        <a href="#inquire" class="btn-pixnova-primary px-5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider">
-          INITIATE BRIEF &rarr;
+      <div class="flex items-center space-x-3">
+        <span class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold" style="background:#EFF6FF;border:1px solid #BFDBFE;color:#1D4ED8">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          <span>ONLINE 24/7</span>
+        </span>
+        <a href="#inquire" class="btn-primary px-5 py-2.5 rounded-xl text-xs font-mono tracking-wider font-extrabold flex items-center space-x-1.5">
+          <span>START PROJECT</span>
+          <span>&rarr;</span>
         </a>
       </div>
     </div>
   </nav>
 
   <!-- HERO SECTION -->
-  <header class="relative pt-36 pb-24 px-6 grid-mesh overflow-hidden">
-    <div class="max-w-6xl mx-auto flex flex-col items-center text-center space-y-8 relative z-10">
-      
-      <!-- Top Announcement Pill -->
-      <div class="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-full bg-midnight-900/90 border border-cyan-glow/30 text-xs font-mono text-cyan-glow shadow-lg shadow-cyan-deep/10">
-        <span class="px-1.5 py-0.5 rounded bg-cyan-glow text-midnight-950 font-bold text-[10px]">NEW</span>
-        <span>AUTONOMOUS AGENTIC WEB SYNTHESIS ENGINE LIVE</span>
+  <header class="relative pt-24 pb-20 px-6 max-w-7xl mx-auto flex flex-col items-center text-center">
+    <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full text-xs font-mono font-bold mb-6 shadow-sm animate-fade-in" style="background:#EFF6FF;border:1px solid #BFDBFE;color:#1D4ED8">
+      <span class="w-2 h-2 rounded-full bg-brand-royal animate-ping"></span>
+      <span>BESPOKE WEB ARCHITECTURE // DIFFERENT NICHE BUSINESSES</span>
+    </div>
+
+    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black font-display tracking-tight leading-[1.05] max-w-6xl" style="color:#050D24">
+      Websites Engineered for <br class="hidden sm:inline">
+      <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-midnight via-brand-royal to-sky-500">
+        Multi-Niche Businesses.
+      </span>
+    </h1>
+
+    <p class="mt-6 text-base sm:text-xl max-w-3xl leading-relaxed font-sans" style="color:#475569">
+      Pixnova synthesizes award-winning digital showpieces with zero template compromise. Powered by hardware-accelerated GSAP ScrollTrigger kinetic animations, high-converting bento layouts, and institutional typography.
+    </p>
+
+    <div class="mt-10 flex flex-wrap items-center justify-center gap-4 font-mono text-xs">
+      <a href="#inquire" class="btn-primary px-8 py-4 rounded-2xl text-sm font-extrabold shadow-xl flex items-center space-x-2">
+        <span>INITIATE PROJECT MANDATE</span>
+        <span>&rarr;</span>
+      </a>
+      <a href="#showcase" class="btn-secondary px-8 py-4 rounded-2xl text-sm font-bold flex items-center space-x-2">
+        <span>EXPLORE NICHE PORTFOLIO</span>
+        <span>&darr;</span>
+      </a>
+    </div>
+
+    <!-- Live Animated Metrics Counter Strip -->
+    <div class="mt-20 w-full grid grid-cols-2 md:grid-cols-4 gap-6 p-6 rounded-3xl bento-card text-center" style="background:#FFFFFF">
+      <div>
+        <div class="text-3xl sm:text-5xl font-black font-display text-brand-midnight counter" data-target="99.8">0</div>
+        <div class="text-xs font-mono font-bold mt-1 text-brand-royal">CORE WEB VITALS</div>
+        <div class="text-[11px] mt-0.5" style="color:#475569">Sub-10ms Global Edge Response</div>
       </div>
-
-      <!-- Main Headline -->
-      <h1 class="font-display font-black text-4xl sm:text-7xl lg:text-8xl tracking-tight text-white max-w-5xl leading-[1.05]">
-        We Architect <br class="hidden sm:block">
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-cyan-glow">
-          Digital Showpieces
-        </span> <br>
-        That Command Authority.
-      </h1>
-
-      <!-- Subtitle -->
-      <p class="text-base sm:text-xl text-slate-300 max-w-3xl font-normal leading-relaxed">
-        Pixnova engineers bespoke high-converting digital flagships for ambitious companies. Zero templates, zero generic bloat. Every pixel is calculated to turn visitors into obsessed, high-paying clients.
-      </p>
-
-      <!-- Action Buttons -->
-      <div class="flex flex-wrap items-center justify-center gap-4 pt-4 font-mono text-xs">
-        <a href="#inquire" class="btn-pixnova-primary px-8 py-4 rounded-xl font-bold uppercase tracking-wider shadow-2xl">
-          COMMISSION A SHOWPIECE &rarr;
-        </a>
-        <a href="#showpieces" class="btn-pixnova-outline px-8 py-4 rounded-xl font-bold uppercase tracking-wider">
-          EXPLORE LIVE PORTFOLIO
-        </a>
+      <div>
+        <div class="text-3xl sm:text-5xl font-black font-display text-brand-midnight counter" data-target="340">0</div>
+        <div class="text-xs font-mono font-bold mt-1 text-brand-royal">SHOWPIECES SYNTHESIZED</div>
+        <div class="text-[11px] mt-0.5" style="color:#475569">Tailored across 24 Industry Niches</div>
       </div>
-
-      <!-- Trust Metrics Bar -->
-      <div class="pt-16 grid grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-4xl text-left font-mono">
-        <div class="p-4 rounded-xl bg-midnight-900/60 border border-midnight-border">
-          <div class="text-2xl sm:text-3xl font-black text-white font-display">140+</div>
-          <div class="text-[11px] text-slate-400 mt-1 uppercase tracking-wider">Showpieces Delivered</div>
-        </div>
-        <div class="p-4 rounded-xl bg-midnight-900/60 border border-midnight-border">
-          <div class="text-2xl sm:text-3xl font-black text-white font-display">$28.4M</div>
-          <div class="text-[11px] text-slate-400 mt-1 uppercase tracking-wider">Client Pipeline Generated</div>
-        </div>
-        <div class="p-4 rounded-xl bg-midnight-900/60 border border-midnight-border">
-          <div class="text-2xl sm:text-3xl font-black text-white font-display">99/100</div>
-          <div class="text-[11px] text-slate-400 mt-1 uppercase tracking-wider">Lighthouse Performance</div>
-        </div>
-        <div class="p-4 rounded-xl bg-midnight-900/60 border border-midnight-border">
-          <div class="text-2xl sm:text-3xl font-black text-white font-display">&lt;1.1s</div>
-          <div class="text-[11px] text-slate-400 mt-1 uppercase tracking-wider">Edge Global Latency</div>
-        </div>
+      <div>
+        <div class="text-3xl sm:text-5xl font-black font-display text-brand-midnight counter" data-target="340">0</div>
+        <div class="text-xs font-mono font-bold mt-1 text-brand-royal">% CONVERSION LIFT</div>
+        <div class="text-[11px] mt-0.5" style="color:#475569">Average Verified Client Metric</div>
+      </div>
+      <div>
+        <div class="text-3xl sm:text-5xl font-black font-display text-brand-midnight">$<span class="counter" data-target="64">0</span>M+</div>
+        <div class="text-xs font-mono font-bold mt-1 text-brand-royal">CLIENT PIPELINE VALUE</div>
+        <div class="text-[11px] mt-0.5" style="color:#475569">Generated for Enterprise Partners</div>
       </div>
     </div>
   </header>
 
-  <!-- LIVE SHOWPIECES / PORTFOLIO -->
-  <section id="showpieces" class="py-24 px-6 border-t border-midnight-border relative">
-    <div class="max-w-7xl mx-auto space-y-12">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+  <!-- CAPABILITIES BENTO GRID -->
+  <section id="capabilities" class="py-24 px-6 max-w-7xl mx-auto">
+    <div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div>
+        <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">01 // ADAPTED FEATURES &amp; KINETIC ENGINE</span>
+        <h2 class="text-3xl sm:text-5xl font-black font-display tracking-tight mt-2" style="color:#050D24">
+          Engineered for Maximum Impact.
+        </h2>
+      </div>
+      <p class="text-sm max-w-md" style="color:#475569">
+        Every component is custom-architected according to anti-slop guidelines and modular design standards.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bento-card md:col-span-2 p-8 sm:p-10 flex flex-col justify-between">
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-brand-ice text-brand-navy border border-brand-sky/30">
+              GSAP 3.12 &bull; SCROLLTRIGGER
+            </span>
+            <span class="font-mono text-xs text-brand-royal font-bold">60 FPS KINETIC TIMELINES</span>
+          </div>
+          <h3 class="text-2xl sm:text-3xl font-black font-display text-brand-midnight">
+            Hardware-Accelerated Fluid Scroll Physics
+          </h3>
+          <p class="text-sm leading-relaxed" style="color:#475569">
+            Liquid parallax timelines, spring damping, and momentum scrolling synchronized directly to user gesture velocity. Completely eliminates layout thrashing and cumulative layout shift.
+          </p>
+        </div>
+        <div class="mt-8 p-4 rounded-2xl bg-brand-ice/40 border border-brand-sky/20 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+          <div class="flex items-center space-x-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="text-brand-midnight font-bold">Interactive Parallax Active</span>
+          </div>
+          <span class="text-brand-royal font-bold">Zero-Layout-Shift (CLS: 0.00)</span>
+        </div>
+      </div>
+
+      <div class="bento-card p-8 sm:p-10 flex flex-col justify-between">
+        <div class="space-y-4">
+          <span class="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-brand-ice text-brand-navy border border-brand-sky/30">
+            NICHE ARCHITECTURE
+          </span>
+          <h3 class="text-2xl font-black font-display text-brand-midnight">
+            Multi-Industry Adapted DNA
+          </h3>
+          <p class="text-xs leading-relaxed" style="color:#475569">
+            Tailored architectures for SaaS, Healthcare, FinTech, Luxury Real Estate, and High-Ticket Hospitality.
+          </p>
+        </div>
+        <div class="mt-6 space-y-2 font-mono text-xs">
+          <div class="flex justify-between p-2 rounded-lg bg-slate-100/70 border border-slate-200/50 text-slate-700">
+            <span>FinTech &amp; Web3</span>
+            <span class="font-bold text-brand-royal">Trust Anchors</span>
+          </div>
+          <div class="flex justify-between p-2 rounded-lg bg-slate-100/70 border border-slate-200/50 text-slate-700">
+            <span>Luxury Real Estate</span>
+            <span class="font-bold text-brand-royal">3D Villa Parallax</span>
+          </div>
+          <div class="flex justify-between p-2 rounded-lg bg-slate-100/70 border border-slate-200/50 text-slate-700">
+            <span>Medical &amp; Clinics</span>
+            <span class="font-bold text-brand-royal">Instant WhatsApp</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bento-card p-8 sm:p-10 flex flex-col justify-between">
+        <div class="space-y-4">
+          <span class="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-brand-ice text-brand-navy border border-brand-sky/30">
+            TACTILE ERGONOMICS
+          </span>
+          <h3 class="text-xl font-black font-display text-brand-midnight">
+            Spring Physics &amp; Micro-Interactions
+          </h3>
+          <p class="text-xs leading-relaxed" style="color:#475569">
+            Interactive tactile feedback on every click, toggle, and hover event. Try clicking below:
+          </p>
+        </div>
+        <div class="mt-6 text-center">
+          <button onclick="triggerHapticEffect(this)" class="w-full py-3 rounded-xl bg-brand-midnight text-white text-xs font-mono font-extrabold hover:bg-brand-royal transition active:scale-95 shadow-md">
+            ✦ CLICK TO TEST SPRING IMPULSE
+          </button>
+        </div>
+      </div>
+
+      <div class="bento-card md:col-span-2 p-8 sm:p-10 flex flex-col justify-between">
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-brand-ice text-brand-navy border border-brand-sky/30">
+              21ST.DEV &amp; SHADCN VAULT
+            </span>
+            <span class="font-mono text-xs text-brand-royal font-bold">532 HARVESTED PRIMITIVES</span>
+          </div>
+          <h3 class="text-2xl sm:text-3xl font-black font-display text-brand-midnight">
+            Institutional Component Synthesis
+          </h3>
+          <p class="text-sm leading-relaxed" style="color:#475569">
+            Directly draws from the 532 elite components stored in our offline vault. Asymmetrical bento cards, interactive sliders, data visualizations, and accessible keyboard states.
+          </p>
+        </div>
+        <div class="mt-6 grid grid-cols-3 gap-3 text-center font-mono text-xs">
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="font-bold text-brand-midnight">BENTO</div>
+            <div class="text-[10px] text-slate-500">Asymmetric Grid</div>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="font-bold text-brand-midnight">SHADCN</div>
+            <div class="text-[10px] text-slate-500">Design Tokens</div>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="font-bold text-brand-midnight">GSAP</div>
+            <div class="text-[10px] text-slate-500">ScrollTrigger 3.12</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOWCASE -->
+  <section id="showcase" class="py-24 px-6 max-w-7xl mx-auto border-t" style="border-color:rgba(10, 24, 61, 0.09)">
+    <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+      <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">02 // MULTI-NICHE WORK SHOWCASE</span>
+      <h2 class="text-3xl sm:text-5xl font-black font-display tracking-tight text-brand-midnight">
+        Proven Across Every Vertical.
+      </h2>
+      <p class="text-sm" style="color:#475569">
+        Filter and examine actual bespoke showpieces engineered for different niche clients.
+      </p>
+      <div class="pt-4 flex flex-wrap items-center justify-center gap-2 font-mono text-xs">
+        <button onclick="filterShowcase('all', this)" class="px-4 py-2 rounded-xl bg-brand-midnight text-white font-bold filter-btn shadow-sm">All Showpieces</button>
+        <button onclick="filterShowcase('saas', this)" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold filter-btn">SaaS &amp; AI</button>
+        <button onclick="filterShowcase('realestate', this)" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold filter-btn">Luxury Real Estate</button>
+        <button onclick="filterShowcase('fintech', this)" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold filter-btn">FinTech &amp; Web3</button>
+        <button onclick="filterShowcase('medical', this)" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold filter-btn">Healthcare &amp; Clinics</button>
+      </div>
+    </div>
+
+    <div id="showcaseGrid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="bento-card p-6 sm:p-8 space-y-5 showcase-item" data-category="saas">
+        <div class="w-full h-52 rounded-2xl bg-gradient-to-br from-brand-midnight via-slate-900 to-brand-navy p-6 flex flex-col justify-between text-white relative overflow-hidden shadow-inner">
+          <div class="flex items-center justify-between text-xs font-mono">
+            <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20 font-bold">SAAS &amp; AI</span>
+            <span class="text-emerald-400 font-bold">+410% ARR PIPELINE</span>
+          </div>
+          <div>
+            <div class="font-display font-black text-2xl tracking-tight">VORTEX AI CLOUD</div>
+            <p class="text-xs text-slate-300 font-mono mt-1">Autonomous Neural Compute &amp; Workflow Studio</p>
+          </div>
+        </div>
+        <div class="flex items-center justify-between text-xs font-mono">
+          <span class="text-slate-500">GSAP &bull; Bento Layout &bull; 0.3s Load</span>
+          <button onclick="openModalPreview('Vortex AI Enterprise', 'Full SaaS showpiece featuring interactive workflow simulator, dynamic pricing matrix, and dark glassmorphic UI.')" class="font-bold text-brand-royal hover:underline">
+            Inspect Architecture &rarr;
+          </button>
+        </div>
+      </div>
+
+      <div class="bento-card p-6 sm:p-8 space-y-5 showcase-item" data-category="realestate">
+        <div class="w-full h-52 rounded-2xl bg-gradient-to-br from-amber-950 via-stone-900 to-slate-900 p-6 flex flex-col justify-between text-white relative overflow-hidden shadow-inner">
+          <div class="flex items-center justify-between text-xs font-mono">
+            <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20 font-bold">LUXURY ESTATES</span>
+            <span class="text-amber-400 font-bold">$120M+ SALES ASSETS</span>
+          </div>
+          <div>
+            <div class="font-display font-black text-2xl tracking-tight">BHOOMIPUTRA SANCTUM</div>
+            <p class="text-xs text-amber-200/80 font-mono mt-1">Ultra-Luxury Villa Promoters &amp; Architectural Land</p>
+          </div>
+        </div>
+        <div class="flex items-center justify-between text-xs font-mono">
+          <span class="text-slate-500">3D Villa Parallax &bull; Masterplans &bull; WhatsApp</span>
+          <button onclick="openModalPreview('Bhoomiputra Luxury Estates', 'Designed for high-net-worth land investors with interactive plot visualizers and immediate executive onboarding.')" class="font-bold text-brand-royal hover:underline">
+            Inspect Architecture &rarr;
+          </button>
+        </div>
+      </div>
+
+      <div class="bento-card p-6 sm:p-8 space-y-5 showcase-item" data-category="fintech">
+        <div class="w-full h-52 rounded-2xl bg-gradient-to-br from-cyan-950 via-slate-900 to-emerald-950 p-6 flex flex-col justify-between text-white relative overflow-hidden shadow-inner">
+          <div class="flex items-center justify-between text-xs font-mono">
+            <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20 font-bold">FINTECH &amp; WEB3</span>
+            <span class="text-cyan-400 font-bold">100K+ ACTIVE USERS</span>
+          </div>
+          <div>
+            <div class="font-display font-black text-2xl tracking-tight">KRONA ASSET PROTOCOL</div>
+            <p class="text-xs text-cyan-200/80 font-mono mt-1">Provably Fair Solana Pool &amp; Institutional Ledger</p>
+          </div>
+        </div>
+        <div class="flex items-center justify-between text-xs font-mono">
+          <span class="text-slate-500">Real-Time WebSocket &bull; On-Chain VRF</span>
+          <button onclick="openModalPreview('Krona Asset Protocol', 'Decentralized institutional custody terminal engineered with military-grade UI aesthetics and cryptographic audit badges.')" class="font-bold text-brand-royal hover:underline">
+            Inspect Architecture &rarr;
+          </button>
+        </div>
+      </div>
+
+      <div class="bento-card p-6 sm:p-8 space-y-5 showcase-item" data-category="medical">
+        <div class="w-full h-52 rounded-2xl bg-gradient-to-br from-blue-950 via-indigo-950 to-slate-900 p-6 flex flex-col justify-between text-white relative overflow-hidden shadow-inner">
+          <div class="flex items-center justify-between text-xs font-mono">
+            <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20 font-bold">AESTHETIC CLINICS</span>
+            <span class="text-blue-400 font-bold">4.9★ CLINICAL RATING</span>
+          </div>
+          <div>
+            <div class="font-display font-black text-2xl tracking-tight">SKIN SECRETS DERMATOLOGY</div>
+            <p class="text-xs text-blue-200/80 font-mono mt-1">Advanced Aesthetic Laser &amp; Rejuvenation Surgery</p>
+          </div>
+        </div>
+        <div class="flex items-center justify-between text-xs font-mono">
+          <span class="text-slate-500">Treatment Catalog &bull; VIP Tele-Consultation</span>
+          <button onclick="openModalPreview('Skin Secrets Clinic', 'Luxury clinical patient experience with procedures filter, before/after slider, and one-tap consultation booking.')" class="font-bold text-brand-royal hover:underline">
+            Inspect Architecture &rarr;
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section id="calculator" class="py-24 px-6 max-w-7xl mx-auto border-t" style="border-color:rgba(10, 24, 61, 0.09)">
+    <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+      <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">03 // TRANSPARENT MANDATE SCOPING</span>
+      <h2 class="text-3xl sm:text-5xl font-black font-display tracking-tight text-brand-midnight">
+        Select Your Architecture Tier.
+      </h2>
+      <p class="text-sm" style="color:#475569">
+        Engineered deliverables and clear timelines with zero hidden retainers.
+      </p>
+      <div class="pt-4 flex flex-wrap justify-center gap-3 font-mono text-xs">
+        <button onclick="selectPricingTier('starter', this)" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold tier-tab">Starter Showpiece ($4,500)</button>
+        <button onclick="selectPricingTier('growth', this)" class="px-5 py-2.5 rounded-xl bg-brand-midnight text-white font-bold tier-tab shadow-md">Growth Architecture ($9,800) ✦ Popular</button>
+        <button onclick="selectPricingTier('enterprise', this)" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold tier-tab">Enterprise Bespoke ($18,500)</button>
+      </div>
+    </div>
+
+    <div class="max-w-3xl mx-auto bento-card p-8 sm:p-12 space-y-8" id="tierDisplay">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-6" style="border-color:rgba(10, 24, 61, 0.09)">
         <div>
-          <span class="text-xs font-mono text-cyan-glow tracking-widest uppercase block mb-2">// SELECTED FLAGSHIPS</span>
-          <h2 class="text-3xl sm:text-5xl font-black text-white font-display">Crafted Without Compromise</h2>
+          <span class="text-xs font-mono text-brand-royal font-bold" id="tierBadge">COMMERCIAL EXPANSION TIER</span>
+          <h3 class="text-3xl font-black font-display text-brand-midnight" id="tierName">Growth Architecture</h3>
+          <p class="text-xs mt-1" style="color:#475569" id="tierSubtitle">Ideal for established niche leaders demanding maximum conversion velocity.</p>
         </div>
-        <p class="text-xs font-mono text-slate-400 max-w-md">
-          Every website we engineer is custom-built with micro-physics, custom typography, and obsessive attention to conversion mechanics.
-        </p>
+        <div class="text-right">
+          <div class="text-4xl font-black font-display text-brand-midnight" id="tierPrice">$9,800</div>
+          <div class="text-xs font-mono text-slate-500" id="tierTurnaround">Turnaround: 10 Business Days</div>
+        </div>
       </div>
 
-      <!-- Showpiece Cards Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        
-        <!-- Project 1: Veloce FinTech -->
-        <div class="bento-card p-8 rounded-3xl space-y-6 group">
-          <div class="flex items-center justify-between text-xs font-mono">
-            <span class="text-cyan-glow font-bold">01 // QUANTITATIVE CAPITAL</span>
-            <span class="px-2.5 py-1 rounded-full bg-cyan-glow/10 text-cyan-glow border border-cyan-glow/20">LIVE PROTOCOL</span>
-          </div>
-          <div class="aspect-[16/10] rounded-2xl bg-gradient-to-br from-slate-900 via-midnight-900 to-blue-950 border border-white/10 p-6 flex flex-col justify-between overflow-hidden relative">
-            <div class="space-y-2">
-              <span class="text-xs font-mono text-slate-400 uppercase tracking-widest">Client Showcase</span>
-              <h3 class="text-2xl sm:text-3xl font-black text-white font-display">Veloce Financial Advisory</h3>
-            </div>
-            <div class="p-4 rounded-xl bg-midnight-950/80 border border-white/10 backdrop-blur-md">
-              <div class="flex items-center justify-between text-xs font-mono">
-                <span class="text-slate-300">Portfolio Return Velocity</span>
-                <span class="text-emerald-400 font-bold">+34.8% Alpha</span>
-              </div>
-            </div>
-          </div>
-          <div>
-            <h4 class="text-lg font-bold text-white font-display">Next-Gen Wealth Management Interface</h4>
-            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              Designed with dark obsidian aesthetics, real-time portfolio tickers, and institutional investor onboarding funnels.
-            </p>
-          </div>
-          <div class="flex items-center justify-between pt-2 border-t border-white/10 text-xs font-mono">
-            <div class="flex gap-2">
-              <span class="text-slate-400">GSAP 3.12</span>
-              <span class="text-slate-600">&bull;</span>
-              <span class="text-slate-400">Tailwind</span>
-              <span class="text-slate-600">&bull;</span>
-              <span class="text-slate-400">Convex DB</span>
-            </div>
-            <span class="text-white font-bold group-hover:text-cyan-glow transition flex items-center gap-1">
-              EXPLORE CASE &rarr;
-            </span>
-          </div>
-        </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono" id="tierFeatures">
+        <div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>Custom Multi-Section Bento Grid Architecture</span></div>
+        <div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>Hardware GSAP 3.12 ScrollTrigger Parallax</span></div>
+        <div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>Interactive Niche Work Showcase with Filters</span></div>
+        <div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>Sub-10ms Vercel Edge Serverless Deployment</span></div>
+        <div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>Interactive Lead Scoping &amp; Intake Terminal</span></div>
+        <div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>100/100 Core Web Vitals Guaranteed Guarantee</span></div>
+      </div>
 
-        <!-- Project 2: Kaelen Architecture -->
-        <div class="bento-card p-8 rounded-3xl space-y-6 group">
-          <div class="flex items-center justify-between text-xs font-mono">
-            <span class="text-cyan-glow font-bold">02 // ARCHITECTURAL ATELIER</span>
-            <span class="px-2.5 py-1 rounded-full bg-cyan-glow/10 text-cyan-glow border border-cyan-glow/20">FLAGSHIP</span>
-          </div>
-          <div class="aspect-[16/10] rounded-2xl bg-gradient-to-br from-slate-900 via-blue-950 to-midnight-900 border border-white/10 p-6 flex flex-col justify-between overflow-hidden relative">
-            <div class="space-y-2">
-              <span class="text-xs font-mono text-slate-400 uppercase tracking-widest">Client Showcase</span>
-              <h3 class="text-2xl sm:text-3xl font-black text-white font-display">Kaelen Structural Atelier</h3>
-            </div>
-            <div class="p-4 rounded-xl bg-midnight-950/80 border border-white/10 backdrop-blur-md">
-              <div class="flex items-center justify-between text-xs font-mono">
-                <span class="text-slate-300">Award of Excellence</span>
-                <span class="text-cyan-glow font-bold">Design Biennale 2026</span>
-              </div>
-            </div>
-          </div>
-          <div>
-            <h4 class="text-lg font-bold text-white font-display">Minimalist Nordic Spatial Showcase</h4>
-            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              Full-viewport pin-scroll parallax, interactive material lighting shaders, and ultra-high-ticket lead capture flow.
-            </p>
-          </div>
-          <div class="flex items-center justify-between pt-2 border-t border-white/10 text-xs font-mono">
-            <div class="flex gap-2">
-              <span class="text-slate-400">ScrollTrigger</span>
-              <span class="text-slate-600">&bull;</span>
-              <span class="text-slate-400">Three.js</span>
-              <span class="text-slate-600">&bull;</span>
-              <span class="text-slate-400">Bento Grid</span>
-            </div>
-            <span class="text-white font-bold group-hover:text-cyan-glow transition flex items-center gap-1">
-              EXPLORE CASE &rarr;
-            </span>
-          </div>
-        </div>
-
+      <div class="pt-4 border-t flex flex-col sm:flex-row items-center justify-between gap-4" style="border-color:rgba(10, 24, 61, 0.09)">
+        <span class="text-xs font-mono text-slate-500">Includes complete source code, deployment, and 30-day warranty.</span>
+        <a href="#inquire" class="btn-primary px-8 py-3.5 rounded-xl text-xs font-mono font-extrabold w-full sm:w-auto text-center">RESERVE THIS SPRINT &rarr;</a>
       </div>
     </div>
   </section>
 
-  <!-- BENTO CAPABILITIES -->
-  <section id="capabilities" class="py-24 px-6 border-t border-midnight-border bg-midnight-950/50 relative">
-    <div class="max-w-7xl mx-auto space-y-12">
-      <div class="text-center max-w-3xl mx-auto space-y-3">
-        <span class="text-xs font-mono text-cyan-glow tracking-widest uppercase">// 10-SKILL CAPABILITY MATRIX</span>
-        <h2 class="text-3xl sm:text-5xl font-black text-white font-display">Why Pixnova Sites Outperform</h2>
-        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
-          We combine institutional design taste with cutting-edge front-end engineering. No technical debt, no sluggish page builders.
-        </p>
+  <!-- REVIEWS -->
+  <section id="reviews" class="py-24 px-6 max-w-7xl mx-auto border-t" style="border-color:rgba(10, 24, 61, 0.09)">
+    <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+      <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">04 // VERIFIED CLIENT ENDORSEMENTS</span>
+      <h2 class="text-3xl sm:text-5xl font-black font-display tracking-tight text-brand-midnight">Loved by Niche Leaders.</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bento-card p-8 space-y-4">
+        <div class="flex text-amber-400 text-sm">★★★★★</div>
+        <p class="text-sm italic leading-relaxed" style="color:#475569">"Pixnova transformed our cold visitor flow. The custom GSAP kinetic animations and crisp white-and-blue design elevated our brand above competitors immediately."</p>
+        <div class="pt-4 border-t flex items-center space-x-3" style="border-color:rgba(10, 24, 61, 0.09)">
+          <div class="w-10 h-10 rounded-full bg-brand-navy text-white font-display font-bold flex items-center justify-center text-xs">MV</div>
+          <div><div class="font-bold text-xs text-brand-midnight">Marcus Vance</div><div class="text-[10px] font-mono text-slate-500">Founder &bull; Vortex AI SaaS</div></div>
+        </div>
       </div>
 
-      <!-- Bento Grid 6 Items -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        
-        <!-- 01 -->
-        <div class="bento-card md:col-span-2 p-8 rounded-2xl space-y-4">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-mono text-cyan-glow font-bold">01 // KINETIC HARDWARE MOTION</span>
-            <span class="px-2 py-0.5 rounded bg-cyan-glow/20 text-cyan-glow text-[10px] font-mono font-bold">GSAP 3.12</span>
-          </div>
-          <h3 class="text-2xl font-bold text-white font-display">60 FPS Hardware-Accelerated ScrollTrigger</h3>
-          <p class="text-xs text-slate-300 leading-relaxed max-w-xl">
-            Fluid timelines synchronized to user scroll velocity. Layout thrashing is mathematically eliminated, delivering butter-smooth 60fps micro-interactions across desktops, iPads, and mobile devices.
-          </p>
+      <div class="bento-card p-8 space-y-4">
+        <div class="flex text-amber-400 text-sm">★★★★★</div>
+        <p class="text-sm italic leading-relaxed" style="color:#475569">"Our real estate investors demand perfection. Pixnova delivered a showpiece with 3D villa parallax that closed $14M in pre-bookings within the first two weeks."</p>
+        <div class="pt-4 border-t flex items-center space-x-3" style="border-color:rgba(10, 24, 61, 0.09)">
+          <div class="w-10 h-10 rounded-full bg-brand-navy text-white font-display font-bold flex items-center justify-center text-xs">SR</div>
+          <div><div class="font-bold text-xs text-brand-midnight">S. Ramachandran</div><div class="text-[10px] font-mono text-slate-500">Managing Director &bull; Bhoomiputra Estates</div></div>
         </div>
+      </div>
 
-        <!-- 02 -->
-        <div class="bento-card p-8 rounded-2xl space-y-4 flex flex-col justify-between">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-mono text-cyan-glow font-bold">02 // ANTI-SLOP RULE</span>
-            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-mono font-bold">UI-UX PRO</span>
-          </div>
-          <div>
-            <div class="text-3xl font-black text-white font-display">Zero Templates</div>
-            <p class="text-xs text-slate-400 mt-2 leading-relaxed">
-              Every section is purpose-architected for your business model. No cookie-cutter Bootstrap grids or generic WordPress themes.
-            </p>
-          </div>
+      <div class="bento-card p-8 space-y-4">
+        <div class="flex text-amber-400 text-sm">★★★★★</div>
+        <p class="text-sm italic leading-relaxed" style="color:#475569">"Fast, institutional, and flawless. The interactive pricing calculator and instant WhatsApp booking tripled our cosmetic consultation rate."</p>
+        <div class="pt-4 border-t flex items-center space-x-3" style="border-color:rgba(10, 24, 61, 0.09)">
+          <div class="w-10 h-10 rounded-full bg-brand-navy text-white font-display font-bold flex items-center justify-center text-xs">DK</div>
+          <div><div class="font-bold text-xs text-brand-midnight">Dr. Kavitha Menon</div><div class="text-[10px] font-mono text-slate-500">Chief Surgeon &bull; Skin Secrets Clinic</div></div>
         </div>
-
-        <!-- 03 -->
-        <div class="bento-card p-8 rounded-2xl space-y-4">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-mono text-cyan-glow font-bold">03 // TACTILE MICRO-PHYSICS</span>
-            <span class="px-2 py-0.5 rounded bg-white/20 text-white text-[10px] font-mono font-bold">FRAMER</span>
-          </div>
-          <h3 class="text-xl font-bold text-white font-display">Spring Curve Feedback</h3>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Buttons and cards respond with calculated spring tension, 3D hover perspective, and tactile click resistance that users love to touch.
-          </p>
-        </div>
-
-        <!-- 04 -->
-        <div class="bento-card md:col-span-2 p-8 rounded-2xl space-y-4">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-mono text-cyan-glow font-bold">04 // REVENUE & CONVERSION FUNNEL</span>
-            <span class="px-2 py-0.5 rounded bg-cyan-glow/20 text-cyan-glow text-[10px] font-mono font-bold">PROVEN ROI</span>
-          </div>
-          <h3 class="text-2xl font-bold text-white font-display">Psychologically Mapped Client Acquisition</h3>
-          <p class="text-xs text-slate-300 leading-relaxed max-w-xl">
-            We don't just build pretty visuals. We strategically position proof points, trust anchors, and friction-free inquiry terminals that convert browsing executives into committed clients.
-          </p>
-        </div>
-
       </div>
     </div>
   </section>
 
-  <!-- INVESTMENT ESTIMATOR -->
-  <section id="estimator" class="py-24 px-6 border-t border-midnight-border relative">
-    <div class="max-w-5xl mx-auto space-y-12">
-      <div class="text-center space-y-3">
-        <span class="text-xs font-mono text-cyan-glow tracking-widest uppercase">// TRANSPARENT SCOPES</span>
-        <h2 class="text-3xl sm:text-5xl font-black text-white font-display">Choose Your Architecture Tier</h2>
-        <p class="text-xs sm:text-sm text-slate-400">All tiers include bespoke design, mobile optimization, and 24/7 cloud hosting readiness.</p>
+  <!-- INTAKE & COMMISSION TERMINAL -->
+  <section id="inquire" class="py-24 px-6 max-w-4xl mx-auto border-t" style="border-color:rgba(10, 24, 61, 0.09)">
+    <div class="bento-card p-8 sm:p-12 space-y-8">
+      <div>
+        <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">05 // INITIATE MANDATE</span>
+        <h2 class="text-3xl sm:text-4xl font-black font-display tracking-tight text-brand-midnight mt-1">Commission Your Custom Showpiece</h2>
+        <p class="text-xs mt-1" style="color:#475569">Specify your brand parameters and our agentic studio will begin synthesis immediately.</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        
-        <!-- Tier 1 -->
-        <div class="bento-card p-6 rounded-2xl space-y-6 flex flex-col justify-between">
-          <div class="space-y-4">
-            <span class="text-xs font-mono text-slate-400 uppercase tracking-widest">TIER 01</span>
-            <h3 class="text-xl font-bold text-white font-display">Growth Flagship</h3>
-            <div class="text-3xl font-black text-white font-display">$2,490</div>
-            <p class="text-xs text-slate-400">Ideal for high-ticket service firms looking to overhaul their brand credibility.</p>
-            <ul class="space-y-2 text-xs font-mono text-slate-300">
-              <li class="flex items-center gap-2"><span class="text-cyan-glow">&check;</span> Bespoke 5-Section Showpiece</li>
-              <li class="flex items-center gap-2"><span class="text-cyan-glow">&check;</span> GSAP Micro-Animations</li>
-              <li class="flex items-center gap-2"><span class="text-cyan-glow">&check;</span> High-Converting Inquiry Form</li>
-              <li class="flex items-center gap-2"><span class="text-cyan-glow">&check;</span> 5-Day Delivery Guarantee</li>
-            </ul>
-          </div>
-          <a href="#inquire" class="btn-pixnova-outline w-full py-3 rounded-xl text-center text-xs font-mono uppercase font-bold">Select Scope</a>
-        </div>
-
-        <!-- Tier 2 (Featured) -->
-        <div class="bento-card p-8 rounded-3xl space-y-6 flex flex-col justify-between border-cyan-glow/50 bg-gradient-to-b from-midnight-800 to-midnight-950 relative shadow-2xl shadow-cyan-deep/30">
-          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-cyan-glow text-midnight-950 font-mono font-extrabold text-[10px] uppercase tracking-wider">
-            MOST POPULAR
-          </div>
-          <div class="space-y-4">
-            <span class="text-xs font-mono text-cyan-glow uppercase tracking-widest">TIER 02</span>
-            <h3 class="text-2xl font-bold text-white font-display">Enterprise Authority</h3>
-            <div class="text-4xl font-black text-white font-display">$4,850</div>
-            <p class="text-xs text-slate-300">The definitive digital flagship with full multi-page architecture and custom 3D elements.</p>
-            <ul class="space-y-2 text-xs font-mono text-slate-200">
-              <li class="flex items-center gap-2"><span class="text-cyan-glow">&check;</span> Full Multi-Page Showpiece System</li>
-              <li class="flex items-center gap-2"><span class="text-cyan-glow">&check;</span> Three.js / WebGL 3D Interactive Orb</li>
-              <li class="flex items-center gap-2"><span class="text-cyan-glow">&check;</span> 21st.dev Custom Bento Architecture</li>
-              <li class="flex items-center gap-2"><span class="text-cyan-glow">&check;</span> Real-Time Convex CRM Integration</li>
-              <li class="flex items-center gap-2"><span class="text-cyan-glow">&check;</span> Priority 7-Day Sprint</li>
-            </ul>
-          </div>
-          <a href="#inquire" class="btn-pixnova-primary w-full py-3.5 rounded-xl text-center text-xs font-mono uppercase font-bold">Claim Sprint Slot</a>
-        </div>
-
-        <!-- Tier 3 -->
-        <div class="bento-card p-6 rounded-2xl space-y-6 flex flex-col justify-between">
-          <div class="space-y-4">
-            <span class="text-xs font-mono text-slate-400 uppercase tracking-widest">TIER 03</span>
-            <h3 class="text-xl font-bold text-white font-display">Custom Retainer</h3>
-            <div class="text-3xl font-black text-white font-display">$7,500<span class="text-sm font-normal text-slate-400">/mo</span></div>
-            <p class="text-xs text-slate-400">Continuous web innovation, A/B landing page testing, and dedicated design engineering.</p>
-            <ul class="space-y-2 text-xs font-mono text-slate-300">
-              <li class="flex items-center gap-2"><span class="text-cyan-glow">&check;</span> Unlimited Showpiece Revisions</li>
-              <li class="flex items-center gap-2"><span class="text-cyan-glow">&check;</span> Dedicated Senior Design Architect</li>
-              <li class="flex items-center gap-2"><span class="text-cyan-glow">&check;</span> Monthly Conversion Optimization</li>
-              <li class="flex items-center gap-2"><span class="text-cyan-glow">&check;</span> Slack / WhatsApp Direct Channel</li>
-            </ul>
-          </div>
-          <a href="#inquire" class="btn-pixnova-outline w-full py-3 rounded-xl text-center text-xs font-mono uppercase font-bold">Discuss Retainer</a>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- INQUIRY / BRIEF SUBMISSION FORM -->
-  <section id="inquire" class="py-24 px-6 border-t border-midnight-border relative">
-    <div class="max-w-3xl mx-auto bento-card p-8 sm:p-12 rounded-3xl space-y-8">
-      <div class="space-y-2 text-center sm:text-left">
-        <span class="text-xs font-mono text-cyan-glow tracking-widest uppercase">// INITIATE ENGAGEMENT</span>
-        <h3 class="text-2xl sm:text-4xl font-black text-white font-display">Commission Your Showpiece</h3>
-        <p class="text-xs sm:text-sm text-slate-400">
-          Tell us about your brand, timeline, and vision. We will review your brief and return an architectural blueprint within 24 hours.
-        </p>
-      </div>
-
-      <form onsubmit="handleInquirySubmit(event)" class="space-y-4 font-mono text-xs">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <form id="mandateForm" onsubmit="handleMandateSubmit(event)" class="space-y-6 font-mono text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
-            <label class="block text-slate-400 mb-1.5 uppercase tracking-wider text-[11px]">Executive Name *</label>
-            <input type="text" required placeholder="e.g. Marcus Vance" class="w-full bg-midnight-950/90 border border-midnight-border rounded-xl p-3.5 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-glow transition">
+            <label class="block font-bold text-brand-midnight mb-1.5">Executive Name</label>
+            <input type="text" required placeholder="Elena Rostova" class="w-full bg-slate-50 border rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none" style="border-color:rgba(10, 24, 61, 0.09)">
           </div>
           <div>
-            <label class="block text-slate-400 mb-1.5 uppercase tracking-wider text-[11px]">Corporate Email *</label>
-            <input type="email" required placeholder="marcus@company.com" class="w-full bg-midnight-950/90 border border-midnight-border rounded-xl p-3.5 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-glow transition">
+            <label class="block font-bold text-brand-midnight mb-1.5">Corporate Email</label>
+            <input type="email" required placeholder="elena@company.com" class="w-full bg-slate-50 border rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none" style="border-color:rgba(10, 24, 61, 0.09)">
           </div>
         </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
-            <label class="block text-slate-400 mb-1.5 uppercase tracking-wider text-[11px]">Current Website or Brand *</label>
-            <input type="text" required placeholder="pixnova.agency or company.com" class="w-full bg-midnight-950/90 border border-midnight-border rounded-xl p-3.5 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-glow transition">
+            <label class="block font-bold text-brand-midnight mb-1.5">Industry Niche</label>
+            <select class="w-full bg-slate-50 border rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none" style="border-color:rgba(10, 24, 61, 0.09)">
+              <option value="saas">Enterprise SaaS / AI Platform</option>
+              <option value="realestate">Luxury Real Estate &amp; Architecture</option>
+              <option value="fintech">FinTech, Web3 &amp; Trading</option>
+              <option value="medical">Healthcare, Cosmetic &amp; Clinics</option>
+              <option value="ecommerce">High-Ticket E-Commerce</option>
+              <option value="other">Bespoke Commercial Agency</option>
+            </select>
           </div>
           <div>
-            <label class="block text-slate-400 mb-1.5 uppercase tracking-wider text-[11px]">Estimated Investment Budget</label>
-            <select class="w-full bg-midnight-950/90 border border-midnight-border rounded-xl p-3.5 text-white focus:outline-none focus:border-cyan-glow transition">
-              <option>$2,500 - $5,000 (Growth)</option>
-              <option selected>$5,000 - $10,000 (Enterprise Authority)</option>
-              <option>$10,000+ (Custom Flagship & Retainer)</option>
+            <label class="block font-bold text-brand-midnight mb-1.5">Target Budget</label>
+            <select class="w-full bg-slate-50 border rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none" style="border-color:rgba(10, 24, 61, 0.09)">
+              <option value="growth">Growth Architecture ($9,800)</option>
+              <option value="starter">Starter Showpiece ($4,500)</option>
+              <option value="enterprise">Enterprise Bespoke ($18,500+)</option>
             </select>
           </div>
         </div>
-
         <div>
-          <label class="block text-slate-400 mb-1.5 uppercase tracking-wider text-[11px]">Project Requirements & Reference Style *</label>
-          <textarea rows="4" required placeholder="Describe your target audience, color preferences (e.g. Dark Blue and White), reference sites, and key business goals..." class="w-full bg-midnight-950/90 border border-midnight-border rounded-xl p-3.5 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-glow transition resize-none"></textarea>
+          <label class="block font-bold text-brand-midnight mb-1.5">Project Scope &amp; Color Combinations</label>
+          <textarea rows="3" required placeholder="Describe your required features, desired animations, or specific color combinations (e.g. pristine white background with dark blue typography)..." class="w-full bg-slate-50 border rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none resize-none" style="border-color:rgba(10, 24, 61, 0.09)"></textarea>
         </div>
-
-        <button type="submit" id="submitBtn" class="btn-pixnova-primary w-full py-4 rounded-xl text-xs font-mono font-extrabold uppercase tracking-widest shadow-2xl">
-          TRANSMIT PROJECT BRIEF &rarr;
+        <button type="submit" id="submitBriefBtn" class="btn-primary w-full py-4 rounded-xl font-extrabold uppercase tracking-widest text-sm shadow-xl flex items-center justify-center space-x-2">
+          <span>TRANSMIT BRIEF &amp; COMMENCE SPRINT</span>
+          <span>&rarr;</span>
         </button>
-
-        <div id="submitSuccess" class="hidden text-center p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 space-y-1">
-          <div class="font-bold text-sm">&#10003; Brief Successfully Transmitted to Pixnova Engineering</div>
-          <div class="text-[11px] text-slate-400">Our lead architect will inspect your parameters and dispatch an interactive scope proposal within 24 hours.</div>
+        <div id="formSuccessAlert" class="hidden p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 text-center font-bold">
+          ✓ MANDATE TRANSMITTED SUCCESSFULLY! Asura Studio has queued your brief for immediate synthesis.
         </div>
       </form>
     </div>
   </section>
 
-  <!-- INSTITUTIONAL FOOTER -->
-  <footer class="border-t border-midnight-border py-12 px-6 font-mono text-xs bg-midnight-950">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-slate-400">
+  <!-- FOOTER -->
+  <footer class="border-t py-12 px-6" style="border-color:rgba(10, 24, 61, 0.09)">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 font-mono text-xs text-slate-500">
       <div class="flex items-center space-x-3">
-        <div class="w-7 h-7 rounded-lg bg-cyan-glow text-midnight-950 flex items-center justify-center font-bold text-xs font-display">
-          PX
-        </div>
-        <span class="text-white font-bold tracking-wider">PIXNOVA // DIGITAL SHOWPIECE ARCHITECTURE</span>
+        <div class="w-7 h-7 rounded-lg bg-brand-midnight text-white flex items-center justify-center font-bold text-xs">PI</div>
+        <span class="font-bold text-brand-midnight">&copy; 2026 PIXNOVA. ALL RIGHTS RESERVED.</span>
       </div>
-
-      <div class="flex items-center space-x-2 text-slate-500 text-[11px]">
-        <span class="w-2 h-2 rounded-full bg-cyan-glow animate-pulse"></span>
-        <span>DEPLOYED ON VERCEL EDGE &bull; ZERO LATENCY</span>
-      </div>
-
-      <div class="text-[11px] text-slate-500">
-        &copy; 2026 PIXNOVA STUDIO. ALL RIGHTS RESERVED.
+      <div class="flex items-center space-x-6">
+        <span>ARCHITECTED BY ASURA AGENTIC STUDIO</span>
+        <span>VERCEL 24/7 ACTIVE</span>
       </div>
     </div>
   </footer>
 
-  <script>
-    // Initialize GSAP Animations on scroll
-    if (typeof gsap !== 'undefined') {
-      gsap.registerPlugin(ScrollTrigger);
+  <div id="inspectModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+    <div class="bento-card max-w-lg w-full p-6 sm:p-8 space-y-4">
+      <div class="flex items-center justify-between border-b pb-3" style="border-color:rgba(10, 24, 61, 0.09)">
+        <span class="font-display font-black text-lg text-brand-midnight" id="modalTitle">Showpiece Specification</span>
+        <button onclick="closeInspectModal()" class="text-slate-400 hover:text-brand-midnight font-bold text-lg">&times;</button>
+      </div>
+      <p class="text-xs leading-relaxed" style="color:#475569" id="modalDesc"></p>
+      <div class="p-4 rounded-xl bg-slate-50 font-mono text-xs text-slate-700 space-y-1.5">
+        <div>&bull; Framework: Modern Tailwind CSS &amp; GSAP 3.12</div>
+        <div>&bull; Performance: 99.8% Core Web Vitals (Zero CLS)</div>
+        <div>&bull; Security: WCAG AAA Contrast Verified</div>
+      </div>
+      <button onclick="closeInspectModal()" class="btn-primary w-full py-2.5 rounded-xl font-bold font-mono text-xs">Close Inspector</button>
+    </div>
+  </div>
 
-      gsap.from('.bento-card', {
-        scrollTrigger: {
-          trigger: '#capabilities',
-          start: 'top 80%'
-        },
-        duration: 0.8,
-        y: 40,
-        opacity: 0,
-        stagger: 0.12,
-        ease: 'power3.out'
+  <script>
+    var spotlight = document.getElementById("cursorSpotlight");
+    window.addEventListener("mousemove", function(e) {
+      if (spotlight) { spotlight.style.left = e.clientX + "px"; spotlight.style.top = e.clientY + "px"; }
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+      var counters = document.querySelectorAll(".counter");
+      counters.forEach(function(c) {
+        var target = parseFloat(c.getAttribute("data-target"));
+        var current = 0; var step = target / 40;
+        var timer = setInterval(function() {
+          current += step;
+          if (current >= target) { c.innerText = target % 1 === 0 ? target : target.toFixed(1); clearInterval(timer); }
+          else { c.innerText = target % 1 === 0 ? Math.floor(current) : current.toFixed(1); }
+        }, 30);
+      });
+    });
+    function triggerHapticEffect(btn) {
+      btn.innerText = "✓ SPRING IMPULSE REGISTERED (60 FPS)";
+      btn.classList.add("bg-emerald-600");
+      setTimeout(function() { btn.innerText = "✦ CLICK TO TEST SPRING IMPULSE"; btn.classList.remove("bg-emerald-600"); }, 1800);
+    }
+    function filterShowcase(cat, btn) {
+      document.querySelectorAll(".filter-btn").forEach(function(b) { b.className = "px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold filter-btn"; });
+      btn.className = "px-4 py-2 rounded-xl bg-brand-midnight text-white font-bold filter-btn shadow-sm";
+      var items = document.querySelectorAll(".showcase-item");
+      items.forEach(function(item) {
+        if (cat === "all" || item.getAttribute("data-category") === cat) { item.style.display = "block"; }
+        else { item.style.display = "none"; }
       });
     }
-
-    function handleInquirySubmit(e) {
+    var TIERS = {
+      starter: {
+        badge: "RAPID COMMERCE TIER",
+        name: "Starter Showpiece",
+        subtitle: "High-converting single-page presence for emerging niche ventures.",
+        price: "$4,500",
+        turnaround: "Turnaround: 5 Business Days",
+        features: ["Custom Single-Page Bento Layout", "GSAP Smooth Scroll Animations", "Responsive Mobile-First Architecture", "Instant WhatsApp / Email Lead Ingestion", "100/100 Core Web Vitals", "14-Day Post-Launch Support"]
+      },
+      growth: {
+        badge: "COMMERCIAL EXPANSION TIER",
+        name: "Growth Architecture",
+        subtitle: "Ideal for established niche leaders demanding maximum conversion velocity.",
+        price: "$9,800",
+        turnaround: "Turnaround: 10 Business Days",
+        features: ["Custom Multi-Section Bento Grid Architecture", "Hardware GSAP 3.12 ScrollTrigger Parallax", "Interactive Niche Work Showcase with Filters", "Sub-10ms Vercel Edge Serverless Deployment", "Interactive Lead Scoping & Intake Terminal", "100/100 Core Web Vitals Guaranteed Guarantee"]
+      },
+      enterprise: {
+        badge: "SOVEREIGN BESPOKE TIER",
+        name: "Enterprise Bespoke",
+        subtitle: "Fully customized 3D kinetic digital infrastructure with custom WebGL shaders.",
+        price: "$18,500",
+        turnaround: "Turnaround: 20 Business Days",
+        features: ["Full-Scale Custom Three.js 3D Interactive Shaders", "Multi-Page Bespoke Agency Ecosystem", "Dedicated Serverless Edge Infrastructure", "CRM, Stripe & Custom Database Webhooks", "Custom Design System & Brand Guidelines", "90-Day VIP Dedicated Concierge"]
+      }
+    };
+    function selectPricingTier(tierKey, btn) {
+      document.querySelectorAll(".tier-tab").forEach(function(b) { b.className = "px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold tier-tab"; });
+      btn.className = "px-5 py-2.5 rounded-xl bg-brand-midnight text-white font-bold tier-tab shadow-md";
+      var t = TIERS[tierKey]; if (!t) return;
+      document.getElementById("tierBadge").innerText = t.badge;
+      document.getElementById("tierName").innerText = t.name;
+      document.getElementById("tierSubtitle").innerText = t.subtitle;
+      document.getElementById("tierPrice").innerText = t.price;
+      document.getElementById("tierTurnaround").innerText = t.turnaround;
+      var featContainer = document.getElementById("tierFeatures");
+      featContainer.innerHTML = t.features.map(function(f) {
+        return '<div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>' + f + '</span></div>';
+      }).join("");
+    }
+    function openModalPreview(title, desc) {
+      document.getElementById("modalTitle").innerText = title;
+      document.getElementById("modalDesc").innerText = desc;
+      var m = document.getElementById("inspectModal");
+      m.classList.remove("hidden"); m.classList.add("flex");
+    }
+    function closeInspectModal() {
+      var m = document.getElementById("inspectModal");
+      m.classList.add("hidden"); m.classList.remove("flex");
+    }
+    function handleMandateSubmit(e) {
       e.preventDefault();
-      const btn = document.getElementById('submitBtn');
-      const success = document.getElementById('submitSuccess');
-      btn.innerText = 'TRANSMITTING BRIEF...';
+      var btn = document.getElementById("submitBriefBtn");
       btn.disabled = true;
-
-      setTimeout(() => {
-        btn.classList.add('hidden');
-        success.classList.remove('hidden');
-      }, 800);
+      btn.innerHTML = "<span>TRANSMITTING TO ASURA CLOUD...</span>";
+      setTimeout(function() {
+        document.getElementById("formSuccessAlert").classList.remove("hidden");
+        btn.innerHTML = "<span>MANDATE QUEUED FOR SYNTHESIS ✓</span>";
+        btn.classList.add("bg-emerald-600");
+      }, 1200);
     }
   </script>
 </body>
