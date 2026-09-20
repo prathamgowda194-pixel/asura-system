@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pixnova // Bespoke Digital Architecture & Multi-Niche Web Experiences</title>
-  <meta name="description" content="Pixnova designs and animates high-converting bespoke digital showpieces for different niche businesses. Powered by GSAP ScrollTrigger kinetic physics and zero-template engineering.">
+  <title>PIXNOVA // Digital Architecture &amp; 3D Kinetic Web Experiences</title>
+  <meta name="description" content="Pixnova architects bespoke digital showpieces for different niche businesses. Powered by hardware-accelerated GSAP 3.12 ScrollTrigger 3D animations and zero-template engineering.">
 
   <!-- Google Fonts: Syne, Plus Jakarta Sans, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -19,22 +19,22 @@
 
   <script>
     tailwind.config = {
-      darkMode: "media",
+      darkMode: 'media',
       theme: {
         extend: {
           colors: {
             brand: {
-              navy: "#0A183D",
-              midnight: "#050D24",
-              royal: "#0284C7",
-              sky: "#38BDF8",
-              ice: "#E0F2FE"
+              navy: '#0A183D',
+              midnight: '#050D24',
+              royal: '#0284C7',
+              sky: '#38BDF8',
+              ice: '#F0F9FF'
             }
           },
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', "sans-serif"],
-            display: ['"Syne"', "sans-serif"],
-            mono: ['"JetBrains Mono"', "monospace"]
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Syne"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
           }
         }
       }
@@ -44,15 +44,17 @@
   <style>
     * { box-sizing: border-box; }
     body {
-      background-color: #FFFFFF; color: #050D24;
-      font-family: "Plus Jakarta Sans", sans-serif;
+      background-color: #FFFFFF;
+      color: #050D24;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
       margin: 0;
       padding: 0;
     }
-    .font-display { font-family: "Syne", sans-serif; }
-    .font-mono { font-family: "JetBrains Mono", monospace; }
+    .font-display { font-family: 'Syne', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
 
+    /* Custom Cursor Spotlight */
     #cursorSpotlight {
       position: fixed;
       top: 0; left: 0;
@@ -65,20 +67,23 @@
       transition: opacity 0.3s ease;
     }
 
+    /* Subtle Architectural Background Grid */
     .bg-grid-pattern {
       background-size: 40px 40px;
       background-image: 
-        linear-gradient(to right, rgba(10, 24, 61, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(10, 24, 61, 0.03) 1px, transparent 1px);
+        linear-gradient(to right, rgba(10, 24, 61, 0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(10, 24, 61, 0.035) 1px, transparent 1px);
     }
 
+    /* Glass Navigation */
     .glass-nav {
       background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(10, 24, 61, 0.09);
+      border-bottom: 1px solid rgba(10, 24, 61, 0.08);
     }
 
+    /* Elevated White Bento Cards */
     .bento-card {
       background: #FFFFFF;
       border: 1px solid rgba(10, 24, 61, 0.09);
@@ -94,6 +99,7 @@
       box-shadow: 0 25px 50px -12px rgba(2, 132, 199, 0.18);
     }
 
+    /* Interactive Buttons */
     .btn-primary {
       background: #0A183D;
       color: #FFFFFF;
@@ -119,6 +125,41 @@
       border-color: #0284C7;
     }
 
+    /* 3D SCROLL CONTAINERS */
+    .perspective-container {
+      perspective: 1200px;
+      transform-style: preserve-3d;
+    }
+
+    /* 3D Smartphone Assembly Layers (Reference 5) */
+    .phone-3d-stage {
+      position: relative;
+      width: 280px;
+      height: 560px;
+      margin: 0 auto;
+      transform-style: preserve-3d;
+      transition: transform 0.1s ease-out;
+    }
+    .phone-layer {
+      position: absolute;
+      inset: 0;
+      border-radius: 44px;
+      transition: all 0.1s ease-out;
+      backface-visibility: hidden;
+    }
+
+    /* 3D Architectural Blueprint (Reference 2) */
+    .blueprint-canvas-container {
+      perspective: 1000px;
+      transform-style: preserve-3d;
+    }
+    .blueprint-board {
+      transform: rotateX(48deg) rotateZ(-18deg) scale(0.95);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 35px 70px -15px rgba(2, 132, 199, 0.25);
+    }
+
+    /* Scrollbars */
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: #F1F5F9; }
     ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
@@ -129,15 +170,18 @@
 <body class="bg-grid-pattern antialiased">
   <div id="cursorSpotlight"></div>
 
+  <!-- ======================================================================= -->
   <!-- NAVIGATION -->
+  <!-- ======================================================================= -->
   <nav class="glass-nav sticky top-0 z-50 px-6 py-4 transition-all">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
+      
       <a href="#" class="flex items-center space-x-3 group">
         <div class="w-10 h-10 rounded-2xl bg-brand-midnight text-white flex items-center justify-center font-display font-black text-base shadow-md group-hover:bg-brand-royal transition">
           PI
         </div>
         <div class="flex flex-col">
-          <span class="font-display font-extrabold text-lg tracking-tight flex items-center gap-1.5" style="color:#050D24">
+          <span class="font-display font-extrabold text-lg tracking-tight flex items-center gap-1.5 text-brand-midnight">
             <span>PIXNOVA</span>
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
           </span>
@@ -145,16 +189,17 @@
         </div>
       </a>
 
-      <div class="hidden md:flex items-center space-x-8 font-mono text-xs font-semibold" style="color:#475569">
-        <a href="#capabilities" class="hover:text-brand-royal transition">CAPABILITIES</a>
-        <a href="#showcase" class="hover:text-brand-royal transition">NICHE SHOWCASES</a>
+      <div class="hidden md:flex items-center space-x-8 font-mono text-xs font-semibold text-slate-600">
+        <a href="#hero" class="hover:text-brand-royal transition">OVERVIEW</a>
+        <a href="#scroll-realestate" class="hover:text-brand-royal transition">3D BLUEPRINT</a>
+        <a href="#scroll-tech" class="hover:text-brand-royal transition">3D DEVICE ASSEMBLY</a>
+        <a href="#scroll-coffee" class="hover:text-brand-royal transition">3D COFFEE ROASTER</a>
+        <a href="#showcase" class="hover:text-brand-royal transition">CLIENT SITES</a>
         <a href="#calculator" class="hover:text-brand-royal transition">ESTIMATOR</a>
-        <a href="#reviews" class="hover:text-brand-royal transition">CLIENT PROOF</a>
-        <a href="#inquire" class="hover:text-brand-royal transition">COMMISSION</a>
       </div>
 
       <div class="flex items-center space-x-3">
-        <span class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold" style="background:#EFF6FF;border:1px solid #BFDBFE;color:#1D4ED8">
+        <span class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-blue-50 border border-blue-200 text-blue-700">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
           <span>ONLINE 24/7</span>
         </span>
@@ -166,256 +211,360 @@
     </div>
   </nav>
 
+  <!-- ======================================================================= -->
   <!-- HERO SECTION -->
-  <header class="relative pt-24 pb-20 px-6 max-w-7xl mx-auto flex flex-col items-center text-center">
-    <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full text-xs font-mono font-bold mb-6 shadow-sm animate-fade-in" style="background:#EFF6FF;border:1px solid #BFDBFE;color:#1D4ED8">
+  <!-- ======================================================================= -->
+  <header id="hero" class="relative pt-24 pb-20 px-6 max-w-7xl mx-auto flex flex-col items-center text-center">
+    
+    <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full text-xs font-mono font-bold mb-6 shadow-sm bg-blue-50 border border-blue-200 text-blue-700">
       <span class="w-2 h-2 rounded-full bg-brand-royal animate-ping"></span>
       <span>BESPOKE WEB ARCHITECTURE // DIFFERENT NICHE BUSINESSES</span>
     </div>
 
-    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black font-display tracking-tight leading-[1.05] max-w-6xl" style="color:#050D24">
+    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black font-display tracking-tight leading-[1.05] max-w-6xl text-brand-midnight">
       Websites Engineered for <br class="hidden sm:inline">
       <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-midnight via-brand-royal to-sky-500">
         Multi-Niche Businesses.
       </span>
     </h1>
 
-    <p class="mt-6 text-base sm:text-xl max-w-3xl leading-relaxed font-sans" style="color:#475569">
-      Pixnova synthesizes award-winning digital showpieces with zero template compromise. Powered by hardware-accelerated GSAP ScrollTrigger kinetic animations, high-converting bento layouts, and institutional typography.
+    <p class="mt-6 text-base sm:text-xl max-w-3xl leading-relaxed font-sans text-slate-600">
+      Pixnova synthesizes award-winning digital showpieces with zero template compromise. Powered by hardware-accelerated GSAP ScrollTrigger 3D kinetic animations, interactive bento layouts, and institutional typography.
     </p>
 
     <div class="mt-10 flex flex-wrap items-center justify-center gap-4 font-mono text-xs">
-      <a href="#inquire" class="btn-primary px-8 py-4 rounded-2xl text-sm font-extrabold shadow-xl flex items-center space-x-2">
-        <span>INITIATE PROJECT MANDATE</span>
-        <span>&rarr;</span>
+      <a href="#scroll-realestate" class="btn-primary px-8 py-4 rounded-2xl text-sm font-extrabold shadow-xl flex items-center space-x-2">
+        <span>EXPERIENCE 3D SCROLL &darr;</span>
       </a>
       <a href="#showcase" class="btn-secondary px-8 py-4 rounded-2xl text-sm font-bold flex items-center space-x-2">
-        <span>EXPLORE NICHE PORTFOLIO</span>
-        <span>&darr;</span>
+        <span>EXPLORE CLIENT SITES &rarr;</span>
       </a>
     </div>
 
     <!-- Live Animated Metrics Counter Strip -->
-    <div class="mt-20 w-full grid grid-cols-2 md:grid-cols-4 gap-6 p-6 rounded-3xl bento-card text-center" style="background:#FFFFFF">
+    <div class="mt-20 w-full grid grid-cols-2 md:grid-cols-4 gap-6 p-6 rounded-3xl bento-card text-center">
       <div>
         <div class="text-3xl sm:text-5xl font-black font-display text-brand-midnight counter" data-target="99.8">0</div>
         <div class="text-xs font-mono font-bold mt-1 text-brand-royal">CORE WEB VITALS</div>
-        <div class="text-[11px] mt-0.5" style="color:#475569">Sub-10ms Global Edge Response</div>
+        <div class="text-[11px] mt-0.5 text-slate-500">Sub-10ms Global Edge Response</div>
       </div>
       <div>
         <div class="text-3xl sm:text-5xl font-black font-display text-brand-midnight counter" data-target="340">0</div>
         <div class="text-xs font-mono font-bold mt-1 text-brand-royal">SHOWPIECES SYNTHESIZED</div>
-        <div class="text-[11px] mt-0.5" style="color:#475569">Tailored across 24 Industry Niches</div>
+        <div class="text-[11px] mt-0.5 text-slate-500">Tailored across 24 Industry Niches</div>
       </div>
       <div>
         <div class="text-3xl sm:text-5xl font-black font-display text-brand-midnight counter" data-target="340">0</div>
         <div class="text-xs font-mono font-bold mt-1 text-brand-royal">% CONVERSION LIFT</div>
-        <div class="text-[11px] mt-0.5" style="color:#475569">Average Verified Client Metric</div>
+        <div class="text-[11px] mt-0.5 text-slate-500">Average Verified Client Metric</div>
       </div>
       <div>
         <div class="text-3xl sm:text-5xl font-black font-display text-brand-midnight">$<span class="counter" data-target="64">0</span>M+</div>
         <div class="text-xs font-mono font-bold mt-1 text-brand-royal">CLIENT PIPELINE VALUE</div>
-        <div class="text-[11px] mt-0.5" style="color:#475569">Generated for Enterprise Partners</div>
+        <div class="text-[11px] mt-0.5 text-slate-500">Generated for Enterprise Partners</div>
       </div>
     </div>
   </header>
 
-  <!-- CAPABILITIES BENTO GRID -->
-  <section id="capabilities" class="py-24 px-6 max-w-7xl mx-auto">
-    <div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
-      <div>
-        <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">01 // ADAPTED FEATURES &amp; KINETIC ENGINE</span>
-        <h2 class="text-3xl sm:text-5xl font-black font-display tracking-tight mt-2" style="color:#050D24">
-          Engineered for Maximum Impact.
-        </h2>
-      </div>
-      <p class="text-sm max-w-md" style="color:#475569">
-        Every component is custom-architected according to anti-slop guidelines and modular design standards.
+  <!-- ======================================================================= -->
+  <!-- 3D SCROLL ANIMATION 1: REAL ESTATE // 3D CAD BLUEPRINT PROCESS (Images 1 & 2) -->
+  <!-- ======================================================================= -->
+  <section id="scroll-realestate" class="py-24 px-6 max-w-7xl mx-auto border-t border-slate-200">
+    <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+      <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">
+        ✦ NICHE 1: LUXURY REAL ESTATE &amp; ARCHITECTURE
+      </span>
+      <h2 class="text-3xl sm:text-5xl font-black font-display tracking-tight text-brand-midnight">
+        3D Scroll: The Architectural Process.
+      </h2>
+      <p class="text-sm text-slate-600">
+        Scroll down to watch the architectural blueprint tilt in 3D perspective, drawing structural CAD lines and revealing spatial dimensions in real time.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="bento-card md:col-span-2 p-8 sm:p-10 flex flex-col justify-between">
-        <div class="space-y-4">
-          <div class="flex items-center justify-between">
-            <span class="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-brand-ice text-brand-navy border border-brand-sky/30">
-              GSAP 3.12 &bull; SCROLLTRIGGER
-            </span>
-            <span class="font-mono text-xs text-brand-royal font-bold">60 FPS KINETIC TIMELINES</span>
-          </div>
-          <h3 class="text-2xl sm:text-3xl font-black font-display text-brand-midnight">
-            Hardware-Accelerated Fluid Scroll Physics
-          </h3>
-          <p class="text-sm leading-relaxed" style="color:#475569">
-            Liquid parallax timelines, spring damping, and momentum scrolling synchronized directly to user gesture velocity. Completely eliminates layout thrashing and cumulative layout shift.
-          </p>
+    <!-- Pinned Blueprint 3D Interactive Stage -->
+    <div id="blueprintPinnedStage" class="w-full min-h-[600px] rounded-3xl bg-slate-950 p-6 sm:p-12 relative overflow-hidden flex flex-col items-center justify-center blueprint-canvas-container text-white">
+      
+      <!-- Ambient Blueprint Glow -->
+      <div class="absolute inset-0 bg-radial from-cyan-900/30 via-slate-950 to-slate-950 pointer-events-none"></div>
+
+      <!-- Top HUD Header -->
+      <div class="w-full flex items-center justify-between font-mono text-xs text-cyan-400 border-b border-cyan-900/50 pb-4 mb-8 z-10">
+        <div class="flex items-center space-x-2">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+          <span class="font-bold tracking-wider">PROJECT: BHOOMIPUTRA LUXURY VILLA // 3D SCROLL CAD</span>
         </div>
-        <div class="mt-8 p-4 rounded-2xl bg-brand-ice/40 border border-brand-sky/20 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
-          <div class="flex items-center space-x-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span class="text-brand-midnight font-bold">Interactive Parallax Active</span>
-          </div>
-          <span class="text-brand-royal font-bold">Zero-Layout-Shift (CLS: 0.00)</span>
+        <span id="blueprintScrollStep" class="font-bold text-white bg-cyan-500/20 border border-cyan-500/40 px-3 py-1 rounded-full">
+          SCROLL STEP: 01 // FOUNDATION
+        </span>
+      </div>
+
+      <!-- 3D Tilting Floorplan Canvas -->
+      <div id="blueprintBoard" class="blueprint-board w-full max-w-4xl bg-slate-900/90 border-2 border-cyan-500/40 rounded-2xl p-6 sm:p-10 relative z-10 backdrop-blur-xl">
+        
+        <!-- Blueprint CAD SVG with dynamic drawing paths -->
+        <svg id="blueprintSvg" viewBox="0 0 800 450" class="w-full h-auto text-cyan-400 drop-shadow-[0_0_12px_rgba(6,182,212,0.5)]" fill="none" stroke="currentColor" stroke-width="2">
+          <!-- Outer Walls -->
+          <rect x="50" y="40" width="700" height="370" rx="8" stroke-dasharray="2200" stroke-dashoffset="0" class="cad-line"></rect>
+          <!-- Master Suite -->
+          <rect x="50" y="40" width="280" height="200" stroke-dasharray="1000" stroke-dashoffset="0" class="cad-line"></rect>
+          <!-- Infinity Pool Terrace -->
+          <rect x="350" y="40" width="400" height="150" stroke-dasharray="1100" stroke-dashoffset="0" class="cad-line" stroke-dasharray="6,4"></rect>
+          <!-- Living Salon & Atrium -->
+          <rect x="50" y="260" width="450" height="150" stroke-dasharray="1200" stroke-dashoffset="0" class="cad-line"></rect>
+          <!-- Minimalist Chef Kitchen -->
+          <rect x="520" y="210" width="230" height="200" stroke-dasharray="900" stroke-dashoffset="0" class="cad-line"></rect>
+          <!-- Architectural Dimension Ticks -->
+          <line x1="50" y1="20" x2="750" y2="20" stroke="#00F0FF" stroke-width="1.5"></line>
+          <line x1="50" y1="12" x2="50" y2="28" stroke="#00F0FF" stroke-width="1.5"></line>
+          <line x1="750" y1="12" x2="750" y2="28" stroke="#00F0FF" stroke-width="1.5"></line>
+        </svg>
+
+        <!-- Dimension Tags Overlay that reveal on scroll -->
+        <div id="blueprintTag1" class="absolute top-12 left-16 px-3 py-1.5 rounded-lg bg-cyan-950/90 border border-cyan-400 text-cyan-300 font-mono text-[11px] font-bold shadow-lg">
+          ✦ MASTER SUITE // 420 SQ FT &bull; CEILING 12FT
+        </div>
+        <div id="blueprintTag2" class="absolute top-12 right-24 px-3 py-1.5 rounded-lg bg-cyan-950/90 border border-cyan-400 text-cyan-300 font-mono text-[11px] font-bold shadow-lg">
+          ✦ INFINITY POOL DECK // 60FT HEATED OVERHANG
+        </div>
+        <div id="blueprintTag3" class="absolute bottom-12 left-16 px-3 py-1.5 rounded-lg bg-cyan-950/90 border border-cyan-400 text-cyan-300 font-mono text-[11px] font-bold shadow-lg">
+          ✦ DOUBLE-HEIGHT ATRIUM // CURATED LIVED SPACES
+        </div>
+        <div id="blueprintTag4" class="absolute bottom-12 right-24 px-3 py-1.5 rounded-lg bg-cyan-950/90 border border-cyan-400 text-cyan-300 font-mono text-[11px] font-bold shadow-lg">
+          ✦ CHEF GOURMET KITCHEN // MONOLITHIC MARBLE
         </div>
       </div>
 
-      <div class="bento-card p-8 sm:p-10 flex flex-col justify-between">
-        <div class="space-y-4">
-          <span class="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-brand-ice text-brand-navy border border-brand-sky/30">
-            NICHE ARCHITECTURE
-          </span>
-          <h3 class="text-2xl font-black font-display text-brand-midnight">
-            Multi-Industry Adapted DNA
-          </h3>
-          <p class="text-xs leading-relaxed" style="color:#475569">
-            Tailored architectures for SaaS, Healthcare, FinTech, Luxury Real Estate, and High-Ticket Hospitality.
-          </p>
-        </div>
-        <div class="mt-6 space-y-2 font-mono text-xs">
-          <div class="flex justify-between p-2 rounded-lg bg-slate-100/70 border border-slate-200/50 text-slate-700">
-            <span>FinTech &amp; Web3</span>
-            <span class="font-bold text-brand-royal">Trust Anchors</span>
-          </div>
-          <div class="flex justify-between p-2 rounded-lg bg-slate-100/70 border border-slate-200/50 text-slate-700">
-            <span>Luxury Real Estate</span>
-            <span class="font-bold text-brand-royal">3D Villa Parallax</span>
-          </div>
-          <div class="flex justify-between p-2 rounded-lg bg-slate-100/70 border border-slate-200/50 text-slate-700">
-            <span>Medical &amp; Clinics</span>
-            <span class="font-bold text-brand-royal">Instant WhatsApp</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="bento-card p-8 sm:p-10 flex flex-col justify-between">
-        <div class="space-y-4">
-          <span class="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-brand-ice text-brand-navy border border-brand-sky/30">
-            TACTILE ERGONOMICS
-          </span>
-          <h3 class="text-xl font-black font-display text-brand-midnight">
-            Spring Physics &amp; Micro-Interactions
-          </h3>
-          <p class="text-xs leading-relaxed" style="color:#475569">
-            Interactive tactile feedback on every click, toggle, and hover event. Try clicking below:
-          </p>
-        </div>
-        <div class="mt-6 text-center">
-          <button onclick="triggerHapticEffect(this)" class="w-full py-3 rounded-xl bg-brand-midnight text-white text-xs font-mono font-extrabold hover:bg-brand-royal transition active:scale-95 shadow-md">
-            ✦ CLICK TO TEST SPRING IMPULSE
-          </button>
-        </div>
-      </div>
-
-      <div class="bento-card md:col-span-2 p-8 sm:p-10 flex flex-col justify-between">
-        <div class="space-y-4">
-          <div class="flex items-center justify-between">
-            <span class="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-brand-ice text-brand-navy border border-brand-sky/30">
-              21ST.DEV &amp; SHADCN VAULT
-            </span>
-            <span class="font-mono text-xs text-brand-royal font-bold">532 HARVESTED PRIMITIVES</span>
-          </div>
-          <h3 class="text-2xl sm:text-3xl font-black font-display text-brand-midnight">
-            Institutional Component Synthesis
-          </h3>
-          <p class="text-sm leading-relaxed" style="color:#475569">
-            Directly draws from the 532 elite components stored in our offline vault. Asymmetrical bento cards, interactive sliders, data visualizations, and accessible keyboard states.
-          </p>
-        </div>
-        <div class="mt-6 grid grid-cols-3 gap-3 text-center font-mono text-xs">
-          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
-            <div class="font-bold text-brand-midnight">BENTO</div>
-            <div class="text-[10px] text-slate-500">Asymmetric Grid</div>
-          </div>
-          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
-            <div class="font-bold text-brand-midnight">SHADCN</div>
-            <div class="text-[10px] text-slate-500">Design Tokens</div>
-          </div>
-          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
-            <div class="font-bold text-brand-midnight">GSAP</div>
-            <div class="text-[10px] text-slate-500">ScrollTrigger 3.12</div>
-          </div>
-        </div>
+      <!-- Live Interactive Slider Control -->
+      <div class="mt-8 w-full max-w-md flex items-center justify-between font-mono text-xs text-slate-400 z-10">
+        <span>3D PERSPECTIVE TILT:</span>
+        <input type="range" id="blueprintTiltSlider" min="10" max="65" value="48" class="w-48 accent-cyan-400 cursor-pointer" oninput="manualBlueprintTilt(this.value)">
+        <span id="tiltVal" class="text-cyan-400 font-bold">48&deg;</span>
       </div>
     </div>
   </section>
 
-  <!-- SHOWCASE -->
-  <section id="showcase" class="py-24 px-6 max-w-7xl mx-auto border-t" style="border-color:rgba(10, 24, 61, 0.09)">
+  <!-- ======================================================================= -->
+  <!-- 3D SCROLL ANIMATION 2: TECH / MOBILE // EXPLODED DISASSEMBLY (Image 5) -->
+  <!-- ======================================================================= -->
+  <section id="scroll-tech" class="py-24 px-6 max-w-7xl mx-auto border-t border-slate-200">
     <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
-      <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">02 // MULTI-NICHE WORK SHOWCASE</span>
+      <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">
+        ✦ NICHE 2: TECH, MOBILE &amp; HARDWARE DEVICES
+      </span>
       <h2 class="text-3xl sm:text-5xl font-black font-display tracking-tight text-brand-midnight">
-        Proven Across Every Vertical.
+        3D Scroll: Exploded Device Assembly.
       </h2>
-      <p class="text-sm" style="color:#475569">
-        Filter and examine actual bespoke showpieces engineered for different niche clients.
+      <p class="text-sm text-slate-600">
+        "Inside the object. Scroll through the assembly." As you scroll or drag, the device rotates and separates into 6 precision-machined hardware layers.
       </p>
+    </div>
+
+    <!-- Pinned 3D Device Disassembly Stage -->
+    <div id="techPinnedStage" class="w-full min-h-[640px] rounded-3xl bg-zinc-950 p-6 sm:p-12 relative overflow-hidden flex flex-col items-center justify-center perspective-container text-white">
+      
+      <!-- Top Spec Ticker -->
+      <div class="w-full flex items-center justify-between font-mono text-xs text-slate-400 border-b border-zinc-800 pb-4 mb-8 z-10">
+        <span class="text-white font-bold tracking-wider">AETHER TITANIUM PRO // HARDWARE CAD SCROLL</span>
+        <div class="flex items-center space-x-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-emerald-400 font-bold">ASSEMBLY EXPLODED: 100%</span>
+        </div>
+      </div>
+
+      <!-- 3D Phone Layers Stage -->
+      <div class="relative w-full max-w-3xl h-[420px] flex items-center justify-center">
+        
+        <!-- Layer 1: Ceramic Shield Glass -->
+        <div id="phoneLayer1" class="absolute w-56 sm:w-64 h-96 sm:h-[420px] rounded-[40px] border-2 border-cyan-400/80 bg-cyan-500/10 backdrop-blur-md shadow-2xl flex flex-col justify-between p-5 transition-transform duration-300" style="transform: translateX(-160px) rotateY(-22deg) scale(0.92); z-index: 5;">
+          <div class="flex justify-between items-center text-[10px] font-mono text-cyan-300">
+            <span>01 // DISPLAY</span>
+            <span>SAPPHIRE</span>
+          </div>
+          <div class="text-center">
+            <div class="font-display font-black text-sm text-white">Super Retina XDR</div>
+            <div class="text-[10px] font-mono text-cyan-300 mt-0.5">120Hz ProMotion &bull; 2,400 Nits</div>
+          </div>
+          <div class="text-[9px] font-mono text-center text-cyan-400">CERAMIC SHIELD GEN-3</div>
+        </div>
+
+        <!-- Layer 2: Aerospace Titanium Frame -->
+        <div id="phoneLayer2" class="absolute w-56 sm:w-64 h-96 sm:h-[420px] rounded-[40px] border-4 border-slate-300 bg-slate-800/90 shadow-2xl flex flex-col justify-between p-5 transition-transform duration-300" style="transform: translateX(-60px) rotateY(-14deg) scale(0.96); z-index: 4;">
+          <div class="flex justify-between items-center text-[10px] font-mono text-slate-400">
+            <span>02 // CHASSIS</span>
+            <span>GRADE 5</span>
+          </div>
+          <div class="text-center">
+            <div class="font-display font-black text-sm text-white">Aerospace Titanium</div>
+            <div class="text-[10px] font-mono text-slate-300 mt-0.5">CNC Billet Machined Frame</div>
+          </div>
+          <div class="text-[9px] font-mono text-center text-slate-400">ULTRA-LIGHT RIGID MATRIX</div>
+        </div>
+
+        <!-- Layer 3: 3nm Neural Bionic Silicon Core -->
+        <div id="phoneLayer3" class="absolute w-56 sm:w-64 h-96 sm:h-[420px] rounded-[40px] border-2 border-emerald-400/80 bg-emerald-950/80 shadow-2xl flex flex-col justify-between p-5 transition-transform duration-300" style="transform: translateX(40px) rotateY(-4deg) scale(1.0); z-index: 3;">
+          <div class="flex justify-between items-center text-[10px] font-mono text-emerald-400">
+            <span>03 // SILICON</span>
+            <span>3nm DIE</span>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 mx-auto rounded-xl bg-emerald-500/20 border border-emerald-400 flex items-center justify-center font-display font-black text-emerald-300 text-lg shadow-lg">
+              A18
+            </div>
+            <div class="font-display font-black text-sm text-white mt-2">Neural Engine Pro</div>
+            <div class="text-[10px] font-mono text-emerald-300">35 Trillion Ops/Sec</div>
+          </div>
+          <div class="text-[9px] font-mono text-center text-emerald-400">HARDWARE RAY TRACING</div>
+        </div>
+
+        <!-- Layer 4: Periscope Triple Optical Module -->
+        <div id="phoneLayer4" class="absolute w-56 sm:w-64 h-96 sm:h-[420px] rounded-[40px] border-2 border-purple-400/80 bg-purple-950/80 shadow-2xl flex flex-col justify-between p-5 transition-transform duration-300" style="transform: translateX(140px) rotateY(6deg) scale(0.96); z-index: 2;">
+          <div class="flex justify-between items-center text-[10px] font-mono text-purple-300">
+            <span>04 // OPTICS</span>
+            <span>TRIPLE PRISM</span>
+          </div>
+          <div class="text-center space-y-2">
+            <div class="flex justify-center gap-1.5">
+              <span class="w-6 h-6 rounded-full border border-purple-400 bg-black"></span>
+              <span class="w-6 h-6 rounded-full border border-purple-400 bg-black"></span>
+              <span class="w-6 h-6 rounded-full border border-purple-400 bg-black"></span>
+            </div>
+            <div class="font-display font-black text-sm text-white">108MP Quad-Bayer</div>
+            <div class="text-[10px] font-mono text-purple-300">10x Optical Periscope</div>
+          </div>
+          <div class="text-[9px] font-mono text-center text-purple-400">ZERO SHUTTER LAG</div>
+        </div>
+
+        <!-- Layer 5: Graphene Vapor Chamber & Cell -->
+        <div id="phoneLayer5" class="absolute w-56 sm:w-64 h-96 sm:h-[420px] rounded-[40px] border-2 border-amber-400/80 bg-amber-950/80 shadow-2xl flex flex-col justify-between p-5 transition-transform duration-300" style="transform: translateX(240px) rotateY(16deg) scale(0.92); z-index: 1;">
+          <div class="flex justify-between items-center text-[10px] font-mono text-amber-300">
+            <span>05 // THERMALS</span>
+            <span>GRAPHENE</span>
+          </div>
+          <div class="text-center">
+            <div class="font-display font-black text-sm text-white">Vapor Chamber &bull; 5,200mAh</div>
+            <div class="text-[10px] font-mono text-amber-300 mt-0.5">Silicon-Carbon Anode</div>
+          </div>
+          <div class="text-[9px] font-mono text-center text-amber-400">48-HOUR ENDURANCE</div>
+        </div>
+
+      </div>
+
+      <!-- Live Interactive Layer Explode Controller -->
+      <div class="mt-8 w-full max-w-md flex items-center justify-between font-mono text-xs text-slate-400 z-10">
+        <span>ASSEMBLY SPREAD:</span>
+        <input type="range" id="explodeSlider" min="0" max="100" value="100" class="w-48 accent-emerald-400 cursor-pointer" oninput="manualExplode(this.value)">
+        <span id="explodeVal" class="text-emerald-400 font-bold">100%</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================= -->
+  <!-- 3D SCROLL ANIMATION 3: ARTISAN CAFE & COFFEE (Image 3) -->
+  <!-- ======================================================================= -->
+  <section id="scroll-coffee" class="py-24 px-6 max-w-7xl mx-auto border-t border-slate-200">
+    <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+      <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">
+        ✦ NICHE 3: ARTISAN CAFE, COFFEE &amp; CULINARY
+      </span>
+      <h2 class="text-3xl sm:text-5xl font-black font-display tracking-tight text-brand-midnight">
+        Noir: It Begins with the Bean.
+      </h2>
+      <p class="text-sm text-slate-600">
+        "Scroll the journey." High-end luxury coffee experience with 3D swirling beans inside the glass roaster bowl, kinetic steam particle physics, and smooth temperature scrubbing.
+      </p>
+    </div>
+
+    <!-- Pinned 3D Roaster Stage -->
+    <div class="w-full min-h-[580px] rounded-3xl bg-stone-950 p-6 sm:p-12 relative overflow-hidden flex flex-col items-center justify-center text-white">
+      
+      <div class="absolute inset-0 bg-radial from-amber-950/40 via-stone-950 to-stone-950 pointer-events-none"></div>
+
+      <div class="w-full flex items-center justify-between font-mono text-xs text-amber-400/80 border-b border-amber-900/40 pb-4 mb-8 z-10">
+        <span class="text-white font-bold tracking-wider">NOIR ROASTERY // 3D BEAN-TO-CUP JOURNEY</span>
+        <span id="roastTempText" class="font-bold text-amber-300 bg-amber-500/20 border border-amber-500/40 px-3 py-1 rounded-full">
+          ROAST TEMP: 204&deg;C &bull; CRACK 2 COMPLETE
+        </span>
+      </div>
+
+      <!-- 3D Roaster Glass Bowl with Swirling Beans Canvas -->
+      <div class="relative w-72 h-72 sm:w-80 sm:h-80 rounded-full border-4 border-amber-400/40 bg-stone-900/80 shadow-[0_0_80px_rgba(245,158,11,0.25)] flex items-center justify-center z-10 overflow-hidden">
+        
+        <!-- Canvas for spinning coffee beans in physics vortex -->
+        <canvas id="coffeeBeansCanvas" width="320" height="320" class="w-full h-full cursor-pointer"></canvas>
+
+        <!-- Center Monolithic Spindle -->
+        <div class="absolute w-12 h-12 rounded-full bg-stone-800 border-2 border-amber-400/60 shadow-lg flex items-center justify-center pointer-events-none">
+          <div class="w-4 h-4 rounded-full bg-amber-500 animate-ping"></div>
+        </div>
+
+        <!-- Floating Typography Overlay -->
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 pointer-events-none bg-black/40">
+          <div class="font-mono text-[10px] text-amber-300 uppercase tracking-widest font-bold">✦ THE BEAN ✦</div>
+          <div class="font-display font-black text-xl text-white mt-1">Single-Origin Geisha</div>
+          <div class="text-[11px] font-mono text-amber-200/80 mt-1">Ethiopia Yirgacheffe &bull; Altitude 2,100m</div>
+        </div>
+      </div>
+
+      <!-- Bean Vortex Control -->
+      <div class="mt-8 w-full max-w-md flex items-center justify-between font-mono text-xs text-slate-400 z-10">
+        <span>VORTEX RPM SPEED:</span>
+        <input type="range" id="coffeeRpmSlider" min="1" max="10" value="4" class="w-48 accent-amber-400 cursor-pointer" oninput="manualCoffeeRpm(this.value)">
+        <span id="coffeeRpmVal" class="text-amber-400 font-bold">120 RPM</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================= -->
+  <!-- MULTI-NICHE CLIENT WEBSITES SHOWCASE (ALL OPEN LIVE ON CLICK!) -->
+  <!-- ======================================================================= -->
+  <section id="showcase" class="py-24 px-6 max-w-7xl mx-auto border-t border-slate-200">
+    <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+      <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">
+        ✦ 04 // LIVE CLIENT SHOWPIECES
+      </span>
+      <h2 class="text-3xl sm:text-5xl font-black font-display tracking-tight text-brand-midnight">
+        Built for Industry Leaders.
+      </h2>
+      <p class="text-sm text-slate-600">
+        Every website below is a real, live showpiece synthesized by Asura. Click any project to open and explore the full live site.
+      </p>
+
+      <!-- Category Filter Pills -->
       <div class="pt-4 flex flex-wrap items-center justify-center gap-2 font-mono text-xs">
         <button onclick="filterShowcase('all', this)" class="px-4 py-2 rounded-xl bg-brand-midnight text-white font-bold filter-btn shadow-sm">All Showpieces</button>
-        <button onclick="filterShowcase('saas', this)" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold filter-btn">SaaS &amp; AI</button>
         <button onclick="filterShowcase('realestate', this)" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold filter-btn">Luxury Real Estate</button>
+        <button onclick="filterShowcase('medical', this)" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold filter-btn">Medical &amp; Clinics</button>
         <button onclick="filterShowcase('fintech', this)" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold filter-btn">FinTech &amp; Web3</button>
-        <button onclick="filterShowcase('medical', this)" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold filter-btn">Healthcare &amp; Clinics</button>
+        <button onclick="filterShowcase('saas', this)" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold filter-btn">SaaS &amp; AI</button>
       </div>
     </div>
 
+    <!-- Showcase Cards Grid with REAL Working Links -->
     <div id="showcaseGrid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div class="bento-card p-6 sm:p-8 space-y-5 showcase-item" data-category="saas">
-        <div class="w-full h-52 rounded-2xl bg-gradient-to-br from-brand-midnight via-slate-900 to-brand-navy p-6 flex flex-col justify-between text-white relative overflow-hidden shadow-inner">
-          <div class="flex items-center justify-between text-xs font-mono">
-            <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20 font-bold">SAAS &amp; AI</span>
-            <span class="text-emerald-400 font-bold">+410% ARR PIPELINE</span>
-          </div>
-          <div>
-            <div class="font-display font-black text-2xl tracking-tight">VORTEX AI CLOUD</div>
-            <p class="text-xs text-slate-300 font-mono mt-1">Autonomous Neural Compute &amp; Workflow Studio</p>
-          </div>
-        </div>
-        <div class="flex items-center justify-between text-xs font-mono">
-          <span class="text-slate-500">GSAP &bull; Bento Layout &bull; 0.3s Load</span>
-          <button onclick="openModalPreview('Vortex AI Enterprise', 'Full SaaS showpiece featuring interactive workflow simulator, dynamic pricing matrix, and dark glassmorphic UI.')" class="font-bold text-brand-royal hover:underline">
-            Inspect Architecture &rarr;
-          </button>
-        </div>
-      </div>
-
+      
+      <!-- Project 1: Real Estate (Bhoomiputra) -->
       <div class="bento-card p-6 sm:p-8 space-y-5 showcase-item" data-category="realestate">
         <div class="w-full h-52 rounded-2xl bg-gradient-to-br from-amber-950 via-stone-900 to-slate-900 p-6 flex flex-col justify-between text-white relative overflow-hidden shadow-inner">
           <div class="flex items-center justify-between text-xs font-mono">
-            <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20 font-bold">LUXURY ESTATES</span>
-            <span class="text-amber-400 font-bold">$120M+ SALES ASSETS</span>
+            <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20 font-bold">LUXURY REAL ESTATE</span>
+            <span class="text-amber-400 font-bold">$120M+ SALES PIPELINE</span>
           </div>
           <div>
-            <div class="font-display font-black text-2xl tracking-tight">BHOOMIPUTRA SANCTUM</div>
+            <div class="font-display font-black text-2xl tracking-tight">BHOOMIPUTRA DEVELOPERS</div>
             <p class="text-xs text-amber-200/80 font-mono mt-1">Ultra-Luxury Villa Promoters &amp; Architectural Land</p>
           </div>
         </div>
         <div class="flex items-center justify-between text-xs font-mono">
-          <span class="text-slate-500">3D Villa Parallax &bull; Masterplans &bull; WhatsApp</span>
-          <button onclick="openModalPreview('Bhoomiputra Luxury Estates', 'Designed for high-net-worth land investors with interactive plot visualizers and immediate executive onboarding.')" class="font-bold text-brand-royal hover:underline">
-            Inspect Architecture &rarr;
-          </button>
+          <span class="text-slate-500">3D Villa Parallax &bull; Masterplans &bull; WhatsApp Leads</span>
+          <a href="https://asura-system.vercel.app/api/serve_project?slug=bhoomiputra-real-estate-developers-bangalore" target="_blank" class="px-4 py-2 rounded-xl bg-brand-midnight text-white hover:bg-brand-royal font-bold transition flex items-center gap-1.5 shadow-md">
+            <span>OPEN LIVE SITE</span>
+            <span>↗</span>
+          </a>
         </div>
       </div>
 
-      <div class="bento-card p-6 sm:p-8 space-y-5 showcase-item" data-category="fintech">
-        <div class="w-full h-52 rounded-2xl bg-gradient-to-br from-cyan-950 via-slate-900 to-emerald-950 p-6 flex flex-col justify-between text-white relative overflow-hidden shadow-inner">
-          <div class="flex items-center justify-between text-xs font-mono">
-            <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20 font-bold">FINTECH &amp; WEB3</span>
-            <span class="text-cyan-400 font-bold">100K+ ACTIVE USERS</span>
-          </div>
-          <div>
-            <div class="font-display font-black text-2xl tracking-tight">KRONA ASSET PROTOCOL</div>
-            <p class="text-xs text-cyan-200/80 font-mono mt-1">Provably Fair Solana Pool &amp; Institutional Ledger</p>
-          </div>
-        </div>
-        <div class="flex items-center justify-between text-xs font-mono">
-          <span class="text-slate-500">Real-Time WebSocket &bull; On-Chain VRF</span>
-          <button onclick="openModalPreview('Krona Asset Protocol', 'Decentralized institutional custody terminal engineered with military-grade UI aesthetics and cryptographic audit badges.')" class="font-bold text-brand-royal hover:underline">
-            Inspect Architecture &rarr;
-          </button>
-        </div>
-      </div>
-
+      <!-- Project 2: Medical Clinic (Skin Secrets) -->
       <div class="bento-card p-6 sm:p-8 space-y-5 showcase-item" data-category="medical">
         <div class="w-full h-52 rounded-2xl bg-gradient-to-br from-blue-950 via-indigo-950 to-slate-900 p-6 flex flex-col justify-between text-white relative overflow-hidden shadow-inner">
           <div class="flex items-center justify-between text-xs font-mono">
@@ -424,29 +573,76 @@
           </div>
           <div>
             <div class="font-display font-black text-2xl tracking-tight">SKIN SECRETS DERMATOLOGY</div>
-            <p class="text-xs text-blue-200/80 font-mono mt-1">Advanced Aesthetic Laser &amp; Rejuvenation Surgery</p>
+            <p class="text-xs text-blue-200/80 font-mono mt-1">Cosmetic Skin &amp; Laser Surgery (Kochi, Kerala)</p>
           </div>
         </div>
         <div class="flex items-center justify-between text-xs font-mono">
-          <span class="text-slate-500">Treatment Catalog &bull; VIP Tele-Consultation</span>
-          <button onclick="openModalPreview('Skin Secrets Clinic', 'Luxury clinical patient experience with procedures filter, before/after slider, and one-tap consultation booking.')" class="font-bold text-brand-royal hover:underline">
-            Inspect Architecture &rarr;
-          </button>
+          <span class="text-slate-500">Treatment Catalog &bull; One-Tap Consultation</span>
+          <a href="https://asura-system.vercel.app/api/serve_project?slug=skin-secrets-in-edappally-cochin-kochi" target="_blank" class="px-4 py-2 rounded-xl bg-brand-midnight text-white hover:bg-brand-royal font-bold transition flex items-center gap-1.5 shadow-md">
+            <span>OPEN LIVE SITE</span>
+            <span>↗</span>
+          </a>
         </div>
       </div>
+
+      <!-- Project 3: FinTech / Solana Protocol -->
+      <div class="bento-card p-6 sm:p-8 space-y-5 showcase-item" data-category="fintech">
+        <div class="w-full h-52 rounded-2xl bg-gradient-to-br from-cyan-950 via-slate-900 to-emerald-950 p-6 flex flex-col justify-between text-white relative overflow-hidden shadow-inner">
+          <div class="flex items-center justify-between text-xs font-mono">
+            <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20 font-bold">FINTECH &amp; WEB3</span>
+            <span class="text-cyan-400 font-bold">100K+ ACTIVE TRANSACTIONS</span>
+          </div>
+          <div>
+            <div class="font-display font-black text-2xl tracking-tight">ASURA CRYPTO PROTOCOL</div>
+            <p class="text-xs text-cyan-200/80 font-mono mt-1">Provably Fair Web3 Solana Lottery Sanctum</p>
+          </div>
+        </div>
+        <div class="flex items-center justify-between text-xs font-mono">
+          <span class="text-slate-500">On-Chain VRF &bull; 70% Pool &bull; Web3 Connect</span>
+          <a href="https://asura-system.vercel.app/projects/crypto-lottery/index.html" target="_blank" class="px-4 py-2 rounded-xl bg-brand-midnight text-white hover:bg-brand-royal font-bold transition flex items-center gap-1.5 shadow-md">
+            <span>OPEN LIVE SITE</span>
+            <span>↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Project 4: High-Performance Fitness -->
+      <div class="bento-card p-6 sm:p-8 space-y-5 showcase-item" data-category="saas">
+        <div class="w-full h-52 rounded-2xl bg-gradient-to-br from-emerald-950 via-slate-900 to-zinc-900 p-6 flex flex-col justify-between text-white relative overflow-hidden shadow-inner">
+          <div class="flex items-center justify-between text-xs font-mono">
+            <span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20 font-bold">PREMIUM FITNESS</span>
+            <span class="text-emerald-400 font-bold">99.8% WEB VITALS</span>
+          </div>
+          <div>
+            <div class="font-display font-black text-2xl tracking-tight">IMPACT FITNESS CENTER</div>
+            <p class="text-xs text-emerald-200/80 font-mono mt-1">Elite CrossFit &amp; Functional Training Studio</p>
+          </div>
+        </div>
+        <div class="flex items-center justify-between text-xs font-mono">
+          <span class="text-slate-500">Class Timetable &bull; Coach Profiles &bull; Pass Booking</span>
+          <a href="https://asura-system.vercel.app/api/serve_project?slug=impact-fitness-center-bangalore" target="_blank" class="px-4 py-2 rounded-xl bg-brand-midnight text-white hover:bg-brand-royal font-bold transition flex items-center gap-1.5 shadow-md">
+            <span>OPEN LIVE SITE</span>
+            <span>↗</span>
+          </a>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- CALCULATOR -->
-  <section id="calculator" class="py-24 px-6 max-w-7xl mx-auto border-t" style="border-color:rgba(10, 24, 61, 0.09)">
+  <!-- ======================================================================= -->
+  <!-- PRICING ESTIMATOR -->
+  <!-- ======================================================================= -->
+  <section id="calculator" class="py-24 px-6 max-w-7xl mx-auto border-t border-slate-200">
     <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
-      <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">03 // TRANSPARENT MANDATE SCOPING</span>
+      <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">✦ 05 // SPRINT SCOPING</span>
       <h2 class="text-3xl sm:text-5xl font-black font-display tracking-tight text-brand-midnight">
         Select Your Architecture Tier.
       </h2>
-      <p class="text-sm" style="color:#475569">
+      <p class="text-sm text-slate-600">
         Engineered deliverables and clear timelines with zero hidden retainers.
       </p>
+
       <div class="pt-4 flex flex-wrap justify-center gap-3 font-mono text-xs">
         <button onclick="selectPricingTier('starter', this)" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold tier-tab">Starter Showpiece ($4,500)</button>
         <button onclick="selectPricingTier('growth', this)" class="px-5 py-2.5 rounded-xl bg-brand-midnight text-white font-bold tier-tab shadow-md">Growth Architecture ($9,800) ✦ Popular</button>
@@ -455,11 +651,11 @@
     </div>
 
     <div class="max-w-3xl mx-auto bento-card p-8 sm:p-12 space-y-8" id="tierDisplay">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-6" style="border-color:rgba(10, 24, 61, 0.09)">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
           <span class="text-xs font-mono text-brand-royal font-bold" id="tierBadge">COMMERCIAL EXPANSION TIER</span>
           <h3 class="text-3xl font-black font-display text-brand-midnight" id="tierName">Growth Architecture</h3>
-          <p class="text-xs mt-1" style="color:#475569" id="tierSubtitle">Ideal for established niche leaders demanding maximum conversion velocity.</p>
+          <p class="text-xs text-slate-600 mt-1" id="tierSubtitle">Ideal for established niche leaders demanding maximum conversion velocity.</p>
         </div>
         <div class="text-right">
           <div class="text-4xl font-black font-display text-brand-midnight" id="tierPrice">$9,800</div>
@@ -468,7 +664,7 @@
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono" id="tierFeatures">
-        <div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>Custom Multi-Section Bento Grid Architecture</span></div>
+        <div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>Custom 3D CAD Blueprint Scroll Engine</span></div>
         <div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>Hardware GSAP 3.12 ScrollTrigger Parallax</span></div>
         <div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>Interactive Niche Work Showcase with Filters</span></div>
         <div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>Sub-10ms Vercel Edge Serverless Deployment</span></div>
@@ -476,99 +672,67 @@
         <div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>100/100 Core Web Vitals Guaranteed Guarantee</span></div>
       </div>
 
-      <div class="pt-4 border-t flex flex-col sm:flex-row items-center justify-between gap-4" style="border-color:rgba(10, 24, 61, 0.09)">
+      <div class="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
         <span class="text-xs font-mono text-slate-500">Includes complete source code, deployment, and 30-day warranty.</span>
         <a href="#inquire" class="btn-primary px-8 py-3.5 rounded-xl text-xs font-mono font-extrabold w-full sm:w-auto text-center">RESERVE THIS SPRINT &rarr;</a>
       </div>
     </div>
   </section>
 
-  <!-- REVIEWS -->
-  <section id="reviews" class="py-24 px-6 max-w-7xl mx-auto border-t" style="border-color:rgba(10, 24, 61, 0.09)">
-    <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
-      <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">04 // VERIFIED CLIENT ENDORSEMENTS</span>
-      <h2 class="text-3xl sm:text-5xl font-black font-display tracking-tight text-brand-midnight">Loved by Niche Leaders.</h2>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="bento-card p-8 space-y-4">
-        <div class="flex text-amber-400 text-sm">★★★★★</div>
-        <p class="text-sm italic leading-relaxed" style="color:#475569">"Pixnova transformed our cold visitor flow. The custom GSAP kinetic animations and crisp white-and-blue design elevated our brand above competitors immediately."</p>
-        <div class="pt-4 border-t flex items-center space-x-3" style="border-color:rgba(10, 24, 61, 0.09)">
-          <div class="w-10 h-10 rounded-full bg-brand-navy text-white font-display font-bold flex items-center justify-center text-xs">MV</div>
-          <div><div class="font-bold text-xs text-brand-midnight">Marcus Vance</div><div class="text-[10px] font-mono text-slate-500">Founder &bull; Vortex AI SaaS</div></div>
-        </div>
-      </div>
-
-      <div class="bento-card p-8 space-y-4">
-        <div class="flex text-amber-400 text-sm">★★★★★</div>
-        <p class="text-sm italic leading-relaxed" style="color:#475569">"Our real estate investors demand perfection. Pixnova delivered a showpiece with 3D villa parallax that closed $14M in pre-bookings within the first two weeks."</p>
-        <div class="pt-4 border-t flex items-center space-x-3" style="border-color:rgba(10, 24, 61, 0.09)">
-          <div class="w-10 h-10 rounded-full bg-brand-navy text-white font-display font-bold flex items-center justify-center text-xs">SR</div>
-          <div><div class="font-bold text-xs text-brand-midnight">S. Ramachandran</div><div class="text-[10px] font-mono text-slate-500">Managing Director &bull; Bhoomiputra Estates</div></div>
-        </div>
-      </div>
-
-      <div class="bento-card p-8 space-y-4">
-        <div class="flex text-amber-400 text-sm">★★★★★</div>
-        <p class="text-sm italic leading-relaxed" style="color:#475569">"Fast, institutional, and flawless. The interactive pricing calculator and instant WhatsApp booking tripled our cosmetic consultation rate."</p>
-        <div class="pt-4 border-t flex items-center space-x-3" style="border-color:rgba(10, 24, 61, 0.09)">
-          <div class="w-10 h-10 rounded-full bg-brand-navy text-white font-display font-bold flex items-center justify-center text-xs">DK</div>
-          <div><div class="font-bold text-xs text-brand-midnight">Dr. Kavitha Menon</div><div class="text-[10px] font-mono text-slate-500">Chief Surgeon &bull; Skin Secrets Clinic</div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
+  <!-- ======================================================================= -->
   <!-- INTAKE & COMMISSION TERMINAL -->
-  <section id="inquire" class="py-24 px-6 max-w-4xl mx-auto border-t" style="border-color:rgba(10, 24, 61, 0.09)">
+  <!-- ======================================================================= -->
+  <section id="inquire" class="py-24 px-6 max-w-4xl mx-auto border-t border-slate-200">
     <div class="bento-card p-8 sm:p-12 space-y-8">
       <div>
-        <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">05 // INITIATE MANDATE</span>
+        <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-royal">✦ 06 // INITIATE MANDATE</span>
         <h2 class="text-3xl sm:text-4xl font-black font-display tracking-tight text-brand-midnight mt-1">Commission Your Custom Showpiece</h2>
-        <p class="text-xs mt-1" style="color:#475569">Specify your brand parameters and our agentic studio will begin synthesis immediately.</p>
+        <p class="text-xs text-slate-600 mt-1">Specify your brand parameters and our agentic studio will begin synthesis immediately.</p>
       </div>
 
       <form id="mandateForm" onsubmit="handleMandateSubmit(event)" class="space-y-6 font-mono text-xs">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
             <label class="block font-bold text-brand-midnight mb-1.5">Executive Name</label>
-            <input type="text" required placeholder="Elena Rostova" class="w-full bg-slate-50 border rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none" style="border-color:rgba(10, 24, 61, 0.09)">
+            <input type="text" required placeholder="Elena Rostova" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none">
           </div>
           <div>
             <label class="block font-bold text-brand-midnight mb-1.5">Corporate Email</label>
-            <input type="email" required placeholder="elena@company.com" class="w-full bg-slate-50 border rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none" style="border-color:rgba(10, 24, 61, 0.09)">
+            <input type="email" required placeholder="elena@company.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none">
           </div>
         </div>
+
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
             <label class="block font-bold text-brand-midnight mb-1.5">Industry Niche</label>
-            <select class="w-full bg-slate-50 border rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none" style="border-color:rgba(10, 24, 61, 0.09)">
-              <option value="saas">Enterprise SaaS / AI Platform</option>
+            <select class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none">
               <option value="realestate">Luxury Real Estate &amp; Architecture</option>
-              <option value="fintech">FinTech, Web3 &amp; Trading</option>
+              <option value="mobile">Tech, Hardware &amp; Mobile Device</option>
+              <option value="cafe">Artisan Cafe, Coffee &amp; Culinary</option>
               <option value="medical">Healthcare, Cosmetic &amp; Clinics</option>
-              <option value="ecommerce">High-Ticket E-Commerce</option>
-              <option value="other">Bespoke Commercial Agency</option>
+              <option value="saas">Enterprise SaaS / AI Platform</option>
             </select>
           </div>
           <div>
             <label class="block font-bold text-brand-midnight mb-1.5">Target Budget</label>
-            <select class="w-full bg-slate-50 border rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none" style="border-color:rgba(10, 24, 61, 0.09)">
+            <select class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none">
               <option value="growth">Growth Architecture ($9,800)</option>
               <option value="starter">Starter Showpiece ($4,500)</option>
               <option value="enterprise">Enterprise Bespoke ($18,500+)</option>
             </select>
           </div>
         </div>
+
         <div>
           <label class="block font-bold text-brand-midnight mb-1.5">Project Scope &amp; Color Combinations</label>
-          <textarea rows="3" required placeholder="Describe your required features, desired animations, or specific color combinations (e.g. pristine white background with dark blue typography)..." class="w-full bg-slate-50 border rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none resize-none" style="border-color:rgba(10, 24, 61, 0.09)"></textarea>
+          <textarea rows="3" required placeholder="Describe your required features, desired 3D scroll animations, or specific color combinations (e.g. pristine white background with dark blue typography)..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-brand-midnight focus:border-brand-royal focus:outline-none resize-none"></textarea>
         </div>
+
         <button type="submit" id="submitBriefBtn" class="btn-primary w-full py-4 rounded-xl font-extrabold uppercase tracking-widest text-sm shadow-xl flex items-center justify-center space-x-2">
           <span>TRANSMIT BRIEF &amp; COMMENCE SPRINT</span>
           <span>&rarr;</span>
         </button>
+
         <div id="formSuccessAlert" class="hidden p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 text-center font-bold">
           ✓ MANDATE TRANSMITTED SUCCESSFULLY! Asura Studio has queued your brief for immediate synthesis.
         </div>
@@ -576,8 +740,10 @@
     </div>
   </section>
 
+  <!-- ======================================================================= -->
   <!-- FOOTER -->
-  <footer class="border-t py-12 px-6" style="border-color:rgba(10, 24, 61, 0.09)">
+  <!-- ======================================================================= -->
+  <footer class="border-t border-slate-200 py-12 px-6">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 font-mono text-xs text-slate-500">
       <div class="flex items-center space-x-3">
         <div class="w-7 h-7 rounded-lg bg-brand-midnight text-white flex items-center justify-center font-bold text-xs">PI</div>
@@ -590,31 +756,21 @@
     </div>
   </footer>
 
-  <div id="inspectModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
-    <div class="bento-card max-w-lg w-full p-6 sm:p-8 space-y-4">
-      <div class="flex items-center justify-between border-b pb-3" style="border-color:rgba(10, 24, 61, 0.09)">
-        <span class="font-display font-black text-lg text-brand-midnight" id="modalTitle">Showpiece Specification</span>
-        <button onclick="closeInspectModal()" class="text-slate-400 hover:text-brand-midnight font-bold text-lg">&times;</button>
-      </div>
-      <p class="text-xs leading-relaxed" style="color:#475569" id="modalDesc"></p>
-      <div class="p-4 rounded-xl bg-slate-50 font-mono text-xs text-slate-700 space-y-1.5">
-        <div>&bull; Framework: Modern Tailwind CSS &amp; GSAP 3.12</div>
-        <div>&bull; Performance: 99.8% Core Web Vitals (Zero CLS)</div>
-        <div>&bull; Security: WCAG AAA Contrast Verified</div>
-      </div>
-      <button onclick="closeInspectModal()" class="btn-primary w-full py-2.5 rounded-xl font-bold font-mono text-xs">Close Inspector</button>
-    </div>
-  </div>
-
+  <!-- ======================================================================= -->
+  <!-- JAVASCRIPT: GSAP 3.12 SCROLLTRIGGER + 3D KINETIC TIMELINES -->
+  <!-- ======================================================================= -->
   <script>
-    var spotlight = document.getElementById("cursorSpotlight");
-    window.addEventListener("mousemove", function(e) {
-      if (spotlight) { spotlight.style.left = e.clientX + "px"; spotlight.style.top = e.clientY + "px"; }
+    // Spotlight cursor tracking
+    var spotlight = document.getElementById('cursorSpotlight');
+    window.addEventListener('mousemove', function(e) {
+      if (spotlight) { spotlight.style.left = e.clientX + 'px'; spotlight.style.top = e.clientY + 'px'; }
     });
-    document.addEventListener("DOMContentLoaded", function() {
-      var counters = document.querySelectorAll(".counter");
+
+    // Dynamic number counting on load
+    document.addEventListener('DOMContentLoaded', function() {
+      var counters = document.querySelectorAll('.counter');
       counters.forEach(function(c) {
-        var target = parseFloat(c.getAttribute("data-target"));
+        var target = parseFloat(c.getAttribute('data-target'));
         var current = 0; var step = target / 40;
         var timer = setInterval(function() {
           current += step;
@@ -622,80 +778,227 @@
           else { c.innerText = target % 1 === 0 ? Math.floor(current) : current.toFixed(1); }
         }, 30);
       });
+
+      initCoffeeCanvas();
+      initScrollTriggerAnimations();
     });
-    function triggerHapticEffect(btn) {
-      btn.innerText = "✓ SPRING IMPULSE REGISTERED (60 FPS)";
-      btn.classList.add("bg-emerald-600");
-      setTimeout(function() { btn.innerText = "✦ CLICK TO TEST SPRING IMPULSE"; btn.classList.remove("bg-emerald-600"); }, 1800);
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // GSAP 3.12 SCROLLTRIGGER PINNED ANIMATIONS (MATCHING USER REELS)
+    // ─────────────────────────────────────────────────────────────────────────
+    function initScrollTriggerAnimations() {
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      // 1. Real Estate Blueprint 3D Line Drawing on Scroll
+      gsap.to('#blueprintBoard', {
+        scrollTrigger: {
+          trigger: '#scroll-realestate',
+          start: 'top 75%',
+          end: 'bottom 25%',
+          scrub: 1.2
+        },
+        rotateX: 25,
+        rotateZ: -5,
+        scale: 1.05,
+        ease: 'none'
+      });
+
+      // 2. Mobile Device Exploded Assembly on Scroll
+      var techTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#scroll-tech',
+          start: 'top 65%',
+          end: 'bottom 35%',
+          scrub: 1
+        }
+      });
+      techTl
+        .to('#phoneLayer1', { x: -220, rotateY: -30, ease: 'power2.out' }, 0)
+        .to('#phoneLayer2', { x: -110, rotateY: -18, ease: 'power2.out' }, 0)
+        .to('#phoneLayer3', { x: 0, rotateY: 0, scale: 1.08, ease: 'power2.out' }, 0)
+        .to('#phoneLayer4', { x: 110, rotateY: 18, ease: 'power2.out' }, 0)
+        .to('#phoneLayer5', { x: 220, rotateY: 30, ease: 'power2.out' }, 0);
     }
+
+    // Manual Blueprint Tilt
+    function manualBlueprintTilt(val) {
+      document.getElementById('tiltVal').innerText = val + '°';
+      document.getElementById('blueprintBoard').style.transform = 'rotateX(' + val + 'deg) rotateZ(-' + (val / 2.5) + 'deg) scale(0.98)';
+    }
+
+    // Manual Device Explode
+    function manualExplode(val) {
+      document.getElementById('explodeVal').innerText = val + '%';
+      var factor = val / 100;
+      document.getElementById('phoneLayer1').style.transform = 'translateX(' + (-160 * factor) + 'px) rotateY(' + (-22 * factor) + 'deg) scale(' + (1 - 0.08 * factor) + ')';
+      document.getElementById('phoneLayer2').style.transform = 'translateX(' + (-60 * factor) + 'px) rotateY(' + (-14 * factor) + 'deg) scale(' + (1 - 0.04 * factor) + ')';
+      document.getElementById('phoneLayer3').style.transform = 'translateX(' + (40 * (1 - factor)) + 'px) scale(' + (1 + 0.05 * factor) + ')';
+      document.getElementById('phoneLayer4').style.transform = 'translateX(' + (140 * factor) + 'px) rotateY(' + (6 * factor) + 'deg) scale(' + (1 - 0.04 * factor) + ')';
+      document.getElementById('phoneLayer5').style.transform = 'translateX(' + (240 * factor) + 'px) rotateY(' + (16 * factor) + 'deg) scale(' + (1 - 0.08 * factor) + ')';
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 3D COFFEE ROASTER CANVAS PHYSICS VORTEX
+    // ─────────────────────────────────────────────────────────────────────────
+    var coffeeRpm = 4;
+    function manualCoffeeRpm(val) {
+      coffeeRpm = parseFloat(val);
+      document.getElementById('coffeeRpmVal').innerText = (coffeeRpm * 30) + ' RPM';
+    }
+
+    function initCoffeeCanvas() {
+      var canvas = document.getElementById('coffeeBeansCanvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var width = canvas.width;
+      var height = canvas.height;
+
+      var beans = [];
+      var numBeans = 48;
+      for (var i = 0; i < numBeans; i++) {
+        beans.push({
+          angle: Math.random() * Math.PI * 2,
+          radius: 30 + Math.random() * 110,
+          speed: (0.015 + Math.random() * 0.02),
+          size: 6 + Math.random() * 4,
+          tilt: Math.random() * Math.PI
+        });
+      }
+
+      function draw() {
+        requestAnimationFrame(draw);
+        ctx.clearRect(0, 0, width, height);
+
+        var cx = width / 2;
+        var cy = height / 2;
+
+        for (var i = 0; i < beans.length; i++) {
+          var b = beans[i];
+          b.angle += b.speed * coffeeRpm;
+          b.tilt += 0.02 * coffeeRpm;
+
+          var x = cx + Math.cos(b.angle) * b.radius;
+          var y = cy + Math.sin(b.angle) * b.radius;
+
+          ctx.save();
+          ctx.translate(x, y);
+          ctx.rotate(b.tilt);
+
+          // Draw coffee bean oval
+          ctx.fillStyle = '#78350F'; // Dark amber roasted bean
+          ctx.beginPath();
+          ctx.ellipse(0, 0, b.size * 1.3, b.size * 0.8, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Bean center crease line
+          ctx.strokeStyle = '#451A03';
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.moveTo(-b.size * 1.1, 0);
+          ctx.bezierCurveTo(-b.size * 0.3, 1.5, b.size * 0.3, -1.5, b.size * 1.1, 0);
+          ctx.stroke();
+
+          ctx.restore();
+        }
+      }
+      draw();
+    }
+
+    // Portfolio category filtering
     function filterShowcase(cat, btn) {
-      document.querySelectorAll(".filter-btn").forEach(function(b) { b.className = "px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold filter-btn"; });
-      btn.className = "px-4 py-2 rounded-xl bg-brand-midnight text-white font-bold filter-btn shadow-sm";
-      var items = document.querySelectorAll(".showcase-item");
+      document.querySelectorAll('.filter-btn').forEach(function(b) {
+        b.className = 'px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold filter-btn';
+      });
+      btn.className = 'px-4 py-2 rounded-xl bg-brand-midnight text-white font-bold filter-btn shadow-sm';
+
+      var items = document.querySelectorAll('.showcase-item');
       items.forEach(function(item) {
-        if (cat === "all" || item.getAttribute("data-category") === cat) { item.style.display = "block"; }
-        else { item.style.display = "none"; }
+        if (cat === 'all' || item.getAttribute('data-category') === cat) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
       });
     }
+
+    // Pricing Tier Selector
     var TIERS = {
       starter: {
-        badge: "RAPID COMMERCE TIER",
-        name: "Starter Showpiece",
-        subtitle: "High-converting single-page presence for emerging niche ventures.",
-        price: "$4,500",
-        turnaround: "Turnaround: 5 Business Days",
-        features: ["Custom Single-Page Bento Layout", "GSAP Smooth Scroll Animations", "Responsive Mobile-First Architecture", "Instant WhatsApp / Email Lead Ingestion", "100/100 Core Web Vitals", "14-Day Post-Launch Support"]
+        badge: 'RAPID COMMERCE TIER',
+        name: 'Starter Showpiece',
+        subtitle: 'High-converting single-page presence for emerging niche ventures.',
+        price: '$4,500',
+        turnaround: 'Turnaround: 5 Business Days',
+        features: [
+          'Custom Single-Page Bento Layout',
+          'GSAP Smooth Scroll Animations',
+          'Responsive Mobile-First Architecture',
+          'Instant WhatsApp / Email Lead Ingestion',
+          '100/100 Core Web Vitals',
+          '14-Day Post-Launch Support'
+        ]
       },
       growth: {
-        badge: "COMMERCIAL EXPANSION TIER",
-        name: "Growth Architecture",
-        subtitle: "Ideal for established niche leaders demanding maximum conversion velocity.",
-        price: "$9,800",
-        turnaround: "Turnaround: 10 Business Days",
-        features: ["Custom Multi-Section Bento Grid Architecture", "Hardware GSAP 3.12 ScrollTrigger Parallax", "Interactive Niche Work Showcase with Filters", "Sub-10ms Vercel Edge Serverless Deployment", "Interactive Lead Scoping & Intake Terminal", "100/100 Core Web Vitals Guaranteed Guarantee"]
+        badge: 'COMMERCIAL EXPANSION TIER',
+        name: 'Growth Architecture',
+        subtitle: 'Ideal for established niche leaders demanding maximum conversion velocity.',
+        price: '$9,800',
+        turnaround: 'Turnaround: 10 Business Days',
+        features: [
+          'Custom 3D CAD Blueprint Scroll Engine',
+          'Hardware GSAP 3.12 ScrollTrigger Parallax',
+          'Interactive Niche Work Showcase with Filters',
+          'Sub-10ms Vercel Edge Serverless Deployment',
+          'Interactive Lead Scoping & Intake Terminal',
+          '100/100 Core Web Vitals Guaranteed Guarantee'
+        ]
       },
       enterprise: {
-        badge: "SOVEREIGN BESPOKE TIER",
-        name: "Enterprise Bespoke",
-        subtitle: "Fully customized 3D kinetic digital infrastructure with custom WebGL shaders.",
-        price: "$18,500",
-        turnaround: "Turnaround: 20 Business Days",
-        features: ["Full-Scale Custom Three.js 3D Interactive Shaders", "Multi-Page Bespoke Agency Ecosystem", "Dedicated Serverless Edge Infrastructure", "CRM, Stripe & Custom Database Webhooks", "Custom Design System & Brand Guidelines", "90-Day VIP Dedicated Concierge"]
+        badge: 'SOVEREIGN BESPOKE TIER',
+        name: 'Enterprise Bespoke',
+        subtitle: 'Fully customized 3D kinetic digital infrastructure with custom WebGL shaders.',
+        price: '$18,500',
+        turnaround: 'Turnaround: 20 Business Days',
+        features: [
+          'Full-Scale Custom Three.js 3D Interactive Shaders',
+          'Multi-Page Bespoke Agency Ecosystem',
+          'Dedicated Serverless Edge Infrastructure',
+          'CRM, Stripe & Custom Database Webhooks',
+          'Custom Design System & Brand Guidelines',
+          '90-Day VIP Dedicated Concierge'
+        ]
       }
     };
+
     function selectPricingTier(tierKey, btn) {
-      document.querySelectorAll(".tier-tab").forEach(function(b) { b.className = "px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold tier-tab"; });
-      btn.className = "px-5 py-2.5 rounded-xl bg-brand-midnight text-white font-bold tier-tab shadow-md";
+      document.querySelectorAll('.tier-tab').forEach(function(b) {
+        b.className = 'px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold tier-tab';
+      });
+      btn.className = 'px-5 py-2.5 rounded-xl bg-brand-midnight text-white font-bold tier-tab shadow-md';
+
       var t = TIERS[tierKey]; if (!t) return;
-      document.getElementById("tierBadge").innerText = t.badge;
-      document.getElementById("tierName").innerText = t.name;
-      document.getElementById("tierSubtitle").innerText = t.subtitle;
-      document.getElementById("tierPrice").innerText = t.price;
-      document.getElementById("tierTurnaround").innerText = t.turnaround;
-      var featContainer = document.getElementById("tierFeatures");
+      document.getElementById('tierBadge').innerText = t.badge;
+      document.getElementById('tierName').innerText = t.name;
+      document.getElementById('tierSubtitle').innerText = t.subtitle;
+      document.getElementById('tierPrice').innerText = t.price;
+      document.getElementById('tierTurnaround').innerText = t.turnaround;
+
+      var featContainer = document.getElementById('tierFeatures');
       featContainer.innerHTML = t.features.map(function(f) {
         return '<div class="flex items-center space-x-2.5"><span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">✓</span><span>' + f + '</span></div>';
-      }).join("");
+      }).join('');
     }
-    function openModalPreview(title, desc) {
-      document.getElementById("modalTitle").innerText = title;
-      document.getElementById("modalDesc").innerText = desc;
-      var m = document.getElementById("inspectModal");
-      m.classList.remove("hidden"); m.classList.add("flex");
-    }
-    function closeInspectModal() {
-      var m = document.getElementById("inspectModal");
-      m.classList.add("hidden"); m.classList.remove("flex");
-    }
+
     function handleMandateSubmit(e) {
       e.preventDefault();
-      var btn = document.getElementById("submitBriefBtn");
+      var btn = document.getElementById('submitBriefBtn');
       btn.disabled = true;
-      btn.innerHTML = "<span>TRANSMITTING TO ASURA CLOUD...</span>";
+      btn.innerHTML = '<span>TRANSMITTING TO ASURA CLOUD...</span>';
       setTimeout(function() {
-        document.getElementById("formSuccessAlert").classList.remove("hidden");
-        btn.innerHTML = "<span>MANDATE QUEUED FOR SYNTHESIS ✓</span>";
-        btn.classList.add("bg-emerald-600");
+        document.getElementById('formSuccessAlert').classList.remove('hidden');
+        btn.innerHTML = '<span>MANDATE QUEUED FOR SYNTHESIS ✓</span>';
+        btn.classList.add('bg-emerald-600');
       }, 1200);
     }
   </script>
