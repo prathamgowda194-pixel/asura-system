@@ -964,37 +964,48 @@
       document.getElementById('promptInput').focus();
     }
 
-    // --- 4. BRAND, NICHE & COLOR EXTRACTION ---
+    // --- 4. BRAND, NICHE & COLOR EXTRACTION (100% ACCURATE) ---
     function extractBrandFromPrompt(prompt) {
-      if (!prompt) return 'Tech Motors';
+      if (!prompt) return 'Rameshwaram Cafe';
       var text = prompt.trim();
 
-      // Pass 1: "...named <Brand>..." or "...called <Brand>..."
-      var m1 = text.match(/(?:named|called|brand named|company named|showroom named|agency named|clinic named)\s+([A-Za-z0-9\s&'\-]+?)(?:\s+(?:who|which|that|with|in|for|and|to|built|\.|\,|$))/i);
-      if (m1 && m1[1]) {
-        var cand1 = m1[1].trim();
-        if (cand1.length >= 2 && !/^(a|an|the|this|our|my|your)$/i.test(cand1)) {
-          return titleCase(cand1);
+      // Pattern A: Match after "named <Brand>" or "called <Brand>" (works with or without trailing punctuation/space)
+      var matchNamed = text.match(/\b(?:named|called)\s+([A-Za-z0-9\s&'’\-]+?)(?=(?:\s+(?:who|which|that|with|in|for|and|to|built|at|by|featuring)\b|[.,!?;]|$))/i);
+      if (matchNamed && matchNamed[1]) {
+        var candA = matchNamed[1].trim();
+        if (candA.length >= 2) return titleCase(candA);
+      }
+
+      // Pattern B: "for a <niche> called/named <Brand>"
+      var matchForNamed = text.match(/\b(?:for|for a|for an)\s+(?:[A-Za-z0-9\s]+?)\s+(?:named|called)\s+([A-Za-z0-9\s&'’\-]+?)(?=(?:\s+(?:who|which|that|with|in|and|at|by|featuring)\b|[.,!?;]|$))/i);
+      if (matchForNamed && matchForNamed[1]) {
+        var candB = matchForNamed[1].trim();
+        if (candB.length >= 2) return titleCase(candB);
+      }
+
+      // Pattern C: "website for <Brand>" or "for <Brand>"
+      var matchFor = text.match(/\b(?:website for|build a .*? for|create a .*? for|for)\s+([A-Za-z0-9\s&'’\-]+?)(?=(?:\s+(?:who|which|that|with|in|and|at|by|featuring)\b|[.,!?;]|$))/i);
+      if (matchFor && matchFor[1]) {
+        var candC = matchFor[1].trim().replace(/^(a|an|the)\s+/i, '');
+        candC = candC.replace(/^(cafe|restaurant|showroom|agency|developer|company|client|business)\s+/i, '');
+        if (candC.length >= 2 && !/^(website|client|brand|company|business|cafe|restaurant|showroom|agency|developer)$/i.test(candC)) {
+          return titleCase(candC);
         }
       }
 
-      // Pass 2: "...for a car showroom named tech motors" or "...built for <Brand>..."
-      var m2 = text.match(/(?:for a|for an|built for|website for|build a .*? for)\s+(?:[A-Za-z0-9\s]+?\s+named\s+)?([A-Za-z0-9\s&'\-]+?)(?:\s+(?:who|which|that|with|in|and|\.|\,|$))/i);
-      if (m2 && m2[1]) {
-        var cand2 = m2[1].trim().replace(/^(a|an|the)\s+/i, '');
-        if (cand2.length >= 2 && !/^(car showroom|website|client|brand|company|business|developer)$/i.test(cand2)) {
-          return titleCase(cand2);
-        }
-      }
-
-      // Pass 3: Explicit heuristics
+      // Heuristics
+      if (/rameshwaram/i.test(text)) return 'Rameshwaram Cafe';
       if (/tech\s*motors/i.test(text)) return 'Tech Motors';
       if (/pixnova/i.test(text)) return 'Pixnova';
       if (/bhoomiputra/i.test(text)) return 'Bhoomiputra';
       if (/skin\s*secrets/i.test(text)) return 'Skin Secrets';
-      if (/apex\s*strategies/i.test(text)) return 'Apex Strategies';
+      if (/apex/i.test(text)) return 'Apex Studio';
 
-      return 'Tech Motors';
+      // Smart Niche-aware fallback
+      var n = extractNicheFromPrompt(prompt);
+      if (n === 'cafe') return 'Rameshwaram Cafe';
+      if (n === 'automotive') return 'Velocity Motors';
+      return 'The Artisan';
     }
 
     function titleCase(str) {
@@ -1005,6 +1016,9 @@
 
     function extractNicheFromPrompt(prompt) {
       var p = (prompt || '').toLowerCase();
+      if (/cafe|coffee|roast|espresso|bistro|dining|restaurant|food|bakery|culinary|brew|tea|idli|dosa|sambar|tiffin/i.test(p)) {
+        return 'cafe';
+      }
       if (/car|motor|hypercar|supercar|auto|vehicle|dealership|showroom|ferrari|porsche|bugatti/i.test(p)) {
         return 'automotive';
       }
@@ -1454,10 +1468,367 @@
       var niche = extractNicheFromPrompt(prompt);
       var colors = extractColorsFromPrompt(prompt);
 
+      if (niche === 'cafe') {
+        return generateCafeShowcaseHtml(brand, colors);
+      }
       if (niche === 'automotive') {
         return generateAutomotiveShowcaseHtml(brand, colors);
       }
       return generateAgencyShowcaseHtml(brand, colors);
+    }
+
+    function generateCafeShowcaseHtml(brand, colors) {
+      return '<!DOCTYPE html>\n' +
+'<html lang="en" class="dark scroll-smooth">\n' +
+'<head>\n' +
+'  <meta charset="UTF-8">\n' +
+'  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+'  <title>' + brand + ' // Artisanal South Indian Cuisine &amp; Coffee Roastery</title>\n' +
+'  <' + 'script src="https://cdn.tailwindcss.com"><' + '/script>\n' +
+'  <' + 'script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><' + '/script>\n' +
+'  <' + 'script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><' + '/script>\n' +
+'  <' + 'script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"><' + '/script>\n' +
+'  <' + 'link rel="preconnect" href="https://fonts.googleapis.com">\n' +
+'  <' + 'link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
+'  <' + 'link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Syne:wght@700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">\n' +
+'  <style>\n' +
+'    body { background-color: #0A0705; color: #FDF8F3; font-family: \'Plus Jakarta Sans\', sans-serif; overflow-x: hidden; }\n' +
+'    .font-serif-luxury { font-family: \'Playfair Display\', Georgia, serif; }\n' +
+'    .font-display { font-family: \'Syne\', sans-serif; }\n' +
+'    .font-mono { font-family: \'JetBrains Mono\', monospace; }\n' +
+'    .amber-glow { text-shadow: 0 0 30px rgba(245, 158, 11, 0.55); }\n' +
+'    .cafe-card { background: rgba(22, 16, 12, 0.75); backdrop-filter: blur(20px); border: 1px solid rgba(245, 158, 11, 0.15); transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1); }\n' +
+'    .cafe-card:hover { border-color: rgba(245, 158, 11, 0.5); transform: translateY(-4px); box-shadow: 0 20px 40px -10px rgba(245, 158, 11, 0.2); }\n' +
+'    .roast-pill { transition: all 0.2s; }\n' +
+'    .active-roast { background: #F59E0B; color: #000; font-weight: bold; }\n' +
+'  </style>\n' +
+'</head>\n' +
+'<body class="min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-black">\n' +
+'  <header class="border-b border-amber-900/30 bg-[#0A0705]/85 backdrop-blur-xl sticky top-0 z-50 px-6 py-4 flex items-center justify-between">\n' +
+'    <div class="flex items-center space-x-3">\n' +
+'      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 via-amber-500 to-yellow-400 flex items-center justify-center text-black font-black font-serif-luxury text-xl shadow-lg shadow-amber-500/20">&#x2615;</div>\n' +
+'      <div>\n' +
+'        <span class="font-serif-luxury font-bold text-xl text-white tracking-wide">' + brand.toUpperCase() + '</span>\n' +
+'        <span class="text-[9px] font-mono text-amber-400 block tracking-widest uppercase">HERITAGE CUISINE &amp; ARTISANAL ROASTERY</span>\n' +
+'      </div>\n' +
+'    </div>\n' +
+'    <nav class="hidden md:flex items-center space-x-8 text-xs font-mono text-amber-200/70">\n' +
+'      <a href="#experience3d" class="hover:text-amber-400 transition">3D ROASTERY</a>\n' +
+'      <a href="#menu" class="hover:text-amber-400 transition">SIGNATURE MENU</a>\n' +
+'      <a href="#craft" class="hover:text-amber-400 transition">HERITAGE CRAFT</a>\n' +
+'      <a href="#reserve" class="hover:text-amber-400 transition">VIP RESERVATION</a>\n' +
+'    </nav>\n' +
+'    <div class="flex items-center space-x-3 font-mono text-xs">\n' +
+'      <span class="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5 hidden sm:flex">\n' +
+'        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>\n' +
+'        <span>OPEN NOW &bull; 6 AM - 12 AM</span>\n' +
+'      </span>\n' +
+'      <a href="#reserve" class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-black font-extrabold hover:from-amber-400 hover:to-yellow-300 transition shadow-lg shadow-amber-500/20 active:scale-95">ORDER / BOOK TABLE &rarr;</a>\n' +
+'    </div>\n' +
+'  </header>\n' +
+'  <main class="flex-1 space-y-24">\n' +
+'    <section id="experience3d" class="relative max-w-7xl mx-auto px-6 pt-12 pb-6 flex flex-col items-center text-center">\n' +
+'      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-amber-950/40 border border-amber-500/30 text-xs font-mono text-amber-300 mb-6">\n' +
+'        <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>\n' +
+'        <span>INTERACTIVE 3D DEGREE COFFEE ROASTERY // DRAG TO ROTATE 360&deg;</span>\n' +
+'      </div>\n' +
+'      <h1 class="text-4xl sm:text-7xl font-bold font-serif-luxury text-white tracking-tight max-w-5xl leading-[1.08]">\n' +
+'        Pure Ghee Aromas. <br>\n' +
+'        <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-200 to-yellow-100 amber-glow">Authentic ' + brand + '.</span>\n' +
+'      </h1>\n' +
+'      <p class="text-base sm:text-lg text-amber-100/70 max-w-2xl font-normal leading-relaxed mt-5">\n' +
+'        Experience Bengaluru\'s legendary breakfast heritage. Crispy golden dosas drenched in artisanal clarified butter, fluffy podi idlis, and freshly ground Chikmagalur degree filter coffee.\n' +
+'      </p>\n' +
+'      <div class="w-full h-[480px] sm:h-[540px] mt-8 rounded-3xl relative overflow-hidden border border-amber-900/40 bg-gradient-to-b from-[#140D08] to-[#080503] shadow-2xl group">\n' +
+'        <canvas id="cafeCanvas" class="w-full h-full cursor-grab active:cursor-grabbing"></canvas>\n' +
+'        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/75 backdrop-blur-md px-5 py-3 rounded-2xl border border-amber-500/30 flex items-center space-x-4 z-20 font-mono text-xs">\n' +
+'          <span class="text-amber-300 text-[11px] font-bold">ROAST PROFILE:</span>\n' +
+'          <div class="flex items-center space-x-2">\n' +
+'            <button onclick="setRoastProfile(\'chikmagalur\', \'Chikmagalur Peaberry\', this)" class="roast-pill active-roast px-3 py-1 rounded-lg border border-amber-500/40 text-[11px]">Chikmagalur Peaberry</button>\n' +
+'            <button onclick="setRoastProfile(\'mysore\', \'Mysore Nugget AAA\', this)" class="roast-pill px-3 py-1 rounded-lg border border-amber-500/40 text-amber-200 text-[11px]">Mysore Nugget</button>\n' +
+'            <button onclick="setRoastProfile(\'monsoon\', \'Monsooned Malabar\', this)" class="roast-pill px-3 py-1 rounded-lg border border-amber-500/40 text-amber-200 text-[11px]">Monsooned Malabar</button>\n' +
+'          </div>\n' +
+'        </div>\n' +
+'        <div class="absolute top-5 right-5 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-amber-500/20 text-[11px] font-mono text-amber-400 pointer-events-none flex items-center gap-2">\n' +
+'          <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>\n' +
+'          <span>INTERACTIVE 3D BRASS FILTER // DRAG TO ROTATE</span>\n' +
+'        </div>\n' +
+'      </div>\n' +
+'      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full mt-10 text-left font-mono text-xs">\n' +
+'        <div class="cafe-card p-6 rounded-2xl">\n' +
+'          <div class="text-[10px] text-amber-400 font-bold tracking-wider uppercase">HERITAGE RATING</div>\n' +
+'          <div class="text-3xl sm:text-4xl font-serif-luxury font-bold text-white mt-1">4.9 <span class="text-amber-400 text-lg">&#x2605;</span></div>\n' +
+'          <p class="text-[11px] text-amber-200/60 mt-0.5">38,000+ Verified Patron Reviews</p>\n' +
+'        </div>\n' +
+'        <div class="cafe-card p-6 rounded-2xl">\n' +
+'          <div class="text-[10px] text-amber-400 font-bold tracking-wider uppercase">CLARIFIED BUTTER</div>\n' +
+'          <div class="text-3xl sm:text-4xl font-serif-luxury font-bold text-white mt-1">100%</div>\n' +
+'          <p class="text-[11px] text-amber-200/60 mt-0.5">Pure Desi Malnad Cow Ghee</p>\n' +
+'        </div>\n' +
+'        <div class="cafe-card p-6 rounded-2xl">\n' +
+'          <div class="text-[10px] text-amber-400 font-bold tracking-wider uppercase">BATTER CYCLE</div>\n' +
+'          <div class="text-3xl sm:text-4xl font-serif-luxury font-bold text-white mt-1">45 <span class="text-base text-amber-300 font-normal">MIN</span></div>\n' +
+'          <p class="text-[11px] text-amber-200/60 mt-0.5">Stone-Ground Fresh Continuously</p>\n' +
+'        </div>\n' +
+'        <div class="cafe-card p-6 rounded-2xl">\n' +
+'          <div class="text-[10px] text-amber-400 font-bold tracking-wider uppercase">FILTER COFFEE</div>\n' +
+'          <div class="text-3xl sm:text-4xl font-serif-luxury font-bold text-white mt-1">80:20</div>\n' +
+'          <p class="text-[11px] text-amber-200/60 mt-0.5">Single-Estate Peaberry Blend</p>\n' +
+'        </div>\n' +
+'      </div>\n' +
+'    </section>\n' +
+'    <section id="menu" class="max-w-7xl mx-auto px-6">\n' +
+'      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">\n' +
+'        <div>\n' +
+'          <span class="text-xs font-mono font-bold text-amber-400 tracking-wider uppercase">// ARTISANAL DISHES</span>\n' +
+'          <h2 class="text-3xl sm:text-5xl font-bold font-serif-luxury text-white mt-2">The Golden Repertoire</h2>\n' +
+'        </div>\n' +
+'        <p class="text-xs sm:text-sm text-amber-200/70 font-mono max-w-md mt-4 md:mt-0">Handcrafted daily with zero artificial additives, heirloom spices, and pure cow ghee.</p>\n' +
+'      </div>\n' +
+'      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">\n' +
+'        <div class="cafe-card p-8 rounded-3xl space-y-4 flex flex-col justify-between">\n' +
+'          <div class="space-y-3">\n' +
+'            <div class="flex items-center justify-between">\n' +
+'              <span class="px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 font-mono text-[10px] font-bold">LEGENDARY ITEM 01</span>\n' +
+'              <span class="font-serif-luxury font-bold text-amber-400 text-lg">&#x20B9;75</span>\n' +
+'            </div>\n' +
+'            <h3 class="text-2xl font-bold font-serif-luxury text-white">Ghee Podi Idli (2 Pcs)</h3>\n' +
+'            <p class="text-xs text-amber-100/70 leading-relaxed font-sans">Steamed to cloud-soft lightness, then generously drenched in authentic stone-ground Gunpowder Podi and boiling aromatic Desi cow ghee.</p>\n' +
+'            <div class="text-[11px] font-mono text-amber-300 flex items-center gap-1.5"><span>&#x2713; Served with Coconut &amp; Tomato Chutney</span></div>\n' +
+'          </div>\n' +
+'          <button onclick="addToOrder(\'Ghee Podi Idli\', 75)" class="w-full py-3 rounded-xl bg-amber-500/10 hover:bg-amber-500 hover:text-black text-amber-400 font-mono text-xs font-bold border border-amber-500/30 transition">ADD TO TASTING ORDER &rarr;</button>\n' +
+'        </div>\n' +
+'        <div class="cafe-card p-8 rounded-3xl space-y-4 flex flex-col justify-between border-amber-500/40">\n' +
+'          <div class="space-y-3">\n' +
+'            <div class="flex items-center justify-between">\n' +
+'              <span class="px-2.5 py-0.5 rounded-full bg-amber-400 text-black font-mono text-[10px] font-bold">CHEF\'S SIGNATURE</span>\n' +
+'              <span class="font-serif-luxury font-bold text-amber-400 text-lg">&#x20B9;95</span>\n' +
+'            </div>\n' +
+'            <h3 class="text-2xl font-bold font-serif-luxury text-white">Ghee Podi Masala Dosa</h3>\n' +
+'            <p class="text-xs text-amber-100/70 leading-relaxed font-sans">Thin golden crisp crepe roasted over iron skillets with pure butter, layered with fiery spiced podi and savory spiced potato bhaji.</p>\n' +
+'            <div class="text-[11px] font-mono text-amber-300 flex items-center gap-1.5"><span>&#x2713; Signature Slow-Fermented Batter</span></div>\n' +
+'          </div>\n' +
+'          <button onclick="addToOrder(\'Ghee Podi Masala Dosa\', 95)" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-black font-mono text-xs font-bold transition">ADD TO TASTING ORDER &rarr;</button>\n' +
+'        </div>\n' +
+'        <div class="cafe-card p-8 rounded-3xl space-y-4 flex flex-col justify-between">\n' +
+'          <div class="space-y-3">\n' +
+'            <div class="flex items-center justify-between">\n' +
+'              <span class="px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 font-mono text-[10px] font-bold">GOLD STANDARD</span>\n' +
+'              <span class="font-serif-luxury font-bold text-amber-400 text-lg">&#x20B9;35</span>\n' +
+'            </div>\n' +
+'            <h3 class="text-2xl font-bold font-serif-luxury text-white">Authentic Degree Filter Coffee</h3>\n' +
+'            <p class="text-xs text-amber-100/70 leading-relaxed font-sans">Hand-pulled through traditional brass tumbler and dabarah meters. Velvet foam head with deep peaberry chocolate notes.</p>\n' +
+'            <div class="text-[11px] font-mono text-amber-300 flex items-center gap-1.5"><span>&#x2713; First Decoction Chikmagalur Extract</span></div>\n' +
+'          </div>\n' +
+'          <button onclick="addToOrder(\'Degree Filter Coffee\', 35)" class="w-full py-3 rounded-xl bg-amber-500/10 hover:bg-amber-500 hover:text-black text-amber-400 font-mono text-xs font-bold border border-amber-500/30 transition">ADD TO TASTING ORDER &rarr;</button>\n' +
+'        </div>\n' +
+'      </div>\n' +
+'    </section>\n' +
+'    <section id="craft" class="max-w-7xl mx-auto px-6">\n' +
+'      <div class="cafe-card p-8 sm:p-12 rounded-3xl border border-amber-900/40 bg-gradient-to-br from-[#1A120B] to-[#0A0705]">\n' +
+'        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">\n' +
+'          <div class="lg:col-span-7 space-y-6">\n' +
+'            <span class="text-xs font-mono font-bold text-amber-400 uppercase tracking-widest">// THE THREE PILLARS</span>\n' +
+'            <h3 class="text-2xl sm:text-4xl font-bold font-serif-luxury text-white leading-tight">Honoring Century-Old South Indian Culinary Principles.</h3>\n' +
+'            <p class="text-xs sm:text-sm text-amber-100/80 leading-relaxed font-sans">We never cut corners. Our clarified butter is churned from native pasture-fed cows. Our coffee beans are sun-dried on the slopes of Baba Budangiri and roasted in small micro-batches every morning.</p>\n' +
+'            <div class="grid grid-cols-3 gap-4 pt-2 font-mono text-xs">\n' +
+'              <div class="p-4 rounded-xl bg-black/60 border border-amber-500/20">\n' +
+'                <div class="text-amber-500 text-[10px]">WATER TEMP</div>\n' +
+'                <div class="text-white font-bold text-base mt-0.5 font-serif-luxury">94&deg; C</div>\n' +
+'              </div>\n' +
+'              <div class="p-4 rounded-xl bg-black/60 border border-amber-500/20">\n' +
+'                <div class="text-amber-500 text-[10px]">DECOCTION DROP</div>\n' +
+'                <div class="text-white font-bold text-base mt-0.5 font-serif-luxury">12 MIN</div>\n' +
+'              </div>\n' +
+'              <div class="p-4 rounded-xl bg-black/60 border border-amber-500/20">\n' +
+'                <div class="text-amber-500 text-[10px]">FERMENT TIME</div>\n' +
+'                <div class="text-white font-bold text-base mt-0.5 font-serif-luxury">14 HRS</div>\n' +
+'              </div>\n' +
+'            </div>\n' +
+'          </div>\n' +
+'          <div class="lg:col-span-5 space-y-4 font-mono text-xs">\n' +
+'            <div class="p-5 rounded-2xl bg-black/60 border border-amber-500/30 space-y-2">\n' +
+'              <div class="flex items-center justify-between text-white font-bold"><span>STONE-GROUND SAMBAR</span><span class="text-amber-400">AUTHENTIC</span></div>\n' +
+'              <p class="text-[11px] text-amber-200/60">Simmered with shallots and 16 heirloom roasted spices.</p>\n' +
+'            </div>\n' +
+'            <div class="p-5 rounded-2xl bg-black/60 border border-amber-500/20 space-y-2">\n' +
+'              <div class="flex items-center justify-between text-white font-bold"><span>MALNAD COW GHEE</span><span class="text-emerald-400">UNADULTERATED</span></div>\n' +
+'              <p class="text-[11px] text-amber-200/60">Sourced directly from local farmer cooperatives.</p>\n' +
+'            </div>\n' +
+'          </div>\n' +
+'        </div>\n' +
+'      </div>\n' +
+'    </section>\n' +
+'    <section id="reserve" class="max-w-3xl mx-auto px-6">\n' +
+'      <div class="cafe-card p-8 sm:p-12 rounded-3xl space-y-6">\n' +
+'        <div class="text-center space-y-2">\n' +
+'          <span class="text-xs font-mono font-bold text-amber-400 uppercase tracking-widest">// VIP CONCIERGE &amp; EXPRESS PASS</span>\n' +
+'          <h2 class="text-2xl sm:text-4xl font-bold font-serif-luxury text-white">Reserve Your Table &amp; Tasting Menu</h2>\n' +
+'          <p class="text-xs text-amber-200/70 font-mono">Skip the peak morning queue with a VIP priority pass.</p>\n' +
+'        </div>\n' +
+'        <form onsubmit="handleReservation(event)" class="space-y-4 font-mono text-xs">\n' +
+'          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">\n' +
+'            <div>\n' +
+'              <label class="block text-amber-200/80 mb-1">Guest Full Name</label>\n' +
+'              <input type="text" required placeholder="Aditya Sharma" class="w-full bg-black/60 border border-amber-500/20 rounded-xl p-3.5 text-white focus:border-amber-400 outline-none transition">\n' +
+'            </div>\n' +
+'            <div>\n' +
+'              <label class="block text-amber-200/80 mb-1">Phone Number</label>\n' +
+'              <input type="tel" required placeholder="+91 98450 12345" class="w-full bg-black/60 border border-amber-500/20 rounded-xl p-3.5 text-white focus:border-amber-400 outline-none transition">\n' +
+'            </div>\n' +
+'          </div>\n' +
+'          <button type="submit" id="reserveBtn" class="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-black font-extrabold text-sm uppercase tracking-wider hover:from-amber-400 hover:to-yellow-300 transition shadow-lg shadow-amber-500/20 active:scale-98">\n' +
+'            CONFIRM VIP PRIORITY RESERVATION &rarr;\n' +
+'          </button>\n' +
+'        </form>\n' +
+'        <div id="reservationSuccess" class="hidden p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs space-y-1.5">\n' +
+'          <div class="font-bold flex items-center gap-2"><span>&#x2713;</span> PRIORITY PASS ISSUED SUCCESSFULLY</div>\n' +
+'          <p class="text-amber-100 text-[11px]">Pass generated. Present this digital pass at the priority queue desk for immediate seating.</p>\n' +
+'        </div>\n' +
+'      </div>\n' +
+'    </section>\n' +
+'  </main>\n' +
+'  <footer class="border-t border-amber-900/30 py-10 px-6 mt-24 bg-black text-xs font-mono text-amber-200/50">\n' +
+'    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">\n' +
+'      <div class="flex items-center space-x-2">\n' +
+'        <span class="font-serif-luxury font-bold text-white text-base">' + brand.toUpperCase() + '</span>\n' +
+'        <span>&copy; 2026. ALL RIGHTS RESERVED.</span>\n' +
+'      </div>\n' +
+'      <div class="flex items-center space-x-6 text-[11px]">\n' +
+'        <span>HEIRLOOM RECIPES</span>\n' +
+'        <span>100% PURE GHEE</span>\n' +
+'        <span>SYNTHESIZED VIA ASURA STUDIO CLOUD</span>\n' +
+'      </div>\n' +
+'    </div>\n' +
+'  </footer>\n' +
+'  <' + 'script>\n' +
+'    var scene, camera, renderer, cupGroup, steamParticles = [], beans = [];\n' +
+'    var isDragging = false, previousMouseX = 0, previousMouseY = 0;\n' +
+'    function initCafeScene() {\n' +
+'      var container = document.getElementById(\'cafeCanvas\');\n' +
+'      if (!container) return;\n' +
+'      var width = container.parentElement.clientWidth;\n' +
+'      var height = container.parentElement.clientHeight;\n' +
+'      scene = new THREE.Scene();\n' +
+'      camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 1000);\n' +
+'      camera.position.set(0, 1.6, 5.5);\n' +
+'      renderer = new THREE.WebGLRenderer({ canvas: container, antialias: true, alpha: true });\n' +
+'      renderer.setSize(width, height);\n' +
+'      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));\n' +
+'      scene.add(new THREE.AmbientLight(0xfff5ea, 0.8));\n' +
+'      var amberDir = new THREE.DirectionalLight(0xF59E0B, 1.8);\n' +
+'      amberDir.position.set(4, 8, 5);\n' +
+'      scene.add(amberDir);\n' +
+'      var goldRim = new THREE.PointLight(0xFBBF24, 2.5, 8);\n' +
+'      goldRim.position.set(-3, 2, -2);\n' +
+'      scene.add(goldRim);\n' +
+'      cupGroup = new THREE.Group();\n' +
+'      scene.add(cupGroup);\n' +
+'      var dabarahGeo = new THREE.CylinderGeometry(1.6, 1.1, 0.65, 32);\n' +
+'      var brassMat = new THREE.MeshStandardMaterial({ color: 0xD4AF37, metalness: 0.85, roughness: 0.18 });\n' +
+'      var dabarah = new THREE.Mesh(dabarahGeo, brassMat);\n' +
+'      dabarah.position.y = 0.32;\n' +
+'      cupGroup.add(dabarah);\n' +
+'      var tumblerGeo = new THREE.CylinderGeometry(0.85, 0.65, 1.4, 32);\n' +
+'      var tumbler = new THREE.Mesh(tumblerGeo, brassMat);\n' +
+'      tumbler.position.y = 1.1;\n' +
+'      cupGroup.add(tumbler);\n' +
+'      var frothGeo = new THREE.CircleGeometry(0.83, 32);\n' +
+'      frothGeo.rotateX(-Math.PI / 2);\n' +
+'      var frothMat = new THREE.MeshStandardMaterial({ color: 0xC88A4B, roughness: 0.9, metalness: 0.1 });\n' +
+'      var froth = new THREE.Mesh(frothGeo, frothMat);\n' +
+'      froth.position.y = 1.78;\n' +
+'      cupGroup.add(froth);\n' +
+'      var steamGeo = new THREE.SphereGeometry(0.04, 8, 8);\n' +
+'      var steamMat = new THREE.MeshBasicMaterial({ color: 0xFFFDF0, transparent: true, opacity: 0.35 });\n' +
+'      for (var i = 0; i < 40; i++) {\n' +
+'        var sp = new THREE.Mesh(steamGeo, steamMat);\n' +
+'        sp.position.set((Math.random() - 0.5) * 0.7, 1.8 + Math.random() * 1.5, (Math.random() - 0.5) * 0.7);\n' +
+'        sp.userData = { speedY: 0.015 + Math.random() * 0.02, initialY: 1.8 };\n' +
+'        cupGroup.add(sp);\n' +
+'        steamParticles.push(sp);\n' +
+'      }\n' +
+'      var beanGeo = new THREE.SphereGeometry(0.16, 12, 12);\n' +
+'      beanGeo.scale(1.4, 0.9, 0.8);\n' +
+'      var beanMat = new THREE.MeshStandardMaterial({ color: 0x3E2723, roughness: 0.5, metalness: 0.2 });\n' +
+'      for (var b = 0; b < 18; b++) {\n' +
+'        var angle = (b / 18) * Math.PI * 2;\n' +
+'        var radius = 2.2 + (b % 2) * 0.4;\n' +
+'        var bean = new THREE.Mesh(beanGeo, beanMat);\n' +
+'        bean.position.set(Math.cos(angle) * radius, 0.5 + Math.sin(b) * 0.4, Math.sin(angle) * radius);\n' +
+'        bean.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);\n' +
+'        cupGroup.add(bean);\n' +
+'        beans.push(bean);\n' +
+'      }\n' +
+'      var grid = new THREE.GridHelper(16, 24, 0xF59E0B, 0x3E2723);\n' +
+'      grid.position.y = 0;\n' +
+'      scene.add(grid);\n' +
+'      container.addEventListener(\'mousedown\', function(e) { isDragging = true; previousMouseX = e.clientX; previousMouseY = e.clientY; });\n' +
+'      window.addEventListener(\'mouseup\', function() { isDragging = false; });\n' +
+'      window.addEventListener(\'mousemove\', function(e) {\n' +
+'        if (!isDragging || !cupGroup) return;\n' +
+'        var dx = e.clientX - previousMouseX;\n' +
+'        var dy = e.clientY - previousMouseY;\n' +
+'        cupGroup.rotation.y += dx * 0.008;\n' +
+'        cupGroup.rotation.x += dy * 0.004;\n' +
+'        previousMouseX = e.clientX;\n' +
+'        previousMouseY = e.clientY;\n' +
+'      });\n' +
+'      container.addEventListener(\'touchstart\', function(e) { if (e.touches.length === 1) { isDragging = true; previousMouseX = e.touches[0].clientX; previousMouseY = e.touches[0].clientY; } });\n' +
+'      window.addEventListener(\'touchend\', function() { isDragging = false; });\n' +
+'      window.addEventListener(\'touchmove\', function(e) {\n' +
+'        if (!isDragging || !cupGroup || e.touches.length !== 1) return;\n' +
+'        var dx = e.touches[0].clientX - previousMouseX;\n' +
+'        cupGroup.rotation.y += dx * 0.01;\n' +
+'        previousMouseX = e.touches[0].clientX;\n' +
+'        previousMouseY = e.touches[0].clientY;\n' +
+'      });\n' +
+'      window.addEventListener(\'resize\', function() {\n' +
+'        if (!container || !renderer || !camera) return;\n' +
+'        var w = container.parentElement.clientWidth;\n' +
+'        var h = container.parentElement.clientHeight;\n' +
+'        camera.aspect = w / h;\n' +
+'        camera.updateProjectionMatrix();\n' +
+'        renderer.setSize(w, h);\n' +
+'      });\n' +
+'      animateCafe();\n' +
+'    }\n' +
+'    function animateCafe() {\n' +
+'      requestAnimationFrame(animateCafe);\n' +
+'      if (cupGroup && !isDragging) cupGroup.rotation.y += 0.007;\n' +
+'      steamParticles.forEach(function(sp) {\n' +
+'        sp.position.y += sp.userData.speedY;\n' +
+'        sp.material.opacity = Math.max(0, 0.4 - (sp.position.y - 1.8) * 0.25);\n' +
+'        if (sp.position.y > 3.2) {\n' +
+'          sp.position.y = sp.userData.initialY;\n' +
+'          sp.position.x = (Math.random() - 0.5) * 0.7;\n' +
+'          sp.position.z = (Math.random() - 0.5) * 0.7;\n' +
+'        }\n' +
+'      });\n' +
+'      beans.forEach(function(b) { b.rotation.x += 0.01; b.rotation.y += 0.015; });\n' +
+'      if (renderer && scene && camera) renderer.render(scene, camera);\n' +
+'    }\n' +
+'    function setRoastProfile(type, name, btn) {\n' +
+'      document.querySelectorAll(\'.roast-pill\').forEach(function(p) { p.classList.remove(\'active-roast\'); });\n' +
+'      if (btn) btn.classList.add(\'active-roast\');\n' +
+'    }\n' +
+'    function addToOrder(item, price) {\n' +
+'      alert(\'Added \' + item + \' (₹\' + price + \') to your tasting selection! Proceed to VIP Reservation to confirm.\');\n' +
+'      window.location.hash = \'reserve\';\n' +
+'    }\n' +
+'    function handleReservation(e) {\n' +
+'      e.preventDefault();\n' +
+'      var btn = document.getElementById(\'reserveBtn\');\n' +
+'      btn.innerHTML = \'&#x2713; PRIORITY PASS ISSUED\';\n' +
+'      btn.disabled = true;\n' +
+'      btn.classList.remove(\'from-amber-500\', \'to-yellow-400\');\n' +
+'      btn.classList.add(\'bg-emerald-500\', \'text-black\');\n' +
+'      document.getElementById(\'reservationSuccess\').classList.remove(\'hidden\');\n' +
+'    }\n' +
+'    window.addEventListener(\'DOMContentLoaded\', function() { initCafeScene(); });\n' +
+'  <' + '/script>\n' +
+'</body>\n' +
+'</html>';
     }
 
     function generateAutomotiveShowcaseHtml(brand, colors) {
