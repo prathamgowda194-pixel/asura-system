@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Valaïs Alpine Monolith // Cantilevered Living at 2,150m &bull; Zermatt, Switzerland</title>
+  <title>Valaïs Monolith // Cantilevered Alpine Living // Cantilevered Living at 2,150m &bull; Zermatt, Switzerland</title>
   
   <!-- Google Fonts: Italiana (Refined Serif), Cinzel (Architectural Display), Outfit (Modern Sans), Space Grotesk (HUD Monospace) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -185,6 +185,80 @@
       box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.8);
     }
 
+    /* AWESOME DESIGN SYSTEM: Precision Cursor */
+    .custom-cursor-dot {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--cyan-radar);
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease-out, opacity 0.2s ease;
+    }
+    .custom-cursor-ring {
+      position: fixed;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(56, 189, 248, 0.6);
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.12s ease-out, border-color 0.3s ease;
+    }
+    .cursor-hover .custom-cursor-ring {
+      width: 62px;
+      height: 62px;
+      background-color: rgba(56, 189, 248, 0.08);
+      border-color: #FFFFFF;
+    }
+
+    /* 3D Kinetic Card Tilt & Specular Glare */
+    .tilt-card {
+      transform-style: preserve-3d;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+      will-change: transform;
+    }
+
+    /* Floating Cinema Auto-Scroll Controller Dock (Reel Replica) */
+    .autoscroll-dock {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 850;
+      background: rgba(10, 13, 20, 0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 9999px;
+      padding: 0.5rem 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(56, 189, 248, 0.15);
+      transition: all 0.3s ease;
+    }
+    .autoscroll-dock:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.9), 0 0 30px rgba(56, 189, 248, 0.3);
+    }
+    .speed-btn {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+      color: #94A3B8;
+      transition: all 0.2s ease;
+    }
+    .speed-btn:hover { color: #FFFFFF; }
+    .speed-btn.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: #38BDF8;
+      font-weight: 700;
+    }
+
     /* 3D Blueprint Elevation Canvas Container */
     #blueprintCanvas {
       width: 100%;
@@ -200,6 +274,26 @@
 
   <div class="film-grain"></div>
 
+  <!-- Awesome Design Cursor DOM Elements -->
+  <div id="cursorDot" class="custom-cursor-dot hidden sm:block"></div>
+  <div id="cursorRing" class="custom-cursor-ring hidden sm:block"></div>
+
+  <!-- FLOATING AUTO-SCROLL CONTROLLER DOCK (INSTAGRAM REEL ATOM-2-0 REPLICA) -->
+  <div class="autoscroll-dock" id="autoScrollDock">
+    <div class="flex items-center space-x-2 pl-1">
+      <span id="autoScrollDot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span class="text-[10px] font-hud uppercase tracking-widest text-zinc-300 font-bold hidden md:inline">3D AUTO-SCROLL</span>
+    </div>
+    <button id="autoScrollToggleBtn" onclick="toggleAutoScroll()" class="px-3.5 py-1.5 rounded-full bg-white text-black font-hud font-bold text-[10px] hover:bg-cyan-300 transition-all shadow-md active:scale-95">
+      PAUSE
+    </button>
+    <div class="flex items-center space-x-1 border-l border-white/15 pl-2">
+      <button onclick="setAutoScrollSpeed(0.8, this)" class="speed-btn">1X</button>
+      <button onclick="setAutoScrollSpeed(1.8, this)" class="speed-btn active">2X</button>
+      <button onclick="setAutoScrollSpeed(3.5, this)" class="speed-btn">3X</button>
+    </div>
+  </div>
+
   <!-- ─────────────────────────────────────────────────────────────────── -->
   <!-- 1. FLOATING LUXURY GLASS CAPSULE HEADER (BESPOKE ARCHITECTURAL HUD) -->
   <!-- ─────────────────────────────────────────────────────────────────── -->
@@ -210,7 +304,7 @@
         &#x25C7;
       </div>
       <div>
-        <span class="font-cinzel text-sm font-bold tracking-wider text-white uppercase">Valaïs Alpine Monolith</span>
+        <span class="font-cinzel text-sm font-bold tracking-wider text-white uppercase">Valaïs Monolith // Cantilevered Alpine Living</span>
         <span class="text-[9px] font-hud text-zinc-400 block tracking-widest">ZERMATT &bull; VALAIS SUISSE</span>
       </div>
     </div>
@@ -439,7 +533,7 @@
   <footer class="border-t border-white/10 py-12 px-6 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between text-xs font-hud text-zinc-500 gap-6">
     <div class="flex items-center space-x-3">
       <div class="w-6 h-6 rounded-full border border-white/20 flex items-center justify-center text-[10px] text-white font-cinzel">&#x25C7;</div>
-      <span>&copy; 2026 Valaïs Alpine Monolith. Cantilevered Architectural Monolith. SIA 102 Certified.</span>
+      <span>&copy; 2026 Valaïs Monolith // Cantilevered Alpine Living. Cantilevered Architectural Monolith. SIA 102 Certified.</span>
     </div>
     <div class="flex items-center space-x-6 text-[11px]">
       <span>Zermatt</span>
@@ -552,6 +646,109 @@
     }
 
     window.addEventListener('scroll', updateZoomScroll, { passive: true });
+
+    // --- A2. INSTAGRAM REEL CINEMATIC AUTO-SCROLL ENGINE ---
+    var autoScrollActive = true;
+    var autoScrollSpeed = 1.8;
+    var autoScrollAnimId = null;
+    var isUserInteracting = false;
+    var userResumeTimeout = null;
+
+    function runAutoScroll() {
+      if (autoScrollActive && !isUserInteracting) {
+        var maxScroll = runway ? (runway.offsetTop + runway.offsetHeight - window.innerHeight) : 3000;
+        if (window.scrollY >= maxScroll) {
+          // Loop smoothly back to top when reaching end of 3D runway
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          window.scrollBy(0, autoScrollSpeed);
+        }
+      }
+      autoScrollAnimId = requestAnimationFrame(runAutoScroll);
+    }
+    // Start auto-scroll engine
+    autoScrollAnimId = requestAnimationFrame(runAutoScroll);
+
+    function toggleAutoScroll() {
+      autoScrollActive = !autoScrollActive;
+      var btn = document.getElementById('autoScrollToggleBtn');
+      var dot = document.getElementById('autoScrollDot');
+      if (autoScrollActive) {
+        if (btn) btn.innerText = 'PAUSE';
+        if (btn) btn.className = 'px-3.5 py-1.5 rounded-full bg-white text-black font-hud font-bold text-[10px] hover:bg-cyan-300 transition-all shadow-md active:scale-95';
+        if (dot) dot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
+      } else {
+        if (btn) btn.innerText = 'RESUME';
+        if (btn) btn.className = 'px-3.5 py-1.5 rounded-full bg-cyan-400 text-black font-hud font-bold text-[10px] hover:bg-white transition-all shadow-md active:scale-95';
+        if (dot) dot.className = 'w-2 h-2 rounded-full bg-amber-400';
+      }
+    }
+
+    function setAutoScrollSpeed(speed, btn) {
+      autoScrollSpeed = speed;
+      document.querySelectorAll('.speed-btn').forEach(function(b) { b.classList.remove('active'); });
+      if (btn) btn.classList.add('active');
+    }
+
+    // Pause auto-scroll when user manually wheels or touches, auto-resume after 2s idle
+    window.addEventListener('wheel', function() {
+      isUserInteracting = true;
+      clearTimeout(userResumeTimeout);
+      userResumeTimeout = setTimeout(function() { isUserInteracting = false; }, 2200);
+    }, { passive: true });
+
+    window.addEventListener('touchstart', function() {
+      isUserInteracting = true;
+      clearTimeout(userResumeTimeout);
+      userResumeTimeout = setTimeout(function() { isUserInteracting = false; }, 2200);
+    }, { passive: true });
+
+    // --- A3. AWESOME DESIGN KINETIC INTERACTIONS ---
+    var cDot = document.getElementById('cursorDot');
+    var cRing = document.getElementById('cursorRing');
+    var mouseX = -100, mouseY = -100;
+    var ringX = -100, ringY = -100;
+
+    window.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (cDot) {
+        cDot.style.left = mouseX + 'px';
+        cDot.style.top = mouseY + 'px';
+      }
+    });
+
+    function renderCursorRing() {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      if (cRing) {
+        cRing.style.left = ringX + 'px';
+        cRing.style.top = ringY + 'px';
+      }
+      requestAnimationFrame(renderCursorRing);
+    }
+    renderCursorRing();
+
+    document.querySelectorAll('a, button, input, .tod-btn, .speed-btn').forEach(function(el) {
+      el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
+      el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
+    });
+
+    // 3D Card Tilt Physics
+    document.querySelectorAll('.glass-card').forEach(function(card) {
+      card.classList.add('tilt-card');
+      card.addEventListener('mousemove', function(e) {
+        var rect = card.getBoundingClientRect();
+        var x = e.clientX - rect.left - (rect.width / 2);
+        var y = e.clientY - rect.top - (rect.height / 2);
+        var rotX = (y / (rect.height / 2)) * -8;
+        var rotY = (x / (rect.width / 2)) * 10;
+        card.style.transform = 'perspective(1000px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg) scale3d(1.015, 1.015, 1.015)';
+      });
+      card.addEventListener('mouseleave', function() {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      });
+    });
 
     // --- B. TIME-OF-DAY LIGHTING ENGINE ---
     function setTimeOfDay(tod, btn) {
