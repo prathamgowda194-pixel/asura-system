@@ -11,6 +11,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+<!-- Lenis Smooth Scroll Engine -->
+<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.26/dist/lenis.css">
+<script src="https://unpkg.com/lenis@1.3.26/dist/lenis.min.js"></script>
+
 <style>
 @font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:block;src:url(assets/instrument-serif.woff2) format('woff2')}
 @font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:block;src:url(assets/instrument-serif-italic.woff2) format('woff2')}
@@ -27,6 +31,19 @@
   --font:'Newsreader',"New York",Georgia,'Times New Roman',serif;
   --track-caps:.24em;
   --track-nav:.06em;
+}
+
+/* 3D Kinetic Hover Physics */
+.strip-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+  position: relative;
+  overflow: hidden;
+}
+.card-glare {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  transition: opacity 0.25s ease; mix-blend-mode: overlay; z-index: 5;
+  border-radius: inherit;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
@@ -341,7 +358,11 @@ button{font:inherit}
     <a href="#sketchbook" aria-current="page">Estates</a>
     <a href="#gallery">Plates</a>
     <a href="#blueprint">Blueprint CAD</a>
-    <div class="top-socials">
+    <div class="top-socials" style="display:flex;align-items:center;gap:10px;">
+      <button class="ctrl-btn" id="audioToggleBtn" onclick="toggleTactileAudio()" style="font-size:11px;padding:5px 12px;display:flex;align-items:center;gap:6px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#38a169;display:inline-block;" id="audioDot"></span>
+        <span id="audioText">Rustle FX: ON</span>
+      </button>
       <button class="inquire-btn" onclick="openInquiry()">Private Viewing</button>
     </div>
   </nav>
@@ -412,6 +433,27 @@ button{font:inherit}
 
   <div class="strip-grid" id="stripGrid">
     <!-- Rendered dynamically -->
+  </div>
+</section>
+
+<!-- ARCHITECTURAL BLUEPRINT CAD TELEMETRY -->
+<section class="gallery-strip" id="blueprint" style="margin-top: 80px; margin-bottom: 80px;">
+  <div class="strip-hdr">
+    <div>
+      <h2 class="strip-title">Plate IX · Architectural CAD Telemetry</h2>
+      <p style="font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);margin:4px 0 0;">Interactive live structural schematic, geothermal loop, and solar incident telemetry.</p>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="ctrl-btn active" id="btnCadStruct" onclick="window.setCadMode('struct')" style="background:var(--earth);color:#fff;font-weight:600;">Structural Grid</button>
+      <button class="ctrl-btn" id="btnCadHvac" onclick="window.setCadMode('hvac')">Geothermal Loop</button>
+      <button class="ctrl-btn" id="btnCadSolar" onclick="window.setCadMode('solar')">Solar Azimuth</button>
+    </div>
+  </div>
+  <div style="position:relative;border-radius:20px;overflow:hidden;box-shadow:0 24px 50px rgba(43,39,33,0.18);border:1px solid var(--hairline);background:#161a22;">
+    <canvas id="cadCanvas" style="width:100%;height:380px;display:block;cursor:crosshair;"></canvas>
+    <div style="position:absolute;bottom:14px;left:20px;font-family:monospace;font-size:11px;color:#93c5fd;background:rgba(10,13,18,0.88);padding:6px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);letter-spacing:0.05em;" id="cadTelemetry">
+      ELEVATION: +412m // LAT: 1°17'N // BEARING: 284° WNW // STRUCTURAL INTEGRITY: 99.4%
+    </div>
   </div>
 </section>
 
@@ -787,6 +829,24 @@ button{font:inherit}
     const img=new Image(); img.className='strip-img'; img.src=item.url; card.appendChild(img);
     const num=el('span','strip-num'); num.textContent='PLATE 0'+(i+1); card.appendChild(num);
     const tit=el('h3','strip-name'); tit.textContent=item.title; card.appendChild(tit);
+    
+    // 3D Card Hover Glare & Tilt
+    const glare=el('div','card-glare');
+    card.appendChild(glare);
+    card.addEventListener('mousemove', e=>{
+      const rect=card.getBoundingClientRect();
+      const x=e.clientX - rect.left, y=e.clientY - rect.top;
+      const rx=((y - rect.height/2)/(rect.height/2)) * -9;
+      const ry=((x - rect.width/2)/(rect.width/2)) * 9;
+      card.style.transform=`perspective(800px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) scale3d(1.03, 1.03, 1.03)`;
+      glare.style.background=`radial-gradient(circle at ${x}px ${y}px, rgba(201,171,122,0.38) 0%, transparent 65%)`;
+      glare.style.opacity='1';
+    });
+    card.addEventListener('mouseleave', ()=>{
+      card.style.transform='perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      glare.style.opacity='0';
+    });
+
     stripGrid.appendChild(card);
 
     // Modal Option
@@ -799,6 +859,191 @@ button{font:inherit}
     document.querySelectorAll('.strip-card').forEach((c,i)=>{
       c.classList.toggle('active',i===idx);
     });
+  }
+
+  // --- AUDIO SYNTHESIS ENGINE (TACTILE PAPER RUSTLE) ---
+  let audioCtx=null, tactileAudioEnabled=true;
+  function playPaperRustle(){
+    if(!tactileAudioEnabled) return;
+    try {
+      if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+      if(audioCtx.state==='suspended') audioCtx.resume();
+      const dur=0.38;
+      const bufSize=audioCtx.sampleRate*dur;
+      const buf=audioCtx.createBuffer(1,bufSize,audioCtx.sampleRate);
+      const d=buf.getChannelData(0);
+      for(let i=0;i<bufSize;i++) d[i]=(Math.random()*2 - 1)*Math.exp(-i/(bufSize*0.28));
+      const src=audioCtx.createBufferSource();
+      src.buffer=buf;
+      const flt=audioCtx.createBiquadFilter();
+      flt.type='bandpass';
+      flt.frequency.setValueAtTime(820,audioCtx.currentTime);
+      flt.frequency.exponentialRampToValueAtTime(360,audioCtx.currentTime+dur);
+      flt.Q.value=2.4;
+      const gain=audioCtx.createGain();
+      gain.gain.setValueAtTime(0.14,audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+dur);
+      src.connect(flt); flt.connect(gain); gain.connect(audioCtx.destination);
+      src.start();
+    } catch(e){}
+  }
+  window.toggleTactileAudio=function(){
+    tactileAudioEnabled=!tactileAudioEnabled;
+    const dot=document.getElementById('audioDot');
+    const txt=document.getElementById('audioText');
+    if(dot&&txt){
+      dot.style.background=tactileAudioEnabled?'#38a169':'#e53e3e';
+      txt.textContent=tactileAudioEnabled?'Rustle FX: ON':'Rustle FX: OFF';
+    }
+  };
+
+  // Attach rustle to leaf turn
+  const originalStep=step;
+  step=function(dir){
+    playPaperRustle();
+    originalStep(dir);
+  };
+
+  // --- LENIS SMOOTH SCROLL ENGINE ---
+  if(typeof Lenis!=='undefined'){
+    const lenis=new Lenis({
+      duration:1.2,
+      easing:(t)=>Math.min(1,1.001-Math.pow(2,-10*t)),
+      smoothWheel:true
+    });
+    function lenisRaf(time){
+      lenis.raf(time);
+      requestAnimationFrame(lenisRaf);
+    }
+    requestAnimationFrame(lenisRaf);
+
+    // Botanical Flora Parallax
+    const botL=document.querySelector('.botany.l');
+    const botR=document.querySelector('.botany.r');
+    lenis.on('scroll',({scroll})=>{
+      if(botL) botL.style.transform=`translateY(${scroll*0.12}px)`;
+      if(botR) botR.style.transform=`translateY(${scroll*-0.08}px)`;
+    });
+  }
+
+  // --- INTERACTIVE CAD BLUEPRINT TELEMETRY ---
+  const cadCanvas=document.getElementById('cadCanvas');
+  let cadMode='struct';
+  let cadMouse={x:0,y:0,inside:false};
+
+  window.setCadMode=function(m){
+    cadMode=m;
+    document.getElementById('btnCadStruct').style.background=m==='struct'?'var(--earth)':'rgba(43,39,33,.08)';
+    document.getElementById('btnCadStruct').style.color=m==='struct'?'#fff':'var(--ink)';
+    document.getElementById('btnCadHvac').style.background=m==='hvac'?'var(--earth)':'rgba(43,39,33,.08)';
+    document.getElementById('btnCadHvac').style.color=m==='hvac'?'#fff':'var(--ink)';
+    document.getElementById('btnCadSolar').style.background=m==='solar'?'var(--earth)':'rgba(43,39,33,.08)';
+    document.getElementById('btnCadSolar').style.color=m==='solar'?'#fff':'var(--ink)';
+  };
+
+  if(cadCanvas){
+    const ctx=cadCanvas.getContext('2d');
+    function resizeCad(){
+      cadCanvas.width=cadCanvas.clientWidth*window.devicePixelRatio;
+      cadCanvas.height=cadCanvas.clientHeight*window.devicePixelRatio;
+    }
+    window.addEventListener('resize',resizeCad);
+    resizeCad();
+
+    cadCanvas.addEventListener('mousemove', e=>{
+      const r=cadCanvas.getBoundingClientRect();
+      cadMouse.x=(e.clientX - r.left)*window.devicePixelRatio;
+      cadMouse.y=(e.clientY - r.top)*window.devicePixelRatio;
+      cadMouse.inside=true;
+      const telem=document.getElementById('cadTelemetry');
+      if(telem){
+        const px=(e.clientX-r.left).toFixed(0);
+        const py=(e.clientY-r.top).toFixed(0);
+        telem.textContent=`ELEVATION: +412m // GRID: [X:${px}, Y:${py}] // BEARING: 284° WNW // MODE: ${cadMode.toUpperCase()}`;
+      }
+    });
+    cadCanvas.addEventListener('mouseleave', ()=>{ cadMouse.inside=false; });
+
+    let cadAngle=0;
+    function renderCad(){
+      cadAngle+=0.01;
+      const w=cadCanvas.width, h=cadCanvas.height;
+      ctx.clearRect(0,0,w,h);
+
+      // Background blueprint grid
+      ctx.strokeStyle='rgba(139,163,199,0.08)';
+      ctx.lineWidth=1;
+      const step=40*window.devicePixelRatio;
+      for(let x=0; x<w; x+=step){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+      for(let y=0; y<h; y+=step){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+
+      // Central cantilevered architectural footprint
+      const cx=w/2, cy=h/2;
+      ctx.save();
+      ctx.translate(cx,cy);
+
+      if(cadMode==='struct'){
+        // Structural Columns & Shear Walls
+        ctx.strokeStyle='#38bdf8'; ctx.lineWidth=2;
+        ctx.strokeRect(-160,-90,320,180);
+        ctx.strokeStyle='rgba(56,189,248,0.5)';
+        ctx.strokeRect(-120,-60,240,120);
+
+        // Core concrete columns
+        ctx.fillStyle='#38bdf8';
+        [[-160,-90],[160,-90],[-160,90],[160,90],[0,-90],[0,90],[-120,0],[120,0]].forEach(([px,py])=>{
+          ctx.fillRect(px-5,py-5,10,10);
+        });
+
+        // Dynamic cross-bracing
+        ctx.beginPath();
+        ctx.setLineDash([6,6]);
+        ctx.moveTo(-160,-90); ctx.lineTo(160,90);
+        ctx.moveTo(160,-90); ctx.lineTo(-160,90);
+        ctx.strokeStyle='rgba(56,189,248,0.3)';
+        ctx.stroke();
+        ctx.setLineDash([]);
+      } else if(cadMode==='hvac'){
+        // Geothermal Radiative Loop
+        ctx.strokeStyle='#f59e0b'; ctx.lineWidth=2.5;
+        ctx.beginPath();
+        for(let r=30; r<180; r+=25){
+          ctx.arc(0, 0, r, cadAngle, cadAngle + Math.PI*1.5);
+        }
+        ctx.stroke();
+        ctx.fillStyle='#f59e0b';
+        ctx.font='11px monospace';
+        ctx.fillText('RETURN WATER: 18.4°C // GEOTHERMAL COP: 4.8', -140, 110);
+      } else if(cadMode==='solar'){
+        // Solar Azimuth & Incident Ray vectors
+        ctx.strokeStyle='#fbbf24'; ctx.lineWidth=1.8;
+        const sunX=Math.cos(cadAngle)*180, sunY=Math.sin(cadAngle)*100 - 40;
+        ctx.beginPath();
+        ctx.arc(sunX,sunY,12,0,Math.PI*2);
+        ctx.fillStyle='#fbbf24'; ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(sunX,sunY); ctx.lineTo(0,0);
+        ctx.moveTo(sunX,sunY); ctx.lineTo(-120,-40);
+        ctx.moveTo(sunX,sunY); ctx.lineTo(120,40);
+        ctx.strokeStyle='rgba(251,191,36,0.4)';
+        ctx.stroke();
+        ctx.fillStyle='#fbbf24'; ctx.font='11px monospace';
+        ctx.fillText('SOLAR AZIMUTH: 132° SE // INCIDENT LUX: 94,200 LUX', -150, 110);
+      }
+
+      // Cursor crosshair guide
+      if(cadMouse.inside){
+        const mx=cadMouse.x - cx, my=cadMouse.y - cy;
+        ctx.strokeStyle='rgba(255,255,255,0.4)';
+        ctx.setLineDash([4,4]);
+        ctx.beginPath(); ctx.moveTo(mx,-h); ctx.lineTo(mx,h); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(-w,my); ctx.lineTo(w,my); ctx.stroke();
+        ctx.setLineDash([]);
+      }
+      ctx.restore();
+      requestAnimationFrame(renderCad);
+    }
+    renderCad();
   }
 
   // Modal controls
