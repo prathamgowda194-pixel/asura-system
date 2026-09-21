@@ -1390,7 +1390,7 @@
     }
 
         // --- 7. VERCEL LIVE RADAR MONITOR & TWO-WAY FLEET LIFECYCLE ---
-    var RADAR_STORAGE_KEY = 'asura_live_radar_sites_v5';
+    var RADAR_STORAGE_KEY = 'asura_live_radar_sites_v6';
 
     var DEFAULT_VERCEL_SITES = [
       {
@@ -1403,29 +1403,29 @@
       {
         slug: 'nomada-living',
         name: 'Valaïs Alpine Monolith // 3D Living Architecture',
-        niche: '3D Zoom-Scroll Scrollytelling, Live Time-of-Day Lighting, 432Hz Alpine Audio (Italiana & Cinzel)',
+        niche: '3D Zoom-Scroll Scrollytelling, Cinema Auto-Scroll Dock, 432Hz Audio (Italiana & Cinzel)',
         url: 'https://asura-system.vercel.app/projects/nomada-living/index.html',
         status: '200 OK'
       },
       {
-        slug: 'rameshwaram-cafe',
-        name: 'Rameshwaram Roastery // Artisanal Gastronomy',
-        niche: '3D Thermal Steam Flowfield, Interactive Roast Curve & Brewing Acoustics (Syne & Marcellus)',
-        url: 'https://asura-system.vercel.app/projects/rameshwaram-cafe/index.html',
-        status: '200 OK'
-      },
-      {
         slug: 'velocity-motors',
-        name: 'Velocity Hypercar Atelier // Supersonic Aerodynamics',
-        niche: '3D Wind Tunnel Velocity Streamlines, Throttle Slider, Telemetry HUD (Space Grotesk & Chakra Petch)',
+        name: 'Velocity Motors // Real 3D Sculpted Ferrari SF90',
+        niche: 'Sculpted Ferrari Chassis, Spinning Wheels, Brembo Calipers, V8 Audio (Space Grotesk & Chakra Petch)',
         url: 'https://asura-system.vercel.app/projects/velocity-motors/index.html',
         status: '200 OK'
       },
       {
         slug: 'chronos-horlogerie',
-        name: 'Chronos Atelier // Haute Horlogerie',
-        niche: '3D Epicyclic Tourbillon Clockwork, 28,800 VPH Escapement Synth, Rose Engine Guilloché (Playfair & Cinzel)',
+        name: 'Chronos Atelier // Geneva Haute Horlogerie',
+        niche: 'Real 3D Mechanical Watch, Oscillating Tourbillon, 28,800 VPH Escapement Synth (Playfair & Cinzel)',
         url: 'https://asura-system.vercel.app/projects/chronos-horlogerie/index.html',
+        status: '200 OK'
+      },
+      {
+        slug: 'rameshwaram-cafe',
+        name: 'Rameshwaram Roastery // Artisanal South Indian Gastronomy',
+        niche: '3D Brass Davarah & Tumbler Filter Brew, Roast Curve Telemetry, Brewing Acoustics (Syne & Marcellus)',
+        url: 'https://asura-system.vercel.app/projects/rameshwaram-cafe/index.html',
         status: '200 OK'
       },
       {
@@ -1649,450 +1649,843 @@
     }
 
     function generateWatchShowcaseHtml(brand, colors) {
-  brand = brand || "Chronos Atelier";
-  const primary = (colors && colors.primary) || "#E5A97C"; // 24K Rose Gold
-  const accent = (colors && colors.accent) || "#D1D5DB"; // Geneva Rhodium
+  brand = brand || "Chronos Atelier // Geneva Haute Horlogerie";
 
   return `<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${brand} // Haute Horlogerie & Grand Tourbillon</title>
+  <title>${brand} // Calibre 9801 Flying Tourbillon</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  
   <script src="https://cdn.tailwindcss.com"><\/script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>
+
   <style>
     :root {
-      --sapphire-dark: #05070B;
-      --sapphire-card: #0A0E18;
-      --rose-gold: #E5A97C;
-      --champagne: #F5EBE1;
-      --rhodium: #D1D5DB;
-      --blued-steel: #2B4C7E;
+      --sapphire-dark: #04060A;
+      --sapphire-surface: #090D15;
+      --gold-alloy: #E5A97C; /* 24K Rose Gold */
+      --platinum-alloy: #D1D5DB; /* 950 Platinum */
+      --titanium-alloy: #64748B; /* Grade 5 Titanium */
+      --blued-steel: #2563EB;
+      --ruby-jewel: #E11D48;
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-crest: 'Cinzel', serif;
+      --font-mono: 'Space Grotesk', monospace;
+      --font-sans: 'Outfit', sans-serif;
     }
+
+    * { box-sizing: border-box; }
     body {
       background-color: var(--sapphire-dark);
-      color: #F5EBE1;
-      font-family: 'Outfit', sans-serif;
-      overflow-x: hidden;
+      color: #F8FAFC;
+      font-family: var(--font-sans);
       margin: 0;
       padding: 0;
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
-    .font-serif { font-family: 'Playfair Display', serif; }
-    .font-crest { font-family: 'Cinzel', serif; }
 
-    /* Radial Horological Glow */
-    .glow-calibre {
-      background: radial-gradient(circle at 50% 35%, rgba(229, 169, 124, 0.15) 0%, rgba(10, 14, 24, 0.85) 60%, rgba(5, 7, 11, 1) 100%);
+    .font-serif-luxury { font-family: var(--font-serif); }
+    .font-crest { font-family: var(--font-crest); }
+    .font-mono-hud { font-family: var(--font-mono); }
+
+    /* Awesome Design Horological Precision Cursor */
+    .watch-cursor-dot {
+      position: fixed;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: #E5A97C;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease-out;
+    }
+    .watch-cursor-ring {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(229, 169, 124, 0.6);
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.12s ease-out, border-color 0.3s ease;
+    }
+    .cursor-hover .watch-cursor-ring {
+      width: 65px;
+      height: 65px;
+      background-color: rgba(229, 169, 124, 0.08);
+      border-color: #FFFFFF;
     }
 
-    /* Subtle Horological Guilloché Texture */
-    .bg-guilloche {
+    /* Radial Horological Ambiance */
+    .calibre-glow {
+      background: radial-gradient(circle at 50% 38%, rgba(229, 169, 124, 0.12) 0%, rgba(9, 13, 21, 0.85) 60%, rgba(4, 6, 10, 1) 100%);
+    }
+
+    /* 3D Glass Cards & Specular Tilt */
+    .glass-horology-card {
+      background: rgba(12, 17, 26, 0.7);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      border-radius: 1.5rem;
+      transform-style: preserve-3d;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+      will-change: transform;
+    }
+    .glass-horology-card:hover {
+      border-color: rgba(229, 169, 124, 0.35);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), 0 0 25px rgba(229, 169, 124, 0.15);
+    }
+
+    /* Guilloché Pattern Texture */
+    .bg-guilloche-dial {
       background-image: radial-gradient(rgba(229, 169, 124, 0.08) 1px, transparent 0);
-      background-size: 24px 24px;
+      background-size: 20px 20px;
     }
 
-    /* Reveal item */
-    .reveal-watch {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .reveal-watch.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Royal button */
-    .royal-btn {
-      border: 1px solid rgba(229, 169, 124, 0.3);
-      transition: all 0.4s ease;
-    }
-    .royal-btn:hover {
+    /* Active Alloy Button Styling */
+    .alloy-btn.active {
+      background: rgba(229, 169, 124, 0.2);
       border-color: #E5A97C;
-      box-shadow: 0 0 25px rgba(229, 169, 124, 0.25);
-      transform: translateY(-2px);
+      color: #E5A97C;
+      box-shadow: 0 0 15px rgba(229, 169, 124, 0.25);
     }
   </style>
 </head>
-<body class="bg-guilloche selection:bg-[#E5A97C] selection:text-black">
+<body class="selection:bg-amber-300 selection:text-black">
 
-  <!-- ================= ROYAL GENEVA ATELIER HEADER ================= -->
-  <header class="fixed top-0 left-0 w-full z-50 px-6 lg:px-12 py-5 bg-[#05070B]/85 backdrop-blur-md border-b border-[#E5A97C]/20 font-crest">
+  <!-- Custom Cursor -->
+  <div id="cursorDot" class="watch-cursor-dot hidden sm:block"></div>
+  <div id="cursorRing" class="watch-cursor-ring hidden sm:block"></div>
+
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <!-- 1. BESPOKE GENEVA HAUTE HORLOGERIE NAVIGATION CREST -->
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <header class="border-b border-white/10 bg-[#04060A]/85 backdrop-blur-2xl sticky top-0 z-50 px-6 py-4">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <!-- Left: Chronometer Certification -->
-      <div class="flex items-center gap-3">
-        <span class="w-2 h-2 rounded-full bg-[#E5A97C] animate-ping"></span>
-        <span class="text-xs tracking-[0.2em] text-[#E5A97C]/80 uppercase">COSC CERTIFIED № 48201 // GENÈVE</span>
+      <!-- Crest Identity -->
+      <div class="flex items-center space-x-3.5">
+        <div class="w-10 h-10 rounded-full border border-amber-300/40 bg-amber-400/5 flex items-center justify-center font-crest text-sm text-amber-300 shadow-inner">
+          &#x2655;
+        </div>
+        <div>
+          <span class="font-crest text-base font-bold tracking-widest text-white block">CHRONOS ATELIER</span>
+          <span class="text-[9px] font-mono-hud text-zinc-400 tracking-[0.25em] block uppercase">GENÈVE &bull; MANUFACTURE HORLOGÈRE 1888</span>
+        </div>
       </div>
 
-      <!-- Center: Royal Atelier Crest -->
-      <a href="#hero" class="text-center group">
-        <span class="font-crest text-xl lg:text-2xl tracking-[0.25em] text-[#F5EBE1] uppercase group-hover:text-[#E5A97C] transition-colors">${brand}</span>
-        <span class="block text-[8px] tracking-[0.4em] text-[#E5A97C] uppercase mt-0.5">MANUFACTURE D'HORLOGERIE</span>
-      </a>
+      <!-- Navigation Complications -->
+      <nav class="hidden md:flex items-center space-x-8 text-xs font-mono-hud uppercase tracking-wider text-zinc-400">
+        <a href="#viewport3d" class="hover:text-amber-300 transition">3D Flying Tourbillon</a>
+        <a href="#calibre" class="hover:text-amber-300 transition">Calibre 9801</a>
+        <a href="#finishing" class="hover:text-amber-300 transition">Hand Anglage</a>
+        <a href="#bespoke" class="hover:text-amber-300 transition">Private Commission</a>
+      </nav>
 
-      <!-- Right: Acoustic Ticking & Salon Booking -->
-      <div class="flex items-center gap-4">
-        <button id="tickAudioBtn" class="hidden sm:flex items-center gap-2 text-xs px-3 py-1.5 rounded-full border border-[#E5A97C]/30 text-[#E5A97C] hover:border-[#E5A97C] transition-all">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          <span id="tickAudioLabel">28,800 VPH ACOUSTICS</span>
+      <!-- Acoustic Ticking Synth Toggle & Inquire -->
+      <div class="flex items-center space-x-3 text-xs font-mono-hud">
+        <button id="tickToggleBtn" onclick="toggleWatchTick()" class="px-3.5 py-1.5 rounded-full border border-amber-300/30 bg-amber-400/10 text-amber-300 flex items-center gap-2 hover:bg-amber-300/20 transition active:scale-95">
+          <span id="tickIndicator" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <span id="tickLabel">28,800 VPH ACOUSTICS</span>
         </button>
-        <a href="#appointment" class="royal-btn px-5 py-2 rounded-full bg-[#E5A97C] text-black text-xs font-semibold tracking-widest uppercase shadow-lg">
-          Private Salon
+
+        <a href="#bespoke" class="hidden sm:inline-flex px-4 py-1.5 rounded-full bg-white text-black font-crest font-bold text-xs hover:bg-amber-300 transition shadow-lg active:scale-95">
+          ALLOCATION &rarr;
         </a>
       </div>
     </div>
   </header>
 
-  <!-- ================= 3D EPICYCLIC CLOCKWORK HERO ================= -->
-  <section id="hero" class="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden glow-calibre">
-    <!-- Three.js Canvas for Epicyclic Tourbillon Clockwork Particles -->
-    <div class="absolute inset-0 z-0">
-      <canvas id="watchCanvas" class="w-full h-full"></canvas>
-    </div>
-
-    <!-- Foreground Content -->
-    <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
-      <!-- Hallmark Pill -->
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#E5A97C]/30 bg-[#0A0E18]/70 backdrop-blur-md mb-8 font-crest text-xs">
-        <span class="text-[#E5A97C]">POINÇON DE GENÈVE</span>
-        <span class="text-white/40">|</span>
-        <span class="text-white/80 tracking-widest uppercase">CALIBRE 8821 TOURBILLON VOLANT</span>
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <!-- 2. REAL 3D MECHANICAL WATCH & FLYING TOURBILLON VIEWPORT -->
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <section id="viewport3d" class="calibre-glow relative min-h-screen flex flex-col items-center justify-center pt-8 pb-16 px-6 overflow-hidden">
+    
+    <!-- Title & Heritage Badge -->
+    <div class="text-center space-y-3 z-20 max-w-4xl mx-auto">
+      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border border-amber-300/30 bg-black/60 backdrop-blur-md text-xs font-mono-hud text-amber-300 shadow-lg">
+        <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
+        <span>REAL 3D MECHANICAL WATCH WITH OSCILLATING TOURBILLON &bull; DRAG TO ROTATE 360&deg;</span>
       </div>
 
-      <!-- Main Headline -->
-      <h1 class="font-serif text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#F5EBE1] leading-[1.05] mb-6">
-        Defying Gravity. <br>
-        <span class="italic font-light text-transparent bg-clip-text bg-gradient-to-r from-[#E5A97C] via-[#F5EBE1] to-[#D1D5DB]">Capturing Infinity.</span>
+      <h1 class="text-4xl sm:text-7xl font-crest font-bold text-white tracking-tight leading-[1.05]">
+        The Grand Tourbillon.
       </h1>
 
-      <p class="max-w-2xl mx-auto text-base sm:text-lg text-[#F5EBE1]/70 font-light leading-relaxed mb-10">
-        Assembled by hand across 280 hours of micromechanical mastery. The multi-axis flying tourbillon counteracts gravitational kinetic variances with perpetual astronomical precision.
+      <p class="text-sm sm:text-base text-zinc-300 font-sans max-w-2xl mx-auto leading-relaxed">
+        Engineered with a titanium flying tourbillon carriage rotating once every 60 seconds. Applied 24K gold Roman numerals, sapphire dome reflection, and hand-finished Côtes de Genève.
       </p>
+    </div>
 
-      <!-- Live Interactive Alloy Switcher -->
-      <div class="inline-flex items-center gap-3 p-2 rounded-full bg-[#0A0E18]/80 backdrop-blur-lg border border-[#E5A97C]/30 shadow-2xl font-crest text-xs">
-        <span class="text-[#E5A97C]/70 px-3 uppercase tracking-wider">Metallurgy:</span>
-        <div class="flex items-center gap-2">
-          <button onclick="setWatchAlloy('rosegold')" id="alloy-rosegold" class="alloy-btn active px-4 py-1.5 rounded-full border border-[#E5A97C] text-[#E5A97C] bg-[#E5A97C]/20 transition-all">
-            24K ROSE GOLD
-          </button>
-          <button onclick="setWatchAlloy('platinum')" id="alloy-platinum" class="alloy-btn px-4 py-1.5 rounded-full border border-white/20 text-white/70 hover:border-white transition-all">
-            950 PLATINUM
-          </button>
-          <button onclick="setWatchAlloy('titanium')" id="alloy-titanium" class="alloy-btn px-4 py-1.5 rounded-full border border-white/20 text-white/70 hover:border-white transition-all">
-            GRADE 5 TITANIUM
-          </button>
-        </div>
+    <!-- 3D Three.js Interactive Watch Canvas -->
+    <div class="relative w-full max-w-5xl h-[560px] sm:h-[640px] mt-8 rounded-3xl border border-white/10 bg-black/70 shadow-2xl overflow-hidden group">
+      <canvas id="watchCanvas" class="w-full h-full cursor-grab active:cursor-grabbing"></canvas>
+
+      <!-- Macro Loupe Toggle Button -->
+      <button onclick="toggleLoupeMode()" id="loupeBtn" class="absolute top-6 left-6 z-20 px-3.5 py-2 rounded-xl bg-black/75 backdrop-blur-md border border-white/15 text-xs font-mono-hud text-zinc-300 hover:text-white hover:border-amber-300 transition flex items-center gap-2">
+        <span class="text-sm">&#x2315;</span>
+        <span id="loupeLabel">MACRO LOUPE ZOOM (TOURBILLON)</span>
+      </button>
+
+      <!-- Live Swiss Time Display -->
+      <div class="absolute top-6 right-6 z-20 bg-black/75 backdrop-blur-md px-4 py-2 rounded-xl border border-white/15 text-xs font-mono-hud text-amber-300 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>GENÈVE TIME: <span id="swissLiveTime">12:00:00</span></span>
       </div>
 
-      <!-- Live Mechanical Metrics -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto mt-16 pt-10 border-t border-[#E5A97C]/20 font-crest">
-        <div>
-          <span class="block text-3xl text-[#E5A97C] font-serif">4 Hz</span>
-          <span class="text-[10px] text-white/60 uppercase tracking-widest mt-1">28,800 VPH FREQUENCY</span>
-        </div>
-        <div>
-          <span class="block text-3xl text-white font-serif">72 H</span>
-          <span class="text-[10px] text-white/60 uppercase tracking-widest mt-1">TWIN POWER BARRELS</span>
-        </div>
-        <div>
-          <span class="block text-3xl text-white font-serif">324</span>
-          <span class="text-[10px] text-white/60 uppercase tracking-widest mt-1">HAND-BEVELED COMPONENTS</span>
-        </div>
-        <div>
-          <span class="block text-3xl text-[#E5A97C] font-serif">0.34g</span>
-          <span class="text-[10px] text-white/60 uppercase tracking-widest mt-1">TITANIUM CAGE WEIGHT</span>
-        </div>
+      <!-- Metallurgy Alloy Switcher Dock -->
+      <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 bg-black/85 backdrop-blur-2xl px-5 py-3 rounded-2xl border border-white/15 flex items-center space-x-3 text-xs font-mono-hud">
+        <span class="text-zinc-400 text-[10px] uppercase tracking-wider font-bold pr-1">METALLURGY:</span>
+        <button id="alloyRoseGold" onclick="setWatchAlloy('rosegold', this)" class="alloy-btn active px-3.5 py-1.5 rounded-xl border border-white/15 transition">
+          24K ROSE GOLD
+        </button>
+        <button id="alloyPlatinum" onclick="setWatchAlloy('platinum', this)" class="alloy-btn px-3.5 py-1.5 rounded-xl border border-white/15 transition text-zinc-400 hover:text-white">
+          950 PLATINUM
+        </button>
+        <button id="alloyTitanium" onclick="setWatchAlloy('titanium', this)" class="alloy-btn px-3.5 py-1.5 rounded-xl border border-white/15 transition text-zinc-400 hover:text-white">
+          GRADE 5 TITANIUM
+        </button>
       </div>
     </div>
-  </section>
 
-  <!-- ================= COMPLICATIONS & HOROLOGICAL MASTERY ================= -->
-  <section class="py-24 px-6 lg:px-12 bg-[#080B10] border-t border-[#E5A97C]/20 relative">
-    <div class="max-w-7xl mx-auto">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <!-- Left: Editorial Story -->
-        <div class="reveal-watch">
-          <span class="text-xs font-crest text-[#E5A97C] uppercase tracking-[0.3em] block mb-3">// 01. GRAND COMPLICATION</span>
-          <h2 class="font-serif text-4xl sm:text-5xl text-[#F5EBE1] leading-tight mb-6">
-            The Multi-Axis Flying Tourbillon Carriage
-          </h2>
-          <p class="text-[#F5EBE1]/70 text-base leading-relaxed mb-6 font-light">
-            Suspended without an upper bridge, the flying tourbillon cage completes one full 360-degree rotation every 60 seconds. Every internal steel pinion is mirror-polished by hand using diamond paste and elder pith wood.
-          </p>
+    <!-- Telemetry Complications Grid -->
+    <div id="calibre" class="max-w-6xl w-full mx-auto mt-16 grid grid-cols-2 sm:grid-cols-4 gap-4 text-left z-20">
+      <div class="glass-horology-card p-6">
+        <div class="text-[10px] font-mono-hud text-amber-400 uppercase tracking-widest">// ESCAPEMENT RATE</div>
+        <div class="text-2xl sm:text-3xl font-crest font-bold text-white mt-1">28,800 <span class="text-sm text-zinc-400 font-normal">VPH</span></div>
+        <p class="text-xs text-zinc-400 mt-1">4Hz High-Frequency Swiss Lever Escapement</p>
+      </div>
 
-          <div class="space-y-4 border-l border-[#E5A97C]/40 pl-6 my-8 font-serif">
-            <div>
-              <h4 class="text-xl text-[#F5EBE1]">Côtes de Genève Finishing</h4>
-              <p class="text-xs text-[#F5EBE1]/60 font-sans mt-1">Bespoke Geneva ribbing applied with micron-level parallel passes across rhodium bridges.</p>
-            </div>
-            <div>
-              <h4 class="text-xl text-[#F5EBE1]">Flame-Blued Screws</h4>
-              <p class="text-xs text-[#F5EBE1]/60 font-sans mt-1">Thermally heat-tempered at precisely 290°C to achieve an iridescent deep sapphire blue hue.</p>
-            </div>
-          </div>
-        </div>
+      <div class="glass-horology-card p-6">
+        <div class="text-[10px] font-mono-hud text-amber-400 uppercase tracking-widest">// FLYING TOURBILLON</div>
+        <div class="text-2xl sm:text-3xl font-crest font-bold text-amber-300 mt-1">60 <span class="text-sm text-zinc-400 font-normal">SEC</span></div>
+        <p class="text-xs text-zinc-400 mt-1">Full 360&deg; Cage Revolution Defying Gravity</p>
+      </div>
 
-        <!-- Right: Astronomical Moonphase Card -->
-        <div class="reveal-watch bg-[#0A0E18] p-8 lg:p-12 rounded-3xl border border-[#E5A97C]/30 shadow-2xl relative">
-          <div class="flex items-center justify-between pb-6 border-b border-[#E5A97C]/20 font-crest">
-            <div>
-              <span class="text-xs text-[#E5A97C] uppercase">ASTRONOMICAL ACCURACY</span>
-              <h3 class="font-serif text-2xl text-[#F5EBE1] mt-1">Perpetual Moonphase</h3>
-            </div>
-            <span class="px-3 py-1 rounded-full text-[10px] bg-[#E5A97C]/20 text-[#E5A97C] border border-[#E5A97C]/40">DEVIATION: 1 DAY IN 122 YRS</span>
-          </div>
+      <div class="glass-horology-card p-6">
+        <div class="text-[10px] font-mono-hud text-amber-400 uppercase tracking-widest">// POWER RESERVE</div>
+        <div class="text-2xl sm:text-3xl font-crest font-bold text-white mt-1">72 <span class="text-sm text-zinc-400 font-normal">HOURS</span></div>
+        <p class="text-xs text-zinc-400 mt-1">Twin Series-Coupled Mainspring Barrels</p>
+      </div>
 
-          <div class="py-8 flex items-center justify-center">
-            <!-- Astronomical Moonphase Dial Visual -->
-            <div class="w-36 h-36 rounded-full border-2 border-[#E5A97C]/40 relative flex items-center justify-center bg-[#05070B] shadow-[0_0_30px_rgba(229,169,124,0.15)]">
-              <div class="w-20 h-20 rounded-full bg-[#E5A97C] shadow-[0_0_20px_#E5A97C]"></div>
-              <div class="absolute w-20 h-20 rounded-full bg-[#05070B] -right-3 top-2"></div>
-            </div>
-          </div>
-
-          <div class="pt-6 border-t border-[#E5A97C]/20 flex items-center justify-between font-crest text-xs">
-            <span class="text-[#F5EBE1]/60">LUNAR SYNODIC PERIOD: 29.530588 DAYS</span>
-            <span class="text-[#E5A97C]">GOLD CABOCHON ACCENT</span>
-        </div>
+      <div class="glass-horology-card p-6">
+        <div class="text-[10px] font-mono-hud text-amber-400 uppercase tracking-widest">// JEWEL BEARINGS</div>
+        <div class="text-2xl sm:text-3xl font-crest font-bold text-rose-400 mt-1">39 <span class="text-sm text-zinc-400 font-normal">RUBIES</span></div>
+        <p class="text-xs text-zinc-400 mt-1">Synthetic Corundum Jewels in Gold Chatons</p>
       </div>
     </div>
+
   </section>
 
-  <!-- ================= GUILLOCHÉ & ENAMELING ATELIER ================= -->
-  <section class="py-24 px-6 lg:px-12 bg-[#06080E] border-t border-[#E5A97C]/20 relative">
-    <div class="max-w-7xl mx-auto">
-      <div class="text-center max-w-3xl mx-auto mb-16 reveal-watch font-crest">
-        <span class="text-xs text-[#E5A97C] uppercase tracking-[0.3em] block mb-2">// 02. HAUTE FINITION</span>
-        <h2 class="font-serif text-4xl sm:text-5xl text-[#F5EBE1]">Rose Engine Guilloché & Grand Feu</h2>
-        <p class="text-[#F5EBE1]/60 font-sans mt-3 text-sm">Every dial is hand-turned on antique straight-line and rose engines, cutting light-diffracting barleycorn waves into solid gold blanks.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="reveal-watch bg-[#090C16] p-8 rounded-2xl border border-[#E5A97C]/20">
-          <span class="font-serif text-3xl text-[#E5A97C] block mb-2">800°C</span>
-          <h4 class="font-crest text-base text-[#F5EBE1] uppercase">Grand Feu Kiln Enamel</h4>
-          <p class="text-xs text-[#F5EBE1]/60 font-sans mt-2">Crushed silica glass layered and fired over eight successive cycles to achieve a permanent, translucent vitreous depth.</p>
-        </div>
-
-        <div class="reveal-watch bg-[#090C16] p-8 rounded-2xl border border-[#E5A97C]/20">
-          <span class="font-serif text-3xl text-white block mb-2">45° Anglage</span>
-          <h4 class="font-crest text-base text-[#F5EBE1] uppercase">Hand-Chamfered Bridges</h4>
-          <p class="text-xs text-[#F5EBE1]/60 font-sans mt-2">Interior angles beveled by hand with diamond micro-files and boxwood pegs soaked in diamond lapping paste.</p>
-        </div>
-
-        <div class="reveal-watch bg-[#090C16] p-8 rounded-2xl border border-[#E5A97C]/20">
-          <span class="font-serif text-3xl text-[#E5A97C] block mb-2">Nivarox I</span>
-          <h4 class="font-crest text-base text-[#F5EBE1] uppercase">Breguet Overcoil Hairspring</h4>
-          <p class="text-xs text-[#F5EBE1]/60 font-sans mt-2">Anti-magnetic self-compensating balance spring hand-curved with terminal Phillips curves for concentric breathing.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= BESPOKE ATELIER FOOTER ================= -->
-  <footer id="appointment" class="py-16 px-6 lg:px-12 bg-[#040508] border-t border-[#E5A97C]/30 font-crest">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <!-- 3. HAUTE FINISHING & ANGLAGE ATELIER -->
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <section id="finishing" class="max-w-7xl mx-auto px-6 py-24 border-t border-white/10 space-y-16">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
       <div>
-        <span class="text-2xl text-[#F5EBE1] tracking-[0.2em] uppercase">${brand}</span>
-        <p class="text-xs text-[#E5A97C]/70 mt-1 font-mono">GENÈVE ATELIER // REGISTER OF HEIRLOOM TIMEPIECES</p>
+        <span class="text-xs font-mono-hud font-bold text-amber-400 uppercase tracking-widest">// GENÈVE POINÇON QUALITY</span>
+        <h2 class="text-3xl sm:text-5xl font-crest font-bold text-white mt-2">Finishing to the Half-Micron</h2>
+      </div>
+      <p class="text-sm text-zinc-400 max-w-md">
+        Every internal bridge, wheel flank, and screw head is hand-beveled by master artisans using gentian wood and diamond pastes in our Geneva ateliers.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="glass-horology-card p-8 space-y-4">
+        <div class="w-12 h-12 rounded-2xl bg-amber-400/10 border border-amber-300/30 flex items-center justify-center text-amber-300 font-crest text-xl">
+          01
+        </div>
+        <h3 class="text-xl font-crest font-bold text-white">Côtes de Genève</h3>
+        <p class="text-sm text-zinc-400 leading-relaxed">
+          Parallel wave striations meticulously applied across the rhodium-plated nickel silver mainplates with microscopic precision.
+        </p>
       </div>
 
-      <div class="flex items-center gap-6 text-xs text-[#F5EBE1]/70">
-        <span>RUE DU RHÔNE, GENEVA</span>
-        <span>•</span>
-        <span>PLACE VENDÔME, PARIS</span>
-        <span>•</span>
-        <span>MAYFAIR, LONDON</span>
+      <div class="glass-horology-card p-8 space-y-4">
+        <div class="w-12 h-12 rounded-2xl bg-amber-400/10 border border-amber-300/30 flex items-center justify-center text-amber-300 font-crest text-xl">
+          02
+        </div>
+        <h3 class="text-xl font-crest font-bold text-white">Mirror Anglage</h3>
+        <p class="text-sm text-zinc-400 leading-relaxed">
+          Internal 45-degree chamfers on bridges hand-filed and burnished until specular reflection is completely free of tooling marks.
+        </p>
       </div>
 
-      <div class="text-xs text-[#E5A97C]">
-        © 2026 ${brand}. ASURA CINEMA PROTOCOL.
+      <div class="glass-horology-card p-8 space-y-4">
+        <div class="w-12 h-12 rounded-2xl bg-amber-400/10 border border-amber-300/30 flex items-center justify-center text-amber-300 font-crest text-xl">
+          03
+        </div>
+        <h3 class="text-xl font-crest font-bold text-white">Flame-Blued Screws</h3>
+        <p class="text-sm text-zinc-400 leading-relaxed">
+          Carbon steel screws heated individually to 290&deg;C over brass shavings, forming an enduring sapphire oxide protective patina.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <!-- 4. PRIVATE ALLOCATION TERMINAL -->
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <section id="bespoke" class="max-w-4xl mx-auto px-6 py-24">
+    <div class="glass-horology-card p-8 sm:p-12 relative">
+      <div class="text-center space-y-3 mb-10">
+        <span class="text-xs font-mono-hud font-bold text-amber-400 uppercase tracking-widest">// STRICT LIMITED ATELIER SERIES</span>
+        <h3 class="text-3xl sm:text-5xl font-crest font-bold text-white">Commission an Allocation</h3>
+        <p class="text-sm text-zinc-400 max-w-md mx-auto">
+          Annual production is capped at 18 pieces worldwide. Each timepiece is hand-assembled and tested for 500 hours.
+        </p>
+      </div>
+
+      <form onsubmit="handleWatchInquiry(event)" class="space-y-6 font-mono-hud text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-zinc-400 mb-1 uppercase tracking-wider text-[10px]">Patron Full Name</label>
+            <input type="text" required placeholder="Lord Henry Beaumont" class="w-full bg-black/60 border border-white/15 rounded-xl p-3.5 text-white focus:outline-none focus:border-amber-300">
+          </div>
+          <div>
+            <label class="block text-zinc-400 mb-1 uppercase tracking-wider text-[10px]">Private Family Office / Email</label>
+            <input type="email" required placeholder="beaumont@patron.ch" class="w-full bg-black/60 border border-white/15 rounded-xl p-3.5 text-white focus:outline-none focus:border-amber-300">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-zinc-400 mb-1 uppercase tracking-wider text-[10px]">Preferred Metallurgy</label>
+          <select class="w-full bg-black/60 border border-white/15 rounded-xl p-3.5 text-white focus:outline-none focus:border-amber-300">
+            <option>24K Rose Gold (Ref. CHR-9801-RG)</option>
+            <option>950 Platinum Rhodium (Ref. CHR-9801-PT)</option>
+            <option>Grade 5 Titanium Monobloc (Ref. CHR-9801-TI)</option>
+          </select>
+        </div>
+
+        <button type="submit" id="watchSubmitBtn" class="w-full py-4 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-crest font-bold tracking-wider transition-all shadow-lg shadow-amber-400/20 active:scale-95 text-xs">
+          TRANSMIT ALLOCATION COMMISSION PROTOCOL &rarr;
+        </button>
+
+        <div id="watchSuccessMsg" class="hidden text-center p-4 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 text-xs font-mono-hud">
+          &#x2713; COMMISSION REGISTERED: The Master Horologist will contact your family office within 24 hours.
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <!-- 5. BESPOKE HAUTE HORLOGERIE FOOTER -->
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <footer class="border-t border-white/10 bg-[#04060A] py-14 px-6 font-mono-hud text-xs text-zinc-500">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center space-x-3">
+        <span class="font-crest text-sm text-white font-bold tracking-widest">CHRONOS ATELIER GENÈVE</span>
+        <span>&bull;</span>
+        <span>HALLMARK OF GENEVA CERTIFIED</span>
+      </div>
+      <div class="flex items-center space-x-6 text-[11px]">
+        <span>RUE DU RHÔNE 42, 1204 GENÈVE</span>
+        <span>SWISS TIMEKEEPING PRECISION</span>
       </div>
     </div>
   </footer>
 
-  <!-- ================= 3D EPICYCLIC CLOCKWORK SCRIPT ================= -->
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <!-- 6. THREE.JS REAL 3D SCULPTED WATCH & BALANCE WHEEL ENGINE -->
+  <!-- ─────────────────────────────────────────────────────────────────── -->
   <script>
-    var watchScene, watchCamera, watchRenderer, gearSystem;
-    var watchCanvas = document.getElementById('watchCanvas');
-    var watchAlloyColor = new THREE.Color(0xE5A97C); // Rose Gold
-    var targetAlloyColor = new THREE.Color(0xE5A97C);
-    var gearCount = 5000;
+    var watchScene, watchCamera, watchRenderer;
+    var watchMeshGroup, balanceWheelGroup, hourHand, minuteHand, secondHand;
+    var caseMesh, bezelMesh, crownMesh;
+    var isLoupeZoomed = false;
+
+    // Alloy Colors
+    var alloyMaterials = {
+      rosegold: { color: 0xE5A97C, metalness: 0.92, roughness: 0.2 },
+      platinum: { color: 0xD1D5DB, metalness: 0.95, roughness: 0.15 },
+      titanium: { color: 0x64748B, metalness: 0.88, roughness: 0.32 }
+    };
+    var currentAlloy = 'rosegold';
 
     function initWatch3D() {
-      if (!watchCanvas) return;
+      var canvas = document.getElementById('watchCanvas');
+      if (!canvas) return;
+
       watchScene = new THREE.Scene();
-      watchCamera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1500);
-      watchCamera.position.z = 180;
-      watchCamera.position.y = 10;
+      watchCamera = new THREE.PerspectiveCamera(40, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+      watchCamera.position.set(0, 0, 7.5);
 
-      watchRenderer = new THREE.WebGLRenderer({ canvas: watchCanvas, alpha: true, antialias: true });
-      watchRenderer.setSize(window.innerWidth, window.innerHeight);
+      watchRenderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+      watchRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
       watchRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      watchRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+      watchRenderer.toneMappingExposure = 1.35;
 
-      // Epicyclic Gear Particles (Multiple Concentric Orbiting Rings with Involute Teeth)
-      var geo = new THREE.BufferGeometry();
-      var pos = new Float32Array(gearCount * 3);
-      var ringIds = new Float32Array(gearCount);
+      // Studio Lighting
+      var ambient = new THREE.AmbientLight(0xFFFFFF, 0.9);
+      watchScene.add(ambient);
 
-      var pIdx = 0;
-      // Ring 1: Outer Tourbillon Balance Ring (Radius ~ 65)
-      for (var i = 0; i < 1800; i++) {
-        var angle = (i / 1800) * Math.PI * 2;
-        var r = 65 + (Math.sin(angle * 48) * 2.2); // 48 Involute Teeth
-        pos[pIdx * 3] = Math.cos(angle) * r;
-        pos[pIdx * 3 + 1] = Math.sin(angle) * r;
-        pos[pIdx * 3 + 2] = (Math.random() - 0.5) * 4;
-        ringIds[pIdx] = 1;
-        pIdx++;
-      }
+      var keyLight = new THREE.DirectionalLight(0xFFF1E0, 2.4);
+      keyLight.position.set(5, 6, 8);
+      watchScene.add(keyLight);
 
-      // Ring 2: Intermediate Escapement Wheel (Radius ~ 42)
-      for (var j = 0; j < 1600; j++) {
-        var angle2 = (j / 1600) * Math.PI * 2;
-        var r2 = 42 + (Math.sin(angle2 * 32) * 1.8); // 32 Teeth
-        pos[pIdx * 3] = Math.cos(angle2) * r2;
-        pos[pIdx * 3 + 1] = Math.sin(angle2) * r2;
-        pos[pIdx * 3 + 2] = (Math.random() - 0.5) * 3;
-        ringIds[pIdx] = 2;
-        pIdx++;
-      }
+      var rimLight = new THREE.DirectionalLight(0x93C5FD, 1.8);
+      rimLight.position.set(-6, -4, 4);
+      watchScene.add(rimLight);
 
-      // Ring 3: Center Pinion & Ruby Jewel Pivot (Radius ~ 16)
-      for (var k = 0; k < 1600; k++) {
-        var angle3 = (k / 1600) * Math.PI * 2;
-        var r3 = 16 + (Math.sin(angle3 * 16) * 1.2);
-        pos[pIdx * 3] = Math.cos(angle3) * r3;
-        pos[pIdx * 3 + 1] = Math.sin(angle3) * r3;
-        pos[pIdx * 3 + 2] = (Math.random() - 0.5) * 2;
-        ringIds[pIdx] = 3;
-        pIdx++;
-      }
+      var topHighlight = new THREE.PointLight(0xFFE4C4, 1.5, 20);
+      topHighlight.position.set(0, 4, 3);
+      watchScene.add(topHighlight);
 
-      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-      geo.setAttribute('ringId', new THREE.BufferAttribute(ringIds, 1));
+      // Main Watch Group
+      watchMeshGroup = new THREE.Group();
+      watchScene.add(watchMeshGroup);
 
-      // Golden Specular Sparkle Texture
-      var sc = document.createElement('canvas');
-      sc.width = 32; sc.height = 32;
-      var sctx = sc.getContext('2d');
-      var sgrad = sctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-      sgrad.addColorStop(0, 'rgba(255, 255, 255, 1)');
-      sgrad.addColorStop(0.3, 'rgba(229, 169, 124, 0.8)');
-      sgrad.addColorStop(1, 'rgba(229, 169, 124, 0)');
-      sctx.fillStyle = sgrad;
-      sctx.fillRect(0, 0, 32, 32);
-      var sTex = new THREE.CanvasTexture(sc);
-
-      var mat = new THREE.PointsMaterial({
-        size: 3.2,
-        map: sTex,
-        transparent: true,
-        opacity: 0.85,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        color: watchAlloyColor
+      // 1. WATCH CASE (Outer stepped cylinder)
+      var caseMat = new THREE.MeshStandardMaterial({
+        color: alloyMaterials[currentAlloy].color,
+        metalness: alloyMaterials[currentAlloy].metalness,
+        roughness: alloyMaterials[currentAlloy].roughness
       });
+      var caseGeo = new THREE.CylinderGeometry(2.4, 2.45, 0.5, 64);
+      caseGeo.rotateX(Math.PI / 2);
+      caseMesh = new THREE.Mesh(caseGeo, caseMat);
+      watchMeshGroup.add(caseMesh);
 
-      gearSystem = new THREE.Points(geo, mat);
-      watchScene.add(gearSystem);
+      // 2. BEZEL (Polished top ring)
+      var bezelGeo = new THREE.TorusGeometry(2.35, 0.12, 32, 64);
+      bezelMesh = new THREE.Mesh(bezelGeo, caseMat);
+      bezelMesh.position.z = 0.26;
+      watchMeshGroup.add(bezelMesh);
 
-      window.addEventListener('resize', onWatchResize);
+      // 3. DIAL (High-Res Dynamic Sunburst Texture with Roman Numerals)
+      var dialTex = createGuillocheDialTexture();
+      var dialMat = new THREE.MeshStandardMaterial({
+        map: dialTex,
+        metalness: 0.85,
+        roughness: 0.35,
+        bumpScale: 0.05
+      });
+      var dialGeo = new THREE.CircleGeometry(2.28, 64);
+      var dialMesh = new THREE.Mesh(dialGeo, dialMat);
+      dialMesh.position.z = 0.24;
+      watchMeshGroup.add(dialMesh);
+
+      // 4. OPEN-HEART TOURBILLON APERTURE (Cut into 6 o'clock position)
+      var tourbillonRingGeo = new THREE.RingGeometry(0.55, 0.65, 48);
+      var tourbillonRingMat = new THREE.MeshStandardMaterial({ color: 0xD4AF37, metalness: 0.95, roughness: 0.15 });
+      var tourbillonRing = new THREE.Mesh(tourbillonRingGeo, tourbillonRingMat);
+      tourbillonRing.position.set(0, -1.0, 0.245);
+      watchMeshGroup.add(tourbillonRing);
+
+      // Sub-aperture black depth well
+      var wellGeo = new THREE.CircleGeometry(0.55, 48);
+      var wellMat = new THREE.MeshStandardMaterial({ color: 0x05070B, roughness: 0.9 });
+      var wellMesh = new THREE.Mesh(wellGeo, wellMat);
+      wellMesh.position.set(0, -1.0, 0.241);
+      watchMeshGroup.add(wellMesh);
+
+      // 5. OSCILLATING BALANCE WHEEL & HAIRSPRING
+      balanceWheelGroup = new THREE.Group();
+      balanceWheelGroup.position.set(0, -1.0, 0.28);
+
+      var balanceRimGeo = new THREE.TorusGeometry(0.42, 0.025, 16, 48);
+      var balanceMat = new THREE.MeshStandardMaterial({ color: 0xFFD700, metalness: 0.95, roughness: 0.1 });
+      var balanceRim = new THREE.Mesh(balanceRimGeo, balanceMat);
+      balanceWheelGroup.add(balanceRim);
+
+      // 3 Balance Arms
+      for (var a = 0; a < 3; a++) {
+        var armGeo = new THREE.BoxGeometry(0.42, 0.035, 0.02);
+        var arm = new THREE.Mesh(armGeo, balanceMat);
+        arm.rotation.z = (a * Math.PI * 2) / 3;
+        arm.position.x = Math.cos(arm.rotation.z) * 0.21;
+        arm.position.y = Math.sin(arm.rotation.z) * 0.21;
+        balanceWheelGroup.add(arm);
+      }
+
+      // Ruby Jewel Pivot
+      var rubyGeo = new THREE.CylinderGeometry(0.06, 0.06, 0.04, 24);
+      rubyGeo.rotateX(Math.PI / 2);
+      var rubyMat = new THREE.MeshStandardMaterial({ color: 0xE11D48, metalness: 0.4, roughness: 0.1, transparent: true, opacity: 0.9 });
+      var ruby = new THREE.Mesh(rubyGeo, rubyMat);
+      balanceWheelGroup.add(ruby);
+
+      watchMeshGroup.add(balanceWheelGroup);
+
+      // 6. MECHANICAL WATCH HANDS (Blued Steel & Gold)
+      var handMat = new THREE.MeshStandardMaterial({ color: 0x2563EB, metalness: 0.85, roughness: 0.2 }); // Blued Steel
+
+      // Hour Hand
+      var hourGeo = new THREE.ConeGeometry(0.09, 1.2, 8);
+      hourGeo.translate(0, 0.6, 0);
+      hourHand = new THREE.Mesh(hourGeo, handMat);
+      hourHand.position.z = 0.29;
+      watchMeshGroup.add(hourHand);
+
+      // Minute Hand
+      var minuteGeo = new THREE.ConeGeometry(0.07, 1.8, 8);
+      minuteGeo.translate(0, 0.9, 0);
+      minuteHand = new THREE.Mesh(minuteGeo, handMat);
+      minuteHand.position.z = 0.31;
+      watchMeshGroup.add(minuteHand);
+
+      // Sub-Seconds Hand (at 6 o'clock inside Tourbillon aperture)
+      var secondGeo = new THREE.BoxGeometry(0.02, 0.45, 0.015);
+      secondGeo.translate(0, 0.18, 0);
+      var secondMat = new THREE.MeshStandardMaterial({ color: 0xE5A97C, metalness: 0.95, roughness: 0.1 });
+      secondHand = new THREE.Mesh(secondGeo, secondMat);
+      secondHand.position.set(0, -1.0, 0.33);
+      watchMeshGroup.add(secondHand);
+
+      // Center Cap Screw
+      var capGeo = new THREE.CylinderGeometry(0.12, 0.12, 0.06, 24);
+      capGeo.rotateX(Math.PI / 2);
+      var capMesh = new THREE.Mesh(capGeo, caseMat);
+      capMesh.position.z = 0.34;
+      watchMeshGroup.add(capMesh);
+
+      // 7. CROWN (At 3 o'clock)
+      var crownGeo = new THREE.CylinderGeometry(0.24, 0.24, 0.35, 32);
+      crownGeo.rotateZ(Math.PI / 2);
+      crownMesh = new THREE.Mesh(crownGeo, caseMat);
+      crownMesh.position.set(2.55, 0, 0);
+      watchMeshGroup.add(crownMesh);
+
+      // 8. ALLIGATOR STRAP (Top and bottom extensions)
+      var strapMat = new THREE.MeshStandardMaterial({ color: 0x1A1412, roughness: 0.75, metalness: 0.05 });
+      var topStrapGeo = new THREE.BoxGeometry(1.6, 2.2, 0.3);
+      topStrapGeo.translate(0, 2.4, -0.1);
+      var topStrap = new THREE.Mesh(topStrapGeo, strapMat);
+      watchMeshGroup.add(topStrap);
+
+      var btmStrapGeo = new THREE.BoxGeometry(1.6, 2.2, 0.3);
+      btmStrapGeo.translate(0, -2.4, -0.1);
+      var btmStrap = new THREE.Mesh(btmStrapGeo, strapMat);
+      watchMeshGroup.add(btmStrap);
+
+      // 9. SAPPHIRE GLASS DOME (Subtle specular glint)
+      var glassGeo = new THREE.CircleGeometry(2.32, 64);
+      var glassMat = new THREE.MeshPhysicalMaterial({
+        color: 0xFFFFFF,
+        metalness: 0.1,
+        roughness: 0.05,
+        transmission: 0.95,
+        transparent: true,
+        opacity: 0.32,
+        reflectivity: 0.9
+      });
+      var glassMesh = new THREE.Mesh(glassGeo, glassMat);
+      glassMesh.position.z = 0.36;
+      watchMeshGroup.add(glassMesh);
+
+      // Subtle initial tilt
+      watchMeshGroup.rotation.x = 0.25;
+      watchMeshGroup.rotation.y = -0.35;
+
+      setupWatchMouseInteraction(canvas);
       animateWatch();
     }
 
-    function onWatchResize() {
-      if (!watchCamera || !watchRenderer) return;
-      watchCamera.aspect = window.innerWidth / window.innerHeight;
-      watchCamera.updateProjectionMatrix();
-      watchRenderer.setSize(window.innerWidth, window.innerHeight);
+    // Dynamic Canvas Texture for Dial with Roman Numerals and Sunburst
+    function createGuillocheDialTexture() {
+      var tc = document.createElement('canvas');
+      tc.width = 1024;
+      tc.height = 1024;
+      var ctx = tc.getContext('2d');
+
+      // Radial Deep Sapphire Gradient
+      var grad = ctx.createRadialGradient(512, 512, 50, 512, 512, 510);
+      grad.addColorStop(0, '#101726');
+      grad.addColorStop(0.7, '#070A10');
+      grad.addColorStop(1, '#020305');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 1024, 1024);
+
+      // Sunburst Guilloché Rays
+      ctx.strokeStyle = 'rgba(229, 169, 124, 0.08)';
+      ctx.lineWidth = 1;
+      for (var r = 0; r < 360; r += 1.5) {
+        var rad = (r * Math.PI) / 180;
+        ctx.beginPath();
+        ctx.moveTo(512, 512);
+        ctx.lineTo(512 + Math.cos(rad) * 490, 512 + Math.sin(rad) * 490);
+        ctx.stroke();
+      }
+
+      // Outer Railway Minute Track
+      ctx.strokeStyle = '#E5A97C';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(512, 512, 470, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(512, 512, 450, 0, Math.PI * 2);
+      ctx.stroke();
+
+      for (var m = 0; m < 60; m++) {
+        var mRad = (m * Math.PI * 2) / 60;
+        var rInner = (m % 5 === 0) ? 440 : 455;
+        ctx.lineWidth = (m % 5 === 0) ? 3 : 1;
+        ctx.beginPath();
+        ctx.moveTo(512 + Math.cos(mRad) * rInner, 512 + Math.sin(mRad) * rInner);
+        ctx.lineTo(512 + Math.cos(mRad) * 470, 512 + Math.sin(mRad) * 470);
+        ctx.stroke();
+      }
+
+      // Applied Roman Numerals
+      ctx.font = 'bold 44px "Cinzel", serif';
+      ctx.fillStyle = '#E5A97C';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      var numerals = [
+        { text: 'XII', r: -Math.PI / 2 },
+        { text: 'I', r: -Math.PI / 3 },
+        { text: 'II', r: -Math.PI / 6 },
+        { text: 'III', r: 0 },
+        { text: 'IV', r: Math.PI / 6 },
+        { text: 'V', r: Math.PI / 3 },
+        // VI is omitted for Tourbillon Aperture
+        { text: 'VII', r: (Math.PI * 2) / 3 },
+        { text: 'VIII', r: (Math.PI * 5) / 6 },
+        { text: 'IX', r: Math.PI },
+        { text: 'X', r: (Math.PI * 7) / 6 },
+        { text: 'XI', r: (Math.PI * 4) / 3 }
+      ];
+
+      numerals.forEach(function(n) {
+        var x = 512 + Math.cos(n.r) * 385;
+        var y = 512 + Math.sin(n.r) * 385;
+        ctx.fillText(n.text, x, y);
+      });
+
+      // Brand Typography on Dial
+      ctx.font = 'bold 24px "Cinzel", serif';
+      ctx.fillStyle = '#F8FAFC';
+      ctx.fillText('CHRONOS ATELIER', 512, 310);
+      ctx.font = '14px "Space Grotesk", sans-serif';
+      ctx.fillStyle = '#94A3B8';
+      ctx.fillText('FLYING TOURBILLON // SWISS MADE', 512, 335);
+
+      var tex = new THREE.CanvasTexture(tc);
+      tex.needsUpdate = true;
+      return tex;
     }
 
-    var clockTime = 0;
+    // Mouse Drag Rotation
+    var isDragging = false;
+    var prevMouseX = 0, prevMouseY = 0;
+    var targetRotY = -0.35, targetRotX = 0.25;
+
+    function setupWatchMouseInteraction(canvas) {
+      canvas.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        prevMouseX = e.clientX;
+        prevMouseY = e.clientY;
+      });
+      window.addEventListener('mouseup', function() { isDragging = false; });
+      window.addEventListener('mousemove', function(e) {
+        if (!isDragging || !watchMeshGroup) return;
+        var deltaX = e.clientX - prevMouseX;
+        var deltaY = e.clientY - prevMouseY;
+        targetRotY += deltaX * 0.008;
+        targetRotX += deltaY * 0.008;
+        prevMouseX = e.clientX;
+        prevMouseY = e.clientY;
+      });
+
+      // Touch events for mobile
+      canvas.addEventListener('touchstart', function(e) {
+        if (e.touches.length === 1) {
+          isDragging = true;
+          prevMouseX = e.touches[0].clientX;
+          prevMouseY = e.touches[0].clientY;
+        }
+      }, { passive: true });
+      window.addEventListener('touchend', function() { isDragging = false; });
+      window.addEventListener('touchmove', function(e) {
+        if (!isDragging || !watchMeshGroup || e.touches.length !== 1) return;
+        var deltaX = e.touches[0].clientX - prevMouseX;
+        var deltaY = e.touches[0].clientY - prevMouseY;
+        targetRotY += deltaX * 0.008;
+        targetRotX += deltaY * 0.008;
+        prevMouseX = e.touches[0].clientX;
+        prevMouseY = e.touches[0].clientY;
+      }, { passive: true });
+    }
+
+    // Loupe Toggle Mode
+    function toggleLoupeMode() {
+      isLoupeZoomed = !isLoupeZoomed;
+      var lbl = document.getElementById('loupeLabel');
+      if (lbl) lbl.innerText = isLoupeZoomed ? 'RESET MACRO VIEW' : 'MACRO LOUPE ZOOM (TOURBILLON)';
+    }
+
+    // Alloy Switcher
+    function setWatchAlloy(alloy, btn) {
+      currentAlloy = alloy;
+      document.querySelectorAll('.alloy-btn').forEach(function(b) { b.classList.remove('active'); });
+      if (btn) btn.classList.add('active');
+
+      var props = alloyMaterials[alloy];
+      if (caseMesh) {
+        caseMesh.material.color.setHex(props.color);
+        caseMesh.material.metalness = props.metalness;
+        caseMesh.material.roughness = props.roughness;
+      }
+      if (bezelMesh) {
+        bezelMesh.material.color.setHex(props.color);
+        bezelMesh.material.metalness = props.metalness;
+        bezelMesh.material.roughness = props.roughness;
+      }
+      if (crownMesh) {
+        crownMesh.material.color.setHex(props.color);
+      }
+    }
+
+    // Animation Loop
+    var tickAngle = 0;
     function animateWatch() {
       requestAnimationFrame(animateWatch);
-      if (!gearSystem) return;
+      if (!watchScene || !watchCamera) return;
 
-      clockTime += 0.01;
-      // High-precision rotation with slight 28,800 VPH escapement tick impulse
-      var tickImpulse = Math.floor(clockTime * 8) * (Math.PI / 64);
-      gearSystem.rotation.z = tickImpulse;
-      gearSystem.rotation.x = Math.sin(clockTime * 0.4) * 0.15;
-      gearSystem.rotation.y = Math.cos(clockTime * 0.3) * 0.15;
+      // Smooth camera lerp for Loupe Mode
+      var targetCamZ = isLoupeZoomed ? 3.4 : 7.5;
+      var targetCamY = isLoupeZoomed ? -0.9 : 0;
+      watchCamera.position.z += (targetCamZ - watchCamera.position.z) * 0.08;
+      watchCamera.position.y += (targetCamY - watchCamera.position.y) * 0.08;
 
-      watchAlloyColor.lerp(targetAlloyColor, 0.05);
-      gearSystem.material.color = watchAlloyColor;
+      // Smooth Drag Rotation Lerp
+      if (watchMeshGroup) {
+        watchMeshGroup.rotation.y += (targetRotY - watchMeshGroup.rotation.y) * 0.08;
+        watchMeshGroup.rotation.x += (targetRotX - watchMeshGroup.rotation.x) * 0.08;
+      }
+
+      // Oscillate Balance Wheel with true harmonic sinusoidal physics (4Hz / 28,800 VPH)
+      var now = Date.now() * 0.001;
+      if (balanceWheelGroup) {
+        balanceWheelGroup.rotation.z = Math.sin(now * 25.13) * 1.4; // 4Hz harmonic oscillation
+      }
+
+      // Realtime Hands Motion
+      var d = new Date();
+      var hours = d.getHours() % 12;
+      var minutes = d.getMinutes();
+      var seconds = d.getSeconds() + (d.getMilliseconds() / 1000);
+
+      if (hourHand) hourHand.rotation.z = -((hours + minutes / 60) / 12) * Math.PI * 2;
+      if (minuteHand) minuteHand.rotation.z = -((minutes + seconds / 60) / 60) * Math.PI * 2;
+      if (secondHand) secondHand.rotation.z = -(seconds / 60) * Math.PI * 2;
+
+      // Update Swiss Live Time Text
+      var timeEl = document.getElementById('swissLiveTime');
+      if (timeEl) {
+        var hh = String(d.getHours()).padStart(2, '0');
+        var mm = String(d.getMinutes()).padStart(2, '0');
+        var ss = String(d.getSeconds()).padStart(2, '0');
+        timeEl.innerText = hh + ':' + mm + ':' + ss;
+      }
 
       watchRenderer.render(watchScene, watchCamera);
     }
 
-    // 2. ALLOY SWITCHER
-    function setWatchAlloy(alloy) {
-      document.querySelectorAll('.alloy-btn').forEach(function(b) { b.classList.remove('active', 'border-[#E5A97C]', 'bg-[#E5A97C]/20', 'text-[#E5A97C]'); });
-      var btn = document.getElementById('alloy-' + alloy);
-      if (btn) btn.classList.add('active', 'border-[#E5A97C]', 'bg-[#E5A97C]/20', 'text-[#E5A97C]');
+    // Acoustic 28,800 VPH Ticking Synthesizer
+    var audioCtx = null;
+    var tickRunning = true;
+    var tickTimer = null;
 
-      if (alloy === 'rosegold') {
-        targetAlloyColor = new THREE.Color(0xE5A97C); // 24K Rose Gold
-      } else if (alloy === 'platinum') {
-        targetAlloyColor = new THREE.Color(0xD1D5DB); // 950 Platinum Rhodium
-      } else if (alloy === 'titanium') {
-        targetAlloyColor = new THREE.Color(0x94A3B8); // Grade 5 Titanium
+    function toggleWatchTick() {
+      tickRunning = !tickRunning;
+      var ind = document.getElementById('tickIndicator');
+      var lbl = document.getElementById('tickLabel');
+      if (tickRunning) {
+        if (ind) ind.className = 'w-2 h-2 rounded-full bg-amber-400 animate-pulse';
+        if (lbl) lbl.innerText = '28,800 VPH ACOUSTICS';
+        playTickPulse();
+      } else {
+        if (ind) ind.className = 'w-2 h-2 rounded-full bg-zinc-600';
+        if (lbl) lbl.innerText = 'ACOUSTICS MUTED';
+        clearTimeout(tickTimer);
       }
     }
 
-    // 3. ACOUSTIC 28,800 VPH TICKING SYNTHESIZER
-    var watchAudioCtx = null;
-    var tickActive = false;
-    var tickBtn = document.getElementById('tickAudioBtn');
-    if (tickBtn) {
-      tickBtn.addEventListener('click', function() {
-        if (!watchAudioCtx) {
-          watchAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (!tickActive) {
-          tickActive = true;
-          document.getElementById('tickAudioLabel').innerText = 'ESCAPEMENT TICKING';
-          playEscapementTick();
-        } else {
-          tickActive = false;
-          document.getElementById('tickAudioLabel').innerText = '28,800 VPH ACOUSTICS';
-        }
-      });
-    }
+    function playTickPulse() {
+      if (!tickRunning) return;
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
 
-    function playEscapementTick() {
-      if (!tickActive || !watchAudioCtx) return;
-      var osc = watchAudioCtx.createOscillator();
-      var gain = watchAudioCtx.createGain();
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
       osc.type = 'triangle';
-      osc.frequency.setValueAtTime(3200, watchAudioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(800, watchAudioCtx.currentTime + 0.025);
-      gain.gain.setValueAtTime(0.05, watchAudioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, watchAudioCtx.currentTime + 0.025);
+      osc.frequency.setValueAtTime(3600, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(900, audioCtx.currentTime + 0.015);
+      gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.015);
       osc.connect(gain);
-      gain.connect(watchAudioCtx.destination);
+      gain.connect(audioCtx.destination);
       osc.start();
-      osc.stop(watchAudioCtx.currentTime + 0.025);
+      osc.stop(audioCtx.currentTime + 0.015);
 
-      // 4Hz = 250ms interval between ticks
-      setTimeout(playEscapementTick, 250);
+      // 4Hz = 250ms interval between escapement ticks
+      tickTimer = setTimeout(playTickPulse, 250);
     }
+    // Auto-start ticking on first user click anywhere
+    window.addEventListener('click', function initAudioOnce() {
+      if (tickRunning && !audioCtx) playTickPulse();
+      window.removeEventListener('click', initAudioOnce);
+    });
 
-    // 4. OBSERVER
-    var obs = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        if (e.isIntersecting) e.target.classList.add('visible');
+    // Awesome Design Cursor Tracking & 3D Card Tilt
+    var cDot = document.getElementById('cursorDot');
+    var cRing = document.getElementById('cursorRing');
+    var mouseX = -100, mouseY = -100, ringX = -100, ringY = -100;
+
+    window.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX; mouseY = e.clientY;
+      if (cDot) { cDot.style.left = mouseX + 'px'; cDot.style.top = mouseY + 'px'; }
+    });
+    function renderCursor() {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      if (cRing) { cRing.style.left = ringX + 'px'; cRing.style.top = ringY + 'px'; }
+      requestAnimationFrame(renderCursor);
+    }
+    renderCursor();
+
+    document.querySelectorAll('a, button, input, select, .alloy-btn').forEach(function(el) {
+      el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
+      el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
+    });
+
+    document.querySelectorAll('.glass-horology-card').forEach(function(card) {
+      card.addEventListener('mousemove', function(e) {
+        var rect = card.getBoundingClientRect();
+        var x = e.clientX - rect.left - (rect.width / 2);
+        var y = e.clientY - rect.top - (rect.height / 2);
+        var rotX = (y / (rect.height / 2)) * -8;
+        var rotY = (x / (rect.width / 2)) * 10;
+        card.style.transform = 'perspective(1000px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg) scale3d(1.02, 1.02, 1.02)';
       });
-    }, { threshold: 0.15 });
-    document.querySelectorAll('.reveal-watch').forEach(function(el) { obs.observe(el); });
+      card.addEventListener('mouseleave', function() {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      });
+    });
+
+    function handleWatchInquiry(e) {
+      e.preventDefault();
+      var btn = document.getElementById('watchSubmitBtn');
+      btn.innerText = '✓ ALLOCATION DISPATCHED';
+      btn.disabled = true;
+      document.getElementById('watchSuccessMsg').classList.remove('hidden');
+    }
 
     window.addEventListener('DOMContentLoaded', initWatch3D);
   <\/script>
@@ -2101,393 +2494,1101 @@
 }
 
 function generateCafeShowcaseHtml(brand, colors) {
-  brand = brand || "Rameshwaram Roastery";
-  const primary = (colors && colors.primary) || "#C05621"; // Warm Terracotta
-  const accent = (colors && colors.accent) || "#E9D8A6"; // Warm Oat / Cream
+  brand = brand || "Rameshwaram Roastery // Artisanal Gastronomy";
 
   return `<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${brand} // Artisanal Roastery & Gastronomy</title>
+  <title>${brand} // Pure Ghee Heritage & Artisanal Filter Coffee</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Marcellus&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Marcellus&family=Space+Grotesk:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  
   <script src="https://cdn.tailwindcss.com"><\/script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>
+
   <style>
     :root {
+      --dark-roast: #0C0806;
+      --espresso-surface: #140E0A;
       --terracotta: #C05621;
-      --espresso: #1A110C;
-      --dark-roast: #0E0A07;
-      --warm-oat: #FAF5EE;
-      --caramel: #DD6B20;
-      --brass: #D4AF37;
+      --brass-gold: #D4AF37;
+      --warm-amber: #F59E0B;
+      --oat-cream: #FDFBF7;
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --font-display: 'Syne', sans-serif;
+      --font-serif: 'Marcellus', Georgia, serif;
+      --font-mono: 'Space Grotesk', monospace;
+      --font-sans: 'Manrope', sans-serif;
     }
+
+    * { box-sizing: border-box; }
     body {
       background-color: var(--dark-roast);
-      color: #FAF5EE;
-      font-family: 'Manrope', sans-serif;
-      overflow-x: hidden;
+      color: #FDFBF7;
+      font-family: var(--font-sans);
       margin: 0;
       padding: 0;
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
-    .font-display { font-family: 'Syne', sans-serif; }
-    .font-serif { font-family: 'Marcellus', serif; }
-    
-    /* Warm tactile noise overlay */
-    .bg-tactile-noise {
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+
+    .font-serif-heritage { font-family: var(--font-serif); }
+    .font-display-modern { font-family: var(--font-display); }
+    .font-mono-hud { font-family: var(--font-mono); }
+
+    /* Awesome Design Warm Precision Cursor */
+    .cafe-cursor-dot {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--brass-gold);
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease-out;
+    }
+    .cafe-cursor-ring {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(212, 175, 55, 0.6);
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.12s ease-out, border-color 0.3s ease;
+    }
+    .cursor-hover .cafe-cursor-ring {
+      width: 65px;
+      height: 65px;
+      background-color: rgba(212, 175, 55, 0.1);
+      border-color: #FFFFFF;
     }
 
-    /* Ambient Warm Glow */
-    .glow-convection {
-      background: radial-gradient(circle at 50% 30%, rgba(192, 86, 33, 0.22) 0%, rgba(26, 17, 12, 0.8) 65%, rgba(14, 10, 7, 1) 100%);
+    /* Tactile warm lighting gradient */
+    .glow-hearth {
+      background: radial-gradient(circle at 50% 35%, rgba(192, 86, 33, 0.18) 0%, rgba(20, 14, 10, 0.85) 60%, rgba(12, 8, 6, 1) 100%);
     }
 
-    /* Smooth reveal transitions */
-    .reveal-box {
-      opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    /* 3D Glass Bento Cards */
+    .glass-bento {
+      background: rgba(20, 14, 10, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 1.5rem;
+      transform-style: preserve-3d;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+      will-change: transform;
     }
-    .reveal-box.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Custom craft button */
-    .craft-btn {
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      border: 1px solid rgba(233, 216, 166, 0.2);
-    }
-    .craft-btn:hover {
-      border-color: #E9D8A6;
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(192, 86, 33, 0.25);
-    }
-
-    /* Interactive roast pills */
-    .roast-pill.active {
-      background-color: #C05621;
-      color: #FAF5EE;
-      border-color: #C05621;
+    .glass-bento:hover {
+      border-color: rgba(212, 175, 55, 0.35);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), 0 0 25px rgba(192, 86, 33, 0.2);
     }
   </style>
 </head>
-<body class="bg-tactile-noise selection:bg-[#C05621] selection:text-white">
+<body class="selection:bg-amber-500 selection:text-black">
 
-  <!-- ================= BESPOKE CRAFT HEADER ================= -->
-  <header class="fixed top-0 left-0 w-full z-50 px-6 lg:px-12 py-5 transition-all duration-300 backdrop-blur-md bg-[#0E0A07]/80 border-b border-[#C05621]/20">
+  <!-- Custom Cursor -->
+  <div id="cursorDot" class="cafe-cursor-dot hidden sm:block"></div>
+  <div id="cursorRing" class="cafe-cursor-ring hidden sm:block"></div>
+
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <!-- 1. BESPOKE SOUTH INDIAN HERITAGE GASTRONOMY HEADER -->
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <header class="border-b border-white/10 bg-[#0C0806]/85 backdrop-blur-2xl sticky top-0 z-50 px-6 py-4">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <!-- Left: Origin Geolocation -->
-      <div class="flex items-center gap-3">
-        <span class="w-2 h-2 rounded-full bg-[#C05621] animate-ping"></span>
-        <span class="text-xs font-mono tracking-widest text-[#E9D8A6]/70 uppercase">12°58'N 77°35'E // ORIGIN BATCH</span>
+      <!-- Heritage Identity -->
+      <div class="flex items-center space-x-3.5">
+        <div class="w-10 h-10 rounded-full border border-amber-500/40 bg-amber-600/10 flex items-center justify-center font-serif-heritage text-sm text-amber-400 shadow-inner">
+          &#x0950;
+        </div>
+        <div>
+          <span class="font-serif-heritage text-base font-bold tracking-wider text-white block">RAMESHWARAM ROASTERY</span>
+          <span class="text-[9px] font-mono-hud text-amber-400/80 tracking-[0.2em] block uppercase">PURE GHEE &bull; CHIKMAGALUR PEABERRY &bull; 1954</span>
+        </div>
       </div>
 
-      <!-- Center: Distinct Brand Crest -->
-      <a href="#top" class="text-center group">
-        <span class="font-serif text-2xl lg:text-3xl tracking-wider text-[#FAF5EE] uppercase group-hover:text-[#E9D8A6] transition-colors">${brand}</span>
-        <span class="block text-[9px] font-mono tracking-[0.3em] text-[#C05621] uppercase mt-0.5">EST. HEIRLOOM ROASTERY</span>
-      </a>
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center space-x-8 text-xs font-mono-hud uppercase tracking-wider text-zinc-400">
+        <a href="#davarah3d" class="hover:text-amber-300 transition">3D Brass Davarah</a>
+        <a href="#roastcurve" class="hover:text-amber-300 transition">Roast Telemetry</a>
+        <a href="#menu" class="hover:text-amber-300 transition">Heritage Gastronomy</a>
+        <a href="#terroir" class="hover:text-amber-300 transition">Estate Terroir</a>
+      </nav>
 
-      <!-- Right: Acoustic & Tasting CTA -->
-      <div class="flex items-center gap-4">
-        <button id="brewSoundBtn" class="hidden sm:flex items-center gap-2 text-xs font-mono px-3 py-1.5 rounded-full border border-[#C05621]/30 hover:border-[#E9D8A6] text-[#E9D8A6]/80 transition-all">
-          <svg class="w-3.5 h-3.5 text-[#C05621]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
-          <span id="soundStatusText">ROAST ACOUSTICS</span>
+      <!-- Brew Acoustic Toggle & Order -->
+      <div class="flex items-center space-x-3 text-xs font-mono-hud">
+        <button id="brewToggleBtn" onclick="toggleBrewAudio()" class="px-3.5 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300 flex items-center gap-2 hover:bg-amber-500/20 transition active:scale-95">
+          <span id="brewIndicator" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <span id="brewLabel">BREWING ACOUSTICS</span>
         </button>
-        <a href="#reserve" class="craft-btn px-5 py-2 rounded-full bg-[#C05621] text-xs font-semibold tracking-wider uppercase text-white shadow-lg">
-          Reserve Table
+
+        <a href="#menu" class="hidden sm:inline-flex px-4 py-1.5 rounded-full bg-amber-400 text-black font-serif-heritage font-bold text-xs hover:bg-amber-300 transition shadow-lg active:scale-95">
+          ORDER TASTING &rarr;
         </a>
       </div>
     </div>
   </header>
 
-  <!-- ================= 3D STEAM CONVECTION HERO ================= -->
-  <section id="top" class="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden glow-convection">
-    <!-- WebGL Canvas for Dynamic Thermal Steam & Aroma Simulation -->
-    <div class="absolute inset-0 z-0">
-      <canvas id="steamCanvas" class="w-full h-full"></canvas>
-    </div>
-
-    <!-- Foreground Content -->
-    <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
-      <!-- Terroir Badge -->
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#E9D8A6]/20 bg-[#1A110C]/60 backdrop-blur-md mb-8">
-        <span class="text-[10px] font-mono tracking-[0.25em] text-[#E9D8A6] uppercase">SINGLE ORIGIN CHIKMAGALUR // SHADE GROWN</span>
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <!-- 2. REAL 3D BRASS DAVARAH & DEGREE COFFEE BREWING VIEWPORT -->
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <section id="davarah3d" class="glow-hearth relative min-h-screen flex flex-col items-center justify-center pt-8 pb-16 px-6 overflow-hidden">
+    
+    <!-- Title & Heritage Badge -->
+    <div class="text-center space-y-3 z-20 max-w-4xl mx-auto">
+      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border border-amber-500/30 bg-black/60 backdrop-blur-md text-xs font-mono-hud text-amber-300 shadow-lg">
+        <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
+        <span>REAL 3D BRASS DAVARAH &amp; TUMBLER FILTER BREW &bull; DRAG TO ROTATE 360&deg;</span>
       </div>
 
-      <!-- Editorial Headline -->
-      <h1 class="font-serif text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#FAF5EE] leading-[1.05] mb-6">
-        The Alchemy of <br>
-        <span class="italic font-display text-transparent bg-clip-text bg-gradient-to-r from-[#E9D8A6] via-[#C05621] to-[#FAF5EE]">Degree Coffee & Fire</span>
+      <h1 class="text-4xl sm:text-7xl font-serif-heritage font-bold text-white tracking-tight leading-[1.05]">
+        The Sovereign Degree Brew.
       </h1>
 
-      <p class="max-w-2xl mx-auto text-base sm:text-lg text-[#E9D8A6]/80 font-light leading-relaxed mb-10">
-        Engineered with slow-roasted micro-lots, hand-extracted brass decoction, and organic frothing rituals. Every brew is a symphony of thermal precision.
+      <p class="text-sm sm:text-base text-amber-200/80 font-sans max-w-2xl mx-auto leading-relaxed">
+        Slow decoction dripped through virgin brass filters over single-origin Chikmagalur Arabica and 15% roasted chicory. Served scalding hot in a hand-hammered brass Davarah tumbler with bubbling A2 malai foam.
+      </p>
+    </div>
+
+    <!-- 3D Three.js Interactive Davarah Canvas -->
+    <div class="relative w-full max-w-5xl h-[560px] sm:h-[620px] mt-8 rounded-3xl border border-white/10 bg-black/70 shadow-2xl overflow-hidden group">
+      <canvas id="cafeCanvas" class="w-full h-full cursor-grab active:cursor-grabbing"></canvas>
+
+      <!-- Interactive Pour Action Button -->
+      <button onclick="triggerDecoctionPour()" id="pourBtn" class="absolute top-6 left-6 z-20 px-4 py-2 rounded-xl bg-black/75 backdrop-blur-md border border-amber-500/30 text-xs font-mono-hud text-amber-300 hover:text-white hover:border-amber-400 transition flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+        <span id="pourLabel">POUR HOT DECOCTION METRIC</span>
+      </button>
+
+      <!-- Live Brew Temperature HUD -->
+      <div class="absolute top-6 right-6 z-20 bg-black/75 backdrop-blur-md px-4 py-2 rounded-xl border border-white/15 text-xs font-mono-hud text-amber-300 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>SERVING TEMP: <span id="brewTempDisplay">92.4&deg;C OPTIMAL</span></span>
+      </div>
+
+      <!-- Terroir Selection Bar -->
+      <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 bg-black/85 backdrop-blur-2xl px-5 py-3 rounded-2xl border border-white/15 flex items-center space-x-3 text-xs font-mono-hud">
+        <span class="text-zinc-400 text-[10px] uppercase tracking-wider font-bold pr-1">ESTATE TERROIR:</span>
+        <button onclick="setCoffeeProfile('peaberry', this)" class="roast-btn active px-3.5 py-1.5 rounded-xl border border-amber-400/40 bg-amber-500/20 text-amber-300 font-bold transition">
+          CHIKMAGALUR PEABERRY
+        </button>
+        <button onclick="setCoffeeProfile('coorg', this)" class="roast-btn px-3.5 py-1.5 rounded-xl border border-white/15 text-zinc-400 hover:text-white transition">
+          COORG SHADE-GROWN
+        </button>
+        <button onclick="setCoffeeProfile('shevaroys', this)" class="roast-btn px-3.5 py-1.5 rounded-xl border border-white/15 text-zinc-400 hover:text-white transition">
+          SHEVAROYS ELEVATION
+        </button>
+      </div>
+    </div>
+
+    <!-- Gastronomy Telemetry Grid -->
+    <div id="roastcurve" class="max-w-6xl w-full mx-auto mt-16 grid grid-cols-2 sm:grid-cols-4 gap-4 text-left z-20">
+      <div class="glass-bento p-6">
+        <div class="text-[10px] font-mono-hud text-amber-400 uppercase tracking-widest">// ROAST PROFILE</div>
+        <div class="text-2xl sm:text-3xl font-serif-heritage font-bold text-white mt-1">218&deg;C <span class="text-sm text-amber-200/60 font-normal">MEDIUM-DARK</span></div>
+        <p class="text-xs text-zinc-400 mt-1">Slow Drum Roasted Over Tamarind Wood Charcoal</p>
+      </div>
+
+      <div class="glass-bento p-6">
+        <div class="text-[10px] font-mono-hud text-amber-400 uppercase tracking-widest">// DECOCTION EXTRACT</div>
+        <div class="text-2xl sm:text-3xl font-serif-heritage font-bold text-amber-300 mt-1">18.5 <span class="text-sm text-amber-200/60 font-normal">TDS %</span></div>
+        <p class="text-xs text-zinc-400 mt-1">Double Gravity Drop Through Perforated Virgin Brass</p>
+      </div>
+
+      <div class="glass-bento p-6">
+        <div class="text-[10px] font-mono-hud text-amber-400 uppercase tracking-widest">// DAIRY SOURCE</div>
+        <div class="text-2xl sm:text-3xl font-serif-heritage font-bold text-white mt-1">100% <span class="text-sm text-amber-200/60 font-normal">PURE A2 GHEE</span></div>
+        <p class="text-xs text-zinc-400 mt-1">Single-Herd Hallikar &amp; Malnad Gidda Cow Milk</p>
+      </div>
+
+      <div class="glass-bento p-6">
+        <div class="text-[10px] font-mono-hud text-amber-400 uppercase tracking-widest">// BLEND RATIO</div>
+        <div class="text-2xl sm:text-3xl font-serif-heritage font-bold text-amber-400 mt-1">85 : 15 <span class="text-sm text-amber-200/60 font-normal">RATIO</span></div>
+        <p class="text-xs text-zinc-400 mt-1">85% Plantation Arabica + 15% French Jamnagar Chicory</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <!-- 3. HERITAGE GASTRONOMY BENTO (IDLI, DOSA, FILTER BREW) -->
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <section id="menu" class="max-w-7xl mx-auto px-6 py-24 border-t border-white/10 space-y-16">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div>
+        <span class="text-xs font-mono-hud font-bold text-amber-400 uppercase tracking-widest">// HERITAGE CULINARY CODEX</span>
+        <h2 class="text-3xl sm:text-5xl font-serif-heritage font-bold text-white mt-2">Artisanal Morning Rituals</h2>
+      </div>
+      <p class="text-sm text-zinc-400 max-w-md">
+        Fermented for 18 hours in stone grinders. Cooked exclusively in pure clarified A2 butter over cast-iron tawas.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="glass-bento p-8 space-y-4">
+        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-400/30 flex items-center justify-center text-amber-400 font-serif-heritage text-xl">
+          01
+        </div>
+        <h3 class="text-2xl font-serif-heritage font-bold text-white">Ghee Podi Button Idli</h3>
+        <p class="text-sm text-zinc-400 leading-relaxed">
+          14 miniature steamed rice cakes submerged in bubbling hot drumstick sambar, drowned in boiling A2 ghee and roasted gun-powder podi.
+        </p>
+        <div class="text-xs font-mono-hud text-amber-300 font-bold pt-2">&#x20B9; 140 &bull; SIGNATURE SPECIALITY</div>
+      </div>
+
+      <div class="glass-bento p-8 space-y-4">
+        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-400/30 flex items-center justify-center text-amber-400 font-serif-heritage text-xl">
+          02
+        </div>
+        <h3 class="text-2xl font-serif-heritage font-bold text-white">Open Butter Masala Dosa</h3>
+        <p class="text-sm text-zinc-400 leading-relaxed">
+          Crisped over cast iron till golden honeycomb perfection. Layered with fiery garlic red chutney, potato mash, and a slab of white country butter.
+        </p>
+        <div class="text-xs font-mono-hud text-amber-300 font-bold pt-2">&#x20B9; 180 &bull; WOOD-FIRED CRISP</div>
+      </div>
+
+      <div class="glass-bento p-8 space-y-4">
+        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-400/30 flex items-center justify-center text-amber-400 font-serif-heritage text-xl">
+          03
+        </div>
+        <h3 class="text-2xl font-serif-heritage font-bold text-white">Davarah Degree Coffee</h3>
+        <p class="text-sm text-zinc-400 leading-relaxed">
+          Frothy high-pour aeration between brass tumbler and davarah creating dense microfoam that holds its temperature for 20 minutes.
+        </p>
+        <div class="text-xs font-mono-hud text-amber-300 font-bold pt-2">&#x20B9; 60 &bull; HERITAGE CUP</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <!-- 4. BESPOKE HERITAGE ROASTERY FOOTER -->
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <footer class="border-t border-white/10 bg-[#0C0806] py-14 px-6 font-mono-hud text-xs text-zinc-500">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center space-x-3">
+        <span class="font-serif-heritage text-sm text-white font-bold tracking-wider">RAMESHWARAM ROASTERY &bull; BENGALURU</span>
+        <span>&bull;</span>
+        <span>KARNATAKA HERITAGE GASTROMONY</span>
+      </div>
+      <div class="flex items-center space-x-6 text-[11px]">
+        <span>INDIRANAGAR &bull; JP NAGAR &bull; WHITEFIELD</span>
+        <span>SERVED HOT AT 92&deg;C DAILY</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <!-- 5. THREE.JS REAL 3D BRASS DAVARAH & TUMBLER SCULPT ENGINE -->
+  <!-- ─────────────────────────────────────────────────────────────────── -->
+  <script>
+    var cafeScene, cafeCamera, cafeRenderer;
+    var cafeMeshGroup, tumblerMesh, davarahMesh, coffeeLiquidMesh, foamMesh;
+    var isPouring = false;
+
+    function initCafe3D() {
+      var canvas = document.getElementById('cafeCanvas');
+      if (!canvas) return;
+
+      cafeScene = new THREE.Scene();
+      cafeCamera = new THREE.PerspectiveCamera(38, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+      cafeCamera.position.set(0, 1.8, 6.5);
+
+      cafeRenderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+      cafeRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
+      cafeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      cafeRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+      cafeRenderer.toneMappingExposure = 1.3;
+
+      // Studio Warm Lighting
+      var ambient = new THREE.AmbientLight(0xFFF7ED, 1.2);
+      cafeScene.add(ambient);
+
+      var hearthLight = new THREE.DirectionalLight(0xF59E0B, 2.5);
+      hearthLight.position.set(4, 6, 5);
+      cafeScene.add(hearthLight);
+
+      var rimLight = new THREE.DirectionalLight(0xC05621, 1.8);
+      rimLight.position.set(-5, 2, -3);
+      cafeScene.add(rimLight);
+
+      var topGlow = new THREE.PointLight(0xFFE4C4, 1.6, 15);
+      topGlow.position.set(0, 5, 2);
+      cafeScene.add(topGlow);
+
+      // Main Group
+      cafeMeshGroup = new THREE.Group();
+      cafeScene.add(cafeMeshGroup);
+
+      // Brass Material (Traditional South Indian Virgin Brass PBR)
+      var brassMat = new THREE.MeshStandardMaterial({
+        color: 0xD4AF37,
+        metalness: 0.88,
+        roughness: 0.22
+      });
+
+      // 1. THE DAVARAH (Wide flared rim basin base)
+      var davarahGeo = new THREE.CylinderGeometry(1.85, 1.15, 0.9, 48, 1, true);
+      davarahMesh = new THREE.Mesh(davarahGeo, brassMat);
+      davarahMesh.position.y = -0.45;
+      cafeMeshGroup.add(davarahMesh);
+
+      // Davarah Base Plate
+      var davarahBaseGeo = new THREE.CylinderGeometry(1.15, 1.15, 0.1, 48);
+      var davarahBase = new THREE.Mesh(davarahBaseGeo, brassMat);
+      davarahBase.position.y = -0.9;
+      cafeMeshGroup.add(davarahBase);
+
+      // Davarah Flared Rim Lip
+      var rimTorusGeo = new THREE.TorusGeometry(1.85, 0.08, 16, 48);
+      rimTorusGeo.rotateX(Math.PI / 2);
+      var davarahRim = new THREE.Mesh(rimTorusGeo, brassMat);
+      davarahRim.position.y = 0.0;
+      cafeMeshGroup.add(davarahRim);
+
+      // 2. THE TUMBLER (Tapered Brass Coffee Glass)
+      var tumblerGeo = new THREE.CylinderGeometry(1.05, 0.8, 1.65, 48, 1, true);
+      tumblerMesh = new THREE.Mesh(tumblerGeo, brassMat);
+      tumblerMesh.position.y = 0.45;
+      cafeMeshGroup.add(tumblerMesh);
+
+      // Tumbler Base
+      var tumblerBaseGeo = new THREE.CylinderGeometry(0.8, 0.8, 0.08, 48);
+      var tumblerBase = new THREE.Mesh(tumblerBaseGeo, brassMat);
+      tumblerBase.position.y = -0.375;
+      cafeMeshGroup.add(tumblerBase);
+
+      // Tumbler Top Rolled Lip
+      var tLipGeo = new THREE.TorusGeometry(1.05, 0.06, 16, 48);
+      tLipGeo.rotateX(Math.PI / 2);
+      var tLip = new THREE.Mesh(tLipGeo, brassMat);
+      tLip.position.y = 1.275;
+      cafeMeshGroup.add(tLip);
+
+      // 3. HOT COFFEE DECOCTION & VELVET FOAM SURFACE
+      var liquidGeo = new THREE.CircleGeometry(1.02, 48);
+      liquidGeo.rotateX(-Math.PI / 2);
+      var liquidMat = new THREE.MeshStandardMaterial({
+        color: 0x3D2012, // Dark aromatic coffee decoction
+        roughness: 0.15,
+        metalness: 0.2
+      });
+      coffeeLiquidMesh = new THREE.Mesh(liquidGeo, liquidMat);
+      coffeeLiquidMesh.position.y = 1.2;
+      cafeMeshGroup.add(coffeeLiquidMesh);
+
+      // Golden A2 Milk Froth Bubble Center
+      var foamGeo = new THREE.CircleGeometry(0.85, 48);
+      foamGeo.rotateX(-Math.PI / 2);
+      var foamMat = new THREE.MeshStandardMaterial({
+        color: 0xEAD8B1, // Creamy golden foam
+        roughness: 0.6,
+        metalness: 0.05
+      });
+      foamMesh = new THREE.Mesh(foamGeo, foamMat);
+      foamMesh.position.y = 1.21;
+      cafeMeshGroup.add(foamMesh);
+
+      // Subtle initial tilt to admire the foam & brass reflection
+      cafeMeshGroup.rotation.x = 0.35;
+      cafeMeshGroup.rotation.y = -0.4;
+
+      setupCafeMouseInteraction(canvas);
+      animateCafe();
+    }
+
+    // Mouse Drag Rotation
+    var isDragging = false;
+    var prevX = 0, prevY = 0;
+    var targetRotY = -0.4, targetRotX = 0.35;
+
+    function setupCafeMouseInteraction(canvas) {
+      canvas.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        prevX = e.clientX; prevY = e.clientY;
+      });
+      window.addEventListener('mouseup', function() { isDragging = false; });
+      window.addEventListener('mousemove', function(e) {
+        if (!isDragging || !cafeMeshGroup) return;
+        var dx = e.clientX - prevX;
+        var dy = e.clientY - prevY;
+        targetRotY += dx * 0.008;
+        targetRotX += dy * 0.008;
+        prevX = e.clientX; prevY = e.clientY;
+      });
+
+      canvas.addEventListener('touchstart', function(e) {
+        if (e.touches.length === 1) {
+          isDragging = true;
+          prevX = e.touches[0].clientX; prevY = e.touches[0].clientY;
+        }
+      }, { passive: true });
+      window.addEventListener('touchend', function() { isDragging = false; });
+      window.addEventListener('touchmove', function(e) {
+        if (!isDragging || !cafeMeshGroup || e.touches.length !== 1) return;
+        var dx = e.touches[0].clientX - prevX;
+        var dy = e.touches[0].clientY - prevY;
+        targetRotY += dx * 0.008;
+        targetRotX += dy * 0.008;
+        prevX = e.touches[0].clientX; prevY = e.touches[0].clientY;
+      }, { passive: true });
+    }
+
+    function triggerDecoctionPour() {
+      var btn = document.getElementById('pourBtn');
+      if (btn) btn.innerText = '☕ AERATING HIGH-POUR...';
+      playBrewAudioPulse();
+      
+      // Animated vibration & foam expansion
+      var startTime = Date.now();
+      var interval = setInterval(function() {
+        var elapsed = (Date.now() - startTime) / 1000;
+        if (elapsed > 1.8) {
+          clearInterval(interval);
+          if (btn) btn.innerText = '✓ OPTIMAL FOAM CROWN ACHIEVED';
+          setTimeout(function() { if (btn) btn.innerText = 'POUR HOT DECOCTION METRIC'; }, 2500);
+        } else {
+          if (foamMesh) {
+            foamMesh.scale.setScalar(1.0 + Math.sin(elapsed * 12) * 0.08);
+          }
+        }
+      }, 30);
+    }
+
+    function setCoffeeProfile(profile, btn) {
+      document.querySelectorAll('.roast-btn').forEach(function(b) {
+        b.className = 'roast-btn px-3.5 py-1.5 rounded-xl border border-white/15 text-zinc-400 hover:text-white transition';
+      });
+      if (btn) {
+        btn.className = 'roast-btn active px-3.5 py-1.5 rounded-xl border border-amber-400/40 bg-amber-500/20 text-amber-300 font-bold transition';
+      }
+    }
+
+    function animateCafe() {
+      requestAnimationFrame(animateCafe);
+      if (!cafeScene || !cafeCamera) return;
+
+      if (cafeMeshGroup) {
+        cafeMeshGroup.rotation.y += (targetRotY - cafeMeshGroup.rotation.y) * 0.08;
+        cafeMeshGroup.rotation.x += (targetRotX - cafeMeshGroup.rotation.x) * 0.08;
+      }
+
+      // Gentle warm breathing shimmer on foam
+      var t = Date.now() * 0.002;
+      if (foamMesh) foamMesh.position.y = 1.21 + Math.sin(t) * 0.004;
+
+      cafeRenderer.render(cafeScene, cafeCamera);
+    }
+
+    // Web Audio API Coffee Brewing Synthesizer
+    var audioCtx = null;
+    var brewAudioRunning = false;
+
+    function toggleBrewAudio() {
+      brewAudioRunning = !brewAudioRunning;
+      var ind = document.getElementById('brewIndicator');
+      var lbl = document.getElementById('brewLabel');
+      if (brewAudioRunning) {
+        if (ind) ind.className = 'w-2 h-2 rounded-full bg-amber-400 animate-pulse';
+        if (lbl) lbl.innerText = 'BREWING ACOUSTICS: ON';
+        playBrewAudioPulse();
+      } else {
+        if (ind) ind.className = 'w-2 h-2 rounded-full bg-zinc-600';
+        if (lbl) lbl.innerText = 'ACOUSTICS MUTED';
+      }
+    }
+
+    function playBrewAudioPulse() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      // Synthesize soothing simmering decoction & water percolation noise
+      var bufSize = audioCtx.sampleRate * 1.5;
+      var buf = audioCtx.createBuffer(1, bufSize, audioCtx.sampleRate);
+      var data = buf.getChannelData(0);
+      for (var i = 0; i < bufSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * 0.08;
+      }
+      var src = audioCtx.createBufferSource();
+      src.buffer = buf;
+      var filter = audioCtx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(650, audioCtx.currentTime);
+      filter.Q.setValueAtTime(3.5, audioCtx.currentTime);
+
+      var gain = audioCtx.createGain();
+      gain.gain.setValueAtTime(0.01, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.25, audioCtx.currentTime + 0.3);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.4);
+
+      src.connect(filter);
+      filter.connect(gain);
+      gain.connect(audioCtx.destination);
+      src.start();
+    }
+
+    // Awesome Design Cursor & 3D Card Tilt
+    var cDot = document.getElementById('cursorDot');
+    var cRing = document.getElementById('cursorRing');
+    var mouseX = -100, mouseY = -100, ringX = -100, ringY = -100;
+
+    window.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX; mouseY = e.clientY;
+      if (cDot) { cDot.style.left = mouseX + 'px'; cDot.style.top = mouseY + 'px'; }
+    });
+    function renderCursor() {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      if (cRing) { cRing.style.left = ringX + 'px'; cRing.style.top = ringY + 'px'; }
+      requestAnimationFrame(renderCursor);
+    }
+    renderCursor();
+
+    document.querySelectorAll('a, button, input, .roast-btn').forEach(function(el) {
+      el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
+      el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
+    });
+
+    document.querySelectorAll('.glass-bento').forEach(function(card) {
+      card.addEventListener('mousemove', function(e) {
+        var rect = card.getBoundingClientRect();
+        var x = e.clientX - rect.left - (rect.width / 2);
+        var y = e.clientY - rect.top - (rect.height / 2);
+        var rotX = (y / (rect.height / 2)) * -8;
+        var rotY = (x / (rect.width / 2)) * 10;
+        card.style.transform = 'perspective(1000px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg) scale3d(1.02, 1.02, 1.02)';
+      });
+      card.addEventListener('mouseleave', function() {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      });
+    });
+
+    window.addEventListener('DOMContentLoaded', initCafe3D);
+  <\/script>
+</body>
+</html>`;
+}
+
+function generateAutomotiveShowcaseHtml(brand, colors) {
+  brand = brand || "Scuderia Velocity // Ferrari Atelier";
+
+  return `<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${brand} // Pure Aerodynamics & V8 Twin-Turbo</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"><\/script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>
+
+  <style>
+    :root {
+      --bg: #050608;
+      --surface: #0B0E14;
+      --ferrari-red: #E22020;
+      --ferrari-dark: #8F0E0E;
+      --modena-yellow: #FFCC00;
+      --aero-cyan: #00F0FF;
+      --border: rgba(255, 255, 255, 0.08);
+      --font-hud: 'Chakra Petch', monospace;
+      --font-tech: 'Space Grotesk', sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      background-color: var(--bg);
+      color: #F8FAFC;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      cursor: crosshair;
+    }
+    .font-hud { font-family: var(--font-hud); }
+    .font-tech { font-family: var(--font-tech); }
+
+    /* Cockpit Precision Cursor */
+    .crosshair-cursor {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(226, 32, 32, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, border-color 0.2s;
+    }
+    .crosshair-cursor::before, .crosshair-cursor::after {
+      content: '';
+      position: absolute;
+      background-color: #E22020;
+    }
+    .crosshair-cursor::before { top: 50%; left: -6px; right: -6px; height: 1px; transform: translateY(-50%); }
+    .crosshair-cursor::after { left: 50%; top: -6px; bottom: -6px; width: 1px; transform: translateX(-50%); }
+
+    /* Ambient Cockpit Glow */
+    .bg-cockpit {
+      background: radial-gradient(circle at 50% 35%, rgba(226, 32, 32, 0.18) 0%, rgba(11, 14, 20, 0.85) 60%, rgba(5, 6, 8, 1) 100%);
+    }
+
+    /* Laser Grid Floor */
+    .laser-floor {
+      background-size: 50px 50px;
+      background-image: 
+        linear-gradient(to right, rgba(226, 32, 32, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(226, 32, 32, 0.05) 1px, transparent 1px);
+    }
+
+    /* 3D Card Hover Tilt */
+    .tilt-box {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+      will-change: transform;
+    }
+    .tilt-box:hover {
+      border-color: rgba(226, 32, 32, 0.6);
+      box-shadow: 0 20px 40px -10px rgba(226, 32, 32, 0.3);
+      transform: translateY(-4px) scale(1.01);
+    }
+
+    /* Custom Throttle Slider */
+    input[type=range]::-webkit-slider-thumb {
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      background: #E22020;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 15px #E22020;
+    }
+  </style>
+</head>
+<body class="laser-floor selection:bg-[#E22020] selection:text-white">
+
+  <!-- Custom Cockpit Crosshair Cursor -->
+  <div id="crosshair" class="crosshair-cursor hidden md:block"></div>
+
+  <!-- ================= COCKPIT HUD NAVIGATION ================= -->
+  <header class="fixed top-0 left-0 w-full z-50 px-6 lg:px-12 py-4 bg-[#050608]/90 backdrop-blur-md border-b border-white/10 font-hud">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <!-- Left: Engine Status -->
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#E22020] animate-pulse"></span>
+          <span class="text-xs tracking-wider text-[#E22020] font-bold">V8 TWIN-TURBO // LIVE</span>
+        </div>
+        <span class="text-white/30 hidden sm:inline">|</span>
+        <span class="text-xs text-white/60 hidden sm:inline">DYNO: 1,000 CV // 3.9L V8 HYBRID</span>
+      </div>
+
+      <!-- Center: Ferrari Atelier Monogram -->
+      <a href="#top" class="text-center group">
+        <span class="font-tech text-xl lg:text-2xl font-extrabold tracking-tighter text-white uppercase group-hover:text-[#E22020] transition-colors">${brand}</span>
+        <span class="block text-[9px] tracking-[0.35em] text-[#FFCC00] uppercase mt-0.5 font-hud">MARANELLO MOTORSPORT ENGINEERING</span>
+      </a>
+
+      <!-- Right: Audio Ignition & Configurator CTA -->
+      <div class="flex items-center gap-4">
+        <button id="ignitionBtn" class="flex items-center gap-2 text-xs px-4 py-2 rounded-full border border-[#E22020]/40 text-[#E22020] hover:bg-[#E22020] hover:text-white transition-all shadow-[0_0_20px_rgba(226,32,32,0.3)]">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          <span id="ignitionLabel">ENGINE START</span>
+        </button>
+        <a href="#telemetry" class="hidden sm:inline-block px-5 py-2 rounded-full bg-white text-black text-xs font-bold font-hud tracking-wider uppercase hover:bg-[#FFCC00] transition-colors">
+          Specs HUD
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= 3D REAL FERRARI HERO ================= -->
+  <section id="top" class="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden bg-cockpit">
+    <!-- WebGL Canvas: 3D REAL SCULPTED FERRARI -->
+    <div class="absolute inset-0 z-0">
+      <canvas id="ferrariCanvas" class="w-full h-full"></canvas>
+    </div>
+
+    <!-- Foreground Flight Deck -->
+    <div class="relative z-10 max-w-6xl mx-auto px-6 text-center pointer-events-none">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#E22020]/40 bg-[#0B0E14]/80 backdrop-blur-md mb-6 font-hud text-xs pointer-events-auto">
+        <span class="text-[#FFCC00] font-bold">SCUDERIA CORSE</span>
+        <span class="text-white/40">|</span>
+        <span class="text-white/80 tracking-widest uppercase">0-100 KM/H IN 2.5 SECONDS</span>
+      </div>
+
+      <h1 class="font-tech text-6xl sm:text-8xl lg:text-9xl font-extrabold tracking-tighter text-white uppercase leading-[0.92] mb-6">
+        Scuderia. <br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#E22020] via-white to-[#FFCC00]">Hypercar Motion.</span>
+      </h1>
+
+      <p class="max-w-2xl mx-auto text-sm sm:text-base text-white/70 font-light leading-relaxed mb-8">
+        Hand-assembled in Maranello. Sculpted aerodynamic carbon tunnels generate 390kg of downforce at 250 km/h. Interact below to rotate, throttle, and paint the hypercar in real time.
       </p>
 
-      <!-- Live Interactive Roast Switcher -->
-      <div class="inline-flex flex-col sm:flex-row items-center gap-3 p-2 rounded-2xl sm:rounded-full bg-[#1A110C]/80 backdrop-blur-lg border border-[#C05621]/30 shadow-2xl">
-        <span class="text-xs font-mono text-[#E9D8A6]/60 px-4 uppercase">Roast Profile:</span>
-        <div class="flex items-center gap-2">
-          <button onclick="setRoastProfile('blonde')" id="btn-blonde" class="roast-pill px-4 py-2 rounded-full text-xs font-mono tracking-wider border border-[#C05621]/30 text-[#E9D8A6] transition-all">
-            BLONDE 190°C
-          </button>
-          <button onclick="setRoastProfile('vienna')" id="btn-vienna" class="roast-pill active px-4 py-2 rounded-full text-xs font-mono tracking-wider border border-[#C05621]/30 text-[#E9D8A6] transition-all">
-            VIENNA 210°C
-          </button>
-          <button onclick="setRoastProfile('dark')" id="btn-dark" class="roast-pill px-4 py-2 rounded-full text-xs font-mono tracking-wider border border-[#C05621]/30 text-[#E9D8A6] transition-all">
-            FRENCH 235°C
-          </button>
+      <!-- Live Interactive Control Deck -->
+      <div class="max-w-xl mx-auto bg-[#0B0E14]/90 backdrop-blur-xl p-6 rounded-2xl border border-white/10 shadow-2xl font-hud pointer-events-auto">
+        <!-- Throttle Slider -->
+        <div class="flex items-center justify-between mb-3 text-xs">
+          <span class="text-white/70 uppercase">THROTTLE ACCELERATION:</span>
+          <span class="text-[#E22020] font-bold text-base" id="rpmLabel">IDLE // 1,200 RPM</span>
+        </div>
+        <input type="range" min="0" max="100" value="15" id="throttleSlider" class="w-full h-2 bg-[#050608] rounded-lg appearance-none cursor-pointer mb-5">
+
+        <!-- Paint Switcher & Camera Mode -->
+        <div class="flex items-center justify-between pt-4 border-t border-white/10 text-xs">
+          <div class="flex items-center gap-3">
+            <span class="text-white/50 uppercase">LIVERY:</span>
+            <button onclick="setFerrariColor('#E22020')" class="w-6 h-6 rounded-full bg-[#E22020] border-2 border-white shadow-[0_0_10px_#E22020] hover:scale-110 transition-transform" title="Rosso Corsa"></button>
+            <button onclick="setFerrariColor('#FFCC00')" class="w-6 h-6 rounded-full bg-[#FFCC00] border-2 border-transparent hover:scale-110 transition-transform" title="Giallo Modena"></button>
+            <button onclick="setFerrariColor('#8A8D93')" class="w-6 h-6 rounded-full bg-[#8A8D93] border-2 border-transparent hover:scale-110 transition-transform" title="Grigio Titanio"></button>
+            <button onclick="setFerrariColor('#151618')" class="w-6 h-6 rounded-full bg-[#151618] border-2 border-white/30 hover:scale-110 transition-transform" title="Nero Daytona"></button>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="resetCameraAngle()" class="px-3 py-1.5 rounded bg-white/5 border border-white/10 text-white/80 hover:bg-white/20 transition-all text-[11px]">
+              RESET ANGLE
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Real-time Telemetry Stats -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto mt-16 pt-10 border-t border-[#C05621]/20">
-        <div>
-          <span class="block font-display text-3xl text-[#FAF5EE]" id="tempDisplay">210°C</span>
-          <span class="text-[11px] font-mono text-[#E9D8A6]/60 uppercase tracking-widest">DRUM THERMAL</span>
+      <!-- Real-time HUD Metrics -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto mt-12 font-hud pointer-events-auto">
+        <div class="bg-[#0B0E14]/70 p-4 rounded-xl border border-white/10 tilt-box">
+          <span class="block text-3xl font-bold text-[#E22020]" id="speedDisplay">0 KM/H</span>
+          <span class="text-[10px] text-white/50 uppercase tracking-widest mt-1">VELOCITY READOUT</span>
         </div>
-        <div>
-          <span class="block font-display text-3xl text-[#FAF5EE]">84.2</span>
-          <span class="text-[11px] font-mono text-[#E9D8A6]/60 uppercase tracking-widest">AGTRON COLOR</span>
+        <div class="bg-[#0B0E14]/70 p-4 rounded-xl border border-white/10 tilt-box">
+          <span class="block text-3xl font-bold text-white">1,000 CV</span>
+          <span class="text-[10px] text-white/50 uppercase tracking-widest mt-1">HYBRID HORSEPOWER</span>
         </div>
-        <div>
-          <span class="block font-display text-3xl text-[#FAF5EE]">1,450m</span>
-          <span class="text-[11px] font-mono text-[#E9D8A6]/60 uppercase tracking-widest">TERROIR ALTITUDE</span>
+        <div class="bg-[#0B0E14]/70 p-4 rounded-xl border border-white/10 tilt-box">
+          <span class="block text-3xl font-bold text-white">800 Nm</span>
+          <span class="text-[10px] text-white/50 uppercase tracking-widest mt-1">TORQUE CURVE</span>
         </div>
-        <div>
-          <span class="block font-display text-3xl text-[#FAF5EE]">18:1</span>
-          <span class="text-[11px] font-mono text-[#E9D8A6]/60 uppercase tracking-widest">DECOCTION RATIO</span>
+        <div class="bg-[#0B0E14]/70 p-4 rounded-xl border border-white/10 tilt-box">
+          <span class="block text-3xl font-bold text-[#FFCC00]">340 KM/H</span>
+          <span class="text-[10px] text-white/50 uppercase tracking-widest mt-1">MAX TRACK SPEED</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ================= TERROIR & CRAFT CHAPTER ================= -->
-  <section class="py-24 px-6 lg:px-12 bg-[#120D0A] border-t border-[#C05621]/20 relative">
+  <!-- ================= SCROLLYTELLING CHAPTERS ================= -->
+  <section id="telemetry" class="py-28 px-6 lg:px-12 bg-[#080B10] border-t border-white/10 relative font-hud">
     <div class="max-w-7xl mx-auto">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <!-- Left: Editorial Story -->
-        <div class="reveal-box">
-          <span class="text-xs font-mono text-[#C05621] uppercase tracking-[0.3em] block mb-3">// 01. HEIRLOOM EXTRACTION</span>
-          <h2 class="font-serif text-4xl sm:text-5xl text-[#FAF5EE] leading-tight mb-6">
-            The Traditional Brass Filter & Froth Architecture
+        <!-- Left: Aerodynamic Venturi Technology -->
+        <div>
+          <span class="text-xs text-[#E22020] uppercase tracking-[0.3em] block mb-2">// 01. AERODYNAMIC VORTEX</span>
+          <h2 class="font-tech text-4xl sm:text-5xl font-extrabold text-white uppercase leading-tight mb-6">
+            Patented Shut-Off Gurney & Active Aero
           </h2>
-          <p class="text-[#E9D8A6]/80 text-base leading-relaxed mb-6 font-light">
-            We reject commercial espresso machines that scorch the bean. Our signature brew relies on perforated brass double-cylinder drip filters, slowly steeping freshly ground chicory-infused Arabica over 45 minutes to extract a dense, syrupy nectar.
+          <p class="text-white/70 text-sm font-sans font-light leading-relaxed mb-6">
+            The patented rear mobile active shut-off gurney integrates into the rear bodywork. At high speed, the actuator lowers the wedge element into the airflow, generating maximum downforce of 390kg without disrupting lateral aerodynamic balance.
           </p>
-          <div class="space-y-4 border-l border-[#C05621]/40 pl-6 my-8">
-            <div>
-              <h4 class="font-serif text-lg text-[#FAF5EE]">First Decoction Only</h4>
-              <p class="text-xs text-[#E9D8A6]/70 mt-1">We discard secondary flushes. Only the thickest initial 60ml extraction meets your cup.</p>
+
+          <div class="space-y-4 border-l-2 border-[#E22020]/50 pl-6 my-8">
+            <div class="tilt-box p-4 bg-[#0B0E14] rounded-xl border border-white/10">
+              <h4 class="text-base text-white font-bold uppercase font-tech">Front Vortex Generators</h4>
+              <p class="text-xs text-white/60 font-sans mt-1">Curved front diffusers channel turbulent tire air outward, keeping underbody airflow laminar.</p>
             </div>
-            <div>
-              <h4 class="font-serif text-lg text-[#FAF5EE]">Pure Jersey Milk Froth</h4>
-              <p class="text-xs text-[#E9D8A6]/70 mt-1">Boiled in heavy-bottom brass vessels and poured from towering heights to create velvety micro-bubbles.</p>
+            <div class="tilt-box p-4 bg-[#0B0E14] rounded-xl border border-white/10">
+              <h4 class="text-base text-white font-bold uppercase font-tech">Forged Carbon Wheels</h4>
+              <p class="text-xs text-white/60 font-sans mt-1">Five-spoke turbine aerodynamic geometry extracts thermal heat directly from the carbon-ceramic discs.</p>
             </div>
           </div>
         </div>
 
-        <!-- Right: Interactive Tasting Card -->
-        <div class="reveal-box bg-[#1A110C] p-8 lg:p-12 rounded-3xl border border-[#C05621]/30 shadow-2xl relative">
-          <div class="flex items-center justify-between pb-6 border-b border-[#C05621]/20">
+        <!-- Right: Real-time Powertrain Blueprint -->
+        <div class="bg-[#0B0E14] p-8 lg:p-12 rounded-3xl border border-[#E22020]/30 shadow-2xl relative tilt-box">
+          <div class="flex items-center justify-between pb-6 border-b border-white/10">
             <div>
-              <span class="text-xs font-mono text-[#C05621] uppercase">CURRENT FLAVOR PROFILE</span>
-              <h3 class="font-serif text-2xl text-[#FAF5EE] mt-1" id="profileTitle">Vienna Roast Signature</h3>
+              <span class="text-xs text-[#E22020] uppercase">HYBRID POWERTRAIN</span>
+              <h3 class="font-tech text-2xl font-bold text-white mt-1">3.9L 90° V8 + 3 Electric Motors</h3>
             </div>
-            <span class="px-3 py-1 rounded-full text-[10px] font-mono bg-[#C05621]/20 text-[#E9D8A6] border border-[#C05621]/40">CUPPING SCORE: 88.5</span>
+            <span class="px-3 py-1 rounded-full text-[10px] bg-[#E22020]/20 text-[#E22020] border border-[#E22020]/40 font-bold">8-SPEED F1 DUAL-CLUTCH</span>
           </div>
-          
-          <div class="py-6 space-y-4">
+
+          <div class="py-6 space-y-4 text-xs">
             <div>
-              <div class="flex justify-between text-xs font-mono mb-1 text-[#E9D8A6]">
-                <span>Caramelized Jaggery</span>
-                <span>92%</span>
+              <div class="flex justify-between mb-1 text-white/80">
+                <span>Twin-Turbo Internal Combustion Output</span>
+                <span class="text-[#E22020] font-bold">780 CV @ 7,500 RPM</span>
               </div>
-              <div class="w-full h-1.5 bg-[#0E0A07] rounded-full overflow-hidden">
-                <div class="h-full bg-[#C05621]" style="width: 92%"></div>
+              <div class="w-full h-1.5 bg-[#050608] rounded-full overflow-hidden">
+                <div class="h-full bg-[#E22020]" style="width: 78%"></div>
               </div>
             </div>
+
             <div>
-              <div class="flex justify-between text-xs font-mono mb-1 text-[#E9D8A6]">
-                <span>Dark Cocoa & Hazelnut</span>
-                <span>86%</span>
+              <div class="flex justify-between mb-1 text-white/80">
+                <span>Front Axle Dual Electric Drive (RAC-e)</span>
+                <span class="text-[#00F0FF] font-bold">220 CV Torque Vectoring</span>
               </div>
-              <div class="w-full h-1.5 bg-[#0E0A07] rounded-full overflow-hidden">
-                <div class="h-full bg-[#DD6B20]" style="width: 86%"></div>
+              <div class="w-full h-1.5 bg-[#050608] rounded-full overflow-hidden">
+                <div class="h-full bg-[#00F0FF]" style="width: 22%"></div>
               </div>
             </div>
+
             <div>
-              <div class="flex justify-between text-xs font-mono mb-1 text-[#E9D8A6]">
-                <span>Cardamom Floral Finish</span>
-                <span>74%</span>
+              <div class="flex justify-between mb-1 text-white/80">
+                <span>Carbon-Ceramic Braking Deceleration</span>
+                <span class="text-[#FFCC00] font-bold">100-0 km/h in 29.5 m</span>
               </div>
-              <div class="w-full h-1.5 bg-[#0E0A07] rounded-full overflow-hidden">
-                <div class="h-full bg-[#E9D8A6]" style="width: 74%"></div>
+              <div class="w-full h-1.5 bg-[#050608] rounded-full overflow-hidden">
+                <div class="h-full bg-[#FFCC00]" style="width: 95%"></div>
               </div>
             </div>
           </div>
 
-          <div class="pt-6 border-t border-[#C05621]/20 flex items-center justify-between">
-            <span class="text-xs font-mono text-[#E9D8A6]/60">Tasting Flight includes 3 cups</span>
-            <span class="font-serif text-xl text-[#E9D8A6]">₹180 / $2.50</span>
+          <div class="pt-6 border-t border-white/10 flex items-center justify-between">
+            <span class="text-white/50 text-xs">FIA-Homologated Hybrid Battery</span>
+            <span class="font-tech text-lg text-[#E22020] font-bold">7.9 kWh Lithium-Ion</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ================= GASTRONOMY MENU MATRIX ================= -->
-  <section class="py-24 px-6 lg:px-12 bg-[#0E0A07] relative">
-    <div class="max-w-7xl mx-auto">
-      <div class="text-center max-w-3xl mx-auto mb-16 reveal-box">
-        <span class="text-xs font-mono text-[#C05621] uppercase tracking-[0.3em] block mb-2">// 02. ARTISANAL PAIRINGS</span>
-        <h2 class="font-serif text-4xl sm:text-5xl text-[#FAF5EE]">Gastronomy of the Sacred Hearth</h2>
-        <p class="text-[#E9D8A6]/70 mt-4 text-sm sm:text-base font-light">Crafted with A2 Gir cow ghee, stone-ground batter fermented for 18 hours, and cold-pressed coconut oils.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Dish 1 -->
-        <div class="reveal-box bg-[#1A110C]/70 p-8 rounded-2xl border border-[#C05621]/20 hover:border-[#C05621] transition-all">
-          <div class="flex justify-between items-start mb-4">
-            <h3 class="font-serif text-2xl text-[#FAF5EE]">Ghee Podi Thatte Idli</h3>
-            <span class="font-mono text-sm text-[#C05621]">₹120</span>
-          </div>
-          <p class="text-xs text-[#E9D8A6]/70 leading-relaxed font-light mb-6">
-            Steamed over natural banana leaf, drenched in fragrant hand-pounded gun powder podi and bubbling pure ghee. Served with coconut chutney.
-          </p>
-          <div class="text-[10px] font-mono text-[#E9D8A6]/50 uppercase tracking-widest">PAIRING: 210°C VIENNA ROAST</div>
-        </div>
-
-        <!-- Dish 2 -->
-        <div class="reveal-box bg-[#1A110C]/70 p-8 rounded-2xl border border-[#C05621]/20 hover:border-[#C05621] transition-all">
-          <div class="flex justify-between items-start mb-4">
-            <h3 class="font-serif text-2xl text-[#FAF5EE]">Open Butter Masala Dosa</h3>
-            <span class="font-mono text-sm text-[#C05621]">₹145</span>
-          </div>
-          <p class="text-xs text-[#E9D8A6]/70 leading-relaxed font-light mb-6">
-            Crisped on a seasoned cast-iron skillet with cultured butter, layered with fiery red chili garlic paste, mashed potato mash, and mint chutney.
-          </p>
-          <div class="text-[10px] font-mono text-[#E9D8A6]/50 uppercase tracking-widest">PAIRING: 190°C BLONDE ROAST</div>
-        </div>
-
-        <!-- Dish 3 -->
-        <div class="reveal-box bg-[#1A110C]/70 p-8 rounded-2xl border border-[#C05621]/20 hover:border-[#C05621] transition-all">
-          <div class="flex justify-between items-start mb-4">
-            <h3 class="font-serif text-2xl text-[#FAF5EE]">Kesari Bath with Saffron</h3>
-            <span class="font-mono text-sm text-[#C05621]">₹95</span>
-          </div>
-          <p class="text-xs text-[#E9D8A6]/70 leading-relaxed font-light mb-6">
-            Roasted semolina infused with Kashmiri saffron threads, fried cashews, golden raisins, and aromatic green cardamom pods.
-          </p>
-          <div class="text-[10px] font-mono text-[#E9D8A6]/50 uppercase tracking-widest">PAIRING: 235°C FRENCH ROAST</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= BESPOKE HERITAGE FOOTER ================= -->
-  <footer id="reserve" class="py-16 px-6 lg:px-12 bg-[#090604] border-t border-[#C05621]/30">
+  <!-- ================= BESPOKE MARANELLO FOOTER ================= -->
+  <footer class="py-16 px-6 lg:px-12 bg-[#040507] border-t border-white/10 font-hud">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
       <div>
-        <span class="font-serif text-2xl text-[#FAF5EE] uppercase tracking-wider">${brand}</span>
-        <p class="text-xs text-[#E9D8A6]/60 font-mono mt-1">BATCH REGISTRY: 2026-CHIKMAGALUR-094 // ZERO PRESERVATIVES</p>
-      </div>
-      
-      <div class="flex items-center gap-6 text-xs font-mono text-[#E9D8A6]/70">
-        <span>BANGALORE HQ</span>
-        <span>•</span>
-        <span>HYDERABAD SALON</span>
-        <span>•</span>
-        <span>DUBAI ROASTERY</span>
+        <span class="font-tech text-2xl font-bold text-white uppercase tracking-tight">${brand}</span>
+        <p class="text-xs text-white/50 mt-1">MARANELLO CHASSIS REGISTER // 2026 OFFICIAL HOMOLOGATION</p>
       </div>
 
-      <div class="text-xs font-mono text-[#C05621]">
+      <div class="flex items-center gap-6 text-xs text-white/60">
+        <span>FIORANO CIRCUIT: 1:19.00</span>
+        <span>•</span>
+        <span>MUGELLO: 1:47.30</span>
+        <span>•</span>
+        <span>MONZA: 1:44.20</span>
+      </div>
+
+      <div class="text-xs text-[#E22020] font-bold">
         © 2026 ${brand}. ASURA CINEMA PROTOCOL.
       </div>
     </div>
   </footer>
 
-  <!-- ================= 3D THERMAL STREAM SCRIPT ================= -->
+  <!-- ================= REAL 3D FERRARI THREE.JS ENGINE ================= -->
   <script>
-    // 1. THREE.JS THERMAL CONVECTION PARTICLES ENGINE
-    var scene, camera, renderer, particleSystem, particles;
-    var particleCount = 6000;
-    var canvas = document.getElementById('steamCanvas');
-    var currentRoastColor = new THREE.Color(0xC05621);
-    var targetRoastColor = new THREE.Color(0xC05621);
-    var mouseX = 0, mouseY = 0;
+    var scene, camera, renderer, ferrariGroup, carBodyMesh, wheels = [];
+    var canvas = document.getElementById('ferrariCanvas');
+    var carColor = new THREE.Color(0xE22020);
+    var targetCarColor = new THREE.Color(0xE22020);
+    var isDragging = false, prevMouseX = 0, prevMouseY = 0;
+    var targetRotY = 0.4, targetRotX = 0.15;
+    var currentSpeed = 0, targetSpeed = 0;
+    var audioCtx = null, engineSound = false, osc1 = null, osc2 = null, engineGain = null;
 
-    function initSteam3D() {
+    function initFerrari3D() {
       if (!canvas) return;
       scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
-      camera.position.z = 180;
-      camera.position.y = 20;
+      camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(12, 5, 20);
 
       renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
 
-      // Create Particle Geometry
-      particles = new THREE.BufferGeometry();
-      var positions = new Float32Array(particleCount * 3);
-      var velocities = new Float32Array(particleCount * 3);
-      var scales = new Float32Array(particleCount);
+      // Studio Lighting
+      var ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+      scene.add(ambientLight);
 
-      for (var i = 0; i < particleCount; i++) {
-        var i3 = i * 3;
-        // Thermal column rising from bottom center
-        var radius = Math.random() * 90;
-        var angle = Math.random() * Math.PI * 2;
-        positions[i3] = Math.cos(angle) * radius;
-        positions[i3 + 1] = (Math.random() - 0.5) * 200;
-        positions[i3 + 2] = Math.sin(angle) * radius;
+      var keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
+      keyLight.position.set(20, 30, 20);
+      scene.add(keyLight);
 
-        velocities[i3] = (Math.random() - 0.5) * 0.2;
-        velocities[i3 + 1] = 0.4 + Math.random() * 0.8; // Rising upward convection
-        velocities[i3 + 2] = (Math.random() - 0.5) * 0.2;
+      var redRimLight = new THREE.DirectionalLight(0xE22020, 2.5);
+      redRimLight.position.set(-20, 10, -20);
+      scene.add(redRimLight);
 
-        scales[i] = Math.random() * 2.5 + 1.0;
-      }
+      var cyanFill = new THREE.DirectionalLight(0x00F0FF, 0.8);
+      cyanFill.position.set(0, -10, 10);
+      scene.add(cyanFill);
 
-      particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      particles.setAttribute('velocity', new THREE.BufferAttribute(velocities, 3));
+      // BUILD REAL FERRARI COMPOUND GEOMETRY
+      ferrariGroup = new THREE.Group();
+      scene.add(ferrariGroup);
 
-      // Circular Soft Glow Shader Texture
-      var pCanvas = document.createElement('canvas');
-      pCanvas.width = 64; pCanvas.height = 64;
-      var pCtx = pCanvas.getContext('2d');
-      var grad = pCtx.createRadialGradient(32, 32, 0, 32, 32, 32);
-      grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
-      grad.addColorStop(0.3, 'rgba(233, 216, 166, 0.7)');
-      grad.addColorStop(1, 'rgba(192, 86, 33, 0)');
-      pCtx.fillStyle = grad;
-      pCtx.fillRect(0, 0, 64, 64);
-      var pTexture = new THREE.CanvasTexture(pCanvas);
+      buildSculptedFerrari();
 
-      var pMaterial = new THREE.PointsMaterial({
-        size: 3.5,
-        map: pTexture,
-        transparent: true,
-        opacity: 0.65,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        color: currentRoastColor
+      // Window resize & mouse gyro
+      window.addEventListener('resize', onResize);
+      window.addEventListener('scroll', onScrollTrack);
+
+      // Drag to rotate
+      canvas.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        prevMouseX = e.clientX;
+        prevMouseY = e.clientY;
+      });
+      window.addEventListener('mouseup', function() { isDragging = false; });
+      window.addEventListener('mousemove', onMouseMove);
+
+      animateFerrari();
+    }
+
+    function buildSculptedFerrari() {
+      // 1. Aerodynamic Main Hull (Low-slung sculpted chassis)
+      var bodyGeo = new THREE.BufferGeometry();
+      
+      // Parametric sculpted vertex mesh for sleek Ferrari SF90
+      var width = 4.4, length = 9.6, height = 1.4;
+      var pts = [
+        // Front splitter & nose
+        0, 0.2, 4.8,    -1.8, 0.3, 4.2,   1.8, 0.3, 4.2,
+        0, 0.5, 3.8,    -1.9, 0.7, 3.2,   1.9, 0.7, 3.2,
+        // Hood & Front Wheel Arches
+        -1.9, 0.9, 2.2,  1.9, 0.9, 2.2,    0, 0.8, 2.4,
+        // Windshield Base
+        -1.5, 1.1, 1.2,  1.5, 1.1, 1.2,    0, 1.15, 1.4,
+        // Cockpit Canopy Roof
+        -1.2, 1.9, -0.6, 1.2, 1.9, -0.6,   0, 1.95, -0.6,
+        // Rear Engine Bay Cover & Glass
+        -1.6, 1.4, -2.4, 1.6, 1.4, -2.4,   0, 1.45, -2.4,
+        // Rear Deck & Spoiler Lip
+        -1.9, 1.1, -4.6, 1.9, 1.1, -4.6,   0, 1.15, -4.8,
+        // Rear Diffuser Bottom
+        -1.8, 0.4, -4.8, 1.8, 0.4, -4.8,   0, 0.3, -5.0
+      ];
+
+      // Triangulated faces for aerodynamic shell
+      var indices = [
+        0,1,3,  0,3,2,  1,4,3,  2,3,5,
+        3,4,6,  3,6,8,  3,8,7,  3,7,5,
+        6,9,11, 6,11,8, 8,11,10, 8,10,7,
+        9,12,14, 9,14,11, 11,14,13, 11,13,10,
+        12,15,17, 12,17,14, 14,17,16, 14,16,13,
+        15,18,20, 15,20,17, 17,20,19, 17,19,16,
+        18,21,23, 18,23,20, 20,23,22, 20,22,19
+      ];
+
+      bodyGeo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+      bodyGeo.setIndex(indices);
+      bodyGeo.computeVertexNormals();
+
+      var paintMaterial = new THREE.MeshStandardMaterial({
+        color: carColor,
+        roughness: 0.12,
+        metalness: 0.88,
+        clearcoat: 1.0,
+        clearcoatRoughness: 0.1
       });
 
-      particleSystem = new THREE.Points(particles, pMaterial);
-      scene.add(particleSystem);
+      carBodyMesh = new THREE.Mesh(bodyGeo, paintMaterial);
+      carBodyMesh.castShadow = true;
+      ferrariGroup.add(carBodyMesh);
 
-      window.addEventListener('resize', onResize);
-      window.addEventListener('mousemove', onMouseMove);
-      animateSteam();
+      // Cockpit Tinted Glass
+      var glassGeo = new THREE.BufferGeometry();
+      var glassPts = [
+        -1.4, 1.15, 1.1,  1.4, 1.15, 1.1,
+        -1.15, 1.92, -0.55, 1.15, 1.92, -0.55,
+        -1.55, 1.42, -2.2, 1.55, 1.42, -2.2
+      ];
+      var glassIndices = [0,1,2, 1,3,2, 2,3,4, 3,5,4];
+      glassGeo.setAttribute('position', new THREE.Float32BufferAttribute(glassPts, 3));
+      glassGeo.setIndex(glassIndices);
+      glassGeo.computeVertexNormals();
+
+      var glassMat = new THREE.MeshPhysicalMaterial({
+        color: 0x111622,
+        roughness: 0.05,
+        transmission: 0.7,
+        thickness: 0.5,
+        transparent: true,
+        opacity: 0.85
+      });
+      var glassMesh = new THREE.Mesh(glassGeo, glassMat);
+      ferrariGroup.add(glassMesh);
+
+      // 2. 4 Sculpted Wheels with 5-Spoke Alloys and Yellow Brembo Calipers
+      var wheelPositions = [
+        { x: -1.95, y: 0.6, z: 2.6 },  // Front Left
+        { x: 1.95, y: 0.6, z: 2.6 },   // Front Right
+        { x: -1.95, y: 0.65, z: -2.8 }, // Rear Left
+        { x: 1.95, y: 0.65, z: -2.8 }  // Rear Right
+      ];
+
+      wheelPositions.forEach(function(pos) {
+        var wGroup = new THREE.Group();
+        wGroup.position.set(pos.x, pos.y, pos.z);
+
+        // Tire Ring (Sculpted torus vector points)
+        var tirePts = [];
+        for (var a = 0; a < 32; a++) {
+          var a1 = (a / 32) * Math.PI * 2;
+          var a2 = ((a + 1) / 32) * Math.PI * 2;
+          tirePts.push(
+            0, Math.cos(a1) * 0.65, Math.sin(a1) * 0.65,
+            0, Math.cos(a2) * 0.65, Math.sin(a2) * 0.65
+          );
+        }
+        var tireGeo = new THREE.BufferGeometry();
+        tireGeo.setAttribute('position', new THREE.Float32BufferAttribute(tirePts, 3));
+        var tireMat = new THREE.LineBasicMaterial({ color: 0x1A1A1A, linewidth: 3 });
+        var tireMesh = new THREE.LineSegments(tireGeo, tireMat);
+        wGroup.add(tireMesh);
+
+        // 5-Spoke Forged Alloy Star
+        var spokePts = [];
+        for (var s = 0; s < 5; s++) {
+          var ang = (s / 5) * Math.PI * 2;
+          spokePts.push(0, 0, 0,  (pos.x > 0 ? 0.2 : -0.2), Math.cos(ang) * 0.55, Math.sin(ang) * 0.55);
+        }
+        var spokeGeo = new THREE.BufferGeometry();
+        spokeGeo.setAttribute('position', new THREE.Float32BufferAttribute(spokePts, 3));
+        var spokeMat = new THREE.LineBasicMaterial({ color: 0xD4D4D8, linewidth: 2 });
+        var spokeMesh = new THREE.LineSegments(spokeGeo, spokeMat);
+        wGroup.add(spokeMesh);
+
+        // Yellow Brembo Caliper Marker
+        var calPts = [
+          0, 0.35, 0.15,  0, 0.45, -0.15
+        ];
+        var calGeo = new THREE.BufferGeometry();
+        calGeo.setAttribute('position', new THREE.Float32BufferAttribute(calPts, 3));
+        var calMat = new THREE.LineBasicMaterial({ color: 0xFFCC00, linewidth: 4 });
+        var calMesh = new THREE.LineSegments(calGeo, calMat);
+        wGroup.add(calMesh);
+
+        ferrariGroup.add(wGroup);
+        wheels.push(wGroup);
+      });
+
+      // 3. LED Projector Headlights
+      var hlLightL = new THREE.PointLight(0x00F0FF, 3, 15);
+      hlLightL.position.set(-1.4, 0.6, 4.4);
+      ferrariGroup.add(hlLightL);
+
+      var hlLightR = new THREE.PointLight(0x00F0FF, 3, 15);
+      hlLightR.position.set(1.4, 0.6, 4.4);
+      ferrariGroup.add(hlLightR);
+
+      // 4. Quad Taillights Glowing Red Rings
+      var tlLightL = new THREE.PointLight(0xE22020, 2, 8);
+      tlLightL.position.set(-1.4, 1.0, -4.7);
+      ferrariGroup.add(tlLightL);
+
+      var tlLightR = new THREE.PointLight(0xE22020, 2, 8);
+      tlLightR.position.set(1.4, 1.0, -4.7);
+      ferrariGroup.add(tlLightR);
     }
 
     function onResize() {
@@ -2498,584 +3599,132 @@ function generateCafeShowcaseHtml(brand, colors) {
     }
 
     function onMouseMove(e) {
-      mouseX = (e.clientX / window.innerWidth - 0.5) * 40;
-      mouseY = (e.clientY / window.innerHeight - 0.5) * 20;
+      // Crosshair tracking
+      var ch = document.getElementById('crosshair');
+      if (ch) {
+        ch.style.left = e.clientX + 'px';
+        ch.style.top = e.clientY + 'px';
+      }
+
+      if (isDragging && ferrariGroup) {
+        var dx = e.clientX - prevMouseX;
+        var dy = e.clientY - prevMouseY;
+        targetRotY += dx * 0.008;
+        targetRotX += dy * 0.004;
+        prevMouseX = e.clientX;
+        prevMouseY = e.clientY;
+      } else if (!isDragging && ferrariGroup) {
+        // Gyro tracking
+        var normX = (e.clientX / window.innerWidth) - 0.5;
+        var normY = (e.clientY / window.innerHeight) - 0.5;
+        targetRotY = 0.4 + normX * 0.4;
+        targetRotX = 0.15 + normY * 0.2;
+      }
     }
 
-    function animateSteam() {
-      requestAnimationFrame(animateSteam);
-      if (!particles || !particleSystem) return;
+    // Scroll-driven camera and vehicle translation
+    function onScrollTrack() {
+      var scrollY = window.scrollY;
+      var maxScroll = document.body.scrollHeight - window.innerHeight;
+      var scrollProgress = Math.min(Math.max(scrollY / (maxScroll || 1), 0), 1);
 
-      var pos = particles.attributes.position.array;
-      var vel = particles.attributes.velocity.array;
-
-      for (var i = 0; i < particleCount; i++) {
-        var i3 = i * 3;
-        pos[i3] += vel[i3] + (mouseX * 0.003);
-        pos[i3 + 1] += vel[i3 + 1]; // Rise up
-        pos[i3 + 2] += vel[i3 + 2] + (mouseY * 0.003);
-
-        // Reset particles once they rise beyond ceiling
-        if (pos[i3 + 1] > 110) {
-          pos[i3 + 1] = -90;
-          var radius = Math.random() * 70;
-          var angle = Math.random() * Math.PI * 2;
-          pos[i3] = Math.cos(angle) * radius;
-          pos[i3 + 2] = Math.sin(angle) * radius;
-        }
+      if (ferrariGroup) {
+        // Rotate and drive smoothly as user scrolls
+        ferrariGroup.rotation.y = targetRotY + (scrollProgress * Math.PI * 1.5);
+        ferrariGroup.position.z = -scrollProgress * 6;
+        ferrariGroup.position.x = Math.sin(scrollProgress * Math.PI) * 3;
       }
-      particles.attributes.position.needsUpdate = true;
+    }
 
-      // Smooth color lerp
-      currentRoastColor.lerp(targetRoastColor, 0.05);
-      particleSystem.material.color = currentRoastColor;
-      particleSystem.rotation.y += 0.0015;
+    function resetCameraAngle() {
+      targetRotY = 0.4;
+      targetRotX = 0.15;
+    }
+
+    function setFerrariColor(hex) {
+      targetCarColor = new THREE.Color(hex);
+    }
+
+    // Throttle & RPM Engine
+    var throttleInput = document.getElementById('throttleSlider');
+    if (throttleInput) {
+      throttleInput.addEventListener('input', function(e) {
+        var val = parseInt(e.target.value);
+        targetSpeed = val * 3.4; // up to 340 km/h
+        var rpm = 1200 + (val * 70);
+        document.getElementById('rpmLabel').innerText = rpm.toLocaleString() + ' RPM // ' + (val > 60 ? 'HIGH BOOST' : 'CRUISING');
+        document.getElementById('speedDisplay').innerText = Math.round(targetSpeed) + ' KM/H';
+
+        if (engineSound && osc1) {
+          osc1.frequency.setValueAtTime(60 + (val * 4.5), audioCtx.currentTime);
+          osc2.frequency.setValueAtTime(120 + (val * 9), audioCtx.currentTime);
+        }
+      });
+    }
+
+    // V8 Engine Sound Synthesizer (Web Audio API)
+    var ignBtn = document.getElementById('ignitionBtn');
+    if (ignBtn) {
+      ignBtn.addEventListener('click', function() {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (!engineSound) {
+          engineSound = true;
+          document.getElementById('ignitionLabel').innerText = 'ENGINE RUNNING';
+          ignBtn.classList.add('bg-[#E22020]', 'text-white');
+
+          osc1 = audioCtx.createOscillator();
+          osc2 = audioCtx.createOscillator();
+          engineGain = audioCtx.createGain();
+
+          osc1.type = 'sawtooth';
+          osc2.type = 'triangle';
+          osc1.frequency.setValueAtTime(80, audioCtx.currentTime);
+          osc2.frequency.setValueAtTime(160, audioCtx.currentTime);
+
+          engineGain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+
+          osc1.connect(engineGain);
+          osc2.connect(engineGain);
+          engineGain.connect(audioCtx.destination);
+
+          osc1.start();
+          osc2.start();
+        } else {
+          engineSound = false;
+          document.getElementById('ignitionLabel').innerText = 'ENGINE START';
+          ignBtn.classList.remove('bg-[#E22020]', 'text-white');
+          if (osc1) { osc1.stop(); osc2.stop(); }
+        }
+      });
+    }
+
+    function animateFerrari() {
+      requestAnimationFrame(animateFerrari);
+      if (!ferrariGroup) return;
+
+      // Smooth rotation lerp
+      ferrariGroup.rotation.y += (targetRotY - ferrariGroup.rotation.y) * 0.05;
+      ferrariGroup.rotation.x += (targetRotX - ferrariGroup.rotation.x) * 0.05;
+
+      // Color lerp
+      carColor.lerp(targetCarColor, 0.08);
+      if (carBodyMesh) carBodyMesh.material.color = carColor;
+
+      // Spin wheels proportional to speed
+      currentSpeed += (targetSpeed - currentSpeed) * 0.08;
+      wheels.forEach(function(w) {
+        w.rotation.x += (currentSpeed + 5) * 0.002;
+      });
+
+      // Subtle engine vibration idle
+      ferrariGroup.position.y = Math.sin(Date.now() * 0.02) * (0.02 + currentSpeed * 0.0003);
 
       renderer.render(scene, camera);
     }
 
-    // 2. INTERACTIVE ROAST SWITCHER
-    function setRoastProfile(profile) {
-      document.querySelectorAll('.roast-pill').forEach(function(el) { el.classList.remove('active'); });
-      var btn = document.getElementById('btn-' + profile);
-      if (btn) btn.classList.add('active');
-
-      var tempEl = document.getElementById('tempDisplay');
-      var profTitle = document.getElementById('profileTitle');
-
-      if (profile === 'blonde') {
-        targetRoastColor = new THREE.Color(0xE9D8A6); // Golden Amber
-        if (tempEl) tempEl.innerText = '190°C';
-        if (profTitle) profTitle.innerText = 'Blonde Roast Citrus & Honey';
-      } else if (profile === 'vienna') {
-        targetRoastColor = new THREE.Color(0xC05621); // Warm Terracotta
-        if (tempEl) tempEl.innerText = '210°C';
-        if (profTitle) profTitle.innerText = 'Vienna Roast Caramel & Jaggery';
-      } else if (profile === 'dark') {
-        targetRoastColor = new THREE.Color(0x7B341E); // Deep Mahogany
-        if (tempEl) tempEl.innerText = '235°C';
-        if (profTitle) profTitle.innerText = 'French Roast Dark Cocoa & Smoke';
-      }
-    }
-
-    // 3. ACOUSTIC BREWING SYNTHESIZER (WEB AUDIO API)
-    var audioCtx = null;
-    var soundPlaying = false;
-    var soundBtn = document.getElementById('brewSoundBtn');
-    if (soundBtn) {
-      soundBtn.addEventListener('click', function() {
-        if (!audioCtx) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (!soundPlaying) {
-          // Play ambient coffee decoction bubbling drops
-          soundPlaying = true;
-          var statusText = document.getElementById('soundStatusText');
-          if (statusText) statusText.innerText = 'ACOUSTICS ACTIVE';
-          playCoffeeDrip();
-        } else {
-          soundPlaying = false;
-          var statusText = document.getElementById('soundStatusText');
-          if (statusText) statusText.innerText = 'ROAST ACOUSTICS';
-        }
-      });
-    }
-
-    function playCoffeeDrip() {
-      if (!soundPlaying || !audioCtx) return;
-      var osc = audioCtx.createOscillator();
-      var gain = audioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(420 + Math.random() * 200, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(160, audioCtx.currentTime + 0.12);
-      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.12);
-
-      // Recursive drip interval
-      setTimeout(playCoffeeDrip, 400 + Math.random() * 600);
-    }
-
-    // 4. INTERSECTION OBSERVER REVEALS
-    var obs = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        if (e.isIntersecting) e.target.classList.add('visible');
-      });
-    }, { threshold: 0.15 });
-    document.querySelectorAll('.reveal-box').forEach(function(el) { obs.observe(el); });
-
-    window.addEventListener('DOMContentLoaded', initSteam3D);
-  <\/script>
-</body>
-</html>`;
-}
-
-function generateAutomotiveShowcaseHtml(brand, colors) {
-  brand = brand || "Velocity Hypercar Atelier";
-  const primary = (colors && colors.primary) || "#00F0FF"; // Supersonic Cyan
-  const accent = (colors && colors.accent) || "#FF5500"; // Telemetry Amber
-
-  return `<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${brand} // Aerodynamics & Hypercar Engineering</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"><\/script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>
-  <style>
-    :root {
-      --carbon-bg: #07090E;
-      --carbon-card: #0E121B;
-      --aero-cyan: #00F0FF;
-      --telemetry-amber: #FF5500;
-      --titanium: #E2E8F0;
-    }
-    body {
-      background-color: var(--carbon-bg);
-      color: #E2E8F0;
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
-      margin: 0;
-      padding: 0;
-      -webkit-font-smoothing: antialiased;
-    }
-    .font-hud { font-family: 'Chakra Petch', monospace; }
-    .font-tech { font-family: 'Space Grotesk', sans-serif; }
-
-    /* Aerospace HUD grid overlay */
-    .bg-aero-grid {
-      background-size: 40px 40px;
-      background-image: 
-        linear-gradient(to right, rgba(0, 240, 255, 0.04) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
-    }
-
-    /* Laser scan line animation */
-    .scan-line {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #00F0FF, transparent);
-      box-shadow: 0 0 15px #00F0FF;
-      opacity: 0.4;
-      animation: scanSweep 6s ease-in-out infinite;
-    }
-    @keyframes scanSweep {
-      0% { top: 0%; opacity: 0; }
-      15% { opacity: 0.6; }
-      85% { opacity: 0.6; }
-      100% { top: 100%; opacity: 0; }
-    }
-
-    /* Reveal animations */
-    .reveal-item {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .reveal-item.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Custom range slider */
-    input[type=range]::-webkit-slider-thumb {
-      appearance: none;
-      width: 18px;
-      height: 18px;
-      background: #00F0FF;
-      cursor: pointer;
-      border-radius: 50%;
-      box-shadow: 0 0 12px #00F0FF;
-    }
-  </style>
-</head>
-<body class="bg-aero-grid selection:bg-[#00F0FF] selection:text-black">
-
-  <!-- Scanline element -->
-  <div class="scan-line pointer-events-none z-50"></div>
-
-  <!-- ================= COCKPIT HUD TELEMETRY HEADER ================= -->
-  <header class="fixed top-0 left-0 w-full z-50 px-6 lg:px-12 py-4 bg-[#07090E]/90 backdrop-blur-md border-b border-[#00F0FF]/20 font-hud">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <!-- Left: Telemetry Status Readout -->
-      <div class="flex items-center gap-4">
-        <div class="flex items-center gap-2">
-          <span class="w-2.5 h-2.5 rounded-full bg-[#00F0FF] animate-pulse"></span>
-          <span class="text-xs tracking-wider text-[#00F0FF] font-semibold">WIND TUNNEL TUNNEL-04 // ACTIVE</span>
-        </div>
-        <span class="hidden md:inline text-xs text-white/40">|</span>
-        <span class="hidden md:inline text-xs text-white/60 tracking-wider">PRESSURE: 101.3 kPa</span>
-      </div>
-
-      <!-- Center: Technical Monogram -->
-      <a href="#hero" class="text-center group">
-        <span class="font-tech text-xl lg:text-2xl font-bold tracking-tighter text-white uppercase group-hover:text-[#00F0FF] transition-colors">${brand}</span>
-        <span class="block text-[9px] tracking-[0.3em] text-[#FF5500] uppercase mt-0.5 font-hud">AERODYNAMICS DIVISION</span>
-      </a>
-
-      <!-- Right: Active Mode & Spec Sheet CTA -->
-      <div class="flex items-center gap-4">
-        <div class="hidden sm:flex items-center gap-2 bg-[#0E121B] px-3 py-1.5 rounded-lg border border-[#00F0FF]/30">
-          <span class="text-[10px] text-white/50 uppercase">DRAG Cd:</span>
-          <span class="text-xs text-[#00F0FF] font-bold" id="dragCdReadout">0.208</span>
-        </div>
-        <a href="#telemetry" class="px-4 py-2 rounded-lg bg-[#00F0FF] text-black text-xs font-bold font-hud tracking-wider uppercase hover:bg-white transition-all shadow-[0_0_20px_rgba(0,240,255,0.4)]">
-          Telemetry Specs
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- ================= 3D SUPERSONIC WIND TUNNEL HERO ================= -->
-  <section id="hero" class="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden">
-    <!-- Three.js Canvas for Supersonic Vector Streamlines -->
-    <div class="absolute inset-0 z-0">
-      <canvas id="aeroCanvas" class="w-full h-full"></canvas>
-    </div>
-
-    <!-- Foreground Flight Deck -->
-    <div class="relative z-10 max-w-6xl mx-auto px-6 text-center">
-      <!-- Aerospace Tag -->
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#00F0FF]/30 bg-[#0E121B]/80 backdrop-blur-md mb-6 font-hud text-xs">
-        <span class="text-[#FF5500] font-bold">// SPEC-01</span>
-        <span class="text-white/80 tracking-widest uppercase">QUAD-MOTOR TORQUE VECTORING & CARBON CHASSIS</span>
-      </div>
-
-      <!-- Main Typography -->
-      <h1 class="font-tech text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tighter text-white uppercase leading-[0.95] mb-6">
-        Supersonic Form. <br>
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00F0FF] via-white to-[#FF5500]">Pure Aerodynamics.</span>
-      </h1>
-
-      <p class="max-w-2xl mx-auto text-sm sm:text-base text-white/70 font-light leading-relaxed mb-10">
-        Sculpted through 400 hours of continuous aerodynamic wind tunnel simulations. Active underbody venturi tunnels generate 840 kg of ground-effect downforce with zero drag penalties.
-      </p>
-
-      <!-- Live Interactive Wind Speed Throttle & Aero Flaps Controls -->
-      <div class="max-w-xl mx-auto bg-[#0E121B]/90 backdrop-blur-xl p-6 rounded-2xl border border-[#00F0FF]/30 shadow-2xl font-hud">
-        <div class="flex items-center justify-between mb-3 text-xs">
-          <span class="text-white/70 uppercase">WIND TUNNEL VELOCITY:</span>
-          <span class="text-[#00F0FF] font-bold text-base" id="windSpeedLabel">180 KM/H</span>
-        </div>
-
-        <input type="range" min="80" max="350" value="180" id="windSpeedSlider" class="w-full h-2 bg-[#07090E] rounded-lg appearance-none cursor-pointer mb-5">
-
-        <div class="flex items-center justify-between pt-4 border-t border-white/10">
-          <div class="flex items-center gap-2">
-            <button onclick="toggleDRS()" id="drsBtn" class="px-4 py-1.5 rounded bg-[#07090E] border border-[#FF5500]/60 text-xs text-[#FF5500] hover:bg-[#FF5500] hover:text-black transition-all">
-              DEPLOY ACTIVE DRS AIRBRAKE
-            </button>
-          </div>
-          
-          <!-- Livery Color Selector -->
-          <div class="flex items-center gap-2">
-            <span class="text-[10px] text-white/50 uppercase">LIVERY:</span>
-            <button onclick="setLivery('#00F0FF')" class="w-5 h-5 rounded-full bg-[#00F0FF] border-2 border-white/50 hover:scale-110 transition-transform" title="Cyan Stream"></button>
-            <button onclick="setLivery('#FF5500')" class="w-5 h-5 rounded-full bg-[#FF5500] border-2 border-transparent hover:scale-110 transition-transform" title="Monza Amber"></button>
-            <button onclick="setLivery('#FFFFFF')" class="w-5 h-5 rounded-full bg-white border-2 border-transparent hover:scale-110 transition-transform" title="Liquid Titanium"></button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Real-time HUD Flight Gauges -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto mt-12 font-hud">
-        <div class="bg-[#0E121B]/70 p-4 rounded-xl border border-white/10">
-          <span class="block text-2xl sm:text-3xl font-bold text-[#00F0FF]" id="downforceGauge">840 KG</span>
-          <span class="text-[10px] text-white/50 uppercase tracking-widest">AERODYNAMIC DOWNFORCE</span>
-        </div>
-        <div class="bg-[#0E121B]/70 p-4 rounded-xl border border-white/10">
-          <span class="block text-2xl sm:text-3xl font-bold text-white">1,020 HP</span>
-          <span class="text-[10px] text-white/50 uppercase tracking-widest">COMBINED PEAK OUTPUT</span>
-        </div>
-        <div class="bg-[#0E121B]/70 p-4 rounded-xl border border-white/10">
-          <span class="block text-2xl sm:text-3xl font-bold text-white">1.94s</span>
-          <span class="text-[10px] text-white/50 uppercase tracking-widest">0-100 KM/H ACCELERATION</span>
-        </div>
-        <div class="bg-[#0E121B]/70 p-4 rounded-xl border border-white/10">
-          <span class="block text-2xl sm:text-3xl font-bold text-[#FF5500]">385 KM/H</span>
-          <span class="text-[10px] text-white/50 uppercase tracking-widest">CALCULATED V-MAX</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= TELEMETRY & POWERTRAIN ARCHITECTURE ================= -->
-  <section id="telemetry" class="py-24 px-6 lg:px-12 bg-[#090C12] border-t border-white/10 font-hud relative">
-    <div class="max-w-7xl mx-auto">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <!-- Left: Exploded Aero Breakdown -->
-        <div class="reveal-item">
-          <span class="text-xs text-[#00F0FF] uppercase tracking-[0.3em] block mb-2">// 01. VENTURI AERODYNAMICS</span>
-          <h2 class="font-tech text-4xl sm:text-5xl font-bold text-white uppercase leading-tight mb-6">
-            Underbody Venturi Tunnels & Ground Effect
-          </h2>
-          <p class="text-white/70 text-sm font-sans font-light leading-relaxed mb-8">
-            Unlike conventional supercars that rely on massive drag-inducing rear spoilers, the ${brand} channels high-velocity airflow underneath the carbon monocoque, accelerating air through rear dual venturi diffusers to literally suction the chassis onto tarmac.
-          </p>
-
-          <div class="space-y-4 border-l-2 border-[#00F0FF]/40 pl-6">
-            <div>
-              <h4 class="text-base text-white font-bold uppercase font-tech">Carbon Pre-Preg Monocoque</h4>
-              <p class="text-xs text-white/60 font-sans mt-1">Torsional stiffness exceeding 65,000 Nm/deg with integrated titanium rollcage nodes.</p>
-            </div>
-            <div>
-              <h4 class="text-base text-white font-bold uppercase font-tech">Active Floor Flaps</h4>
-              <p class="text-xs text-white/60 font-sans mt-1">Electro-hydraulic actuators modulate frontal floor vortex generators in under 12 milliseconds.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right: Real-time Dyno Curve Simulator -->
-        <div class="reveal-item bg-[#0E121B] p-8 rounded-2xl border border-[#00F0FF]/30 relative overflow-hidden">
-          <div class="flex items-center justify-between pb-4 border-b border-white/10">
-            <div>
-              <span class="text-xs text-[#00F0FF] uppercase">LIVE DYNAMOMETER TELEMETRY</span>
-              <h3 class="text-xl font-tech font-bold text-white mt-0.5">Torque & Power Dispersion</h3>
-            </div>
-            <span class="px-2.5 py-1 rounded bg-[#FF5500]/20 text-[#FF5500] text-[10px] border border-[#FF5500]/40">10,500 RPM REDLINE</span>
-          </div>
-
-          <!-- Canvas Dyno Curve -->
-          <div class="py-6">
-            <div class="flex justify-between text-xs text-white/50 mb-2">
-              <span>TORQUE CURVE (1,420 Nm FLAT)</span>
-              <span class="text-[#00F0FF]">POWER CURVE (1,020 HP)</span>
-            </div>
-            <div class="relative h-44 bg-[#07090E] rounded-xl border border-white/10 p-2 flex items-end">
-              <!-- Visual dyno curve SVG -->
-              <svg class="w-full h-full" viewBox="0 0 400 150">
-                <path d="M 0 140 Q 100 60 250 20 T 400 10" fill="none" stroke="#00F0FF" stroke-width="3" />
-                <path d="M 0 80 Q 50 30 200 30 T 400 60" fill="none" stroke="#FF5500" stroke-width="2" stroke-dasharray="4 4" />
-              </svg>
-            </div>
-          </div>
-
-          <div class="pt-4 border-t border-white/10 flex items-center justify-between text-xs">
-            <span class="text-white/60">Silicon Carbide Inverters (99.2% Efficiency)</span>
-            <span class="text-[#00F0FF] font-bold">800V ARCHITECTURE</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= BRAKING & THERMAL DISSIPATION MATRIX ================= -->
-  <section class="py-24 px-6 lg:px-12 bg-[#06080D] border-t border-white/10 font-hud relative">
-    <div class="max-w-7xl mx-auto">
-      <div class="text-center max-w-3xl mx-auto mb-16 reveal-item">
-        <span class="text-xs text-[#00F0FF] uppercase tracking-[0.3em] block mb-2">// 02. DECELERATION DYNAMICS</span>
-        <h2 class="font-tech text-4xl sm:text-5xl font-bold text-white uppercase leading-tight">Carbon-Ceramic Thermal Dissipation</h2>
-        <p class="text-white/60 text-sm font-sans mt-3">Engineered to withstand 1,200°C rotor temperatures with zero thermal brake fade across consecutive hot laps.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="reveal-item bg-[#0B0F17] p-8 rounded-2xl border border-white/10">
-          <span class="text-3xl font-tech font-bold text-[#00F0FF] block mb-2">420 MM</span>
-          <h4 class="text-base font-bold text-white uppercase font-tech">Front Cross-Drilled Rotors</h4>
-          <p class="text-xs text-white/60 font-sans mt-2">Continuous silicon-carbide carbon weave matrix clamped by 10-piston forged monobloc aluminum calipers.</p>
-        </div>
-
-        <div class="reveal-item bg-[#0B0F17] p-8 rounded-2xl border border-white/10">
-          <span class="text-3xl font-tech font-bold text-[#FF5500] block mb-2">28.4 M</span>
-          <h4 class="text-base font-bold text-white uppercase font-tech">100-0 KM/H Stopping Distance</h4>
-          <p class="text-xs text-white/60 font-sans mt-2">Active regenerative brake blending recovers up to 350 kW of kinetic energy directly into the 800V pack.</p>
-        </div>
-
-        <div class="reveal-item bg-[#0B0F17] p-8 rounded-2xl border border-white/10">
-          <span class="text-3xl font-tech font-bold text-white block mb-2">1,200°C</span>
-          <h4 class="text-base font-bold text-white uppercase font-tech">Peak Thermal Threshold</h4>
-          <p class="text-xs text-white/60 font-sans mt-2">Aerospace cooling ducts direct 40 liters of airflow per second over brake bells during high-speed deceleration.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= BESPOKE AEROSPACE FOOTER ================= -->
-  <footer class="py-16 px-6 lg:px-12 bg-[#05070A] border-t border-[#00F0FF]/20 font-hud">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-      <div>
-        <span class="font-tech text-2xl font-bold text-white uppercase tracking-tight">${brand}</span>
-        <p class="text-xs text-white/50 mt-1 font-mono">CHASSIS REGISTRY: 2026-FIA-HOMOLOGATED // WIND TUNNEL 04</p>
-      </div>
-
-      <div class="flex items-center gap-6 text-xs text-white/60">
-        <span>NÜRBURGRING LAP: 6:38.2</span>
-        <span>•</span>
-        <span>SPA FRANCORCHAMPS: 2:11.8</span>
-        <span>•</span>
-        <span>SILVERSTONE: 1:44.6</span>
-      </div>
-
-      <div class="text-xs text-[#00F0FF]">
-        © 2026 ${brand}. ASURA CINEMA PROTOCOL.
-      </div>
-    </div>
-  </footer>
-
-  <!-- ================= 3D WIND TUNNEL VECTOR STREAMLINES ================= -->
-  <script>
-    var aeroScene, aeroCamera, aeroRenderer, aeroParticles, aeroGeo;
-    var aeroCount = 8000;
-    var aeroCanvas = document.getElementById('aeroCanvas');
-    var aeroSpeed = 1.8;
-    var aeroColor = new THREE.Color(0x00F0FF);
-    var targetAeroColor = new THREE.Color(0x00F0FF);
-    var isDrsActive = false;
-
-    function initAero3D() {
-      if (!aeroCanvas) return;
-      aeroScene = new THREE.Scene();
-      aeroCamera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 2000);
-      aeroCamera.position.z = 160;
-      aeroCamera.position.y = 15;
-      aeroCamera.position.x = -30;
-
-      aeroRenderer = new THREE.WebGLRenderer({ canvas: aeroCanvas, alpha: true, antialias: true });
-      aeroRenderer.setSize(window.innerWidth, window.innerHeight);
-      aeroRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-      aeroGeo = new THREE.BufferGeometry();
-      var pos = new Float32Array(aeroCount * 3);
-      var speeds = new Float32Array(aeroCount);
-
-      for (var i = 0; i < aeroCount; i++) {
-        var i3 = i * 3;
-        pos[i3] = (Math.random() - 0.5) * 350; // Horizontal wind tunnel length
-        pos[i3 + 1] = (Math.random() - 0.5) * 70; // Streamline height
-        pos[i3 + 2] = (Math.random() - 0.5) * 120; // Tunnel width
-
-        speeds[i] = 1.0 + Math.random() * 2.0;
-      }
-
-      aeroGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-      aeroGeo.setAttribute('speed', new THREE.BufferAttribute(speeds, 1));
-
-      // Velocity Ribbon Texture
-      var c = document.createElement('canvas');
-      c.width = 64; c.height = 16;
-      var ctx = c.getContext('2d');
-      var grad = ctx.createLinearGradient(0, 0, 64, 0);
-      grad.addColorStop(0, 'rgba(0, 240, 255, 0)');
-      grad.addColorStop(0.5, 'rgba(255, 255, 255, 0.9)');
-      grad.addColorStop(1, 'rgba(0, 240, 255, 1)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 64, 16);
-      var tex = new THREE.CanvasTexture(c);
-
-      var aeroMat = new THREE.PointsMaterial({
-        size: 2.8,
-        map: tex,
-        transparent: true,
-        opacity: 0.75,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        color: aeroColor
-      });
-
-      aeroParticles = new THREE.Points(aeroGeo, aeroMat);
-      aeroScene.add(aeroParticles);
-
-      window.addEventListener('resize', onAeroResize);
-      animateAero();
-    }
-
-    function onAeroResize() {
-      if (!aeroCamera || !aeroRenderer) return;
-      aeroCamera.aspect = window.innerWidth / window.innerHeight;
-      aeroCamera.updateProjectionMatrix();
-      aeroRenderer.setSize(window.innerWidth, window.innerHeight);
-    }
-
-    function animateAero() {
-      requestAnimationFrame(animateAero);
-      if (!aeroGeo || !aeroParticles) return;
-
-      var pos = aeroGeo.attributes.position.array;
-      var speeds = aeroGeo.attributes.speed.array;
-
-      for (var i = 0; i < aeroCount; i++) {
-        var i3 = i * 3;
-        // Streamline flows horizontally along X-axis
-        pos[i3] += speeds[i] * aeroSpeed;
-
-        // Aerodynamic deflection around vehicle center (x: -20 to 20, y: -10 to 10)
-        var distFromCenter = Math.sqrt(pos[i3] * pos[i3] + pos[i3 + 1] * pos[i3 + 1]);
-        if (distFromCenter < 35 && pos[i3] > -40 && pos[i3] < 40) {
-          // Deflect streamline up and around body
-          pos[i3 + 1] += 0.4;
-          if (isDrsActive && pos[i3] > 10) {
-            // High-turbulent wake vortex behind DRS
-            pos[i3 + 1] += (Math.random() - 0.5) * 2.0;
-            pos[i3 + 2] += (Math.random() - 0.5) * 2.0;
-          }
-        }
-
-        // Loop back when passing end of tunnel
-        if (pos[i3] > 180) {
-          pos[i3] = -180;
-          pos[i3 + 1] = (Math.random() - 0.5) * 70;
-          pos[i3 + 2] = (Math.random() - 0.5) * 120;
-        }
-      }
-
-      aeroGeo.attributes.position.needsUpdate = true;
-      aeroColor.lerp(targetAeroColor, 0.05);
-      aeroParticles.material.color = aeroColor;
-
-      aeroRenderer.render(aeroScene, aeroCamera);
-    }
-
-    // 2. INTERACTIVE THROTTLE SLIDER
-    var slider = document.getElementById('windSpeedSlider');
-    if (slider) {
-      slider.addEventListener('input', function(e) {
-        var kmh = parseInt(e.target.value);
-        document.getElementById('windSpeedLabel').innerText = kmh + ' KM/H';
-        aeroSpeed = (kmh / 180) * 1.8;
-
-        // Calculate dynamic downforce proportional to square of velocity: Downforce = C * V^2
-        var df = Math.round(840 * Math.pow(kmh / 180, 1.8));
-        document.getElementById('downforceGauge').innerText = df + ' KG';
-      });
-    }
-
-    // 3. ACTIVE DRS FLAP
-    function toggleDRS() {
-      isDrsActive = !isDrsActive;
-      var btn = document.getElementById('drsBtn');
-      var dragEl = document.getElementById('dragCdReadout');
-      if (isDrsActive) {
-        btn.innerText = 'DRS ACTIVE // HIGH AIRBRAKE DRAG';
-        btn.classList.add('bg-[#FF5500]', 'text-black');
-        if (dragEl) dragEl.innerText = '0.412';
-      } else {
-        btn.innerText = 'DEPLOY ACTIVE DRS AIRBRAKE';
-        btn.classList.remove('bg-[#FF5500]', 'text-black');
-        if (dragEl) dragEl.innerText = '0.208';
-      }
-    }
-
-    // 4. LIVERY COLOR SELECTOR
-    function setLivery(hex) {
-      targetAeroColor = new THREE.Color(hex);
-    }
-
-    // 5. OBSERVER
-    var obs = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        if (e.isIntersecting) e.target.classList.add('visible');
-      });
-    }, { threshold: 0.15 });
-    document.querySelectorAll('.reveal-item').forEach(function(el) { obs.observe(el); });
-
-    window.addEventListener('DOMContentLoaded', initAero3D);
+    window.addEventListener('DOMContentLoaded', initFerrari3D);
   <\/script>
 </body>
 </html>`;
@@ -3934,6 +4583,80 @@ function generateArchitectureShowcaseHtml(brand, colors) {
       box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.8);
     }
 
+    /* AWESOME DESIGN SYSTEM: Precision Cursor */
+    .custom-cursor-dot {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--cyan-radar);
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease-out, opacity 0.2s ease;
+    }
+    .custom-cursor-ring {
+      position: fixed;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(56, 189, 248, 0.6);
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.12s ease-out, border-color 0.3s ease;
+    }
+    .cursor-hover .custom-cursor-ring {
+      width: 62px;
+      height: 62px;
+      background-color: rgba(56, 189, 248, 0.08);
+      border-color: #FFFFFF;
+    }
+
+    /* 3D Kinetic Card Tilt & Specular Glare */
+    .tilt-card {
+      transform-style: preserve-3d;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+      will-change: transform;
+    }
+
+    /* Floating Cinema Auto-Scroll Controller Dock (Reel Replica) */
+    .autoscroll-dock {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 850;
+      background: rgba(10, 13, 20, 0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 9999px;
+      padding: 0.5rem 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(56, 189, 248, 0.15);
+      transition: all 0.3s ease;
+    }
+    .autoscroll-dock:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.9), 0 0 30px rgba(56, 189, 248, 0.3);
+    }
+    .speed-btn {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+      color: #94A3B8;
+      transition: all 0.2s ease;
+    }
+    .speed-btn:hover { color: #FFFFFF; }
+    .speed-btn.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: #38BDF8;
+      font-weight: 700;
+    }
+
     /* 3D Blueprint Elevation Canvas Container */
     #blueprintCanvas {
       width: 100%;
@@ -3948,6 +4671,26 @@ function generateArchitectureShowcaseHtml(brand, colors) {
 <body class="selection:bg-amber-400 selection:text-black">
 
   <div class="film-grain"></div>
+
+  <!-- Awesome Design Cursor DOM Elements -->
+  <div id="cursorDot" class="custom-cursor-dot hidden sm:block"></div>
+  <div id="cursorRing" class="custom-cursor-ring hidden sm:block"></div>
+
+  <!-- FLOATING AUTO-SCROLL CONTROLLER DOCK (INSTAGRAM REEL ATOM-2-0 REPLICA) -->
+  <div class="autoscroll-dock" id="autoScrollDock">
+    <div class="flex items-center space-x-2 pl-1">
+      <span id="autoScrollDot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span class="text-[10px] font-hud uppercase tracking-widest text-zinc-300 font-bold hidden md:inline">3D AUTO-SCROLL</span>
+    </div>
+    <button id="autoScrollToggleBtn" onclick="toggleAutoScroll()" class="px-3.5 py-1.5 rounded-full bg-white text-black font-hud font-bold text-[10px] hover:bg-cyan-300 transition-all shadow-md active:scale-95">
+      PAUSE
+    </button>
+    <div class="flex items-center space-x-1 border-l border-white/15 pl-2">
+      <button onclick="setAutoScrollSpeed(0.8, this)" class="speed-btn">1X</button>
+      <button onclick="setAutoScrollSpeed(1.8, this)" class="speed-btn active">2X</button>
+      <button onclick="setAutoScrollSpeed(3.5, this)" class="speed-btn">3X</button>
+    </div>
+  </div>
 
   <!-- ─────────────────────────────────────────────────────────────────── -->
   <!-- 1. FLOATING LUXURY GLASS CAPSULE HEADER (BESPOKE ARCHITECTURAL HUD) -->
@@ -4301,6 +5044,109 @@ function generateArchitectureShowcaseHtml(brand, colors) {
     }
 
     window.addEventListener('scroll', updateZoomScroll, { passive: true });
+
+    // --- A2. INSTAGRAM REEL CINEMATIC AUTO-SCROLL ENGINE ---
+    var autoScrollActive = true;
+    var autoScrollSpeed = 1.8;
+    var autoScrollAnimId = null;
+    var isUserInteracting = false;
+    var userResumeTimeout = null;
+
+    function runAutoScroll() {
+      if (autoScrollActive && !isUserInteracting) {
+        var maxScroll = runway ? (runway.offsetTop + runway.offsetHeight - window.innerHeight) : 3000;
+        if (window.scrollY >= maxScroll) {
+          // Loop smoothly back to top when reaching end of 3D runway
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          window.scrollBy(0, autoScrollSpeed);
+        }
+      }
+      autoScrollAnimId = requestAnimationFrame(runAutoScroll);
+    }
+    // Start auto-scroll engine
+    autoScrollAnimId = requestAnimationFrame(runAutoScroll);
+
+    function toggleAutoScroll() {
+      autoScrollActive = !autoScrollActive;
+      var btn = document.getElementById('autoScrollToggleBtn');
+      var dot = document.getElementById('autoScrollDot');
+      if (autoScrollActive) {
+        if (btn) btn.innerText = 'PAUSE';
+        if (btn) btn.className = 'px-3.5 py-1.5 rounded-full bg-white text-black font-hud font-bold text-[10px] hover:bg-cyan-300 transition-all shadow-md active:scale-95';
+        if (dot) dot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
+      } else {
+        if (btn) btn.innerText = 'RESUME';
+        if (btn) btn.className = 'px-3.5 py-1.5 rounded-full bg-cyan-400 text-black font-hud font-bold text-[10px] hover:bg-white transition-all shadow-md active:scale-95';
+        if (dot) dot.className = 'w-2 h-2 rounded-full bg-amber-400';
+      }
+    }
+
+    function setAutoScrollSpeed(speed, btn) {
+      autoScrollSpeed = speed;
+      document.querySelectorAll('.speed-btn').forEach(function(b) { b.classList.remove('active'); });
+      if (btn) btn.classList.add('active');
+    }
+
+    // Pause auto-scroll when user manually wheels or touches, auto-resume after 2s idle
+    window.addEventListener('wheel', function() {
+      isUserInteracting = true;
+      clearTimeout(userResumeTimeout);
+      userResumeTimeout = setTimeout(function() { isUserInteracting = false; }, 2200);
+    }, { passive: true });
+
+    window.addEventListener('touchstart', function() {
+      isUserInteracting = true;
+      clearTimeout(userResumeTimeout);
+      userResumeTimeout = setTimeout(function() { isUserInteracting = false; }, 2200);
+    }, { passive: true });
+
+    // --- A3. AWESOME DESIGN KINETIC INTERACTIONS ---
+    var cDot = document.getElementById('cursorDot');
+    var cRing = document.getElementById('cursorRing');
+    var mouseX = -100, mouseY = -100;
+    var ringX = -100, ringY = -100;
+
+    window.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (cDot) {
+        cDot.style.left = mouseX + 'px';
+        cDot.style.top = mouseY + 'px';
+      }
+    });
+
+    function renderCursorRing() {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      if (cRing) {
+        cRing.style.left = ringX + 'px';
+        cRing.style.top = ringY + 'px';
+      }
+      requestAnimationFrame(renderCursorRing);
+    }
+    renderCursorRing();
+
+    document.querySelectorAll('a, button, input, .tod-btn, .speed-btn').forEach(function(el) {
+      el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
+      el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
+    });
+
+    // 3D Card Tilt Physics
+    document.querySelectorAll('.glass-card').forEach(function(card) {
+      card.classList.add('tilt-card');
+      card.addEventListener('mousemove', function(e) {
+        var rect = card.getBoundingClientRect();
+        var x = e.clientX - rect.left - (rect.width / 2);
+        var y = e.clientY - rect.top - (rect.height / 2);
+        var rotX = (y / (rect.height / 2)) * -8;
+        var rotY = (x / (rect.width / 2)) * 10;
+        card.style.transform = 'perspective(1000px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg) scale3d(1.015, 1.015, 1.015)';
+      });
+      card.addEventListener('mouseleave', function() {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      });
+    });
 
     // --- B. TIME-OF-DAY LIGHTING ENGINE ---
     function setTimeOfDay(tod, btn) {
