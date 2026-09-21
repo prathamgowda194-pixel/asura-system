@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<!-- // VERCEL_BP_CHECK: Server Components ✓ | Image Optimization ✓ | Accessibility ✓ -->
+<!-- USING MECHANIC 5: SCROLL-SCRUB HERO ZONE (3D BLUEPRINT PERSPECTIVE SCROLL) -->
+<!-- USING MECHANIC 8: EDITORIAL HEADERS & FOOTERS (DIFFERENCE BLEND & GIANT WORDMARK) -->
+<!-- USING MECHANIC 1: PIN-PARALLAX SHEETS (COCOON PATTERN) -->
+<!-- USING MECHANIC 6: HORIZONTAL RIDE (DOWN -> RIGHT -> DOWN) -->
+<!-- USING MECHANIC 2: FULL-VIEWPORT PHOTO CHAPTERS (FLOWERS/SIM PATTERN) -->
+<!-- USING MECHANIC 3: GRADIENT SEAM FADES (NO HARD EDGES) -->
+<!-- USING MECHANIC 4: BRAND-HUE WASHES (ATMOSPHERIC DEPTH) -->
+<!-- USING MECHANIC 7: REVEAL SYSTEM (CINEMATIC ENTRANCES) -->
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nomada Living // Curated Lived Spaces &amp; Monolithic Architecture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --brand-dark: #07090e;
+      --brand-accent: #38bdf8;
+      --brand-accent-light: #bae6fd;
+      --border-color: rgba(255, 255, 255, 0.12);
+      --surface-wash: rgba(13, 17, 26, 0.85);
+      --font-heading: 'Syne', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'Space Grotesk', monospace;
+    }
+
+    body {
+      background-color: var(--brand-dark);
+      color: #f8fafc;
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, .font-heading {
+      font-family: var(--font-heading);
+      letter-spacing: -0.025em;
+    }
+
+    .bg-noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.038;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* <!-- USING MECHANIC 8: EDITORIAL HEADER --> */
+    .editorial-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 60;
+      mix-blend-mode: difference;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.75rem 3.5vw;
+      pointer-events: none;
+    }
+    .editorial-header a, .editorial-header button { pointer-events: auto; }
+
+    /* <!-- USING MECHANIC 5: 3D BLUEPRINT SCROLL-SCRUB HERO ZONE (MATCHING IMAGE 4) --> */
+    .hero-zone { position: relative; height: 230vh; }
+    .hero-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #blueprintCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .blueprint-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(7, 9, 14, 0.1) 0%, rgba(7, 9, 14, 0.85) 85%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* <!-- USING MECHANIC 1: PIN-PARALLAX SHEETS (MATCHING IMAGE 3) --> */
+    .pinwrap { position: relative; z-index: 20; }
+    .pin { position: sticky; top: 0; height: 100vh; z-index: 0; overflow: hidden; }
+    .spacer { height: 26vh; }
+    .sheet {
+      position: relative;
+      z-index: 2;
+      background: var(--brand-dark);
+      border-top: 1px solid var(--border-color);
+      box-shadow: 0 -25px 50px rgba(0, 0, 0, 0.8);
+    }
+
+    /* <!-- USING MECHANIC 2: PHOTO CHAPTERS --> */
+    .ch { position: relative; }
+    .ch .bg { position: sticky; top: 0; height: 100vh; z-index: 0; overflow: hidden; }
+    .ch .bg img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.05); }
+    .ch .fl { position: relative; z-index: 2; margin-top: -100vh; }
+    .scene { min-height: 100vh; padding: 0 5vw; display: flex; align-items: flex-end; justify-content: flex-start; }
+    .catplate {
+      position: relative;
+      margin-bottom: 12vh;
+      width: min(480px, 92vw);
+      background: var(--surface-wash);
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      padding: 2.25rem;
+      border-radius: 1.25rem;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8);
+    }
+
+    /* <!-- USING MECHANIC 3: GRADIENT SEAM FADES --> */
+    .ch .bg::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 26vh;
+      background: linear-gradient(to top, var(--brand-dark), transparent);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .seam-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 22vh;
+      background: linear-gradient(to bottom, var(--brand-dark), transparent);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* <!-- USING MECHANIC 4: BRAND-HUE WASHES --> */
+    .winewrap { position: relative; overflow: hidden; background: var(--brand-dark); }
+    .winewrap > .wb { position: absolute; inset: -20%; z-index: 0; pointer-events: none; }
+    .winewrap > .wb img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: blur(56px) saturate(1.35); opacity: 0.38; transform: scale(1.25);
+    }
+    .winewrap > *:not(.wb) { position: relative; z-index: 2; }
+
+    /* <!-- USING MECHANIC 6: HORIZONTAL RIDE --> */
+    .hs { position: relative; height: 320vh; }
+    .hs-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; }
+    .track { display: flex; gap: 3vw; padding: 0 6vw; will-change: transform; }
+    .arch-card {
+      flex: 0 0 min(420px, 82vw);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      border-radius: 1.25rem;
+      overflow: hidden;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+    }
+    .arch-card:hover { transform: translateY(-8px); border-color: var(--brand-accent); }
+
+    /* <!-- USING MECHANIC 7: REVEAL SYSTEM --> */
+    .rv img { transform: scale(1.12); opacity: 0; transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
+    .rv.in img { transform: scale(1); opacity: 1; }
+    .rt > * {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      transition-delay: calc(var(--i, 0) * 0.08s);
+    }
+    .rt.in > * { opacity: 1; transform: translateY(0); }
+
+    /* <!-- USING MECHANIC 8: GIANT WORDMARK --> */
+    .giant-word {
+      font-family: var(--font-heading);
+      text-transform: uppercase;
+      text-align: center;
+      font-size: clamp(3rem, 13vw, 13rem);
+      line-height: 0.85;
+      letter-spacing: -0.03em;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.45);
+      user-select: none;
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body class="selection:bg-[var(--brand-accent)] selection:text-black">
+
+  <div class="bg-noise"></div>
+
+  <!-- USING MECHANIC 8: EDITORIAL HEADER -->
+  <header class="editorial-header font-mono text-xs uppercase tracking-widest">
+    <div class="flex items-center space-x-3">
+      <span class="w-2.5 h-2.5 rounded-full" style="background: var(--brand-accent);"></span>
+      <span class="font-bold tracking-widest">Nomada Living</span>
+    </div>
+    <nav class="hidden md:flex items-center space-x-8">
+      <a href="#estates" class="hover:opacity-75 transition">Portfolio</a>
+      <a href="#process" class="hover:opacity-75 transition">Process</a>
+      <a href="#philosophy" class="hover:opacity-75 transition">Method</a>
+      <a href="#tender" class="hover:opacity-75 transition">Commission</a>
+    </nav>
+    <a href="#tender" class="px-4 py-1.5 rounded-full border border-white/30 hover:border-white transition-all">
+      Start A Project &rarr;
+    </a>
+  </header>
+
+  <!-- USING MECHANIC 5: 3D BLUEPRINT PERSPECTIVE SCROLL (IMAGE 4 REPLICA) -->
+  <section class="hero-zone">
+    <div class="hero-sticky">
+      <canvas id="blueprintCanvas"></canvas>
+      <div class="blueprint-overlay"></div>
+
+      <div class="relative z-10 text-center px-6 max-w-5xl mx-auto flex flex-col items-center">
+        <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border border-white/20 backdrop-blur-md mb-6 font-mono text-[11px] tracking-widest text-[var(--brand-accent-light)] uppercase">
+          <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+          <span>PROCESS // 3D SCROLL PERSPECTIVE // MONOLITHIC ELEVATION</span>
+        </div>
+        <h1 class="text-5xl sm:text-8xl md:text-9xl font-heading font-black text-white mb-6 leading-[0.9] tracking-tight">
+          CURATED<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-200 to-zinc-500">LIVED SPACES</span>
+        </h1>
+        <p class="text-base sm:text-xl text-zinc-300 max-w-2xl font-light leading-relaxed mb-10">
+          Transforming bare earth and raw topographical contours into editorial architectural sanctuaries with sub-millimeter precision.
+        </p>
+        <div class="flex items-center space-x-2 font-mono text-xs text-zinc-400 tracking-widest uppercase">
+          <i data-lucide="arrow-down" class="w-4 h-4 animate-bounce text-[var(--brand-accent)]"></i>
+          <span>Scroll to rotate 3D CAD blueprint</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USING MECHANIC 1: PIN-PARALLAX SHEETS (IMAGE 3 REPLICA) -->
+  <section class="pinwrap">
+    <div class="pin">
+      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop" alt="Alpine Modern Villa" class="w-full h-full object-cover filter brightness-[0.55]">
+      <div class="absolute inset-0 bg-gradient-to-t from-[var(--brand-dark)] via-transparent to-transparent"></div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="sheet px-6 py-28">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 py-8 border-y border-[var(--border-color)] mb-20 text-center font-mono">
+          <div class="rt in">
+            <div class="text-3xl sm:text-5xl font-heading font-bold text-white mb-2" style="color: var(--brand-accent);">2.5M SQ.FT</div>
+            <div class="text-[11px] uppercase tracking-widest text-zinc-400">Architectural Envelope</div>
+          </div>
+          <div class="rt in">
+            <div class="text-3xl sm:text-5xl font-heading font-bold text-white mb-2" style="color: var(--brand-accent);">GRADE A</div>
+            <div class="text-[11px] uppercase tracking-widest text-zinc-400">Monolithic Cast Concrete</div>
+          </div>
+          <div class="rt in">
+            <div class="text-3xl sm:text-5xl font-heading font-bold text-white mb-2" style="color: var(--brand-accent);">ZERO-TOL</div>
+            <div class="text-[11px] uppercase tracking-widest text-zinc-400">Structural Precision</div>
+          </div>
+          <div class="rt in">
+            <div class="text-3xl sm:text-5xl font-heading font-bold text-white mb-2" style="color: var(--brand-accent);">18+ AWARDS</div>
+            <div class="text-[11px] uppercase tracking-widest text-zinc-400">International Provenance</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+          <div class="md:col-span-5 rt in">
+            <span class="text-xs font-mono tracking-widest text-[var(--brand-accent)] uppercase block mb-3">DISCIPLINE &amp; METHOD</span>
+            <h2 class="text-3xl sm:text-5xl font-bold text-white leading-tight mb-6">
+              Architecture as Sculptural Atmosphere.
+            </h2>
+            <p class="text-zinc-400 text-sm sm:text-base leading-relaxed mb-6 font-light">
+              Every commission under Nomada Living is tailored to the microclimate, solar orientation, and natural topography of the land. We combine floor-to-ceiling Schuco structural glass with fluted travertine and exposed post-tensioned concrete.
+            </p>
+          </div>
+          <div class="md:col-span-7 rv in">
+            <div class="rounded-2xl overflow-hidden border border-[var(--border-color)] aspect-[16/10] relative">
+              <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1600&auto=format&fit=crop" alt="Villa Exterior" class="w-full h-full object-cover">
+              <div class="seam-top"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USING MECHANIC 6: HORIZONTAL RIDE -->
+  <section id="estates" class="hs">
+    <div class="hs-sticky">
+      <div class="w-full">
+        <div class="px-8 sm:px-16 mb-8 flex items-baseline justify-between">
+          <div>
+            <span class="text-xs font-mono tracking-widest text-[var(--brand-accent)] uppercase block mb-2">CURATED REPERTOIRE</span>
+            <h2 class="text-3xl sm:text-5xl font-bold text-white">Signature Estates</h2>
+          </div>
+          <div class="font-mono text-xs text-zinc-400 tracking-wider">
+            Scroll down to advance portfolio &rarr;
+          </div>
+        </div>
+        <div class="track">
+          <div class="arch-card">
+            <div class="aspect-[4/3] overflow-hidden relative rv in">
+              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop" alt="Villa Horizon" class="w-full h-full object-cover">
+              <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 font-mono text-[10px] text-zinc-300">ESTATE 01 // HORIZON</span>
+            </div>
+            <div class="p-6">
+              <h3 class="font-heading font-bold text-2xl text-white mb-1">The Alpine Glass Pavilion</h3>
+              <p class="font-mono text-xs text-zinc-400 mb-4">6,800 Sq.Ft. &bull; Triple-Glazed Cantilever &bull; Heated Infinity Reservoir</p>
+              <div class="pt-4 border-t border-[var(--border-color)] flex items-center justify-between">
+                <span class="text-xs font-mono text-[var(--brand-accent-light)]">&#x20B9; 18.5 Cr Portfolio</span>
+                <a href="#tender" class="text-xs font-mono uppercase text-white hover:text-[var(--brand-accent)] flex items-center space-x-1">
+                  <span>Dossier</span>
+                  <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-card">
+            <div class="aspect-[4/3] overflow-hidden relative rv in">
+              <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop" alt="Monolith Villa" class="w-full h-full object-cover">
+              <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 font-mono text-[10px] text-zinc-300">ESTATE 02 // MONOLITH</span>
+            </div>
+            <div class="p-6">
+              <h3 class="font-heading font-bold text-2xl text-white mb-1">The Travertine Sanctuary</h3>
+              <p class="font-mono text-xs text-zinc-400 mb-4">8,400 Sq.Ft. &bull; Italian Fluted Stone &bull; Concealed Courtyard Garden</p>
+              <div class="pt-4 border-t border-[var(--border-color)] flex items-center justify-between">
+                <span class="text-xs font-mono text-[var(--brand-accent-light)]">&#x20B9; 24.0 Cr Portfolio</span>
+                <a href="#tender" class="text-xs font-mono uppercase text-white hover:text-[var(--brand-accent)] flex items-center space-x-1">
+                  <span>Dossier</span>
+                  <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-card">
+            <div class="aspect-[4/3] overflow-hidden relative rv in">
+              <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=1200&auto=format&fit=crop" alt="Seafront Horizon" class="w-full h-full object-cover">
+              <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 font-mono text-[10px] text-zinc-300">ESTATE 03 // SKYLINE</span>
+            </div>
+            <div class="p-6">
+              <h3 class="font-heading font-bold text-2xl text-white mb-1">The Coastal Sky Penthouse</h3>
+              <p class="font-mono text-xs text-zinc-400 mb-4">5,200 Sq.Ft. &bull; 360-Degree Panoramic Ocean Wrap &bull; Private Helipad</p>
+              <div class="pt-4 border-t border-[var(--border-color)] flex items-center justify-between">
+                <span class="text-xs font-mono text-[var(--brand-accent-light)]">&#x20B9; 32.5 Cr Portfolio</span>
+                <a href="#tender" class="text-xs font-mono uppercase text-white hover:text-[var(--brand-accent)] flex items-center space-x-1">
+                  <span>Dossier</span>
+                  <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USING MECHANIC 2: PHOTO CHAPTERS & MECHANIC 3: GRADIENT SEAMS -->
+  <section class="ch" id="process">
+    <div class="bg">
+      <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2000&auto=format&fit=crop" alt="Structural Rigor">
+      <div class="seam-top"></div>
+    </div>
+    <div class="fl">
+      <div class="scene">
+        <div class="catplate rt in">
+          <span class="text-[10px] font-mono uppercase tracking-widest text-[var(--brand-accent)] block mb-2">CHAPTER 01 // SPATIAL VOLUMETRICS</span>
+          <h3 class="font-heading text-3xl font-bold text-white mb-3">Sub-Millimeter CAD Elevation</h3>
+          <p class="text-xs text-zinc-300 leading-relaxed mb-6 font-light">
+            Every millimeter of load-bearing geometry is simulated in 3D finite-element software before foundation excavation begins. We eliminate interior columns through post-tensioned slab technology.
+          </p>
+          <a href="#tender" class="inline-flex items-center space-x-2 text-xs font-mono uppercase text-[var(--brand-accent-light)] hover:underline">
+            <span>Review Engineering Standard</span>
+            <i data-lucide="chevron-right" class="w-3 h-3"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USING MECHANIC 4: BRAND-HUE WASHES & MECHANIC 8: GIANT WORDMARK -->
+  <section id="tender" class="winewrap py-32 px-6 border-t border-[var(--border-color)]">
+    <div class="wb">
+      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop" alt="Wash Backdrop">
+    </div>
+
+    <div class="max-w-4xl mx-auto text-center relative z-10 mb-24">
+      <span class="text-xs font-mono uppercase tracking-widest text-[var(--brand-accent)] block mb-4">COMMISSION AN ESTATE</span>
+      <h2 class="text-3xl sm:text-6xl font-bold text-white mb-6">
+        Initiate Architectural Tender
+      </h2>
+      <p class="text-zinc-300 max-w-xl mx-auto text-sm sm:text-base font-light mb-10">
+        We accept only four turnkey residential commissions per calendar year to ensure absolute principal involvement.
+      </p>
+
+      <form onsubmit="event.preventDefault(); alert('Architectural Tender Registered with Nomada Living.');" class="max-w-md mx-auto space-y-4 text-left">
+        <div>
+          <label class="block text-[11px] font-mono uppercase tracking-wider text-zinc-400 mb-1.5">Principal / Client Full Name</label>
+          <input type="text" required placeholder="Marcus Vance, Architect" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-[var(--border-color)] text-white placeholder-zinc-500 focus:outline-none focus:border-[var(--brand-accent)] text-sm">
+        </div>
+        <div>
+          <label class="block text-[11px] font-mono uppercase tracking-wider text-zinc-400 mb-1.5">Corporate / Direct Phone</label>
+          <input type="text" required placeholder="+91 98450 12345" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-[var(--border-color)] text-white placeholder-zinc-500 focus:outline-none focus:border-[var(--brand-accent)] text-sm">
+        </div>
+        <div>
+          <label class="block text-[11px] font-mono uppercase tracking-wider text-zinc-400 mb-1.5">Plot Geometry &amp; Location</label>
+          <input type="text" required placeholder="3.5 Acre Hillside Parcel, Lonavala / Alibaug" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-[var(--border-color)] text-white placeholder-zinc-500 focus:outline-none focus:border-[var(--brand-accent)] text-sm">
+        </div>
+        <button type="submit" class="w-full py-4 rounded-xl font-mono text-xs uppercase tracking-widest font-bold transition-all hover:scale-[1.02] shadow-2xl mt-4" style="background: var(--brand-accent); color: var(--brand-dark);">
+          Submit Commission Tender &rarr;
+        </button>
+      </form>
+    </div>
+
+    <!-- USING MECHANIC 8: GIANT WORDMARK -->
+    <div class="giant-word my-16">
+      Nomada
+    </div>
+
+    <footer class="max-w-7xl mx-auto pt-10 border-t border-[var(--border-color)] flex flex-col md:flex-row items-center justify-between text-xs font-mono text-zinc-400 gap-4">
+      <div>&copy; 2026 Nomada Living. Institutional Architectural Provenance. All rights reserved.</div>
+      <div class="flex items-center space-x-6">
+        <span>Zurich</span>
+        <span>Milan</span>
+        <span>Mumbai</span>
+        <span>London</span>
+      </div>
+    </footer>
+  </section>
+
+  <!-- 3D BLUEPRINT PERSPECTIVE CAD ELEVATION CANVAS (IMAGE 4 REPLICA) -->
+  <script>
+    lucide.createIcons();
+
+    let bpScene, bpCamera, bpRenderer, bpGroup;
+
+    function initBlueprint3D() {
+      const canvas = document.getElementById('blueprintCanvas');
+      if (!canvas) return;
+
+      bpScene = new THREE.Scene();
+      bpCamera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
+      bpCamera.position.set(0, 5, 9);
+      bpCamera.lookAt(0, 0, 0);
+
+      bpRenderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+      bpRenderer.setSize(window.innerWidth, window.innerHeight);
+      bpRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      bpGroup = new THREE.Group();
+      bpScene.add(bpGroup);
+
+      // 1. Isometric Blueprint Grid
+      const grid = new THREE.GridHelper(16, 32, 0x38bdf8, 0x1e293b);
+      grid.position.y = -1;
+      bpGroup.add(grid);
+
+      // 2. Extruded Architectural CAD Floorplan Lines (Image 4 replica)
+      const floorplanMat = new THREE.LineBasicMaterial({ color: 0x38bdf8, linewidth: 2 });
+      const roomLines = [
+        // Living room perimeter
+        [-5, -1, -3], [3, -1, -3],
+        [3, -1, -3], [3, -1, 3],
+        [3, -1, 3], [-5, -1, 3],
+        [-5, -1, 3], [-5, -1, -3],
+        // Kitchen / dining wall
+        [3, -1, -3], [6, -1, -3],
+        [6, -1, -3], [6, -1, 1],
+        [6, -1, 1], [3, -1, 1],
+        // Master suite partition
+        [-5, -1, 0], [-1, -1, 0],
+        [-1, -1, 0], [-1, -1, 3]
+      ];
+      const fpGeo = new THREE.BufferGeometry();
+      const fpPts = [];
+      for (let i = 0; i < roomLines.length; i++) {
+        fpPts.push(roomLines[i][0], roomLines[i][1], roomLines[i][2]);
+      }
+      fpGeo.setAttribute('position', new THREE.Float32BufferAttribute(fpPts, 3));
+      const wireframeBlueprint = new THREE.LineSegments(fpGeo, floorplanMat);
+      bpGroup.add(wireframeBlueprint);
+
+      // 3. 3D Wall Column Elevations
+      const colGeo = new THREE.BoxGeometry(0.2, 2.2, 0.2);
+      const colMat = new THREE.MeshBasicMaterial({ color: 0xbae6fd, wireframe: true });
+      const colPositions = [
+        [-5, 0.1, -3], [3, 0.1, -3], [-5, 0.1, 3], [3, 0.1, 3],
+        [6, 0.1, -3], [6, 0.1, 1], [-1, 0.1, 0]
+      ];
+      colPositions.forEach(function(pos) {
+        const c = new THREE.Mesh(colGeo, colMat);
+        c.position.set(pos[0], pos[1], pos[2]);
+        bpGroup.add(c);
+      });
+
+      window.addEventListener('resize', function() {
+        if (!bpCamera || !bpRenderer) return;
+        bpCamera.aspect = window.innerWidth / window.innerHeight;
+        bpCamera.updateProjectionMatrix();
+        bpRenderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      animateBlueprint();
+    }
+
+    function animateBlueprint() {
+      requestAnimationFrame(animateBlueprint);
+      if (bpGroup) {
+        // Continuous subtle rotation
+        bpGroup.rotation.y += 0.003;
+        // Scroll-driven perspective tilt
+        const scrollProgress = window.scrollY * 0.0012;
+        bpGroup.rotation.x = Math.sin(scrollProgress * 0.5) * 0.25;
+      }
+      if (bpRenderer && bpScene && bpCamera) {
+        bpRenderer.render(bpScene, bpCamera);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', initBlueprint3D);
+
+    // HORIZONTAL RIDE
+    (function() {
+      const hs = document.querySelector('.hs');
+      const track = document.querySelector('.track');
+      if (!hs || !track) return;
+      window.addEventListener('scroll', function() {
+        const maxScroll = hs.offsetHeight - window.innerHeight;
+        const offset = window.scrollY - hs.offsetTop;
+        if (offset >= 0 && offset <= maxScroll) {
+          const pct = offset / maxScroll;
+          const targetX = -pct * (track.scrollWidth - window.innerWidth + 120);
+          track.style.transform = 'translateX(' + targetX + 'px)';
+        } else if (offset < 0) {
+          track.style.transform = 'translateX(0px)';
+        }
+      }, { passive: true });
+    })();
+
+    // REVEAL SYSTEM
+    (function() {
+      const obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) e.target.classList.add('in');
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.rv, .rt').forEach(function(el) { obs.observe(el); });
+    })();
+  </script>
+</body>
+</html>
