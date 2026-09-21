@@ -1,0 +1,56 @@
+{
+  "version": "1.0.0",
+  "engine": "GSAP 3.12 + ScrollTrigger",
+  "patterns": {
+    "parallax-reveal": {
+      "name": "Parallax Hero Reveal",
+      "description": "Pins background canvas/video while foreground typography expands smoothly with scroll scrub",
+      "jsCode": "gsap.to('.hero-visual', {\n  scrollTrigger: {\n    trigger: '#hero',\n    start: 'top top',\n    end: 'bottom top',\n    scrub: 1.2\n  },\n  y: 80,\n  scale: 1.06,\n  opacity: 0.65\n});"
+    },
+    "stagger-fade-up": {
+      "name": "Stagger Fade Up",
+      "description": "Batch entrance for bento cards, grid items, and gallery tiles with cubic-bezier easing",
+      "jsCode": "gsap.from('.stagger-item', {\n  scrollTrigger: {\n    trigger: '.stagger-container',\n    start: 'top 85%',\n    toggleActions: 'play none none none'\n  },\n  y: 40,\n  opacity: 0,\n  duration: 0.85,\n  stagger: 0.12,\n  ease: 'power3.out'\n});"
+    },
+    "scroll-triggered-scale": {
+      "name": "Scroll Triggered Scale",
+      "description": "Expands interactive product showcase container as user scrolls into view",
+      "jsCode": "gsap.fromTo('.scale-showcase', \n  { scale: 0.94, opacity: 0.7 },\n  {\n    scrollTrigger: {\n      trigger: '.scale-showcase',\n      start: 'top 80%',\n      end: 'top 25%',\n      scrub: 1\n    },\n    scale: 1,\n    opacity: 1,\n    ease: 'power2.out'\n  }\n);"
+    },
+    "horizontal-marquee-ticker": {
+      "name": "Horizontal Continuous Ticker",
+      "description": "Silky 60fps horizontal telemetry ticker with pause on hover",
+      "jsCode": "gsap.to('.ticker-track', {\n  xPercent: -50,\n  repeat: -1,\n  duration: 22,\n  ease: 'none'\n});"
+    },
+    "magnetic-button-hover": {
+      "name": "Magnetic Spring Button Hover",
+      "description": "Attracts button toward mouse cursor with Framer-like spring damping",
+      "jsCode": "document.querySelectorAll('.magnetic-btn').forEach(btn => {\n  btn.addEventListener('mousemove', e => {\n    const rect = btn.getBoundingClientRect();\n    const x = e.clientX - rect.left - rect.width / 2;\n    const y = e.clientY - rect.top - rect.height / 2;\n    gsap.to(btn, { x: x * 0.25, y: y * 0.25, duration: 0.3, ease: 'power2.out' });\n  });\n  btn.addEventListener('mouseleave', () => {\n    gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.4)' });\n  });\n});"
+    },
+    "text-mask-reveal": {
+      "name": "Text Mask Clip-Path Reveal",
+      "description": "Editorial typography line reveal rising from behind mask",
+      "jsCode": "gsap.from('.text-reveal-line', {\n  scrollTrigger: {\n    trigger: '.text-reveal-line',\n    start: 'top 88%'\n  },\n  y: 60,\n  opacity: 0,\n  duration: 1,\n  stagger: 0.15,\n  ease: 'cubic-bezier(0.16, 1, 0.3, 1)'\n});"
+    },
+    "bento-card-tilt": {
+      "name": "Bento 3D Perspective Card Tilt",
+      "description": "Dynamic mouse tracking perspective tilt with specular highlight",
+      "jsCode": "document.querySelectorAll('.tilt-card').forEach(card => {\n  card.addEventListener('mousemove', e => {\n    const rect = card.getBoundingClientRect();\n    const x = (e.clientX - rect.left) / rect.width - 0.5;\n    const y = (e.clientY - rect.top) / rect.height - 0.5;\n    gsap.to(card, { rotationY: x * 10, rotationX: -y * 10, transformPerspective: 1000, duration: 0.25 });\n  });\n  card.addEventListener('mouseleave', () => {\n    gsap.to(card, { rotationY: 0, rotationX: 0, duration: 0.5, ease: 'power2.out' });\n  });\n});"
+    },
+    "counter-spin-telemetry": {
+      "name": "Solid Counter Spin Telemetry",
+      "description": "Interpolates numeric stats smoothly from pre-rendered numbers without broken 0-start",
+      "jsCode": "gsap.from('.telemetry-num', {\n  scrollTrigger: { trigger: '.telemetry-num', start: 'top 85%' },\n  opacity: 0,\n  y: 20,\n  duration: 0.8,\n  stagger: 0.1,\n  ease: 'power3.out'\n});"
+    },
+    "image-curtain-wipe": {
+      "name": "Directional Image Curtain Wipe",
+      "description": "Reveals high-res imagery using animated CSS clip-path inset",
+      "jsCode": "gsap.fromTo('.curtain-img', \n  { clipPath: 'inset(100% 0% 0% 0%)' },\n  {\n    scrollTrigger: { trigger: '.curtain-img', start: 'top 75%' },\n    clipPath: 'inset(0% 0% 0% 0%)',\n    duration: 1.2,\n    ease: 'power3.inOut'\n  }\n);"
+    },
+    "pinned-horizontal-scroll": {
+      "name": "Pinned Section Horizontal Carousel",
+      "description": "Pins the viewport while horizontal cards scroll across the screen",
+      "jsCode": "const cards = document.querySelector('.horizontal-cards');\nif (cards) {\n  gsap.to(cards, {\n    x: () => -(cards.scrollWidth - window.innerWidth + 120),\n    ease: 'none',\n    scrollTrigger: {\n      trigger: '.horizontal-section',\n      pin: true,\n      scrub: 1,\n      end: () => '+=' + cards.scrollWidth\n    }\n  });\n}"
+    }
+  }
+}
