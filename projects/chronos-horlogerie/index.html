@@ -1,336 +1,445 @@
 <!DOCTYPE html>
-<!-- // VERCEL_BP_CHECK: Server Components ✓ | Image Optimization ✓ | Accessibility ✓ -->
-<html lang="en" class="dark scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chronos Atelier // Haute Horlogerie &amp; Grand Complication Tourbillon</title>
+  <title>Chronos Atelier // Haute Horlogerie & Grand Tourbillon</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <style>
-    body { background-color: #06080C; color: #F8FAFC; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
-    .font-serif-luxury { font-family: 'Playfair Display', Georgia, serif; }
-    .font-mono { font-family: 'JetBrains Mono', monospace; }
-    .gold-glow { text-shadow: 0 0 35px rgba(212, 175, 55, 0.45); }
-    .watch-card { background: rgba(14, 18, 26, 0.75); backdrop-filter: blur(24px); border: 1px solid rgba(212, 175, 55, 0.18); transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
-    .watch-card:hover { border-color: rgba(212, 175, 55, 0.55); transform: translateY(-4px); box-shadow: 0 25px 50px -12px rgba(212, 175, 55, 0.18); }
-    .swatch-btn { transition: transform 0.2s, outline 0.2s; }
-    .swatch-btn:hover { transform: scale(1.15); }
-    .active-swatch { outline: 2px solid #D4AF37; outline-offset: 3px; }
+    :root {
+      --sapphire-dark: #05070B;
+      --sapphire-card: #0A0E18;
+      --rose-gold: #E5A97C;
+      --champagne: #F5EBE1;
+      --rhodium: #D1D5DB;
+      --blued-steel: #2B4C7E;
+    }
+    body {
+      background-color: var(--sapphire-dark);
+      color: #F5EBE1;
+      font-family: 'Outfit', sans-serif;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    .font-serif { font-family: 'Playfair Display', serif; }
+    .font-crest { font-family: 'Cinzel', serif; }
+
+    /* Radial Horological Glow */
+    .glow-calibre {
+      background: radial-gradient(circle at 50% 35%, rgba(229, 169, 124, 0.15) 0%, rgba(10, 14, 24, 0.85) 60%, rgba(5, 7, 11, 1) 100%);
+    }
+
+    /* Subtle Horological Guilloché Texture */
+    .bg-guilloche {
+      background-image: radial-gradient(rgba(229, 169, 124, 0.08) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+
+    /* Reveal item */
+    .reveal-watch {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-watch.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Royal button */
+    .royal-btn {
+      border: 1px solid rgba(229, 169, 124, 0.3);
+      transition: all 0.4s ease;
+    }
+    .royal-btn:hover {
+      border-color: #E5A97C;
+      box-shadow: 0 0 25px rgba(229, 169, 124, 0.25);
+      transform: translateY(-2px);
+    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-black">
-  <div class="fixed inset-0 pointer-events-none z-40 opacity-[0.035] mix-blend-overlay" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E');"></div>
-  <header class="border-b border-amber-500/20 bg-[#06080C]/85 backdrop-blur-2xl sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
-    <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 via-amber-400 to-yellow-200 flex items-center justify-center text-black font-serif-luxury font-bold text-xl shadow-lg shadow-amber-500/20">&#x231A;</div>
-      <div>
-        <span class="font-serif-luxury font-bold text-xl text-white tracking-widest uppercase">CHRONOS ATELIER</span>
-        <span class="text-[9px] font-mono text-amber-400/90 block tracking-widest uppercase">GENÈVE &bull; MANUFACTURE HORLOGÈRE</span>
+<body class="bg-guilloche selection:bg-[#E5A97C] selection:text-black">
+
+  <!-- ================= ROYAL GENEVA ATELIER HEADER ================= -->
+  <header class="fixed top-0 left-0 w-full z-50 px-6 lg:px-12 py-5 bg-[#05070B]/85 backdrop-blur-md border-b border-[#E5A97C]/20 font-crest">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <!-- Left: Chronometer Certification -->
+      <div class="flex items-center gap-3">
+        <span class="w-2 h-2 rounded-full bg-[#E5A97C] animate-ping"></span>
+        <span class="text-xs tracking-[0.2em] text-[#E5A97C]/80 uppercase">COSC CERTIFIED № 48201 // GENÈVE</span>
       </div>
-    </div>
-    <nav class="hidden md:flex items-center space-x-8 text-xs font-mono text-zinc-400">
-      <a href="#calibre3d" class="hover:text-amber-400 transition">3D TOURBILLON</a>
-      <a href="#telemetry" class="hover:text-amber-400 transition">SPECIFICATIONS</a>
-      <a href="#calibre-details" class="hover:text-amber-400 transition">MANUFACTURE</a>
-      <a href="#collection" class="hover:text-amber-400 transition">COLLECTION</a>
-      <a href="#inquire" class="hover:text-amber-400 transition">VIP COMMISSION</a>
-    </nav>
-    <div class="flex items-center space-x-3 font-mono text-xs">
-      <span class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center gap-1.5 hidden sm:flex">
-        <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-        <span>VERCEL LIVE CLOUD</span>
-      </span>
-      <a href="#inquire" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-300 text-black font-extrabold hover:opacity-95 transition shadow-lg shadow-amber-500/20 active:scale-95">ACQUIRE PIECE &rarr;</a>
+
+      <!-- Center: Royal Atelier Crest -->
+      <a href="#hero" class="text-center group">
+        <span class="font-crest text-xl lg:text-2xl tracking-[0.25em] text-[#F5EBE1] uppercase group-hover:text-[#E5A97C] transition-colors">Chronos Atelier</span>
+        <span class="block text-[8px] tracking-[0.4em] text-[#E5A97C] uppercase mt-0.5">MANUFACTURE D'HORLOGERIE</span>
+      </a>
+
+      <!-- Right: Acoustic Ticking & Salon Booking -->
+      <div class="flex items-center gap-4">
+        <button id="tickAudioBtn" class="hidden sm:flex items-center gap-2 text-xs px-3 py-1.5 rounded-full border border-[#E5A97C]/30 text-[#E5A97C] hover:border-[#E5A97C] transition-all">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span id="tickAudioLabel">28,800 VPH ACOUSTICS</span>
+        </button>
+        <a href="#appointment" class="royal-btn px-5 py-2 rounded-full bg-[#E5A97C] text-black text-xs font-semibold tracking-widest uppercase shadow-lg">
+          Private Salon
+        </a>
+      </div>
     </div>
   </header>
-  <main class="flex-1 space-y-28">
-    <section id="calibre3d" class="relative max-w-7xl mx-auto px-6 pt-16 pb-6 flex flex-col items-center text-center">
-      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-amber-950/40 border border-amber-500/30 text-xs font-mono text-amber-300 mb-6">
-        <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
-        <span>CALIBRE ATELIER NO. 881 &bull; 3D REAL-TIME MECHANICAL ESCAPEMENT</span>
+
+  <!-- ================= 3D EPICYCLIC CLOCKWORK HERO ================= -->
+  <section id="hero" class="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden glow-calibre">
+    <!-- Three.js Canvas for Epicyclic Tourbillon Clockwork Particles -->
+    <div class="absolute inset-0 z-0">
+      <canvas id="watchCanvas" class="w-full h-full"></canvas>
+    </div>
+
+    <!-- Foreground Content -->
+    <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
+      <!-- Hallmark Pill -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#E5A97C]/30 bg-[#0A0E18]/70 backdrop-blur-md mb-8 font-crest text-xs">
+        <span class="text-[#E5A97C]">POINÇON DE GENÈVE</span>
+        <span class="text-white/40">|</span>
+        <span class="text-white/80 tracking-widest uppercase">CALIBRE 8821 TOURBILLON VOLANT</span>
       </div>
-      <h1 class="text-4xl sm:text-7xl font-bold font-serif-luxury text-white tracking-tight max-w-5xl leading-[1.06]">
-        The Geometry of Time. <br>
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-100 to-white gold-glow">Chronos Atelier Grand Tourbillon.</span>
+
+      <!-- Main Headline -->
+      <h1 class="font-serif text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#F5EBE1] leading-[1.05] mb-6">
+        Defying Gravity. <br>
+        <span class="italic font-light text-transparent bg-clip-text bg-gradient-to-r from-[#E5A97C] via-[#F5EBE1] to-[#D1D5DB]">Capturing Infinity.</span>
       </h1>
-      <p class="text-base sm:text-lg text-zinc-400 max-w-2xl font-normal leading-relaxed mt-6 font-sans">
-        Bespoke Swiss haute horlogerie crafted with a free-sprung gyromax balance and co-axial gravity escapement. Hand-beveled anglage, black polished tourbillon cage, and dual-barrel chronometry.
+
+      <p class="max-w-2xl mx-auto text-base sm:text-lg text-[#F5EBE1]/70 font-light leading-relaxed mb-10">
+        Assembled by hand across 280 hours of micromechanical mastery. The multi-axis flying tourbillon counteracts gravitational kinetic variances with perpetual astronomical precision.
       </p>
-      <div class="w-full h-[500px] sm:h-[560px] mt-10 rounded-3xl relative overflow-hidden border border-amber-500/25 bg-slate-950 shadow-2xl group">
-        <canvas id="watchCanvas" class="w-full h-full cursor-grab active:cursor-grabbing"></canvas>
-        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md px-6 py-3.5 rounded-2xl border border-amber-500/30 flex items-center space-x-5 z-20 font-mono text-xs shadow-2xl">
-          <span class="text-zinc-400 text-[11px] font-bold">CASE FINISH:</span>
-          <div class="flex items-center space-x-3">
-            <button onclick="setCaseFinish('#D4AF37', 'Rose Gold 18K', this)" class="w-6 h-6 rounded-full bg-[#D4AF37] swatch-btn active-swatch shadow-md" title="18K Rose Gold"></button>
-            <button onclick="setCaseFinish('#E2E8F0', 'Platinum 950', this)" class="w-6 h-6 rounded-full bg-[#E2E8F0] swatch-btn shadow-md" title="Platinum 950"></button>
-            <button onclick="setCaseFinish('#38BDF8', 'Bleu Titane', this)" class="w-6 h-6 rounded-full bg-[#38BDF8] swatch-btn shadow-md" title="Bleu Titane"></button>
-            <button onclick="setCaseFinish('#1E293B', 'Nero Obsidian', this)" class="w-6 h-6 rounded-full bg-[#1E293B] swatch-btn shadow-md" title="Nero Obsidian"></button>
-          </div>
-          <span id="finishLabel" class="text-amber-200 font-mono text-[11px] pl-3 border-l border-white/20">Rose Gold 18K</span>
-        </div>
-        <div class="absolute top-5 right-5 bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-lg border border-amber-500/20 text-[11px] font-mono text-amber-300 pointer-events-none flex items-center gap-2">
-          <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-          <span>360&deg; ORBIT // 60 FPS ESCAPEMENT</span>
-        </div>
-      </div>
-      <div id="telemetry" class="grid grid-cols-2 sm:grid-cols-4 gap-5 w-full mt-12 text-left font-mono text-xs">
-        <div class="watch-card p-6 rounded-2xl">
-          <div class="text-[10px] text-amber-400 font-bold tracking-wider uppercase">OSCILLATION FREQUENCY</div>
-          <div class="text-3xl sm:text-4xl font-serif-luxury font-bold text-white mt-1">28,800 <span class="text-base text-zinc-400 font-normal">VPH</span></div>
-          <p class="text-[11px] text-zinc-500 mt-0.5">4 Hz High-Beat Precision Balance</p>
-        </div>
-        <div class="watch-card p-6 rounded-2xl">
-          <div class="text-[10px] text-amber-400 font-bold tracking-wider uppercase">POWER AUTONOMY</div>
-          <div class="text-3xl sm:text-4xl font-serif-luxury font-bold text-white mt-1">72 <span class="text-base text-zinc-400 font-normal">HRS</span></div>
-          <p class="text-[11px] text-zinc-500 mt-0.5">Dual-Barrel Constant Torque</p>
-        </div>
-        <div class="watch-card p-6 rounded-2xl">
-          <div class="text-[10px] text-amber-400 font-bold tracking-wider uppercase">JEWEL BEARING COUNT</div>
-          <div class="text-3xl sm:text-4xl font-serif-luxury font-bold text-white mt-1">42 <span class="text-base text-zinc-400 font-normal">RUBIS</span></div>
-          <p class="text-[11px] text-zinc-500 mt-0.5">Synthetic Corundum Jewels</p>
-        </div>
-        <div class="watch-card p-6 rounded-2xl">
-          <div class="text-[10px] text-amber-400 font-bold tracking-wider uppercase">WATER RESISTANCE</div>
-          <div class="text-3xl sm:text-4xl font-serif-luxury font-bold text-white mt-1">50 <span class="text-base text-zinc-400 font-normal">ATM</span></div>
-          <p class="text-[11px] text-zinc-500 mt-0.5">Double O-Ring Sapphire Gasket</p>
-        </div>
-      </div>
-    </section>
-    <section id="calibre-details" class="max-w-7xl mx-auto px-6">
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
-        <div>
-          <span class="text-xs font-mono font-bold text-amber-400 tracking-wider uppercase">// IN-HOUSE MANUFACTURE</span>
-          <h2 class="text-3xl sm:text-5xl font-bold font-serif-luxury text-white mt-2">Purity of Mechanical Art.</h2>
-        </div>
-        <p class="text-xs sm:text-sm text-zinc-400 font-mono max-w-md mt-4 md:mt-0">Every single component is milled in Geneva, finished by master artisans with traditional boxwood lapidary paste.</p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="watch-card p-8 rounded-3xl space-y-4 flex flex-col justify-between">
-          <div class="space-y-3">
-            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 font-mono text-[10px] font-bold">COMPLICATION 01</span>
-            <h3 class="text-2xl font-bold font-serif-luxury text-white">One-Minute Flying Tourbillon</h3>
-            <p class="text-xs text-zinc-400 leading-relaxed font-sans">Weighing merely 0.28 grams, the grade 5 titanium cage counters terrestrial gravity errors across all vertical positions.</p>
-            <div class="text-[11px] font-mono text-amber-300">&bull; Black Polished Bridge</div>
-          </div>
-        </div>
-        <div class="watch-card p-8 rounded-3xl space-y-4 flex flex-col justify-between border-amber-500/40">
-          <div class="space-y-3">
-            <span class="px-2.5 py-0.5 rounded-full bg-amber-400 text-black font-mono text-[10px] font-bold">PATENTED CHRONOMETRY</span>
-            <h3 class="text-2xl font-bold font-serif-luxury text-white">Silicon Hairspring</h3>
-            <p class="text-xs text-zinc-400 leading-relaxed font-sans">Immune to magnetic fluxes up to 15,000 Gauss. Laser-etched geometry ensures concentric expansion across temperature deltas.</p>
-            <div class="text-[11px] font-mono text-amber-300">&bull; Anti-Magnetic Certified</div>
-          </div>
-        </div>
-        <div class="watch-card p-8 rounded-3xl space-y-4 flex flex-col justify-between">
-          <div class="space-y-3">
-            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 font-mono text-[10px] font-bold">FINISHING DISCIPLINE</span>
-            <h3 class="text-2xl font-bold font-serif-luxury text-white">Côtes de Genève &amp; Anglage</h3>
-            <p class="text-xs text-zinc-400 leading-relaxed font-sans">Bridges decorated with concentric Geneva stripes. Chamfered inner angles hand-polished with gentian wood sticks.</p>
-            <div class="text-[11px] font-mono text-amber-300">&bull; Geneva Seal Hallmarked</div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section id="collection" class="max-w-7xl mx-auto px-6">
-      <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
-        <span class="text-xs font-mono font-bold text-amber-400 uppercase tracking-widest">// ATELIER EDITIONS</span>
-        <h2 class="text-3xl sm:text-5xl font-bold font-serif-luxury text-white">Numbered Chronometers</h2>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
-        <div class="watch-card p-6 rounded-3xl space-y-4 flex flex-col justify-between">
-          <div class="space-y-2">
-            <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold text-[10px]">PIECE 01</span>
-            <h3 class="text-xl font-bold font-serif-luxury text-white">Chronos Atelier Reference 01</h3>
-            <p class="text-zinc-400 font-sans text-xs">Rose gold 18k case with slate opaline dial and hand-stitched alligator leather.</p>
-          </div>
-          <div class="border-t border-white/10 pt-4 space-y-2">
-            <div class="flex justify-between text-zinc-400"><span>Allocation:</span><span class="text-emerald-400 font-bold">2 Pieces Worldwide</span></div>
-            <a href="#inquire" class="block w-full text-center py-2.5 rounded-xl bg-white/10 hover:bg-white text-white hover:text-black font-bold transition mt-2">COMMISSION PIECE</a>
-          </div>
-        </div>
-        <div class="watch-card p-6 rounded-3xl space-y-4 flex flex-col justify-between border-amber-500/40">
-          <div class="space-y-2">
-            <span class="px-2 py-0.5 rounded bg-amber-400 text-black font-bold text-[10px]">FLAGSHIP SPEC</span>
-            <h3 class="text-xl font-bold font-serif-luxury text-white">Chronos Atelier Squelette Titane</h3>
-            <p class="text-zinc-400 font-sans text-xs">Openworked titanium bridge architecture with blued steel screws and sapphire dial.</p>
-          </div>
-          <div class="border-t border-white/10 pt-4 space-y-2">
-            <div class="flex justify-between text-zinc-400"><span>Allocation:</span><span class="text-amber-400 font-bold">1 Piece Unique</span></div>
-            <a href="#inquire" class="block w-full text-center py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-black font-bold hover:opacity-90 transition mt-2">COMMISSION PIECE</a>
-          </div>
-        </div>
-        <div class="watch-card p-6 rounded-3xl space-y-4 flex flex-col justify-between">
-          <div class="space-y-2">
-            <span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 font-bold text-[10px]">BESPOKE COMMISSION</span>
-            <h3 class="text-xl font-bold font-serif-luxury text-white">Chronos Atelier Monolith Tantalum</h3>
-            <p class="text-zinc-400 font-sans text-xs">Rare tantalum alloy case with meteoritic dial and astronomical moonphase.</p>
-          </div>
-          <div class="border-t border-white/10 pt-4 space-y-2">
-            <div class="flex justify-between text-zinc-400"><span>Allocation:</span><span class="text-zinc-400 font-bold">By Private Invitation</span></div>
-            <a href="#inquire" class="block w-full text-center py-2.5 rounded-xl bg-white/10 hover:bg-white text-white hover:text-black font-bold transition mt-2">INQUIRE SALON</a>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section id="inquire" class="max-w-3xl mx-auto px-6">
-      <div class="watch-card p-8 sm:p-12 rounded-3xl space-y-6">
-        <div class="text-center space-y-2">
-          <span class="text-xs font-mono font-bold text-amber-400 uppercase tracking-widest">// PRIVATE SALON CONSULTATION</span>
-          <h2 class="text-2xl sm:text-4xl font-bold font-serif-luxury text-white">Commission Your Timepiece</h2>
-          <p class="text-xs text-zinc-400 font-mono">Reserve a private salon appointment in Geneva, London Mayfair, or Dubai.</p>
-        </div>
-        <form onsubmit="handleWatchCommission(event)" class="space-y-4 font-mono text-xs">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-zinc-400 mb-1">Patron Full Name</label>
-              <input type="text" required placeholder="Lord Julian Sterling" class="w-full bg-black/60 border border-white/10 rounded-xl p-3.5 text-white focus:border-amber-400 outline-none transition">
-            </div>
-            <div>
-              <label class="block text-zinc-400 mb-1">Private Email</label>
-              <input type="email" required placeholder="sterling@holdings.ch" class="w-full bg-black/60 border border-white/10 rounded-xl p-3.5 text-white focus:border-amber-400 outline-none transition">
-            </div>
-          </div>
-          <button type="submit" id="commissionBtn" class="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-300 text-black font-extrabold text-sm uppercase tracking-wider transition shadow-xl shadow-amber-500/20 active:scale-98">
-            TRANSMIT COMMISSION BRIEF &rarr;
+
+      <!-- Live Interactive Alloy Switcher -->
+      <div class="inline-flex items-center gap-3 p-2 rounded-full bg-[#0A0E18]/80 backdrop-blur-lg border border-[#E5A97C]/30 shadow-2xl font-crest text-xs">
+        <span class="text-[#E5A97C]/70 px-3 uppercase tracking-wider">Metallurgy:</span>
+        <div class="flex items-center gap-2">
+          <button onclick="setWatchAlloy('rosegold')" id="alloy-rosegold" class="alloy-btn active px-4 py-1.5 rounded-full border border-[#E5A97C] text-[#E5A97C] bg-[#E5A97C]/20 transition-all">
+            24K ROSE GOLD
           </button>
-        </form>
-        <div id="commissionSuccess" class="hidden p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs space-y-1.5">
-          <div class="font-bold flex items-center gap-2"><span>&#x2713;</span> COMMISSION DOSSIER INGESTED</div>
-          <p class="text-zinc-300 text-[11px]">Certificate issued. The Master Horologist liaison will contact your office within 2 hours.</p>
+          <button onclick="setWatchAlloy('platinum')" id="alloy-platinum" class="alloy-btn px-4 py-1.5 rounded-full border border-white/20 text-white/70 hover:border-white transition-all">
+            950 PLATINUM
+          </button>
+          <button onclick="setWatchAlloy('titanium')" id="alloy-titanium" class="alloy-btn px-4 py-1.5 rounded-full border border-white/20 text-white/70 hover:border-white transition-all">
+            GRADE 5 TITANIUM
+          </button>
         </div>
       </div>
-    </section>
-  </main>
-  <footer class="border-t border-amber-500/20 py-10 px-6 mt-28 bg-black text-xs font-mono text-zinc-500">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-      <div class="flex items-center space-x-2">
-        <span class="font-serif-luxury font-bold text-white text-base">CHRONOS ATELIER</span>
-        <span>&copy; 2026. ALL RIGHTS RESERVED.</span>
+
+      <!-- Live Mechanical Metrics -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto mt-16 pt-10 border-t border-[#E5A97C]/20 font-crest">
+        <div>
+          <span class="block text-3xl text-[#E5A97C] font-serif">4 Hz</span>
+          <span class="text-[10px] text-white/60 uppercase tracking-widest mt-1">28,800 VPH FREQUENCY</span>
+        </div>
+        <div>
+          <span class="block text-3xl text-white font-serif">72 H</span>
+          <span class="text-[10px] text-white/60 uppercase tracking-widest mt-1">TWIN POWER BARRELS</span>
+        </div>
+        <div>
+          <span class="block text-3xl text-white font-serif">324</span>
+          <span class="text-[10px] text-white/60 uppercase tracking-widest mt-1">HAND-BEVELED COMPONENTS</span>
+        </div>
+        <div>
+          <span class="block text-3xl text-[#E5A97C] font-serif">0.34g</span>
+          <span class="text-[10px] text-white/60 uppercase tracking-widest mt-1">TITANIUM CAGE WEIGHT</span>
+        </div>
       </div>
-      <div class="flex items-center space-x-6 text-[11px]">
-        <span>GENEVA SEAL CERTIFIED</span>
-        <span>CO-AXIAL ESCAPEMENT</span>
-        <span>SYNTHESIZED VIA ASURA VIRTUAL SKILL REGISTRY</span>
+    </div>
+  </section>
+
+  <!-- ================= COMPLICATIONS & HOROLOGICAL MASTERY ================= -->
+  <section class="py-24 px-6 lg:px-12 bg-[#080B10] border-t border-[#E5A97C]/20 relative">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <!-- Left: Editorial Story -->
+        <div class="reveal-watch">
+          <span class="text-xs font-crest text-[#E5A97C] uppercase tracking-[0.3em] block mb-3">// 01. GRAND COMPLICATION</span>
+          <h2 class="font-serif text-4xl sm:text-5xl text-[#F5EBE1] leading-tight mb-6">
+            The Multi-Axis Flying Tourbillon Carriage
+          </h2>
+          <p class="text-[#F5EBE1]/70 text-base leading-relaxed mb-6 font-light">
+            Suspended without an upper bridge, the flying tourbillon cage completes one full 360-degree rotation every 60 seconds. Every internal steel pinion is mirror-polished by hand using diamond paste and elder pith wood.
+          </p>
+
+          <div class="space-y-4 border-l border-[#E5A97C]/40 pl-6 my-8 font-serif">
+            <div>
+              <h4 class="text-xl text-[#F5EBE1]">Côtes de Genève Finishing</h4>
+              <p class="text-xs text-[#F5EBE1]/60 font-sans mt-1">Bespoke Geneva ribbing applied with micron-level parallel passes across rhodium bridges.</p>
+            </div>
+            <div>
+              <h4 class="text-xl text-[#F5EBE1]">Flame-Blued Screws</h4>
+              <p class="text-xs text-[#F5EBE1]/60 font-sans mt-1">Thermally heat-tempered at precisely 290°C to achieve an iridescent deep sapphire blue hue.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Astronomical Moonphase Card -->
+        <div class="reveal-watch bg-[#0A0E18] p-8 lg:p-12 rounded-3xl border border-[#E5A97C]/30 shadow-2xl relative">
+          <div class="flex items-center justify-between pb-6 border-b border-[#E5A97C]/20 font-crest">
+            <div>
+              <span class="text-xs text-[#E5A97C] uppercase">ASTRONOMICAL ACCURACY</span>
+              <h3 class="font-serif text-2xl text-[#F5EBE1] mt-1">Perpetual Moonphase</h3>
+            </div>
+            <span class="px-3 py-1 rounded-full text-[10px] bg-[#E5A97C]/20 text-[#E5A97C] border border-[#E5A97C]/40">DEVIATION: 1 DAY IN 122 YRS</span>
+          </div>
+
+          <div class="py-8 flex items-center justify-center">
+            <!-- Astronomical Moonphase Dial Visual -->
+            <div class="w-36 h-36 rounded-full border-2 border-[#E5A97C]/40 relative flex items-center justify-center bg-[#05070B] shadow-[0_0_30px_rgba(229,169,124,0.15)]">
+              <div class="w-20 h-20 rounded-full bg-[#E5A97C] shadow-[0_0_20px_#E5A97C]"></div>
+              <div class="absolute w-20 h-20 rounded-full bg-[#05070B] -right-3 top-2"></div>
+            </div>
+          </div>
+
+          <div class="pt-6 border-t border-[#E5A97C]/20 flex items-center justify-between font-crest text-xs">
+            <span class="text-[#F5EBE1]/60">LUNAR SYNODIC PERIOD: 29.530588 DAYS</span>
+            <span class="text-[#E5A97C]">GOLD CABOCHON ACCENT</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GUILLOCHÉ & ENAMELING ATELIER ================= -->
+  <section class="py-24 px-6 lg:px-12 bg-[#06080E] border-t border-[#E5A97C]/20 relative">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center max-w-3xl mx-auto mb-16 reveal-watch font-crest">
+        <span class="text-xs text-[#E5A97C] uppercase tracking-[0.3em] block mb-2">// 02. HAUTE FINITION</span>
+        <h2 class="font-serif text-4xl sm:text-5xl text-[#F5EBE1]">Rose Engine Guilloché & Grand Feu</h2>
+        <p class="text-[#F5EBE1]/60 font-sans mt-3 text-sm">Every dial is hand-turned on antique straight-line and rose engines, cutting light-diffracting barleycorn waves into solid gold blanks.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="reveal-watch bg-[#090C16] p-8 rounded-2xl border border-[#E5A97C]/20">
+          <span class="font-serif text-3xl text-[#E5A97C] block mb-2">800°C</span>
+          <h4 class="font-crest text-base text-[#F5EBE1] uppercase">Grand Feu Kiln Enamel</h4>
+          <p class="text-xs text-[#F5EBE1]/60 font-sans mt-2">Crushed silica glass layered and fired over eight successive cycles to achieve a permanent, translucent vitreous depth.</p>
+        </div>
+
+        <div class="reveal-watch bg-[#090C16] p-8 rounded-2xl border border-[#E5A97C]/20">
+          <span class="font-serif text-3xl text-white block mb-2">45° Anglage</span>
+          <h4 class="font-crest text-base text-[#F5EBE1] uppercase">Hand-Chamfered Bridges</h4>
+          <p class="text-xs text-[#F5EBE1]/60 font-sans mt-2">Interior angles beveled by hand with diamond micro-files and boxwood pegs soaked in diamond lapping paste.</p>
+        </div>
+
+        <div class="reveal-watch bg-[#090C16] p-8 rounded-2xl border border-[#E5A97C]/20">
+          <span class="font-serif text-3xl text-[#E5A97C] block mb-2">Nivarox I</span>
+          <h4 class="font-crest text-base text-[#F5EBE1] uppercase">Breguet Overcoil Hairspring</h4>
+          <p class="text-xs text-[#F5EBE1]/60 font-sans mt-2">Anti-magnetic self-compensating balance spring hand-curved with terminal Phillips curves for concentric breathing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BESPOKE ATELIER FOOTER ================= -->
+  <footer id="appointment" class="py-16 px-6 lg:px-12 bg-[#040508] border-t border-[#E5A97C]/30 font-crest">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+      <div>
+        <span class="text-2xl text-[#F5EBE1] tracking-[0.2em] uppercase">Chronos Atelier</span>
+        <p class="text-xs text-[#E5A97C]/70 mt-1 font-mono">GENÈVE ATELIER // REGISTER OF HEIRLOOM TIMEPIECES</p>
+      </div>
+
+      <div class="flex items-center gap-6 text-xs text-[#F5EBE1]/70">
+        <span>RUE DU RHÔNE, GENEVA</span>
+        <span>•</span>
+        <span>PLACE VENDÔME, PARIS</span>
+        <span>•</span>
+        <span>MAYFAIR, LONDON</span>
+      </div>
+
+      <div class="text-xs text-[#E5A97C]">
+        © 2026 Chronos Atelier. ASURA CINEMA PROTOCOL.
       </div>
     </div>
   </footer>
+
+  <!-- ================= 3D EPICYCLIC CLOCKWORK SCRIPT ================= -->
   <script>
-    var scene, camera, renderer, watchGroup, bezelMesh, balanceWheel, gearTeeth = [];
-    var isDragging = false, previousMouseX = 0, previousMouseY = 0;
-    function initWatchCalibre() {
-      var container = document.getElementById('watchCanvas');
-      if (!container) return;
-      var width = container.parentElement.clientWidth;
-      var height = container.parentElement.clientHeight;
-      scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 1000);
-      camera.position.set(0, 1.2, 5.8);
-      renderer = new THREE.WebGLRenderer({ canvas: container, antialias: true, alpha: true });
-      renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      scene.add(new THREE.AmbientLight(0xfff8ee, 0.7));
-      var goldLight = new THREE.DirectionalLight(0xF59E0B, 2.0);
-      goldLight.position.set(5, 8, 6);
-      scene.add(goldLight);
-      var rimWhite = new THREE.PointLight(0xffffff, 2.2, 10);
-      rimWhite.position.set(-4, -2, -3);
-      scene.add(rimWhite);
-      watchGroup = new THREE.Group();
-      scene.add(watchGroup);
-      var bezelGeo = new THREE.CylinderGeometry(1.85, 1.85, 0.45, 64);
-      var bezelMat = new THREE.MeshStandardMaterial({ color: 0xD4AF37, metalness: 0.95, roughness: 0.16 });
-      bezelMesh = new THREE.Mesh(bezelGeo, bezelMat);
-      bezelMesh.rotation.x = Math.PI / 2.8;
-      watchGroup.add(bezelMesh);
-      var crystalGeo = new THREE.CylinderGeometry(1.7, 1.7, 0.08, 64);
-      var crystalMat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, transparent: true, opacity: 0.25, transmission: 0.9, roughness: 0.05 });
-      var crystal = new THREE.Mesh(crystalGeo, crystalMat);
-      crystal.position.set(0, 0.24, 0);
-      bezelMesh.add(crystal);
-      var balanceGeo = new THREE.TorusGeometry(0.7, 0.04, 16, 48);
-      var balanceMat = new THREE.MeshStandardMaterial({ color: 0xF59E0B, metalness: 0.9, roughness: 0.1 });
-      balanceWheel = new THREE.Mesh(balanceGeo, balanceMat);
-      balanceWheel.position.set(0, -0.4, 0.1);
-      bezelMesh.add(balanceWheel);
-      var gearGeo = new THREE.BoxGeometry(0.08, 0.35, 0.05);
-      var gearMat = new THREE.MeshStandardMaterial({ color: 0x94A3B8, metalness: 0.95, roughness: 0.2 });
-      for (var g = 0; g < 12; g++) {
-        var tooth = new THREE.Mesh(gearGeo, gearMat);
-        var rad = (g / 12) * Math.PI * 2;
-        tooth.position.set(Math.cos(rad) * 0.55, -0.4 + Math.sin(rad) * 0.55, 0.1);
-        tooth.rotation.z = rad;
-        bezelMesh.add(tooth);
-        gearTeeth.push(tooth);
+    var watchScene, watchCamera, watchRenderer, gearSystem;
+    var watchCanvas = document.getElementById('watchCanvas');
+    var watchAlloyColor = new THREE.Color(0xE5A97C); // Rose Gold
+    var targetAlloyColor = new THREE.Color(0xE5A97C);
+    var gearCount = 5000;
+
+    function initWatch3D() {
+      if (!watchCanvas) return;
+      watchScene = new THREE.Scene();
+      watchCamera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1500);
+      watchCamera.position.z = 180;
+      watchCamera.position.y = 10;
+
+      watchRenderer = new THREE.WebGLRenderer({ canvas: watchCanvas, alpha: true, antialias: true });
+      watchRenderer.setSize(window.innerWidth, window.innerHeight);
+      watchRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      // Epicyclic Gear Particles (Multiple Concentric Orbiting Rings with Involute Teeth)
+      var geo = new THREE.BufferGeometry();
+      var pos = new Float32Array(gearCount * 3);
+      var ringIds = new Float32Array(gearCount);
+
+      var pIdx = 0;
+      // Ring 1: Outer Tourbillon Balance Ring (Radius ~ 65)
+      for (var i = 0; i < 1800; i++) {
+        var angle = (i / 1800) * Math.PI * 2;
+        var r = 65 + (Math.sin(angle * 48) * 2.2); // 48 Involute Teeth
+        pos[pIdx * 3] = Math.cos(angle) * r;
+        pos[pIdx * 3 + 1] = Math.sin(angle) * r;
+        pos[pIdx * 3 + 2] = (Math.random() - 0.5) * 4;
+        ringIds[pIdx] = 1;
+        pIdx++;
       }
-      var handMat = new THREE.MeshStandardMaterial({ color: 0x1E40AF, metalness: 0.8, roughness: 0.2 });
-      var hourHand = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.7, 0.03), handMat);
-      hourHand.position.set(0, 0.2, 0.18);
-      hourHand.rotation.z = Math.PI / 4;
-      bezelMesh.add(hourHand);
-      var minuteHand = new THREE.Mesh(new THREE.BoxGeometry(0.04, 1.1, 0.03), handMat);
-      minuteHand.position.set(0, 0.35, 0.2);
-      minuteHand.rotation.z = -Math.PI / 3;
-      bezelMesh.add(minuteHand);
-      container.addEventListener('mousedown', function(e) { isDragging = true; previousMouseX = e.clientX; previousMouseY = e.clientY; });
-      window.addEventListener('mouseup', function() { isDragging = false; });
-      window.addEventListener('mousemove', function(e) {
-        if (!isDragging || !watchGroup) return;
-        var dx = e.clientX - previousMouseX;
-        var dy = e.clientY - previousMouseY;
-        watchGroup.rotation.y += dx * 0.008;
-        watchGroup.rotation.x += dy * 0.004;
-        previousMouseX = e.clientX;
-        previousMouseY = e.clientY;
+
+      // Ring 2: Intermediate Escapement Wheel (Radius ~ 42)
+      for (var j = 0; j < 1600; j++) {
+        var angle2 = (j / 1600) * Math.PI * 2;
+        var r2 = 42 + (Math.sin(angle2 * 32) * 1.8); // 32 Teeth
+        pos[pIdx * 3] = Math.cos(angle2) * r2;
+        pos[pIdx * 3 + 1] = Math.sin(angle2) * r2;
+        pos[pIdx * 3 + 2] = (Math.random() - 0.5) * 3;
+        ringIds[pIdx] = 2;
+        pIdx++;
+      }
+
+      // Ring 3: Center Pinion & Ruby Jewel Pivot (Radius ~ 16)
+      for (var k = 0; k < 1600; k++) {
+        var angle3 = (k / 1600) * Math.PI * 2;
+        var r3 = 16 + (Math.sin(angle3 * 16) * 1.2);
+        pos[pIdx * 3] = Math.cos(angle3) * r3;
+        pos[pIdx * 3 + 1] = Math.sin(angle3) * r3;
+        pos[pIdx * 3 + 2] = (Math.random() - 0.5) * 2;
+        ringIds[pIdx] = 3;
+        pIdx++;
+      }
+
+      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      geo.setAttribute('ringId', new THREE.BufferAttribute(ringIds, 1));
+
+      // Golden Specular Sparkle Texture
+      var sc = document.createElement('canvas');
+      sc.width = 32; sc.height = 32;
+      var sctx = sc.getContext('2d');
+      var sgrad = sctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+      sgrad.addColorStop(0, 'rgba(255, 255, 255, 1)');
+      sgrad.addColorStop(0.3, 'rgba(229, 169, 124, 0.8)');
+      sgrad.addColorStop(1, 'rgba(229, 169, 124, 0)');
+      sctx.fillStyle = sgrad;
+      sctx.fillRect(0, 0, 32, 32);
+      var sTex = new THREE.CanvasTexture(sc);
+
+      var mat = new THREE.PointsMaterial({
+        size: 3.2,
+        map: sTex,
+        transparent: true,
+        opacity: 0.85,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        color: watchAlloyColor
       });
-      container.addEventListener('touchstart', function(e) { if (e.touches.length === 1) { isDragging = true; previousMouseX = e.touches[0].clientX; previousMouseY = e.touches[0].clientY; } });
-      window.addEventListener('touchend', function() { isDragging = false; });
-      window.addEventListener('touchmove', function(e) {
-        if (!isDragging || !watchGroup || e.touches.length !== 1) return;
-        var dx = e.touches[0].clientX - previousMouseX;
-        watchGroup.rotation.y += dx * 0.01;
-        previousMouseX = e.touches[0].clientX;
-        previousMouseY = e.touches[0].clientY;
-      });
-      window.addEventListener('resize', function() {
-        if (!container || !renderer || !camera) return;
-        var w = container.parentElement.clientWidth;
-        var h = container.parentElement.clientHeight;
-        camera.aspect = w / h;
-        camera.updateProjectionMatrix();
-        renderer.setSize(w, h);
-      });
+
+      gearSystem = new THREE.Points(geo, mat);
+      watchScene.add(gearSystem);
+
+      window.addEventListener('resize', onWatchResize);
       animateWatch();
     }
+
+    function onWatchResize() {
+      if (!watchCamera || !watchRenderer) return;
+      watchCamera.aspect = window.innerWidth / window.innerHeight;
+      watchCamera.updateProjectionMatrix();
+      watchRenderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    var clockTime = 0;
     function animateWatch() {
       requestAnimationFrame(animateWatch);
-      if (watchGroup && !isDragging) watchGroup.rotation.y += 0.005;
-      if (balanceWheel) balanceWheel.rotation.z = Math.sin(Date.now() * 0.025) * 1.4;
-      gearTeeth.forEach(function(t) { t.rotation.z += 0.01; });
-      if (renderer && scene && camera) renderer.render(scene, camera);
+      if (!gearSystem) return;
+
+      clockTime += 0.01;
+      // High-precision rotation with slight 28,800 VPH escapement tick impulse
+      var tickImpulse = Math.floor(clockTime * 8) * (Math.PI / 64);
+      gearSystem.rotation.z = tickImpulse;
+      gearSystem.rotation.x = Math.sin(clockTime * 0.4) * 0.15;
+      gearSystem.rotation.y = Math.cos(clockTime * 0.3) * 0.15;
+
+      watchAlloyColor.lerp(targetAlloyColor, 0.05);
+      gearSystem.material.color = watchAlloyColor;
+
+      watchRenderer.render(watchScene, watchCamera);
     }
-    function setCaseFinish(hex, name, btn) {
-      if (bezelMesh) bezelMesh.material.color.set(hex);
-      document.querySelectorAll('.swatch-btn').forEach(function(b) { b.classList.remove('active-swatch'); });
-      if (btn) btn.classList.add('active-swatch');
-      var label = document.getElementById('finishLabel');
-      if (label) label.innerText = name;
+
+    // 2. ALLOY SWITCHER
+    function setWatchAlloy(alloy) {
+      document.querySelectorAll('.alloy-btn').forEach(function(b) { b.classList.remove('active', 'border-[#E5A97C]', 'bg-[#E5A97C]/20', 'text-[#E5A97C]'); });
+      var btn = document.getElementById('alloy-' + alloy);
+      if (btn) btn.classList.add('active', 'border-[#E5A97C]', 'bg-[#E5A97C]/20', 'text-[#E5A97C]');
+
+      if (alloy === 'rosegold') {
+        targetAlloyColor = new THREE.Color(0xE5A97C); // 24K Rose Gold
+      } else if (alloy === 'platinum') {
+        targetAlloyColor = new THREE.Color(0xD1D5DB); // 950 Platinum Rhodium
+      } else if (alloy === 'titanium') {
+        targetAlloyColor = new THREE.Color(0x94A3B8); // Grade 5 Titanium
+      }
     }
-    function handleWatchCommission(e) {
-      e.preventDefault();
-      var btn = document.getElementById('commissionBtn');
-      btn.innerHTML = '&#x2713; COMMISSION TRANSMITTED';
-      btn.disabled = true;
-      btn.classList.remove('from-amber-500', 'via-amber-400', 'to-yellow-300');
-      btn.classList.add('bg-emerald-500', 'text-black');
-      document.getElementById('commissionSuccess').classList.remove('hidden');
+
+    // 3. ACOUSTIC 28,800 VPH TICKING SYNTHESIZER
+    var watchAudioCtx = null;
+    var tickActive = false;
+    var tickBtn = document.getElementById('tickAudioBtn');
+    if (tickBtn) {
+      tickBtn.addEventListener('click', function() {
+        if (!watchAudioCtx) {
+          watchAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (!tickActive) {
+          tickActive = true;
+          document.getElementById('tickAudioLabel').innerText = 'ESCAPEMENT TICKING';
+          playEscapementTick();
+        } else {
+          tickActive = false;
+          document.getElementById('tickAudioLabel').innerText = '28,800 VPH ACOUSTICS';
+        }
+      });
     }
-    window.addEventListener('DOMContentLoaded', function() { initWatchCalibre(); });
+
+    function playEscapementTick() {
+      if (!tickActive || !watchAudioCtx) return;
+      var osc = watchAudioCtx.createOscillator();
+      var gain = watchAudioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(3200, watchAudioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(800, watchAudioCtx.currentTime + 0.025);
+      gain.gain.setValueAtTime(0.05, watchAudioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, watchAudioCtx.currentTime + 0.025);
+      osc.connect(gain);
+      gain.connect(watchAudioCtx.destination);
+      osc.start();
+      osc.stop(watchAudioCtx.currentTime + 0.025);
+
+      // 4Hz = 250ms interval between ticks
+      setTimeout(playEscapementTick, 250);
+    }
+
+    // 4. OBSERVER
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal-watch').forEach(function(el) { obs.observe(el); });
+
+    window.addEventListener('DOMContentLoaded', initWatch3D);
   </script>
 </body>
 </html>
