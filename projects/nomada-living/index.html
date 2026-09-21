@@ -659,37 +659,51 @@
       bpGroup = new THREE.Group();
       bpScene.add(bpGroup);
 
+      // Level 01, 02, 03 CAD Blueprint Coordinate Vectors (Pure Vector Buffer Architecture)
+      function createCadLevel(w, h, d, ox, oy, oz, col, opacity) {
+        var pts = [];
+        var x0 = ox - w/2, x1 = ox + w/2;
+        var y0 = oy - h/2, y1 = oy + h/2;
+        var z0 = oz - d/2, z1 = oz + d/2;
+        // Perimeter Loops & Cantilever Trusses
+        pts.push(x0,y0,z0, x1,y0,z0,  x1,y0,z0, x1,y0,z1,  x1,y0,z1, x0,y0,z1,  x0,y0,z1, x0,y0,z0);
+        pts.push(x0,y1,z0, x1,y1,z0,  x1,y1,z0, x1,y1,z1,  x1,y1,z1, x0,y1,z1,  x0,y1,z1, x0,y1,z0);
+        pts.push(x0,y0,z0, x0,y1,z0,  x1,y0,z0, x1,y1,z0,  x1,y0,z1, x1,y1,z1,  x0,y0,z1, x0,y1,z1);
+        pts.push(x0,y0,z0, x1,y1,z0,  x1,y0,z1, x0,y1,z1);
+
+        var geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+        var mat = new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: opacity });
+        var line = new THREE.LineSegments(geo, mat);
+        bpGroup.add(line);
+        bpWireframes.push(line);
+        return line;
+      }
+
       // Level 01: Subterranean Granite Base
-      var l1Geo = new THREE.BoxGeometry(7, 1.2, 5);
-      var l1Wire = new THREE.WireframeGeometry(l1Geo);
-      var l1Mat = new THREE.LineBasicMaterial({ color: 0x38BDF8, transparent: true, opacity: 0.75 });
-      var l1Mesh = new THREE.LineSegments(l1Wire, l1Mat);
-      l1Mesh.position.y = -1.2;
-      bpGroup.add(l1Mesh);
-      bpWireframes.push(l1Mesh);
-
+      createCadLevel(7, 1.2, 5, 0, -1.2, 0, 0x38BDF8, 0.75);
       // Level 02: 18M Cantilever Living Pavilion (Highlighted in Gold)
-      var l2Geo = new THREE.BoxGeometry(9.5, 1.4, 4.5);
-      var l2Wire = new THREE.WireframeGeometry(l2Geo);
-      var l2Mat = new THREE.LineBasicMaterial({ color: 0xD4AF37, transparent: true, opacity: 0.95 });
-      var l2Mesh = new THREE.LineSegments(l2Wire, l2Mat);
-      l2Mesh.position.set(1.5, 0.2, 0);
-      bpGroup.add(l2Mesh);
-      bpWireframes.push(l2Mesh);
-
+      createCadLevel(9.5, 1.4, 4.5, 1.5, 0.2, 0, 0xD4AF37, 0.95);
       // Level 03: Upper Sky Sanctuary
-      var l3Geo = new THREE.BoxGeometry(5.5, 1.2, 4);
-      var l3Wire = new THREE.WireframeGeometry(l3Geo);
-      var l3Mat = new THREE.LineBasicMaterial({ color: 0x60A5FA, transparent: true, opacity: 0.75 });
-      var l3Mesh = new THREE.LineSegments(l3Wire, l3Mat);
-      l3Mesh.position.set(-0.5, 1.6, 0);
-      bpGroup.add(l3Mesh);
-      bpWireframes.push(l3Mesh);
+      createCadLevel(5.5, 1.2, 4, -0.5, 1.6, 0, 0x60A5FA, 0.75);
 
-      // Mountain Cliff Contours Grid
-      var grid = new THREE.GridHelper(20, 24, 0x38BDF8, 0x1E293B);
-      grid.position.y = -1.8;
-      bpScene.add(grid);
+      // Alpine Topography Elevation Contour Splines (Smooth parametric curves)
+      var contourPts = [];
+      for (var ci = 0; ci < 8; ci++) {
+        var cy = -1.8 - (ci * 0.15);
+        var cr = 6 + (ci * 1.5);
+        for (var ca = 0; ca < 48; ca++) {
+          var a1 = (ca / 48) * Math.PI * 2;
+          var a2 = ((ca + 1) / 48) * Math.PI * 2;
+          var r1 = cr + Math.sin(a1 * 3) * 1.2 + Math.cos(a1 * 5) * 0.6;
+          var r2 = cr + Math.sin(a2 * 3) * 1.2 + Math.cos(a2 * 5) * 0.6;
+          contourPts.push(Math.cos(a1)*r1, cy, Math.sin(a1)*r1,  Math.cos(a2)*r2, cy, Math.sin(a2)*r2);
+        }
+      }
+      var cGeo = new THREE.BufferGeometry();
+      cGeo.setAttribute('position', new THREE.Float32BufferAttribute(contourPts, 3));
+      var cMat = new THREE.LineBasicMaterial({ color: 0x1E293B, transparent: true, opacity: 0.8 });
+      bpScene.add(new THREE.LineSegments(cGeo, cMat));
 
       // Mouse drag rotation
       canvas.addEventListener('mousedown', function(e) { bpDragging = true; bpMouseX = e.clientX; bpMouseY = e.clientY; });
