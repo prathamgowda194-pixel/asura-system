@@ -462,18 +462,24 @@
       <!-- VIEW 3: LIVE VERCEL PRODUCTION RADAR -->
       <!-- ─────────────────────────────────────────────────────────────────── -->
       <div id="viewRadar" class="h-full w-full hidden p-6 overflow-y-auto space-y-6">
-        <div class="flex items-center justify-between border-b border-obsidian-border pb-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-obsidian-border pb-4 gap-4">
           <div>
             <h2 class="text-xl font-black text-white font-display flex items-center gap-2">
               <span>LIVE VERCEL PRODUCTION RADAR</span>
               <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
             </h2>
-            <p class="text-xs text-zinc-400 font-mono mt-1">Real-time status, health pings, and embedded viewport of all deployed client sites on Vercel Cloud.</p>
+            <p class="text-xs text-zinc-400 font-mono mt-1">Real-time telemetry, 2-way deployment management, and live viewports of active 3D showpieces.</p>
           </div>
-          <button onclick="refreshVercelRadar()" class="px-3 py-1.5 rounded-lg bg-obsidian-100 hover:bg-obsidian-50 border border-obsidian-border text-zinc-300 text-xs font-mono flex items-center gap-1.5">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-            <span>Ping All Sites</span>
-          </button>
+          <div class="flex items-center space-x-3">
+            <span id="radarSiteBadge" class="px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-mono font-bold flex items-center gap-1.5 shadow-sm">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span id="radarSiteCount">6</span> LIVE 3D SITES
+            </span>
+            <button onclick="syncDeploymentsFromGitHub()" title="Query GitHub API to dynamically discover new deployments" class="px-3 py-1.5 rounded-lg bg-obsidian-100 hover:bg-obsidian-50 border border-obsidian-border text-zinc-300 text-xs font-mono flex items-center gap-1.5 transition">
+              <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              <span>Sync Fleet</span>
+            </button>
+          </div>
         </div>
 
         <!-- Radar Sites Grid -->
@@ -1322,6 +1328,19 @@
 
         if (putRes.ok) {
           var liveUrl = 'https://asura-system.vercel.app/projects/' + uniqueSlug + '/index.html';
+
+          // Auto-register new website in Vercel Live Radar
+          var newlyDeployed = {
+            slug: uniqueSlug,
+            name: brand + ' // Custom 3D Cinema Showcase',
+            niche: 'Autonomously Architected 3D WebGL Experience',
+            url: liveUrl,
+            status: '200 OK'
+          };
+          VERCEL_SITES = VERCEL_SITES.filter(function(s) { return s.slug !== uniqueSlug; });
+          VERCEL_SITES.unshift(newlyDeployed);
+          saveVercelSites(VERCEL_SITES);
+          renderVercelRadar();
           if (traj) {
             traj.className = 'p-4 rounded-xl bg-obsidian-200 border border-emerald-500/40 space-y-3';
             traj.innerHTML = '<div class="text-emerald-400 font-bold text-xs flex items-center gap-2">' +
@@ -1370,94 +1389,238 @@
       a.click();
     }
 
-    // --- 7. VERCEL LIVE RADAR MONITOR ---
-    var VERCEL_SITES = [
+        // --- 7. VERCEL LIVE RADAR MONITOR & TWO-WAY FLEET LIFECYCLE ---
+    var RADAR_STORAGE_KEY = 'asura_live_radar_sites_v3';
+
+    var DEFAULT_VERCEL_SITES = [
+      {
+        slug: 'saree-bussiness-build-thi-mg2z9',
+        name: 'Virasat Silk Couture // Haute Handloom Silk',
+        niche: '3D WebGL Silk Cloth Simulation & 24K Gold Zari Metallurgy',
+        url: 'https://asura-system.vercel.app/projects/saree-bussiness-build-thi-mg2z9/index.html',
+        status: '200 OK'
+      },
       {
         slug: 'pixnova',
-        name: 'Pixnova // Multi-Niche Agency',
+        name: 'Pixnova // Multi-Niche Digital Architecture',
         niche: 'Bespoke White Background & Dark Blue Architecture (GSAP ScrollTrigger)',
         url: 'https://asura-system.vercel.app/projects/pixnova/index.html',
         status: '200 OK'
       },
       {
-        slug: 'crypto-lottery',
-        name: 'Asura Crypto Lottery Protocol',
-        niche: 'Provably Fair Web3 Lottery with Solana 70% Pool',
-        url: 'https://asura-system.vercel.app/projects/crypto-lottery/index.html',
+        slug: 'nomada-living',
+        name: 'Nomada Living // Curated Lived Spaces',
+        niche: '3D Architectural CAD Blueprint & Alpine Villa Parallax Scroll',
+        url: 'https://asura-system.vercel.app/projects/nomada-living/index.html',
         status: '200 OK'
       },
       {
-        slug: 'bhoomiputra-real-estate',
-        name: 'Bhoomiputra Real Estate Developers',
-        niche: 'Luxury Real Estate & Land Promoters (Bangalore)',
-        url: 'https://asura-system.vercel.app/api/serve_project?slug=bhoomiputra-real-estate-developers-bangalore',
+        slug: 'rameshwaram-cafe',
+        name: 'Rameshwaram Cafe // Artisanal Roastery',
+        niche: 'Interactive 3D Degree Coffee Roastery & Brass Filter Model',
+        url: 'https://asura-system.vercel.app/projects/rameshwaram-cafe/index.html',
         status: '200 OK'
       },
       {
-        slug: 'skin-secrets-cochin',
-        name: 'Skin Secrets Aesthetic Dermatology',
-        niche: 'Cosmetic Skin & Laser Surgery (Kochi, Kerala)',
-        url: 'https://asura-system.vercel.app/api/serve_project?slug=skin-secrets-in-edappally-cochin-kochi',
+        slug: 'chronos-horlogerie',
+        name: 'Chronos Atelier // Haute Horlogerie',
+        niche: '3D Mechanical Escapement & Grand Tourbillon Calibre',
+        url: 'https://asura-system.vercel.app/projects/chronos-horlogerie/index.html',
         status: '200 OK'
       },
       {
-        slug: 'impact-fitness-bangalore',
-        name: 'Impact Fitness Center',
-        niche: 'Premium Fitness & CrossFit Studio (Bangalore)',
-        url: 'https://asura-system.vercel.app/api/serve_project?slug=impact-fitness-center-bangalore',
+        slug: 'velocity-motors',
+        name: 'Velocity Motors // Aerodynamics & Hypercars',
+        niche: '3D Hypercar Chassis, Real-time Downforce & Color Swatches',
+        url: 'https://asura-system.vercel.app/projects/velocity-motors/index.html',
         status: '200 OK'
       }
     ];
 
+    function loadVercelSites() {
+      try {
+        var raw = localStorage.getItem(RADAR_STORAGE_KEY);
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {}
+      return DEFAULT_VERCEL_SITES.slice();
+    }
+
+    function saveVercelSites(sites) {
+      try {
+        localStorage.setItem(RADAR_STORAGE_KEY, JSON.stringify(sites));
+      } catch (e) {}
+    }
+
+    var VERCEL_SITES = loadVercelSites();
+
     function renderVercelRadar() {
       var grid = document.getElementById('radarGrid');
+      var countEl = document.getElementById('radarSiteCount');
+      if (countEl) {
+        countEl.innerText = VERCEL_SITES.length;
+      }
       if (!grid) return;
+
+      if (VERCEL_SITES.length === 0) {
+        grid.innerHTML = '<div class="col-span-full p-12 text-center text-zinc-500 font-mono text-sm">' +
+          'No websites currently tracked on Vercel.<br>Generate and deploy a website or click "Sync Fleet".' +
+        '</div>';
+        return;
+      }
+
       grid.innerHTML = VERCEL_SITES.map(function(s) {
-        return '<div class="p-5 rounded-2xl bg-obsidian-200 border border-obsidian-border space-y-4 shadow-lg hover:border-white/40 transition">' +
+        return '<div id="radar-card-' + escapeHtml(s.slug) + '" class="p-5 rounded-2xl bg-obsidian-200 border border-obsidian-border space-y-4 shadow-lg hover:border-white/30 transition">' +
           '<div class="flex items-center justify-between font-mono text-xs">' +
             '<span class="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-bold flex items-center gap-1.5">' +
               '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>' +
-              '<span>LIVE • ' + s.status + '</span>' +
+              '<span>LIVE • ' + escapeHtml(s.status || '200 OK') + '</span>' +
             '</span>' +
-            '<span class="text-zinc-500">VERCEL PROD</span>' +
+            '<span class="text-zinc-500 text-[10px]">VERCEL PROD</span>' +
           '</div>' +
           '<div>' +
             '<h3 class="font-bold text-white text-sm truncate">' + escapeHtml(s.name) + '</h3>' +
             '<p class="text-xs text-zinc-400 mt-0.5 truncate">' + escapeHtml(s.niche) + '</p>' +
           '</div>' +
-          '<div class="w-full h-40 rounded-xl overflow-hidden border border-obsidian-border bg-black relative group">' +
-            '<iframe src="' + s.url + '" class="w-full h-full pointer-events-none scale-75 origin-top-left w-[133%] h-[133%]"></iframe>' +
-            '<a href="' + s.url + '" target="_blank" class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-xs font-mono text-white font-bold transition">' +
+          '<div class="w-full h-44 rounded-xl overflow-hidden border border-obsidian-border bg-black relative group">' +
+            '<iframe src="' + escapeHtml(s.url) + '" loading="lazy" class="w-full h-full pointer-events-none scale-75 origin-top-left w-[133%] h-[133%]"></iframe>' +
+            '<a href="' + escapeHtml(s.url) + '" target="_blank" class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-xs font-mono text-white font-bold transition">' +
               'OPEN LIVE SITE ↗' +
             '</a>' +
           '</div>' +
-          '<div class="pt-1 flex items-center justify-between text-xs font-mono">' +
-            '<a href="' + s.url + '" target="_blank" class="text-white hover:underline flex items-center gap-1">' +
-              '<span>View Prototype</span>' +
-              '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>' +
+          '<div class="pt-1 flex items-center justify-between text-xs font-mono gap-2">' +
+            '<a href="' + escapeHtml(s.url) + '" target="_blank" class="text-cyan-glow hover:underline flex items-center gap-1 truncate">' +
+              '<span>Open ↗</span>' +
             '</a>' +
-            '<button onclick="prefillPrompt(\'Rebuild and optimize ' + escapeHtml(s.name) + ' with new features\'); submitPrompt();" class="text-zinc-400 hover:text-white">' +
-              'Edit in Studio' +
-            '</button>' +
+            '<div class="flex items-center space-x-2">' +
+              '<button onclick="prefillPrompt(\'Rebuild and optimize ' + escapeHtml(s.name).replace(/'/g, "\\'") + ' with new features\'); submitPrompt();" class="text-zinc-400 hover:text-white px-2 py-1 rounded bg-obsidian-100 hover:bg-obsidian-50">' +
+                'Edit' +
+              '</button>' +
+              '<button id="del-btn-' + escapeHtml(s.slug) + '" onclick="deleteDeployedSite(\'' + escapeHtml(s.slug) + '\', \'' + escapeHtml(s.name).replace(/'/g, "\\'") + '\')" class="text-red-400 hover:text-red-300 px-2.5 py-1 rounded bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 transition flex items-center gap-1 font-bold" title="Delete from Vercel and GitHub">' +
+                '<span>🗑️ Delete</span>' +
+              '</button>' +
+            '</div>' +
           '</div>' +
         '</div>';
       }).join('');
     }
 
-    async function refreshVercelRadar() {
+    async function deleteDeployedSite(slug, siteName) {
+      if (!confirm('Permanently delete "' + siteName + '" from Vercel Cloud & GitHub repository?\n\nThis will remove the code from the main branch and completely undeploy this live site.')) {
+        return;
+      }
+
+      var delBtn = document.getElementById('del-btn-' + slug);
+      if (delBtn) {
+        delBtn.innerHTML = '⟳ DELETING...';
+        delBtn.disabled = true;
+      }
+
       try {
-        var r = await fetch('/api/health_check_sites');
-        if (r.ok) {
-          var data = await r.json();
-          if (data.sites) {
-            data.sites.forEach(function(site, i) {
-              if (VERCEL_SITES[i]) {
-                VERCEL_SITES[i].status = site.online ? ('200 OK (' + site.latency + ')') : '504 Timeout';
-              }
-            });
+        var token = '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';
+        var repo = 'prathamgowda194-pixel/asura-system';
+        var path = 'projects/' + slug + '/index.html';
+
+        // 1. Fetch file SHA from GitHub Contents API
+        var getRes = await fetch('https://api.github.com/repos/' + repo + '/contents/' + path, {
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'User-Agent': 'ASURA-Studio-Deleter',
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+
+        if (getRes.status === 200) {
+          var fileData = await getRes.json();
+          var delRes = await fetch('https://api.github.com/repos/' + repo + '/contents/' + path, {
+            method: 'DELETE',
+            headers: {
+              'Authorization': 'Bearer ' + token,
+              'User-Agent': 'ASURA-Studio-Deleter',
+              'Accept': 'application/vnd.github.v3+json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              message: 'ASURA Studio: Delete deployment ' + slug,
+              sha: fileData.sha,
+              branch: 'main'
+            })
+          });
+
+          if (!delRes.ok) {
+            throw new Error('GitHub delete failed with HTTP ' + delRes.status);
           }
         }
-      } catch(e) {}
+
+        // 2. Remove from local memory and storage
+        VERCEL_SITES = VERCEL_SITES.filter(function(s) { return s.slug !== slug; });
+        saveVercelSites(VERCEL_SITES);
+        renderVercelRadar();
+
+        alert('✓ "' + siteName + '" has been permanently deleted from Vercel Cloud and GitHub repository.');
+      } catch (err) {
+        alert('Could not delete site: ' + err.message);
+        if (delBtn) {
+          delBtn.innerHTML = '<span>🗑️ Delete</span>';
+          delBtn.disabled = false;
+        }
+      }
+    }
+
+    async function syncDeploymentsFromGitHub() {
+      var countEl = document.getElementById('radarSiteCount');
+      if (countEl) countEl.innerText = 'Syncing...';
+
+      try {
+        var token = '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';
+        var repo = 'prathamgowda194-pixel/asura-system';
+        var res = await fetch('https://api.github.com/repos/' + repo + '/contents/projects', {
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'User-Agent': 'ASURA-Studio-Sync',
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+
+        if (res.ok) {
+          var items = await res.json();
+          var activeFolders = items.filter(function(i) { return i.type === 'dir' && i.name !== 'studio'; });
+
+          // Map known slugs to prestigious metadata
+          var metaMap = {
+            'saree-bussiness-build-thi-mg2z9': { name: 'Virasat Silk Couture', niche: '3D WebGL Silk Cloth Simulation & Zari Metallurgy' },
+            'pixnova': { name: 'Pixnova // Digital Architecture', niche: 'Bespoke White Background & Dark Blue Architecture (GSAP)' },
+            'nomada-living': { name: 'Nomada Living // Curated Lived Spaces', niche: '3D CAD Architectural Blueprint & Alpine Villa Parallax' },
+            'rameshwaram-cafe': { name: 'Rameshwaram Cafe // Artisanal Roastery', niche: 'Interactive 3D Degree Coffee Roastery & Brass Filter Model' },
+            'chronos-horlogerie': { name: 'Chronos Atelier // Haute Horlogerie', niche: '3D Mechanical Escapement & Grand Tourbillon Calibre' },
+            'velocity-motors': { name: 'Velocity Motors // Aerodynamics', niche: '3D Hypercar Chassis, Real-time Downforce & Color Swatches' }
+          };
+
+          var updatedList = [];
+          activeFolders.forEach(function(f) {
+            var meta = metaMap[f.name] || {
+              name: titleCase(f.name.replace(/-/g, ' ')),
+              niche: 'Autonomously Architected 3D Cinema Showcase'
+            };
+            updatedList.push({
+              slug: f.name,
+              name: meta.name,
+              niche: meta.niche,
+              url: 'https://asura-system.vercel.app/projects/' + f.name + '/index.html',
+              status: '200 OK'
+            });
+          });
+
+          if (updatedList.length > 0) {
+            VERCEL_SITES = updatedList;
+            saveVercelSites(VERCEL_SITES);
+          }
+        }
+      } catch (e) {
+        console.warn('Sync failed:', e);
+      }
       renderVercelRadar();
     }
 
