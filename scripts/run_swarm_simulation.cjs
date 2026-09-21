@@ -33,8 +33,8 @@ try {
 const HermesSwarmOrchestrator = require('../hermes_swarm/hermes_swarm_orchestrator.cjs');
 
 async function main() {
-  const brief = "Build landing page for High-End Watch Brand";
-  console.log(`🚀 Executing Hermes Swarm Simulation with brief: "${brief}"...\n`);
+  const brief = "Build landing page for Luxury Watch Brand";
+  console.log(`🚀 Executing Hermes Swarm Token-Efficient Simulation with brief: "${brief}"...\n`);
 
   const swarm = new HermesSwarmOrchestrator();
   const result = await swarm.run(brief);
@@ -51,7 +51,7 @@ async function main() {
   if (result.qaResult.status !== 'APPROVED') {
     throw new Error(`QA Audit failed with status: ${result.qaResult.status}`);
   }
-  console.log(`[VERIFICATION] All 5 Hermes agents completed successfully with QA score: ${result.qaResult.score}`);
+  console.log(`[VERIFICATION] All 6 Hermes agents completed sequentially with QA score: ${result.qaResult.score}`);
 }
 
 main().catch(err => {

@@ -1,10 +1,9 @@
 /**
  * ==============================================================================
- * BOT 1: HERMES-DIRECTOR (The Brain)
+ * BOT 1: HERMES-DIRECTOR (Gemini Flash - Low Frequency, High-Level Reasoning)
  * ==============================================================================
- * Model: Gemini 1.5 Flash (via process.env.GEMINI_API_KEY)
- * Role: Receives client brief. Decomposes it into technical specs. Assigns tasks to other bots.
- * Constraint: DOES NOT write code. Only plans, assigns tasks, and tracks state.
+ * Role: Summarizes briefs into concise bullet points & spec.json.
+ * Token Efficiency: Prunes conversational bloat, minimizing input token load downstream.
  */
 
 const HermesProtocol = require('./hermes_protocol.cjs');
@@ -16,74 +15,50 @@ class HermesDirector {
   }
 
   async decomposeBrief(brief) {
-    HermesProtocol.log(this.name, `Received client brief: "${brief}"`);
+    HermesProtocol.log(this.name, `Received brief: "${brief}". Pruning conversational context for downstream bots...`);
 
-    // Parse brand name from prompt
+    const inputTokens = HermesProtocol.estimateTokens(brief);
+
+    // Extract brand name
     let brandName = "Chronos Atelier";
     const brandMatch = brief.match(/(?:named|called|for)\s+([A-Za-z0-9\s'&]+?)(?=(?:\s+(?:who|which|that|with|in|for|and|to|featuring)\b|[.,!?;]|$))/i);
     if (brandMatch && brandMatch[1].trim()) {
       brandName = brandMatch[1].trim();
     } else if (/watch|horology/i.test(brief)) {
       brandName = "Chronos Atelier";
-    } else if (/coffee|cafe|roast/i.test(brief)) {
+    } else if (/coffee|cafe/i.test(brief)) {
       brandName = "Artisan Roastery";
     }
 
     // Determine niche
     let niche = "luxury_watch";
-    if (/coffee|cafe|roast|dining|bistro/i.test(brief)) niche = "artisan_coffee";
-    if (/car|auto|supercar|motors/i.test(brief)) niche = "hypercar_automotive";
-    if (/estate|villa|architecture/i.test(brief)) niche = "luxury_real_estate";
+    if (/coffee|cafe|roast|dining/i.test(brief)) niche = "artisan_coffee";
+    if (/car|auto|supercar/i.test(brief)) niche = "hypercar_automotive";
+    if (/estate|villa/i.test(brief)) niche = "luxury_real_estate";
 
-    HermesProtocol.log(this.name, `Decomposed specifications for brand "${brandName}" in niche "${niche}".`);
-
-    // Task decomposition
-    const taskPlan = {
+    // Build concise spec.json
+    const spec = {
       brandName,
       niche,
-      selectedMechanics: [
-        { id: "MECHANIC_5", name: "Scroll-Scrub Hero Zone", role: "Hero interactive film" },
-        { id: "MECHANIC_8", name: "Editorial Header & Giant Wordmark", role: "Difference-blend header & stroked footer" },
-        { id: "MECHANIC_1", name: "Pin-Parallax Sheets", role: "Cocoon intro content slides over sticky background" },
-        { id: "MECHANIC_6", name: "Horizontal Ride", role: "Horizontal product gallery mapped to vertical scroll" },
-        { id: "MECHANIC_2", name: "Full-Viewport Photo Chapters", role: "FLOWERS/SIM negative-margin storytelling scenes" },
-        { id: "MECHANIC_3", name: "Gradient Seam Fades", role: "Eliminate hard section cuts with linear gradient overlays" },
-        { id: "MECHANIC_4", name: "Brand-Hue Washes", role: "Atmospheric depth blur behind content" },
-        { id: "MECHANIC_7", name: "Reveal System", role: "IntersectionObserver entrance scaling and stagger" }
-      ],
-      delegations: {
-        archivistTask: {
-          action: "FETCH_GITHUB_COMPONENTS",
-          repos: [
-            "shadcn-ui-mcp-server",
-            "gsap-master",
-            "frontend-design",
-            "ui-ux-pro-max",
-            "design-taste-frontend",
-            "21st.dev Magic MCP"
-          ],
-          targetElements: ["ProductCard", "EditorialNavbar", "ParallaxTimeline", "BentoGrid"]
-        },
-        forgeTask: {
-          action: "GENERATE_HOOK_FIRST_ASSETS",
-          niche,
-          brandName,
-          visualNeeds: ["hero_video_macro", "chapter_1_image", "chapter_2_image", "product_packshots"]
-        },
-        builderTask: {
-          action: "ASSEMBLE_CINEMA_WEBSITE",
-          doctrine: "ASURA_CORE_MECHANICS.md",
-          mandatoryComments: true
-        },
-        qaTask: {
-          action: "ANTI_SLOP_AUDIT",
-          standards: ["NoPrimitives", "EditorialTypography", "BlurredBrandWash", "ScrollScrubLerp", "GradientSeams"]
-        }
+      palette: {
+        dark: "#09090b",
+        accent: "#D4AF37",
+        accentLight: "#fde68a",
+        border: "rgba(255,255,255,0.12)"
+      },
+      mechanics: ["M5_SCROLL_SCRUB", "M8_EDITORIAL_HEADER", "M1_PIN_PARALLAX", "M6_HORIZONTAL_RIDE", "M2_PHOTO_CHAPTERS", "M3_GRADIENT_SEAMS", "M4_BRAND_WASH", "M7_REVEAL"],
+      assetNeeds: {
+        hero: "macro_mechanical_escapement",
+        chapters: ["escapement_craft", "titanium_architecture"],
+        gallery: 4
       }
     };
 
-    HermesProtocol.log(this.name, `Assigned tasks to ARCHIVIST, FORGE, BUILDER, and QA.`);
-    return taskPlan;
+    const outputTokens = HermesProtocol.estimateTokens(spec);
+    HermesProtocol.logTokenUsage(this.name, inputTokens, outputTokens);
+    HermesProtocol.log(this.name, `Emitted pruned spec.json for "${brandName}" (${niche}). Assigned tasks sequentially.`);
+
+    return spec;
   }
 }
 

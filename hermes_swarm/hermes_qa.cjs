@@ -1,10 +1,9 @@
 /**
  * ==============================================================================
- * BOT 5: HERMES-QA (The Critic)
+ * BOT 6: HERMES-QA (Gemini Flash Vision - Token-Safe Anti-Slop Auditor)
  * ==============================================================================
- * Model: Gemini 1.5 Flash (via process.env.GEMINI_API_KEY)
- * Role: Reviews the built site against "Anti-Slop Laws" and "Supreme Mechanics".
- * Power: Can REJECT builds and send back to Builder/Director for revision.
+ * Role: Audits built site code/snapshot against Anti-Slop Laws.
+ * Token Efficiency: Reviews code diffs & structure with minimal text analysis. Max 2 retries.
  */
 
 const HermesProtocol = require('./hermes_protocol.cjs');
@@ -13,10 +12,13 @@ class HermesQA {
   constructor() {
     this.name = 'HERMES-QA';
     this.apiKey = process.env.GEMINI_API_KEY;
+    this.retryCount = 0;
+    this.maxRetries = 2;
   }
 
   auditWebsite(html) {
-    HermesProtocol.log(this.name, `Initiating strict Anti-Slop Audit on generated build...`);
+    const inputTokens = HermesProtocol.estimateTokens(html);
+    HermesProtocol.log(this.name, `Initiating Anti-Slop Audit (attempt ${this.retryCount + 1}/${this.maxRetries + 1})...`);
 
     const checks = [
       {
@@ -90,10 +92,18 @@ class HermesQA {
       checks
     };
 
+    const outputTokens = HermesProtocol.estimateTokens(result);
+    HermesProtocol.logTokenUsage(this.name, inputTokens, outputTokens);
+
     if (isApproved) {
       HermesProtocol.log(this.name, `Passed Audit. 100% Anti-Slop Compliant (${result.score} checks passed).`);
     } else {
-      HermesProtocol.log(this.name, `Audit FAILED. Rejected and returned to Director for remediation.`);
+      this.retryCount++;
+      if (this.retryCount > this.maxRetries) {
+        HermesProtocol.log(this.name, `Audit FAILED. Max retry limit (${this.maxRetries}) reached. Execution halted to preserve token budget.`);
+      } else {
+        HermesProtocol.log(this.name, `Audit FAILED. Returning error log to Builder for retry ${this.retryCount}/${this.maxRetries}.`);
+      }
     }
 
     return result;

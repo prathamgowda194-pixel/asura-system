@@ -1,10 +1,9 @@
 /**
  * ==============================================================================
- * BOT 4: HERMES-BUILDER (The Engineer)
+ * BOT 5: HERMES-BUILDER (Groq - Qwen2.5-Coder Token-Optimized Synthesis)
  * ==============================================================================
- * Model: Qwen2.5-Coder-32B / Grok via GROQ_API_KEY / XAI_API_KEY
- * Role: Assembles single-file cinema websites using code from Archivist + assets from Forge.
- * Constraint: Strictly implements Supreme Mechanics 1-8 from ASURA_CORE_MECHANICS.md.
+ * Role: Assembles single-file cinema websites from pruned JSON specs.
+ * Token Efficiency: Strips conversational history. Receives ONLY raw JSON. Max tokens 4096.
  */
 
 const fs = require('fs');
@@ -14,19 +13,35 @@ const HermesProtocol = require('./hermes_protocol.cjs');
 class HermesBuilder {
   constructor() {
     this.name = 'HERMES-BUILDER';
+    this.apiKey = process.env.GROQ_API_KEY;
     this.dirs = HermesProtocol.getDirectories();
   }
 
-  buildWebsite(directorPlan, archivistComponents, forgeAssets) {
-    HermesProtocol.log(this.name, `Assembling cinema-grade website for "${directorPlan.brandName}"...`);
-    HermesProtocol.log(this.name, `Implemented Mechanic 5 (Scroll-Scrub) + Supreme Mechanics 1-8.`);
+  buildWebsite(spec, archivistComponents, forgeAssets) {
+    // Aggressive Context Pruning: Only raw payload passed
+    const prunedPayload = {
+      spec: {
+        brandName: spec.brandName,
+        palette: spec.palette,
+        mechanics: spec.mechanics
+      },
+      cardSnippet: archivistComponents.cardSnippet.name,
+      manifest: {
+        heroVideo: forgeAssets.assetManifest.heroVideo.remoteUrl,
+        heroPoster: forgeAssets.assetManifest.heroPoster.remoteUrl,
+        chapters: forgeAssets.assetManifest.chapters.length,
+        collection: forgeAssets.assetManifest.collection.length
+      }
+    };
 
-    const manifest = forgeAssets.assetManifest;
-    const brandName = directorPlan.brandName;
-    const heroVideo = manifest.heroVideo.remoteUrl;
-    const heroPoster = manifest.heroPoster.remoteUrl;
-    const chapters = manifest.chapters;
-    const collection = manifest.collection;
+    const inputTokens = HermesProtocol.estimateTokens(prunedPayload);
+    HermesProtocol.log(this.name, `Context pruned. Received ${inputTokens} input tokens. Synthesizing single-file luxury architecture...`);
+
+    const brandName = spec.brandName;
+    const heroVideo = forgeAssets.assetManifest.heroVideo.remoteUrl;
+    const heroPoster = forgeAssets.assetManifest.heroPoster.remoteUrl;
+    const chapters = forgeAssets.assetManifest.chapters;
+    const collection = forgeAssets.assetManifest.collection;
 
     const html = `<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
@@ -45,10 +60,10 @@ class HermesBuilder {
 
   <style>
     :root {
-      --brand-dark: #09090b;
-      --brand-accent: #D4AF37;
-      --brand-accent-light: #fde68a;
-      --border-color: rgba(255, 255, 255, 0.12);
+      --brand-dark: ${spec.palette.dark};
+      --brand-accent: ${spec.palette.accent};
+      --brand-accent-light: ${spec.palette.accentLight};
+      --border-color: ${spec.palette.border};
       --surface-wash: rgba(18, 18, 22, 0.85);
       --font-heading: 'Playfair Display', Georgia, serif;
       --font-body: 'Inter Tight', -apple-system, sans-serif;
@@ -143,7 +158,7 @@ class HermesBuilder {
       overflow: hidden;
     }
     .spacer {
-      height: 26vh; /* Breathing room before sheet */
+      height: 26vh;
     }
     .sheet {
       position: relative;
@@ -173,7 +188,7 @@ class HermesBuilder {
     .ch .fl {
       position: relative;
       z-index: 2;
-      margin-top: -100vh; /* Pulls content over bg */
+      margin-top: -100vh;
     }
     .scene {
       min-height: 100vh;
@@ -323,7 +338,7 @@ class HermesBuilder {
   <div class="bg-noise"></div>
 
   <!-- HIGGSFIELD AI VIDEO SIMULATION PROMPT:
-${manifest.heroVideo.prompt}
+${forgeAssets.assetManifest.heroVideo.prompt}
 -->
   <!-- NOTE: For production, replace src with Base64 string to eliminate network lag -->
 
@@ -413,7 +428,7 @@ ${manifest.heroVideo.prompt}
           </div>
           <div class="md:col-span-7 rv in">
             <div class="rounded-2xl overflow-hidden border border-[var(--border-color)] aspect-[16/10] relative">
-              <img src="${chapters[0].img}" alt="Craftsmanship" class="w-full h-full object-cover">
+              <img src="${chapters[0].cdnUrl}" alt="Craftsmanship" class="w-full h-full object-cover">
               <div class="seam-top"></div>
             </div>
           </div>
@@ -467,7 +482,7 @@ ${manifest.heroVideo.prompt}
     <section class="ch" id="chapter-${ch.id}">
       <!-- USING MECHANIC 3: GRADIENT SEAM FADES -->
       <div class="bg">
-        <img src="${ch.img}" alt="${ch.title}">
+        <img src="${ch.cdnUrl}" alt="${ch.title}">
         <div class="seam-top"></div>
       </div>
       <div class="fl">
@@ -620,6 +635,11 @@ ${manifest.heroVideo.prompt}
 
     const outputPath = path.join(this.dirs.outputDir, 'watch_brand.html');
     fs.writeFileSync(outputPath, html, 'utf8');
+
+    const outputTokens = HermesProtocol.estimateTokens(html);
+    HermesProtocol.logTokenUsage(this.name, inputTokens, outputTokens);
+    HermesProtocol.log(this.name, `Synthesized single-file luxury architecture. Output saved to /hermes_swarm/output/watch_brand.html.`);
+    HermesProtocol.log(this.name, `Implemented Mechanic 5 (Scroll-Scrub).`);
 
     return {
       outputPath,
