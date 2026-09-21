@@ -11,9 +11,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Three.js for Real 3D Architectural Monolith Model -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  
   <!-- Lenis Smooth Scroll Engine -->
   <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.26/dist/lenis.css">
   <script src="https://unpkg.com/lenis@1.3.26/dist/lenis.min.js"></script>
@@ -35,18 +32,20 @@
     .font-mono { font-family: 'Space Grotesk', monospace; }
 
     .glass-monolith {
-      background: rgba(15, 17, 24, 0.75);
+      background: rgba(15, 17, 24, 0.82);
       border: 1px solid rgba(201, 171, 122, 0.25);
-      backdrop-filter: blur(18px);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
     }
 
-    /* 3D Kinetic Card Perspective */
+    /* 3D Kinetic Card Perspective & Glare */
     .tilt-card {
       transform-style: preserve-3d;
       will-change: transform;
       position: relative;
       overflow: hidden;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
     .card-glare {
       position: absolute; inset: 0; pointer-events: none; opacity: 0;
@@ -54,15 +53,15 @@
       border-radius: inherit;
     }
     .card-depth-content {
-      transform: translateZ(30px);
+      transform: translateZ(28px);
       transform-style: preserve-3d;
     }
 
     /* Variation Switcher Bar */
     .switcher-bar {
       position: fixed; top: 16px; right: 20px; z-index: 9999;
-      display: flex; gap: 6px; background: rgba(15,17,24,0.9);
-      padding: 6px 10px; border-radius: 999px; backdrop-filter: blur(10px);
+      display: flex; gap: 6px; background: rgba(15,17,24,0.92);
+      padding: 6px 10px; border-radius: 999px; backdrop-filter: blur(12px);
       border: 1px solid rgba(201,171,122,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
     .sw-btn {
@@ -72,17 +71,20 @@
     .sw-btn.active { background: #C9AB7A; color: #07080d; font-weight: 700; }
     .sw-btn:hover:not(.active) { background: rgba(255,255,255,0.1); }
 
-    /* Custom 3D Model Viewport */
-    #monolith3DContainer {
-      width: 100%;
-      height: 480px;
-      border-radius: 1.5rem;
-      position: relative;
-      cursor: grab;
-      overflow: hidden;
-      background: radial-gradient(circle at center, #12151f 0%, #06070a 100%);
+    /* Custom Chapter Transition Animation */
+    .chapter-pane {
+      transition: opacity 0.4s ease, transform 0.4s ease;
     }
-    #monolith3DContainer:active { cursor: grabbing; }
+    .chapter-pane.hidden-pane {
+      display: none;
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    .chapter-pane.active-pane {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body class="selection:bg-[#c9ab7a] selection:text-black">
@@ -97,27 +99,29 @@
   <!-- Background WebGL Ambient Gravitational Particle Canvas -->
   <canvas id="ambientCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
 
-  <!-- Navigation Pill -->
-  <header class="fixed top-6 left-1/2 -translate-x-1/2 z-50">
-    <nav class="glass-monolith px-6 py-2.5 rounded-full flex items-center gap-6 sm:gap-8 shadow-2xl">
-      <span class="font-cinzel text-lg tracking-widest text-[#c9ab7a]">KAGE // MONOLITH</span>
-      <div class="hidden md:flex items-center gap-6 text-xs uppercase tracking-widest text-zinc-400">
+  <!-- Navigation Pill (Fixed with Safe Spacing & High Z-Index) -->
+  <header class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-auto max-w-[95vw]">
+    <nav class="glass-monolith px-6 py-2.5 rounded-full flex items-center gap-5 sm:gap-7 shadow-2xl">
+      <span class="font-cinzel text-base sm:text-lg tracking-widest text-[#c9ab7a] whitespace-nowrap">KAGE // MONOLITH</span>
+      <div class="hidden lg:flex items-center gap-5 text-xs uppercase tracking-widest text-zinc-400">
         <a href="#hero" class="hover:text-white transition">Sanctuary</a>
         <a href="#parcels" class="hover:text-white transition">Quadrant</a>
-        <a href="#model3d" class="hover:text-white transition">3D Villa Monolith</a>
-        <a href="#cad" class="hover:text-white transition">CAD Telemetry</a>
+        <a href="#chapters" class="hover:text-white transition">Spatial Walkthrough</a>
+        <a href="#materiality" class="hover:text-white transition">Materiality</a>
+        <a href="#amenities" class="hover:text-white transition">Amenities</a>
+        <a href="#acquisition" class="hover:text-white transition">Acquisition</a>
       </div>
-      <button onclick="toggleAudio()" id="audioBtn" class="px-4 py-1.5 rounded-full bg-[#c9ab7a]/10 border border-[#c9ab7a]/30 text-[#c9ab7a] text-xs uppercase tracking-wider hover:bg-[#c9ab7a] hover:text-black transition flex items-center gap-2">
+      <button onclick="toggleAudio()" id="audioBtn" class="px-3.5 py-1.5 rounded-full bg-[#c9ab7a]/10 border border-[#c9ab7a]/30 text-[#c9ab7a] text-xs uppercase tracking-wider hover:bg-[#c9ab7a] hover:text-black transition flex items-center gap-2 whitespace-nowrap">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" id="audioPulse"></span>
-        <span id="audioText">432Hz Sound</span>
+        <span id="audioText">432Hz Drone</span>
       </button>
     </nav>
   </header>
 
-  <!-- Hero Section -->
-  <section id="hero" class="relative w-full min-h-screen flex flex-col justify-end p-8 md:p-16 z-10 pt-32">
+  <!-- SECTION 1: CINEMA HERO -->
+  <section id="hero" class="relative w-full min-h-screen flex flex-col justify-end p-8 md:p-16 z-10 pt-44">
     <div class="absolute inset-0 z-0 overflow-hidden">
-      <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=85" alt="Monolith Estate" class="w-full h-full object-cover brightness-[0.38] scale-105 transition-transform duration-1000" id="heroImg" />
+      <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2400&q=85" alt="Monolith Estate" class="w-full h-full object-cover brightness-[0.36] scale-105 transition-transform duration-1000" id="heroImg" />
       <div class="absolute inset-0 bg-gradient-to-t from-[#07080d] via-[#07080d]/50 to-transparent"></div>
     </div>
 
@@ -126,61 +130,34 @@
         <span class="px-3.5 py-1 rounded-full border border-[#c9ab7a]/40 bg-[#c9ab7a]/10 text-[#c9ab7a] text-xs uppercase tracking-[0.25em]">
           Private Sovereign Enclave
         </span>
-        <span class="text-xs text-zinc-400 font-mono">LENIS VELOCITY SYNCED</span>
+        <span class="text-xs text-zinc-400 font-mono">LENIS VELOCITY INERTIA</span>
       </div>
 
       <h1 class="text-5xl md:text-7xl lg:text-8xl font-cinzel text-white leading-tight">
         Silence Sculpted in <span class="text-[#c9ab7a]">Obsidian</span>.
       </h1>
       <p class="text-zinc-400 text-sm md:text-base max-w-xl leading-relaxed">
-        Four cantilevered private residences carved into basalt sea cliffs. Triple-glazed acoustic panes, solar-harvesting volcanic stone slabs, and subterranean yacht drydocks.
+        Four cantilevered private residences carved into sheer volcanic basalt sea cliffs. Triple-glazed acoustic panes, solar-harvesting basalt slabs, and subterranean yacht drydocks.
       </p>
       
       <div class="pt-4 flex flex-wrap items-center gap-4">
-        <a href="#model3d" class="px-8 py-3.5 rounded-full bg-[#c9ab7a] text-black font-semibold text-xs uppercase tracking-widest hover:bg-white transition shadow-2xl">
-          Inspect 3D Monolith &rarr;
+        <a href="#parcels" class="px-8 py-3.5 rounded-full bg-[#c9ab7a] text-black font-semibold text-xs uppercase tracking-widest hover:bg-white transition shadow-2xl">
+          Inspect 4 Parcels &rarr;
         </a>
-        <a href="#parcels" class="px-8 py-3.5 rounded-full glass-monolith text-white font-semibold text-xs uppercase tracking-widest hover:border-[#c9ab7a] transition">
-          View 4 Parcels
+        <a href="#chapters" class="px-8 py-3.5 rounded-full glass-monolith text-white font-semibold text-xs uppercase tracking-widest hover:border-[#c9ab7a] transition">
+          Spatial Walkthrough
         </a>
         <span class="text-xs text-zinc-500 uppercase tracking-widest font-mono">LAT 43°42' N // ELEV +420m</span>
       </div>
     </div>
   </section>
 
-  <!-- LIVE 3D ARCHITECTURAL MONOLITH VIEWER (THREE.JS BESPOKE ENGINE) -->
-  <section id="model3d" class="relative z-10 max-w-7xl mx-auto py-20 px-6 md:px-12 space-y-8">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
-      <div class="space-y-2">
-        <span class="text-xs uppercase tracking-[0.3em] text-[#c9ab7a]">Interactive Kinetic 3D Model</span>
-        <h2 class="text-3xl md:text-5xl font-cinzel text-white">The Sovereign Cantilever Structure</h2>
-        <p class="text-xs text-zinc-400 max-w-lg">Drag with mouse to orbit 360°. Toggle wireframe and thermal mode to reveal structural shear cores and solar absorption envelopes.</p>
-      </div>
-
-      <!-- 3D Shader Controls -->
-      <div class="flex items-center gap-2 bg-black/60 border border-white/10 p-1.5 rounded-full">
-        <button onclick="set3DMode('obsidian')" id="btn3DObsidian" class="px-4 py-1.5 rounded-full text-xs font-mono bg-[#c9ab7a] text-black font-bold transition">Obsidian Stone</button>
-        <button onclick="set3DMode('wireframe')" id="btn3DWireframe" class="px-4 py-1.5 rounded-full text-xs font-mono text-zinc-400 hover:text-white transition">CAD X-Ray</button>
-        <button onclick="set3DMode('thermal')" id="btn3DThermal" class="px-4 py-1.5 rounded-full text-xs font-mono text-zinc-400 hover:text-white transition">Thermal Heatmap</button>
-      </div>
-    </div>
-
-    <!-- 3D Viewport -->
-    <div id="monolith3DContainer" class="border border-[#c9ab7a]/30 shadow-2xl">
-      <div class="absolute top-4 left-6 z-20 font-mono text-xs text-[#c9ab7a] tracking-widest pointer-events-none">
-        LIVE 3D GEOMETRY // 8,400 VERTICES // SHIELDED CONCRETE CORE
-      </div>
-      <div class="absolute bottom-4 right-6 z-20 font-mono text-[11px] text-zinc-400 pointer-events-none bg-black/70 px-3 py-1.5 rounded-lg border border-white/10">
-        [CLICK & DRAG TO ORBIT // AUTO-ROTATING]
-      </div>
-    </div>
-  </section>
-
-  <!-- 3D Gyroscopic Parcels Grid with Dynamic Glare -->
-  <section id="parcels" class="relative z-10 max-w-7xl mx-auto py-20 px-6 md:px-12 space-y-12">
+  <!-- SECTION 2: THE SOVEREIGN QUADRANT (PARCEL REGISTRY) -->
+  <section id="parcels" class="relative z-10 max-w-7xl mx-auto py-24 px-6 md:px-12 space-y-12">
     <div class="space-y-2">
-      <span class="text-xs uppercase tracking-[0.3em] text-[#c9ab7a]">Architectural Registry</span>
+      <span class="text-xs uppercase tracking-[0.3em] text-[#c9ab7a] font-mono">Architectural Registry</span>
       <h2 class="text-3xl md:text-5xl font-cinzel text-white">The Sovereign Quadrant</h2>
+      <p class="text-xs text-zinc-400 font-mono">Each parcel includes private helicopter approach corridors and deepwater marine moorings.</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -189,7 +166,7 @@
         <div class="card-glare"></div>
         <div class="aspect-[16/10] rounded-2xl overflow-hidden relative card-depth-content">
           <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85" alt="Parcel 01" class="w-full h-full object-cover transition duration-700 hover:scale-105" />
-          <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/75 text-[#c9ab7a] font-mono text-xs border border-[#c9ab7a]/30 backdrop-filter blur-sm">PARCEL 01</span>
+          <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/80 text-[#c9ab7a] font-mono text-xs border border-[#c9ab7a]/30">PARCEL 01</span>
         </div>
         <div class="flex justify-between items-end card-depth-content">
           <div>
@@ -205,7 +182,7 @@
         <div class="card-glare"></div>
         <div class="aspect-[16/10] rounded-2xl overflow-hidden relative card-depth-content">
           <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85" alt="Parcel 02" class="w-full h-full object-cover transition duration-700 hover:scale-105" />
-          <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/75 text-[#c9ab7a] font-mono text-xs border border-[#c9ab7a]/30 backdrop-filter blur-sm">PARCEL 02</span>
+          <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/80 text-[#c9ab7a] font-mono text-xs border border-[#c9ab7a]/30">PARCEL 02</span>
         </div>
         <div class="flex justify-between items-end card-depth-content">
           <div>
@@ -221,7 +198,7 @@
         <div class="card-glare"></div>
         <div class="aspect-[16/10] rounded-2xl overflow-hidden relative card-depth-content">
           <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=85" alt="Parcel 03" class="w-full h-full object-cover transition duration-700 hover:scale-105" />
-          <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/75 text-[#c9ab7a] font-mono text-xs border border-[#c9ab7a]/30 backdrop-filter blur-sm">PARCEL 03</span>
+          <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/80 text-[#c9ab7a] font-mono text-xs border border-[#c9ab7a]/30">PARCEL 03</span>
         </div>
         <div class="flex justify-between items-end card-depth-content">
           <div>
@@ -237,7 +214,7 @@
         <div class="card-glare"></div>
         <div class="aspect-[16/10] rounded-2xl overflow-hidden relative card-depth-content">
           <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=85" alt="Parcel 04" class="w-full h-full object-cover transition duration-700 hover:scale-105" />
-          <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/75 text-[#c9ab7a] font-mono text-xs border border-[#c9ab7a]/30 backdrop-filter blur-sm">PARCEL 04</span>
+          <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/80 text-[#c9ab7a] font-mono text-xs border border-[#c9ab7a]/30">PARCEL 04</span>
         </div>
         <div class="flex justify-between items-end card-depth-content">
           <div>
@@ -250,32 +227,227 @@
     </div>
   </section>
 
-  <!-- Interactive CAD Blueprint Telemetry -->
-  <section id="cad" class="relative z-10 max-w-7xl mx-auto py-16 px-6 md:px-12 border-t border-white/10 space-y-8">
-    <div class="flex items-center justify-between">
+  <!-- SECTION 3: SPATIAL WALKTHROUGH & PAVILION CHAPTERS (BESPOKE CARD TRANSITIONS) -->
+  <section id="chapters" class="relative z-10 max-w-7xl mx-auto py-24 px-6 md:px-12 space-y-10 border-t border-white/10">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
       <div>
-        <span class="text-xs uppercase tracking-[0.3em] text-[#c9ab7a]">Micron CAD Telemetry</span>
-        <h2 class="text-3xl font-cinzel text-white">Level 02 Executive Floorplan</h2>
+        <span class="text-xs uppercase tracking-[0.3em] text-[#c9ab7a] font-mono">Architectural Flow</span>
+        <h2 class="text-3xl md:text-5xl font-cinzel text-white mt-1">Spatial Walkthrough</h2>
+        <p class="text-xs text-zinc-400 font-mono mt-2">Select a living chapter to inspect the interior volumes, light angles, and materials.</p>
       </div>
-      <span class="text-xs font-mono text-zinc-400">Scale: 1:50 Metric // Live Sensor Feed</span>
+
+      <!-- Tab Switchers -->
+      <div class="flex items-center gap-2 bg-black/60 border border-white/15 p-1.5 rounded-full flex-wrap">
+        <button onclick="switchChapter(1)" id="tab1" class="px-4 py-2 rounded-full text-xs font-mono bg-[#c9ab7a] text-black font-bold transition">01 Cantilever Pavilion</button>
+        <button onclick="switchChapter(2)" id="tab2" class="px-4 py-2 rounded-full text-xs font-mono text-zinc-400 hover:text-white transition">02 Horizon Pool Deck</button>
+        <button onclick="switchChapter(3)" id="tab3" class="px-4 py-2 rounded-full text-xs font-mono text-zinc-400 hover:text-white transition">03 Subterranean Crypt</button>
+      </div>
     </div>
 
-    <div class="relative glass-monolith rounded-3xl p-8 overflow-hidden aspect-[21/9] flex items-center justify-center border border-[#c9ab7a]/30">
-      <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1800&q=85" alt="CAD Blueprint" class="absolute inset-0 w-full h-full object-cover opacity-25 filter invert" />
-      <div class="relative z-10 text-center space-y-4">
-        <div class="flex items-center justify-center gap-2">
-          <span class="w-3 h-3 rounded-full bg-[#c9ab7a] inline-block animate-ping"></span>
-          <span class="text-sm font-mono uppercase tracking-widest text-[#c9ab7a]">CAD SENSOR TELEMETRY LIVE</span>
+    <!-- Chapter 1 Pane -->
+    <div id="chapter1" class="chapter-pane active-pane glass-monolith rounded-3xl p-8 md:p-12 space-y-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div class="space-y-4">
+          <span class="text-xs font-mono text-[#c9ab7a] uppercase tracking-widest">CHAPTER 01 // MAIN VOLUMETRIC LIVING</span>
+          <h3 class="text-3xl md:text-4xl font-cinzel text-white">The Grand Cantilever Pavilion</h3>
+          <p class="text-sm text-zinc-400 leading-relaxed">
+            Projecting 6.2 meters over the cliff edge with no visible vertical columns. The 18-meter motorized glass doors slide completely into basalt wall pockets, creating an unbroken transition between the heated indoor limestone lounge and the ocean breeze.
+          </p>
+          <div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/10 text-xs font-mono">
+            <div>
+              <span class="text-zinc-500 block">CEILING HEIGHT</span>
+              <span class="text-white text-base font-cinzel">4.6m Clear</span>
+            </div>
+            <div>
+              <span class="text-zinc-500 block">ACOUSTIC RATING</span>
+              <span class="text-white text-base font-cinzel">STC 62 Silent</span>
+            </div>
+          </div>
         </div>
-        <div class="text-2xl font-cinzel text-white">Structural Shear Cores: 100% Calibrated</div>
-        <p class="text-xs text-zinc-400 max-w-md mx-auto font-mono">
-          Geothermal thermal loop: 21.4°C // Wind velocity load resistance: 220 km/h // Seismic dampening: Grade 9.0
+        <div class="rounded-2xl overflow-hidden aspect-[16/10] border border-white/10">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1400&q=85" alt="Cantilever Pavilion" class="w-full h-full object-cover" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter 2 Pane -->
+    <div id="chapter2" class="chapter-pane hidden-pane glass-monolith rounded-3xl p-8 md:p-12 space-y-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div class="space-y-4">
+          <span class="text-xs font-mono text-[#c9ab7a] uppercase tracking-widest">CHAPTER 02 // OUTDOOR GEOMETRY</span>
+          <h3 class="text-3xl md:text-4xl font-cinzel text-white">Heated Ocean Horizon Pool Deck</h3>
+          <p class="text-sm text-zinc-400 leading-relaxed">
+            A 24-meter black titanium-lined infinity pool heated year-round via closed-loop geothermal coils. The water surface aligns with the sea horizon, creating the visual illusion of floating over the Atlantic expanse.
+          </p>
+          <div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/10 text-xs font-mono">
+            <div>
+              <span class="text-zinc-500 block">WATER TEMPERATURE</span>
+              <span class="text-white text-base font-cinzel">32°C Geothermal</span>
+            </div>
+            <div>
+              <span class="text-zinc-500 block">DECKING SLAB</span>
+              <span class="text-white text-base font-cinzel">Honed Basalt</span>
+            </div>
+          </div>
+        </div>
+        <div class="rounded-2xl overflow-hidden aspect-[16/10] border border-white/10">
+          <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1400&q=85" alt="Horizon Pool Deck" class="w-full h-full object-cover" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter 3 Pane -->
+    <div id="chapter3" class="chapter-pane hidden-pane glass-monolith rounded-3xl p-8 md:p-12 space-y-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div class="space-y-4">
+          <span class="text-xs font-mono text-[#c9ab7a] uppercase tracking-widest">CHAPTER 03 // SUBTERRANEAN SANCTUARY</span>
+          <h3 class="text-3xl md:text-4xl font-cinzel text-white">Subterranean Basalt Wine Crypt</h3>
+          <p class="text-sm text-zinc-400 leading-relaxed">
+            Carved directly into the basalt rock 14 meters below sea level. Maintains an organic year-round temperature of 13.5°C and 68% relative humidity, housing up to 3,200 premier allocations behind 40mm biometric security glass.
+          </p>
+          <div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/10 text-xs font-mono">
+            <div>
+              <span class="text-zinc-500 block">CAPACITY</span>
+              <span class="text-white text-base font-cinzel">3,200 Bottles</span>
+            </div>
+            <div>
+              <span class="text-zinc-500 block">SUBTERRANEAN DEPTH</span>
+              <span class="text-white text-base font-cinzel">-14m Sub-Sea</span>
+            </div>
+          </div>
+        </div>
+        <div class="rounded-2xl overflow-hidden aspect-[16/10] border border-white/10">
+          <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1400&q=85" alt="Wine Crypt" class="w-full h-full object-cover" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: MONOLITH METALLURGY & GEOLOGICAL SLABS -->
+  <section id="materiality" class="relative z-10 max-w-7xl mx-auto py-24 px-6 md:px-12 space-y-12 border-t border-white/10">
+    <div class="space-y-2">
+      <span class="text-xs uppercase tracking-[0.3em] text-[#c9ab7a] font-mono">Elemental Composition</span>
+      <h2 class="text-3xl md:text-5xl font-cinzel text-white">Monolith Materiality</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div class="tilt-card glass-monolith rounded-2xl p-6 space-y-4">
+        <div class="card-glare"></div>
+        <div class="h-32 rounded-xl overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=800&q=80" alt="Volcanic Basalt" class="w-full h-full object-cover" />
+        </div>
+        <span class="text-xs font-mono text-[#c9ab7a] block">MATERIAL 01</span>
+        <h4 class="text-xl font-cinzel text-white">Volcanic Basalt</h4>
+        <p class="text-xs text-zinc-400 leading-relaxed">Flame-textured basalt stone with zero porosity. Absorbs solar radiation and acts as a passive geothermal thermal radiator.</p>
+      </div>
+
+      <div class="tilt-card glass-monolith rounded-2xl p-6 space-y-4">
+        <div class="card-glare"></div>
+        <div class="h-32 rounded-xl overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80" alt="Anodized Black Titanium" class="w-full h-full object-cover" />
+        </div>
+        <span class="text-xs font-mono text-[#c9ab7a] block">MATERIAL 02</span>
+        <h4 class="text-xl font-cinzel text-white">Blackened Titanium</h4>
+        <p class="text-xs text-zinc-400 leading-relaxed">Aerospace-grade Grade 5 titanium facade cladding with non-reflective PVD matte finish. Impervious to salt air corrosion.</p>
+      </div>
+
+      <div class="tilt-card glass-monolith rounded-2xl p-6 space-y-4">
+        <div class="card-glare"></div>
+        <div class="h-32 rounded-xl overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80" alt="Acoustic Triple Glazing" class="w-full h-full object-cover" />
+        </div>
+        <span class="text-xs font-mono text-[#c9ab7a] block">MATERIAL 03</span>
+        <h4 class="text-xl font-cinzel text-white">Triple Glazing</h4>
+        <p class="text-xs text-zinc-400 leading-relaxed">48mm insulated units with pressurized xenon gas cavities. Engineered to withstand 240 km/h cliff winds while preserving total silence.</p>
+      </div>
+
+      <div class="tilt-card glass-monolith rounded-2xl p-6 space-y-4">
+        <div class="card-glare"></div>
+        <div class="h-32 rounded-xl overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80" alt="Carbon Fiber Beams" class="w-full h-full object-cover" />
+        </div>
+        <span class="text-xs font-mono text-[#c9ab7a] block">MATERIAL 04</span>
+        <h4 class="text-xl font-cinzel text-white">Carbon Cantilevers</h4>
+        <p class="text-xs text-zinc-400 leading-relaxed">Pre-preg carbon fiber tension ties enabling dramatic horizontal cantilevers without ground-supported pillar intrusion.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: SOVEREIGN AMENITIES & INFRASTRUCTURE -->
+  <section id="amenities" class="relative z-10 max-w-7xl mx-auto py-24 px-6 md:px-12 space-y-12 border-t border-white/10">
+    <div class="space-y-2">
+      <span class="text-xs uppercase tracking-[0.3em] text-[#c9ab7a] font-mono">Infrastructure Telemetry</span>
+      <h2 class="text-3xl md:text-5xl font-cinzel text-white">Sovereign Enclave Amenities</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="glass-monolith rounded-3xl p-8 space-y-4">
+        <div class="w-12 h-12 rounded-2xl bg-[#c9ab7a]/10 border border-[#c9ab7a]/30 flex items-center justify-center text-xl text-[#c9ab7a]">
+          ⚓
+        </div>
+        <h3 class="text-2xl font-cinzel text-white">Submarine &amp; Yacht Mooring</h3>
+        <p class="text-xs text-zinc-400 leading-relaxed">
+          Direct deepwater private sea gate accommodating superyachts up to 55 meters and private submersible docking with automated tidal compensation.
+        </p>
+      </div>
+
+      <div class="glass-monolith rounded-3xl p-8 space-y-4">
+        <div class="w-12 h-12 rounded-2xl bg-[#c9ab7a]/10 border border-[#c9ab7a]/30 flex items-center justify-center text-xl text-[#c9ab7a]">
+          🚁
+        </div>
+        <h3 class="text-2xl font-cinzel text-white">Helipad &amp; Subterranean Hangar</h3>
+        <p class="text-xs text-zinc-400 leading-relaxed">
+          Hydraulic elevator platform lowering aircraft directly into a subterranean climate-controlled hangar with private security clearance.
+        </p>
+      </div>
+
+      <div class="glass-monolith rounded-3xl p-8 space-y-4">
+        <div class="w-12 h-12 rounded-2xl bg-[#c9ab7a]/10 border border-[#c9ab7a]/30 flex items-center justify-center text-xl text-[#c9ab7a]">
+          ⚡
+        </div>
+        <h3 class="text-2xl font-cinzel text-white">Autonomous Microgrid</h3>
+        <p class="text-xs text-zinc-400 leading-relaxed">
+          Submerged ocean tidal turbines and integrated basalt photovoltaic cladding providing 1.2 MW off-grid independent power reserve.
         </p>
       </div>
     </div>
   </section>
 
-  <footer class="p-12 text-center text-xs text-zinc-500 font-mono border-t border-white/10">
+  <!-- SECTION 6: CONFIDENTIAL ACQUISITION LIAISON -->
+  <section id="acquisition" class="relative z-10 max-w-7xl mx-auto py-24 px-6 md:px-12 border-t border-white/10">
+    <div class="glass-monolith rounded-3xl p-10 md:p-16 max-w-4xl mx-auto text-center space-y-8">
+      <span class="text-xs uppercase tracking-[0.3em] text-[#c9ab7a] font-mono">Confidential Advisory Guild</span>
+      <h2 class="text-4xl md:text-6xl font-cinzel text-white">Acquire an Obsidian Sanctuary</h2>
+      <p class="text-sm text-zinc-400 max-w-xl mx-auto leading-relaxed">
+        Acquisition is conducted solely under bilateral non-disclosure agreements. Accredited principals receive the complete unlisted geological and structural prospectus.
+      </p>
+
+      <form onsubmit="alert('Accreditation submitted. The Sovereign Monolith Concierge will contact you within 4 hours.'); return false;" class="space-y-4 max-w-lg mx-auto text-left">
+        <div>
+          <label class="text-xs font-mono uppercase tracking-widest text-zinc-400 block mb-1">Principal Name</label>
+          <input type="text" required class="w-full px-5 py-3.5 rounded-xl bg-black/60 border border-white/15 text-white text-sm outline-none focus:border-[#c9ab7a]" placeholder="Lord Alistair Vance" />
+        </div>
+        <div>
+          <label class="text-xs font-mono uppercase tracking-widest text-zinc-400 block mb-1">Family Office Email</label>
+          <input type="email" required class="w-full px-5 py-3.5 rounded-xl bg-black/60 border border-white/15 text-white text-sm outline-none focus:border-[#c9ab7a]" placeholder="principal@sovereign-vault.ch" />
+        </div>
+        <div>
+          <label class="text-xs font-mono uppercase tracking-widest text-zinc-400 block mb-1">Parcel Selection</label>
+          <select class="w-full px-5 py-3.5 rounded-xl bg-black/60 border border-white/15 text-white text-sm outline-none focus:border-[#c9ab7a]">
+            <option>Parcel 01 — The Horizon Monolith ($28.5M)</option>
+            <option>Parcel 02 — The Basalt Ridge Villa ($21.0M)</option>
+            <option>Parcel 03 — The Oceanic Promontory ($34.0M)</option>
+            <option>Parcel 04 — The Cliff Sanctuary ($19.5M)</option>
+          </select>
+        </div>
+        <button type="submit" class="w-full py-4 rounded-xl bg-[#c9ab7a] text-black font-semibold text-xs uppercase tracking-widest hover:bg-white transition mt-2 shadow-2xl">
+          Submit Confidential Accreditation &rarr;
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="p-12 text-center text-xs text-zinc-500 font-mono border-t border-white/10 relative z-10">
     © 2026 KAGE MONOLITH ESTATES // ASURA BESPOKE ARCHITECTURAL ENGINE // LENIS SMOOTH-SCROLL
   </footer>
 
@@ -299,7 +471,7 @@
 
       // Parallax on hero image
       const heroImg = document.getElementById('heroImg');
-      lenis.on('scroll', ({ scroll, velocity }) => {
+      lenis.on('scroll', ({ scroll }) => {
         if (heroImg) {
           heroImg.style.transform = `scale(${1.05 + Math.min(0.1, scroll * 0.0002)}) translateY(${scroll * 0.15}px)`;
         }
@@ -415,171 +587,21 @@
     });
 
     // -------------------------------------------------------------
-    // 4. REAL 3D ARCHITECTURAL MONOLITH (THREE.JS ENGINE)
+    // 4. SPATIAL CHAPTERS TRANSITION CONTROLLER
     // -------------------------------------------------------------
-    const container3D = document.getElementById('monolith3DContainer');
-    let scene, camera, renderer, villaGroup, mainMaterial, wireframeMaterial, thermalMaterial;
-    let is3DDragging = false, prevMouseX = 0, prevMouseY = 0;
-    let current3DMode = 'obsidian';
-
-    if (container3D && typeof THREE !== 'undefined') {
-      const width = container3D.clientWidth;
-      const height = container3D.clientHeight;
-
-      scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 1000);
-      camera.position.set(16, 12, 22);
-      camera.lookAt(0, 0, 0);
-
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.shadowMap.enabled = true;
-      container3D.appendChild(renderer.domElement);
-
-      // Lighting
-      const ambientLight = new THREE.AmbientLight(0x222633, 1.5);
-      scene.add(ambientLight);
-
-      const sunLight = new THREE.DirectionalLight(0xc9ab7a, 2.2);
-      sunLight.position.set(15, 25, 15);
-      sunLight.castShadow = true;
-      scene.add(sunLight);
-
-      const blueRim = new THREE.DirectionalLight(0x38bdf8, 1.0);
-      blueRim.position.set(-15, 8, -15);
-      scene.add(blueRim);
-
-      // Materials
-      mainMaterial = new THREE.MeshStandardMaterial({
-        color: 0x11131a,
-        roughness: 0.35,
-        metalness: 0.75,
-      });
-
-      const goldMaterial = new THREE.MeshStandardMaterial({
-        color: 0xc9ab7a,
-        roughness: 0.25,
-        metalness: 0.9,
-      });
-
-      const glassMaterial = new THREE.MeshPhysicalMaterial({
-        color: 0x38bdf8,
-        transparent: true,
-        opacity: 0.45,
-        roughness: 0.1,
-        transmission: 0.85,
-        thickness: 1.2
-      });
-
-      wireframeMaterial = new THREE.MeshBasicMaterial({
-        color: 0xc9ab7a,
-        wireframe: true
-      });
-
-      thermalMaterial = new THREE.MeshStandardMaterial({
-        color: 0xf97316,
-        roughness: 0.5,
-        metalness: 0.1
-      });
-
-      villaGroup = new THREE.Group();
-
-      // Cantilever Base Podium (Basalt Rock)
-      const baseGeo = new THREE.BoxGeometry(14, 2, 10);
-      const baseMesh = new THREE.Mesh(baseGeo, mainMaterial);
-      baseMesh.position.y = -1;
-      villaGroup.add(baseMesh);
-
-      // Cantilever Upper Living Pavilion (Projecting outward by 6 units)
-      const pavGeo = new THREE.BoxGeometry(12, 3.2, 7);
-      const pavMesh = new THREE.Mesh(pavGeo, mainMaterial);
-      pavMesh.position.set(4, 1.8, 0);
-      villaGroup.add(pavMesh);
-
-      // Panoramic Cantilever Glass Facade
-      const glassGeo = new THREE.BoxGeometry(7, 2.4, 6.8);
-      const glassMesh = new THREE.Mesh(glassGeo, glassMaterial);
-      glassMesh.position.set(6.4, 1.8, 0);
-      villaGroup.add(glassMesh);
-
-      // Gold Architectural Accent Pillars & Overhang Blade
-      const bladeGeo = new THREE.BoxGeometry(13, 0.4, 7.4);
-      const bladeMesh = new THREE.Mesh(bladeGeo, goldMaterial);
-      bladeMesh.position.set(4, 3.6, 0);
-      villaGroup.add(bladeMesh);
-
-      // Infinity Pool Cantilever Slab
-      const poolGeo = new THREE.BoxGeometry(5, 0.6, 4);
-      const poolMesh = new THREE.Mesh(poolGeo, goldMaterial);
-      poolMesh.position.set(-4, 0.8, 3.5);
-      villaGroup.add(poolMesh);
-
-      // Pool Water
-      const waterGeo = new THREE.BoxGeometry(4.6, 0.4, 3.6);
-      const waterMesh = new THREE.Mesh(waterGeo, glassMaterial);
-      waterMesh.position.set(-4, 1.0, 3.5);
-      villaGroup.add(waterMesh);
-
-      scene.add(villaGroup);
-
-      // Interactive Orbit Dragging
-      container3D.addEventListener('mousedown', e => {
-        is3DDragging = true;
-        prevMouseX = e.clientX;
-        prevMouseY = e.clientY;
-      });
-
-      window.addEventListener('mousemove', e => {
-        if (!is3DDragging) return;
-        const dx = e.clientX - prevMouseX;
-        const dy = e.clientY - prevMouseY;
-        villaGroup.rotation.y += dx * 0.008;
-        villaGroup.rotation.x = Math.max(-0.5, Math.min(0.5, villaGroup.rotation.x + dy * 0.008));
-        prevMouseX = e.clientX;
-        prevMouseY = e.clientY;
-      });
-
-      window.addEventListener('mouseup', () => { is3DDragging = false; });
-
-      // Window resize
-      window.addEventListener('resize', () => {
-        const nw = container3D.clientWidth;
-        const nh = container3D.clientHeight;
-        camera.aspect = nw / nh;
-        camera.updateProjectionMatrix();
-        renderer.setSize(nw, nh);
-      });
-
-      // 3D Animation Loop
-      function render3D() {
-        if (!is3DDragging) {
-          villaGroup.rotation.y += 0.004;
+    window.switchChapter = function(ch) {
+      [1, 2, 3].forEach(n => {
+        const tab = document.getElementById(`tab${n}`);
+        const pane = document.getElementById(`chapter${n}`);
+        if (n === ch) {
+          tab.className = "px-4 py-2 rounded-full text-xs font-mono bg-[#c9ab7a] text-black font-bold transition";
+          pane.className = "chapter-pane active-pane glass-monolith rounded-3xl p-8 md:p-12 space-y-8";
+        } else {
+          tab.className = "px-4 py-2 rounded-full text-xs font-mono text-zinc-400 hover:text-white transition";
+          pane.className = "chapter-pane hidden-pane glass-monolith rounded-3xl p-8 md:p-12 space-y-8";
         }
-        renderer.render(scene, camera);
-        requestAnimationFrame(render3D);
-      }
-      render3D();
-
-      window.set3DMode = function(mode) {
-        current3DMode = mode;
-        const btnObs = document.getElementById('btn3DObsidian');
-        const btnWire = document.getElementById('btn3DWireframe');
-        const btnTherm = document.getElementById('btn3DThermal');
-
-        btnObs.className = "px-4 py-1.5 rounded-full text-xs font-mono " + (mode === 'obsidian' ? "bg-[#c9ab7a] text-black font-bold" : "text-zinc-400 hover:text-white");
-        btnWire.className = "px-4 py-1.5 rounded-full text-xs font-mono " + (mode === 'wireframe' ? "bg-[#c9ab7a] text-black font-bold" : "text-zinc-400 hover:text-white");
-        btnTherm.className = "px-4 py-1.5 rounded-full text-xs font-mono " + (mode === 'thermal' ? "bg-[#c9ab7a] text-black font-bold" : "text-zinc-400 hover:text-white");
-
-        villaGroup.traverse(child => {
-          if (child.isMesh) {
-            if (mode === 'wireframe') child.material = wireframeMaterial;
-            else if (mode === 'thermal') child.material = thermalMaterial;
-            else child.material = mainMaterial;
-          }
-        });
-      };
-    }
+      });
+    };
 
     // -------------------------------------------------------------
     // 5. 432HZ BINAURAL SUB-BASS HARMONIC SOUNDSCAPE SYNTH
@@ -594,10 +616,9 @@
         if (osc1) osc1.stop();
         if (osc2) osc2.stop();
         soundPlaying = false;
-        document.getElementById('audioText').textContent = "432Hz Sound";
+        document.getElementById('audioText').textContent = "432Hz Drone";
         document.getElementById('audioPulse').className = "w-2 h-2 rounded-full bg-zinc-600";
       } else {
-        // Root 432Hz sine wave
         osc1 = audioCtx.createOscillator();
         const gain1 = audioCtx.createGain();
         osc1.type = 'sine';
@@ -607,7 +628,6 @@
         gain1.connect(audioCtx.destination);
         osc1.start();
 
-        // 648Hz Harmonic Fifth for deep obsidian spatial resonance
         osc2 = audioCtx.createOscillator();
         const gain2 = audioCtx.createGain();
         osc2.type = 'sine';
