@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kage Monolith — Obsidian Architectural Sanctuaries</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --obsidian: #07080d;
+      --carbon: #0f1118;
+      --gold: #c9ab7a;
+      --gold-dim: rgba(201, 171, 122, 0.2);
+    }
+    body {
+      background: var(--obsidian);
+      color: #f4f4f5;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+    .font-cinzel { font-family: 'Cinzel', serif; }
+    .glass-monolith {
+      background: rgba(15, 17, 24, 0.7);
+      border: 1px solid rgba(201, 171, 122, 0.2);
+      backdrop-filter: blur(16px);
+    }
+    .switcher-bar {
+      position: fixed; top: 16px; right: 20px; z-index: 9999;
+      display: flex; gap: 6px; background: rgba(15,17,24,0.9);
+      padding: 6px 10px; border-radius: 999px; backdrop-filter: blur(10px);
+      border: 1px solid rgba(201,171,122,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .sw-btn {
+      font-size: 11px; font-weight: 500; padding: 5px 12px; border-radius: 999px; color: #ece7dc;
+      transition: all 0.2s; text-decoration: none; white-space: nowrap;
+    }
+    .sw-btn.active { background: #C9AB7A; color: #07080d; font-weight: 700; }
+    .sw-btn:hover:not(.active) { background: rgba(255,255,255,0.1); }
+  </style>
+</head>
+<body class="selection:bg-[#c9ab7a] selection:text-black">
+
+  <!-- VARIATION SWITCHER -->
+  <div class="switcher-bar">
+    <a href="../estate-sketchbook/index.html" class="sw-btn">1. Tactile Sketchbook</a>
+    <a href="../monolith-estates/index.html" class="sw-btn active">2. Dark Monolith</a>
+    <a href="../nordic-living/index.html" class="sw-btn">3. Nordic Spatial</a>
+  </div>
+
+  <!-- Background WebGL Ambient Canvas -->
+  <canvas id="ambientCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+
+  <!-- Navigation Pill -->
+  <header class="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+    <nav class="glass-monolith px-6 py-2.5 rounded-full flex items-center gap-8 shadow-2xl">
+      <span class="font-cinzel text-lg tracking-widest text-[#c9ab7a]">KAGE // MONOLITH</span>
+      <div class="hidden md:flex items-center gap-6 text-xs uppercase tracking-widest text-zinc-400">
+        <a href="#hero" class="hover:text-white transition">Sanctuary</a>
+        <a href="#parcels" class="hover:text-white transition">Parcels</a>
+        <a href="#cad" class="hover:text-white transition">CAD Blueprint</a>
+      </div>
+      <button onclick="toggleAudio()" id="audioBtn" class="px-4 py-1.5 rounded-full bg-[#c9ab7a]/10 border border-[#c9ab7a]/30 text-[#c9ab7a] text-xs uppercase tracking-wider hover:bg-[#c9ab7a] hover:text-black transition">
+        432Hz Sound
+      </button>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero" class="relative w-full h-screen flex flex-col justify-end p-8 md:p-16 z-10">
+    <div class="absolute inset-0 z-0">
+      <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=85" alt="Monolith Estate" class="w-full h-full object-cover brightness-[0.45]" />
+      <div class="absolute inset-0 bg-gradient-to-t from-[#07080d] via-[#07080d]/40 to-transparent"></div>
+    </div>
+
+    <div class="relative z-10 max-w-4xl space-y-4">
+      <span class="px-3.5 py-1 rounded-full border border-[#c9ab7a]/40 bg-[#c9ab7a]/10 text-[#c9ab7a] text-xs uppercase tracking-[0.25em]">
+        Private Sovereign Enclave
+      </span>
+      <h1 class="text-5xl md:text-7xl lg:text-8xl font-cinzel text-white leading-tight">
+        Silence Sculpted in <span class="text-[#c9ab7a]">Stone</span>.
+      </h1>
+      <p class="text-zinc-400 text-sm md:text-base max-w-xl leading-relaxed">
+        Four cantilevered private residences carved into coastal basalt cliffs. Triple-glazed acoustic panes, solar-harvesting basalt slabs, and private submarine mooring.
+      </p>
+      <div class="pt-4 flex items-center gap-4">
+        <a href="#parcels" class="px-8 py-3.5 rounded-full bg-[#c9ab7a] text-black font-semibold text-xs uppercase tracking-widest hover:bg-white transition shadow-2xl">
+          Inspect Parcels
+        </a>
+        <span class="text-xs text-zinc-500 uppercase tracking-widest font-mono">Latitude 43° 42' N · Elevation 420m</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3D Gyroscopic Parcels Grid -->
+  <section id="parcels" class="relative z-10 max-w-7xl mx-auto py-24 px-6 md:px-12 space-y-12">
+    <div class="space-y-2">
+      <span class="text-xs uppercase tracking-[0.3em] text-[#c9ab7a]">Architectural Registry</span>
+      <h2 class="text-3xl md:text-5xl font-cinzel text-white">The Sovereign Quadrant</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Parcel 1 -->
+      <div class="tilt-card glass-monolith rounded-3xl p-6 transition-all duration-500 hover:border-[#c9ab7a] space-y-6">
+        <div class="aspect-[16/10] rounded-2xl overflow-hidden relative">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85" alt="Parcel 01" class="w-full h-full object-cover" />
+          <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/70 text-[#c9ab7a] font-mono text-xs border border-[#c9ab7a]/30">PARCEL 01</span>
+        </div>
+        <div class="flex justify-between items-end">
+          <div>
+            <h3 class="text-2xl font-cinzel text-white">The Horizon Monolith</h3>
+            <p class="text-xs text-zinc-400 font-mono mt-1">6,400 Sq. Ft. · 6 Bed · 8 Bath · Seafront Pier</p>
+          </div>
+          <span class="text-xl font-cinzel text-[#c9ab7a]">$28.5M</span>
+        </div>
+      </div>
+
+      <!-- Parcel 2 -->
+      <div class="tilt-card glass-monolith rounded-3xl p-6 transition-all duration-500 hover:border-[#c9ab7a] space-y-6">
+        <div class="aspect-[16/10] rounded-2xl overflow-hidden relative">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85" alt="Parcel 02" class="w-full h-full object-cover" />
+          <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/70 text-[#c9ab7a] font-mono text-xs border border-[#c9ab7a]/30">PARCEL 02</span>
+        </div>
+        <div class="flex justify-between items-end">
+          <div>
+            <h3 class="text-2xl font-cinzel text-white">The Basalt Ridge Villa</h3>
+            <p class="text-xs text-zinc-400 font-mono mt-1">5,100 Sq. Ft. · 5 Bed · Infinity Cold Plunge</p>
+          </div>
+          <span class="text-xl font-cinzel text-[#c9ab7a]">$21.0M</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive CAD Blueprint Section -->
+  <section id="cad" class="relative z-10 max-w-7xl mx-auto py-16 px-6 md:px-12 border-t border-white/10 space-y-8">
+    <div class="flex items-center justify-between">
+      <div>
+        <span class="text-xs uppercase tracking-[0.3em] text-[#c9ab7a]">Micron CAD Telemetry</span>
+        <h2 class="text-3xl font-cinzel text-white">Level 02 Executive Floorplan</h2>
+      </div>
+      <span class="text-xs font-mono text-zinc-400">Scale: 1:50 Metric</span>
+    </div>
+
+    <div class="relative glass-monolith rounded-3xl p-8 overflow-hidden aspect-[21/9] flex items-center justify-center">
+      <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1800&q=85" alt="CAD Blueprint" class="absolute inset-0 w-full h-full object-cover opacity-25 filter invert" />
+      <div class="relative z-10 text-center space-y-3">
+        <span class="w-4 h-4 rounded-full bg-[#c9ab7a] inline-block animate-ping"></span>
+        <div class="text-lg font-cinzel text-[#c9ab7a]">Interactive Spatial Hotspots Active</div>
+        <p class="text-xs text-zinc-400 max-w-md">Click any structural pillar or cantilever zone to inspect micro-stress ratings and thermal acoustic coefficients.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="p-12 text-center text-xs text-zinc-500 font-mono border-t border-white/10">
+    © 2026 KAGE MONOLITH ESTATES // ASURA BESPOKE ARCHITECTURAL ENGINE
+  </footer>
+
+  <script>
+    // 1. Ambient WebGL Particle Canvas
+    const canvas = document.getElementById('ambientCanvas');
+    const ctx = canvas.getContext('2d');
+    let w, h;
+    function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const particles = Array.from({length: 45}, () => ({
+      x: Math.random() * w, y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.4, vy: -Math.random() * 0.6 - 0.2,
+      r: Math.random() * 2 + 1, alpha: Math.random() * 0.5 + 0.2
+    }));
+
+    function loop() {
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle = '#c9ab7a';
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if(p.y < 0) p.y = h;
+        if(p.x < 0) p.x = w;
+        if(p.x > w) p.x = 0;
+        ctx.globalAlpha = p.alpha;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+      });
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    // 2. 3D Card Tilt on Pointer Move
+    document.querySelectorAll('.tilt-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const x = e.clientX - r.left - r.width/2;
+        const y = e.clientY - r.top - r.height/2;
+        card.style.transform = `perspective(1000px) rotateX(${(-y/r.height)*8}deg) rotateY(${(x/r.width)*8}deg) translateY(-4px)`;
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    });
+
+    // 3. 432Hz Soundscape Synth
+    let audioCtx = null, osc = null, playing = false;
+    function toggleAudio() {
+      if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if(playing) {
+        osc.stop(); playing = false;
+        document.getElementById('audioBtn').textContent = "432Hz Sound";
+      } else {
+        osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine'; osc.frequency.setValueAtTime(432, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); playing = true;
+        document.getElementById('audioBtn').textContent = "Mute 432Hz";
+      }
+    }
+  </script>
+</body>
+</html>
