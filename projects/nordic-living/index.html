@@ -4,28 +4,61 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nordic Spatial — Scandinavian Living &amp; Alpine Enclaves</title>
+  
+  <!-- Tailwind CSS & Fonts -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Lenis Smooth Scroll Engine -->
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.26/dist/lenis.css">
+  <script src="https://unpkg.com/lenis@1.3.26/dist/lenis.min.js"></script>
 
   <style>
     :root {
       --travertine: #F7F4EE;
+      --card-bg: #FFFFFF;
       --linen: #ECE8E0;
       --sage: #7C8C7E;
       --charcoal: #1C1B1A;
+      --text-muted: #6B7280;
+      --border-subtle: rgba(28,27,26,0.08);
+      --sun-filter: contrast(100%) brightness(100%) saturate(100%);
+      --shadow-ambient: 0 16px 36px -8px rgba(0,0,0,0.06);
     }
+
     body {
-      background: var(--travertine);
+      background-color: var(--travertine);
       color: var(--charcoal);
       font-family: 'Inter', sans-serif;
       overflow-x: hidden;
+      transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1), color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
     .font-serif-display { font-family: 'Instrument Serif', Georgia, serif; }
+    .font-mono { font-family: 'Space Grotesk', monospace; }
+
+    /* 3D Kinetic Card Perspective */
+    .nordic-card {
+      transform-style: preserve-3d;
+      will-change: transform;
+      position: relative;
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      transition: transform 0.25s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.3s ease, background 0.6s ease;
+      box-shadow: var(--shadow-ambient);
+    }
+    .card-glare {
+      position: absolute; inset: 0; pointer-events: none; opacity: 0;
+      transition: opacity 0.25s ease; mix-blend-mode: overlay; z-index: 10;
+      border-radius: inherit;
+    }
+
+    /* Variation Switcher Bar */
     .switcher-bar {
       position: fixed; top: 16px; right: 20px; z-index: 9999;
-      display: flex; gap: 6px; background: rgba(28,27,26,0.9);
+      display: flex; gap: 6px; background: rgba(28,27,26,0.92);
       padding: 6px 10px; border-radius: 999px; backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     }
@@ -35,11 +68,52 @@
     }
     .sw-btn.active { background: #7C8C7E; color: #fff; font-weight: 700; }
     .sw-btn:hover:not(.active) { background: rgba(255,255,255,0.15); }
+
+    /* ThreeUI-Inspired Top Dock */
     .dock-pill {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(28,27,26,0.08);
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-subtle);
       box-shadow: 0 16px 36px -8px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+    }
+
+    .magnetic-item {
+      transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+      display: inline-block;
+    }
+
+    /* Interactive Floorplan Hotspot */
+    .hotspot {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--sage);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 0 4px rgba(124, 140, 126, 0.25);
+      transition: all 0.25s ease;
+      z-index: 20;
+    }
+    .hotspot:hover {
+      transform: scale(1.25);
+      box-shadow: 0 0 0 8px rgba(124, 140, 126, 0.35);
+    }
+    .hotspot.active {
+      background: #1C1B1A;
+      box-shadow: 0 0 0 8px rgba(28, 27, 26, 0.25);
+    }
+
+    /* Ambient Sun Image Overlay */
+    .sun-responsive-img {
+      filter: var(--sun-filter);
+      transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
   </style>
 </head>
@@ -54,93 +128,158 @@
 
   <!-- Animated Top Dock (ThreeUI Inspired) -->
   <header class="fixed top-6 left-1/2 -translate-x-1/2 z-50">
-    <nav class="dock-pill px-6 py-2 rounded-full flex items-center gap-6">
-      <span class="font-serif-display italic text-xl tracking-tight text-zinc-900">Nordic Living</span>
-      <div class="hidden sm:flex items-center gap-3 text-xs font-medium">
-        <button class="px-3.5 py-1.5 rounded-full bg-zinc-900 text-white">All Residences</button>
-        <button class="px-3.5 py-1.5 rounded-full text-zinc-600 hover:text-zinc-900 transition">Alpine Villas</button>
-        <button class="px-3.5 py-1.5 rounded-full text-zinc-600 hover:text-zinc-900 transition">Coastal Fjords</button>
-        <button class="px-3.5 py-1.5 rounded-full text-zinc-600 hover:text-zinc-900 transition">Penthouses</button>
+    <nav class="dock-pill px-6 py-2.5 rounded-full flex items-center gap-5 sm:gap-7">
+      <span class="font-serif-display italic text-2xl tracking-tight text-zinc-900">Nordic Living</span>
+      <div class="hidden sm:flex items-center gap-2 text-xs font-medium">
+        <button class="magnetic-item px-3.5 py-1.5 rounded-full bg-zinc-900 text-white font-semibold">All Residences</button>
+        <a href="#perspectives" class="magnetic-item px-3.5 py-1.5 rounded-full text-zinc-600 hover:text-zinc-900 transition">Kinetic Chapters</a>
+        <a href="#floorplan" class="magnetic-item px-3.5 py-1.5 rounded-full text-zinc-600 hover:text-zinc-900 transition">Floorplan Spatial</a>
       </div>
-      <a href="#inquire" class="px-4 py-1.5 rounded-full bg-[#7C8C7E] text-white text-xs font-semibold hover:bg-zinc-900 transition">
+      
+      <!-- Audio Toggle -->
+      <button onclick="toggleBreezeAudio()" id="breezeAudioBtn" class="magnetic-item px-3.5 py-1.5 rounded-full bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-mono flex items-center gap-1.5 transition">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" id="breezeDot"></span>
+        <span id="breezeText">Nordic Breeze</span>
+      </button>
+
+      <a href="#inquire" class="magnetic-item px-4 py-1.5 rounded-full bg-[#7C8C7E] text-white text-xs font-semibold hover:bg-zinc-900 transition">
         Reserve
       </a>
     </nav>
   </header>
 
   <!-- Hero Section -->
-  <section class="min-h-[92vh] flex flex-col justify-between pt-36 pb-16 px-8 md:px-16 max-w-7xl mx-auto">
+  <section class="min-h-[92vh] flex flex-col justify-between pt-36 pb-16 px-8 md:px-16 max-w-7xl mx-auto relative z-10">
     <div class="space-y-4 max-w-3xl">
-      <span class="text-xs uppercase tracking-[0.25em] text-[#7C8C7E] font-semibold">Oslo &amp; Copenhagen Architectural Collective</span>
+      <div class="flex items-center gap-3">
+        <span class="text-xs uppercase tracking-[0.25em] text-[#7C8C7E] font-semibold">Oslo &amp; Copenhagen Architectural Collective</span>
+        <span class="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-black/5 text-zinc-600">LENIS KINETIC DOCK</span>
+      </div>
+
       <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif-display font-normal text-zinc-900 leading-[1.02]">
         Light, Timber &amp; <span class="italic">Quiet Geometries</span>.
       </h1>
       <p class="text-base text-zinc-600 max-w-lg leading-relaxed pt-2">
-        Passive-house certified residences constructed from native Nordic spruce, Jura limestone, and floor-to-ceiling triple-glazed thermal apertures.
+        Passive-house certified sanctuaries constructed from native Nordic spruce, Gotland limestone, and floor-to-ceiling triple-glazed acoustic panes.
       </p>
+
+      <!-- SOLAR SUN DIAL LIGHTING CONTROLLER -->
+      <div class="pt-4 space-y-2">
+        <span class="text-[11px] font-mono uppercase tracking-widest text-zinc-500 block">Interactive Solar Sun Dial (Changes Atmosphere &amp; Light Temperature):</span>
+        <div class="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-white/70 border border-zinc-200/80 inline-flex shadow-sm">
+          <button onclick="setSolarMode('dawn')" id="btnDawn" class="px-4 py-1.5 rounded-full text-xs font-medium text-zinc-600 hover:text-zinc-900 transition">Dawn (6000K)</button>
+          <button onclick="setSolarMode('noon')" id="btnNoon" class="px-4 py-1.5 rounded-full text-xs font-semibold bg-zinc-900 text-white transition">Solar Noon (5500K)</button>
+          <button onclick="setSolarMode('golden')" id="btnGolden" class="px-4 py-1.5 rounded-full text-xs font-medium text-zinc-600 hover:text-zinc-900 transition">Golden Hour (3200K)</button>
+          <button onclick="setSolarMode('dusk')" id="btnDusk" class="px-4 py-1.5 rounded-full text-xs font-medium text-zinc-600 hover:text-zinc-900 transition">Nordic Twilight (2200K)</button>
+        </div>
+      </div>
     </div>
 
     <!-- Telemetry Badges -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-12 border-t border-zinc-200">
-      <div class="p-4 rounded-2xl bg-white/60 border border-zinc-200/60">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-12 border-t border-zinc-300/60">
+      <div class="p-5 rounded-2xl bg-white/70 border border-zinc-200/80 shadow-sm transition hover:-translate-y-1">
         <span class="text-xs text-zinc-500 font-mono block">ANNUAL SOLAR HARVEST</span>
         <span class="text-2xl font-serif-display text-zinc-900">100% Net Zero</span>
       </div>
-      <div class="p-4 rounded-2xl bg-white/60 border border-zinc-200/60">
+      <div class="p-5 rounded-2xl bg-white/70 border border-zinc-200/80 shadow-sm transition hover:-translate-y-1">
         <span class="text-xs text-zinc-500 font-mono block">CEILING VOLUMES</span>
-        <span class="text-2xl font-serif-display text-zinc-900">4.2m Clear</span>
+        <span class="text-2xl font-serif-display text-zinc-900">4.2m Clear Timber</span>
       </div>
-      <div class="p-4 rounded-2xl bg-white/60 border border-zinc-200/60">
+      <div class="p-5 rounded-2xl bg-white/70 border border-zinc-200/80 shadow-sm transition hover:-translate-y-1">
         <span class="text-xs text-zinc-500 font-mono block">ACOUSTIC DAMPING</span>
         <span class="text-2xl font-serif-display text-zinc-900">STC 58 Silent</span>
       </div>
-      <div class="p-4 rounded-2xl bg-white/60 border border-zinc-200/60">
+      <div class="p-5 rounded-2xl bg-white/70 border border-zinc-200/80 shadow-sm transition hover:-translate-y-1">
         <span class="text-xs text-zinc-500 font-mono block">AIR PURITY RATING</span>
         <span class="text-2xl font-serif-display text-zinc-900">MERV 16 Medical</span>
       </div>
     </div>
   </section>
 
-  <!-- Horizontal Perspectives Rail -->
-  <section class="py-16 bg-[#ECE8E0] border-y border-zinc-300/60 overflow-hidden">
+  <!-- Horizontal Perspectives Rail (Kinetic Chapters) -->
+  <section id="perspectives" class="py-20 bg-[#ECE8E0] border-y border-zinc-300/60 overflow-hidden relative">
     <div class="max-w-7xl mx-auto px-8 mb-8 flex items-baseline justify-between">
-      <h2 class="text-3xl font-serif-display text-zinc-900">Architectural Perspective Chapters</h2>
-      <span class="text-xs font-mono text-zinc-500 uppercase">Horizontal Kinetic Stream</span>
+      <div>
+        <h2 class="text-3xl md:text-4xl font-serif-display text-zinc-900">Architectural Perspective Chapters</h2>
+        <p class="text-xs text-zinc-500 mt-1 font-mono">Hover to experience 3D card tilt &amp; specular natural daylight reflection.</p>
+      </div>
+      <span class="text-xs font-mono text-zinc-500 uppercase tracking-widest hidden sm:inline">Horizontal Kinetic Stream</span>
     </div>
 
-    <div class="flex gap-6 overflow-x-auto pb-6 px-8 no-scrollbar scroll-smooth">
-      <div class="min-w-[340px] md:min-w-[460px] rounded-3xl overflow-hidden bg-white shadow-sm border border-zinc-200/80">
-        <div class="aspect-[16/10] overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85" alt="Alpine Fjord" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+    <div class="flex gap-8 overflow-x-auto pb-8 px-8 no-scrollbar scroll-smooth" id="chaptersContainer">
+      <!-- Chapter 1 -->
+      <div class="nordic-card min-w-[340px] md:min-w-[460px] rounded-3xl overflow-hidden cursor-pointer">
+        <div class="card-glare"></div>
+        <div class="aspect-[16/10] overflow-hidden relative">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85" alt="Alpine Fjord" class="w-full h-full object-cover sun-responsive-img transition-transform duration-700 hover:scale-105" />
+          <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/85 text-zinc-900 font-mono text-xs shadow-sm">CHAPTER 01</span>
         </div>
         <div class="p-6 space-y-1">
-          <span class="text-[11px] font-mono text-[#7C8C7E] uppercase">CHAPTER 01</span>
-          <h3 class="text-xl font-serif-display text-zinc-900">The Hardanger Fjord Pavilion</h3>
-          <p class="text-xs text-zinc-500">4,200 Sq. Ft. on a private coastal granite bluff.</p>
+          <h3 class="text-2xl font-serif-display text-zinc-900">The Hardanger Fjord Pavilion</h3>
+          <p class="text-xs text-zinc-500 font-mono">4,200 Sq. Ft. · Coastal granite cliff cantilever · Private deepwater mooring.</p>
         </div>
       </div>
 
-      <div class="min-w-[340px] md:min-w-[460px] rounded-3xl overflow-hidden bg-white shadow-sm border border-zinc-200/80">
-        <div class="aspect-[16/10] overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=85" alt="Lofoten Ridge" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+      <!-- Chapter 2 -->
+      <div class="nordic-card min-w-[340px] md:min-w-[460px] rounded-3xl overflow-hidden cursor-pointer">
+        <div class="card-glare"></div>
+        <div class="aspect-[16/10] overflow-hidden relative">
+          <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=85" alt="Lofoten Ridge" class="w-full h-full object-cover sun-responsive-img transition-transform duration-700 hover:scale-105" />
+          <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/85 text-zinc-900 font-mono text-xs shadow-sm">CHAPTER 02</span>
         </div>
         <div class="p-6 space-y-1">
-          <span class="text-[11px] font-mono text-[#7C8C7E] uppercase">CHAPTER 02</span>
-          <h3 class="text-xl font-serif-display text-zinc-900">The Lofoten Ridge Cabin</h3>
-          <p class="text-xs text-zinc-500">Cedar timber structure with integrated geothermal heating.</p>
+          <h3 class="text-2xl font-serif-display text-zinc-900">The Lofoten Ridge Cabin</h3>
+          <p class="text-xs text-zinc-500 font-mono">Cedar timber structure · Subterranean geothermal heat loop · Aurora observatory.</p>
         </div>
       </div>
 
-      <div class="min-w-[340px] md:min-w-[460px] rounded-3xl overflow-hidden bg-white shadow-sm border border-zinc-200/80">
-        <div class="aspect-[16/10] overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85" alt="Stockholm Archipelago" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+      <!-- Chapter 3 -->
+      <div class="nordic-card min-w-[340px] md:min-w-[460px] rounded-3xl overflow-hidden cursor-pointer">
+        <div class="card-glare"></div>
+        <div class="aspect-[16/10] overflow-hidden relative">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85" alt="Stockholm Archipelago" class="w-full h-full object-cover sun-responsive-img transition-transform duration-700 hover:scale-105" />
+          <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/85 text-zinc-900 font-mono text-xs shadow-sm">CHAPTER 03</span>
         </div>
         <div class="p-6 space-y-1">
-          <span class="text-[11px] font-mono text-[#7C8C7E] uppercase">CHAPTER 03</span>
-          <h3 class="text-xl font-serif-display text-zinc-900">The Archipelago Retreat</h3>
-          <p class="text-xs text-zinc-500">Private waterfront pier with natural seaweed insulation.</p>
+          <h3 class="text-2xl font-serif-display text-zinc-900">The Archipelago Retreat</h3>
+          <p class="text-xs text-zinc-500 font-mono">Waterfront timber jetty · Sustainable seaweed insulation · Saltwater heated plunge.</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE SPATIAL RESIDENCE FLOORPLAN EXPLORER -->
+  <section id="floorplan" class="py-24 px-8 md:px-16 max-w-7xl mx-auto space-y-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div>
+        <span class="text-xs uppercase tracking-[0.25em] text-[#7C8C7E] font-semibold">Interactive Spatial Schematic</span>
+        <h2 class="text-4xl md:text-5xl font-serif-display text-zinc-900">Residence Level 01 Spatial Nodes</h2>
+        <p class="text-sm text-zinc-600 mt-2 max-w-lg">Click the spatial hotspots on the architectural plan to inspect room daylight factors, acoustic damping, and cedar millwork details.</p>
+      </div>
+      <div class="p-4 rounded-2xl bg-white border border-zinc-200 shadow-sm max-w-md w-full" id="hotspotDetails">
+        <span class="text-[11px] font-mono text-[#7C8C7E] uppercase block" id="hsNode">NODE 01 // SELECTED</span>
+        <h4 class="text-xl font-serif-display text-zinc-900 font-medium mt-1" id="hsTitle">Master Living Pavilion</h4>
+        <p class="text-xs text-zinc-500 mt-1" id="hsDesc">1,200 Sq. Ft. clear span timber ceiling with 4.2m triple-glazed glass facade facing south.</p>
+        <div class="flex items-center gap-4 mt-3 pt-3 border-t border-zinc-100 text-xs font-mono text-zinc-700">
+          <span>DAYLIGHT: <strong>94,000 LUX</strong></span>
+          <span>ACOUSTIC: <strong>STC 62</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floorplan Interactive Graphic -->
+    <div class="relative rounded-3xl overflow-hidden bg-white border border-zinc-200 shadow-lg aspect-[16/9] md:aspect-[21/9]">
+      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=85" alt="Floorplan" class="w-full h-full object-cover brightness-[0.88] sun-responsive-img" />
+      <div class="absolute inset-0 bg-white/20 backdrop-blur-[1px]"></div>
+
+      <!-- Hotspot 1 -->
+      <div class="hotspot active" style="top: 42%; left: 28%;" onclick="selectHotspot(1, 'Master Living Pavilion', '1,200 Sq. Ft. clear span timber ceiling with 4.2m triple-glazed glass facade facing south.', '94,000 LUX', 'STC 62', this)">1</div>
+      <!-- Hotspot 2 -->
+      <div class="hotspot" style="top: 30%; left: 62%;" onclick="selectHotspot(2, 'Spruce Thermal Spa & Sauna', '450 Sq. Ft. native Hinoki & Nordic spruce spa with wood-fired basalt stone kiln.', '18,500 LUX', 'STC 68', this)">2</div>
+      <!-- Hotspot 3 -->
+      <div class="hotspot" style="top: 68%; left: 74%;" onclick="selectHotspot(3, 'Cantilever Fjord Dining Lounge', '680 Sq. Ft. floating glass volume suspended 18m above the sea waterline.', '88,000 LUX', 'STC 58', this)">3</div>
+      <!-- Hotspot 4 -->
+      <div class="hotspot" style="top: 60%; left: 42%;" onclick="selectHotspot(4, 'Library & Listening Chamber', '520 Sq. Ft. book-matched smoked oak acoustic study with vinyl library.', '12,000 LUX', 'STC 72 Studio', this)">4</div>
     </div>
   </section>
 
@@ -150,13 +289,188 @@
     <h2 class="text-4xl md:text-6xl font-serif-display text-zinc-900">Acquire Your Nordic Sanctuary</h2>
     <p class="text-sm text-zinc-600">Enter your family office or private advisory email to receive the unlisted property prospectus.</p>
     <form onsubmit="alert('Prospectus dispatched.'); return false;" class="flex gap-3 max-w-md mx-auto">
-      <input type="email" required placeholder="advisory@estate.com" class="flex-1 px-5 py-3 rounded-full border border-zinc-300 bg-white text-sm outline-none focus:border-[#7C8C7E]" />
-      <button type="submit" class="px-6 py-3 rounded-full bg-zinc-900 text-white text-xs font-semibold uppercase tracking-wider hover:bg-[#7C8C7E] transition">Request</button>
+      <input type="email" required placeholder="advisory@estate.com" class="flex-1 px-5 py-3 rounded-full border border-zinc-300 bg-white text-sm outline-none focus:border-[#7C8C7E] shadow-sm" />
+      <button type="submit" class="px-6 py-3 rounded-full bg-zinc-900 text-white text-xs font-semibold uppercase tracking-wider hover:bg-[#7C8C7E] transition shadow-md">Request</button>
     </form>
     <div class="pt-12 text-xs text-zinc-400 font-mono">
-      © 2026 NORDIC SPATIAL LIVING // ASURA ARCHITECTURAL FLEET
+      © 2026 NORDIC SPATIAL LIVING // ASURA ARCHITECTURAL FLEET // POWERED BY LENIS
     </div>
   </footer>
 
+  <script>
+    // -------------------------------------------------------------
+    // 1. LENIS SMOOTH SCROLL ENGINE
+    // -------------------------------------------------------------
+    if (typeof Lenis !== 'undefined') {
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+      });
+
+      function lenisRaf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(lenisRaf);
+      }
+      requestAnimationFrame(lenisRaf);
+    }
+
+    // -------------------------------------------------------------
+    // 2. 3D CARD TILT WITH DYNAMIC SPECULAR LIGHT SHEEN
+    // -------------------------------------------------------------
+    document.querySelectorAll('.nordic-card').forEach(card => {
+      const glare = card.querySelector('.card-glare');
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const x = e.clientX - r.left;
+        const y = e.clientY - r.top;
+        const cx = r.width / 2;
+        const cy = r.height / 2;
+        const rotX = ((y - cy) / cy) * -8;
+        const rotY = ((x - cx) / cx) * 8;
+        
+        card.style.transform = `perspective(900px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+
+        if (glare) {
+          glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255, 255, 255, 0.5) 0%, transparent 60%)`;
+          glare.style.opacity = '1';
+        }
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        if (glare) glare.style.opacity = '0';
+      });
+    });
+
+    // -------------------------------------------------------------
+    // 3. MAGNETIC DOCK BUTTON PHYSICS
+    // -------------------------------------------------------------
+    document.querySelectorAll('.magnetic-item').forEach(el => {
+      el.addEventListener('mousemove', e => {
+        const r = el.getBoundingClientRect();
+        const x = (e.clientX - r.left - r.width / 2) * 0.35;
+        const y = (e.clientY - r.top - r.height / 2) * 0.35;
+        el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(1.08)`;
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.transform = 'translate(0px, 0px) scale(1)';
+      });
+    });
+
+    // -------------------------------------------------------------
+    // 4. DYNAMIC SOLAR SUN DIAL LIGHTING ENGINE
+    // -------------------------------------------------------------
+    window.setSolarMode = function(mode) {
+      const root = document.documentElement;
+      const buttons = {
+        dawn: document.getElementById('btnDawn'),
+        noon: document.getElementById('btnNoon'),
+        golden: document.getElementById('btnGolden'),
+        dusk: document.getElementById('btnDusk')
+      };
+
+      Object.values(buttons).forEach(b => {
+        b.className = "px-4 py-1.5 rounded-full text-xs font-medium text-zinc-600 hover:text-zinc-900 transition";
+      });
+      if (buttons[mode]) {
+        buttons[mode].className = "px-4 py-1.5 rounded-full text-xs font-semibold bg-zinc-900 text-white transition";
+      }
+
+      if (mode === 'dawn') {
+        // Crisp cool morning light
+        root.style.setProperty('--travertine', '#EFF3F6');
+        root.style.setProperty('--linen', '#E2E9EE');
+        root.style.setProperty('--sage', '#5F7C8A');
+        root.style.setProperty('--charcoal', '#182026');
+        root.style.setProperty('--sun-filter', 'sepia(15%) hue-rotate(180deg) saturate(95%) brightness(102%)');
+      } else if (mode === 'noon') {
+        // Neutral pure midday daylight
+        root.style.setProperty('--travertine', '#F7F4EE');
+        root.style.setProperty('--linen', '#ECE8E0');
+        root.style.setProperty('--sage', '#7C8C7E');
+        root.style.setProperty('--charcoal', '#1C1B1A');
+        root.style.setProperty('--sun-filter', 'contrast(100%) brightness(100%) saturate(100%)');
+      } else if (mode === 'golden') {
+        // Rich warm amber golden hour
+        root.style.setProperty('--travertine', '#F5ECE1');
+        root.style.setProperty('--linen', '#EADCCB');
+        root.style.setProperty('--sage', '#B47B44');
+        root.style.setProperty('--charcoal', '#261D15');
+        root.style.setProperty('--sun-filter', 'sepia(35%) hue-rotate(-20deg) saturate(125%) brightness(104%)');
+      } else if (mode === 'dusk') {
+        // Deep twilight cozy evening
+        root.style.setProperty('--travertine', '#1E2228');
+        root.style.setProperty('--card-bg', '#262C34');
+        root.style.setProperty('--linen', '#2B323C');
+        root.style.setProperty('--sage', '#8BA793');
+        root.style.setProperty('--charcoal', '#F1F5F9');
+        root.style.setProperty('--text-muted', '#94A3B8');
+        root.style.setProperty('--border-subtle', 'rgba(255,255,255,0.12)');
+        root.style.setProperty('--sun-filter', 'brightness(75%) contrast(110%) saturate(85%) hue-rotate(200deg)');
+      }
+    };
+
+    // -------------------------------------------------------------
+    // 5. INTERACTIVE SPATIAL FLOORPLAN HOTSPOTS
+    // -------------------------------------------------------------
+    window.selectHotspot = function(id, title, desc, lux, stc, el) {
+      document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
+      el.classList.add('active');
+
+      document.getElementById('hsNode').textContent = `NODE 0${id} // SELECTED`;
+      document.getElementById('hsTitle').textContent = title;
+      document.getElementById('hsDesc').textContent = desc;
+      document.getElementById('hotspotDetails').querySelector('.font-mono').innerHTML = `
+        <span>DAYLIGHT: <strong>${lux}</strong></span>
+        <span>ACOUSTIC: <strong>${stc}</strong></span>
+      `;
+    };
+
+    // -------------------------------------------------------------
+    // 6. NORDIC BREEZE GENERATIVE ACOUSTIC SYNTHESIZER
+    // -------------------------------------------------------------
+    let audioCtx = null, noiseNode = null, filterNode = null, breezePlaying = false;
+
+    function toggleBreezeAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      if (breezePlaying) {
+        if (noiseNode) noiseNode.stop();
+        breezePlaying = false;
+        document.getElementById('breezeText').textContent = "Nordic Breeze";
+        document.getElementById('breezeDot').className = "w-2 h-2 rounded-full bg-zinc-400";
+      } else {
+        const dur = 4;
+        const bufferSize = audioCtx.sampleRate * dur;
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+
+        noiseNode = audioCtx.createBufferSource();
+        noiseNode.buffer = buffer;
+        noiseNode.loop = true;
+
+        filterNode = audioCtx.createBiquadFilter();
+        filterNode.type = 'lowpass';
+        filterNode.frequency.setValueAtTime(450, audioCtx.currentTime);
+
+        const gainNode = audioCtx.createGain();
+        gainNode.gain.setValueAtTime(0.035, audioCtx.currentTime);
+
+        noiseNode.connect(filterNode);
+        filterNode.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        noiseNode.start();
+        breezePlaying = true;
+        document.getElementById('breezeText').textContent = "Mute Breeze";
+        document.getElementById('breezeDot').className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
+      }
+    }
+  </script>
 </body>
 </html>
