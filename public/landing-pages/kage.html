@@ -6,6 +6,22 @@
 <title>Kage — Where stillness reveals the unseen</title>
 <meta name="description" content="A five-chapter night walk through a Kyoto mountain temple. Charred cypress, lantern light and a vermilion moon, rendered live in WebGL.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2305070a'/%3E%3Ccircle cx='16' cy='17' r='8' fill='%23e0231c'/%3E%3Crect x='4' y='8' width='24' height='2.6' fill='%23dfe7e0'/%3E%3Crect x='7' y='13' width='18' height='2' fill='%23dfe7e0'/%3E%3C/svg%3E">
+<script>
+(function() {
+  if (location.protocol !== 'file:' && !document.querySelector('base')) {
+    var p = location.pathname;
+    var b = document.createElement('base');
+    if (p.endsWith('/kage')) {
+      b.href = p + '/';
+    } else if (p.includes('/kage/')) {
+      b.href = p.substring(0, p.indexOf('/kage/') + 6);
+    } else {
+      b.href = p.substring(0, p.lastIndexOf('/') + 1);
+    }
+    document.head.appendChild(b);
+  }
+})();
+</script>
 <link rel="stylesheet" href="secret-pathways-assets/fonts.css">
 <style>
 /* ============================================================= tokens */
@@ -1203,6 +1219,11 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
 <div class="rail" id="rail"></div>
 
 <script src="secret-pathways-assets/three.min.js"></script>
+<script>
+if (typeof THREE === 'undefined') {
+  document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+}
+</script>
 <script>
 /* =====================================================================
    KAGE — a live Kyoto mountain temple, after dark.
@@ -3209,10 +3230,16 @@ function buildLeafFall() {
   scene.add(inst);
   WORLD.leaves = { mesh: inst, list: list };
 }
-const LEAF_M = new THREE.Matrix4(), LEAF_Q = new THREE.Quaternion();
-const LEAF_E = new THREE.Euler(), LEAF_P = new THREE.Vector3(), LEAF_S = new THREE.Vector3();
-const LEAF_F = new THREE.Vector3();
+let LEAF_M, LEAF_Q, LEAF_E, LEAF_P, LEAF_S, LEAF_F;
+function ensureLeafMath() {
+  if (!LEAF_M && typeof THREE !== 'undefined') {
+    LEAF_M = new THREE.Matrix4(); LEAF_Q = new THREE.Quaternion();
+    LEAF_E = new THREE.Euler(); LEAF_P = new THREE.Vector3(); LEAF_S = new THREE.Vector3();
+    LEAF_F = new THREE.Vector3();
+  }
+}
 function updateLeaves(dt) {
+  ensureLeafMath(); if (!LEAF_M) return;
   const LV = WORLD.leaves; if (!LV) return;
   const cy = camera.position.y, L = LV.list;
   /* Respawn ahead of the rig, not around it. A band centred on the camera
@@ -4048,12 +4075,19 @@ function buildRig() {
   tmpCam = new THREE.PerspectiveCamera(CAM[0].fov, vpW() / vpH(), .35, 220);
   camera.layers.enable(1); camera.layers.enable(2);
 }
-const _p = new THREE.Vector3(), _t = new THREE.Vector3(), _d = new THREE.Vector3();
+let _p, _t, _d;
+function ensureRigMath() {
+  if (!_p && typeof THREE !== 'undefined') {
+    _p = new THREE.Vector3(); _t = new THREE.Vector3(); _d = new THREE.Vector3();
+  }
+}
 /* Every waypoint is composed for a wide frame. On a tall one the same
    numbers crop the gate in half, so the rig steps back along its own view
    axis and opens up a little instead of letting the sides fall away. */
 function aspectFix() { return clamp((1.62 - vpW() / vpH()) / 1.05, 0, 1); }
 function fitAspect(p, t, fov) {
+  ensureRigMath();
+  if (!_p) return fov;
   const nf = aspectFix();
   if (nf <= 0) return fov;
   _d.subVectors(p, t).normalize();
@@ -4062,6 +4096,8 @@ function fitAspect(p, t, fov) {
   return fov * (1 + nf * .40);
 }
 function applyCamera() {
+  ensureRigMath();
+  if (!_p) return;
   const N = CAM.length - 1;
   const u = clamp(RIG.smooth / N, 0, 1);
   curveP.getPoint(u, _p); curveT.getPoint(u, _t);
@@ -4460,7 +4496,12 @@ function buildCards() {
 /* A render target keeps its own viewport/scissor — renderer.setScissor()
    only ever reaches the default framebuffer, so the region has to be set on
    whichever surface we are actually drawing into, and re-bound to take. */
-const _push = new THREE.Vector3();
+let _push;
+function ensureCardMath() {
+  if (!_push && typeof THREE !== 'undefined') {
+    _push = new THREE.Vector3();
+  }
+}
 function setRegion(rt, x, y, w, h) {
   if (rt) {
     const pr = renderer.getPixelRatio();
@@ -4499,6 +4540,8 @@ function cardBuffer(C, w, h) {
   return C.rt;
 }
 function aimCard(C, aspect) {
+  ensureCardMath();
+  if (!_push) return;
   const c = C.cam, u = c.userData;
   c.aspect = aspect; c.updateProjectionMatrix();
   _push.subVectors(u.look, u.home).normalize();
