@@ -3,8 +3,8 @@
  * ASURA EDGE ASSET SERVICER // ZERO-404 ASSET GUARANTEE ENGINE
  * Route: /api/serve_asset?path=:path
  * ══════════════════════════════════════════════════════════════════════════════
- * Serves three.min.js, fonts.css, webp foregrounds, and textures directly
- * from disk or GitHub with high-speed CDN caching headers.
+ * Serves three.min.js, fonts.css, webp foregrounds, mp4 videos, and textures
+ * directly from disk or authenticated GitHub with HTTP 206 Range streaming.
  */
 
 const fs = require('fs');
@@ -21,6 +21,7 @@ const MIME_TYPES = {
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
   '.svg': 'image/svg+xml',
+  '.mp4': 'video/mp4',
   '.woff': 'font/woff',
   '.woff2': 'font/woff2',
   '.ttf': 'font/ttf',
@@ -35,11 +36,19 @@ export default async function handler(req, res) {
 
   // Remove leading slashes and sanitize path traversal
   reqPath = reqPath.replace(/^[/\\]+/, '').replace(/\.\./g, '');
+  const basename = path.basename(reqPath);
 
   // Determine possible relative paths to check
   const candidatePaths = [
     reqPath,
+    path.join('public', reqPath),
+    path.join('projects', 'mustang', 'assets', basename),
+    path.join('projects', 'mustang', reqPath),
+    path.join('public', 'projects', 'mustang', 'assets', basename),
+    path.join('public', 'assets', basename),
+    path.join('public', 'landing-pages', 'assets', basename),
     path.join('projects', 'kage', reqPath),
+    reqPath.replace(/^projects\/[^/]+\//, 'projects/mustang/'),
     reqPath.replace(/^projects\/[^/]+\//, 'projects/kage/'),
     reqPath.replace(/^secret-pathways-assets\//, 'projects/kage/secret-pathways-assets/'),
     reqPath.replace(/^projects\/secret-pathways-assets\//, 'projects/kage/secret-pathways-assets/')
@@ -53,32 +62,60 @@ export default async function handler(req, res) {
     try {
       const local = path.join(process.cwd(), rel);
       if (fs.existsSync(local) && fs.statSync(local).isFile()) {
+        const stat = fs.statSync(local);
+        const fileSize = stat.size;
+        const range = req.headers.range;
+
+        // Support HTTP 206 Partial Content for video streaming and seeking
+        if (range && ext === '.mp4') {
+          const parts = range.replace(/bytes=/, '').split('-');
+          const start = parseInt(parts[0], 10);
+          const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+          const chunksize = (end - start) + 1;
+          const stream = fs.createReadStream(local, { start, end });
+          res.writeHead(206, {
+            'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+            'Accept-Ranges': 'bytes',
+            'Content-Length': chunksize,
+            'Content-Type': 'video/mp4'
+          });
+          stream.pipe(res);
+          return;
+        }
+
         const buffer = fs.readFileSync(local);
         res.setHeader('Content-Type', contentType);
+        res.setHeader('Accept-Ranges', 'bytes');
         res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
         return res.status(200).send(buffer);
       }
     } catch (e) {}
   }
 
-  // 2. Fetch from GitHub repository
+  // 2. Fetch from GitHub repository (authenticated for private repo access)
   for (const rel of candidatePaths) {
     const cleanGitPath = rel.replace(/\\/g, '/');
     try {
       const rawUrl = `https://raw.githubusercontent.com/${REPO}/main/${cleanGitPath}`;
-      const rawRes = await fetch(rawUrl, {
-        headers: {
-          'Authorization': `Bearer ${GITHUB_TOKEN}`,
-          'User-Agent': 'ASURA-Asset-Edge'
-        }
-      });
+      const headers = {
+        'Authorization': `Bearer ${GITHUB_TOKEN}`,
+        'User-Agent': 'ASURA-Asset-Edge'
+      };
+      if (req.headers.range) {
+        headers['Range'] = req.headers.range;
+      }
+      const rawRes = await fetch(rawUrl, { headers });
 
-      if (rawRes.status === 200) {
+      if (rawRes.status === 200 || rawRes.status === 206) {
         const arrayBuf = await rawRes.arrayBuffer();
         const buffer = Buffer.from(arrayBuf);
         res.setHeader('Content-Type', contentType);
+        res.setHeader('Accept-Ranges', 'bytes');
+        if (rawRes.headers.get('content-range')) {
+          res.setHeader('Content-Range', rawRes.headers.get('content-range'));
+        }
         res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-        return res.status(200).send(buffer);
+        return res.status(rawRes.status).send(buffer);
       }
     } catch (e) {}
   }

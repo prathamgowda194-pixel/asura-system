@@ -7,6 +7,48 @@
   <meta name="description" content="Experience the legend. An interactive 6-chapter 3D showcase of the 1968 Ford Mustang Fastback featuring interactive drag-to-reveal physics, 390 CID V8 engine anatomy, cockpit craft, and bespoke configurator.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2307090b'/%3E%3Cpath d='M6 18c4-6 12-7 20-3-6 4-13 7-20 3z' fill='%23d4a259'/%3E%3C/svg%3E">
 
+  <!-- Dynamic Base Resolution & Resilience Engine -->
+  <script>
+    (function () {
+      var loc = window.location.href;
+      var isFile = window.location.protocol === 'file:';
+      if (!isFile && (loc.indexOf('/projects/mustang') !== -1 || loc.indexOf('/mustang') !== -1)) {
+        var base = document.createElement('base');
+        base.href = '/projects/mustang/';
+        document.head.appendChild(base);
+      }
+      // Global resilience listener for image recovery
+      document.addEventListener('error', function (e) {
+        var el = e.target;
+        if (el && el.tagName === 'IMG' && el.src && !el.dataset.rescued) {
+          el.dataset.rescued = '1';
+          var filename = el.src.split('/').pop().split('?')[0];
+          var fallbacks = [
+            '/projects/mustang/assets/' + filename,
+            '/assets/' + filename,
+            'assets/' + filename,
+            '/landing-pages/assets/' + filename
+          ];
+          var i = 0;
+          function tryRescue() {
+            if (i < fallbacks.length) {
+              var next = fallbacks[i++];
+              if (next !== el.src) {
+                var probe = new Image();
+                probe.onload = function () { el.src = next; };
+                probe.onerror = tryRescue;
+                probe.src = next;
+              } else {
+                tryRescue();
+              }
+            }
+          }
+          tryRescue();
+        }
+      }, true);
+    })();
+  </script>
+
   <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -130,11 +172,32 @@
       position: relative; width: 100vw; height: 100vh;
       overflow: hidden; background: #06080a;
     }
+    .hero-visual-backing {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      z-index: 4; overflow: hidden; pointer-events: none;
+    }
+    .hero-img-layer {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      filter: brightness(0.92) contrast(1.08);
+      pointer-events: none;
+    }
+    .hero-draped-img {
+      z-index: 1;
+    }
+    .hero-unveiled-reveal-wrap {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      overflow: hidden; z-index: 2;
+      clip-path: inset(0 0 0 100%);
+      will-change: clip-path;
+      pointer-events: none;
+    }
     .video-canvas {
       position: absolute; inset: 0; width: 100%; height: 100%;
       object-fit: cover; z-index: 5;
       filter: brightness(0.92) contrast(1.08);
       pointer-events: none;
+      transition: opacity 0.3s ease;
     }
     .hero-watermark {
       position: absolute; top: 22%; right: 6%;
@@ -528,7 +591,7 @@
   <!-- FIXED NAVIGATION -->
   <header class="site-nav">
     <div class="nav-brand">
-      <img src="assets/ford_logo.svg" alt="Ford" class="ford-logo">
+      <img src="assets/ford_logo.svg" alt="Ford" class="ford-logo" onerror="this.onerror=null; this.src='/projects/mustang/assets/ford_logo.svg';">
       <div class="nav-divider"></div>
       <p class="nav-slogan">It's the classic performance car that only gets better.</p>
     </div>
@@ -550,16 +613,41 @@
 
   <!-- CHAPTER 1: HERO DRAG TO REVEAL -->
   <section class="chapter-hero" id="hero">
+    <!-- DUAL-LAYER VISUAL BACKING (100% Zero-Black-Screen Instant Render) -->
+    <div class="hero-visual-backing" id="hero-visual-backing">
+      <img 
+        src="assets/hero_draped.jpg" 
+        alt="1968 Ford Mustang Draped Silhouette" 
+        class="hero-img-layer hero-draped-img" 
+        id="hero-draped-img"
+        onerror="this.onerror=null; this.src='/projects/mustang/assets/hero_draped.jpg';"
+      >
+      <div class="hero-unveiled-reveal-wrap" id="hero-unveiled-wrap">
+        <img 
+          src="assets/hero_unveiled.jpg" 
+          alt="1968 Ford Mustang Fastback Unveiled" 
+          class="hero-img-layer hero-unveiled-img" 
+          id="hero-unveiled-img"
+          onerror="this.onerror=null; this.src='/projects/mustang/assets/hero_unveiled.jpg';"
+        >
+      </div>
+    </div>
+
     <!-- Background Synchronized 60FPS Video Stream -->
     <video 
       class="video-canvas" 
       id="video-stream" 
-      src="assets/reveal_motion.mp4" 
       preload="auto" 
       muted 
       playsinline 
+      webkit-playsinline
       loop
-    ></video>
+    >
+      <source src="assets/reveal_motion.mp4" type="video/mp4">
+      <source src="/projects/mustang/assets/reveal_motion.mp4" type="video/mp4">
+      <source src="/assets/reveal_motion.mp4" type="video/mp4">
+      <source src="/landing-pages/assets/reveal_motion.mp4" type="video/mp4">
+    </video>
 
     <!-- Watermark Numeral -->
     <div class="hero-watermark" id="watermark">1968</div>
@@ -608,12 +696,12 @@
       <!-- Bottom Actions -->
       <div class="hero-bottom-actions">
         <button class="share-btn">
-          <img src="assets/icon_share.svg" alt="" width="12" height="12">
+          <img src="assets/icon_share.svg" alt="" width="12" height="12" onerror="this.onerror=null; this.src='/projects/mustang/assets/icon_share.svg';">
           <span>SHARE</span>
         </button>
         <a href="#powertrain" class="scroll-down-prompt">
           <span>EXPLORE SPECIFICATIONS</span>
-          <img src="assets/icon_arrow.svg" alt="" width="10" height="10">
+          <img src="assets/icon_arrow.svg" alt="" width="10" height="10" onerror="this.onerror=null; this.src='/projects/mustang/assets/icon_arrow.svg';">
         </a>
       </div>
     </div>
@@ -653,7 +741,7 @@
       <!-- Engine Visual & Blueprint Split -->
       <div class="engine-media-split">
         <div class="engine-media-wrap">
-          <img src="assets/engine_390_v8.jpg" alt="390 V8 Engine Bay">
+          <img src="assets/engine_390_v8.jpg" alt="390 V8 Engine Bay" onerror="this.onerror=null; this.src='/projects/mustang/assets/engine_390_v8.jpg';">
         </div>
         <div class="engine-content">
           <h3 class="section-title" style="font-size: 28px; margin-bottom: 20px;">MECHANICAL HIGHLIGHTS</h3>
@@ -689,7 +777,7 @@
 
       <div class="aero-showcase">
         <div class="aero-banner">
-          <img src="assets/rear_taillights.jpg" alt="1968 Mustang Rear Fastback Taillights">
+          <img src="assets/rear_taillights.jpg" alt="1968 Mustang Rear Fastback Taillights" onerror="this.onerror=null; this.src='/projects/mustang/assets/rear_taillights.jpg';">
         </div>
 
         <div class="taillight-interactive-box">
@@ -718,7 +806,7 @@
 
       <div class="cockpit-grid">
         <div class="cockpit-img-box">
-          <img src="assets/cockpit_interior.jpg" alt="1968 Ford Mustang Cockpit Interior">
+          <img src="assets/cockpit_interior.jpg" alt="1968 Ford Mustang Cockpit Interior" onerror="this.onerror=null; this.src='/projects/mustang/assets/cockpit_interior.jpg';">
         </div>
         <div>
           <h3 class="section-title" style="font-size: 28px; margin-bottom: 18px;">CRAFTED MATERIALS</h3>
@@ -755,7 +843,7 @@
       <p class="section-lead">The 1968 Highland Green 390 Fastback was immortalized by Steve McQueen in *Bullitt*, setting the benchmark for cinema car chases through the streets of San Francisco.</p>
 
       <div class="bullitt-banner">
-        <img src="assets/bullitt_highway.jpg" alt="Highland Green Fastback on Highway">
+        <img src="assets/bullitt_highway.jpg" alt="Highland Green Fastback on Highway" onerror="this.onerror=null; this.src='/projects/mustang/assets/bullitt_highway.jpg';">
         <div class="bullitt-content">
           <h3 class="section-title" style="font-size: 32px; margin-bottom: 14px;">NO MUSIC. JUST HORSEPOWER.</h3>
           <p class="hero-desc" style="color: #e2e8f0; margin-bottom: 24px;">Director Peter Yates famously removed the musical score during the 10-minute chase scene, allowing the raw mechanical symphony of the 390 V8 and squealing Firestone Wide Oval tires to carry the tension.</p>
@@ -777,7 +865,7 @@
       <div class="configurator-panel">
         <div>
           <div class="config-preview-box">
-            <img id="config-img" src="assets/hero_unveiled.jpg" alt="Configured Mustang">
+            <img id="config-img" src="assets/hero_unveiled.jpg" alt="Configured Mustang" onerror="this.onerror=null; this.src='/projects/mustang/assets/hero_unveiled.jpg';">
           </div>
         </div>
 
@@ -816,7 +904,7 @@
   <footer class="site-footer">
     <div class="section-inner">
       <div class="nav-brand" style="margin-bottom: 24px;">
-        <img src="assets/ford_logo.svg" alt="Ford" class="ford-logo">
+        <img src="assets/ford_logo.svg" alt="Ford" class="ford-logo" onerror="this.onerror=null; this.src='/projects/mustang/assets/ford_logo.svg';">
       </div>
       <p class="hero-desc" style="max-width: 600px; margin-bottom: 32px;">
         A tribute to the iconic 1968 Ford Mustang Fastback. Ford and Mustang are registered trademarks of Ford Motor Company. Built with precision Three.js, WebGL, and Anime.js.
@@ -843,6 +931,9 @@
       const word2 = document.getElementById('hero-word-2');
       const initialSub = document.getElementById('initial-subtitle');
       const revealHeading = document.getElementById('reveal-heading');
+      const unveiledWrap = document.getElementById('hero-unveiled-wrap');
+      const drapedImg = document.getElementById('hero-draped-img');
+      const unveiledImg = document.getElementById('hero-unveiled-img');
 
       let isDragging = false;
       let startX = 0;
@@ -860,6 +951,10 @@
         isDragging = true;
         startX = (e.touches ? e.touches[0].clientX : e.clientX);
         document.body.style.cursor = 'grabbing';
+        // Prime video playback on user gesture for mobile browsers
+        if (video && video.paused) {
+          video.play().then(() => video.pause()).catch(() => {});
+        }
       }
 
       function onMove(e) {
@@ -902,12 +997,23 @@
         currentProgress += (targetProgress - currentProgress) * 0.12;
         if (Math.abs(currentProgress - targetProgress) < 0.001) currentProgress = targetProgress;
 
-        if (video.readyState >= 2 && videoDuration > 0) {
+        // 1. Instant 60FPS dual-layer visual reveal (peels drape away horizontally)
+        if (unveiledWrap) {
+          const clipLeft = (1 - currentProgress) * 100;
+          unveiledWrap.style.clipPath = `inset(0 0 0 ${clipLeft.toFixed(1)}%)`;
+        }
+        if (drapedImg) {
+          drapedImg.style.filter = `brightness(${(0.92 - currentProgress * 0.2).toFixed(2)}) contrast(1.08)`;
+        }
+
+        // 2. Video scrub synchronization
+        if (video && video.readyState >= 2 && videoDuration > 0) {
           const targetTime = currentProgress * videoDuration;
           if (Math.abs(video.currentTime - targetTime) > 0.03 && Math.abs(lastScrubTime - targetTime) > 0.03) {
             video.currentTime = targetTime;
             lastScrubTime = targetTime;
           }
+          video.style.opacity = '1';
         }
 
         if (fillBar) fillBar.style.width = (currentProgress * 100).toFixed(1) + '%';
@@ -939,6 +1045,9 @@
       }
       requestAnimationFrame(tickHero);
 
+      video.addEventListener('error', () => {
+        video.style.opacity = '0';
+      });
       video.play().then(() => video.pause()).catch(() => {});
 
       // 2. SEQUENTIAL TAILLIGHT ANIMATOR
