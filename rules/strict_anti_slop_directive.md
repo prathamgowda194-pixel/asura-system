@@ -22,3 +22,9 @@ Every generated website must be a comprehensive, full-length publication featuri
 4. Spatial / Interactive Walkthrough Chapters
 5. Bespoke Amenities / Technical Specifications
 6. Private Acquisition / Concierge Liaison Portal
+
+## 5. ABSOLUTE PROHIBITION ON RAW UNICODE EMOJIS AS UI ICONS
+- **NEVER** use raw unicode emojis (`⚓`, `🍷`, `🌊`, `🚁`, `⚡`, `🏠`, `🚀`, `🔥`, `✨`, etc.) in place of professional UI icons, amenity badges, buttons, or indicators.
+- Emojis render inconsistently across operating systems, clash with editorial luxury typography, and are recognized by users as hallmarks of cheap AI slop.
+- **Mandatory Practice**: Use crisp, stroke-based inline SVG vector icons (or Lucide icons) with uniform stroke weights (`1.5px`–`1.75px`), rounded line caps/joins, and curated theme palette fills.
+
