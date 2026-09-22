@@ -638,7 +638,23 @@ export default async function handler(req, res) {
     } catch (e) {}
 
     try {
-      const apiEndpoint = `https://api.github.com/repos/${REPO}/contents/${relPath}`;
+      const rawUrl = `https://raw.githubusercontent.com/${REPO}/main/${relPath}?v=${Date.now()}`;
+      const rawRes = await fetch(rawUrl, {
+        headers: {
+          'Authorization': `Bearer ${GITHUB_TOKEN}`,
+          'User-Agent': 'ASURA-Edge'
+        }
+      });
+      if (rawRes.status === 200) {
+        const html = await rawRes.text();
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0');
+        return res.status(200).send(html);
+      }
+    } catch (e) {}
+
+    try {
+      const apiEndpoint = `https://api.github.com/repos/${REPO}/contents/${relPath}?ref=main`;
       const apiRes = await fetch(apiEndpoint, {
         headers: {
           'Authorization': `Bearer ${GITHUB_TOKEN}`,
