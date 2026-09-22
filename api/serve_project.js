@@ -587,6 +587,103 @@ const BLACKLIST_PATTERNS = [
 ];
 
 export default async function handler(req, res) {
+  // 0. ZERO-404 ASSET SERVICING (Direct & Rewritten Asset Handling)
+  const assetParam = (req.query.asset || req.query.file || req.query.path || '').toString().trim();
+  const urlPath = req.url || '';
+  if (assetParam || urlPath.includes('/assets/')) {
+    const rawAsset = assetParam || (urlPath.split('/assets/')[1] || '').split('?')[0];
+    const cleanAsset = rawAsset.replace(/^[/\\]+/, '').replace(/\.\./g, '');
+    const basename = path.basename(cleanAsset);
+    const ext = path.extname(basename).toLowerCase();
+
+    const MIME_TYPES = {
+      '.js': 'application/javascript; charset=utf-8',
+      '.css': 'text/css; charset=utf-8',
+      '.webp': 'image/webp',
+      '.png': 'image/png',
+      '.jpg': 'image/jpeg',
+      '.jpeg': 'image/jpeg',
+      '.svg': 'image/svg+xml',
+      '.mp4': 'video/mp4',
+      '.woff': 'font/woff',
+      '.woff2': 'font/woff2',
+      '.ttf': 'font/ttf',
+      '.json': 'application/json; charset=utf-8'
+    };
+    const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+
+    const candidatePaths = [
+      path.join('projects', 'mustang', 'assets', basename),
+      path.join('public', 'projects', 'mustang', 'assets', basename),
+      path.join('public', 'assets', basename),
+      path.join('public', 'landing-pages', 'assets', basename),
+      path.join('projects', req.query.slug || 'mustang', 'assets', basename),
+      path.join('dist', 'projects', 'mustang', 'assets', basename),
+      cleanAsset
+    ];
+
+    // Try local disk
+    for (const rel of candidatePaths) {
+      try {
+        const local = path.join(process.cwd(), rel);
+        if (fs.existsSync(local) && fs.statSync(local).isFile()) {
+          const stat = fs.statSync(local);
+          const fileSize = stat.size;
+          const range = req.headers.range;
+
+          if (range && ext === '.mp4') {
+            const parts = range.replace(/bytes=/, '').split('-');
+            const start = parseInt(parts[0], 10);
+            const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+            const chunksize = (end - start) + 1;
+            const stream = fs.createReadStream(local, { start, end });
+            res.writeHead(206, {
+              'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+              'Accept-Ranges': 'bytes',
+              'Content-Length': chunksize,
+              'Content-Type': 'video/mp4'
+            });
+            stream.pipe(res);
+            return;
+          }
+
+          const buffer = fs.readFileSync(local);
+          res.setHeader('Content-Type', contentType);
+          res.setHeader('Accept-Ranges', 'bytes');
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+          return res.status(200).send(buffer);
+        }
+      } catch (e) {}
+    }
+
+    // Try Authenticated GitHub Raw Fallback
+    for (const rel of candidatePaths) {
+      const cleanGitPath = rel.replace(/\\/g, '/');
+      try {
+        const rawUrl = `https://raw.githubusercontent.com/${REPO}/main/${cleanGitPath}`;
+        const headers = {
+          'Authorization': `Bearer ${GITHUB_TOKEN}`,
+          'User-Agent': 'ASURA-Asset-Edge'
+        };
+        if (req.headers.range) headers['Range'] = req.headers.range;
+        const rawRes = await fetch(rawUrl, { headers });
+        if (rawRes.status === 200 || rawRes.status === 206) {
+          const arrayBuf = await rawRes.arrayBuffer();
+          const buffer = Buffer.from(arrayBuf);
+          res.setHeader('Content-Type', contentType);
+          res.setHeader('Accept-Ranges', 'bytes');
+          if (rawRes.headers.get('content-range')) {
+            res.setHeader('Content-Range', rawRes.headers.get('content-range'));
+          }
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+          return res.status(rawRes.status).send(buffer);
+        }
+      } catch (e) {}
+    }
+
+    return res.status(404).send(`Asset not found: ${basename}`);
+  }
+
   const slug = (req.query.slug || '').replace(/[^a-z0-9-]/gi, '');
   if (!slug) {
     return res.status(400).send("<h1>Missing project slug</h1>");
