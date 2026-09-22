@@ -4701,7 +4701,13 @@ function queue() { TIMER ? setTimeout(() => frame(performance.now()), 16) : requ
 
 /* ======================================================== 14 · booting */
 const JOBS = [
-  ['Reading the type', () => document.fonts && document.fonts.load('600 320px Wordmark')],
+  ['Reading the type', () => {
+    if (!document.fonts || !document.fonts.load) return Promise.resolve();
+    return Promise.race([
+      document.fonts.load('600 320px Wordmark').catch(() => {}),
+      new Promise(res => setTimeout(res, 200))
+    ]);
+  }],
   ['Pouring the ground', () => { initGL(); WORLD.uT = { value: 0 }; buildRig(); buildLights(); }],
   ['Cutting the approach', () => buildShell()],
   ['Raising the hall', () => buildTemple()],
@@ -4748,47 +4754,105 @@ const JOBS = [
 ];
 
 function boot() {
-  makeGrain();
-  wireReveals(); wireForegroundStages(); wireNav(); wireHeroExit(); wireFocus(); wireCursor();
+  try {
+    makeGrain();
+    wireReveals(); wireForegroundStages(); wireNav(); wireHeroExit(); wireFocus(); wireCursor();
+  } catch (err) {
+    console.warn('[kage] Non-fatal error during DOM wiring:', err);
+  }
   document.body.classList.add('is-locked');
   let i = 0;
-  const step = () => {
-    const j = JOBS[i];
-    const done = () => {
-      i++;
-      const p = i / JOBS.length;
-      preFill.style.right = ((1 - p) * 100).toFixed(1) + '%';
-      prePct.textContent = Math.round(p * 100);
-      if (i < JOBS.length) setTimeout(step, 16); else setTimeout(start, 220);
-    };
-    let r;
-    try { r = j[1](); }
-    catch (err) {
-      console.error('[kage] job "' + j[0] + '" failed', err);
-      if (i <= 1) return fallback(err);          /* no renderer, no scene */
-    }
-    (r && r.then) ? r.then(done, done) : done();
+  let started = false;
+  const safeStart = () => {
+    if (started) return;
+    started = true;
+    start();
   };
-  setTimeout(step, 60);
+
+  // Absolute safety watchdog: under no circumstance can the page be stuck past 2.8s!
+  const watchdog = setTimeout(() => {
+    if (!started) {
+      console.warn('[kage] Watchdog triggered - completing preloader');
+      if (prePct) prePct.textContent = '100';
+      if (preFill) preFill.style.right = '0%';
+      safeStart();
+    }
+  }, 2800);
+
+  const step = () => {
+    if (started) return;
+    if (i >= JOBS.length) {
+      clearTimeout(watchdog);
+      return setTimeout(safeStart, 160);
+    }
+    const j = JOBS[i];
+    let stepDone = false;
+    const done = () => {
+      if (stepDone) return;
+      stepDone = true;
+      i++;
+      const p = Math.min(1, i / JOBS.length);
+      if (preFill) preFill.style.right = ((1 - p) * 100).toFixed(1) + '%';
+      if (prePct) prePct.textContent = Math.round(p * 100);
+      if (i < JOBS.length) {
+        setTimeout(step, 12);
+      } else {
+        clearTimeout(watchdog);
+        setTimeout(safeStart, 180);
+      }
+    };
+
+    // Prevent any single job from blocking for more than 1.2s
+    const stepTimer = setTimeout(() => {
+      console.warn('[kage] Job timed out:', j[0]);
+      done();
+    }, 1200);
+
+    let r;
+    try {
+      r = j[1]();
+    } catch (err) {
+      console.error('[kage] job "' + j[0] + '" failed', err);
+      clearTimeout(stepTimer);
+      if (i <= 1 && !renderer) return fallback(err);
+      return done();
+    }
+
+    if (r && typeof r.then === 'function') {
+      r.then(() => {
+        clearTimeout(stepTimer);
+        done();
+      }, err => {
+        console.warn('[kage] job promise rejected:', j[0], err);
+        clearTimeout(stepTimer);
+        done();
+      });
+    } else {
+      clearTimeout(stepTimer);
+      done();
+    }
+  };
+  setTimeout(step, 30);
 }
 
 function fallback(err) {
   document.documentElement.classList.add('no-webgl');
   document.body.classList.add('no-webgl');
   document.body.classList.remove('is-locked');
-  preEl.classList.add('done');
+  if (preEl) preEl.classList.add('done');
   $$('[data-rv], .mask-line').forEach(e => e.classList.add('rv-in'));
   window.__kage = window.__secret = { fallback: true, error: String(err && err.message || err) };
 }
 
 function start() {
+  if (running) return;
   addEventListener('resize', () => { resize(); }, { passive: true });
   addEventListener('orientationchange', () => setTimeout(resize, 250));
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) { running = false; }
     else if (!running) { running = true; tPrev = performance.now(); queue(); }
   });
-  resize();
+  try { resize(); } catch(e) { console.warn('[kage] resize error:', e); }
 
   const shot = Q.get('shot');
   if (shot !== null) {                       /* deterministic states for review */
@@ -4798,9 +4862,9 @@ function start() {
     RIG.smooth = RIG.prog = progressFor(anchors[n]);
     $$('[data-rv], .mask-line').forEach(e => e.classList.add('rv-in'));
     document.body.classList.remove('is-locked');
-    preEl.classList.add('done');
+    if (preEl) preEl.classList.add('done');
   } else {
-    preEl.classList.add('done');
+    if (preEl) preEl.classList.add('done');
     setTimeout(() => {
       document.body.classList.remove('is-locked');
       $('#hero').querySelectorAll('[data-rv], .mask-line').forEach((e, i) =>
