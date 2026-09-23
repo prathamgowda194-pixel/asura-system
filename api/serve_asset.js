@@ -29,7 +29,7 @@ const MIME_TYPES = {
 };
 
 export default async function handler(req, res) {
-  let reqPath = (req.query.path || req.query.file || '').toString().trim();
+  let reqPath = (req.query.path || req.query.file || req.query.asset || '').toString().trim();
   if (!reqPath) {
     return res.status(400).send('Missing asset path');
   }
