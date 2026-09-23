@@ -1068,13 +1068,12 @@
         }
       }
 
-      // Drag Tracking Physics
+      // BIDIRECTIONAL TO-AND-FRO PRECISION DRAG SYSTEM
       let isDragging = false;
-      let startClientX = 0;
-      let startProgress = 0;
       let currentProgress = 0;
       let targetProgress = 0;
       let videoDuration = 13.0;
+      let snapAnimation = null;
 
       if (video) {
         video.addEventListener('loadedmetadata', () => {
@@ -1087,33 +1086,28 @@
 
       const clamp = (val, min, max) => Math.max(min, Math.min(max, val));
 
-      function calculateProgressFromCoords(clientX, clientY) {
-        if (!arcSvg) return 0;
-        const svgRect = arcSvg.getBoundingClientRect();
-        const svgAspect = 1000 / 650;
-        const rectAspect = svgRect.width / svgRect.height;
-        let actualW, actualH, offX, offY;
-
-        if (rectAspect > svgAspect) {
-          actualH = svgRect.height;
-          actualW = actualH * svgAspect;
-          offX = (svgRect.width - actualW) / 2;
-          offY = 0;
-        } else {
-          actualW = svgRect.width;
-          actualH = actualW / svgAspect;
-          offX = 0;
-          offY = (svgRect.height - actualH) / 2;
+      // Native SVG coordinate matrix transformation (100% resolution & aspect ratio independent)
+      function getSvgPoint(clientX, clientY) {
+        if (!arcSvg || !arcSvg.createSVGPoint) return { x: 500, y: 480 };
+        const pt = arcSvg.createSVGPoint();
+        pt.x = clientX;
+        pt.y = clientY;
+        const ctm = arcSvg.getScreenCTM();
+        if (ctm) {
+          return pt.matrixTransform(ctm.inverse());
         }
+        return { x: 500, y: 480 };
+      }
 
-        const svgX = ((clientX - svgRect.left - offX) / actualW) * 1000;
-        const svgY = ((clientY - svgRect.top - offY) / actualH) * 650;
-
-        const dx = (svgX - cx) / rx;
-        const dy = (cy - svgY) / ry;
+      function calculateProgressFromPoint(clientX, clientY) {
+        const svgPt = getSvgPoint(clientX, clientY);
+        const dx = (svgPt.x - cx) / rx;
+        const dy = (cy - svgPt.y) / ry; // positive upward
 
         let angle = Math.atan2(dy, dx);
-        if (angle < 0) angle = 0;
+        if (angle < 0) {
+          angle = dx >= 0 ? startAngle : endAngle;
+        }
 
         const p = (angle - startAngle) / (endAngle - startAngle);
         return clamp(p, 0, 1);
@@ -1121,66 +1115,76 @@
 
       function onPointerStart(e) {
         isDragging = true;
+        if (snapAnimation) {
+          snapAnimation.pause();
+          snapAnimation = null;
+        }
         document.body.style.cursor = 'grabbing';
-        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-        startClientX = clientX;
-        startProgress = currentProgress;
+
+        const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+        const clientY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+
+        if (e.target && e.target.setPointerCapture && e.pointerId !== undefined) {
+          try { e.target.setPointerCapture(e.pointerId); } catch (_) {}
+        }
 
         // Prime video playback on user gesture for iOS/Android
         if (video && video.paused) {
           video.play().then(() => video.pause()).catch(() => {});
         }
 
-        targetProgress = calculateProgressFromCoords(clientX, clientY);
+        targetProgress = calculateProgressFromPoint(clientX, clientY);
       }
 
       function onPointerMove(e) {
         if (!isDragging) return;
-        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+        const clientY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
 
-        // Combine polar angle with horizontal delta for smooth, intuitive drag feel
-        const polarP = calculateProgressFromCoords(clientX, clientY);
-        const deltaX = (startClientX - clientX) / (window.innerWidth * 0.45);
-        const linearP = clamp(startProgress + deltaX, 0, 1);
-
-        targetProgress = clamp(polarP * 0.7 + linearP * 0.3, 0, 1);
+        targetProgress = calculateProgressFromPoint(clientX, clientY);
       }
 
-      function onPointerEnd() {
+      function onPointerEnd(e) {
         if (!isDragging) return;
         isDragging = false;
         document.body.style.cursor = 'default';
 
-        if (targetProgress > 0.38) {
-          anime({
+        if (e && e.target && e.target.releasePointerCapture && e.pointerId !== undefined) {
+          try { e.target.releasePointerCapture(e.pointerId); } catch (_) {}
+        }
+
+        if (targetProgress > 0.45) {
+          snapAnimation = anime({
             targets: { p: targetProgress },
             p: 1,
-            duration: 850,
+            duration: 750,
             easing: 'easeOutCubic',
             update: anim => { targetProgress = anim.animations[0].currentValue; }
           });
         } else {
-          anime({
+          snapAnimation = anime({
             targets: { p: targetProgress },
             p: 0,
-            duration: 650,
+            duration: 600,
             easing: 'easeOutCubic',
             update: anim => { targetProgress = anim.animations[0].currentValue; }
           });
         }
       }
 
-      handle.addEventListener('mousedown', onPointerStart);
-      handle.addEventListener('touchstart', onPointerStart, { passive: true });
+      handle.addEventListener('pointerdown', onPointerStart);
+      handle.addEventListener('pointermove', onPointerMove);
+      handle.addEventListener('pointerup', onPointerEnd);
+      handle.addEventListener('pointercancel', onPointerEnd);
 
-      window.addEventListener('mousemove', onPointerMove);
-      window.addEventListener('touchmove', onPointerMove, { passive: true });
+      if (arcSvg) {
+        arcSvg.style.pointerEvents = 'auto';
+        arcSvg.style.cursor = 'pointer';
+        arcSvg.addEventListener('pointerdown', onPointerStart);
+      }
 
-      window.addEventListener('mouseup', onPointerEnd);
-      window.addEventListener('touchend', onPointerEnd);
-
+      window.addEventListener('pointermove', onPointerMove);
+      window.addEventListener('pointerup', onPointerEnd);
       window.addEventListener('resize', () => {
         updateHandlePosition(currentProgress);
       });
