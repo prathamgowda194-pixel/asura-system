@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FIND Real Estate // Find What Moves You</title>
+  <title>FIND Real Estate // Find What Moves You | 4K 3D Architectural Experience</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,8 +17,6 @@
   <style>
     :root {
       --bg: #FFFFFF;
-      --sky-light: #BEE3F8;
-      --sky-mid: #90CDF4;
       --text: #0F172A;
       --dark-obsidian: #050505;
       --dark-card: #0F0F11;
@@ -79,7 +77,7 @@
     .wireframe-stroke-text {
       -webkit-text-stroke: 1.8px #FFFFFF;
       -webkit-text-fill-color: rgba(255, 255, 255, 0.08);
-      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
+      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
       letter-spacing: -0.04em;
     }
 
@@ -90,6 +88,15 @@
       -webkit-backdrop-filter: blur(24px);
       border: 1px solid rgba(226, 232, 240, 0.9);
       box-shadow: 0 10px 35px -10px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Glass HUD badge */
+    .glass-hud {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.4);
     }
 
     /* ── Cloud Drift Animation ── */
@@ -104,15 +111,6 @@
 
     .animate-cloud-left { animation: cloudDriftLeft 9s ease-in-out infinite; }
     .animate-cloud-right { animation: cloudDriftRight 10s ease-in-out infinite; }
-
-    /* ── Penthouse Floating Idle Animation ── */
-    @keyframes floatPenthouse {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-10px) rotate(0.3deg); }
-    }
-    .animate-penthouse-idle {
-      animation: floatPenthouse 6s ease-in-out infinite;
-    }
 
     /* ── Chevron Arrow Clip-Path Mosaic (Exact Video Arrow >>>) ── */
     .chevron-box {
@@ -211,20 +209,26 @@
   </header>
 
   <!-- ─────────────────────────────────────────────────────────────
-       2. HERO PINNED 3D SCROLL EXPERIENCE (Frames 01 - 06)
+       2. HERO PINNED 3D SCROLL EXPERIENCE WITH 4K VIDEO INTEGRATION
   ───────────────────────────────────────────────────────────── -->
-  <section id="heroPin" class="relative w-full h-screen overflow-hidden bg-gradient-to-b from-[#6BA9D6] via-[#94C5E8] to-[#EAF4FB] flex flex-col items-center justify-center">
+  <section id="heroPin" class="relative w-full h-screen overflow-hidden bg-[#88B8DC] flex flex-col items-center justify-center select-none">
     
-    <!-- Atmospheric Radial Sky Wash -->
-    <div class="absolute inset-0 bg-radial-gradient from-white/35 via-transparent to-transparent pointer-events-none"></div>
+    <!-- ── 4K 3D SCROLL VIDEO PLAYER (Scrubbed on scroll & arrow keys) ── -->
+    <div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10">
+      <video id="hero3DVideo" src="hero_3d_video.mp4" playsinline muted preload="auto" class="w-full h-full object-cover object-center filter brightness-105 contrast-105">
+        <source src="hero_3d_scrub_smooth.mp4" type="video/mp4">
+        <source src="hero_3d_video.mp4" type="video/mp4">
+      </video>
+      <div class="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/20 pointer-events-none"></div>
+    </div>
 
     <!-- ── TEXT LAYER (Frame 01: Fades out smoothly on scroll) ── -->
     <div id="heroTextLayer" class="relative z-30 text-center max-w-4xl px-6 pt-10 transition-all duration-300">
-      <h1 class="font-display text-4xl sm:text-6xl md:text-7xl font-black text-[#0F172A] leading-[1.05] tracking-tight mb-4 drop-shadow-sm">
+      <h1 class="font-display text-4xl sm:text-6xl md:text-7xl font-black text-[#0F172A] leading-[1.05] tracking-tight mb-4 drop-shadow-[0_2px_12px_rgba(255,255,255,0.7)]">
         Find What Moves You
       </h1>
 
-      <p class="text-sm sm:text-base md:text-lg text-slate-800 font-medium max-w-2xl mx-auto mb-6 leading-relaxed">
+      <p class="text-sm sm:text-base md:text-lg text-slate-800 font-medium max-w-2xl mx-auto mb-6 leading-relaxed drop-shadow-[0_1px_8px_rgba(255,255,255,0.6)]">
         Expert agents. Real guidance. A clear path to find what&apos;s next.
       </p>
 
@@ -235,107 +239,57 @@
       </a>
     </div>
 
-    <!-- ── 3D CENTERPIECE: FLOATING PENTHOUSE VILLA (Frame 01) ── -->
-    <div id="penthouseContainer" class="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
-      <div id="penthouseMesh" class="relative w-[560px] sm:w-[700px] md:w-[840px] transition-transform duration-100 ease-out">
-        
-        <!-- Architectural Penthouse Vector / Master Illustration -->
-        <svg viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto drop-shadow-2xl">
-          <defs>
-            <linearGradient id="limestoneStone" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#EBE3D5"/>
-              <stop offset="50%" stop-color="#DACFBE"/>
-              <stop offset="100%" stop-color="#BEB19C"/>
-            </linearGradient>
-            <linearGradient id="woodSoffit" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#B26538"/>
-              <stop offset="100%" stop-color="#7A3916"/>
-            </linearGradient>
-            <linearGradient id="glassPane" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#7EAECF" stop-opacity="0.95"/>
-              <stop offset="45%" stop-color="#366580" stop-opacity="0.9"/>
-              <stop offset="100%" stop-color="#143242" stop-opacity="0.98"/>
-            </linearGradient>
-          </defs>
-
-          <!-- Lower Level Base Slab -->
-          <rect x="180" y="270" width="440" height="150" rx="4" fill="url(#limestoneStone)" stroke="#7D6A55" stroke-width="2"/>
-          
-          <!-- Lower Level Glass Curtain Grid -->
-          <g opacity="0.96">
-            <rect x="200" y="290" width="70" height="115" rx="2" fill="url(#glassPane)" stroke="#1F333E" stroke-width="2.5"/>
-            <rect x="280" y="290" width="70" height="115" rx="2" fill="url(#glassPane)" stroke="#1F333E" stroke-width="2.5"/>
-            <rect x="360" y="290" width="80" height="115" rx="2" fill="url(#glassPane)" stroke="#1F333E" stroke-width="2.5"/>
-            <rect x="450" y="290" width="75" height="115" rx="2" fill="url(#glassPane)" stroke="#1F333E" stroke-width="2.5"/>
-            <rect x="535" y="290" width="65" height="115" rx="2" fill="url(#glassPane)" stroke="#1F333E" stroke-width="2.5"/>
-            <line x1="200" y1="345" x2="600" y2="345" stroke="#1F333E" stroke-width="2"/>
-          </g>
-
-          <!-- Cantilever Mid-Floor Slab with Warm Wood Louvers -->
-          <rect x="160" y="260" width="480" height="16" rx="2" fill="#BFAFA0" stroke="#7A6853" stroke-width="1.5"/>
-          <rect x="165" y="274" width="470" height="4" fill="url(#woodSoffit)"/>
-
-          <!-- Upper Penthouse Pavilion -->
-          <rect x="280" y="170" width="280" height="92" rx="3" fill="url(#limestoneStone)" stroke="#7D6A55" stroke-width="2"/>
-          <rect x="300" y="180" width="110" height="74" rx="2" fill="url(#glassPane)" stroke="#1F333E" stroke-width="2"/>
-          <rect x="420" y="180" width="125" height="74" rx="2" fill="url(#glassPane)" stroke="#1F333E" stroke-width="2"/>
-          <line x1="300" y1="215" x2="545" y2="215" stroke="#1F333E" stroke-width="1.5"/>
-          
-          <!-- Upper Overhang Roof Slab -->
-          <rect x="260" y="160" width="320" height="14" rx="2" fill="#C7B8A2" stroke="#7A6853" stroke-width="1.5"/>
-          
-          <!-- Rooftop Sky Garden & Bonsai Planters -->
-          <rect x="195" y="240" width="80" height="20" rx="3" fill="#5F4F3E"/>
-          <circle cx="210" cy="235" r="14" fill="#3D5A40"/>
-          <circle cx="230" cy="230" r="18" fill="#2E4831"/>
-          <circle cx="255" cy="236" r="15" fill="#4B6E4E"/>
-          <circle cx="270" cy="240" r="12" fill="#3D5A40"/>
-
-          <!-- Right Rooftop Garden -->
-          <rect x="565" y="240" width="45" height="20" rx="3" fill="#5F4F3E"/>
-          <circle cx="575" cy="234" r="14" fill="#2E4831"/>
-          <circle cx="595" cy="236" r="16" fill="#3D5A40"/>
-
-          <!-- Glass Railings -->
-          <rect x="175" y="242" width="105" height="18" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
-          <rect x="560" y="242" width="65" height="18" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
-        </svg>
-
-        <div class="absolute inset-0 bg-amber-400/10 blur-3xl pointer-events-none rounded-full"></div>
-      </div>
-    </div>
-
-    <!-- ── FLUFFY BILLOWING CLOUDS (Frames 01 - 04) ── -->
-    <div id="cloudLeft" class="animate-cloud-left absolute bottom-0 -left-20 w-[600px] sm:w-[750px] pointer-events-none z-25 opacity-95 transition-transform duration-300">
+    <!-- ── FLUFFY BILLOWING CLOUD ACCENTS (Parting laterally on scroll) ── -->
+    <div id="cloudLeft" class="animate-cloud-left absolute bottom-0 -left-24 w-[650px] sm:w-[800px] pointer-events-none z-20 opacity-85 transition-transform duration-300">
       <svg viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M50 300 C20 280 0 250 0 210 C0 160 40 120 90 120 C100 120 110 122 120 126 C140 70 190 30 250 30 C320 30 380 80 395 150 C410 145 425 140 445 140 C495 140 535 175 545 225 C580 235 600 265 600 300 Z" fill="white" fill-opacity="0.96"/>
+        <path d="M50 300 C20 280 0 250 0 210 C0 160 40 120 90 120 C100 120 110 122 120 126 C140 70 190 30 250 30 C320 30 380 80 395 150 C410 145 425 140 445 140 C495 140 535 175 545 225 C580 235 600 265 600 300 Z" fill="white" fill-opacity="0.95"/>
       </svg>
     </div>
 
-    <div id="cloudRight" class="animate-cloud-right absolute bottom-0 -right-20 w-[600px] sm:w-[750px] pointer-events-none z-25 opacity-95 transition-transform duration-300">
+    <div id="cloudRight" class="animate-cloud-right absolute bottom-0 -right-24 w-[650px] sm:w-[800px] pointer-events-none z-20 opacity-85 transition-transform duration-300">
       <svg viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 300 C0 260 25 230 60 220 C70 170 115 130 170 130 C190 130 210 135 225 145 C245 80 305 30 380 30 C450 30 510 80 525 150 C540 145 555 140 570 140 C610 140 640 170 650 210 C680 230 700 260 700 300 Z" fill="white" fill-opacity="0.96"/>
+        <path d="M0 300 C0 260 25 230 60 220 C70 170 115 130 170 130 C190 130 210 135 225 145 C245 80 305 30 380 30 C450 30 510 80 525 150 C540 145 555 140 570 140 C610 140 640 170 650 210 C680 230 700 260 700 300 Z" fill="white" fill-opacity="0.95"/>
       </svg>
     </div>
 
     <!-- ── STAGE 1 REVEAL: WIREFRAME OUTLINE "FIND Real Estate" (Frame 04) ── -->
-    <div id="wireframeTitleReveal" class="absolute z-22 flex flex-col items-center justify-center opacity-0 scale-90 pointer-events-none transition-all duration-300">
+    <div id="wireframeTitleReveal" class="absolute z-25 flex flex-col items-center justify-center opacity-0 scale-90 pointer-events-none transition-all duration-300">
       <h2 class="font-display text-7xl sm:text-9xl md:text-[11rem] font-black tracking-tighter wireframe-stroke-text select-none text-center">
         FIND
       </h2>
-      <span class="text-xl sm:text-3xl font-display uppercase tracking-[0.35em] font-bold text-white/80 -mt-2 sm:-mt-6 drop-shadow">
+      <span class="text-xl sm:text-3xl font-display uppercase tracking-[0.35em] font-bold text-white/90 -mt-2 sm:-mt-6 drop-shadow-md">
         Real Estate
       </span>
     </div>
 
-    <!-- ── STAGE 2 REVEAL: SOLID 3D CHROME "FIND Real Estate" (Frame 05 & 06) ── -->
-    <div id="chromeTitleReveal" class="absolute z-24 flex flex-col items-center justify-center opacity-0 scale-95 pointer-events-none transition-all duration-300">
+    <!-- ── STAGE 2 REVEAL: SOLID 3D CHROME "FIND Real Estate" (Frames 05 & 06) ── -->
+    <div id="chromeTitleReveal" class="absolute z-26 flex flex-col items-center justify-center opacity-0 scale-95 pointer-events-none transition-all duration-300">
       <h2 class="font-display text-7xl sm:text-9xl md:text-[11rem] font-black tracking-tighter chrome-metallic-text select-none text-center">
         FIND
       </h2>
-      <span class="text-xl sm:text-3xl font-display uppercase tracking-[0.35em] font-bold text-slate-900 -mt-2 sm:-mt-6 drop-shadow-lg">
+      <span class="text-xl sm:text-3xl font-display uppercase tracking-[0.35em] font-bold text-slate-900 -mt-2 sm:-mt-6 drop-shadow-2xl">
         Real Estate
       </span>
+    </div>
+
+    <!-- ── LIVE 4K SCROLL HUD BADGE & KEYBOARD ARROW CONTROL (Bottom Right) ── -->
+    <div class="absolute bottom-6 right-6 z-40 flex items-center gap-3 glass-hud px-4 py-2.5 rounded-2xl text-white">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-[11px] font-mono-tech tracking-wider uppercase font-bold text-emerald-300">4K 3D FLIGHT</span>
+      </div>
+      <div class="h-4 w-[1px] bg-white/20"></div>
+      <div class="flex items-center gap-2">
+        <span id="flightTimeDisplay" class="text-[11px] font-mono-tech text-white/90">0.0s / 15.1s</span>
+        <div class="w-16 h-1.5 rounded-full bg-white/20 overflow-hidden">
+          <div id="flightProgressBar" class="h-full bg-sky-400 transition-all duration-75 w-0"></div>
+        </div>
+      </div>
+      <div class="hidden sm:flex items-center gap-1 pl-1 text-[10px] font-mono-tech text-slate-300">
+        <span class="px-1.5 py-0.5 rounded bg-white/10 font-bold">↑</span>
+        <span class="px-1.5 py-0.5 rounded bg-white/10 font-bold">↓</span>
+        <span>keys to scrub</span>
+      </div>
     </div>
 
   </section>
@@ -1013,90 +967,126 @@
   </footer>
 
   <!-- ─────────────────────────────────────────────────────────────
-       COMPLETE GSAP 3D SCROLL & INTERACTIVE ENGINE
+       COMPLETE GSAP 3D SCROLL & VIDEO SCRUBBING ENGINE
   ───────────────────────────────────────────────────────────── -->
   <script>
     lucide.createIcons();
     gsap.registerPlugin(ScrollTrigger);
 
-    // ── 1. Hero 3D Cinematic Scroll Engine (Frames 01 - 06) ──
+    // ── 1. 4K 3D Video Scrubbing Engine (Apple Pro style) ──
+    const heroVideo = document.getElementById('hero3DVideo');
+    let targetVideoTime = 0;
+    let videoDuration = 15.1;
+
+    if (heroVideo) {
+      heroVideo.addEventListener('loadedmetadata', () => {
+        if (heroVideo.duration && !isNaN(heroVideo.duration)) {
+          videoDuration = heroVideo.duration;
+        }
+      });
+      // Initial seek to ensure first frame is painted
+      heroVideo.currentTime = 0.001;
+    }
+
     const heroTl = gsap.timeline({
       scrollTrigger: {
         trigger: "#heroPin",
         start: "top top",
-        end: "+=170%",
+        end: "+=260%",
         pin: true,
-        scrub: 1,
-        anticipatePin: 1
+        scrub: 0.6,
+        anticipatePin: 1,
+        onUpdate: (self) => {
+          targetVideoTime = self.progress * videoDuration;
+          
+          const timeDisplay = document.getElementById('flightTimeDisplay');
+          if (timeDisplay) {
+            timeDisplay.innerText = targetVideoTime.toFixed(1) + 's / ' + videoDuration.toFixed(1) + 's';
+          }
+          const scrubBar = document.getElementById('flightProgressBar');
+          if (scrubBar) {
+            scrubBar.style.width = (self.progress * 100).toFixed(1) + '%';
+          }
+        }
       }
     });
 
-    // Step 1: Hero text & search controls lift and fade out (0.0 -> 0.3)
+    // Sequence 1: Hero text & search controls lift and fade out (0.0 -> 0.25)
     heroTl.to("#heroTextLayer", {
-      y: -70,
+      y: -80,
       opacity: 0,
-      duration: 0.35,
+      duration: 0.25,
       ease: "power2.inOut"
     }, 0);
 
-    // Step 2: Clouds part outward left and right (0.1 -> 0.7)
+    // Sequence 2: Clouds part outward left and right (0.1 -> 0.6)
     heroTl.to("#cloudLeft", {
-      x: -300,
-      opacity: 0.15,
-      duration: 0.6,
+      x: -350,
+      opacity: 0.1,
+      duration: 0.5,
       ease: "power2.out"
     }, 0.1);
 
     heroTl.to("#cloudRight", {
-      x: 300,
-      opacity: 0.15,
-      duration: 0.6,
+      x: 350,
+      opacity: 0.1,
+      duration: 0.5,
       ease: "power2.out"
     }, 0.1);
 
-    // Step 3: Wireframe stroked title appears over the building (0.25 -> 0.55) (Frame 04)
+    // Sequence 3: Wireframe stroked title appears over the 3D building (0.28 -> 0.55) (Frame 04)
     heroTl.fromTo("#wireframeTitleReveal", 
-      { opacity: 0, scale: 0.85 },
-      { opacity: 1, scale: 1.0, duration: 0.3, ease: "power2.out" },
-      0.25
+      { opacity: 0, scale: 0.88 },
+      { opacity: 1, scale: 1.0, duration: 0.25, ease: "power2.out" },
+      0.28
     );
 
-    // Step 4: Wireframe fills and transforms into solid 3D Chrome (0.5 -> 0.8) (Frame 05)
-    heroTl.to("#wireframeTitleReveal", { opacity: 0, duration: 0.2 }, 0.52);
+    // Sequence 4: Wireframe fills and transforms into solid 3D Chrome (0.50 -> 0.80) (Frame 05)
+    heroTl.to("#wireframeTitleReveal", { opacity: 0, duration: 0.15 }, 0.52);
     heroTl.fromTo("#chromeTitleReveal",
-      { opacity: 0, scale: 0.95 },
-      { opacity: 1, scale: 1.0, duration: 0.3, ease: "power2.out" },
-      0.5
+      { opacity: 0, scale: 0.94 },
+      { opacity: 1, scale: 1.0, duration: 0.25, ease: "power2.out" },
+      0.50
     );
 
-    // Step 5: Floating Penthouse descends, scales down, and dissolves into clouds (0.3 -> 0.75) (Frame 05 & 06)
-    heroTl.to("#penthouseMesh", {
-      y: 110,
-      scale: 0.68,
+    // Sequence 5: Title dissolves into Manhattan canyon transition (0.80 -> 1.00)
+    heroTl.to("#chromeTitleReveal", {
       opacity: 0,
-      duration: 0.45,
-      ease: "power2.inOut"
-    }, 0.35);
+      scale: 1.1,
+      y: -50,
+      duration: 0.2,
+      ease: "power2.in"
+    }, 0.82);
 
-    // ── 2. Interactive Desktop Mouse 3D Perspective Tilt ──
-    const mesh = document.getElementById('penthouseMesh');
-    if (mesh && window.innerWidth > 768) {
-      window.addEventListener('mousemove', (e) => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 14;
-        const y = (e.clientY / window.innerHeight - 0.5) * 14;
-        gsap.to(mesh, {
-          rotateY: x,
-          rotateX: -y,
-          duration: 0.6,
-          ease: "power1.out"
-        });
-      });
-      window.addEventListener('mouseleave', () => {
-        gsap.to(mesh, { rotateY: 0, rotateX: 0, duration: 1, ease: "power2.out" });
-      });
+    // ── 2. High-Performance 60fps RequestAnimationFrame Scrub Loop ──
+    function updateVideoScrub() {
+      if (heroVideo && !isNaN(heroVideo.duration)) {
+        const diff = targetVideoTime - heroVideo.currentTime;
+        if (Math.abs(diff) > 0.02) {
+          heroVideo.currentTime += diff * 0.35;
+        }
+      }
+      requestAnimationFrame(updateVideoScrub);
     }
+    requestAnimationFrame(updateVideoScrub);
 
-    // ── 3. Interactive Accordion (Buy / Sell / Rent) (Frames 15 - 20) ──
+    // ── 3. Arrow Up and Down Key 3D Scroll Scrubbing ──
+    window.addEventListener('keydown', (e) => {
+      const isHeroPinned = window.scrollY < window.innerHeight * 2.5;
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+        if (isHeroPinned) {
+          e.preventDefault();
+          window.scrollBy({ top: 160, behavior: 'smooth' });
+        }
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        if (isHeroPinned && window.scrollY > 0) {
+          e.preventDefault();
+          window.scrollBy({ top: -160, behavior: 'smooth' });
+        }
+      }
+    });
+
+    // ── 4. Interactive Accordion (Buy / Sell / Rent) (Frames 15 - 20) ──
     window.activateAccordion = function(type) {
       const items = ['buy', 'sell', 'rent'];
       items.forEach(t => {
@@ -1111,7 +1101,7 @@
       });
     };
 
-    // ── 4. Testimonials Quotes ──
+    // ── 5. Testimonials Quotes Carousel ──
     const testimonials = [
       {
         quote: "Michael was a great realtor. Such a hard worker, dedicated to helping us find the perfect neighborhood, price point and home. He's a workaholic so he was available morning, noon and night. Tireless and dedicated. Would recommend him 100%!",
@@ -1154,7 +1144,7 @@
       });
     }
 
-    // ── 5. Form Submissions ──
+    // ── 6. Form Submissions ──
     window.handleNewsletter = function(e) {
       e.preventDefault();
       alert('✓ Thank you for subscribing to FIND Newsletter.');
