@@ -138,6 +138,22 @@
       border-color: rgba(255, 255, 255, 0.4);
       box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.15);
     }
+  
+    .liquid-chrome-text {
+      background: linear-gradient(120deg, #94a3b8 0%, #ffffff 40%, #64748b 60%, #ffffff 80%, #94a3b8 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: liquidChromeShimmer 4s ease-in-out infinite;
+    }
+    @keyframes liquidChromeShimmer {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+    .card-3d-wrap { perspective: 1000px; }
+    .card-3d-body { transition: transform 0.2s ease, box-shadow 0.2s ease; transform-style: preserve-3d; }
+    .magnetic-btn { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform; }
+
   </style>
 </head>
 
@@ -536,7 +552,170 @@
       </div>
 
     </div>
-  </main>
+  
+      <!-- ═══════════════════════════════════════════════════════════════
+           ANIMATION & VIBE CODING VAULT // ACETERNITY + REFERO + GSAP
+      ════════════════════════════════════════════════════════════════ -->
+      <div id="viewVault" class="h-full w-full hidden p-6 overflow-y-auto space-y-8">
+        
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-obsidian-border pb-4 gap-4">
+          <div>
+            <div class="flex items-center gap-3">
+              <h2 class="text-xl font-black text-white font-display flex items-center gap-2">
+                <span>ANIMATION & VIBE CODING VAULT</span>
+                <span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
+              </h2>
+              <span class="px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/30 text-[11px] font-mono font-bold">
+                CONNECTED TO ASURA PIPELINE
+              </span>
+            </div>
+            <p class="text-xs text-zinc-400 font-mono mt-1">
+              Curated design & animation engines from Refero.design, Aceternity UI, GSAP.com, and Anime.js. Automatically available to all current and future website builds.
+            </p>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <span class="px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-mono font-bold flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>4/4 ENGINES LIVE</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- 4 Connected Source Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          <!-- Source 1: Refero.design -->
+          <div class="p-4 rounded-2xl bg-obsidian-100 border border-obsidian-border hover:border-zinc-700 transition">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-mono text-zinc-400 uppercase font-bold">01 // INSPIRATION</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            </div>
+            <h3 class="font-display font-bold text-white text-base">Refero.design</h3>
+            <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
+              Real-world luxury design patterns, high-conversion layouts, and proven product spacing grids.
+            </p>
+            <a href="https://refero.design" target="_blank" class="inline-flex items-center gap-1 text-[11px] font-mono text-sky-400 hover:text-sky-300 mt-3 font-semibold">
+              <span>refero.design</span>
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+          </div>
+
+          <!-- Source 2: Aceternity UI -->
+          <div class="p-4 rounded-2xl bg-obsidian-100 border border-obsidian-border hover:border-zinc-700 transition">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-mono text-sky-400 uppercase font-bold">02 // COMPONENTS</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            </div>
+            <h3 class="font-display font-bold text-white text-base">Aceternity UI</h3>
+            <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
+              Spotlight radial glow, 3D card perspective tilt, moving border beams, and liquid metallic typography.
+            </p>
+            <a href="https://ui.aceternity.com" target="_blank" class="inline-flex items-center gap-1 text-[11px] font-mono text-sky-400 hover:text-sky-300 mt-3 font-semibold">
+              <span>ui.aceternity.com</span>
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+          </div>
+
+          <!-- Source 3: GSAP.com -->
+          <div class="p-4 rounded-2xl bg-obsidian-100 border border-obsidian-border hover:border-zinc-700 transition">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-mono text-emerald-400 uppercase font-bold">03 // SCROLL ENGINE</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            </div>
+            <h3 class="font-display font-bold text-white text-base">GSAP 3 + ScrollTrigger</h3>
+            <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
+              Apple Pro style pinned video scrubbing, lerp 60fps smoothing, and kinetic multi-stage reveals.
+            </p>
+            <a href="https://gsap.com" target="_blank" class="inline-flex items-center gap-1 text-[11px] font-mono text-sky-400 hover:text-sky-300 mt-3 font-semibold">
+              <span>gsap.com</span>
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+          </div>
+
+          <!-- Source 4: Anime.js -->
+          <div class="p-4 rounded-2xl bg-obsidian-100 border border-obsidian-border hover:border-zinc-700 transition">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-mono text-purple-400 uppercase font-bold">04 // MICRO-PHYSICS</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            </div>
+            <h3 class="font-display font-bold text-white text-base">Anime.js</h3>
+            <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
+              Physics-based spring easing, magnetic button hover attraction, SVG path morphs, and smooth counters.
+            </p>
+            <a href="https://animejs.com" target="_blank" class="inline-flex items-center gap-1 text-[11px] font-mono text-sky-400 hover:text-sky-300 mt-3 font-semibold">
+              <span>animejs.com</span>
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Live Interactive Component Sandbox -->
+        <div class="border-t border-obsidian-border pt-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-display font-bold text-lg text-white">LIVE INTERACTIVE ANIMATION SANDBOX</h3>
+            <span class="text-xs font-mono text-zinc-500">HOVER &amp; INTERACT TO TEST</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Sandbox 1: Aceternity 3D Perspective Tilt -->
+            <div class="card-3d-wrap rounded-2xl">
+              <div class="card-3d-body p-6 rounded-2xl bg-obsidian-100 border border-obsidian-border hover:border-sky-500/50 hover:shadow-2xl transition-all">
+                <span class="text-[10px] font-mono uppercase tracking-widest text-sky-400 font-bold block mb-2">ACETERNITY 3D TILT</span>
+                <h4 class="font-display font-bold text-white text-lg">Interactive Cursor Tilt</h4>
+                <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+                  Hover and move your cursor across this card. It rotates smoothly in 3D perspective with dynamic glare reflection!
+                </p>
+                <div class="mt-4 pt-3 border-t border-obsidian-border flex items-center justify-between text-[11px] font-mono text-zinc-400">
+                  <span>perspective: 1200px</span>
+                  <span class="text-emerald-400">ACTIVE</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sandbox 2: Aceternity Liquid Chrome -->
+            <div class="p-6 rounded-2xl bg-obsidian-100 border border-obsidian-border flex flex-col justify-between">
+              <div>
+                <span class="text-[10px] font-mono uppercase tracking-widest text-amber-400 font-bold block mb-2">LIQUID CHROME SHIMMER</span>
+                <h4 class="font-display font-black text-2xl liquid-chrome-text">
+                  3D LIQUID METAL
+                </h4>
+                <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+                  Animated multi-stop specular gradient sweeps across the typography reflecting synthetic environment lighting.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-obsidian-border flex items-center justify-between text-[11px] font-mono text-zinc-400">
+                <span>background-clip: text</span>
+                <span class="text-emerald-400">ACTIVE</span>
+              </div>
+            </div>
+
+            <!-- Sandbox 3: Anime.js Spring Magnetic Button -->
+            <div class="p-6 rounded-2xl bg-obsidian-100 border border-obsidian-border flex flex-col justify-between">
+              <div>
+                <span class="text-[10px] font-mono uppercase tracking-widest text-purple-400 font-bold block mb-2">SPRING MAGNETIC BUTTON</span>
+                <h4 class="font-display font-bold text-white text-lg">Physics Attraction</h4>
+                <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+                  Hover near the button below. The button magnetically pulls towards your cursor with spring physics!
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-obsidian-border flex items-center justify-between">
+                <button class="magnetic-btn px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs font-mono shadow-lg cursor-pointer">
+                  <span>Hover Magnetic Button →</span>
+                </button>
+                <span class="text-emerald-400 text-[11px] font-mono">ACTIVE</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </main>
 
   <!-- ======================================================================= -->
   <!-- MODAL: MULTI-FORMAT ATTACHMENT INTAKE (+) -->
@@ -695,6 +874,8 @@
       document.getElementById('viewWorkspace').classList.add('hidden');
       document.getElementById('viewRadar').classList.add('hidden');
       document.getElementById('viewBots').classList.add('hidden');
+      const vEl = document.getElementById('viewVault');
+      if (vEl) vEl.classList.add('hidden');
 
       if (view === 'home') {
         document.getElementById('viewHome').classList.remove('hidden');

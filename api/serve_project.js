@@ -527,7 +527,56 @@ function buildLuxuryHTML(lead) {
     <span>WhatsApp (${lead.name})</span>
   </a>
 
-  <script>lucide.createIcons();</script>
+  
+  <!-- ASURA ANIMATION VAULT INJECTION (Aceternity + Refero + GSAP) -->
+  <style>
+    .liquid-chrome-text {
+      background: linear-gradient(120deg, #94a3b8 0%, #ffffff 40%, #64748b 60%, #ffffff 80%, #94a3b8 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: liquidChromeShimmer 4s ease-in-out infinite;
+    }
+    @keyframes liquidChromeShimmer {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+    .card-3d-wrap { perspective: 1000px; transform-style: preserve-3d; }
+    .card-3d-body { transition: transform 0.2s ease; transform-style: preserve-3d; }
+    .magnetic-btn { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform; }
+  </style>
+
+  <script>
+    lucide.createIcons();
+
+    // ── Aceternity 3D Card Tilt Initializer ──
+    document.querySelectorAll('.card-3d-wrap').forEach(wrap => {
+      const body = wrap.querySelector('.card-3d-body');
+      if (!body) return;
+      wrap.addEventListener('mousemove', (e) => {
+        const rect = wrap.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        body.style.transform = `rotateX(${(-y / 15).toFixed(1)}deg) rotateY(${(x / 15).toFixed(1)}deg) scale3d(1.02, 1.02, 1.02)`;
+      });
+      wrap.addEventListener('mouseleave', () => {
+        body.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      });
+    });
+
+    // ── Anime.js Spring Magnetic Button Initializer ──
+    document.querySelectorAll('.magnetic-btn').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = (e.clientX - rect.left - rect.width / 2) * 0.3;
+        const y = (e.clientY - rect.top - rect.height / 2) * 0.3;
+        btn.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) scale(1.05)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translate3d(0px, 0px, 0) scale(1)';
+      });
+    });
+  </script>
 </body>
 </html>`;
 }

@@ -100,17 +100,7 @@
     }
 
     /* ── Cloud Drift Animation ── */
-    @keyframes cloudDriftLeft {
-      0%, 100% { transform: translateX(0) translateY(0); }
-      50% { transform: translateX(-18px) translateY(-8px); }
-    }
-    @keyframes cloudDriftRight {
-      0%, 100% { transform: translateX(0) translateY(0); }
-      50% { transform: translateX(20px) translateY(-10px); }
-    }
-
-    .animate-cloud-left { animation: cloudDriftLeft 9s ease-in-out infinite; }
-    .animate-cloud-right { animation: cloudDriftRight 10s ease-in-out infinite; }
+    
 
     /* ── Chevron Arrow Clip-Path Mosaic (Exact Video Arrow >>>) ── */
     .chevron-box {
@@ -172,6 +162,110 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+  
+    /* ══════════════════════════════════════════════════════════════════════
+       ACETERNITY & REFERO ANIMATION VAULT STYLES (from by.flowww workflow)
+       ══════════════════════════════════════════════════════════════════════ */
+    
+    /* 1. Aceternity Liquid Chrome Specular Text */
+    .liquid-chrome-text {
+      background: linear-gradient(
+        120deg,
+        #64748B 0%,
+        #94A3B8 15%,
+        #FFFFFF 30%,
+        #E2E8F0 45%,
+        #0F172A 50%,
+        #FFFFFF 70%,
+        #94A3B8 85%,
+        #475569 100%
+      );
+      background-size: 250% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: liquidChromeShimmer 5s ease-in-out infinite alternate;
+      filter: drop-shadow(0 20px 40px rgba(15, 23, 42, 0.5));
+      letter-spacing: -0.05em;
+    }
+    @keyframes liquidChromeShimmer {
+      0% { background-position: 0% center; }
+      100% { background-position: 100% center; }
+    }
+
+    /* 2. Aceternity Spotlight Radial Glow */
+    .spotlight-container {
+      position: relative;
+    }
+    .spotlight-glow {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        800px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+        rgba(56, 189, 248, 0.12),
+        transparent 55%
+      );
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: 10;
+    }
+    .spotlight-container:hover .spotlight-glow {
+      opacity: 1;
+    }
+
+    /* 3. Aceternity 3D Card Perspective Tilt */
+    .card-3d-wrap {
+      perspective: 1200px;
+      transform-style: preserve-3d;
+    }
+    .card-3d-body {
+      transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+      transform-style: preserve-3d;
+      will-change: transform;
+      position: relative;
+    }
+    .card-3d-body.is-tilting {
+      transition: transform 0.04s linear;
+    }
+    .card-3d-glare {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      background: radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255,255,255,0.22), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      mix-blend-mode: overlay;
+      z-index: 20;
+    }
+    .card-3d-wrap:hover .card-3d-glare {
+      opacity: 1;
+    }
+
+    /* 4. Anime.js Spring Magnetic Button */
+    .magnetic-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+      will-change: transform;
+    }
+
+    /* 5. Refero & Aceternity Interlocking Chevron Focus Mosaic */
+    .chevrons-container:hover .chevron-item {
+      opacity: 0.65;
+      filter: grayscale(20%);
+      transform: scale(0.98);
+      transition: all 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .chevrons-container .chevron-item:hover {
+      opacity: 1 !important;
+      filter: grayscale(0%) !important;
+      transform: scale(1.06) translateY(-4px) !important;
+      z-index: 40 !important;
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.4);
+    }
+
   </style>
 </head>
 <body class="selection:bg-sky-500 selection:text-white">
@@ -201,7 +295,7 @@
 
       <!-- Right: Sign In Pill -->
       <div class="flex items-center space-x-3">
-        <a href="#signin" class="px-5 py-2 rounded-full bg-[#0F172A] hover:bg-black text-white text-xs font-semibold tracking-wide transition-all shadow hover:scale-105">
+        <a href="#signin" class="magnetic-btn px-5 py-2 rounded-full bg-[#0F172A] hover:bg-black text-white text-xs font-semibold tracking-wide transition-all shadow hover:scale-105">
           Sign In
         </a>
       </div>
@@ -231,24 +325,14 @@
       </p>
 
       <!-- Black Pill CTA Button (Frame 01) -->
-      <a href="#search" id="heroCtaBtn" class="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-[#0F172A] hover:bg-black text-white text-xs font-bold tracking-wide transition-all shadow-xl hover:scale-105">
+      <a href="#search" id="heroCtaBtn" class="magnetic-btn inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-[#0F172A] hover:bg-black text-white text-xs font-bold tracking-wide transition-all shadow-xl hover:scale-105">
         <span>Find Properties</span>
         <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
       </a>
     </div>
 
     <!-- ── FLUFFY BILLOWING CLOUD ACCENTS (Parting laterally on scroll) ── -->
-    <div id="cloudLeft" class="animate-cloud-left absolute bottom-0 -left-24 w-[650px] sm:w-[800px] pointer-events-none z-20 opacity-85 transition-transform duration-300">
-      <svg viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M50 300 C20 280 0 250 0 210 C0 160 40 120 90 120 C100 120 110 122 120 126 C140 70 190 30 250 30 C320 30 380 80 395 150 C410 145 425 140 445 140 C495 140 535 175 545 225 C580 235 600 265 600 300 Z" fill="white" fill-opacity="0.95"/>
-      </svg>
-    </div>
-
-    <div id="cloudRight" class="animate-cloud-right absolute bottom-0 -right-24 w-[650px] sm:w-[800px] pointer-events-none z-20 opacity-85 transition-transform duration-300">
-      <svg viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 300 C0 260 25 230 60 220 C70 170 115 130 170 130 C190 130 210 135 225 145 C245 80 305 30 380 30 C450 30 510 80 525 150 C540 145 555 140 570 140 C610 140 640 170 650 210 C680 230 700 260 700 300 Z" fill="white" fill-opacity="0.95"/>
-      </svg>
-    </div>
+    
 
     <!-- ── STAGE 1 REVEAL: WIREFRAME OUTLINE "FIND Real Estate" (Frame 04) ── -->
     <div id="wireframeTitleReveal" class="absolute z-25 flex flex-col items-center justify-center opacity-0 scale-90 pointer-events-none transition-all duration-300">
@@ -262,7 +346,7 @@
 
     <!-- ── STAGE 2 REVEAL: SOLID 3D CHROME "FIND Real Estate" (Frames 05 & 06) ── -->
     <div id="chromeTitleReveal" class="absolute z-26 flex flex-col items-center justify-center opacity-0 scale-95 pointer-events-none transition-all duration-300">
-      <h2 class="font-display text-7xl sm:text-9xl md:text-[11rem] font-black tracking-tighter chrome-metallic-text select-none text-center">
+      <h2 class="font-display text-7xl sm:text-9xl md:text-[11rem] font-black tracking-tighter liquid-chrome-text select-none text-center">
         FIND
       </h2>
       <span class="text-xl sm:text-3xl font-display uppercase tracking-[0.35em] font-bold text-slate-900 -mt-2 sm:-mt-6 drop-shadow-2xl">
@@ -309,7 +393,8 @@
        3. SECTION: WHY FIND & NARRATIVE (Frames 07 & 08)
   ───────────────────────────────────────────────────────────── -->
   <section id="why-find" class="py-24 px-6 sm:px-10 lg:px-14 bg-white border-t border-slate-100">
-    <div class="max-w-7xl mx-auto">
+    <div class="spotlight-glow"></div>
+    <div class="max-w-7xl mx-auto relative z-20">
       
       <!-- Top Narrative Header (Frame 07) -->
       <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-12 gap-6">
@@ -359,10 +444,10 @@
       </div>
 
       <!-- 4 DIRECTIONAL CHEVRON ARROWS (>>>>) (Frames 09 & 10) -->
-      <div class="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-0 max-w-5xl mx-auto mb-14 overflow-visible py-4">
+      <div class="chevrons-container flex flex-col md:flex-row items-center justify-center gap-2 md:gap-0 max-w-5xl mx-auto mb-14 overflow-visible py-4">
         
         <!-- Chevron 1: Agent in Suit -->
-        <div class="chevron-first chevron-box relative h-80 sm:h-96 w-full md:w-1/4 bg-slate-900 overflow-hidden group cursor-pointer shadow-xl">
+        <div class="chevron-item chevron-first chevron-box relative h-80 sm:h-96 w-full md:w-1/4 bg-slate-900 overflow-hidden group cursor-pointer shadow-xl">
           <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=700&q=80" alt="Agent Leadership" class="zoom-hover absolute inset-0 w-full h-full object-cover">
           <div class="absolute inset-0 bg-black/35 group-hover:bg-black/10 transition-colors"></div>
           <div class="absolute bottom-6 left-6 right-6 text-white">
@@ -372,7 +457,7 @@
         </div>
 
         <!-- Chevron 2: Living Room Interior -->
-        <div class="chevron-box relative h-80 sm:h-96 w-full md:w-1/4 bg-slate-900 overflow-hidden group cursor-pointer shadow-xl -mt-3 md:mt-0 md:-ml-8">
+        <div class="chevron-item chevron-box relative h-80 sm:h-96 w-full md:w-1/4 bg-slate-900 overflow-hidden group cursor-pointer shadow-xl -mt-3 md:mt-0 md:-ml-8">
           <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=700&q=80" alt="Living Room Architecture" class="zoom-hover absolute inset-0 w-full h-full object-cover">
           <div class="absolute inset-0 bg-black/35 group-hover:bg-black/10 transition-colors"></div>
           <div class="absolute bottom-6 left-12 right-6 text-white">
@@ -382,7 +467,7 @@
         </div>
 
         <!-- Chevron 3: Modern Glass Architecture -->
-        <div class="chevron-box relative h-80 sm:h-96 w-full md:w-1/4 bg-slate-900 overflow-hidden group cursor-pointer shadow-xl -mt-3 md:mt-0 md:-ml-8">
+        <div class="chevron-item chevron-box relative h-80 sm:h-96 w-full md:w-1/4 bg-slate-900 overflow-hidden group cursor-pointer shadow-xl -mt-3 md:mt-0 md:-ml-8">
           <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=700&q=80" alt="Terrace Balcony" class="zoom-hover absolute inset-0 w-full h-full object-cover">
           <div class="absolute inset-0 bg-black/35 group-hover:bg-black/10 transition-colors"></div>
           <div class="absolute bottom-6 left-12 right-6 text-white">
@@ -451,36 +536,50 @@
             Steps:
           </span>
 
-          <!-- Step 1 -->
-          <div class="space-y-1.5 pb-6 border-b border-slate-100">
-            <h4 class="font-display text-xl sm:text-2xl font-bold text-slate-900">
-              Talk to a Real Human.
-            </h4>
-            <p class="text-xs sm:text-sm text-slate-600 font-normal">
-              We match you with an expert who actually listens.
-            </p>
+                    <!-- Step 1 (Aceternity 3D Tilt Card) -->
+          <div class="card-3d-wrap p-1 rounded-2xl group/step">
+            <div class="card-3d-body p-6 rounded-2xl bg-slate-50 border border-slate-200/80 group-hover/step:border-sky-400/60 group-hover/step:bg-white group-hover/step:shadow-xl transition-all">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="w-7 h-7 rounded-full bg-sky-500/10 text-sky-600 font-mono-tech text-xs font-bold flex items-center justify-center">01</span>
+                <h4 class="font-display text-xl sm:text-2xl font-bold text-slate-900">
+                  Talk to a Real Human.
+                </h4>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-600 font-normal pl-10">
+                We match you with an expert advisor who actually listens and navigates off-market inventory.
+              </p>
+            </div>
           </div>
 
-          <!-- Step 2 -->
-          <div class="space-y-1.5 pb-6 border-b border-slate-100">
-            <h4 class="font-display text-xl sm:text-2xl font-bold text-slate-900">
-              Get Clarity.
-            </h4>
-            <p class="text-xs sm:text-sm text-slate-600 font-normal">
-              We define what you really need, not just what&apos;s available.
-            </p>
+          <!-- Step 2 (Aceternity 3D Tilt Card) -->
+          <div class="card-3d-wrap p-1 rounded-2xl group/step">
+            <div class="card-3d-body p-6 rounded-2xl bg-slate-50 border border-slate-200/80 group-hover/step:border-sky-400/60 group-hover/step:bg-white group-hover/step:shadow-xl transition-all">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="w-7 h-7 rounded-full bg-sky-500/10 text-sky-600 font-mono-tech text-xs font-bold flex items-center justify-center">02</span>
+                <h4 class="font-display text-xl sm:text-2xl font-bold text-slate-900">
+                  Get Absolute Clarity.
+                </h4>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-600 font-normal pl-10">
+                We define what you really need through architectural curation, not just what's listed online.
+              </p>
+            </div>
           </div>
 
-          <!-- Step 3 -->
-          <div class="space-y-1.5 pb-2">
-            <h4 class="font-display text-xl sm:text-2xl font-bold text-slate-900">
-              Move Forward.
-            </h4>
-            <p class="text-xs sm:text-sm text-slate-600 font-normal">
-              We find what fits &mdash; and make it happen.
-            </p>
+          <!-- Step 3 (Aceternity 3D Tilt Card) -->
+          <div class="card-3d-wrap p-1 rounded-2xl group/step">
+            <div class="card-3d-body p-6 rounded-2xl bg-slate-50 border border-slate-200/80 group-hover/step:border-sky-400/60 group-hover/step:bg-white group-hover/step:shadow-xl transition-all">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="w-7 h-7 rounded-full bg-sky-500/10 text-sky-600 font-mono-tech text-xs font-bold flex items-center justify-center">03</span>
+                <h4 class="font-display text-xl sm:text-2xl font-bold text-slate-900">
+                  Move Forward with Precision.
+                </h4>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-600 font-normal pl-10">
+                We unlock off-market terms, negotiate aggressively, and ensure effortless escrow closing.
+              </p>
+            </div>
           </div>
-        </div>
 
       </div>
 
@@ -604,7 +703,7 @@
   <!-- ─────────────────────────────────────────────────────────────
        8. SECTION: DEEP OBSIDIAN DARK MODE & HOVER ACCORDION (Frames 14 - 21)
   ───────────────────────────────────────────────────────────── -->
-  <section id="services" class="py-28 px-6 sm:px-10 lg:px-14 bg-[#050505] text-white border-t border-zinc-900 transition-colors duration-500">
+  <section id="services" class="spotlight-container py-28 px-6 sm:px-10 lg:px-14 bg-[#050505] text-white border-t border-zinc-900 transition-colors duration-500">
     <div class="max-w-7xl mx-auto">
       
       <!-- Dark Mode Header: Services & How FIND Can Help You (Frame 14 & 15) -->
@@ -982,6 +1081,63 @@
   ───────────────────────────────────────────────────────────── -->
   <script>
     lucide.createIcons();
+
+    // ── Aceternity Spotlight Initializer ──
+    document.querySelectorAll('.spotlight-container').forEach(el => {
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        el.style.setProperty('--spot-x', x + 'px');
+        el.style.setProperty('--spot-y', y + 'px');
+      });
+    });
+
+    // ── Aceternity 3D Card Tilt Initializer ──
+    document.querySelectorAll('.card-3d-wrap').forEach(wrap => {
+      const body = wrap.querySelector('.card-3d-body');
+      if (!body) return;
+      let glare = wrap.querySelector('.card-3d-glare');
+      if (!glare) {
+        glare = document.createElement('div');
+        glare.className = 'card-3d-glare';
+        body.appendChild(glare);
+      }
+
+      wrap.addEventListener('mousemove', (e) => {
+        const rect = wrap.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -12;
+        const rotateY = ((x - centerX) / centerX) * 12;
+
+        body.classList.add('is-tilting');
+        body.style.transform = `rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+        wrap.style.setProperty('--glare-x', x + 'px');
+        wrap.style.setProperty('--glare-y', y + 'px');
+      });
+
+      wrap.addEventListener('mouseleave', () => {
+        body.classList.remove('is-tilting');
+        body.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      });
+    });
+
+    // ── Anime.js Spring Magnetic Button Initializer ──
+    document.querySelectorAll('.magnetic-btn').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = (e.clientX - rect.left - rect.width / 2) * 0.35;
+        const y = (e.clientY - rect.top - rect.height / 2) * 0.35;
+        btn.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) scale(1.05)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translate3d(0px, 0px, 0) scale(1)';
+      });
+    });
+
     gsap.registerPlugin(ScrollTrigger);
 
     // ── 1. 4K 3D Video Scrubbing Engine (Apple Pro style) ──
@@ -1037,20 +1193,7 @@
       ease: "power2.inOut"
     }, 0);
 
-    // Sequence 2: Clouds part outward left and right (0.1 -> 0.6)
-    heroTl.to("#cloudLeft", {
-      x: -350,
-      opacity: 0.1,
-      duration: 0.5,
-      ease: "power2.out"
-    }, 0.1);
-
-    heroTl.to("#cloudRight", {
-      x: 350,
-      opacity: 0.1,
-      duration: 0.5,
-      ease: "power2.out"
-    }, 0.1);
+    
 
     // Sequence 3: Wireframe stroked title appears over the 3D building (0.28 -> 0.55) (Frame 04)
     heroTl.fromTo("#wireframeTitleReveal", 
