@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FIND Real Estate // Find What Moves You | Modern Luxury Brokerage</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg: #F8FAFC;
+      --sky-top: #8EC5FC;
+      --sky-bottom: #E0C3FC;
+      --text: #0F172A;
+      --text-muted: #64748B;
+      --dark-bg: #070707;
+      --dark-surface: #121212;
+      --accent-blue: #0284C7;
+      --accent-cyan: #38BDF8;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .font-display {
+      font-family: 'Syne', sans-serif;
+    }
+
+    .font-mono-tech {
+      font-family: 'Space Grotesk', monospace;
+    }
+
+    /* ── 3D Chrome Metallic Text Styling ── */
+    .chrome-metallic-text {
+      background: linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 25%, #94A3B8 50%, #475569 52%, #CBD5E1 75%, #FFFFFF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 15px 25px rgba(15, 23, 42, 0.35));
+      letter-spacing: -0.04em;
+    }
+
+    .chrome-stroke {
+      position: relative;
+    }
+
+    .chrome-stroke::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(100,116,139,0.4));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: blur(4px);
+    }
+
+    /* Glass Navigation */
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+    }
+
+    /* ── Cloud Drift Animation ── */
+    @keyframes cloudDriftLeft {
+      0%, 100% { transform: translateX(0) translateY(0); }
+      50% { transform: translateX(-15px) translateY(-8px); }
+    }
+    @keyframes cloudDriftRight {
+      0%, 100% { transform: translateX(0) translateY(0); }
+      50% { transform: translateX(20px) translateY(-10px); }
+    }
+
+    .animate-cloud-left { animation: cloudDriftLeft 8s ease-in-out infinite; }
+    .animate-cloud-right { animation: cloudDriftRight 9s ease-in-out infinite; }
+
+    /* ── Penthouse Floating Idle Animation ── */
+    @keyframes floatPenthouse {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(0.4deg); }
+    }
+    .animate-penthouse-idle {
+      animation: floatPenthouse 6s ease-in-out infinite;
+    }
+
+    /* ── Chevron Arrow Clip-Path Mosaic ── */
+    .chevron-box {
+      clip-path: polygon(0% 0%, 82% 0%, 100% 50%, 82% 100%, 0% 100%, 18% 50%);
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .chevron-box:hover {
+      clip-path: polygon(0% 0%, 86% 0%, 100% 50%, 86% 100%, 0% 100%, 14% 50%);
+      transform: scale(1.04);
+      z-index: 20;
+    }
+
+    .chevron-first {
+      clip-path: polygon(0% 0%, 82% 0%, 100% 50%, 82% 100%, 0% 100%);
+    }
+    .chevron-first:hover {
+      clip-path: polygon(0% 0%, 86% 0%, 100% 50%, 86% 100%, 0% 100%);
+      transform: scale(1.04);
+      z-index: 20;
+    }
+
+    .chevron-last {
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 18% 50%);
+    }
+    .chevron-last:hover {
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 14% 50%);
+      transform: scale(1.04);
+      z-index: 20;
+    }
+
+    /* Zoom image helper */
+    .zoom-hover {
+      transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .group:hover .zoom-hover {
+      transform: scale(1.08);
+    }
+
+    /* Arrow button rotate */
+    .arrow-rotate {
+      transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .group:hover .arrow-rotate {
+      transform: rotate(45deg) scale(1.1);
+    }
+
+    /* Ghost Text Repeated Typography */
+    .ghost-text {
+      color: rgba(148, 163, 184, 0.35);
+      user-select: none;
+    }
+  </style>
+</head>
+<body class="selection:bg-sky-500 selection:text-white">
+
+  <!-- ─────────────────────────────────────────────────────────────
+       STICKY FLOATING NAVBAR
+  ───────────────────────────────────────────────────────────── -->
+  <header class="fixed top-4 left-0 right-0 z-50 px-4 sm:px-8">
+    <div class="max-w-7xl mx-auto flex items-center justify-between glass-nav rounded-full px-6 py-3.5">
+      <!-- Logo -->
+      <a href="#hero" class="flex items-center space-x-2 group">
+        <span class="font-display font-black text-2xl tracking-tighter text-[#0F172A] group-hover:text-sky-600 transition-colors">FIND</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
+        <span class="hidden sm:inline-block text-[10px] font-mono-tech tracking-widest uppercase text-slate-500 font-bold">REAL ESTATE</span>
+      </a>
+
+      <!-- Center Nav Links (from Video) -->
+      <nav class="hidden md:flex items-center space-x-8 text-xs font-semibold text-slate-700">
+        <a href="#search" class="hover:text-sky-600 transition-colors">Search</a>
+        <a href="#agents" class="hover:text-sky-600 transition-colors">Agents</a>
+        <a href="#careers" class="hover:text-sky-600 transition-colors">Join</a>
+        <a href="#services" class="hover:text-sky-600 transition-colors">Paperwork</a>
+        <a href="#verticals" class="hover:text-sky-600 transition-colors">Resources</a>
+        <a href="#about" class="hover:text-sky-600 transition-colors">About</a>
+      </nav>
+
+      <!-- Right Sign In Pill -->
+      <div class="flex items-center space-x-3">
+        <a href="#contact" class="hidden sm:inline-block text-xs font-semibold text-slate-600 hover:text-slate-900 transition">Contact</a>
+        <a href="#signin" class="px-5 py-2.5 rounded-full bg-[#0F172A] hover:bg-sky-600 text-white text-xs font-semibold tracking-wide transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
+          Sign In
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       HERO PINNED 3D SCROLL EXPERIENCE (Matching Video 00:00 - 00:02)
+  ───────────────────────────────────────────────────────────── -->
+  <section id="heroPin" class="relative w-full h-screen overflow-hidden bg-gradient-to-b from-[#87CEEB] via-[#A8DAF0] to-[#E2F2FA] flex flex-col items-center justify-center">
+    
+    <!-- Atmospheric Ambient Sky Lighting -->
+    <div class="absolute inset-0 bg-radial-gradient from-white/30 via-transparent to-transparent pointer-events-none"></div>
+
+    <!-- ── TEXT LAYER (Fades out as user scrolls) ── -->
+    <div id="heroTextLayer" class="relative z-30 text-center max-w-3xl px-6 pt-12 transition-all duration-300">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 backdrop-blur-md border border-white/60 text-slate-800 text-[11px] font-mono-tech tracking-widest uppercase mb-6 shadow-sm">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-sky-600"></i>
+        <span>AI-POWERED ARCHITECTURAL DISCOVERY</span>
+      </div>
+
+      <h1 class="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold text-[#0F172A] leading-[1.05] tracking-tight mb-4">
+        Find What Moves You
+      </h1>
+
+      <p class="text-sm sm:text-lg text-slate-700 font-medium max-w-xl mx-auto mb-8 leading-relaxed">
+        Expert agents. Real guidance. Unmatched architectural curation.
+      </p>
+
+      <!-- Search / Action Pill (Matching Video) -->
+      <div class="inline-flex items-center gap-3 p-1.5 rounded-full bg-white/85 backdrop-blur-xl border border-white/80 shadow-xl max-w-md w-full mx-auto">
+        <div class="flex items-center pl-4 gap-2 flex-1 text-slate-400">
+          <i data-lucide="search" class="w-4 h-4 text-slate-500"></i>
+          <input type="text" placeholder="Search city, neighborhood, or address..." class="w-full bg-transparent text-xs text-slate-800 placeholder-slate-400 focus:outline-none font-medium">
+        </div>
+        <button class="px-6 py-3 rounded-full bg-[#0F172A] hover:bg-sky-600 text-white text-xs font-bold tracking-wide transition-all shadow-md flex items-center gap-2 shrink-0">
+          <span>Explore</span>
+          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── 3D CENTERPIECE: FLOATING PENTHOUSE VILLA & PARTING CLOUDS ── -->
+    <div id="penthouseContainer" class="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+      <div id="penthouseMesh" class="relative w-[540px] sm:w-[680px] md:w-[820px] transition-transform duration-100 ease-out">
+        
+        <!-- Architectural Penthouse Vector / Illustration Rendering (Matching Video) -->
+        <svg viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto drop-shadow-2xl">
+          <defs>
+            <!-- Facade Gradients -->
+            <linearGradient id="limestoneFacade" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#E5D9C8"/>
+              <stop offset="50%" stop-color="#D4C3AC"/>
+              <stop offset="100%" stop-color="#BAA58C"/>
+            </linearGradient>
+            <linearGradient id="warmWoodCeiling" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#A75D33"/>
+              <stop offset="100%" stop-color="#7B3E1D"/>
+            </linearGradient>
+            <linearGradient id="glassReflection" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#80B5D8" stop-opacity="0.9"/>
+              <stop offset="40%" stop-color="#3A6B88" stop-opacity="0.85"/>
+              <stop offset="100%" stop-color="#1A3B4F" stop-opacity="0.95"/>
+            </linearGradient>
+            <linearGradient id="terraceShadow" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="rgba(0,0,0,0.4)"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Penthouse Ground Base Slab -->
+          <rect x="180" y="270" width="440" height="150" rx="4" fill="url(#limestoneFacade)" stroke="#8A7660" stroke-width="2"/>
+          
+          <!-- Lower Level Floor-to-Ceiling Windows Grid -->
+          <g opacity="0.95">
+            <rect x="200" y="290" width="70" height="115" rx="2" fill="url(#glassReflection)" stroke="#2C404E" stroke-width="2.5"/>
+            <rect x="280" y="290" width="70" height="115" rx="2" fill="url(#glassReflection)" stroke="#2C404E" stroke-width="2.5"/>
+            <rect x="360" y="290" width="80" height="115" rx="2" fill="url(#glassReflection)" stroke="#2C404E" stroke-width="2.5"/>
+            <rect x="450" y="290" width="75" height="115" rx="2" fill="url(#glassReflection)" stroke="#2C404E" stroke-width="2.5"/>
+            <rect x="535" y="290" width="65" height="115" rx="2" fill="url(#glassReflection)" stroke="#2C404E" stroke-width="2.5"/>
+            <!-- Window Mullion Dividers -->
+            <line x1="200" y1="345" x2="600" y2="345" stroke="#2C404E" stroke-width="2"/>
+          </g>
+
+          <!-- Middle Cantilever Eaves with Warm Glow -->
+          <rect x="160" y="260" width="480" height="16" rx="2" fill="#BAA58C" stroke="#7A6853" stroke-width="1.5"/>
+          <rect x="165" y="274" width="470" height="4" fill="url(#warmWoodCeiling)"/>
+
+          <!-- Upper Penthouse Pavilion (Glass & Wood Louvers) -->
+          <rect x="280" y="170" width="280" height="92" rx="3" fill="url(#limestoneFacade)" stroke="#8A7660" stroke-width="2"/>
+          <!-- Upper Level Glass Curtain -->
+          <rect x="300" y="180" width="110" height="74" rx="2" fill="url(#glassReflection)" stroke="#2C404E" stroke-width="2"/>
+          <rect x="420" y="180" width="125" height="74" rx="2" fill="url(#glassReflection)" stroke="#2C404E" stroke-width="2"/>
+          <line x1="300" y1="215" x2="545" y2="215" stroke="#2C404E" stroke-width="1.5"/>
+          
+          <!-- Upper Overhang Roof Slab -->
+          <rect x="260" y="160" width="320" height="14" rx="2" fill="#C5B59E" stroke="#7A6853" stroke-width="1.5"/>
+          
+          <!-- Rooftop Sky Garden & Planters (Left Terrace) -->
+          <rect x="195" y="240" width="80" height="20" rx="3" fill="#6A5845"/>
+          <!-- Lush Foliage & Shrubs on Terrace -->
+          <circle cx="210" cy="235" r="14" fill="#3D5A40"/>
+          <circle cx="230" cy="230" r="18" fill="#2E4831"/>
+          <circle cx="255" cy="236" r="15" fill="#4B6E4E"/>
+          <circle cx="270" cy="240" r="12" fill="#3D5A40"/>
+
+          <!-- Right Rooftop Garden -->
+          <rect x="565" y="240" width="45" height="20" rx="3" fill="#6A5845"/>
+          <circle cx="575" cy="234" r="14" fill="#2E4831"/>
+          <circle cx="595" cy="236" r="16" fill="#3D5A40"/>
+
+          <!-- Modern Frameless Glass Balustrade on Terrace -->
+          <rect x="175" y="242" width="105" height="18" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+          <rect x="560" y="242" width="65" height="18" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+        </svg>
+
+        <!-- Dynamic Interior Warm Light Glow -->
+        <div class="absolute inset-0 bg-amber-400/10 blur-3xl pointer-events-none rounded-full"></div>
+      </div>
+    </div>
+
+    <!-- ── FLUFFY CUMULUS CLOUDS (Parting on scroll) ── -->
+    <div id="cloudLeft" class="animate-cloud-left absolute bottom-0 -left-20 w-[600px] sm:w-[750px] pointer-events-none z-25 opacity-90 transition-transform duration-300">
+      <svg viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 300 C20 280 0 250 0 210 C0 160 40 120 90 120 C100 120 110 122 120 126 C140 70 190 30 250 30 C320 30 380 80 395 150 C410 145 425 140 445 140 C495 140 535 175 545 225 C580 235 600 265 600 300 Z" fill="white" fill-opacity="0.95"/>
+      </svg>
+    </div>
+
+    <div id="cloudRight" class="animate-cloud-right absolute bottom-0 -right-20 w-[600px] sm:w-[750px] pointer-events-none z-25 opacity-90 transition-transform duration-300">
+      <svg viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 300 C0 260 25 230 60 220 C70 170 115 130 170 130 C190 130 210 135 225 145 C245 80 305 30 380 30 C450 30 510 80 525 150 C540 145 555 140 570 140 C610 140 640 170 650 210 C680 230 700 260 700 300 Z" fill="white" fill-opacity="0.95"/>
+      </svg>
+    </div>
+
+    <!-- ── THE 3D CHROME "FIND REAL ESTATE" TITLE REVEAL (Matching 00:01 - 00:02) ── -->
+    <div id="chromeTitleReveal" class="absolute z-10 flex flex-col items-center justify-center opacity-0 scale-75 pointer-events-none transition-all duration-300">
+      <h2 class="font-display text-7xl sm:text-9xl md:text-[11rem] font-black tracking-tighter chrome-metallic-text select-none text-center" data-text="FIND">
+        FIND
+      </h2>
+      <span class="text-xl sm:text-3xl font-display uppercase tracking-[0.4em] font-bold text-slate-800 -mt-2 sm:-mt-6 drop-shadow-md">
+        REAL ESTATE
+      </span>
+    </div>
+
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       SECTION 2: NARRATIVE & PANORAMIC CITY SKYLINE (00:02 - 00:03)
+  ───────────────────────────────────────────────────────────── -->
+  <section id="about" class="py-24 px-6 sm:px-10 lg:px-14 bg-white border-t border-slate-100">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Top Narrative Box with Soft Blue Tint -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center mb-16">
+        <div class="lg:col-span-5 space-y-4">
+          <span class="text-[11px] font-mono-tech tracking-[0.25em] uppercase text-sky-600 bg-sky-50 px-3.5 py-1 rounded-full font-bold">
+            THE FIND ADVANTAGE
+          </span>
+          <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F172A] leading-tight">
+            We don&apos;t just list homes. We navigate futures.
+          </h2>
+        </div>
+
+        <div class="lg:col-span-7 bg-[#F1F5F9] rounded-3xl p-8 sm:p-10 border border-slate-200 shadow-sm">
+          <p class="text-base sm:text-xl text-slate-800 font-normal leading-relaxed italic">
+            &ldquo;Life-changing moments don&apos;t just find you. You find them. We help you move forward with clarity, confidence, and the right agent by your side.&rdquo;
+          </p>
+          <div class="mt-6 flex items-center justify-between pt-6 border-t border-slate-200">
+            <span class="text-xs font-mono-tech text-slate-500 uppercase tracking-widest font-semibold">FIND BROKERAGE NETWORK</span>
+            <span class="text-xs font-bold text-sky-700">Manhattan &bull; Brooklyn &bull; Philadelphia</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TRIPLE PANORAMIC CITY SKYLINE MOSAIC (Matching 00:03) ── -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 rounded-3xl overflow-hidden shadow-xl">
+        <!-- Panel 1 -->
+        <div class="relative h-72 sm:h-96 overflow-hidden group">
+          <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" alt="Downtown Commercial Skyline" class="zoom-hover w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+          <div class="absolute bottom-5 left-5 text-white">
+            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-300 font-bold block">FINANCIAL DISTRICT</span>
+            <h4 class="font-display font-bold text-lg">Towering Architecture</h4>
+          </div>
+        </div>
+
+        <!-- Panel 2 -->
+        <div class="relative h-72 sm:h-96 overflow-hidden group">
+          <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186f5f7?auto=format&fit=crop&w=800&q=80" alt="Midtown Modern Towers" class="zoom-hover w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+          <div class="absolute bottom-5 left-5 text-white">
+            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-300 font-bold block">HUDSON YARDS</span>
+            <h4 class="font-display font-bold text-lg">Curated Residences</h4>
+          </div>
+        </div>
+
+        <!-- Panel 3 -->
+        <div class="relative h-72 sm:h-96 overflow-hidden group">
+          <img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=800&q=80" alt="Twilight River Skyline" class="zoom-hover w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+          <div class="absolute bottom-5 left-5 text-white">
+            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-300 font-bold block">TRIBECA WATERFRONT</span>
+            <h4 class="font-display font-bold text-lg">Bespoke Penthouses</h4>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       SECTION 3: CHEVRON ARROW MOSAIC ("This isn't just about real estate")
+  ───────────────────────────────────────────────────────────── -->
+  <section class="py-24 px-6 sm:px-10 lg:px-14 bg-[#F8FAFC]">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="font-display text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight mb-4">
+          This isn&apos;t just about real estate.
+        </h2>
+        <p class="text-sm sm:text-base text-slate-600 leading-relaxed max-w-xl mx-auto font-normal">
+          Curated quality. Transparent guidance. Unmatched care. You&apos;re not just finding a place to live—you&apos;re finding where your life unfolds.
+        </p>
+      </div>
+
+      <!-- ── 4 DIRECTIONAL CHEVRON ARROW SLIDER CARDS (Matching Video 00:04) ── -->
+      <div class="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-0 max-w-5xl mx-auto mb-20 overflow-visible py-4">
+        
+        <!-- Chevron 1 -->
+        <div class="chevron-first chevron-box relative h-80 sm:h-96 w-full md:w-1/4 bg-slate-900 overflow-hidden group cursor-pointer shadow-lg">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=700&q=80" alt="Penthouse Corridor" class="zoom-hover absolute inset-0 w-full h-full object-cover">
+          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors"></div>
+          <div class="absolute bottom-6 left-6 right-6 text-white">
+            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-300 font-bold block mb-1">01 / CURATED</span>
+            <h4 class="font-display text-lg font-bold">Refined Spaces</h4>
+          </div>
+        </div>
+
+        <!-- Chevron 2 -->
+        <div class="chevron-box relative h-80 sm:h-96 w-full md:w-1/4 bg-slate-900 overflow-hidden group cursor-pointer shadow-lg -mt-3 md:mt-0 md:-ml-8">
+          <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=700&q=80" alt="Living Room Architecture" class="zoom-hover absolute inset-0 w-full h-full object-cover">
+          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors"></div>
+          <div class="absolute bottom-6 left-12 right-6 text-white">
+            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-300 font-bold block mb-1">02 / LIGHT</span>
+            <h4 class="font-display text-lg font-bold">Glass Pavilions</h4>
+          </div>
+        </div>
+
+        <!-- Chevron 3 -->
+        <div class="chevron-box relative h-80 sm:h-96 w-full md:w-1/4 bg-slate-900 overflow-hidden group cursor-pointer shadow-lg -mt-3 md:mt-0 md:-ml-8">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=700&q=80" alt="Terrace Balcony" class="zoom-hover absolute inset-0 w-full h-full object-cover">
+          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors"></div>
+          <div class="absolute bottom-6 left-12 right-6 text-white">
+            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-300 font-bold block mb-1">03 / HORIZON</span>
+            <h4 class="font-display text-lg font-bold">Skyline Living</h4>
+          </div>
+        </div>
+
+        <!-- Chevron 4 -->
+        <div class="chevron-last chevron-box relative h-80 sm:h-96 w-full md:w-1/4 bg-slate-900 overflow-hidden group cursor-pointer shadow-lg -mt-3 md:mt-0 md:-ml-8">
+          <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=700&q=80" alt="Modern Minimalist Facade" class="zoom-hover absolute inset-0 w-full h-full object-cover">
+          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors"></div>
+          <div class="absolute bottom-6 left-12 right-6 text-white">
+            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-300 font-bold block mb-1">04 / TIMELESS</span>
+            <h4 class="font-display text-lg font-bold">Bespoke Design</h4>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── CAREER / AGENT CTA STRIP (Matching Video 00:05) ── -->
+      <div id="careers" class="relative rounded-3xl overflow-hidden bg-[#0A130E] text-white p-8 sm:p-12 shadow-2xl border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-8 group">
+        <img src="https://images.unsplash.com/photo-1511497584788-87676104235f?auto=format&fit=crop&w=1200&q=80" alt="Lush Forest Estate Background" class="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:opacity-35 transition-opacity">
+        <div class="relative z-10 space-y-2">
+          <span class="text-[10px] font-mono-tech uppercase tracking-widest text-emerald-400 font-bold">CAREER AT FIND BROKERAGE</span>
+          <h3 class="font-display text-2xl sm:text-4xl font-extrabold">
+            Don&apos;t Rent Your Career. Own It.
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-300 max-w-lg font-light leading-relaxed">
+            Join the most technology-enabled, commission-transparent brokerage network designed for elite producers.
+          </p>
+        </div>
+
+        <a href="#contact" class="relative z-10 px-8 py-4 rounded-full bg-white text-[#0F172A] hover:bg-sky-400 hover:text-black font-bold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center gap-2 hover:scale-105 shrink-0">
+          <span>Apply as an Agent</span>
+          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       SECTION 4: TESTIMONIALS / CLIENT STORIES (00:05 - 00:06)
+  ───────────────────────────────────────────────────────────── -->
+  <section class="py-24 px-6 sm:px-10 lg:px-14 bg-white border-t border-slate-200">
+    <div class="max-w-6xl mx-auto">
+      
+      <!-- Ghosted Double Typography Header (Matching Video) -->
+      <div class="mb-14 select-none">
+        <h2 class="font-display text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight">
+          Don&apos;t Take Our Word for it.
+        </h2>
+        <h3 class="font-display text-2xl sm:text-4xl font-extrabold ghost-text tracking-tight -mt-1 sm:-mt-2">
+          Don&apos;t Take Our Word for it.
+        </h3>
+      </div>
+
+      <!-- Split Testimonial Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Left: Luxury Couple Portrait (Marcus & Elena Vance) -->
+        <div class="lg:col-span-5 relative rounded-3xl overflow-hidden shadow-2xl h-96 sm:h-[450px] bg-slate-900 group">
+          <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=800&q=80" alt="Marcus & Elena Vance" class="zoom-hover w-full h-full object-cover object-top">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-6 left-6 right-6 text-white">
+            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-400 font-bold block">VERIFIED BUYERS</span>
+            <h4 class="font-display font-bold text-xl">Marcus & Elena Vance</h4>
+            <span class="text-xs text-slate-300 font-medium">Tribeca Penthouse Residence &bull; $6.4M</span>
+          </div>
+        </div>
+
+        <!-- Right: Floating Editorial Quote Box -->
+        <div class="lg:col-span-7 bg-[#F8FAFC] rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-sm flex flex-col justify-between min-h-[400px]">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-[#0F172A] text-sky-400 flex items-center justify-center text-2xl font-serif mb-6 shadow-sm">
+              &ldquo;
+            </div>
+
+            <p id="testimonialQuote" class="text-base sm:text-xl text-slate-800 font-normal leading-relaxed mb-6">
+              &ldquo;Finding our dream home in the city felt overwhelming until we partnered with FIND. The market insights, negotiation finesse, and genuine warmth made every step seamless.&rdquo;
+            </p>
+
+            <div class="flex items-center gap-3">
+              <div class="flex text-amber-400 text-sm">
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              </div>
+              <span class="text-xs font-mono-tech text-slate-600 font-bold uppercase tracking-wider">Closed in 21 Days</span>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-6 border-t border-slate-200 mt-6">
+            <span class="text-xs font-mono-tech text-slate-500 uppercase tracking-widest">STORY 01 OF 04</span>
+            <div class="flex items-center gap-2">
+              <button onclick="prevTestimonial()" class="w-10 h-10 rounded-full border border-slate-300 bg-white hover:bg-[#0F172A] hover:text-white flex items-center justify-center transition shadow-sm" aria-label="Previous">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+              </button>
+              <button onclick="nextTestimonial()" class="w-10 h-10 rounded-full border border-slate-300 bg-white hover:bg-[#0F172A] hover:text-white flex items-center justify-center transition shadow-sm" aria-label="Next">
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       SECTION 5: HIGH-CONTRAST OBSIDIAN DARK MODE SERVICES SWITCHER (00:06 - 00:09)
+  ───────────────────────────────────────────────────────────── -->
+  <section id="services" class="py-28 px-6 sm:px-10 lg:px-14 bg-[#070707] text-white overflow-hidden border-t border-zinc-900">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Headline & Tag -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        <div>
+          <span class="text-[10px] font-mono-tech tracking-[0.3em] uppercase text-cyan-400 bg-cyan-950/60 border border-cyan-800/40 px-3.5 py-1 rounded-full inline-block mb-3 font-bold">
+            FULL-LIFECYCLE BROKERAGE
+          </span>
+          <h2 class="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">
+            How FIND Can Help You
+          </h2>
+        </div>
+        <p class="text-xs sm:text-sm text-zinc-400 max-w-md font-light leading-relaxed">
+          From your first private viewing to closing escrow and bespoke property management, our advisory covers every milestone.
+        </p>
+      </div>
+
+      <!-- Main Services Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left: 3 Numbered Steps -->
+        <div class="lg:col-span-5 space-y-6">
+          
+          <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-cyan-500/50 transition-all cursor-pointer group">
+            <div class="flex items-center gap-3 text-cyan-400 font-mono-tech font-bold text-sm mb-2">
+              <span class="w-7 h-7 rounded-full bg-cyan-950 flex items-center justify-center border border-cyan-800">1</span>
+              <span>MATCH & DISCOVERY</span>
+            </div>
+            <p class="text-xs text-zinc-300 leading-relaxed font-light">
+              Best interior with a top agent to help you buy, sell, or rent with precision market analytics.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-cyan-500/50 transition-all cursor-pointer group">
+            <div class="flex items-center gap-3 text-cyan-400 font-mono-tech font-bold text-sm mb-2">
+              <span class="w-7 h-7 rounded-full bg-cyan-950 flex items-center justify-center border border-cyan-800">2</span>
+              <span>NEGOTIATION & LEGAL</span>
+            </div>
+            <p class="text-xs text-zinc-300 leading-relaxed font-light">
+              Market intelligence, legal navigation, mortgage rates, appraisal protection, and seamless closing escrow.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-cyan-500/50 transition-all cursor-pointer group">
+            <div class="flex items-center gap-3 text-cyan-400 font-mono-tech font-bold text-sm mb-2">
+              <span class="w-7 h-7 rounded-full bg-cyan-950 flex items-center justify-center border border-cyan-800">3</span>
+              <span>PORTFOLIO ASSET CARE</span>
+            </div>
+            <p class="text-xs text-zinc-300 leading-relaxed font-light">
+              Full-lifecycle property management, architectural syndication, and private wealth advisory.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Right: Massive Typography Switcher (Buy / Sell / Rent) -->
+        <div class="lg:col-span-7 flex flex-col justify-center space-y-6">
+          
+          <!-- BUY ROW -->
+          <div onclick="switchService('buy')" class="service-row cursor-pointer flex items-center justify-between p-6 rounded-3xl border border-zinc-800 hover:border-white/40 transition-all group bg-zinc-950" id="serviceRowBuy">
+            <div>
+              <h3 class="font-display text-5xl sm:text-7xl font-black text-white group-hover:text-cyan-400 transition-colors">
+                Buy
+              </h3>
+              <p class="text-xs text-zinc-400 mt-2 line-clamp-1">Curated architectural inventory, off-market access, and strategic bidding.</p>
+            </div>
+            <div class="w-14 h-14 rounded-full bg-zinc-900 group-hover:bg-cyan-400 group-hover:text-black flex items-center justify-center transition-all shrink-0">
+              <i data-lucide="arrow-right" class="w-6 h-6"></i>
+            </div>
+          </div>
+
+          <!-- SELL ROW -->
+          <div onclick="switchService('sell')" class="service-row cursor-pointer flex items-center justify-between p-6 rounded-3xl border border-zinc-800 hover:border-white/40 transition-all group bg-zinc-950" id="serviceRowSell">
+            <div>
+              <h3 class="font-display text-5xl sm:text-7xl font-black text-white group-hover:text-cyan-400 transition-colors">
+                Sell
+              </h3>
+              <p class="text-xs text-zinc-400 mt-2 line-clamp-1">Cinematic editorial marketing, global investor reach, and record price realizations.</p>
+            </div>
+            <div class="w-14 h-14 rounded-full bg-zinc-900 group-hover:bg-cyan-400 group-hover:text-black flex items-center justify-center transition-all shrink-0">
+              <i data-lucide="arrow-right" class="w-6 h-6"></i>
+            </div>
+          </div>
+
+          <!-- RENT ROW -->
+          <div onclick="switchService('rent')" class="service-row cursor-pointer flex items-center justify-between p-6 rounded-3xl border border-zinc-800 hover:border-white/40 transition-all group bg-zinc-950" id="serviceRowRent">
+            <div>
+              <h3 class="font-display text-5xl sm:text-7xl font-black text-white group-hover:text-cyan-400 transition-colors">
+                Rent
+              </h3>
+              <p class="text-xs text-zinc-400 mt-2 line-clamp-1">Luxury short-term stays, corporate relocations, and full-service penthouses.</p>
+            </div>
+            <div class="w-14 h-14 rounded-full bg-zinc-900 group-hover:bg-cyan-400 group-hover:text-black flex items-center justify-center transition-all shrink-0">
+              <i data-lucide="arrow-right" class="w-6 h-6"></i>
+            </div>
+          </div>
+
+          <!-- Bottom Micro Banner -->
+          <div class="pt-6 border-t border-zinc-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <p class="text-xs text-zinc-400 max-w-sm">
+              Our certified agents guide you through every stage of real estate with expert knowledge and reliable support.
+            </p>
+            <a href="#contact" class="px-6 py-3 rounded-full bg-white text-black hover:bg-cyan-400 font-bold text-xs uppercase tracking-wider transition-all shadow-lg shrink-0">
+              Get Free Consultation
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       SECTION 6: SPECIALIZED VERTICALS SLIDER CARDS (00:09 - 00:10)
+  ───────────────────────────────────────────────────────────── -->
+  <section id="verticals" class="py-24 px-6 sm:px-10 lg:px-14 bg-[#F8FAFC]">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Header with Filter Pills -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <span class="text-[10px] font-mono-tech tracking-[0.25em] uppercase text-sky-600 bg-sky-50 px-3.5 py-1 rounded-full inline-block mb-3 font-bold">
+            EXPANDED ADVISORY
+          </span>
+          <h2 class="font-display text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight">
+            Specialized Verticals
+          </h2>
+        </div>
+
+        <!-- Filter Tags (from Video) -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-2">
+          <button class="px-4 py-2 rounded-full bg-[#0F172A] text-white text-xs font-semibold">All Verticals</button>
+          <button class="px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs font-semibold">Mortgage</button>
+          <button class="px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs font-semibold">Management</button>
+          <button class="px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs font-semibold">Development</button>
+        </div>
+      </div>
+
+      <!-- 3 Rounded Glass Bento Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
+        
+        <!-- Card 1: Mortgage Advisory Services -->
+        <div class="bg-white rounded-[32px] overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-slate-200 flex flex-col justify-between group hover:-translate-y-2">
+          <div class="relative h-60 w-full overflow-hidden bg-slate-900">
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=700&q=80" alt="Mortgage Advisory" class="zoom-hover w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+            <div class="absolute top-4 left-4">
+              <span class="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-mono-tech tracking-widest uppercase text-white font-bold border border-white/20">
+                FINANCING
+              </span>
+            </div>
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+              <h3 class="font-display text-xl font-bold">Mortgage Advisory Services</h3>
+            </div>
+          </div>
+
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <p class="text-xs text-slate-600 leading-relaxed mb-6 font-normal">
+              Direct institutional and private banking connections ensuring competitive jumbo mortgage rates, bridge loans, and portfolio refinance.
+            </p>
+            <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+              <span class="text-xs font-semibold text-slate-900">Explore Financing</span>
+              <div class="w-8 h-8 rounded-full bg-[#0F172A] text-white flex items-center justify-center arrow-rotate">
+                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Property Management -->
+        <div class="bg-white rounded-[32px] overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-slate-200 flex flex-col justify-between group hover:-translate-y-2">
+          <div class="relative h-60 w-full overflow-hidden bg-slate-900">
+            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=700&q=80" alt="Property Management" class="zoom-hover w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+            <div class="absolute top-4 left-4">
+              <span class="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-mono-tech tracking-widest uppercase text-white font-bold border border-white/20">
+                ASSET CARE
+              </span>
+            </div>
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+              <h3 class="font-display text-xl font-bold">Property Management</h3>
+            </div>
+          </div>
+
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <p class="text-xs text-slate-600 leading-relaxed mb-6 font-normal">
+              High-touch estate management for absentee owners, luxury leasing administration, preventative facility care, and tenant screening.
+            </p>
+            <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+              <span class="text-xs font-semibold text-slate-900">View Services</span>
+              <div class="w-8 h-8 rounded-full bg-[#0F172A] text-white flex items-center justify-center arrow-rotate">
+                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Construction & Development -->
+        <div class="bg-white rounded-[32px] overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-slate-200 flex flex-col justify-between group hover:-translate-y-2">
+          <div class="relative h-60 w-full overflow-hidden bg-slate-900">
+            <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=700&q=80" alt="Construction & Real Estate Development" class="zoom-hover w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+            <div class="absolute top-4 left-4">
+              <span class="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-mono-tech tracking-widest uppercase text-white font-bold border border-white/20">
+                DEVELOPMENT
+              </span>
+            </div>
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+              <h3 class="font-display text-xl font-bold">Construction &amp; Development</h3>
+            </div>
+          </div>
+
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <p class="text-xs text-slate-600 leading-relaxed mb-6 font-normal">
+              Connecting land acquisitions with world-renowned architects, zoning attorneys, and general contractors for bespoke ground-up projects.
+            </p>
+            <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+              <span class="text-xs font-semibold text-slate-900">Explore Projects</span>
+              <div class="w-8 h-8 rounded-full bg-[#0F172A] text-white flex items-center justify-center arrow-rotate">
+                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       SECTION 7: EDITORIAL MARKET INSIGHTS / BLOG (00:10 - 00:11)
+  ───────────────────────────────────────────────────────────── -->
+  <section class="py-24 px-6 sm:px-10 lg:px-14 bg-white border-t border-slate-200">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <span class="text-[10px] font-mono-tech tracking-[0.25em] uppercase text-sky-600 bg-sky-50 px-3.5 py-1 rounded-full inline-block mb-3 font-bold">
+            RESEARCH & INTELLIGENCE
+          </span>
+          <h2 class="font-display text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight">
+            Blog
+          </h2>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-600 max-w-md">
+          Market intelligence, neighborhood guides, and architectural trends curated by our research team.
+        </p>
+      </div>
+
+      <!-- Articles Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- Article 1 (from Video) -->
+        <article class="bg-[#F8FAFC] rounded-3xl p-6 sm:p-8 border border-slate-200 flex flex-col sm:flex-row gap-6 group hover:shadow-xl transition-all">
+          <div class="relative h-48 sm:h-full sm:w-48 rounded-2xl overflow-hidden bg-slate-900 shrink-0">
+            <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186f5f7?auto=format&fit=crop&w=500&q=80" alt="Philly Skyline" class="zoom-hover w-full h-full object-cover">
+          </div>
+          <div class="flex flex-col justify-between flex-1">
+            <div>
+              <span class="text-[10px] font-mono-tech text-slate-500 uppercase font-bold tracking-wider block mb-2">2026.04.09 &bull; MARKET ANALYSIS</span>
+              <h3 class="font-display text-xl font-bold text-[#0F172A] leading-snug group-hover:text-sky-600 transition-colors mb-3">
+                Philly Real Estate: A Winter Chill or a Spring Opportunity?
+              </h3>
+              <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                Analyzing inventory compression, interest rate stabilizing effects, and prime Center City residential yields.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-slate-200 flex items-center justify-between text-xs font-semibold text-slate-900 mt-4">
+              <span>Read Article</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 text-sky-600 arrow-rotate"></i>
+            </div>
+          </div>
+        </article>
+
+        <!-- Article 2 -->
+        <article class="bg-[#F8FAFC] rounded-3xl p-6 sm:p-8 border border-slate-200 flex flex-col sm:flex-row gap-6 group hover:shadow-xl transition-all">
+          <div class="relative h-48 sm:h-full sm:w-48 rounded-2xl overflow-hidden bg-slate-900 shrink-0">
+            <img src="https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=500&q=80" alt="Brownstone Architecture" class="zoom-hover w-full h-full object-cover">
+          </div>
+          <div class="flex flex-col justify-between flex-1">
+            <div>
+              <span class="text-[10px] font-mono-tech text-slate-500 uppercase font-bold tracking-wider block mb-2">2026.03.22 &bull; HERITAGE HOMES</span>
+              <h3 class="font-display text-xl font-bold text-[#0F172A] leading-snug group-hover:text-sky-600 transition-colors mb-3">
+                Why Historic Brownstones Remain NYC&apos;s Most Resilient Asset Class
+              </h3>
+              <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                Examining the enduring appeal, preservation tax advantages, and multigenerational appreciation of 19th-century limestone townhomes.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-slate-200 flex items-center justify-between text-xs font-semibold text-slate-900 mt-4">
+              <span>Read Article</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 text-sky-600 arrow-rotate"></i>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       SECTION 8: DARK LUXURY STENCIL FOOTER (00:11 - 00:13)
+  ───────────────────────────────────────────────────────────── -->
+  <footer class="py-20 px-6 sm:px-10 lg:px-14 bg-[#070707] text-white border-t border-zinc-900 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Newsletter Banner with Double Typography -->
+      <div class="bg-zinc-900/80 rounded-3xl p-8 sm:p-14 border border-zinc-800 mb-16 relative overflow-hidden">
+        <div class="max-w-2xl">
+          <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-400 font-bold block mb-2">WEEKLY CURATED RELEASES</span>
+          <h3 class="font-display text-2xl sm:text-4xl font-extrabold mb-1">
+            Subscribe to our Newsletter
+          </h3>
+          <h4 class="font-display text-xl sm:text-3xl font-extrabold text-zinc-600 mb-6">
+            Subscribe to our Newsletter
+          </h4>
+          
+          <form onsubmit="handleNewsletter(event)" class="flex flex-col sm:flex-row gap-3">
+            <input type="email" required placeholder="Enter your email address..." class="flex-1 px-5 py-3.5 rounded-full bg-black/60 border border-zinc-700 text-white placeholder-zinc-500 text-xs focus:outline-none focus:border-sky-400">
+            <button type="submit" class="px-8 py-3.5 rounded-full bg-white text-black hover:bg-sky-400 font-bold text-xs uppercase tracking-wider transition-all shadow-md shrink-0">
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Links & Address Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 mb-16">
+        <!-- Col 1: Headquarters (4 Cols) -->
+        <div class="md:col-span-4 space-y-3">
+          <div class="font-display font-black text-2xl tracking-tighter text-white">FIND</div>
+          <p class="text-xs text-zinc-400 leading-relaxed font-light">
+            <strong>Headquarters:</strong><br>
+            11 West 19th Street, 6th Floor<br>
+            New York, NY 10011
+          </p>
+          <div class="pt-2 text-xs space-y-1 text-zinc-400">
+            <div><strong>Direct:</strong> <a href="tel:+12128904400" class="hover:text-sky-400 transition font-mono-tech">+1 (212) 890-4400</a></div>
+            <div><strong>Inquiries:</strong> <a href="mailto:inquiry@findrealestate.com" class="hover:text-sky-400 transition">inquiry@findrealestate.com</a></div>
+          </div>
+        </div>
+
+        <!-- Col 2: Navigation (3 Cols) -->
+        <div class="md:col-span-3 space-y-2 text-xs">
+          <span class="font-mono-tech uppercase tracking-widest text-sky-400 font-bold block mb-2">EXPLORE</span>
+          <div><a href="#search" class="text-zinc-400 hover:text-white transition">Search Homes</a></div>
+          <div><a href="#agents" class="text-zinc-400 hover:text-white transition">Agent Directory</a></div>
+          <div><a href="#careers" class="text-zinc-400 hover:text-white transition">Join as an Agent</a></div>
+          <div><a href="#services" class="text-zinc-400 hover:text-white transition">Closing Paperwork</a></div>
+          <div><a href="#verticals" class="text-zinc-400 hover:text-white transition">Mortgage &amp; Advisory</a></div>
+        </div>
+
+        <!-- Col 3: Social & Compliance (5 Cols) -->
+        <div class="md:col-span-5 space-y-3 text-xs">
+          <span class="font-mono-tech uppercase tracking-widest text-sky-400 font-bold block mb-2">CONNECT</span>
+          <div class="flex items-center space-x-3 pt-1">
+            <a href="https://instagram.com" target="_blank" class="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-white hover:bg-sky-500 transition">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+            </a>
+            <a href="https://linkedin.com" target="_blank" class="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-white hover:bg-sky-500 transition">
+              <i data-lucide="linkedin" class="w-4 h-4"></i>
+            </a>
+            <a href="https://twitter.com" target="_blank" class="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-white hover:bg-sky-500 transition">
+              <i data-lucide="twitter" class="w-4 h-4"></i>
+            </a>
+            <a href="https://youtube.com" target="_blank" class="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-white hover:bg-sky-500 transition">
+              <i data-lucide="youtube" class="w-4 h-4"></i>
+            </a>
+          </div>
+          <p class="text-[11px] text-zinc-500 leading-relaxed pt-2">
+            Equal Housing Opportunity. FIND Real Estate Technologies Inc. is a licensed real estate broker in New York, New Jersey, and Pennsylvania.
+          </p>
+        </div>
+      </div>
+
+      <!-- ── GIANT 3D STENCIL "FIND" ACROSS ENTIRE FOOTER (Matching 00:12) ── -->
+      <div class="border-t border-zinc-900 pt-8 pb-4 text-center">
+        <div class="font-display font-black text-[18vw] leading-none tracking-tighter text-zinc-900 select-none hover:text-zinc-800 transition-colors">
+          FIND
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between text-[11px] text-zinc-500 pt-6 border-t border-zinc-900">
+        <div>&copy; 2026 FIND Real Estate Technologies Inc. All rights reserved.</div>
+        <div class="font-mono-tech text-zinc-400">Manhattan &bull; Brooklyn &bull; Philadelphia</div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       COMPLETE GSAP 3D SCROLL & INTERACTIVE ENGINE
+  ───────────────────────────────────────────────────────────── -->
+  <script>
+    lucide.createIcons();
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ── 1. Hero 3D Cinematic Scroll Engine ──
+    const heroTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#heroPin",
+        start: "top top",
+        end: "+=160%",
+        pin: true,
+        scrub: 1
+      }
+    });
+
+    // Sequence 1: Hero text fades out and lifts
+    heroTl.to("#heroTextLayer", {
+      y: -60,
+      opacity: 0,
+      duration: 0.35,
+      ease: "power2.inOut"
+    }, 0);
+
+    // Sequence 2: Clouds part outward to reveal horizon
+    heroTl.to("#cloudLeft", {
+      x: -260,
+      opacity: 0.2,
+      duration: 0.7,
+      ease: "power2.out"
+    }, 0.1);
+
+    heroTl.to("#cloudRight", {
+      x: 260,
+      opacity: 0.2,
+      duration: 0.7,
+      ease: "power2.out"
+    }, 0.1);
+
+    // Sequence 3: Penthouse zooms forward and translates downward in 3D
+    heroTl.to("#penthouseMesh", {
+      y: 90,
+      scale: 0.76,
+      rotateX: 8,
+      duration: 0.8,
+      ease: "power2.inOut"
+    }, 0.15);
+
+    // Sequence 4: Chrome "FIND Real Estate" expands and glistens into view
+    heroTl.to("#chromeTitleReveal", {
+      scale: 1,
+      opacity: 1,
+      duration: 0.6,
+      ease: "back.out(1.1)"
+    }, 0.4);
+
+    // ── 2. Interactive Desktop Mouse 3D Perspective Tilt ──
+    const mesh = document.getElementById('penthouseMesh');
+    if (mesh && window.innerWidth > 768) {
+      window.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 16;
+        const y = (e.clientY / window.innerHeight - 0.5) * 16;
+        gsap.to(mesh, {
+          rotateY: x,
+          rotateX: -y,
+          duration: 0.6,
+          ease: "power1.out"
+        });
+      });
+    }
+
+    // ── 3. Interactive Services Switcher (Buy / Sell / Rent) ──
+    const serviceData = {
+      buy: {
+        title: "Buy",
+        desc: "Curated architectural inventory, off-market access, and strategic bidding.",
+        highlight: "MATCH & DISCOVERY"
+      },
+      sell: {
+        title: "Sell",
+        desc: "Cinematic editorial marketing, global investor reach, and record price realizations.",
+        highlight: "NEGOTIATION & LEGAL"
+      },
+      rent: {
+        title: "Rent",
+        desc: "Luxury short-term stays, corporate relocations, and full-service penthouses.",
+        highlight: "PORTFOLIO ASSET CARE"
+      }
+    };
+
+    window.switchService = function(type) {
+      ['buy', 'sell', 'rent'].forEach(t => {
+        const row = document.getElementById('serviceRow' + t.charAt(0).toUpperCase() + t.slice(1));
+        if (t === type) {
+          row.classList.add('border-cyan-400', 'bg-zinc-900');
+          row.classList.remove('bg-zinc-950', 'border-zinc-800');
+        } else {
+          row.classList.remove('border-cyan-400', 'bg-zinc-900');
+          row.classList.add('bg-zinc-950', 'border-zinc-800');
+        }
+      });
+    };
+
+    // ── 4. Testimonials Carousel ──
+    const testimonials = [
+      {
+        quote: "Finding our dream home in the city felt overwhelming until we partnered with FIND. The market insights, negotiation finesse, and genuine warmth made every step seamless.",
+        name: "Marcus & Elena Vance",
+        badge: "Closed in 21 Days &bull; Tribeca Penthouse"
+      },
+      {
+        quote: "Selling our historic Brooklyn Heights brownstone required discretion and precision. FIND produced a cinematic campaign that generated multiple all-cash bids in 72 hours.",
+        name: "Jonathan & Claire Sterling",
+        badge: "Record Sale &bull; Brooklyn Heights"
+      },
+      {
+        quote: "The off-market architectural search capability at FIND is unmatched. They uncovered a waterfront development before it ever reached public syndication.",
+        name: "David Kim, Managing Director",
+        badge: "Commercial Syndication &bull; Hudson Yards"
+      }
+    ];
+
+    let currentTestimonialIdx = 0;
+    window.nextTestimonial = function() {
+      currentTestimonialIdx = (currentTestimonialIdx + 1) % testimonials.length;
+      updateTestimonialUI();
+    };
+
+    window.prevTestimonial = function() {
+      currentTestimonialIdx = (currentTestimonialIdx - 1 + testimonials.length) % testimonials.length;
+      updateTestimonialUI();
+    };
+
+    function updateTestimonialUI() {
+      const q = document.getElementById('testimonialQuote');
+      gsap.to(q, {
+        opacity: 0,
+        y: -10,
+        duration: 0.2,
+        onComplete: () => {
+          q.innerText = '“' + testimonials[currentTestimonialIdx].quote + '”';
+          gsap.to(q, { opacity: 1, y: 0, duration: 0.3 });
+        }
+      });
+    }
+
+    // ── 5. Newsletter Submission ──
+    window.handleNewsletter = function(e) {
+      e.preventDefault();
+      alert('✓ Thank you for subscribing to FIND Private Market Intelligence.');
+      e.target.reset();
+    };
+  </script>
+</body>
+</html>
