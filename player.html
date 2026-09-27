@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body, html { margin: 0; padding: 0; background: #000; overflow: hidden; width: 100%; height: 100%; }
+    video { width: 100vw; height: 100vh; object-fit: contain; }
+  </style>
+</head>
+<body>
+  <video id="v" autoplay muted playsinline src="https://v1.pinimg.com/videos/iht/expMp4/4b/2f/28/4b2f285f3b59d9c7c3d37dabbff1aa30_720w.mp4"></video>
+  <script>
+    const v = document.getElementById('v');
+    const params = new URLSearchParams(window.location.search);
+    const t = parseFloat(params.get('t') || '0');
+    v.addEventListener('loadedmetadata', () => {
+      v.currentTime = t;
+      v.pause();
+    });
+  </script>
+</body>
+</html>
