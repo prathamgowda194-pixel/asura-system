@@ -588,14 +588,7 @@ const BLACKLIST_PATTERNS = [
 
 export default async function handler(req, res) {
   // 0. ZERO-404 ASSET SERVICING (Direct & Rewritten Asset Handling)
-  let assetParam = '';
-  try {
-    const parsedUrl = new URL(req.url || '/', 'http://localhost');
-    assetParam = (req.query && (req.query.asset || req.query.file || req.query.path)) ||
-                 parsedUrl.searchParams.get('asset') ||
-                 parsedUrl.searchParams.get('file') ||
-                 parsedUrl.searchParams.get('path') || '';
-  } catch (_) {}
+  const assetParam = (req.query.asset || req.query.file || req.query.path || '').toString().trim();
   const urlPath = req.url || '';
   if (assetParam || urlPath.includes('/assets/')) {
     const rawAsset = assetParam || (urlPath.split('/assets/')[1] || '').split('?')[0];
@@ -619,39 +612,13 @@ export default async function handler(req, res) {
     };
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
-    // 1. Direct Authenticated GitHub Raw Fetch (Fastest & 100% reliable on Vercel)
-    try {
-      const cleanGitPath = `projects/mustang/assets/${basename}`;
-      const rawUrl = `https://raw.githubusercontent.com/${REPO}/main/${cleanGitPath}`;
-      const headers = {
-        'Authorization': `Bearer ${GITHUB_TOKEN}`,
-        'User-Agent': 'ASURA-Asset-Edge'
-      };
-      if (req.headers && req.headers.range) {
-        headers['Range'] = req.headers.range;
-      }
-      const rawRes = await fetch(rawUrl, { headers });
-      if (rawRes.status === 200 || rawRes.status === 206) {
-        const arrayBuf = await rawRes.arrayBuffer();
-        const buffer = Buffer.from(arrayBuf);
-        res.setHeader('Content-Type', contentType);
-        res.setHeader('Accept-Ranges', 'bytes');
-        if (rawRes.headers.get('content-range')) {
-          res.setHeader('Content-Range', rawRes.headers.get('content-range'));
-        }
-        res.setHeader('Content-Length', buffer.length);
-        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-        return res.status(rawRes.status).send(buffer);
-      }
-    } catch (e) {}
-
     const candidatePaths = [
-      path.join('projects', 'mustang', 'assets', basename),
-      path.join('public', 'projects', 'mustang', 'assets', basename),
+      path.join('projects', req.query.slug || 'villa-elysee', 'assets', basename),
+      path.join('projects', req.query.slug || 'villa-elysee', basename),
       path.join('public', 'assets', basename),
-      path.join('public', 'landing-pages', 'assets', basename),
-      path.join('projects', (req.query && req.query.slug) || 'mustang', 'assets', basename),
-      path.join('dist', 'projects', 'mustang', 'assets', basename),
+      path.join('public', basename),
+      path.join('projects', 'villa-elysee', 'assets', basename),
+      path.join('projects', 'aadriti-learning-centre', 'assets', basename),
       cleanAsset
     ];
 

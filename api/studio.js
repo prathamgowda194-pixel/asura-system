@@ -4,6 +4,9 @@
  * Uses ES module format (required when package.json has "type": "module")
  */
 
+import fs from 'fs';
+import path from 'path';
+
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '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';
 const REPO = 'prathamgowda194-pixel/asura-system';
 
@@ -16,9 +19,18 @@ export default async function handler(req, res) {
   res.setHeader('Pragma', 'no-cache');
   res.setHeader('Expires', '0');
 
-  // Fetch ASURA Studio HTML fresh from GitHub (bypasses Vercel static cache)
+  // 1. Try local disk first
   try {
-    const ghUrl = `https://api.github.com/repos/${REPO}/contents/index.html`;
+    const localPath = path.join(process.cwd(), 'projects', 'studio', 'index.html');
+    if (fs.existsSync(localPath)) {
+      const html = fs.readFileSync(localPath, 'utf8');
+      return res.status(200).send(html);
+    }
+  } catch (e) {}
+
+  // 2. Fetch fresh from GitHub
+  try {
+    const ghUrl = `https://api.github.com/repos/${REPO}/contents/projects/studio/index.html`;
     const ghRes = await fetch(ghUrl, {
       headers: {
         'Authorization': `Bearer ${GITHUB_TOKEN}`,

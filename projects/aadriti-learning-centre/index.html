@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aadriti Learning Centre & Psychological Well Being | Yeswanthpur, Bengaluru</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg: #FBFBF9;
+      --surface: #FFFFFF;
+      --surface-alt: #F4F4EE;
+      --forest: #0F3E2E;
+      --forest-dark: #09261C;
+      --forest-light: #1B5E46;
+      --lime: #C6F24F;
+      --lime-hover: #b8e642;
+      --sage: #E8EFE9;
+      --border: #E5E3DC;
+      --border-dark: #2B4E3E;
+      --text: #18221D;
+      --text-muted: #5D6B64;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .font-serif {
+      font-family: 'Fraunces', Georgia, serif;
+    }
+
+    .font-mono-tech {
+      font-family: 'Space Grotesk', monospace;
+    }
+
+    /* Asymmetric Folder Tab Cutout */
+    .folder-tab-card {
+      border-radius: 1.75rem 0.5rem 1.75rem 1.75rem;
+      border: 1px solid var(--border);
+      background-color: var(--surface);
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .folder-tab-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 35px -10px rgba(15, 62, 46, 0.08);
+      border-color: #0F3E2E;
+    }
+
+    .folder-tab-dark {
+      border-radius: 1.75rem 0.5rem 1.75rem 1.75rem;
+      background-color: var(--forest);
+      color: #FFFFFF;
+      border: 1px solid var(--border-dark);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .folder-tab-dark:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -10px rgba(15, 62, 46, 0.25);
+    }
+
+    .folder-tab-lime {
+      border-radius: 1.75rem 0.5rem 1.75rem 1.75rem;
+      background-color: var(--lime);
+      color: var(--forest-dark);
+      border: 1px solid rgba(15, 62, 46, 0.15);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .folder-tab-lime:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -10px rgba(198, 242, 79, 0.4);
+    }
+
+    .glass-nav {
+      background: rgba(251, 251, 249, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(229, 227, 220, 0.8);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Program Slider Track */
+    .slider-container {
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .slider-container::-webkit-scrollbar {
+      display: none;
+    }
+    .slider-item {
+      scroll-snap-align: start;
+    }
+  </style>
+</head>
+<body class="selection:bg-[#C6F24F] selection:text-[#0F3E2E]">
+
+  <!-- FLOATING NAVBAR -->
+  <header class="fixed top-4 left-0 right-0 z-50 px-4 sm:px-8">
+    <div class="max-w-7xl mx-auto flex items-center justify-between glass-nav rounded-full px-5 py-3">
+      <!-- Brand & Sanskrit Motto -->
+      <a href="#hero" class="flex items-center space-x-3 group">
+        <img src="./assets/aadriti_logo.jpg" onerror="this.src='./assets/cultural_krishna_radha.jpg'" alt="Aadriti Logo" class="w-10 h-10 rounded-full object-cover border border-[#0F3E2E]/20 shadow-sm">
+        <div>
+          <div class="font-serif font-bold text-sm tracking-wide text-[#0F3E2E] group-hover:text-[#1B5E46] transition">Aadriti Centre</div>
+          <div class="text-[10px] font-medium tracking-wider text-[#0F3E2E]/70 font-sans">उद्धरेदात्मानमात्मानं &bull; Yeswanthpur</div>
+        </div>
+      </a>
+
+      <!-- Center Links -->
+      <nav class="hidden md:flex items-center space-x-7 text-xs font-semibold uppercase tracking-wider text-[#18221D]/80">
+        <a href="#hero" class="hover:text-[#0F3E2E] transition">Overview</a>
+        <a href="#banner" class="hover:text-[#0F3E2E] transition">Pillars</a>
+        <a href="#programs" class="hover:text-[#0F3E2E] transition">Programs</a>
+        <a href="#impact" class="hover:text-[#0F3E2E] transition">Community</a>
+        <a href="#mentors" class="hover:text-[#0F3E2E] transition">Faculty</a>
+        <a href="#gallery" class="hover:text-[#0F3E2E] transition">Milestones</a>
+        <a href="#faq" class="hover:text-[#0F3E2E] transition">FAQ</a>
+      </nav>
+
+      <!-- Right Contact CTA -->
+      <div class="flex items-center space-x-3">
+        <a href="tel:+916360766598" class="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold text-[#0F3E2E] hover:text-[#1B5E46]">
+          <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+          <span>+91 63607 66598</span>
+        </a>
+        <a href="#consultation" class="px-5 py-2.5 rounded-full bg-[#0F3E2E] hover:bg-[#1B5E46] text-[#C6F24F] font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center gap-1.5">
+          <span>Book Visit</span>
+          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO BENTO MOSAIC SECTION -->
+  <section id="hero" class="pt-32 pb-20 px-4 sm:px-8 max-w-7xl mx-auto">
+    <!-- Top Sub-Badge -->
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E8EFE9] border border-[#0F3E2E]/15 text-[#0F3E2E] text-xs font-semibold uppercase tracking-widest mb-6">
+      <span class="w-2 h-2 rounded-full bg-[#0F3E2E] animate-pulse"></span>
+      <span>ACADEMIC TUITION (CLASS 1–10) & CHILD PSYCHOLOGY CLINIC</span>
+    </div>
+
+    <!-- Main Bento Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Large Hero Card (8 Cols) -->
+      <div class="lg:col-span-8 folder-tab-card p-8 sm:p-12 flex flex-col justify-between relative overflow-hidden bg-gradient-to-br from-white via-[#FCFCFA] to-[#F5F7F4]">
+        <div class="space-y-6 relative z-10 max-w-2xl">
+          <div class="inline-block px-3 py-1 rounded-md bg-[#C6F24F]/30 text-[#0F3E2E] text-xs font-mono-tech uppercase tracking-wider font-bold">
+            उद्धरेदात्मानमात्मानं &bull; ELEVATE ONESELF BY ONESELF
+          </div>
+          <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal leading-[1.08] text-[#0F3E2E]">
+            Where Academic Mastery Meets <span class="italic font-normal text-[#1B5E46] underline decoration-[#C6F24F] decoration-4">Psychological</span> Resilience.
+          </h1>
+          <p class="text-sm sm:text-base text-[#5D6B64] font-normal leading-relaxed max-w-xl">
+            Aadriti Centre provides rigorous personalized coaching for Classes 1–10 (CBSE, ICSE, State), early phonics literacy, and dedicated professional child psychological counseling under experienced clinicians in Gokula, Yeswanthpur.
+          </p>
+        </div>
+
+        <div class="pt-8 border-t border-[#E5E3DC] mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
+          <div class="flex items-center space-x-3">
+            <div class="flex -space-x-2">
+              <div class="w-9 h-9 rounded-full bg-[#0F3E2E] text-[#C6F24F] flex items-center justify-center font-bold text-xs border-2 border-white">10</div>
+              <div class="w-9 h-9 rounded-full bg-[#C6F24F] text-[#0F3E2E] flex items-center justify-center font-bold text-xs border-2 border-white">★</div>
+              <div class="w-9 h-9 rounded-full bg-[#1B5E46] text-white flex items-center justify-center font-bold text-xs border-2 border-white">+</div>
+            </div>
+            <div class="text-xs">
+              <span class="font-bold text-[#0F3E2E] block">1,500+ Students Guided</span>
+              <span class="text-[#5D6B64]">Class 1–10 & Early Foundations</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <a href="#programs" class="px-6 py-3 rounded-full bg-[#0F3E2E] hover:bg-[#1B5E46] text-[#C6F24F] font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2">
+              <span>Explore Programs</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+            <a href="https://wa.me/916360766598?text=Hello+Aadriti+Learning+Centre,+I+would+like+to+inquire+about+admissions" target="_blank" class="px-5 py-3 rounded-full bg-[#E8EFE9] hover:bg-[#d8e4da] text-[#0F3E2E] font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2">
+              <i data-lucide="message-circle" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>WhatsApp</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column Bento (4 Cols) -->
+      <div class="lg:col-span-4 flex flex-col gap-6">
+        <!-- Bento Tile 1: Cultural Rootedness Image -->
+        <div class="folder-tab-card p-4 overflow-hidden relative group">
+          <div class="aspect-[16/10] rounded-2xl overflow-hidden mb-4 bg-zinc-100">
+            <img src="./assets/cultural_krishna_radha.jpg" alt="Aadriti Cultural Celebration" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          </div>
+          <div class="p-2 space-y-1">
+            <div class="text-[10px] font-mono-tech uppercase tracking-widest text-[#0F3E2E] font-bold">CULTURAL GROUNDING</div>
+            <h3 class="font-serif text-lg font-bold text-[#0F3E2E]">Confidence Through Values</h3>
+            <p class="text-xs text-[#5D6B64]">Festival celebrations, public elocution, and traditional ethics woven into academic growth.</p>
+          </div>
+        </div>
+
+        <!-- Bento Tile 2: Psychological Clinic Feature -->
+        <div class="folder-tab-dark p-6 flex flex-col justify-between flex-1">
+          <div class="space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-[#C6F24F] text-[#0F3E2E] flex items-center justify-center font-bold">
+              <i data-lucide="brain" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-serif text-xl font-normal text-white">Child Psychological Well Being Bay</h3>
+            <p class="text-xs text-zinc-300 font-light leading-relaxed">
+              Addressing exam anxiety, ADHD behaviors, peer pressure, and cognitive learning blocks in a warm, confidential clinic environment.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-[#2B4E3E] flex items-center justify-between text-xs font-mono-tech text-[#C6F24F]">
+            <span>1-ON-1 SESSIONS</span>
+            <span class="flex items-center gap-1">CERTIFIED CLINICIANS &rarr;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ELECTRIC LIME 3-COLUMN HOLISTIC BANNER -->
+  <section id="banner" class="py-14 px-4 sm:px-8 max-w-7xl mx-auto">
+    <div class="folder-tab-lime p-8 sm:p-12 shadow-xl">
+      <div class="text-xs font-mono-tech uppercase tracking-[0.25em] text-[#0F3E2E] font-bold mb-4">
+        THE THREE AADRITI FOUNDATIONAL PILLARS
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4 border-t border-[#0F3E2E]/20">
+        <!-- Col 1 -->
+        <div class="space-y-3">
+          <div class="text-2xl font-serif font-bold text-[#0F3E2E]">01 // Academic Rigor</div>
+          <h4 class="font-bold text-sm text-[#0F3E2E]">Classes 1 to 10 Syllabus</h4>
+          <p class="text-xs text-[#0F3E2E]/80 leading-relaxed font-sans">
+            CBSE, ICSE, and Karnataka State syllabus mastery in Mathematics, Science, Social Sciences, and English with weekly diagnostic tests.
+          </p>
+        </div>
+        <!-- Col 2 -->
+        <div class="space-y-3">
+          <div class="text-2xl font-serif font-bold text-[#0F3E2E]">02 // Child Psychology</div>
+          <h4 class="font-bold text-sm text-[#0F3E2E]">Emotional & Behavioral Health</h4>
+          <p class="text-xs text-[#0F3E2E]/80 leading-relaxed font-sans">
+            Specialized counseling for attention enhancement, screen-time balance, social self-confidence, and parent-child relational harmony.
+          </p>
+        </div>
+        <!-- Col 3 -->
+        <div class="space-y-3">
+          <div class="text-2xl font-serif font-bold text-[#0F3E2E]">03 // Foundational Phonics</div>
+          <h4 class="font-bold text-sm text-[#0F3E2E]">Early Literacy & Speech</h4>
+          <p class="text-xs text-[#0F3E2E]/80 leading-relaxed font-sans">
+            Phonetic decoding, auditory memory, reading comprehension, and creative storytelling for early childhood (ages 3.5 to 7).
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE PROGRAMS SECTION WITH SLIDER -->
+  <section id="programs" class="py-24 px-4 sm:px-8 max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      <div>
+        <span class="text-xs font-mono-tech uppercase tracking-[0.25em] text-[#0F3E2E] font-bold block mb-2">CURATED CURRICULUM</span>
+        <h2 class="font-serif text-3xl sm:text-5xl font-normal text-[#0F3E2E]">Academic & Counseling Programs</h2>
+      </div>
+
+      <!-- Slider Arrows -->
+      <div class="flex items-center space-x-3">
+        <button onclick="scrollSlider(-1)" class="w-12 h-12 rounded-full border border-[#0F3E2E] bg-white hover:bg-[#0F3E2E] hover:text-[#C6F24F] text-[#0F3E2E] flex items-center justify-center transition shadow-sm">
+          <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        </button>
+        <button onclick="scrollSlider(1)" class="w-12 h-12 rounded-full border border-[#0F3E2E] bg-[#0F3E2E] text-[#C6F24F] hover:bg-[#1B5E46] flex items-center justify-center transition shadow-sm">
+          <i data-lucide="arrow-right" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Horizontal Program Slider -->
+    <div id="programsSlider" class="slider-container flex gap-6 overflow-x-auto pb-6">
+      <!-- Card 1 -->
+      <div class="slider-item w-[300px] sm:w-[360px] flex-shrink-0 folder-tab-card p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full bg-[#E8EFE9] text-[#0F3E2E] text-[10px] font-mono-tech font-bold uppercase tracking-widest">FOUNDATION</span>
+            <span class="font-mono-tech text-xs text-[#5D6B64]">AGES 3.5 – 6</span>
+          </div>
+          <h3 class="font-serif text-2xl text-[#0F3E2E] font-bold mb-3">Early Phonics & Reading Mastery</h3>
+          <p class="text-xs text-[#5D6B64] leading-relaxed mb-6 font-sans">
+            Multi-sensory phonetic decoding, blend sounds, vocabulary enrichment, and reading confidence before primary school entry.
+          </p>
+          <ul class="text-xs text-[#18221D] space-y-2 mb-6 font-medium">
+            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i> Jolly Phonics Methodology</li>
+            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i> Auditory & Visual Memory Games</li>
+            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i> Expressive Speech & Vocabulary</li>
+          </ul>
+        </div>
+        <div class="pt-4 border-t border-[#E5E3DC] flex items-center justify-between">
+          <span class="text-xs font-bold text-[#0F3E2E]">BATCH SIZE: 6-8 MAX</span>
+          <a href="#consultation" class="text-xs font-bold text-[#0F3E2E] hover:underline flex items-center gap-1">Inquire &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="slider-item w-[300px] sm:w-[360px] flex-shrink-0 folder-tab-dark p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full bg-[#C6F24F] text-[#0F3E2E] text-[10px] font-mono-tech font-bold uppercase tracking-widest">CORE ACADEMIC</span>
+            <span class="font-mono-tech text-xs text-zinc-300">CLASSES 1 – 10</span>
+          </div>
+          <h3 class="font-serif text-2xl text-white font-bold mb-3">Academic Excellence & Board Prep</h3>
+          <p class="text-xs text-zinc-300 leading-relaxed mb-6 font-sans">
+            In-depth conceptual mastery for CBSE, ICSE, and State Boards in Mathematics, Science, and Languages with individualized pace.
+          </p>
+          <ul class="text-xs text-zinc-200 space-y-2 mb-6">
+            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-[#C6F24F]"></i> Chapter-wise Conceptual Drills</li>
+            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-[#C6F24F]"></i> Weekly Diagnostic Board Mock Tests</li>
+            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-[#C6F24F]"></i> Homework & Exam Strategy Support</li>
+          </ul>
+        </div>
+        <div class="pt-4 border-t border-[#2B4E3E] flex items-center justify-between">
+          <span class="text-xs font-bold text-[#C6F24F]">CBSE &bull; ICSE &bull; STATE</span>
+          <a href="#consultation" class="text-xs font-bold text-[#C6F24F] hover:underline flex items-center gap-1">Inquire &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="slider-item w-[300px] sm:w-[360px] flex-shrink-0 folder-tab-card p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full bg-[#E8EFE9] text-[#0F3E2E] text-[10px] font-mono-tech font-bold uppercase tracking-widest">CLINICAL PSYCHOLOGY</span>
+            <span class="font-mono-tech text-xs text-[#5D6B64]">INDIVIDUAL CLINIC</span>
+          </div>
+          <h3 class="font-serif text-2xl text-[#0F3E2E] font-bold mb-3">Child Counseling & Guidance</h3>
+          <p class="text-xs text-[#5D6B64] leading-relaxed mb-6 font-sans">
+            Confidential psychological evaluation, exam fear remediation, emotional regulation, and attention span therapy.
+          </p>
+          <ul class="text-xs text-[#18221D] space-y-2 mb-6 font-medium">
+            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i> Attention & Concentration Therapy</li>
+            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i> Exam Stress & Phobia Reduction</li>
+            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i> Parent-Child Interactive Coaching</li>
+          </ul>
+        </div>
+        <div class="pt-4 border-t border-[#E5E3DC] flex items-center justify-between">
+          <span class="text-xs font-bold text-[#0F3E2E]">STRICT CONFIDENTIALITY</span>
+          <a href="#consultation" class="text-xs font-bold text-[#0F3E2E] hover:underline flex items-center gap-1">Inquire &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="slider-item w-[300px] sm:w-[360px] flex-shrink-0 folder-tab-card p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full bg-[#E8EFE9] text-[#0F3E2E] text-[10px] font-mono-tech font-bold uppercase tracking-widest">ENRICHMENT</span>
+            <span class="font-mono-tech text-xs text-[#5D6B64]">WEEKEND / VACATION</span>
+          </div>
+          <h3 class="font-serif text-2xl text-[#0F3E2E] font-bold mb-3">Holistic Life Skills & Elocution</h3>
+          <p class="text-xs text-[#5D6B64] leading-relaxed mb-6 font-sans">
+            Public speaking, dramatic expression, calligraphy, Vedic mathematical tricks, and mindfulness meditation.
+          </p>
+          <ul class="text-xs text-[#18221D] space-y-2 mb-6 font-medium">
+            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i> Public Speaking & Debate</li>
+            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i> Speed Math & Logic Puzzles</li>
+            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i> Mindful Breath & Focus Circles</li>
+          </ul>
+        </div>
+        <div class="pt-4 border-t border-[#E5E3DC] flex items-center justify-between">
+          <span class="text-xs font-bold text-[#0F3E2E]">ALL AGE GROUPS</span>
+          <a href="#consultation" class="text-xs font-bold text-[#0F3E2E] hover:underline flex items-center gap-1">Inquire &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPACT & COMMUNITY SECTION (GIANT 1,500+ COUNTER) -->
+  <section id="impact" class="py-24 px-4 sm:px-8 bg-[#0F3E2E] text-white relative overflow-hidden">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <!-- Left Stats (6 Cols) -->
+      <div class="lg:col-span-6 space-y-6">
+        <span class="text-xs font-mono-tech uppercase tracking-[0.25em] text-[#C6F24F] font-bold block">
+          A DECADE OF MEASURABLE IMPACT
+        </span>
+        <div class="text-6xl sm:text-8xl lg:text-9xl font-serif font-bold text-white tracking-tighter">
+          1,500<span class="text-[#C6F24F]">+</span>
+        </div>
+        <h3 class="font-serif text-2xl sm:text-3xl text-white font-normal">
+          Students nurtured towards top academic performance and emotional equilibrium.
+        </h3>
+        <p class="text-xs sm:text-sm text-zinc-300 font-light max-w-lg leading-relaxed font-sans">
+          From children who experienced school anxiety to toppers in 10th Board Examinations, our multi-disciplinary approach treats each child as a whole individual.
+        </p>
+
+        <div class="grid grid-cols-3 gap-6 pt-6 border-t border-[#2B4E3E]">
+          <div>
+            <div class="text-2xl sm:text-3xl font-bold text-[#C6F24F]">100%</div>
+            <div class="text-[10px] font-mono-tech uppercase text-zinc-300 mt-1">Individual Focus</div>
+          </div>
+          <div>
+            <div class="text-2xl sm:text-3xl font-bold text-[#C6F24F]">12+ Yrs</div>
+            <div class="text-[10px] font-mono-tech uppercase text-zinc-300 mt-1">Clinical Provenance</div>
+          </div>
+          <div>
+            <div class="text-2xl sm:text-3xl font-bold text-[#C6F24F]">4.9 ★</div>
+            <div class="text-[10px] font-mono-tech uppercase text-zinc-300 mt-1">Parent Satisfaction</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Gallery Collage (6 Cols) -->
+      <div class="lg:col-span-6 grid grid-cols-2 gap-4">
+        <div class="space-y-4">
+          <div class="rounded-2xl overflow-hidden border border-white/10 aspect-[4/5]">
+            <img src="./assets/graduation_day.jpg" alt="Graduation Day Celebration" class="w-full h-full object-cover">
+          </div>
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 text-xs">
+            <span class="font-bold text-[#C6F24F] block mb-1">Board Exam Honors</span>
+            <span class="text-zinc-300 text-[11px]">Consistent top rankings across Yeswanthpur & Gokula schools.</span>
+          </div>
+        </div>
+
+        <div class="space-y-4 pt-8">
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 text-xs">
+            <span class="font-bold text-[#C6F24F] block mb-1">Sensory Development</span>
+            <span class="text-zinc-300 text-[11px]">Cognitive motor skills & phonics games in action.</span>
+          </div>
+          <div class="rounded-2xl overflow-hidden border border-white/10 aspect-[4/5]">
+            <img src="./assets/sensory_circle.jpg" alt="Sensory Learning Activity" class="w-full h-full object-cover">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENTORS & PSYCHOLOGISTS SECTION -->
+  <section id="mentors" class="py-24 px-4 sm:px-8 max-w-7xl mx-auto">
+    <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+      <span class="text-xs font-mono-tech uppercase tracking-[0.25em] text-[#0F3E2E] font-bold block">EXPERIENCED LEADERSHIP</span>
+      <h2 class="font-serif text-3xl sm:text-5xl font-normal text-[#0F3E2E]">Educators & Child Psychologists</h2>
+      <p class="text-xs sm:text-sm text-[#5D6B64] font-normal leading-relaxed">
+        Passionate professionals certified in pedagogy, child development, and clinical counseling.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Mentor 1 -->
+      <div class="folder-tab-card p-6 flex flex-col justify-between">
+        <div class="space-y-4">
+          <div class="w-14 h-14 rounded-2xl bg-[#E8EFE9] text-[#0F3E2E] flex items-center justify-center font-bold text-xl">
+            <i data-lucide="graduation-cap" class="w-7 h-7"></i>
+          </div>
+          <div>
+            <h3 class="font-serif text-xl font-bold text-[#0F3E2E]">Senior Academic Faculty</h3>
+            <span class="text-xs font-mono-tech text-[#1B5E46] font-bold">M.Sc., B.Ed. &bull; 15+ Yrs Experience</span>
+          </div>
+          <p class="text-xs text-[#5D6B64] leading-relaxed">
+            Specializing in high-school Mathematics and Physics, demystifying abstract equations into step-by-step logical intuition.
+          </p>
+        </div>
+        <div class="pt-4 border-t border-[#E5E3DC] text-[11px] font-mono-tech text-[#0F3E2E] font-bold">
+          CBSE &bull; ICSE &bull; STATE CURRICULUM
+        </div>
+      </div>
+
+      <!-- Mentor 2 -->
+      <div class="folder-tab-card p-6 flex flex-col justify-between border-[#0F3E2E]">
+        <div class="space-y-4">
+          <div class="w-14 h-14 rounded-2xl bg-[#C6F24F] text-[#0F3E2E] flex items-center justify-center font-bold text-xl">
+            <i data-lucide="heart-pulse" class="w-7 h-7"></i>
+          </div>
+          <div>
+            <h3 class="font-serif text-xl font-bold text-[#0F3E2E]">Clinical Child Psychologist</h3>
+            <span class="text-xs font-mono-tech text-[#1B5E46] font-bold">M.Phil Clinical Psychology &bull; RCI Certified</span>
+          </div>
+          <p class="text-xs text-[#5D6B64] leading-relaxed">
+            Expert in psycho-educational assessment, childhood anxiety reduction, behavioral restructuring, and neurodivergent learning adaptation.
+          </p>
+        </div>
+        <div class="pt-4 border-t border-[#E5E3DC] text-[11px] font-mono-tech text-[#0F3E2E] font-bold">
+          CONFIDENTIAL CLINICAL COUNSELING
+        </div>
+      </div>
+
+      <!-- Mentor 3 -->
+      <div class="folder-tab-card p-6 flex flex-col justify-between">
+        <div class="space-y-4">
+          <div class="w-14 h-14 rounded-2xl bg-[#E8EFE9] text-[#0F3E2E] flex items-center justify-center font-bold text-xl">
+            <i data-lucide="book-open" class="w-7 h-7"></i>
+          </div>
+          <div>
+            <h3 class="font-serif text-xl font-bold text-[#0F3E2E]">Early Literacy & Phonics Lead</h3>
+            <span class="text-xs font-mono-tech text-[#1B5E46] font-bold">Certified Jolly Phonics Trainer &bull; Montessori</span>
+          </div>
+          <p class="text-xs text-[#5D6B64] leading-relaxed">
+            Inspiring joyous early reading, articulation, phonemic awareness, and creative vocabulary building in foundational years.
+          </p>
+        </div>
+        <div class="pt-4 border-t border-[#E5E3DC] text-[11px] font-mono-tech text-[#0F3E2E] font-bold">
+          EARLY CHILDHOOD FOUNDATIONS
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHOTO MILESTONES & CELEBRATION GALLERY -->
+  <section id="gallery" class="py-24 px-4 sm:px-8 max-w-7xl mx-auto border-t border-[#E5E3DC]">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      <div>
+        <span class="text-xs font-mono-tech uppercase tracking-[0.25em] text-[#0F3E2E] font-bold block mb-2">CAMPUS CHRONICLES</span>
+        <h2 class="font-serif text-3xl sm:text-5xl font-normal text-[#0F3E2E]">Moments of Joy & Achievement</h2>
+      </div>
+      <p class="text-xs text-[#5D6B64] max-w-md">
+        A glimpse into cultural celebrations, hands-on learning labs, and annual achievements at Aadriti Learning Centre.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="folder-tab-card overflow-hidden p-3 group">
+        <div class="aspect-square rounded-2xl overflow-hidden mb-3 bg-zinc-100">
+          <img src="./assets/cultural_krishna_radha.jpg" alt="Krishna Radha Celebration" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+        </div>
+        <div class="p-2">
+          <div class="font-serif text-sm font-bold text-[#0F3E2E]">Krishna Janmashtami</div>
+          <span class="text-[11px] text-[#5D6B64]">Cultural rootedness & expression</span>
+        </div>
+      </div>
+
+      <div class="folder-tab-card overflow-hidden p-3 group">
+        <div class="aspect-square rounded-2xl overflow-hidden mb-3 bg-zinc-100">
+          <img src="./assets/graduation_day.jpg" alt="Graduation Day Ceremony" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+        </div>
+        <div class="p-2">
+          <div class="font-serif text-sm font-bold text-[#0F3E2E]">Annual Graduation</div>
+          <span class="text-[11px] text-[#5D6B64]">Celebrating milestones & toppers</span>
+        </div>
+      </div>
+
+      <div class="folder-tab-card overflow-hidden p-3 group">
+        <div class="aspect-square rounded-2xl overflow-hidden mb-3 bg-zinc-100">
+          <img src="./assets/festive_celebration.jpg" alt="Festive Celebrations" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+        </div>
+        <div class="p-2">
+          <div class="font-serif text-sm font-bold text-[#0F3E2E]">Festive Community</div>
+          <span class="text-[11px] text-[#5D6B64]">Social bonding & joy of sharing</span>
+        </div>
+      </div>
+
+      <div class="folder-tab-card overflow-hidden p-3 group">
+        <div class="aspect-square rounded-2xl overflow-hidden mb-3 bg-zinc-100">
+          <img src="./assets/sensory_circle.jpg" alt="Sensory Cognitive Circle" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+        </div>
+        <div class="p-2">
+          <div class="font-serif text-sm font-bold text-[#0F3E2E]">Sensory Circle</div>
+          <span class="text-[11px] text-[#5D6B64]">Interactive cognitive play</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE FAQ ACCORDION -->
+  <section id="faq" class="py-24 px-4 sm:px-8 max-w-4xl mx-auto">
+    <div class="text-center mb-12 space-y-2">
+      <span class="text-xs font-mono-tech uppercase tracking-[0.25em] text-[#0F3E2E] font-bold block">PARENTS COMMON QUESTIONS</span>
+      <h2 class="font-serif text-3xl sm:text-5xl font-normal text-[#0F3E2E]">Frequently Asked Questions</h2>
+    </div>
+
+    <div class="space-y-4">
+      <div class="folder-tab-card p-5 cursor-pointer" onclick="toggleFaq(this)">
+        <div class="flex items-center justify-between font-serif font-bold text-base text-[#0F3E2E]">
+          <span>What syllabus and classes do you coach?</span>
+          <i data-lucide="chevron-down" class="w-4 h-4 text-[#0F3E2E] transition-transform duration-300"></i>
+        </div>
+        <div class="faq-content hidden pt-3 text-xs text-[#5D6B64] leading-relaxed border-t border-[#E5E3DC] mt-3">
+          We provide tailored academic tuition for Classes 1 through 10 across CBSE, ICSE, and Karnataka State syllabi. Key subjects include Mathematics, Science (Physics, Chemistry, Biology), English, Social Science, and regional languages.
+        </div>
+      </div>
+
+      <div class="folder-tab-card p-5 cursor-pointer" onclick="toggleFaq(this)">
+        <div class="flex items-center justify-between font-serif font-bold text-base text-[#0F3E2E]">
+          <span>How are child psychological counseling sessions structured?</span>
+          <i data-lucide="chevron-down" class="w-4 h-4 text-[#0F3E2E] transition-transform duration-300"></i>
+        </div>
+        <div class="faq-content hidden pt-3 text-xs text-[#5D6B64] leading-relaxed border-t border-[#E5E3DC] mt-3">
+          Our sessions are strictly 1-on-1 and confidential. We conduct a preliminary diagnostic assessment with both parent and child, followed by customized behavioral therapy, attention-focus exercises, and stress coping techniques.
+        </div>
+      </div>
+
+      <div class="folder-tab-card p-5 cursor-pointer" onclick="toggleFaq(this)">
+        <div class="flex items-center justify-between font-serif font-bold text-base text-[#0F3E2E]">
+          <span>What is the batch size for tuition classes?</span>
+          <i data-lucide="chevron-down" class="w-4 h-4 text-[#0F3E2E] transition-transform duration-300"></i>
+        </div>
+        <div class="faq-content hidden pt-3 text-xs text-[#5D6B64] leading-relaxed border-t border-[#E5E3DC] mt-3">
+          We maintain strictly small cohorts of 8 to 12 students per batch to ensure each child receives personal attention, doubts clarification, and individualized homework tracking.
+        </div>
+      </div>
+
+      <div class="folder-tab-card p-5 cursor-pointer" onclick="toggleFaq(this)">
+        <div class="flex items-center justify-between font-serif font-bold text-base text-[#0F3E2E]">
+          <span>Where is the centre physically located?</span>
+          <i data-lucide="chevron-down" class="w-4 h-4 text-[#0F3E2E] transition-transform duration-300"></i>
+        </div>
+        <div class="faq-content hidden pt-3 text-xs text-[#5D6B64] leading-relaxed border-t border-[#E5E3DC] mt-3">
+          We are located at: Aadriti Learning Centre, 902, 9th Cross Rd, 2nd Phase, Gokula 1st Stage, Divanarapalya, Yeswanthpur, Bengaluru, Karnataka 560054. Safe parking and accessible pickup bays are available.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOK VISIT & CONSULTATION SECTION -->
+  <section id="consultation" class="py-24 px-4 sm:px-8 max-w-4xl mx-auto">
+    <div class="folder-tab-dark p-8 sm:p-14 shadow-2xl relative overflow-hidden">
+      <div class="text-center space-y-3 mb-10">
+        <span class="text-xs font-mono-tech uppercase tracking-[0.25em] text-[#C6F24F] font-bold block">DIRECT ENROLLMENT & COUNSELING</span>
+        <h2 class="font-serif text-3xl sm:text-5xl font-normal text-white">Schedule a Campus Visit</h2>
+        <p class="text-xs sm:text-sm text-zinc-300 max-w-md mx-auto font-light leading-relaxed">
+          Meet our educators and child psychologists in person at our Yeswanthpur centre.
+        </p>
+      </div>
+
+      <form id="visitForm" class="space-y-6" onsubmit="handleVisitSubmit(event)">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <label class="block text-[11px] font-mono-tech uppercase tracking-widest text-zinc-300">Parent / Guardian Name</label>
+            <input type="text" required placeholder="e.g. Ramesh Kumar" class="w-full px-4 py-3 rounded-xl bg-black/40 border border-[#2B4E3E] text-white placeholder-zinc-500 focus:outline-none focus:border-[#C6F24F] text-sm">
+          </div>
+          <div class="space-y-2">
+            <label class="block text-[11px] font-mono-tech uppercase tracking-widest text-zinc-300">Phone Number (WhatsApp)</label>
+            <input type="tel" required placeholder="+91 98450 12345" class="w-full px-4 py-3 rounded-xl bg-black/40 border border-[#2B4E3E] text-white placeholder-zinc-500 focus:outline-none focus:border-[#C6F24F] text-sm">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <label class="block text-[11px] font-mono-tech uppercase tracking-widest text-zinc-300">Student's Current Class / Grade</label>
+            <select class="w-full px-4 py-3 rounded-xl bg-[#09261C] border border-[#2B4E3E] text-white focus:outline-none focus:border-[#C6F24F] text-sm">
+              <option>Early Phonics (Ages 3.5–6)</option>
+              <option>Primary School (Class 1–5)</option>
+              <option>Middle School (Class 6–8)</option>
+              <option>High School / Board Prep (Class 9–10)</option>
+              <option>Child Psychological Consultation Only</option>
+            </select>
+          </div>
+          <div class="space-y-2">
+            <label class="block text-[11px] font-mono-tech uppercase tracking-widest text-zinc-300">Primary Goal</label>
+            <select class="w-full px-4 py-3 rounded-xl bg-[#09261C] border border-[#2B4E3E] text-white focus:outline-none focus:border-[#C6F24F] text-sm">
+              <option>Academic Tuition Coaching</option>
+              <option>Child Psychology & Anxiety Support</option>
+              <option>Both Academic & Emotional Guidance</option>
+              <option>Foundational Phonics & Reading</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="pt-4 flex flex-col sm:flex-row items-center gap-4 justify-center">
+          <button type="submit" class="w-full sm:w-auto px-8 py-4 rounded-full bg-[#C6F24F] hover:bg-[#b8e642] text-[#0F3E2E] font-bold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2">
+            <i data-lucide="calendar" class="w-4 h-4"></i>
+            <span>Confirm Campus Visit</span>
+          </button>
+          
+          <a href="https://wa.me/916360766598?text=Hello+Aadriti+Learning+Centre,+I+am+interested+in+scheduling+a+visit" target="_blank" class="w-full sm:w-auto px-6 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white font-mono-tech text-xs uppercase tracking-wider transition flex items-center justify-center gap-2">
+            <i data-lucide="message-circle" class="w-4 h-4 text-[#C6F24F]"></i>
+            <span>Direct WhatsApp Desk</span>
+          </a>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- CLIENT FOOTER WITH ADDRESS & METRIC BADGES -->
+  <footer class="py-16 px-4 sm:px-8 bg-[#F4F4EE] border-t border-[#E5E3DC] text-xs text-[#5D6B64]">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
+      <!-- Col 1: Brand Info (5 Cols) -->
+      <div class="md:col-span-5 space-y-4">
+        <div class="flex items-center space-x-3">
+          <img src="./assets/aadriti_logo.jpg" alt="Aadriti Logo" class="w-10 h-10 rounded-full object-cover border border-[#0F3E2E]/20">
+          <div>
+            <div class="font-serif font-bold text-base text-[#0F3E2E]">Aadriti Centre For Learning</div>
+            <div class="text-[11px] text-[#0F3E2E]/80 font-medium">And Psychological Well Being</div>
+          </div>
+        </div>
+        <p class="text-xs leading-relaxed max-w-sm">
+          उद्धरेदात्मानमात्मानं — One should lift oneself up by one's own efforts. Dedicated to shaping intellectually empowered and emotionally resilient children.
+        </p>
+        <div class="flex items-center gap-3">
+          <a href="https://instagram.com/aadriti_educational_centre" target="_blank" class="w-8 h-8 rounded-full bg-white border border-[#E5E3DC] flex items-center justify-center text-[#0F3E2E] hover:bg-[#0F3E2E] hover:text-[#C6F24F] transition">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+          </a>
+          <a href="https://wa.me/916360766598" target="_blank" class="w-8 h-8 rounded-full bg-white border border-[#E5E3DC] flex items-center justify-center text-[#0F3E2E] hover:bg-[#0F3E2E] hover:text-[#C6F24F] transition">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+          </a>
+          <a href="mailto:aadriti.learning@gmail.com" class="w-8 h-8 rounded-full bg-white border border-[#E5E3DC] flex items-center justify-center text-[#0F3E2E] hover:bg-[#0F3E2E] hover:text-[#C6F24F] transition">
+            <i data-lucide="mail" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Col 2: Exact Location & Contact (4 Cols) -->
+      <div class="md:col-span-4 space-y-2">
+        <div class="text-[11px] font-mono-tech uppercase tracking-widest text-[#0F3E2E] font-bold mb-3">CAMPUS LOCATION</div>
+        <p class="text-xs text-[#18221D] leading-relaxed">
+          <strong>Aadriti Learning Centre</strong><br>
+          902, 9th Cross Rd, 2nd Phase, Gokula 1st Stage,<br>
+          Divanarapalya, Yeswanthpur, Bengaluru, Karnataka 560054
+        </p>
+        <div class="pt-2 space-y-1">
+          <div><strong>Phone:</strong> <a href="tel:+916360766598" class="text-[#0F3E2E] hover:underline">+91 63607 66598</a></div>
+          <div><strong>Email:</strong> <a href="mailto:aadriti.learning@gmail.com" class="text-[#0F3E2E] hover:underline">aadriti.learning@gmail.com</a></div>
+          <div><strong>Instagram:</strong> <a href="https://instagram.com/aadriti_educational_centre" target="_blank" class="text-[#0F3E2E] hover:underline">@aadriti_educational_centre</a></div>
+        </div>
+      </div>
+
+      <!-- Col 3: Timings & Operating Hours (3 Cols) -->
+      <div class="md:col-span-3 space-y-2">
+        <div class="text-[11px] font-mono-tech uppercase tracking-widest text-[#0F3E2E] font-bold mb-3">CENTRE HOURS</div>
+        <div class="text-xs space-y-1 text-[#18221D]">
+          <div><strong>Monday – Friday:</strong> 3:30 PM – 8:30 PM</div>
+          <div><strong>Saturday:</strong> 10:00 AM – 7:00 PM</div>
+          <div><strong>Sunday:</strong> Psychological Assessments By Appointment</div>
+        </div>
+        <div class="pt-3">
+          <span class="inline-block px-3 py-1 rounded bg-[#E8EFE9] text-[#0F3E2E] text-[10px] font-bold">
+            ✓ Admissions Open 2026-2027
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto pt-6 border-t border-[#E5E3DC] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px]">
+      <div>&copy; 2026 Aadriti Centre For Learning And Psychological Well Being. All Rights Reserved.</div>
+      <div class="font-mono-tech text-[#0F3E2E]">Yeswanthpur &bull; Gokula &bull; Bengaluru</div>
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <a href="https://wa.me/916360766598?text=Hello+Aadriti+Learning+Centre,+I+am+inquiring+about+classes+and+counseling" target="_blank" class="fixed bottom-6 right-6 z-40 px-5 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-2xl flex items-center space-x-2 hover:scale-105 transition-all">
+    <span class="w-2 h-2 rounded-full bg-[#C6F24F] animate-ping"></span>
+    <i data-lucide="message-circle" class="w-4 h-4"></i>
+    <span>WhatsApp Aadriti (+91)</span>
+  </a>
+
+  <!-- SCRIPTS -->
+  <script>
+    lucide.createIcons();
+
+    // Slider Scroll Function
+    window.scrollSlider = function(direction) {
+      const slider = document.getElementById('programsSlider');
+      if (slider) {
+        slider.scrollBy({ left: direction * 380, behavior: 'smooth' });
+      }
+    };
+
+    // FAQ Accordion Toggle
+    window.toggleFaq = function(el) {
+      const content = el.querySelector('.faq-content');
+      const icon = el.querySelector('[data-lucide="chevron-down"]');
+      if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        if (icon) icon.style.transform = 'rotate(180deg)';
+      } else {
+        content.classList.add('hidden');
+        if (icon) icon.style.transform = 'rotate(0deg)';
+      }
+    };
+
+    // Form Submission
+    window.handleVisitSubmit = function(e) {
+      e.preventDefault();
+      alert('✓ Campus Visit Scheduled!\n\nOur counseling director will contact you via WhatsApp to confirm your preferred time slot.');
+      e.target.reset();
+    };
+  </script>
+</body>
+</html>

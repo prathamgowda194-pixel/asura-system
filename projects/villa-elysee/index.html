@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Villa Élysée // Haute Clifftop Horizon • Cap de Nice</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg: #070708;
+      --surface: #101014;
+      --surface-border: rgba(255, 255, 255, 0.08);
+      --gold: #d4af37;
+      --gold-light: #f5e6c8;
+      --gold-glow: rgba(212, 175, 55, 0.25);
+      --text: #f4f4f6;
+      --text-muted: #94949e;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .font-serif {
+      font-family: 'Fraunces', Georgia, serif;
+    }
+
+    .font-mono-tech {
+      font-family: 'Space Grotesk', monospace;
+    }
+
+    .glass-dock {
+      background: rgba(14, 14, 18, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+    }
+
+    .glass-card {
+      background: rgba(18, 18, 24, 0.65);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #ffffff 0%, #f5e6c8 40%, #d4af37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* 3D Tilt Card Presets */
+    .tilt-card {
+      transform-style: preserve-3d;
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, border-color 0.3s ease;
+    }
+
+    /* Range slider custom styling */
+    input[type=range]::-webkit-slider-thumb {
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #d4af37;
+      cursor: pointer;
+      box-shadow: 0 0 10px #d4af37;
+    }
+  </style>
+</head>
+<body class="selection:bg-[#d4af37]/30 selection:text-[#f5e6c8]">
+
+  <!-- TOP HAUTE DOCK NAVIGATION -->
+  <header class="fixed top-5 left-0 right-0 z-50 px-4 sm:px-8">
+    <div class="max-w-7xl mx-auto flex items-center justify-between glass-dock rounded-full px-5 py-3">
+      <!-- Brand & Coordinates -->
+      <a href="#hero" class="flex items-center space-x-3 group">
+        <div class="w-8 h-8 rounded-full bg-[#d4af37] text-black font-bold flex items-center justify-center font-serif text-sm shadow-[0_0_15px_rgba(212,175,55,0.4)]">
+          VÉ
+        </div>
+        <div>
+          <div class="font-serif font-bold text-sm tracking-wider uppercase text-white group-hover:text-[#d4af37] transition">Villa Élysée</div>
+          <div class="text-[9px] font-mono-tech tracking-widest text-zinc-400">CAP DE NICE • 43.6961° N</div>
+        </div>
+      </a>
+
+      <!-- Center Links -->
+      <nav class="hidden md:flex items-center space-x-8 text-xs font-mono-tech uppercase tracking-widest text-zinc-300">
+        <a href="#hero" class="hover:text-[#d4af37] transition">Fly-Through</a>
+        <a href="#telemetry" class="hover:text-[#d4af37] transition">Telemetry</a>
+        <a href="#residences" class="hover:text-[#d4af37] transition">Residences</a>
+        <a href="#manifesto" class="hover:text-[#d4af37] transition">Architecture</a>
+        <a href="#acquisition" class="hover:text-[#d4af37] transition">Acquisition</a>
+      </nav>
+
+      <!-- Right CTA -->
+      <div class="flex items-center space-x-3">
+        <span class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/30 text-[10px] font-mono-tech text-[#d4af37]">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#d4af37] animate-ping"></span>
+          <span>$38.5M USD FREEHOLD</span>
+        </span>
+        <a href="#acquisition" class="px-4 py-2 rounded-full bg-[#d4af37] hover:bg-[#e2c158] text-black font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(212,175,55,0.3)]">
+          Inquire
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3D HERO STAGE: DRONE FLY-THROUGH SECTION -->
+  <section id="hero" class="relative w-full h-screen overflow-hidden bg-black select-none">
+    <!-- Video Element (Hidden from display, feeds the 60fps high-res canvas or plays directly) -->
+    <video
+      id="droneVideo"
+      playsinline
+      muted
+      preload="auto"
+      class="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none filter brightness-95"
+      src="./drone-flight.mp4"
+    ></video>
+
+    <!-- Canvas Scrubber Overlay (Synchronized for smooth frame scrubbing) -->
+    <canvas id="droneCanvas" class="absolute inset-0 w-full h-full object-cover z-10 pointer-events-none opacity-0 transition-opacity duration-500"></canvas>
+
+    <!-- Subtle Vignette & Gradient Overlays -->
+    <div class="absolute inset-0 z-10 pointer-events-none bg-gradient-to-t from-black/80 via-transparent to-black/50"></div>
+    <div class="absolute inset-0 z-10 pointer-events-none bg-radial-gradient from-transparent via-transparent to-black/40"></div>
+
+    <!-- HUD Telemetry Header (Under Nav) -->
+    <div class="absolute top-24 left-0 right-0 z-20 px-6 sm:px-12 pointer-events-none">
+      <div class="max-w-7xl mx-auto flex items-center justify-between text-[10px] font-mono-tech tracking-[0.25em] text-zinc-300">
+        <div class="flex items-center gap-3">
+          <span class="w-2 h-2 rounded-full bg-[#d4af37] animate-ping"></span>
+          <span class="text-zinc-100 font-bold">43.6961° N, 7.2718° E</span>
+          <span class="text-zinc-600 hidden sm:inline">|</span>
+          <span class="text-zinc-300 hidden sm:inline">CAP DE NICE, CÔTE D'AZUR</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-zinc-400">ALTITUDE:</span>
+          <span id="hudAltitude" class="text-[#d4af37] font-bold text-xs">20M</span>
+          <span class="text-zinc-600">|</span>
+          <span id="hudChapter" class="text-zinc-300">01 / CAP DE NICE</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Editorial Beat Floating Card -->
+    <div class="absolute bottom-28 left-6 sm:left-12 lg:left-20 z-20 max-w-xl text-left pointer-events-auto">
+      <div id="beatCard" class="glass-card p-6 sm:p-8 rounded-3xl border border-white/10 shadow-2xl transition-all duration-500 transform translate-y-0 opacity-100">
+        <div class="flex items-center gap-2 mb-3">
+          <span id="beatTag" class="text-[10px] font-mono-tech tracking-[0.22em] uppercase text-[#d4af37] bg-black/70 px-3 py-1 rounded-full border border-[#d4af37]/30">
+            01 / MEDITERRANEAN APPROACH
+          </span>
+        </div>
+        <h1 id="beatTitle" class="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal leading-[1.08] text-white mb-3">
+          SCULPTING DIGITAL <span class="italic text-[#d4af37]">DIMENSIONS.</span>
+        </h1>
+        <p id="beatSubtitle" class="text-xs sm:text-sm font-light text-zinc-300 leading-relaxed font-sans mb-6">
+          Cantilevered over the Mediterranean promontory. 14,800 square feet of uninterrupted crystalline glass volumes and circadian limestone geometry.
+        </p>
+        <div class="flex items-center gap-3">
+          <a href="#acquisition" class="px-5 py-2.5 rounded-full bg-[#d4af37] hover:bg-[#e2c158] text-black font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2">
+            <span>Request Dossier</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </a>
+          <button id="togglePlayBtn" class="px-4 py-2.5 rounded-full glass-card hover:bg-white/10 text-white font-mono-tech text-xs flex items-center gap-2 transition">
+            <i id="playIcon" data-lucide="play" class="w-3.5 h-3.5 text-[#d4af37]"></i>
+            <span id="playText">Autoplay Drone</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Flight HUD Scrubber Controls -->
+    <div class="absolute bottom-6 left-6 right-6 z-20 pointer-events-auto">
+      <div class="max-w-7xl mx-auto glass-dock rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+        <!-- Waypoint Selectors -->
+        <div class="flex items-center space-x-2 w-full md:w-auto justify-between md:justify-start">
+          <button onclick="jumpToWaypoint(0)" class="wp-btn px-3 py-1.5 rounded-lg text-[10px] font-mono-tech uppercase tracking-wider bg-[#d4af37] text-black font-bold transition">01 Approach</button>
+          <button onclick="jumpToWaypoint(0.25)" class="wp-btn px-3 py-1.5 rounded-lg text-[10px] font-mono-tech uppercase tracking-wider bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition">02 Portal</button>
+          <button onclick="jumpToWaypoint(0.50)" class="wp-btn px-3 py-1.5 rounded-lg text-[10px] font-mono-tech uppercase tracking-wider bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition">03 Salon</button>
+          <button onclick="jumpToWaypoint(0.72)" class="wp-btn px-3 py-1.5 rounded-lg text-[10px] font-mono-tech uppercase tracking-wider bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition">04 Pool</button>
+          <button onclick="jumpToWaypoint(0.95)" class="wp-btn px-3 py-1.5 rounded-lg text-[10px] font-mono-tech uppercase tracking-wider bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition">05 Clifftop</button>
+        </div>
+
+        <!-- Timeline Scrubber Slider -->
+        <div class="flex-1 w-full flex items-center gap-3 px-2">
+          <span id="timeElapsed" class="text-[10px] font-mono-tech text-zinc-400">0:00</span>
+          <input
+            id="flightSlider"
+            type="range"
+            min="0"
+            max="1"
+            step="0.001"
+            value="0"
+            class="w-full h-1 bg-white/20 rounded-lg appearance-none cursor-pointer focus:outline-none"
+          />
+          <span id="timeTotal" class="text-[10px] font-mono-tech text-zinc-400">0:15</span>
+        </div>
+
+        <!-- Telemetry Status Indicator -->
+        <div class="hidden lg:flex items-center gap-2 text-[10px] font-mono-tech text-zinc-400">
+          <i data-lucide="compass" class="w-3.5 h-3.5 text-[#d4af37]"></i>
+          <span>AZIMUTH: 142° SE • 4K 60FPS</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURAL TELEMETRY STATS BAR -->
+  <section id="telemetry" class="relative py-16 border-y border-white/[0.08] bg-[#0c0c10]">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-5 gap-8 text-center">
+      <div class="space-y-1">
+        <div class="text-3xl md:text-5xl font-serif font-bold text-white tracking-tight">14,800</div>
+        <div class="text-[10px] font-mono-tech uppercase tracking-[0.2em] text-[#d4af37]">Sq. Ft. Interior</div>
+        <p class="text-xs text-zinc-400 font-light">Tri-level clifftop living</p>
+      </div>
+      <div class="space-y-1">
+        <div class="text-3xl md:text-5xl font-serif font-bold text-white tracking-tight">7</div>
+        <div class="text-[10px] font-mono-tech uppercase tracking-[0.2em] text-[#d4af37]">Ocean Suites</div>
+        <p class="text-xs text-zinc-400 font-light">All unobstructed sea-facing</p>
+      </div>
+      <div class="space-y-1">
+        <div class="text-3xl md:text-5xl font-serif font-bold text-white tracking-tight">24M</div>
+        <div class="text-[10px] font-mono-tech uppercase tracking-[0.2em] text-[#d4af37]">Horizon Pool</div>
+        <p class="text-xs text-zinc-400 font-light">Cantilevered reflection basin</p>
+      </div>
+      <div class="space-y-1">
+        <div class="text-3xl md:text-5xl font-serif font-bold text-white tracking-tight">180°</div>
+        <div class="text-[10px] font-mono-tech uppercase tracking-[0.2em] text-[#d4af37]">Riviera Vista</div>
+        <p class="text-xs text-zinc-400 font-light">Mediterranean panorama</p>
+      </div>
+      <div class="col-span-2 md:col-span-1 space-y-1">
+        <div class="text-3xl md:text-5xl font-serif font-bold text-[#d4af37] tracking-tight">$38.5M</div>
+        <div class="text-[10px] font-mono-tech uppercase tracking-[0.2em] text-white">Acquisition Title</div>
+        <p class="text-xs text-zinc-400 font-light">Freehold clifftop promontory</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3D PERSPECTIVE TILT RESIDENCES SHOWCASE -->
+  <section id="residences" class="relative py-32 px-6 max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+      <div>
+        <span class="text-xs font-mono-tech uppercase tracking-[0.25em] text-[#d4af37] block mb-3">CURATED VOLUMES // 2026</span>
+        <h2 class="font-serif text-3xl sm:text-5xl font-normal text-white">The Three Spatial Horizons</h2>
+      </div>
+      <p class="text-xs sm:text-sm text-zinc-400 max-w-md font-light leading-relaxed">
+        Sculpted from monolithic Tivoli travertine, acoustic glass envelopes, and black basalt reflecting pools cantilevered over the Côte d'Azur.
+      </p>
+    </div>
+
+    <!-- 3D Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Card 1 -->
+      <div class="tilt-card glass-card rounded-3xl p-4 overflow-hidden group hover:border-[#d4af37]/50 transition duration-300 flex flex-col justify-between">
+        <div class="relative aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-zinc-900">
+          <img src="./assets/villa_interior.png" onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop'" alt="Grand Travertine Salon" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+          <div class="absolute top-4 left-4 px-3 py-1 rounded-full glass-dock text-[10px] font-mono-tech text-white">CHAPTER 01</div>
+          <div class="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono-tech text-[#d4af37]">7.4M CEILING</div>
+        </div>
+        <div class="p-2 space-y-3">
+          <h3 class="font-serif text-2xl text-white font-normal group-hover:text-[#d4af37] transition">The Grand Salon</h3>
+          <p class="text-xs text-zinc-400 font-light leading-relaxed">
+            7.4-meter monolithic travertine atrium with custom linear fireplace, sunken Italian leather lounge, and seamless ocean apertures.
+          </p>
+          <div class="pt-4 border-t border-white/[0.08] flex items-center justify-between text-xs font-mono-tech text-zinc-300">
+            <span>AREA: 3,400 SQ. FT.</span>
+            <span class="text-[#d4af37]">FINISH: TIVOLI STONE</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="tilt-card glass-card rounded-3xl p-4 overflow-hidden group hover:border-[#d4af37]/50 transition duration-300 flex flex-col justify-between">
+        <div class="relative aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-zinc-900">
+          <img src="./assets/villa_exterior.png" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1200&auto=format&fit=crop'" alt="Horizon Infinity Pool" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+          <div class="absolute top-4 left-4 px-3 py-1 rounded-full glass-dock text-[10px] font-mono-tech text-white">CHAPTER 02</div>
+          <div class="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono-tech text-[#d4af37]">24M SPAN</div>
+        </div>
+        <div class="p-2 space-y-3">
+          <h3 class="font-serif text-2xl text-white font-normal group-hover:text-[#d4af37] transition">Cantilevered Horizon</h3>
+          <p class="text-xs text-zinc-400 font-light leading-relaxed">
+            24-meter column-free structural span floating out into space over the infinity pool reflection plane directly into the Mediterranean.
+          </p>
+          <div class="pt-4 border-t border-white/[0.08] flex items-center justify-between text-xs font-mono-tech text-zinc-300">
+            <span>DECK: 4,800 SQ. FT.</span>
+            <span class="text-[#d4af37]">BASIN: BLACK BASALT</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="tilt-card glass-card rounded-3xl p-4 overflow-hidden group hover:border-[#d4af37]/50 transition duration-300 flex flex-col justify-between">
+        <div class="relative aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-zinc-900">
+          <img src="./assets/casa_solaria.jpg" onerror="this.src='https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop'" alt="Promontory Clifftop" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+          <div class="absolute top-4 left-4 px-3 py-1 rounded-full glass-dock text-[10px] font-mono-tech text-white">CHAPTER 03</div>
+          <div class="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono-tech text-[#d4af37]">PRIVATE CLIFFTOP</div>
+        </div>
+        <div class="p-2 space-y-3">
+          <h3 class="font-serif text-2xl text-white font-normal group-hover:text-[#d4af37] transition">Cap de Nice Grounds</h3>
+          <p class="text-xs text-zinc-400 font-light leading-relaxed">
+            Gated private promontory estate with subterranean 6-vehicle collector gallery, helipad clearance, and private sea-access pathway.
+          </p>
+          <div class="pt-4 border-t border-white/[0.08] flex items-center justify-between text-xs font-mono-tech text-zinc-300">
+            <span>PARCEL: 1.8 ACRES</span>
+            <span class="text-[#d4af37]">SECURITY: BIOMETRIC</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURAL MANIFESTO SECTION -->
+  <section id="manifesto" class="relative py-32 px-6 border-t border-white/[0.08] bg-[#09090c]">
+    <div class="max-w-5xl mx-auto text-center space-y-8">
+      <span class="text-xs font-mono-tech uppercase tracking-[0.25em] text-[#d4af37] block">ARCHITECTURAL MANIFESTO</span>
+      <h2 class="font-serif text-3xl sm:text-6xl font-normal leading-[1.1] text-white">
+        "Architecture should not impose upon the horizon, but dissolve into its crystalline light."
+      </h2>
+      <p class="text-sm sm:text-base text-zinc-400 max-w-2xl mx-auto font-light leading-relaxed">
+        Engineered with acoustic triple-glazing from Saint-Gobain, hand-quarried Tivoli travertine stone, and structural steel cantilevers designed to endure centuries of Mediterranean climate.
+      </p>
+
+      <div class="pt-8 grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
+        <div class="p-6 rounded-2xl glass-card">
+          <div class="text-[#d4af37] font-mono-tech text-xs mb-2">01 // MATERIAL PROVENANCE</div>
+          <div class="font-serif text-lg text-white font-normal mb-1">Tivoli Roman Travertine</div>
+          <p class="text-xs text-zinc-400 font-light">Custom vein-cut slabs from the identical Italian quarries utilized in antiquity.</p>
+        </div>
+        <div class="p-6 rounded-2xl glass-card">
+          <div class="text-[#d4af37] font-mono-tech text-xs mb-2">02 // THERMAL RIGOR</div>
+          <div class="font-serif text-lg text-white font-normal mb-1">Swiss Triple-Glazed Acoustics</div>
+          <p class="text-xs text-zinc-400 font-light">Low-E argon-filled floor-to-ceiling sheets framing the ocean with 52dB damping.</p>
+        </div>
+        <div class="p-6 rounded-2xl glass-card">
+          <div class="text-[#d4af37] font-mono-tech text-xs mb-2">03 // BIOMETRIC PRIVACY</div>
+          <div class="font-serif text-lg text-white font-normal mb-1">Vault-Grade Security</div>
+          <p class="text-xs text-zinc-400 font-light">Integrated biometric access, encrypted communications perimeter, and safe refuge wing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIVATE ACQUISITION SUITE & INQUIRY FORM -->
+  <section id="acquisition" class="relative py-32 px-6 border-t border-white/[0.08] bg-[#07070a]">
+    <div class="max-w-4xl mx-auto glass-card rounded-3xl p-8 sm:p-14 border border-white/10 shadow-2xl">
+      <div class="text-center space-y-3 mb-12">
+        <span class="text-xs font-mono-tech uppercase tracking-[0.25em] text-[#d4af37] block">CONFIDENTIAL TRANSMISSION</span>
+        <h2 class="font-serif text-3xl sm:text-5xl font-normal text-white">Private Acquisition Dossier</h2>
+        <p class="text-xs sm:text-sm text-zinc-400 max-w-lg mx-auto font-light">
+          Disclosures, title deeds, and on-site private viewings are conducted under strict Swiss Banking NDA.
+        </p>
+      </div>
+
+      <form id="inquiryForm" class="space-y-6" onsubmit="handleInquiry(event)">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <label class="block text-[11px] font-mono-tech uppercase tracking-widest text-zinc-400">Full Legal Name</label>
+            <input type="text" required placeholder="e.g. Lord Alexander Sinclair" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white placeholder-zinc-600 focus:outline-none focus:border-[#d4af37] text-sm font-sans">
+          </div>
+          <div class="space-y-2">
+            <label class="block text-[11px] font-mono-tech uppercase tracking-widest text-zinc-400">Principal Email</label>
+            <input type="email" required placeholder="alexander@familyoffice.ch" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white placeholder-zinc-600 focus:outline-none focus:border-[#d4af37] text-sm font-sans">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <label class="block text-[11px] font-mono-tech uppercase tracking-widest text-zinc-400">Telephone / WhatsApp</label>
+            <input type="tel" required placeholder="+41 22 819 0000" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white placeholder-zinc-600 focus:outline-none focus:border-[#d4af37] text-sm font-sans">
+          </div>
+          <div class="space-y-2">
+            <label class="block text-[11px] font-mono-tech uppercase tracking-widest text-zinc-400">Investor Entity Profile</label>
+            <select class="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white focus:outline-none focus:border-[#d4af37] text-sm font-sans">
+              <option>Single Family Office Principal</option>
+              <option>Multi-Family Office Representative</option>
+              <option>Private High-Net-Worth Individual</option>
+              <option>Institutional Sovereign Fund</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-[11px] font-mono-tech uppercase tracking-widest text-zinc-400">Specific Acquisition Requirements</label>
+          <textarea rows="3" placeholder="Preferred viewing timeframe, vessel mooring requirements, or customized closing terms..." class="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white placeholder-zinc-600 focus:outline-none focus:border-[#d4af37] text-sm font-sans"></textarea>
+        </div>
+
+        <div class="flex items-center gap-3 pt-2">
+          <input type="checkbox" id="ndaConsent" required class="rounded bg-black border-white/20 text-[#d4af37] focus:ring-0">
+          <label for="ndaConsent" class="text-xs text-zinc-400 font-light">
+            I agree to receive the confidential investment prospectus and execute a bilateral Swiss Non-Disclosure Agreement.
+          </label>
+        </div>
+
+        <div class="pt-4 flex flex-col sm:flex-row items-center gap-4">
+          <button type="submit" class="w-full sm:w-auto px-8 py-4 rounded-full bg-[#d4af37] hover:bg-[#e2c158] text-black font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_30px_rgba(212,175,55,0.3)] flex items-center justify-center gap-2">
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+            <span>Transmit Acquisition Request</span>
+          </button>
+          
+          <a href="https://wa.me/919845012345?text=Confidential+Inquiry+re:+Villa+Élysée+Cap+de+Nice+($38.5M)" target="_blank" class="w-full sm:w-auto px-6 py-4 rounded-full glass-card hover:bg-white/10 text-white font-mono-tech text-xs uppercase tracking-wider transition flex items-center justify-center gap-2">
+            <i data-lucide="message-square" class="w-4 h-4 text-emerald-400"></i>
+            <span>Direct Private WhatsApp</span>
+          </a>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- HAUTE COUTURE FOOTER -->
+  <footer class="py-12 px-6 border-t border-white/[0.08] bg-black text-xs font-mono-tech text-zinc-500">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center space-x-3">
+        <div class="w-6 h-6 rounded-full bg-[#d4af37] text-black font-bold flex items-center justify-center font-serif text-xs">VÉ</div>
+        <span class="text-zinc-300 font-serif text-sm">Villa Élysée // Cap de Nice</span>
+      </div>
+      <div>
+        Freehold Clifftop Promontory &bull; Cap de Nice, 06300 Nice, France &bull; 43.6961° N, 7.2718° E
+      </div>
+      <div class="text-zinc-400">
+        &copy; 2026 Villa Élysée Portfolio. All Global Rights Reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT: INTERACTIVE DRONE FLY-THROUGH & 3D TILT ENGINE -->
+  <script>
+    lucide.createIcons();
+
+    const video = document.getElementById('droneVideo');
+    const slider = document.getElementById('flightSlider');
+    const toggleBtn = document.getElementById('togglePlayBtn');
+    const playIcon = document.getElementById('playIcon');
+    const playText = document.getElementById('playText');
+    const timeElapsed = document.getElementById('timeElapsed');
+    const timeTotal = document.getElementById('timeTotal');
+    const hudAltitude = document.getElementById('hudAltitude');
+    const hudChapter = document.getElementById('hudChapter');
+
+    const beatTag = document.getElementById('beatTag');
+    const beatTitle = document.getElementById('beatTitle');
+    const beatSubtitle = document.getElementById('beatSubtitle');
+    const beatCard = document.getElementById('beatCard');
+
+    const beats = [
+      {
+        threshold: 0.0,
+        tag: '01 / MEDITERRANEAN APPROACH',
+        title: 'SCULPTING DIGITAL <span class="italic text-[#d4af37]">DIMENSIONS.</span>',
+        subtitle: 'Cantilevered over the Mediterranean promontory. 14,800 square feet of uninterrupted crystalline glass volumes and circadian limestone geometry.',
+        chapter: '01 / CAP DE NICE',
+        altitude: '20M'
+      },
+      {
+        threshold: 0.22,
+        tag: '02 / COURTYARD & PIVOT PORTAL',
+        title: 'MONUMENTAL <span class="italic text-[#d4af37]">THRESHOLD.</span>',
+        subtitle: 'Double-height entrance portal with custom bronze pivot doors and black basalt reflecting planes framing the ocean vista.',
+        chapter: '02 / PIVOT PORTAL',
+        altitude: '35M'
+      },
+      {
+        threshold: 0.45,
+        tag: '03 / INTERIOR LIVING ATRIUM',
+        title: 'THE GRAND <span class="italic text-[#d4af37]">SALON.</span>',
+        subtitle: '7.4-meter monolithic travertine atrium with custom linear fireplace, sunken Italian leather lounge, and panoramic ocean apertures.',
+        chapter: '03 / GRAND SALON',
+        altitude: '50M'
+      },
+      {
+        threshold: 0.68,
+        tag: '04 / INFINITY POOL TERRACE',
+        title: 'CANTILEVERED <span class="italic text-[#d4af37]">HORIZON.</span>',
+        subtitle: '24-meter column-free structural span floating out into space over the infinity pool reflection plane directly into the sea.',
+        chapter: '04 / INFINITY POOL',
+        altitude: '75M'
+      },
+      {
+        threshold: 0.88,
+        tag: '05 / COMPLETE CLIFFTOP REVEAL',
+        title: 'MONUMENTAL LIVING. <span class="italic text-[#d4af37]">ZERO COMPROMISE.</span>',
+        subtitle: '$38,500,000 USD Freehold Title. Private dossier transmission and viewings conducted under bilateral Swiss Banking NDA.',
+        chapter: '05 / CLIFFTOP REVEAL',
+        altitude: '180M'
+      }
+    ];
+
+    let isPlaying = false;
+    let currentBeatIndex = 0;
+
+    // Format seconds to mm:ss
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return m + ':' + (s < 10 ? '0' : '') + s;
+    }
+
+    video.addEventListener('loadedmetadata', () => {
+      timeTotal.innerText = formatTime(video.duration || 15);
+    });
+
+    video.addEventListener('timeupdate', () => {
+      if (!video.duration) return;
+      const progress = video.currentTime / video.duration;
+      slider.value = progress;
+      timeElapsed.innerText = formatTime(video.currentTime);
+      updateBeat(progress);
+    });
+
+    function updateBeat(progress) {
+      let activeIdx = 0;
+      for (let i = beats.length - 1; i >= 0; i--) {
+        if (progress >= beats[i].threshold) {
+          activeIdx = i;
+          break;
+        }
+      }
+
+      if (activeIdx !== currentBeatIndex) {
+        currentBeatIndex = activeIdx;
+        const b = beats[activeIdx];
+        
+        // Gentle card transition
+        beatCard.style.opacity = '0';
+        beatCard.style.transform = 'translateY(8px)';
+        
+        setTimeout(() => {
+          beatTag.innerText = b.tag;
+          beatTitle.innerHTML = b.title;
+          beatSubtitle.innerText = b.subtitle;
+          hudAltitude.innerText = b.altitude;
+          hudChapter.innerText = b.chapter;
+          
+          beatCard.style.opacity = '1';
+          beatCard.style.transform = 'translateY(0)';
+        }, 150);
+
+        // Update waypoint buttons styling
+        document.querySelectorAll('.wp-btn').forEach((btn, idx) => {
+          if (idx === activeIdx) {
+            btn.className = 'wp-btn px-3 py-1.5 rounded-lg text-[10px] font-mono-tech uppercase tracking-wider bg-[#d4af37] text-black font-bold transition';
+          } else {
+            btn.className = 'wp-btn px-3 py-1.5 rounded-lg text-[10px] font-mono-tech uppercase tracking-wider bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition';
+          }
+        });
+      }
+    }
+
+    // Slider scrubbing
+    slider.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      if (video.duration) {
+        video.currentTime = val * video.duration;
+        updateBeat(val);
+      }
+    });
+
+    // Toggle Play / Pause
+    toggleBtn.addEventListener('click', () => {
+      if (video.paused) {
+        video.play();
+        isPlaying = true;
+        playText.innerText = 'Pause Flight';
+        playIcon.setAttribute('data-lucide', 'pause');
+      } else {
+        video.pause();
+        isPlaying = false;
+        playText.innerText = 'Autoplay Drone';
+        playIcon.setAttribute('data-lucide', 'play');
+      }
+      lucide.createIcons();
+    });
+
+    // Waypoint jump
+    window.jumpToWaypoint = function(ratio) {
+      if (video.duration) {
+        video.currentTime = ratio * video.duration;
+        slider.value = ratio;
+        updateBeat(ratio);
+      }
+    };
+
+    // Wheel scrub inside Hero
+    const heroEl = document.getElementById('hero');
+    heroEl.addEventListener('wheel', (e) => {
+      if (window.scrollY > 20) return;
+      if (!video.duration) return;
+
+      const delta = e.deltaY;
+      const step = (delta > 0 ? 0.35 : -0.35);
+      const newTime = Math.max(0, Math.min(video.duration, video.currentTime + step));
+      
+      if ((delta > 0 && video.currentTime < video.duration - 0.2) || (delta < 0 && video.currentTime > 0.2)) {
+        e.preventDefault();
+        video.currentTime = newTime;
+        slider.value = newTime / video.duration;
+        updateBeat(slider.value);
+      }
+    }, { passive: false });
+
+    // 3D Tilt Cards Logic
+    document.querySelectorAll('.tilt-card').forEach((card) => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -6;
+        const rotateY = ((x - centerX) / centerX) * 6;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      });
+    });
+
+    // Inquiry Form handler
+    window.handleInquiry = function(e) {
+      e.preventDefault();
+      alert('✓ Confidential Transmission Acknowledged.\n\nOur Family Office Advisory Desk will contact you under Swiss Banking NDA within 2 business hours.');
+      e.target.reset();
+    };
+  </script>
+</body>
+</html>

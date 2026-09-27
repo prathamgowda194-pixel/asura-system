@@ -29,7 +29,7 @@ const MIME_TYPES = {
 };
 
 export default async function handler(req, res) {
-  let reqPath = (req.query.path || req.query.file || req.query.asset || '').toString().trim();
+  let reqPath = (req.query.path || req.query.file || '').toString().trim();
   if (!reqPath) {
     return res.status(400).send('Missing asset path');
   }
@@ -42,16 +42,14 @@ export default async function handler(req, res) {
   const candidatePaths = [
     reqPath,
     path.join('public', reqPath),
-    path.join('projects', 'mustang', 'assets', basename),
-    path.join('projects', 'mustang', reqPath),
-    path.join('public', 'projects', 'mustang', 'assets', basename),
+    path.join('projects', 'villa-elysee', reqPath),
+    path.join('projects', 'villa-elysee', 'assets', basename),
+    path.join('projects', 'aadriti-learning-centre', reqPath),
+    path.join('projects', 'aadriti-learning-centre', 'assets', basename),
     path.join('public', 'assets', basename),
-    path.join('public', 'landing-pages', 'assets', basename),
-    path.join('projects', 'kage', reqPath),
-    reqPath.replace(/^projects\/[^/]+\//, 'projects/mustang/'),
-    reqPath.replace(/^projects\/[^/]+\//, 'projects/kage/'),
-    reqPath.replace(/^secret-pathways-assets\//, 'projects/kage/secret-pathways-assets/'),
-    reqPath.replace(/^projects\/secret-pathways-assets\//, 'projects/kage/secret-pathways-assets/')
+    path.join('assets', basename),
+    path.join('public', 'projects', 'villa-elysee', 'assets', basename),
+    path.join('public', 'projects', 'aadriti-learning-centre', 'assets', basename)
   ];
 
   const ext = path.extname(reqPath).toLowerCase();
