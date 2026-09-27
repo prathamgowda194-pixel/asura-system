@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FIND Real Estate // Find What Moves You | Modern Luxury Brokerage</title>
+  <title>FIND Real Estate // Find What Moves You</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@600;700;800;900&display=swap" rel="stylesheet">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -16,15 +16,12 @@
 
   <style>
     :root {
-      --bg: #F8FAFC;
-      --sky-top: #8EC5FC;
-      --sky-bottom: #E0C3FC;
+      --bg: #FFFFFF;
+      --sky-light: #BEE3F8;
+      --sky-mid: #90CDF4;
       --text: #0F172A;
-      --text-muted: #64748B;
-      --dark-bg: #070707;
-      --dark-surface: #121212;
-      --accent-blue: #0284C7;
-      --accent-cyan: #38BDF8;
+      --dark-obsidian: #050505;
+      --dark-card: #0F0F11;
     }
 
     body {
@@ -42,72 +39,91 @@
       font-family: 'Space Grotesk', monospace;
     }
 
-    /* ── 3D Chrome Metallic Text Styling ── */
+    /* ── Kinetic Ghost Typography (Matching Video Layered Text) ── */
+    .ghost-wrap {
+      position: relative;
+      display: inline-block;
+    }
+    .ghost-back {
+      position: absolute;
+      top: 6px;
+      left: 0;
+      color: rgba(148, 163, 184, 0.28);
+      user-select: none;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .ghost-front {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── 3D Chrome Metallic Text Styling (Revealed Title) ── */
     .chrome-metallic-text {
-      background: linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 25%, #94A3B8 50%, #475569 52%, #CBD5E1 75%, #FFFFFF 100%);
+      background: linear-gradient(180deg, 
+        #FFFFFF 0%, 
+        #E2E8F0 18%, 
+        #94A3B8 46%, 
+        #1E293B 50%, 
+        #0F172A 52%, 
+        #CBD5E1 76%, 
+        #FFFFFF 100%
+      );
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 15px 25px rgba(15, 23, 42, 0.35));
+      filter: drop-shadow(0 20px 30px rgba(15, 23, 42, 0.45));
       letter-spacing: -0.04em;
     }
 
-    .chrome-stroke {
-      position: relative;
-    }
-
-    .chrome-stroke::after {
-      content: attr(data-text);
-      position: absolute;
-      left: 0;
-      top: 0;
-      z-index: -1;
-      background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(100,116,139,0.4));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: blur(4px);
+    /* Wireframe stroked text (Stage 1 of reveal) */
+    .wireframe-stroke-text {
+      -webkit-text-stroke: 1.8px #FFFFFF;
+      -webkit-text-fill-color: rgba(255, 255, 255, 0.08);
+      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
+      letter-spacing: -0.04em;
     }
 
     /* Glass Navigation */
     .glass-nav {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(226, 232, 240, 0.8);
-      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 10px 35px -10px rgba(0, 0, 0, 0.06);
     }
 
     /* ── Cloud Drift Animation ── */
     @keyframes cloudDriftLeft {
       0%, 100% { transform: translateX(0) translateY(0); }
-      50% { transform: translateX(-15px) translateY(-8px); }
+      50% { transform: translateX(-18px) translateY(-8px); }
     }
     @keyframes cloudDriftRight {
       0%, 100% { transform: translateX(0) translateY(0); }
       50% { transform: translateX(20px) translateY(-10px); }
     }
 
-    .animate-cloud-left { animation: cloudDriftLeft 8s ease-in-out infinite; }
-    .animate-cloud-right { animation: cloudDriftRight 9s ease-in-out infinite; }
+    .animate-cloud-left { animation: cloudDriftLeft 9s ease-in-out infinite; }
+    .animate-cloud-right { animation: cloudDriftRight 10s ease-in-out infinite; }
 
     /* ── Penthouse Floating Idle Animation ── */
     @keyframes floatPenthouse {
       0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-12px) rotate(0.4deg); }
+      50% { transform: translateY(-10px) rotate(0.3deg); }
     }
     .animate-penthouse-idle {
       animation: floatPenthouse 6s ease-in-out infinite;
     }
 
-    /* ── Chevron Arrow Clip-Path Mosaic ── */
+    /* ── Chevron Arrow Clip-Path Mosaic (Exact Video Arrow >>>) ── */
     .chevron-box {
       clip-path: polygon(0% 0%, 82% 0%, 100% 50%, 82% 100%, 0% 100%, 18% 50%);
-      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: all 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
-
     .chevron-box:hover {
       clip-path: polygon(0% 0%, 86% 0%, 100% 50%, 86% 100%, 0% 100%, 14% 50%);
-      transform: scale(1.04);
-      z-index: 20;
+      transform: scale(1.05) translateX(4px);
+      z-index: 30;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     }
 
     .chevron-first {
@@ -115,8 +131,8 @@
     }
     .chevron-first:hover {
       clip-path: polygon(0% 0%, 86% 0%, 100% 50%, 86% 100%, 0% 100%);
-      transform: scale(1.04);
-      z-index: 20;
+      transform: scale(1.05);
+      z-index: 30;
     }
 
     .chevron-last {
@@ -124,61 +140,70 @@
     }
     .chevron-last:hover {
       clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 14% 50%);
-      transform: scale(1.04);
-      z-index: 20;
+      transform: scale(1.05);
+      z-index: 30;
     }
 
     /* Zoom image helper */
     .zoom-hover {
-      transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
     .group:hover .zoom-hover {
       transform: scale(1.08);
     }
 
-    /* Arrow button rotate */
-    .arrow-rotate {
-      transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    /* ── Dark Mode Interactive Accordion ── */
+    .service-accordion-item {
+      transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
-    .group:hover .arrow-rotate {
-      transform: rotate(45deg) scale(1.1);
+    .service-accordion-item.is-active {
+      height: 280px;
+    }
+    .service-accordion-item:not(.is-active) {
+      height: 96px;
     }
 
-    /* Ghost Text Repeated Typography */
-    .ghost-text {
-      color: rgba(148, 163, 184, 0.35);
-      user-select: none;
+    /* Monumental Stencil FIND Logo (Frame 26) */
+    .stencil-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      line-height: 0.85;
+      text-transform: uppercase;
+      background: linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
   </style>
 </head>
 <body class="selection:bg-sky-500 selection:text-white">
 
   <!-- ─────────────────────────────────────────────────────────────
-       STICKY FLOATING NAVBAR
+       1. STICKY FLOATING NAVBAR (Frame 01)
   ───────────────────────────────────────────────────────────── -->
   <header class="fixed top-4 left-0 right-0 z-50 px-4 sm:px-8">
-    <div class="max-w-7xl mx-auto flex items-center justify-between glass-nav rounded-full px-6 py-3.5">
-      <!-- Logo -->
-      <a href="#hero" class="flex items-center space-x-2 group">
+    <div class="max-w-7xl mx-auto flex items-center justify-between glass-nav rounded-full px-7 py-3">
+      <!-- Logo: FIND -->
+      <a href="#heroPin" class="flex items-center space-x-1.5 group">
         <span class="font-display font-black text-2xl tracking-tighter text-[#0F172A] group-hover:text-sky-600 transition-colors">FIND</span>
-        <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
-        <span class="hidden sm:inline-block text-[10px] font-mono-tech tracking-widest uppercase text-slate-500 font-bold">REAL ESTATE</span>
       </a>
 
-      <!-- Center Nav Links (from Video) -->
-      <nav class="hidden md:flex items-center space-x-8 text-xs font-semibold text-slate-700">
-        <a href="#search" class="hover:text-sky-600 transition-colors">Search</a>
-        <a href="#agents" class="hover:text-sky-600 transition-colors">Agents</a>
-        <a href="#careers" class="hover:text-sky-600 transition-colors">Join</a>
-        <a href="#services" class="hover:text-sky-600 transition-colors">Paperwork</a>
-        <a href="#verticals" class="hover:text-sky-600 transition-colors">Resources</a>
-        <a href="#about" class="hover:text-sky-600 transition-colors">About</a>
+      <!-- Center Nav Links: Search, Agents, Join, Paperwork, Resources, About ▾ -->
+      <nav class="hidden md:flex items-center space-x-7 text-xs font-medium text-slate-700">
+        <a href="#search" class="hover:text-black transition-colors">Search</a>
+        <a href="#agents" class="hover:text-black transition-colors">Agents</a>
+        <a href="#careers" class="hover:text-black transition-colors">Join</a>
+        <a href="#steps" class="hover:text-black transition-colors">Paperwork</a>
+        <a href="#verticals" class="hover:text-black transition-colors">Resources</a>
+        <a href="#why-find" class="hover:text-black transition-colors flex items-center gap-1">
+          <span>About</span>
+          <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400"></i>
+        </a>
       </nav>
 
-      <!-- Right Sign In Pill -->
+      <!-- Right: Sign In Pill -->
       <div class="flex items-center space-x-3">
-        <a href="#contact" class="hidden sm:inline-block text-xs font-semibold text-slate-600 hover:text-slate-900 transition">Contact</a>
-        <a href="#signin" class="px-5 py-2.5 rounded-full bg-[#0F172A] hover:bg-sky-600 text-white text-xs font-semibold tracking-wide transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
+        <a href="#signin" class="px-5 py-2 rounded-full bg-[#0F172A] hover:bg-black text-white text-xs font-semibold tracking-wide transition-all shadow hover:scale-105">
           Sign In
         </a>
       </div>
@@ -186,203 +211,164 @@
   </header>
 
   <!-- ─────────────────────────────────────────────────────────────
-       HERO PINNED 3D SCROLL EXPERIENCE (Matching Video 00:00 - 00:02)
+       2. HERO PINNED 3D SCROLL EXPERIENCE (Frames 01 - 06)
   ───────────────────────────────────────────────────────────── -->
-  <section id="heroPin" class="relative w-full h-screen overflow-hidden bg-gradient-to-b from-[#87CEEB] via-[#A8DAF0] to-[#E2F2FA] flex flex-col items-center justify-center">
+  <section id="heroPin" class="relative w-full h-screen overflow-hidden bg-gradient-to-b from-[#6BA9D6] via-[#94C5E8] to-[#EAF4FB] flex flex-col items-center justify-center">
     
-    <!-- Atmospheric Ambient Sky Lighting -->
-    <div class="absolute inset-0 bg-radial-gradient from-white/30 via-transparent to-transparent pointer-events-none"></div>
+    <!-- Atmospheric Radial Sky Wash -->
+    <div class="absolute inset-0 bg-radial-gradient from-white/35 via-transparent to-transparent pointer-events-none"></div>
 
-    <!-- ── TEXT LAYER (Fades out as user scrolls) ── -->
-    <div id="heroTextLayer" class="relative z-30 text-center max-w-3xl px-6 pt-12 transition-all duration-300">
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 backdrop-blur-md border border-white/60 text-slate-800 text-[11px] font-mono-tech tracking-widest uppercase mb-6 shadow-sm">
-        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-sky-600"></i>
-        <span>AI-POWERED ARCHITECTURAL DISCOVERY</span>
-      </div>
-
-      <h1 class="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold text-[#0F172A] leading-[1.05] tracking-tight mb-4">
+    <!-- ── TEXT LAYER (Frame 01: Fades out smoothly on scroll) ── -->
+    <div id="heroTextLayer" class="relative z-30 text-center max-w-4xl px-6 pt-10 transition-all duration-300">
+      <h1 class="font-display text-4xl sm:text-6xl md:text-7xl font-black text-[#0F172A] leading-[1.05] tracking-tight mb-4 drop-shadow-sm">
         Find What Moves You
       </h1>
 
-      <p class="text-sm sm:text-lg text-slate-700 font-medium max-w-xl mx-auto mb-8 leading-relaxed">
-        Expert agents. Real guidance. Unmatched architectural curation.
+      <p class="text-sm sm:text-base md:text-lg text-slate-800 font-medium max-w-2xl mx-auto mb-6 leading-relaxed">
+        Expert agents. Real guidance. A clear path to find what&apos;s next.
       </p>
 
-      <!-- Search / Action Pill (Matching Video) -->
-      <div class="inline-flex items-center gap-3 p-1.5 rounded-full bg-white/85 backdrop-blur-xl border border-white/80 shadow-xl max-w-md w-full mx-auto">
-        <div class="flex items-center pl-4 gap-2 flex-1 text-slate-400">
-          <i data-lucide="search" class="w-4 h-4 text-slate-500"></i>
-          <input type="text" placeholder="Search city, neighborhood, or address..." class="w-full bg-transparent text-xs text-slate-800 placeholder-slate-400 focus:outline-none font-medium">
-        </div>
-        <button class="px-6 py-3 rounded-full bg-[#0F172A] hover:bg-sky-600 text-white text-xs font-bold tracking-wide transition-all shadow-md flex items-center gap-2 shrink-0">
-          <span>Explore</span>
-          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-        </button>
-      </div>
+      <!-- Black Pill CTA Button (Frame 01) -->
+      <a href="#search" id="heroCtaBtn" class="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-[#0F172A] hover:bg-black text-white text-xs font-bold tracking-wide transition-all shadow-xl hover:scale-105">
+        <span>Find Properties</span>
+        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+      </a>
     </div>
 
-    <!-- ── 3D CENTERPIECE: FLOATING PENTHOUSE VILLA & PARTING CLOUDS ── -->
+    <!-- ── 3D CENTERPIECE: FLOATING PENTHOUSE VILLA (Frame 01) ── -->
     <div id="penthouseContainer" class="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
-      <div id="penthouseMesh" class="relative w-[540px] sm:w-[680px] md:w-[820px] transition-transform duration-100 ease-out">
+      <div id="penthouseMesh" class="relative w-[560px] sm:w-[700px] md:w-[840px] transition-transform duration-100 ease-out">
         
-        <!-- Architectural Penthouse Vector / Illustration Rendering (Matching Video) -->
+        <!-- Architectural Penthouse Vector / Master Illustration -->
         <svg viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto drop-shadow-2xl">
           <defs>
-            <!-- Facade Gradients -->
-            <linearGradient id="limestoneFacade" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#E5D9C8"/>
-              <stop offset="50%" stop-color="#D4C3AC"/>
-              <stop offset="100%" stop-color="#BAA58C"/>
+            <linearGradient id="limestoneStone" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#EBE3D5"/>
+              <stop offset="50%" stop-color="#DACFBE"/>
+              <stop offset="100%" stop-color="#BEB19C"/>
             </linearGradient>
-            <linearGradient id="warmWoodCeiling" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#A75D33"/>
-              <stop offset="100%" stop-color="#7B3E1D"/>
+            <linearGradient id="woodSoffit" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#B26538"/>
+              <stop offset="100%" stop-color="#7A3916"/>
             </linearGradient>
-            <linearGradient id="glassReflection" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#80B5D8" stop-opacity="0.9"/>
-              <stop offset="40%" stop-color="#3A6B88" stop-opacity="0.85"/>
-              <stop offset="100%" stop-color="#1A3B4F" stop-opacity="0.95"/>
-            </linearGradient>
-            <linearGradient id="terraceShadow" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="rgba(0,0,0,0.4)"/>
-              <stop offset="100%" stop-color="transparent"/>
+            <linearGradient id="glassPane" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#7EAECF" stop-opacity="0.95"/>
+              <stop offset="45%" stop-color="#366580" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#143242" stop-opacity="0.98"/>
             </linearGradient>
           </defs>
 
-          <!-- Penthouse Ground Base Slab -->
-          <rect x="180" y="270" width="440" height="150" rx="4" fill="url(#limestoneFacade)" stroke="#8A7660" stroke-width="2"/>
+          <!-- Lower Level Base Slab -->
+          <rect x="180" y="270" width="440" height="150" rx="4" fill="url(#limestoneStone)" stroke="#7D6A55" stroke-width="2"/>
           
-          <!-- Lower Level Floor-to-Ceiling Windows Grid -->
-          <g opacity="0.95">
-            <rect x="200" y="290" width="70" height="115" rx="2" fill="url(#glassReflection)" stroke="#2C404E" stroke-width="2.5"/>
-            <rect x="280" y="290" width="70" height="115" rx="2" fill="url(#glassReflection)" stroke="#2C404E" stroke-width="2.5"/>
-            <rect x="360" y="290" width="80" height="115" rx="2" fill="url(#glassReflection)" stroke="#2C404E" stroke-width="2.5"/>
-            <rect x="450" y="290" width="75" height="115" rx="2" fill="url(#glassReflection)" stroke="#2C404E" stroke-width="2.5"/>
-            <rect x="535" y="290" width="65" height="115" rx="2" fill="url(#glassReflection)" stroke="#2C404E" stroke-width="2.5"/>
-            <!-- Window Mullion Dividers -->
-            <line x1="200" y1="345" x2="600" y2="345" stroke="#2C404E" stroke-width="2"/>
+          <!-- Lower Level Glass Curtain Grid -->
+          <g opacity="0.96">
+            <rect x="200" y="290" width="70" height="115" rx="2" fill="url(#glassPane)" stroke="#1F333E" stroke-width="2.5"/>
+            <rect x="280" y="290" width="70" height="115" rx="2" fill="url(#glassPane)" stroke="#1F333E" stroke-width="2.5"/>
+            <rect x="360" y="290" width="80" height="115" rx="2" fill="url(#glassPane)" stroke="#1F333E" stroke-width="2.5"/>
+            <rect x="450" y="290" width="75" height="115" rx="2" fill="url(#glassPane)" stroke="#1F333E" stroke-width="2.5"/>
+            <rect x="535" y="290" width="65" height="115" rx="2" fill="url(#glassPane)" stroke="#1F333E" stroke-width="2.5"/>
+            <line x1="200" y1="345" x2="600" y2="345" stroke="#1F333E" stroke-width="2"/>
           </g>
 
-          <!-- Middle Cantilever Eaves with Warm Glow -->
-          <rect x="160" y="260" width="480" height="16" rx="2" fill="#BAA58C" stroke="#7A6853" stroke-width="1.5"/>
-          <rect x="165" y="274" width="470" height="4" fill="url(#warmWoodCeiling)"/>
+          <!-- Cantilever Mid-Floor Slab with Warm Wood Louvers -->
+          <rect x="160" y="260" width="480" height="16" rx="2" fill="#BFAFA0" stroke="#7A6853" stroke-width="1.5"/>
+          <rect x="165" y="274" width="470" height="4" fill="url(#woodSoffit)"/>
 
-          <!-- Upper Penthouse Pavilion (Glass & Wood Louvers) -->
-          <rect x="280" y="170" width="280" height="92" rx="3" fill="url(#limestoneFacade)" stroke="#8A7660" stroke-width="2"/>
-          <!-- Upper Level Glass Curtain -->
-          <rect x="300" y="180" width="110" height="74" rx="2" fill="url(#glassReflection)" stroke="#2C404E" stroke-width="2"/>
-          <rect x="420" y="180" width="125" height="74" rx="2" fill="url(#glassReflection)" stroke="#2C404E" stroke-width="2"/>
-          <line x1="300" y1="215" x2="545" y2="215" stroke="#2C404E" stroke-width="1.5"/>
+          <!-- Upper Penthouse Pavilion -->
+          <rect x="280" y="170" width="280" height="92" rx="3" fill="url(#limestoneStone)" stroke="#7D6A55" stroke-width="2"/>
+          <rect x="300" y="180" width="110" height="74" rx="2" fill="url(#glassPane)" stroke="#1F333E" stroke-width="2"/>
+          <rect x="420" y="180" width="125" height="74" rx="2" fill="url(#glassPane)" stroke="#1F333E" stroke-width="2"/>
+          <line x1="300" y1="215" x2="545" y2="215" stroke="#1F333E" stroke-width="1.5"/>
           
           <!-- Upper Overhang Roof Slab -->
-          <rect x="260" y="160" width="320" height="14" rx="2" fill="#C5B59E" stroke="#7A6853" stroke-width="1.5"/>
+          <rect x="260" y="160" width="320" height="14" rx="2" fill="#C7B8A2" stroke="#7A6853" stroke-width="1.5"/>
           
-          <!-- Rooftop Sky Garden & Planters (Left Terrace) -->
-          <rect x="195" y="240" width="80" height="20" rx="3" fill="#6A5845"/>
-          <!-- Lush Foliage & Shrubs on Terrace -->
+          <!-- Rooftop Sky Garden & Bonsai Planters -->
+          <rect x="195" y="240" width="80" height="20" rx="3" fill="#5F4F3E"/>
           <circle cx="210" cy="235" r="14" fill="#3D5A40"/>
           <circle cx="230" cy="230" r="18" fill="#2E4831"/>
           <circle cx="255" cy="236" r="15" fill="#4B6E4E"/>
           <circle cx="270" cy="240" r="12" fill="#3D5A40"/>
 
           <!-- Right Rooftop Garden -->
-          <rect x="565" y="240" width="45" height="20" rx="3" fill="#6A5845"/>
+          <rect x="565" y="240" width="45" height="20" rx="3" fill="#5F4F3E"/>
           <circle cx="575" cy="234" r="14" fill="#2E4831"/>
           <circle cx="595" cy="236" r="16" fill="#3D5A40"/>
 
-          <!-- Modern Frameless Glass Balustrade on Terrace -->
+          <!-- Glass Railings -->
           <rect x="175" y="242" width="105" height="18" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
           <rect x="560" y="242" width="65" height="18" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
         </svg>
 
-        <!-- Dynamic Interior Warm Light Glow -->
         <div class="absolute inset-0 bg-amber-400/10 blur-3xl pointer-events-none rounded-full"></div>
       </div>
     </div>
 
-    <!-- ── FLUFFY CUMULUS CLOUDS (Parting on scroll) ── -->
-    <div id="cloudLeft" class="animate-cloud-left absolute bottom-0 -left-20 w-[600px] sm:w-[750px] pointer-events-none z-25 opacity-90 transition-transform duration-300">
+    <!-- ── FLUFFY BILLOWING CLOUDS (Frames 01 - 04) ── -->
+    <div id="cloudLeft" class="animate-cloud-left absolute bottom-0 -left-20 w-[600px] sm:w-[750px] pointer-events-none z-25 opacity-95 transition-transform duration-300">
       <svg viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M50 300 C20 280 0 250 0 210 C0 160 40 120 90 120 C100 120 110 122 120 126 C140 70 190 30 250 30 C320 30 380 80 395 150 C410 145 425 140 445 140 C495 140 535 175 545 225 C580 235 600 265 600 300 Z" fill="white" fill-opacity="0.95"/>
+        <path d="M50 300 C20 280 0 250 0 210 C0 160 40 120 90 120 C100 120 110 122 120 126 C140 70 190 30 250 30 C320 30 380 80 395 150 C410 145 425 140 445 140 C495 140 535 175 545 225 C580 235 600 265 600 300 Z" fill="white" fill-opacity="0.96"/>
       </svg>
     </div>
 
-    <div id="cloudRight" class="animate-cloud-right absolute bottom-0 -right-20 w-[600px] sm:w-[750px] pointer-events-none z-25 opacity-90 transition-transform duration-300">
+    <div id="cloudRight" class="animate-cloud-right absolute bottom-0 -right-20 w-[600px] sm:w-[750px] pointer-events-none z-25 opacity-95 transition-transform duration-300">
       <svg viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 300 C0 260 25 230 60 220 C70 170 115 130 170 130 C190 130 210 135 225 145 C245 80 305 30 380 30 C450 30 510 80 525 150 C540 145 555 140 570 140 C610 140 640 170 650 210 C680 230 700 260 700 300 Z" fill="white" fill-opacity="0.95"/>
+        <path d="M0 300 C0 260 25 230 60 220 C70 170 115 130 170 130 C190 130 210 135 225 145 C245 80 305 30 380 30 C450 30 510 80 525 150 C540 145 555 140 570 140 C610 140 640 170 650 210 C680 230 700 260 700 300 Z" fill="white" fill-opacity="0.96"/>
       </svg>
     </div>
 
-    <!-- ── THE 3D CHROME "FIND REAL ESTATE" TITLE REVEAL (Matching 00:01 - 00:02) ── -->
-    <div id="chromeTitleReveal" class="absolute z-10 flex flex-col items-center justify-center opacity-0 scale-75 pointer-events-none transition-all duration-300">
-      <h2 class="font-display text-7xl sm:text-9xl md:text-[11rem] font-black tracking-tighter chrome-metallic-text select-none text-center" data-text="FIND">
+    <!-- ── STAGE 1 REVEAL: WIREFRAME OUTLINE "FIND Real Estate" (Frame 04) ── -->
+    <div id="wireframeTitleReveal" class="absolute z-22 flex flex-col items-center justify-center opacity-0 scale-90 pointer-events-none transition-all duration-300">
+      <h2 class="font-display text-7xl sm:text-9xl md:text-[11rem] font-black tracking-tighter wireframe-stroke-text select-none text-center">
         FIND
       </h2>
-      <span class="text-xl sm:text-3xl font-display uppercase tracking-[0.4em] font-bold text-slate-800 -mt-2 sm:-mt-6 drop-shadow-md">
-        REAL ESTATE
+      <span class="text-xl sm:text-3xl font-display uppercase tracking-[0.35em] font-bold text-white/80 -mt-2 sm:-mt-6 drop-shadow">
+        Real Estate
+      </span>
+    </div>
+
+    <!-- ── STAGE 2 REVEAL: SOLID 3D CHROME "FIND Real Estate" (Frame 05 & 06) ── -->
+    <div id="chromeTitleReveal" class="absolute z-24 flex flex-col items-center justify-center opacity-0 scale-95 pointer-events-none transition-all duration-300">
+      <h2 class="font-display text-7xl sm:text-9xl md:text-[11rem] font-black tracking-tighter chrome-metallic-text select-none text-center">
+        FIND
+      </h2>
+      <span class="text-xl sm:text-3xl font-display uppercase tracking-[0.35em] font-bold text-slate-900 -mt-2 sm:-mt-6 drop-shadow-lg">
+        Real Estate
       </span>
     </div>
 
   </section>
 
   <!-- ─────────────────────────────────────────────────────────────
-       SECTION 2: NARRATIVE & PANORAMIC CITY SKYLINE (00:02 - 00:03)
+       3. SECTION: WHY FIND & NARRATIVE (Frames 07 & 08)
   ───────────────────────────────────────────────────────────── -->
-  <section id="about" class="py-24 px-6 sm:px-10 lg:px-14 bg-white border-t border-slate-100">
+  <section id="why-find" class="py-24 px-6 sm:px-10 lg:px-14 bg-white border-t border-slate-100">
     <div class="max-w-7xl mx-auto">
       
-      <!-- Top Narrative Box with Soft Blue Tint -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center mb-16">
-        <div class="lg:col-span-5 space-y-4">
-          <span class="text-[11px] font-mono-tech tracking-[0.25em] uppercase text-sky-600 bg-sky-50 px-3.5 py-1 rounded-full font-bold">
-            THE FIND ADVANTAGE
+      <!-- Top Narrative Header (Frame 07) -->
+      <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-12 gap-6">
+        <div>
+          <span class="text-xs font-mono-tech tracking-[0.2em] uppercase text-slate-500 font-bold block mb-2">
+            Why FIND
           </span>
-          <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F172A] leading-tight">
-            We don&apos;t just list homes. We navigate futures.
+          <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F172A] leading-tight max-w-xl">
+            Your life&apos;s changing. Don&apos;t just find a place &mdash; find what&apos;s next.
           </h2>
         </div>
 
-        <div class="lg:col-span-7 bg-[#F1F5F9] rounded-3xl p-8 sm:p-10 border border-slate-200 shadow-sm">
-          <p class="text-base sm:text-xl text-slate-800 font-normal leading-relaxed italic">
-            &ldquo;Life-changing moments don&apos;t just find you. You find them. We help you move forward with clarity, confidence, and the right agent by your side.&rdquo;
-          </p>
-          <div class="mt-6 flex items-center justify-between pt-6 border-t border-slate-200">
-            <span class="text-xs font-mono-tech text-slate-500 uppercase tracking-widest font-semibold">FIND BROKERAGE NETWORK</span>
-            <span class="text-xs font-bold text-sky-700">Manhattan &bull; Brooklyn &bull; Philadelphia</span>
-          </div>
-        </div>
+        <p class="text-sm sm:text-base text-slate-600 max-w-md font-normal leading-relaxed">
+          We help you move forward with clarity, confidence, and the right agent by your side.
+        </p>
       </div>
 
-      <!-- ── TRIPLE PANORAMIC CITY SKYLINE MOSAIC (Matching 00:03) ── -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 rounded-3xl overflow-hidden shadow-xl">
-        <!-- Panel 1 -->
-        <div class="relative h-72 sm:h-96 overflow-hidden group">
-          <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" alt="Downtown Commercial Skyline" class="zoom-hover w-full h-full object-cover">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
-          <div class="absolute bottom-5 left-5 text-white">
-            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-300 font-bold block">FINANCIAL DISTRICT</span>
-            <h4 class="font-display font-bold text-lg">Towering Architecture</h4>
-          </div>
-        </div>
-
-        <!-- Panel 2 -->
-        <div class="relative h-72 sm:h-96 overflow-hidden group">
-          <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186f5f7?auto=format&fit=crop&w=800&q=80" alt="Midtown Modern Towers" class="zoom-hover w-full h-full object-cover">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
-          <div class="absolute bottom-5 left-5 text-white">
-            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-300 font-bold block">HUDSON YARDS</span>
-            <h4 class="font-display font-bold text-lg">Curated Residences</h4>
-          </div>
-        </div>
-
-        <!-- Panel 3 -->
-        <div class="relative h-72 sm:h-96 overflow-hidden group">
-          <img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=800&q=80" alt="Twilight River Skyline" class="zoom-hover w-full h-full object-cover">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
-          <div class="absolute bottom-5 left-5 text-white">
-            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-300 font-bold block">TRIBECA WATERFRONT</span>
-            <h4 class="font-display font-bold text-lg">Bespoke Penthouses</h4>
-          </div>
+      <!-- Centered Panoramic Manhattan Canyon Image Card (Frame 08) -->
+      <div class="relative w-full h-80 sm:h-[480px] lg:h-[560px] rounded-3xl overflow-hidden shadow-2xl bg-slate-900 group">
+        <img src="https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=1600&q=80" alt="Manhattan Canyon Avenue View" class="zoom-hover w-full h-full object-cover object-center brightness-95">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+        <div class="absolute bottom-6 left-8 text-white">
+          <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-400 font-bold block mb-1">MANHATTAN HEADQUARTERS</span>
+          <h4 class="font-display font-bold text-xl sm:text-2xl">Avenues of Opportunity</h4>
         </div>
       </div>
 
@@ -390,82 +376,198 @@
   </section>
 
   <!-- ─────────────────────────────────────────────────────────────
-       SECTION 3: CHEVRON ARROW MOSAIC ("This isn't just about real estate")
+       4. SECTION: CHEVRONS MOSAIC ("This isn't just about real estate.") (Frames 09 & 10)
   ───────────────────────────────────────────────────────────── -->
   <section class="py-24 px-6 sm:px-10 lg:px-14 bg-[#F8FAFC]">
     <div class="max-w-7xl mx-auto">
       
-      <!-- Section Header -->
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <h2 class="font-display text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight mb-4">
-          This isn&apos;t just about real estate.
-        </h2>
-        <p class="text-sm sm:text-base text-slate-600 leading-relaxed max-w-xl mx-auto font-normal">
-          Curated quality. Transparent guidance. Unmatched care. You&apos;re not just finding a place to live—you&apos;re finding where your life unfolds.
+      <!-- Section Header with Ghost Typography (Frame 09) -->
+      <div class="text-center max-w-3xl mx-auto mb-16 select-none">
+        <div class="ghost-wrap">
+          <h3 class="font-display text-3xl sm:text-5xl font-extrabold ghost-back">
+            This isn&apos;t just about real estate.
+          </h3>
+          <h2 class="font-display text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight ghost-front">
+            This isn&apos;t just about real estate.
+          </h2>
+        </div>
+      </div>
+
+      <!-- 4 DIRECTIONAL CHEVRON ARROWS (>>>>) (Frames 09 & 10) -->
+      <div class="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-0 max-w-5xl mx-auto mb-14 overflow-visible py-4">
+        
+        <!-- Chevron 1: Agent in Suit -->
+        <div class="chevron-first chevron-box relative h-80 sm:h-96 w-full md:w-1/4 bg-slate-900 overflow-hidden group cursor-pointer shadow-xl">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=700&q=80" alt="Agent Leadership" class="zoom-hover absolute inset-0 w-full h-full object-cover">
+          <div class="absolute inset-0 bg-black/35 group-hover:bg-black/10 transition-colors"></div>
+          <div class="absolute bottom-6 left-6 right-6 text-white">
+            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-400 font-bold block mb-1">01 / EXPERT</span>
+            <h4 class="font-display text-lg font-bold">Real Guidance</h4>
+          </div>
+        </div>
+
+        <!-- Chevron 2: Living Room Interior -->
+        <div class="chevron-box relative h-80 sm:h-96 w-full md:w-1/4 bg-slate-900 overflow-hidden group cursor-pointer shadow-xl -mt-3 md:mt-0 md:-ml-8">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=700&q=80" alt="Living Room Architecture" class="zoom-hover absolute inset-0 w-full h-full object-cover">
+          <div class="absolute inset-0 bg-black/35 group-hover:bg-black/10 transition-colors"></div>
+          <div class="absolute bottom-6 left-12 right-6 text-white">
+            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-400 font-bold block mb-1">02 / SPACE</span>
+            <h4 class="font-display text-lg font-bold">Curated Homes</h4>
+          </div>
+        </div>
+
+        <!-- Chevron 3: Modern Glass Architecture -->
+        <div class="chevron-box relative h-80 sm:h-96 w-full md:w-1/4 bg-slate-900 overflow-hidden group cursor-pointer shadow-xl -mt-3 md:mt-0 md:-ml-8">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=700&q=80" alt="Terrace Balcony" class="zoom-hover absolute inset-0 w-full h-full object-cover">
+          <div class="absolute inset-0 bg-black/35 group-hover:bg-black/10 transition-colors"></div>
+          <div class="absolute bottom-6 left-12 right-6 text-white">
+            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-400 font-bold block mb-1">03 / LIGHT</span>
+            <h4 class="font-display text-lg font-bold">Horizon Views</h4>
+          </div>
+        </div>
+
+        <!-- Chevron 4: Client Looking Out High-Rise Window -->
+        <div class="chevron-last chevron-box relative h-80 sm:h-96 w-full md:w-1/4 bg-slate-900 overflow-hidden group cursor-pointer shadow-xl -mt-3 md:mt-0 md:-ml-8">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=700&q=80" alt="Client Vision" class="zoom-hover absolute inset-0 w-full h-full object-cover">
+          <div class="absolute inset-0 bg-black/35 group-hover:bg-black/10 transition-colors"></div>
+          <div class="absolute bottom-6 left-12 right-6 text-white">
+            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-400 font-bold block mb-1">04 / ALIGNMENT</span>
+            <h4 class="font-display text-lg font-bold">Your Next Move</h4>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Subtext (Frame 10: Exact text from video) -->
+      <div class="text-center max-w-xl mx-auto mb-16">
+        <p class="font-display text-lg sm:text-xl font-bold text-slate-900 mb-2">
+          It&apos;s about identity. Progress. Getting unstuck.
+        </p>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          You&apos;re not just looking for a place. You&apos;re looking for alignment. That&apos;s what we help you find.
         </p>
       </div>
 
-      <!-- ── 4 DIRECTIONAL CHEVRON ARROW SLIDER CARDS (Matching Video 00:04) ── -->
-      <div class="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-0 max-w-5xl mx-auto mb-20 overflow-visible py-4">
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       5. SECTION: REAL ESTATE, REWIRED & 3 STEPS (Frame 11)
+  ───────────────────────────────────────────────────────────── -->
+  <section id="steps" class="py-24 px-6 sm:px-10 lg:px-14 bg-white border-t border-slate-200">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         
-        <!-- Chevron 1 -->
-        <div class="chevron-first chevron-box relative h-80 sm:h-96 w-full md:w-1/4 bg-slate-900 overflow-hidden group cursor-pointer shadow-lg">
-          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=700&q=80" alt="Penthouse Corridor" class="zoom-hover absolute inset-0 w-full h-full object-cover">
-          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors"></div>
-          <div class="absolute bottom-6 left-6 right-6 text-white">
-            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-300 font-bold block mb-1">01 / CURATED</span>
-            <h4 class="font-display text-lg font-bold">Refined Spaces</h4>
+        <!-- Left: Real Estate, Rewired. (Frame 11) -->
+        <div class="lg:col-span-5 select-none space-y-6">
+          <div class="ghost-wrap">
+            <h3 class="font-display text-4xl sm:text-6xl font-extrabold ghost-back">
+              Real Estate,<br>Rewired.
+            </h3>
+            <h2 class="font-display text-4xl sm:text-6xl font-extrabold text-[#0F172A] tracking-tight ghost-front">
+              Real Estate,<br>Rewired.
+            </h2>
           </div>
+
+          <p class="text-sm text-slate-600 font-normal leading-relaxed max-w-md">
+            We redesigned the brokerage model from scratch to eliminate friction and empower clients and agents alike.
+          </p>
+
+          <a href="#search" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#0F172A] hover:bg-black text-white text-xs font-bold tracking-wide transition shadow-md hover:scale-105">
+            <span>Start Your Search</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </a>
         </div>
 
-        <!-- Chevron 2 -->
-        <div class="chevron-box relative h-80 sm:h-96 w-full md:w-1/4 bg-slate-900 overflow-hidden group cursor-pointer shadow-lg -mt-3 md:mt-0 md:-ml-8">
-          <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=700&q=80" alt="Living Room Architecture" class="zoom-hover absolute inset-0 w-full h-full object-cover">
-          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors"></div>
-          <div class="absolute bottom-6 left-12 right-6 text-white">
-            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-300 font-bold block mb-1">02 / LIGHT</span>
-            <h4 class="font-display text-lg font-bold">Glass Pavilions</h4>
-          </div>
-        </div>
+        <!-- Right: Steps: 1, 2, 3 (Frame 11) -->
+        <div class="lg:col-span-7 space-y-8">
+          <span class="text-xs font-mono-tech uppercase tracking-widest text-slate-400 font-bold block">
+            Steps:
+          </span>
 
-        <!-- Chevron 3 -->
-        <div class="chevron-box relative h-80 sm:h-96 w-full md:w-1/4 bg-slate-900 overflow-hidden group cursor-pointer shadow-lg -mt-3 md:mt-0 md:-ml-8">
-          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=700&q=80" alt="Terrace Balcony" class="zoom-hover absolute inset-0 w-full h-full object-cover">
-          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors"></div>
-          <div class="absolute bottom-6 left-12 right-6 text-white">
-            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-300 font-bold block mb-1">03 / HORIZON</span>
-            <h4 class="font-display text-lg font-bold">Skyline Living</h4>
+          <!-- Step 1 -->
+          <div class="space-y-1.5 pb-6 border-b border-slate-100">
+            <h4 class="font-display text-xl sm:text-2xl font-bold text-slate-900">
+              Talk to a Real Human.
+            </h4>
+            <p class="text-xs sm:text-sm text-slate-600 font-normal">
+              We match you with an expert who actually listens.
+            </p>
           </div>
-        </div>
 
-        <!-- Chevron 4 -->
-        <div class="chevron-last chevron-box relative h-80 sm:h-96 w-full md:w-1/4 bg-slate-900 overflow-hidden group cursor-pointer shadow-lg -mt-3 md:mt-0 md:-ml-8">
-          <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=700&q=80" alt="Modern Minimalist Facade" class="zoom-hover absolute inset-0 w-full h-full object-cover">
-          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors"></div>
-          <div class="absolute bottom-6 left-12 right-6 text-white">
-            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-300 font-bold block mb-1">04 / TIMELESS</span>
-            <h4 class="font-display text-lg font-bold">Bespoke Design</h4>
+          <!-- Step 2 -->
+          <div class="space-y-1.5 pb-6 border-b border-slate-100">
+            <h4 class="font-display text-xl sm:text-2xl font-bold text-slate-900">
+              Get Clarity.
+            </h4>
+            <p class="text-xs sm:text-sm text-slate-600 font-normal">
+              We define what you really need, not just what&apos;s available.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="space-y-1.5 pb-2">
+            <h4 class="font-display text-xl sm:text-2xl font-bold text-slate-900">
+              Move Forward.
+            </h4>
+            <p class="text-xs sm:text-sm text-slate-600 font-normal">
+              We find what fits &mdash; and make it happen.
+            </p>
           </div>
         </div>
 
       </div>
 
-      <!-- ── CAREER / AGENT CTA STRIP (Matching Video 00:05) ── -->
-      <div id="careers" class="relative rounded-3xl overflow-hidden bg-[#0A130E] text-white p-8 sm:p-12 shadow-2xl border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-8 group">
-        <img src="https://images.unsplash.com/photo-1511497584788-87676104235f?auto=format&fit=crop&w=1200&q=80" alt="Lush Forest Estate Background" class="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:opacity-35 transition-opacity">
-        <div class="relative z-10 space-y-2">
-          <span class="text-[10px] font-mono-tech uppercase tracking-widest text-emerald-400 font-bold">CAREER AT FIND BROKERAGE</span>
-          <h3 class="font-display text-2xl sm:text-4xl font-extrabold">
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────────
+       6. SECTION: FOR AGENTS ("Don't Rent Your Career. Own It.") (Frames 12 & 13)
+  ───────────────────────────────────────────────────────────── -->
+  <section id="careers" class="py-24 px-6 sm:px-10 lg:px-14 bg-[#F8FAFC] border-t border-slate-200">
+    <div class="max-w-7xl mx-auto">
+      
+      <span class="text-xs font-mono-tech uppercase tracking-widest text-slate-400 font-bold block mb-4">
+        For Agents
+      </span>
+
+      <!-- Heading with Stacked Ghost Kinetic Text (Frame 12) -->
+      <div class="mb-14 select-none">
+        <div class="ghost-wrap">
+          <h3 class="font-display text-3xl sm:text-5xl lg:text-6xl font-extrabold ghost-back">
             Don&apos;t Rent Your Career. Own It.
           </h3>
-          <p class="text-xs sm:text-sm text-slate-300 max-w-lg font-light leading-relaxed">
-            Join the most technology-enabled, commission-transparent brokerage network designed for elite producers.
-          </p>
+          <h2 class="font-display text-3xl sm:text-5xl lg:text-6xl font-extrabold text-[#0F172A] tracking-tight ghost-front">
+            Don&apos;t Rent Your Career. Own It.
+          </h2>
+        </div>
+      </div>
+
+      <!-- Split Layout: Images & Narrative (Frame 12 & 13) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-10">
+        
+        <!-- Left Image: Person Dancing / Stretching in Apartment (Frame 12) -->
+        <div class="lg:col-span-5 h-72 sm:h-96 rounded-3xl overflow-hidden shadow-lg bg-slate-900 group">
+          <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=80" alt="Agent Lifestyle Autonomy" class="zoom-hover w-full h-full object-cover">
         </div>
 
-        <a href="#contact" class="relative z-10 px-8 py-4 rounded-full bg-white text-[#0F172A] hover:bg-sky-400 hover:text-black font-bold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center gap-2 hover:scale-105 shrink-0">
-          <span>Apply as an Agent</span>
-          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        <!-- Right Image: Lush Canopy Forest / Architecture (Frame 12) -->
+        <div class="lg:col-span-7 h-72 sm:h-96 rounded-3xl overflow-hidden shadow-lg bg-slate-900 group">
+          <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1000&q=80" alt="Biophilic Architecture Canopy" class="zoom-hover w-full h-full object-cover">
+        </div>
+
+      </div>
+
+      <!-- Narrative & CTA Button (Frame 13) -->
+      <div class="max-w-3xl space-y-6">
+        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+          At FIND, our agents don&apos;t just work for the brand &mdash; they own a part of it. We give top performers real equity, autonomy, and technology that does more than look good &mdash; it actually drives deals.
+        </p>
+
+        <a href="#contact" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#0F172A] hover:bg-black text-white text-xs font-bold tracking-wide transition shadow hover:scale-105">
+          <span>Join the Movement</span>
+          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
         </a>
       </div>
 
@@ -473,66 +575,57 @@
   </section>
 
   <!-- ─────────────────────────────────────────────────────────────
-       SECTION 4: TESTIMONIALS / CLIENT STORIES (00:05 - 00:06)
+       7. SECTION: TESTIMONIAL ("Don't Take Our Word for It.") (Frames 13 & 14)
   ───────────────────────────────────────────────────────────── -->
   <section class="py-24 px-6 sm:px-10 lg:px-14 bg-white border-t border-slate-200">
     <div class="max-w-6xl mx-auto">
       
-      <!-- Ghosted Double Typography Header (Matching Video) -->
+      <!-- Ghost Header: Don't Take Our Word for It. (Frame 13) -->
       <div class="mb-14 select-none">
-        <h2 class="font-display text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight">
-          Don&apos;t Take Our Word for it.
-        </h2>
-        <h3 class="font-display text-2xl sm:text-4xl font-extrabold ghost-text tracking-tight -mt-1 sm:-mt-2">
-          Don&apos;t Take Our Word for it.
-        </h3>
+        <div class="ghost-wrap">
+          <h3 class="font-display text-3xl sm:text-5xl font-extrabold ghost-back">
+            Don&apos;t Take Our Word for It.
+          </h3>
+          <h2 class="font-display text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight ghost-front">
+            Don&apos;t Take Our Word for It.
+          </h2>
+        </div>
       </div>
 
-      <!-- Split Testimonial Layout -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <!-- Testimonial Card with Michael & Client (Frame 14) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-[#F8FAFC] rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-md">
         
-        <!-- Left: Luxury Couple Portrait (Marcus & Elena Vance) -->
-        <div class="lg:col-span-5 relative rounded-3xl overflow-hidden shadow-2xl h-96 sm:h-[450px] bg-slate-900 group">
-          <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=800&q=80" alt="Marcus & Elena Vance" class="zoom-hover w-full h-full object-cover object-top">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-          <div class="absolute bottom-6 left-6 right-6 text-white">
-            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-400 font-bold block">VERIFIED BUYERS</span>
-            <h4 class="font-display font-bold text-xl">Marcus & Elena Vance</h4>
-            <span class="text-xs text-slate-300 font-medium">Tribeca Penthouse Residence &bull; $6.4M</span>
+        <!-- Left: Michael & Client on NYC Street Holding Coffee Cups (Frame 14) -->
+        <div class="lg:col-span-5 relative h-80 sm:h-96 rounded-2xl overflow-hidden shadow-inner bg-slate-900 group">
+          <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=800&q=80" alt="Michael & Client with Coffee" class="zoom-hover w-full h-full object-cover object-top">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+          <div class="absolute bottom-4 left-5 text-white">
+            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-400 font-bold block">MICHAEL & CLIENT</span>
+            <h5 class="font-display font-bold text-sm">Tribeca, New York</h5>
           </div>
         </div>
 
-        <!-- Right: Floating Editorial Quote Box -->
-        <div class="lg:col-span-7 bg-[#F8FAFC] rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-sm flex flex-col justify-between min-h-[400px]">
-          <div>
-            <div class="w-12 h-12 rounded-2xl bg-[#0F172A] text-sky-400 flex items-center justify-center text-2xl font-serif mb-6 shadow-sm">
-              &ldquo;
-            </div>
+        <!-- Right: Quote Card (Frame 14) -->
+        <div class="lg:col-span-7 flex flex-col justify-between space-y-6">
+          <p id="quoteText" class="text-sm sm:text-base md:text-lg text-slate-800 leading-relaxed font-normal italic">
+            &ldquo;Michael was a great realtor. Such a hard worker, dedicated to helping us find the perfect neighborhood, price point and home. He&apos;s a workaholic so he was available morning, noon and night. Tireless and dedicated. Would recommend him 100%!&rdquo;
+          </p>
 
-            <p id="testimonialQuote" class="text-base sm:text-xl text-slate-800 font-normal leading-relaxed mb-6">
-              &ldquo;Finding our dream home in the city felt overwhelming until we partnered with FIND. The market insights, negotiation finesse, and genuine warmth made every step seamless.&rdquo;
-            </p>
-
-            <div class="flex items-center gap-3">
-              <div class="flex text-amber-400 text-sm">
-                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+          <div class="pt-4 border-t border-slate-200 flex items-center justify-between">
+            <div>
+              <h5 class="font-display font-bold text-sm text-slate-900">SEAN &amp; KATIE HICKEY</h5>
+              <div class="flex text-amber-400 text-xs mt-1">
+                ★★★★★
               </div>
-              <span class="text-xs font-mono-tech text-slate-600 font-bold uppercase tracking-wider">Closed in 21 Days</span>
             </div>
-          </div>
 
-          <div class="flex items-center justify-between pt-6 border-t border-slate-200 mt-6">
-            <span class="text-xs font-mono-tech text-slate-500 uppercase tracking-widest">STORY 01 OF 04</span>
+            <!-- Carousel Arrows (Frame 14) -->
             <div class="flex items-center gap-2">
-              <button onclick="prevTestimonial()" class="w-10 h-10 rounded-full border border-slate-300 bg-white hover:bg-[#0F172A] hover:text-white flex items-center justify-center transition shadow-sm" aria-label="Previous">
-                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+              <button onclick="prevQuote()" class="w-9 h-9 rounded-full border border-slate-300 bg-white hover:bg-black hover:text-white flex items-center justify-center transition shadow-sm" aria-label="Previous">
+                <i data-lucide="chevron-left" class="w-4 h-4"></i>
               </button>
-              <button onclick="nextTestimonial()" class="w-10 h-10 rounded-full border border-slate-300 bg-white hover:bg-[#0F172A] hover:text-white flex items-center justify-center transition shadow-sm" aria-label="Next">
-                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              <button onclick="nextQuote()" class="w-9 h-9 rounded-full border border-slate-300 bg-white hover:bg-black hover:text-white flex items-center justify-center transition shadow-sm" aria-label="Next">
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
               </button>
             </div>
           </div>
@@ -544,233 +637,206 @@
   </section>
 
   <!-- ─────────────────────────────────────────────────────────────
-       SECTION 5: HIGH-CONTRAST OBSIDIAN DARK MODE SERVICES SWITCHER (00:06 - 00:09)
+       8. SECTION: DEEP OBSIDIAN DARK MODE & HOVER ACCORDION (Frames 14 - 21)
   ───────────────────────────────────────────────────────────── -->
-  <section id="services" class="py-28 px-6 sm:px-10 lg:px-14 bg-[#070707] text-white overflow-hidden border-t border-zinc-900">
+  <section id="services" class="py-28 px-6 sm:px-10 lg:px-14 bg-[#050505] text-white border-t border-zinc-900 transition-colors duration-500">
     <div class="max-w-7xl mx-auto">
       
-      <!-- Headline & Tag -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+      <!-- Dark Mode Header: Services & How FIND Can Help You (Frame 14 & 15) -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 select-none">
         <div>
-          <span class="text-[10px] font-mono-tech tracking-[0.3em] uppercase text-cyan-400 bg-cyan-950/60 border border-cyan-800/40 px-3.5 py-1 rounded-full inline-block mb-3 font-bold">
-            FULL-LIFECYCLE BROKERAGE
+          <span class="text-xs font-mono-tech uppercase tracking-widest text-zinc-500 font-bold block mb-2">
+            Services
           </span>
-          <h2 class="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">
-            How FIND Can Help You
-          </h2>
+          <div class="ghost-wrap">
+            <h3 class="font-display text-3xl sm:text-5xl md:text-6xl font-extrabold text-zinc-800 ghost-back">
+              How FIND Can Help You
+            </h3>
+            <h2 class="font-display text-3xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight ghost-front">
+              How FIND Can Help You
+            </h2>
+          </div>
         </div>
-        <p class="text-xs sm:text-sm text-zinc-400 max-w-md font-light leading-relaxed">
-          From your first private viewing to closing escrow and bespoke property management, our advisory covers every milestone.
+
+        <p class="text-xs sm:text-sm text-zinc-400 max-w-sm font-light leading-relaxed">
+          Select or hover over any service below to explore our tailored execution models.
         </p>
       </div>
 
-      <!-- Main Services Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <!-- ── INTERACTIVE ACCORDION (Buy / Sell / Rent) (Frames 15 - 20) ── -->
+      <div class="space-y-4 mb-16" id="accordionContainer">
         
-        <!-- Left: 3 Numbered Steps -->
-        <div class="lg:col-span-5 space-y-6">
+        <!-- ACCORDION ITEM 1: BUY (Frame 16) -->
+        <div id="accBuy" onmouseenter="activateAccordion('buy')" onclick="activateAccordion('buy')" class="service-accordion-item is-active relative rounded-3xl overflow-hidden border border-zinc-800 cursor-pointer bg-zinc-950 group">
+          <!-- Background Image: Classic European / NYC Architecture (Frame 16) -->
+          <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80" alt="Buy Architecture" class="zoom-hover absolute inset-0 w-full h-full object-cover opacity-35 group-hover:opacity-45 transition-opacity">
+          <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/80"></div>
           
-          <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-cyan-500/50 transition-all cursor-pointer group">
-            <div class="flex items-center gap-3 text-cyan-400 font-mono-tech font-bold text-sm mb-2">
-              <span class="w-7 h-7 rounded-full bg-cyan-950 flex items-center justify-center border border-cyan-800">1</span>
-              <span>MATCH & DISCOVERY</span>
+          <div class="relative z-10 h-full p-6 sm:p-10 flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center font-mono-tech text-xs font-bold text-white">①</span>
+                <span class="text-xs font-mono-tech uppercase tracking-widest text-sky-400 font-bold">PURCHASING ADVISORY</span>
+              </div>
+              <div class="w-12 h-12 rounded-full bg-white/10 group-hover:bg-white group-hover:text-black flex items-center justify-center transition-all">
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+              </div>
             </div>
-            <p class="text-xs text-zinc-300 leading-relaxed font-light">
-              Best interior with a top agent to help you buy, sell, or rent with precision market analytics.
-            </p>
-          </div>
 
-          <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-cyan-500/50 transition-all cursor-pointer group">
-            <div class="flex items-center gap-3 text-cyan-400 font-mono-tech font-bold text-sm mb-2">
-              <span class="w-7 h-7 rounded-full bg-cyan-950 flex items-center justify-center border border-cyan-800">2</span>
-              <span>NEGOTIATION & LEGAL</span>
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
+              <div class="md:col-span-7">
+                <p class="text-xs sm:text-sm text-zinc-300 font-light leading-relaxed max-w-lg">
+                  Buy smarter with expert agents backed by mortgage, legal and appraisal pros&mdash;dialed in to get you the best deal, fast. We&apos;ve done this over 10,000 times, and we know what wins.
+                </p>
+              </div>
+              <div class="md:col-span-5 text-right">
+                <h3 class="font-display text-5xl sm:text-7xl md:text-8xl font-black text-white tracking-tighter">
+                  Buy
+                </h3>
+              </div>
             </div>
-            <p class="text-xs text-zinc-300 leading-relaxed font-light">
-              Market intelligence, legal navigation, mortgage rates, appraisal protection, and seamless closing escrow.
-            </p>
           </div>
-
-          <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-cyan-500/50 transition-all cursor-pointer group">
-            <div class="flex items-center gap-3 text-cyan-400 font-mono-tech font-bold text-sm mb-2">
-              <span class="w-7 h-7 rounded-full bg-cyan-950 flex items-center justify-center border border-cyan-800">3</span>
-              <span>PORTFOLIO ASSET CARE</span>
-            </div>
-            <p class="text-xs text-zinc-300 leading-relaxed font-light">
-              Full-lifecycle property management, architectural syndication, and private wealth advisory.
-            </p>
-          </div>
-
         </div>
 
-        <!-- Right: Massive Typography Switcher (Buy / Sell / Rent) -->
-        <div class="lg:col-span-7 flex flex-col justify-center space-y-6">
+        <!-- ACCORDION ITEM 2: SELL (Frame 18) -->
+        <div id="accSell" onmouseenter="activateAccordion('sell')" onclick="activateAccordion('sell')" class="service-accordion-item relative rounded-3xl overflow-hidden border border-zinc-800 cursor-pointer bg-zinc-950 group">
+          <!-- Background Image: Night Penthouse Terrace & Client Portrait (Frame 18) -->
+          <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80" alt="Sell Penthouse" class="zoom-hover absolute inset-0 w-full h-full object-cover opacity-35 group-hover:opacity-45 transition-opacity">
+          <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/80"></div>
           
-          <!-- BUY ROW -->
-          <div onclick="switchService('buy')" class="service-row cursor-pointer flex items-center justify-between p-6 rounded-3xl border border-zinc-800 hover:border-white/40 transition-all group bg-zinc-950" id="serviceRowBuy">
-            <div>
-              <h3 class="font-display text-5xl sm:text-7xl font-black text-white group-hover:text-cyan-400 transition-colors">
-                Buy
-              </h3>
-              <p class="text-xs text-zinc-400 mt-2 line-clamp-1">Curated architectural inventory, off-market access, and strategic bidding.</p>
+          <div class="relative z-10 h-full p-6 sm:p-10 flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center font-mono-tech text-xs font-bold text-white">②</span>
+                <span class="text-xs font-mono-tech uppercase tracking-widest text-sky-400 font-bold">LISTINGS &amp; DISPOSITION</span>
+              </div>
+              <div class="w-12 h-12 rounded-full bg-white/10 group-hover:bg-white group-hover:text-black flex items-center justify-center transition-all">
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+              </div>
             </div>
-            <div class="w-14 h-14 rounded-full bg-zinc-900 group-hover:bg-cyan-400 group-hover:text-black flex items-center justify-center transition-all shrink-0">
-              <i data-lucide="arrow-right" class="w-6 h-6"></i>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
+              <div class="md:col-span-7">
+                <p class="text-xs sm:text-sm text-zinc-300 font-light leading-relaxed max-w-lg">
+                  Sell fast, sell high. Your listing gets pro staging, strategic pricing, constant open houses, and agents who never stop working until the right buyer signs.
+                </p>
+              </div>
+              <div class="md:col-span-5 text-right">
+                <h3 class="font-display text-5xl sm:text-7xl md:text-8xl font-black text-white tracking-tighter">
+                  Sell
+                </h3>
+              </div>
             </div>
           </div>
-
-          <!-- SELL ROW -->
-          <div onclick="switchService('sell')" class="service-row cursor-pointer flex items-center justify-between p-6 rounded-3xl border border-zinc-800 hover:border-white/40 transition-all group bg-zinc-950" id="serviceRowSell">
-            <div>
-              <h3 class="font-display text-5xl sm:text-7xl font-black text-white group-hover:text-cyan-400 transition-colors">
-                Sell
-              </h3>
-              <p class="text-xs text-zinc-400 mt-2 line-clamp-1">Cinematic editorial marketing, global investor reach, and record price realizations.</p>
-            </div>
-            <div class="w-14 h-14 rounded-full bg-zinc-900 group-hover:bg-cyan-400 group-hover:text-black flex items-center justify-center transition-all shrink-0">
-              <i data-lucide="arrow-right" class="w-6 h-6"></i>
-            </div>
-          </div>
-
-          <!-- RENT ROW -->
-          <div onclick="switchService('rent')" class="service-row cursor-pointer flex items-center justify-between p-6 rounded-3xl border border-zinc-800 hover:border-white/40 transition-all group bg-zinc-950" id="serviceRowRent">
-            <div>
-              <h3 class="font-display text-5xl sm:text-7xl font-black text-white group-hover:text-cyan-400 transition-colors">
-                Rent
-              </h3>
-              <p class="text-xs text-zinc-400 mt-2 line-clamp-1">Luxury short-term stays, corporate relocations, and full-service penthouses.</p>
-            </div>
-            <div class="w-14 h-14 rounded-full bg-zinc-900 group-hover:bg-cyan-400 group-hover:text-black flex items-center justify-center transition-all shrink-0">
-              <i data-lucide="arrow-right" class="w-6 h-6"></i>
-            </div>
-          </div>
-
-          <!-- Bottom Micro Banner -->
-          <div class="pt-6 border-t border-zinc-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <p class="text-xs text-zinc-400 max-w-sm">
-              Our certified agents guide you through every stage of real estate with expert knowledge and reliable support.
-            </p>
-            <a href="#contact" class="px-6 py-3 rounded-full bg-white text-black hover:bg-cyan-400 font-bold text-xs uppercase tracking-wider transition-all shadow-lg shrink-0">
-              Get Free Consultation
-            </a>
-          </div>
-
         </div>
 
+        <!-- ACCORDION ITEM 3: RENT (Frame 20) -->
+        <div id="accRent" onmouseenter="activateAccordion('rent')" onclick="activateAccordion('rent')" class="service-accordion-item relative rounded-3xl overflow-hidden border border-zinc-800 cursor-pointer bg-zinc-950 group">
+          <!-- Background Image: Sunset Modern Loft (Frame 20) -->
+          <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80" alt="Rent Sunset Loft" class="zoom-hover absolute inset-0 w-full h-full object-cover opacity-35 group-hover:opacity-45 transition-opacity">
+          <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/80"></div>
+          
+          <div class="relative z-10 h-full p-6 sm:p-10 flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center font-mono-tech text-xs font-bold text-white">③</span>
+                <span class="text-xs font-mono-tech uppercase tracking-widest text-sky-400 font-bold">EXCLUSIVE LEASING</span>
+              </div>
+              <div class="w-12 h-12 rounded-full bg-white/10 group-hover:bg-white group-hover:text-black flex items-center justify-center transition-all">
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
+              <div class="md:col-span-7">
+                <p class="text-xs sm:text-sm text-zinc-300 font-light leading-relaxed max-w-lg">
+                  Access hidden rentals before they hit the market through our private network of top NYC landlords. With decades of local experience, we unlock the best deals you won&apos;t find online.
+                </p>
+              </div>
+              <div class="md:col-span-5 text-right">
+                <h3 class="font-display text-5xl sm:text-7xl md:text-8xl font-black text-white tracking-tighter">
+                  Rent
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Micro Banner (Frame 20) -->
+      <div class="pt-8 border-t border-zinc-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <p class="text-xs sm:text-sm text-zinc-400 max-w-md font-light leading-relaxed">
+          Our certified agents guide you through every stage of real estate with expert knowledge and reliable support.
+        </p>
+        <a href="#contact" class="px-7 py-3 rounded-full bg-white text-black hover:bg-sky-400 font-bold text-xs uppercase tracking-wider transition shadow-lg shrink-0">
+          Get Started with FIND &rarr;
+        </a>
       </div>
 
     </div>
   </section>
 
   <!-- ─────────────────────────────────────────────────────────────
-       SECTION 6: SPECIALIZED VERTICALS SLIDER CARDS (00:09 - 00:10)
+       9. SECTION: SPECIALIZED VERTICALS (Frame 22)
   ───────────────────────────────────────────────────────────── -->
-  <section id="verticals" class="py-24 px-6 sm:px-10 lg:px-14 bg-[#F8FAFC]">
+  <section id="verticals" class="py-20 px-6 sm:px-10 lg:px-14 bg-[#09090B] text-white border-t border-zinc-900">
     <div class="max-w-7xl mx-auto">
       
-      <!-- Header with Filter Pills -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-        <div>
-          <span class="text-[10px] font-mono-tech tracking-[0.25em] uppercase text-sky-600 bg-sky-50 px-3.5 py-1 rounded-full inline-block mb-3 font-bold">
-            EXPANDED ADVISORY
-          </span>
-          <h2 class="font-display text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight">
-            Specialized Verticals
-          </h2>
-        </div>
-
-        <!-- Filter Tags (from Video) -->
-        <div class="flex items-center gap-2 overflow-x-auto pb-2">
-          <button class="px-4 py-2 rounded-full bg-[#0F172A] text-white text-xs font-semibold">All Verticals</button>
-          <button class="px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs font-semibold">Mortgage</button>
-          <button class="px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs font-semibold">Management</button>
-          <button class="px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs font-semibold">Development</button>
-        </div>
-      </div>
-
-      <!-- 3 Rounded Glass Bento Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
+      <!-- 3 Horizontal Black Bento Cards with Learn More → (Frame 22) -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         
-        <!-- Card 1: Mortgage Advisory Services -->
-        <div class="bg-white rounded-[32px] overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-slate-200 flex flex-col justify-between group hover:-translate-y-2">
-          <div class="relative h-60 w-full overflow-hidden bg-slate-900">
-            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=700&q=80" alt="Mortgage Advisory" class="zoom-hover w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-            <div class="absolute top-4 left-4">
-              <span class="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-mono-tech tracking-widest uppercase text-white font-bold border border-white/20">
-                FINANCING
-              </span>
-            </div>
-            <div class="absolute bottom-4 left-4 right-4 text-white">
-              <h3 class="font-display text-xl font-bold">Mortgage Advisory Services</h3>
-            </div>
+        <!-- Card 1: Mortgage Advisory -->
+        <div class="relative h-64 rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-800 p-6 flex flex-col justify-between group cursor-pointer shadow-lg">
+          <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=700&q=80" alt="Mortgage Advisory" class="zoom-hover absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-55 transition-opacity">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+          
+          <div class="relative z-10">
+            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-400 font-bold">FINANCING</span>
+            <h4 class="font-display text-xl font-bold mt-1">Mortgage Advisory</h4>
           </div>
 
-          <div class="p-6 flex-1 flex flex-col justify-between">
-            <p class="text-xs text-slate-600 leading-relaxed mb-6 font-normal">
-              Direct institutional and private banking connections ensuring competitive jumbo mortgage rates, bridge loans, and portfolio refinance.
-            </p>
-            <div class="flex items-center justify-between pt-4 border-t border-slate-100">
-              <span class="text-xs font-semibold text-slate-900">Explore Financing</span>
-              <div class="w-8 h-8 rounded-full bg-[#0F172A] text-white flex items-center justify-center arrow-rotate">
-                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-              </div>
-            </div>
+          <div class="relative z-10">
+            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur hover:bg-white hover:text-black text-xs font-semibold text-white transition">
+              <span>Learn More</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </span>
           </div>
         </div>
 
         <!-- Card 2: Property Management -->
-        <div class="bg-white rounded-[32px] overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-slate-200 flex flex-col justify-between group hover:-translate-y-2">
-          <div class="relative h-60 w-full overflow-hidden bg-slate-900">
-            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=700&q=80" alt="Property Management" class="zoom-hover w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-            <div class="absolute top-4 left-4">
-              <span class="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-mono-tech tracking-widest uppercase text-white font-bold border border-white/20">
-                ASSET CARE
-              </span>
-            </div>
-            <div class="absolute bottom-4 left-4 right-4 text-white">
-              <h3 class="font-display text-xl font-bold">Property Management</h3>
-            </div>
+        <div class="relative h-64 rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-800 p-6 flex flex-col justify-between group cursor-pointer shadow-lg">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=700&q=80" alt="Property Management" class="zoom-hover absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-55 transition-opacity">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+          
+          <div class="relative z-10">
+            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-400 font-bold">ASSET CARE</span>
+            <h4 class="font-display text-xl font-bold mt-1">Property Management</h4>
           </div>
 
-          <div class="p-6 flex-1 flex flex-col justify-between">
-            <p class="text-xs text-slate-600 leading-relaxed mb-6 font-normal">
-              High-touch estate management for absentee owners, luxury leasing administration, preventative facility care, and tenant screening.
-            </p>
-            <div class="flex items-center justify-between pt-4 border-t border-slate-100">
-              <span class="text-xs font-semibold text-slate-900">View Services</span>
-              <div class="w-8 h-8 rounded-full bg-[#0F172A] text-white flex items-center justify-center arrow-rotate">
-                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-              </div>
-            </div>
+          <div class="relative z-10">
+            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur hover:bg-white hover:text-black text-xs font-semibold text-white transition">
+              <span>Learn More</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </span>
           </div>
         </div>
 
         <!-- Card 3: Construction & Development -->
-        <div class="bg-white rounded-[32px] overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-slate-200 flex flex-col justify-between group hover:-translate-y-2">
-          <div class="relative h-60 w-full overflow-hidden bg-slate-900">
-            <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=700&q=80" alt="Construction & Real Estate Development" class="zoom-hover w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-            <div class="absolute top-4 left-4">
-              <span class="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-mono-tech tracking-widest uppercase text-white font-bold border border-white/20">
-                DEVELOPMENT
-              </span>
-            </div>
-            <div class="absolute bottom-4 left-4 right-4 text-white">
-              <h3 class="font-display text-xl font-bold">Construction &amp; Development</h3>
-            </div>
+        <div class="relative h-64 rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-800 p-6 flex flex-col justify-between group cursor-pointer shadow-lg">
+          <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186f5f7?auto=format&fit=crop&w=700&q=80" alt="Construction & Development" class="zoom-hover absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-55 transition-opacity">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+          
+          <div class="relative z-10">
+            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-400 font-bold">DEVELOPMENT</span>
+            <h4 class="font-display text-xl font-bold mt-1">Construction &amp; Dev</h4>
           </div>
 
-          <div class="p-6 flex-1 flex flex-col justify-between">
-            <p class="text-xs text-slate-600 leading-relaxed mb-6 font-normal">
-              Connecting land acquisitions with world-renowned architects, zoning attorneys, and general contractors for bespoke ground-up projects.
-            </p>
-            <div class="flex items-center justify-between pt-4 border-t border-slate-100">
-              <span class="text-xs font-semibold text-slate-900">Explore Projects</span>
-              <div class="w-8 h-8 rounded-full bg-[#0F172A] text-white flex items-center justify-center arrow-rotate">
-                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-              </div>
-            </div>
+          <div class="relative z-10">
+            <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur hover:bg-white hover:text-black text-xs font-semibold text-white transition">
+              <span>Learn More</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </span>
           </div>
         </div>
 
@@ -780,71 +846,72 @@
   </section>
 
   <!-- ─────────────────────────────────────────────────────────────
-       SECTION 7: EDITORIAL MARKET INSIGHTS / BLOG (00:10 - 00:11)
+       10. SECTION: EDITORIAL BLOG & CLIENT STORIES (Frames 22 - 24)
   ───────────────────────────────────────────────────────────── -->
   <section class="py-24 px-6 sm:px-10 lg:px-14 bg-white border-t border-slate-200">
     <div class="max-w-7xl mx-auto">
       
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      <!-- Blog Header with Ghost Text (Frame 22) -->
+      <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-14 gap-6 select-none">
         <div>
-          <span class="text-[10px] font-mono-tech tracking-[0.25em] uppercase text-sky-600 bg-sky-50 px-3.5 py-1 rounded-full inline-block mb-3 font-bold">
-            RESEARCH & INTELLIGENCE
+          <div class="ghost-wrap">
+            <h3 class="font-display text-4xl sm:text-6xl font-extrabold ghost-back">
+              Blog
+            </h3>
+            <h2 class="font-display text-4xl sm:text-6xl font-extrabold text-[#0F172A] tracking-tight ghost-front">
+              Blog
+            </h2>
+          </div>
+          <span class="text-xs font-mono-tech uppercase tracking-widest text-slate-500 font-bold block mt-2">
+            Client Stories
           </span>
-          <h2 class="font-display text-3xl sm:text-5xl font-extrabold text-[#0F172A] tracking-tight">
-            Blog
-          </h2>
         </div>
-        <p class="text-xs sm:text-sm text-slate-600 max-w-md">
-          Market intelligence, neighborhood guides, and architectural trends curated by our research team.
-        </p>
+
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <p class="text-xs sm:text-sm text-slate-600 max-w-sm font-normal">
+            See how we&apos;ve helped clients achieve their real estate dreams, one successful move at a time.
+          </p>
+          <a href="#blog" class="px-5 py-2.5 rounded-full bg-[#0F172A] hover:bg-black text-white text-xs font-semibold tracking-wide transition shadow-sm shrink-0">
+            Visit Our Blog &rarr;
+          </a>
+        </div>
       </div>
 
-      <!-- Articles Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        
-        <!-- Article 1 (from Video) -->
-        <article class="bg-[#F8FAFC] rounded-3xl p-6 sm:p-8 border border-slate-200 flex flex-col sm:flex-row gap-6 group hover:shadow-xl transition-all">
-          <div class="relative h-48 sm:h-full sm:w-48 rounded-2xl overflow-hidden bg-slate-900 shrink-0">
-            <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186f5f7?auto=format&fit=crop&w=500&q=80" alt="Philly Skyline" class="zoom-hover w-full h-full object-cover">
+      <!-- Story 1: Q1 2026 NYC Market Report (Frame 22) -->
+      <div class="mb-12 rounded-3xl overflow-hidden border border-slate-200 shadow-md group cursor-pointer bg-white">
+        <div class="relative h-72 sm:h-96 w-full overflow-hidden bg-slate-900">
+          <img src="https://images.unsplash.com/photo-1496868834840-5f4c98840aaa?auto=format&fit=crop&w=1400&q=80" alt="Brooklyn Bridge & Tower" class="zoom-hover w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+          <div class="absolute bottom-6 left-6 right-6 text-white">
+            <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-400 font-bold block mb-1">MARKET INTELLIGENCE</span>
+            <h3 class="font-display text-2xl sm:text-3xl font-bold">Q1 2026 NYC Market Report</h3>
           </div>
-          <div class="flex flex-col justify-between flex-1">
-            <div>
-              <span class="text-[10px] font-mono-tech text-slate-500 uppercase font-bold tracking-wider block mb-2">2026.04.09 &bull; MARKET ANALYSIS</span>
-              <h3 class="font-display text-xl font-bold text-[#0F172A] leading-snug group-hover:text-sky-600 transition-colors mb-3">
-                Philly Real Estate: A Winter Chill or a Spring Opportunity?
-              </h3>
-              <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">
-                Analyzing inventory compression, interest rate stabilizing effects, and prime Center City residential yields.
-              </p>
-            </div>
-            <div class="pt-4 border-t border-slate-200 flex items-center justify-between text-xs font-semibold text-slate-900 mt-4">
-              <span>Read Article</span>
-              <i data-lucide="arrow-right" class="w-4 h-4 text-sky-600 arrow-rotate"></i>
-            </div>
-          </div>
-        </article>
+        </div>
+      </div>
 
-        <!-- Article 2 -->
-        <article class="bg-[#F8FAFC] rounded-3xl p-6 sm:p-8 border border-slate-200 flex flex-col sm:flex-row gap-6 group hover:shadow-xl transition-all">
-          <div class="relative h-48 sm:h-full sm:w-48 rounded-2xl overflow-hidden bg-slate-900 shrink-0">
-            <img src="https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=500&q=80" alt="Brownstone Architecture" class="zoom-hover w-full h-full object-cover">
-          </div>
-          <div class="flex flex-col justify-between flex-1">
-            <div>
-              <span class="text-[10px] font-mono-tech text-slate-500 uppercase font-bold tracking-wider block mb-2">2026.03.22 &bull; HERITAGE HOMES</span>
-              <h3 class="font-display text-xl font-bold text-[#0F172A] leading-snug group-hover:text-sky-600 transition-colors mb-3">
-                Why Historic Brownstones Remain NYC&apos;s Most Resilient Asset Class
-              </h3>
-              <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">
-                Examining the enduring appeal, preservation tax advantages, and multigenerational appreciation of 19th-century limestone townhomes.
-              </p>
-            </div>
-            <div class="pt-4 border-t border-slate-200 flex items-center justify-between text-xs font-semibold text-slate-900 mt-4">
-              <span>Read Article</span>
-              <i data-lucide="arrow-right" class="w-4 h-4 text-sky-600 arrow-rotate"></i>
-            </div>
-          </div>
-        </article>
+      <!-- Story 2: What $1M Buys in Different NYC Neighborhoods (Frame 24) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-[#F8FAFC] rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-sm">
+        
+        <div class="lg:col-span-7 space-y-4">
+          <span class="text-xs font-mono-tech text-slate-400 font-semibold block">
+            2026-03-09
+          </span>
+          <h3 class="font-display text-2xl sm:text-3xl font-extrabold text-[#0F172A] leading-snug">
+            What $1M Buys in Different NYC Neighborhoods
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            From loft living in SoHo to historic townhouses in Brooklyn Heights and modern waterfront enclaves in Long Island City, we break down current pricing dynamics and value opportunities.
+          </p>
+          <a href="#article" class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-900 hover:text-sky-600 transition pt-2">
+            <span>Read More</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+
+        <!-- Right: Historic Brownstone Rowhouses (Frame 24) -->
+        <div class="lg:col-span-5 h-64 sm:h-72 rounded-2xl overflow-hidden shadow bg-slate-900 group">
+          <img src="https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=800&q=80" alt="NYC Brownstones with Stoops" class="zoom-hover w-full h-full object-cover">
+        </div>
 
       </div>
 
@@ -852,90 +919,94 @@
   </section>
 
   <!-- ─────────────────────────────────────────────────────────────
-       SECTION 8: DARK LUXURY STENCIL FOOTER (00:11 - 00:13)
+       11. SECTION: FIND YOU BANNER & MONUMENTAL STENCIL FOOTER (Frames 25 & 26)
   ───────────────────────────────────────────────────────────── -->
-  <footer class="py-20 px-6 sm:px-10 lg:px-14 bg-[#070707] text-white border-t border-zinc-900 relative overflow-hidden">
+  <footer class="bg-[#050505] text-white pt-20 pb-12 px-6 sm:px-10 lg:px-14 border-t border-zinc-900 relative overflow-hidden">
     <div class="max-w-7xl mx-auto">
       
-      <!-- Newsletter Banner with Double Typography -->
-      <div class="bg-zinc-900/80 rounded-3xl p-8 sm:p-14 border border-zinc-800 mb-16 relative overflow-hidden">
-        <div class="max-w-2xl">
-          <span class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-400 font-bold block mb-2">WEEKLY CURATED RELEASES</span>
-          <h3 class="font-display text-2xl sm:text-4xl font-extrabold mb-1">
-            Subscribe to our Newsletter
+      <!-- Top Banner: Find You: We'll Help You Get There. (Frame 25) -->
+      <div class="relative rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-800 p-8 sm:p-14 mb-20 shadow-2xl group">
+        <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1400&q=80" alt="Apartment Living Interior" class="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:opacity-35 transition-opacity">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/80"></div>
+
+        <div class="relative z-10 max-w-2xl space-y-4">
+          <h3 class="font-display text-3xl sm:text-5xl font-extrabold tracking-tight">
+            Find You: We&apos;ll Help You Get There.
           </h3>
-          <h4 class="font-display text-xl sm:text-3xl font-extrabold text-zinc-600 mb-6">
-            Subscribe to our Newsletter
-          </h4>
           
-          <form onsubmit="handleNewsletter(event)" class="flex flex-col sm:flex-row gap-3">
-            <input type="email" required placeholder="Enter your email address..." class="flex-1 px-5 py-3.5 rounded-full bg-black/60 border border-zinc-700 text-white placeholder-zinc-500 text-xs focus:outline-none focus:border-sky-400">
-            <button type="submit" class="px-8 py-3.5 rounded-full bg-white text-black hover:bg-sky-400 font-bold text-xs uppercase tracking-wider transition-all shadow-md shrink-0">
-              Subscribe
+          <form onsubmit="handleFindYou(event)" class="flex flex-col sm:flex-row gap-3 pt-2">
+            <input type="text" required placeholder="Enter address, city, or ZIP..." class="flex-1 px-5 py-3.5 rounded-full bg-black/60 border border-zinc-700 text-white placeholder-zinc-500 text-xs focus:outline-none focus:border-sky-400">
+            <button type="submit" class="px-8 py-3.5 rounded-full bg-white text-black hover:bg-sky-400 font-bold text-xs uppercase tracking-wider transition-all shadow shrink-0">
+              Get Started
             </button>
           </form>
         </div>
       </div>
 
-      <!-- Links & Address Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 mb-16">
-        <!-- Col 1: Headquarters (4 Cols) -->
-        <div class="md:col-span-4 space-y-3">
-          <div class="font-display font-black text-2xl tracking-tighter text-white">FIND</div>
-          <p class="text-xs text-zinc-400 leading-relaxed font-light">
-            <strong>Headquarters:</strong><br>
-            11 West 19th Street, 6th Floor<br>
-            New York, NY 10011
-          </p>
-          <div class="pt-2 text-xs space-y-1 text-zinc-400">
-            <div><strong>Direct:</strong> <a href="tel:+12128904400" class="hover:text-sky-400 transition font-mono-tech">+1 (212) 890-4400</a></div>
-            <div><strong>Inquiries:</strong> <a href="mailto:inquiry@findrealestate.com" class="hover:text-sky-400 transition">inquiry@findrealestate.com</a></div>
+      <!-- Newsletter & Office Details (Frame 25 & 26) -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 mb-20 pb-16 border-b border-zinc-900">
+        
+        <!-- Col 1: Subscribe to our Newsletter! -->
+        <div class="md:col-span-5 space-y-4">
+          <h4 class="font-display text-xl font-bold">Subscribe to our Newsletter!</h4>
+          <form onsubmit="handleNewsletter(event)" class="relative max-w-sm">
+            <input type="email" required placeholder="Enter address..." class="w-full pb-2 bg-transparent border-b border-zinc-700 text-white text-xs placeholder-zinc-600 focus:outline-none focus:border-white transition">
+            <button type="submit" class="absolute right-0 bottom-2 text-zinc-400 hover:text-white" aria-label="Submit">
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </form>
+
+          <!-- Address Coordinates (Frame 26) -->
+          <div class="grid grid-cols-2 gap-4 pt-6 text-xs text-zinc-400 font-light">
+            <div>
+              <span class="text-zinc-600 uppercase font-mono-tech text-[10px] font-bold block mb-1">Head Office:</span>
+              <p>5 West 19th Street, 12th Floor<br>New York, NY 10011</p>
+            </div>
+            <div>
+              <span class="text-zinc-600 uppercase font-mono-tech text-[10px] font-bold block mb-1">Direct Contact:</span>
+              <p><a href="mailto:hello@findrealestate.com" class="hover:text-white transition">hello@findrealestate.com</a><br><a href="tel:+12129049004" class="hover:text-white transition font-mono-tech">+1 212 904 9004</a></p>
+            </div>
           </div>
         </div>
 
-        <!-- Col 2: Navigation (3 Cols) -->
+        <!-- Col 2: Navigation Links (Frame 26) -->
+        <div class="md:col-span-4 space-y-2 text-xs">
+          <span class="text-zinc-600 uppercase font-mono-tech text-[10px] font-bold block mb-3">Directory</span>
+          <div><a href="#search" class="text-zinc-400 hover:text-white transition">Search</a></div>
+          <div><a href="#agents" class="text-zinc-400 hover:text-white transition">Agents</a></div>
+          <div><a href="#careers" class="text-zinc-400 hover:text-white transition">Join</a></div>
+          <div><a href="#why-find" class="text-zinc-400 hover:text-white transition">About Us</a></div>
+          <div><a href="#portal" class="text-zinc-400 hover:text-white transition">Agent Portal</a></div>
+        </div>
+
+        <!-- Col 3: Social Channels (Frame 26) -->
         <div class="md:col-span-3 space-y-2 text-xs">
-          <span class="font-mono-tech uppercase tracking-widest text-sky-400 font-bold block mb-2">EXPLORE</span>
-          <div><a href="#search" class="text-zinc-400 hover:text-white transition">Search Homes</a></div>
-          <div><a href="#agents" class="text-zinc-400 hover:text-white transition">Agent Directory</a></div>
-          <div><a href="#careers" class="text-zinc-400 hover:text-white transition">Join as an Agent</a></div>
-          <div><a href="#services" class="text-zinc-400 hover:text-white transition">Closing Paperwork</a></div>
-          <div><a href="#verticals" class="text-zinc-400 hover:text-white transition">Mortgage &amp; Advisory</a></div>
+          <span class="text-zinc-600 uppercase font-mono-tech text-[10px] font-bold block mb-3">Follow FIND</span>
+          <div><a href="https://instagram.com" target="_blank" class="text-zinc-400 hover:text-white transition">Instagram</a></div>
+          <div><a href="https://facebook.com" target="_blank" class="text-zinc-400 hover:text-white transition">Facebook</a></div>
+          <div><a href="https://twitter.com" target="_blank" class="text-zinc-400 hover:text-white transition">Twitter / X</a></div>
+          <div><a href="https://linkedin.com" target="_blank" class="text-zinc-400 hover:text-white transition">LinkedIn</a></div>
         </div>
 
-        <!-- Col 3: Social & Compliance (5 Cols) -->
-        <div class="md:col-span-5 space-y-3 text-xs">
-          <span class="font-mono-tech uppercase tracking-widest text-sky-400 font-bold block mb-2">CONNECT</span>
-          <div class="flex items-center space-x-3 pt-1">
-            <a href="https://instagram.com" target="_blank" class="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-white hover:bg-sky-500 transition">
-              <i data-lucide="instagram" class="w-4 h-4"></i>
-            </a>
-            <a href="https://linkedin.com" target="_blank" class="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-white hover:bg-sky-500 transition">
-              <i data-lucide="linkedin" class="w-4 h-4"></i>
-            </a>
-            <a href="https://twitter.com" target="_blank" class="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-white hover:bg-sky-500 transition">
-              <i data-lucide="twitter" class="w-4 h-4"></i>
-            </a>
-            <a href="https://youtube.com" target="_blank" class="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-white hover:bg-sky-500 transition">
-              <i data-lucide="youtube" class="w-4 h-4"></i>
-            </a>
-          </div>
-          <p class="text-[11px] text-zinc-500 leading-relaxed pt-2">
-            Equal Housing Opportunity. FIND Real Estate Technologies Inc. is a licensed real estate broker in New York, New Jersey, and Pennsylvania.
-          </p>
-        </div>
       </div>
 
-      <!-- ── GIANT 3D STENCIL "FIND" ACROSS ENTIRE FOOTER (Matching 00:12) ── -->
-      <div class="border-t border-zinc-900 pt-8 pb-4 text-center">
-        <div class="font-display font-black text-[18vw] leading-none tracking-tighter text-zinc-900 select-none hover:text-zinc-800 transition-colors">
+      <!-- ── MONUMENTAL STENCIL "FIND" FOOTER LOGO (Frame 26) ── -->
+      <div class="text-center select-none pt-4 pb-8 overflow-hidden">
+        <div class="stencil-logo text-[23vw] tracking-tighter hover:tracking-normal transition-all duration-700 opacity-95">
           FIND
         </div>
       </div>
 
-      <div class="flex flex-col sm:flex-row items-center justify-between text-[11px] text-zinc-500 pt-6 border-t border-zinc-900">
+      <!-- Bottom Legal Row -->
+      <div class="flex flex-col sm:flex-row items-center justify-between text-[11px] text-zinc-500 pt-6 border-t border-zinc-900 gap-4">
         <div>&copy; 2026 FIND Real Estate Technologies Inc. All rights reserved.</div>
-        <div class="font-mono-tech text-zinc-400">Manhattan &bull; Brooklyn &bull; Philadelphia</div>
+        <div class="font-mono-tech text-zinc-400 flex items-center gap-4">
+          <a href="#privacy" class="hover:text-white transition">Privacy Policy</a>
+          <span>&bull;</span>
+          <a href="#terms" class="hover:text-white transition">Terms of Service</a>
+          <span>&bull;</span>
+          <span>Equal Housing Opportunity</span>
+        </div>
       </div>
 
     </div>
@@ -948,63 +1019,71 @@
     lucide.createIcons();
     gsap.registerPlugin(ScrollTrigger);
 
-    // ── 1. Hero 3D Cinematic Scroll Engine ──
+    // ── 1. Hero 3D Cinematic Scroll Engine (Frames 01 - 06) ──
     const heroTl = gsap.timeline({
       scrollTrigger: {
         trigger: "#heroPin",
         start: "top top",
-        end: "+=160%",
+        end: "+=170%",
         pin: true,
-        scrub: 1
+        scrub: 1,
+        anticipatePin: 1
       }
     });
 
-    // Sequence 1: Hero text fades out and lifts
+    // Step 1: Hero text & search controls lift and fade out (0.0 -> 0.3)
     heroTl.to("#heroTextLayer", {
-      y: -60,
+      y: -70,
       opacity: 0,
       duration: 0.35,
       ease: "power2.inOut"
     }, 0);
 
-    // Sequence 2: Clouds part outward to reveal horizon
+    // Step 2: Clouds part outward left and right (0.1 -> 0.7)
     heroTl.to("#cloudLeft", {
-      x: -260,
-      opacity: 0.2,
-      duration: 0.7,
+      x: -300,
+      opacity: 0.15,
+      duration: 0.6,
       ease: "power2.out"
     }, 0.1);
 
     heroTl.to("#cloudRight", {
-      x: 260,
-      opacity: 0.2,
-      duration: 0.7,
+      x: 300,
+      opacity: 0.15,
+      duration: 0.6,
       ease: "power2.out"
     }, 0.1);
 
-    // Sequence 3: Penthouse zooms forward and translates downward in 3D
-    heroTl.to("#penthouseMesh", {
-      y: 90,
-      scale: 0.76,
-      rotateX: 8,
-      duration: 0.8,
-      ease: "power2.inOut"
-    }, 0.15);
+    // Step 3: Wireframe stroked title appears over the building (0.25 -> 0.55) (Frame 04)
+    heroTl.fromTo("#wireframeTitleReveal", 
+      { opacity: 0, scale: 0.85 },
+      { opacity: 1, scale: 1.0, duration: 0.3, ease: "power2.out" },
+      0.25
+    );
 
-    // Sequence 4: Chrome "FIND Real Estate" expands and glistens into view
-    heroTl.to("#chromeTitleReveal", {
-      scale: 1,
-      opacity: 1,
-      duration: 0.6,
-      ease: "back.out(1.1)"
-    }, 0.4);
+    // Step 4: Wireframe fills and transforms into solid 3D Chrome (0.5 -> 0.8) (Frame 05)
+    heroTl.to("#wireframeTitleReveal", { opacity: 0, duration: 0.2 }, 0.52);
+    heroTl.fromTo("#chromeTitleReveal",
+      { opacity: 0, scale: 0.95 },
+      { opacity: 1, scale: 1.0, duration: 0.3, ease: "power2.out" },
+      0.5
+    );
+
+    // Step 5: Floating Penthouse descends, scales down, and dissolves into clouds (0.3 -> 0.75) (Frame 05 & 06)
+    heroTl.to("#penthouseMesh", {
+      y: 110,
+      scale: 0.68,
+      opacity: 0,
+      duration: 0.45,
+      ease: "power2.inOut"
+    }, 0.35);
 
     // ── 2. Interactive Desktop Mouse 3D Perspective Tilt ──
     const mesh = document.getElementById('penthouseMesh');
     if (mesh && window.innerWidth > 768) {
       window.addEventListener('mousemove', (e) => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 16;
-        const y = (e.clientY / window.innerHeight - 0.5) * 16;
+        const x = (e.clientX / window.innerWidth - 0.5) * 14;
+        const y = (e.clientY / window.innerHeight - 0.5) * 14;
         gsap.to(mesh, {
           rotateY: x,
           rotateX: -y,
@@ -1012,87 +1091,79 @@
           ease: "power1.out"
         });
       });
+      window.addEventListener('mouseleave', () => {
+        gsap.to(mesh, { rotateY: 0, rotateX: 0, duration: 1, ease: "power2.out" });
+      });
     }
 
-    // ── 3. Interactive Services Switcher (Buy / Sell / Rent) ──
-    const serviceData = {
-      buy: {
-        title: "Buy",
-        desc: "Curated architectural inventory, off-market access, and strategic bidding.",
-        highlight: "MATCH & DISCOVERY"
-      },
-      sell: {
-        title: "Sell",
-        desc: "Cinematic editorial marketing, global investor reach, and record price realizations.",
-        highlight: "NEGOTIATION & LEGAL"
-      },
-      rent: {
-        title: "Rent",
-        desc: "Luxury short-term stays, corporate relocations, and full-service penthouses.",
-        highlight: "PORTFOLIO ASSET CARE"
-      }
-    };
-
-    window.switchService = function(type) {
-      ['buy', 'sell', 'rent'].forEach(t => {
-        const row = document.getElementById('serviceRow' + t.charAt(0).toUpperCase() + t.slice(1));
+    // ── 3. Interactive Accordion (Buy / Sell / Rent) (Frames 15 - 20) ──
+    window.activateAccordion = function(type) {
+      const items = ['buy', 'sell', 'rent'];
+      items.forEach(t => {
+        const el = document.getElementById('acc' + t.charAt(0).toUpperCase() + t.slice(1));
         if (t === type) {
-          row.classList.add('border-cyan-400', 'bg-zinc-900');
-          row.classList.remove('bg-zinc-950', 'border-zinc-800');
+          el.classList.add('is-active', 'border-white/50');
+          el.classList.remove('border-zinc-800');
         } else {
-          row.classList.remove('border-cyan-400', 'bg-zinc-900');
-          row.classList.add('bg-zinc-950', 'border-zinc-800');
+          el.classList.remove('is-active', 'border-white/50');
+          el.classList.add('border-zinc-800');
         }
       });
     };
 
-    // ── 4. Testimonials Carousel ──
+    // ── 4. Testimonials Quotes ──
     const testimonials = [
       {
-        quote: "Finding our dream home in the city felt overwhelming until we partnered with FIND. The market insights, negotiation finesse, and genuine warmth made every step seamless.",
-        name: "Marcus & Elena Vance",
-        badge: "Closed in 21 Days &bull; Tribeca Penthouse"
+        quote: "Michael was a great realtor. Such a hard worker, dedicated to helping us find the perfect neighborhood, price point and home. He's a workaholic so he was available morning, noon and night. Tireless and dedicated. Would recommend him 100%!",
+        name: "SEAN & KATIE HICKEY",
+        location: "Tribeca, New York"
       },
       {
         quote: "Selling our historic Brooklyn Heights brownstone required discretion and precision. FIND produced a cinematic campaign that generated multiple all-cash bids in 72 hours.",
-        name: "Jonathan & Claire Sterling",
-        badge: "Record Sale &bull; Brooklyn Heights"
+        name: "JONATHAN & CLAIRE STERLING",
+        location: "Brooklyn Heights, New York"
       },
       {
         quote: "The off-market architectural search capability at FIND is unmatched. They uncovered a waterfront development before it ever reached public syndication.",
-        name: "David Kim, Managing Director",
-        badge: "Commercial Syndication &bull; Hudson Yards"
+        name: "DAVID KIM, MANAGING DIRECTOR",
+        location: "Hudson Yards, New York"
       }
     ];
 
-    let currentTestimonialIdx = 0;
-    window.nextTestimonial = function() {
-      currentTestimonialIdx = (currentTestimonialIdx + 1) % testimonials.length;
-      updateTestimonialUI();
+    let currentQuoteIdx = 0;
+    window.nextQuote = function() {
+      currentQuoteIdx = (currentQuoteIdx + 1) % testimonials.length;
+      updateQuoteUI();
     };
 
-    window.prevTestimonial = function() {
-      currentTestimonialIdx = (currentTestimonialIdx - 1 + testimonials.length) % testimonials.length;
-      updateTestimonialUI();
+    window.prevQuote = function() {
+      currentQuoteIdx = (currentQuoteIdx - 1 + testimonials.length) % testimonials.length;
+      updateQuoteUI();
     };
 
-    function updateTestimonialUI() {
-      const q = document.getElementById('testimonialQuote');
+    function updateQuoteUI() {
+      const q = document.getElementById('quoteText');
       gsap.to(q, {
         opacity: 0,
-        y: -10,
+        y: -8,
         duration: 0.2,
         onComplete: () => {
-          q.innerText = '“' + testimonials[currentTestimonialIdx].quote + '”';
+          q.innerText = '“' + testimonials[currentQuoteIdx].quote + '”';
           gsap.to(q, { opacity: 1, y: 0, duration: 0.3 });
         }
       });
     }
 
-    // ── 5. Newsletter Submission ──
+    // ── 5. Form Submissions ──
     window.handleNewsletter = function(e) {
       e.preventDefault();
-      alert('✓ Thank you for subscribing to FIND Private Market Intelligence.');
+      alert('✓ Thank you for subscribing to FIND Newsletter.');
+      e.target.reset();
+    };
+
+    window.handleFindYou = function(e) {
+      e.preventDefault();
+      alert('✓ Connecting you with a verified FIND advisor.');
       e.target.reset();
     };
   </script>
