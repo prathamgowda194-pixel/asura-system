@@ -783,22 +783,7 @@ export default async function handler(req, res) {
       }
     } catch (e) {}
 
-    try {
-      const rawUrl = `https://raw.githubusercontent.com/${REPO}/main/${relPath}?v=${Date.now()}`;
-      const rawRes = await fetch(rawUrl, {
-        headers: {
-          'Authorization': `Bearer ${GITHUB_TOKEN}`,
-          'User-Agent': 'ASURA-Edge'
-        }
-      });
-      if (rawRes.status === 200) {
-        const html = await rawRes.text();
-        res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0');
-        return res.status(200).send(html);
-      }
-    } catch (e) {}
-
+    // Priority 1: GitHub API contents (Always live, never CDN-cached)
     try {
       const apiEndpoint = `https://api.github.com/repos/${REPO}/contents/${relPath}?ref=main`;
       const apiRes = await fetch(apiEndpoint, {
@@ -811,7 +796,26 @@ export default async function handler(req, res) {
 
       if (apiRes.status === 200) {
         const data = await apiRes.json();
-        const html = Buffer.from(data.content, 'base64').toString('utf8');
+        if (data.content) {
+          const html = Buffer.from(data.content, 'base64').toString('utf8');
+          res.setHeader('Content-Type', 'text/html; charset=utf-8');
+          res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0');
+          return res.status(200).send(html);
+        }
+      }
+    } catch (e) {}
+
+    // Priority 2: Raw GitHub fallback
+    try {
+      const rawUrl = `https://raw.githubusercontent.com/${REPO}/main/${relPath}?v=${Date.now()}`;
+      const rawRes = await fetch(rawUrl, {
+        headers: {
+          'Authorization': `Bearer ${GITHUB_TOKEN}`,
+          'User-Agent': 'ASURA-Edge'
+        }
+      });
+      if (rawRes.status === 200) {
+        const html = await rawRes.text();
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0');
         return res.status(200).send(html);
