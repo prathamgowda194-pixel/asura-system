@@ -16,21 +16,6 @@
       "source": "/studio",
       "destination": "/projects/studio/index.html",
       "permanent": false
-    },
-    {
-      "source": "/projects/villa-elysee/",
-      "destination": "/projects/villa-elysee",
-      "permanent": false
-    },
-    {
-      "source": "/projects/aadriti-learning-centre/",
-      "destination": "/projects/aadriti-learning-centre",
-      "permanent": false
-    },
-    {
-      "source": "/projects/pixnova/",
-      "destination": "/projects/pixnova",
-      "permanent": false
     }
   ],
   "rewrites": [
@@ -39,16 +24,16 @@
       "destination": "/api/serve_project?slug=:slug&asset=:match*"
     },
     {
-      "source": "/projects/villa-elysee/drone-flight.mp4",
-      "destination": "/api/serve_asset?path=drone-flight.mp4"
+      "source": "/projects/:slug/:asset(.*\\.(?:mp4|webm|webp|png|jpg|jpeg|svg|css|js|woff2?|ttf|json))",
+      "destination": "/api/serve_project?slug=:slug&asset=:asset"
     },
     {
       "source": "/drone-flight.mp4",
-      "destination": "/api/serve_asset?path=drone-flight.mp4"
+      "destination": "/api/serve_project?slug=villa-elysee&asset=drone-flight.mp4"
     },
     {
       "source": "/assets/:match*",
-      "destination": "/api/serve_asset?path=assets/:match*"
+      "destination": "/api/serve_project?slug=aadriti-learning-centre&asset=:match*"
     },
     {
       "source": "/projects/:slug/admin.html",
