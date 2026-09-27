@@ -11,29 +11,32 @@
       "source": "/",
       "destination": "/projects/studio/index.html",
       "permanent": false
-    },
-    {
-      "source": "/studio",
-      "destination": "/projects/studio/index.html",
-      "permanent": false
     }
   ],
   "rewrites": [
     {
-      "source": "/projects/:slug/assets/:match*",
-      "destination": "/api/serve_project?slug=:slug&asset=:match*"
+      "source": "/studio",
+      "destination": "/projects/studio/index.html"
     },
     {
-      "source": "/projects/:slug/:asset(.*\\.(?:mp4|webm|webp|png|jpg|jpeg|svg|css|js|woff2?|ttf|json))",
+      "source": "/studio/",
+      "destination": "/projects/studio/index.html"
+    },
+    {
+      "source": "/projects/:slug/assets/:asset*",
+      "destination": "/api/serve_project?slug=:slug&asset=:asset*"
+    },
+    {
+      "source": "/projects/:slug/:asset(\\w+\\.\\w+)",
       "destination": "/api/serve_project?slug=:slug&asset=:asset"
+    },
+    {
+      "source": "/assets/:asset*",
+      "destination": "/api/serve_project?slug=aadriti-learning-centre&asset=:asset*"
     },
     {
       "source": "/drone-flight.mp4",
       "destination": "/api/serve_project?slug=villa-elysee&asset=drone-flight.mp4"
-    },
-    {
-      "source": "/assets/:match*",
-      "destination": "/api/serve_project?slug=aadriti-learning-centre&asset=:match*"
     },
     {
       "source": "/projects/:slug/admin.html",
