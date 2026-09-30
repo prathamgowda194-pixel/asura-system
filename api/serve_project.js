@@ -557,7 +557,7 @@ function buildLuxuryHTML(lead) {
         const rect = wrap.getBoundingClientRect();
         const x = e.clientX - rect.left - rect.width / 2;
         const y = e.clientY - rect.top - rect.height / 2;
-        body.style.transform = `rotateX(${(-y / 15).toFixed(1)}deg) rotateY(${(x / 15).toFixed(1)}deg) scale3d(1.02, 1.02, 1.02)`;
+        body.style.transform = 'rotateX(' + (-y / 15).toFixed(1) + 'deg) rotateY(' + (x / 15).toFixed(1) + 'deg) scale3d(1.02, 1.02, 1.02)';
       });
       wrap.addEventListener('mouseleave', () => {
         body.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
@@ -570,7 +570,7 @@ function buildLuxuryHTML(lead) {
         const rect = btn.getBoundingClientRect();
         const x = (e.clientX - rect.left - rect.width / 2) * 0.3;
         const y = (e.clientY - rect.top - rect.height / 2) * 0.3;
-        btn.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) scale(1.05)`;
+        btn.style.transform = 'translate3d(' + x.toFixed(1) + 'px, ' + y.toFixed(1) + 'px, 0) scale(1.05)';
       });
       btn.addEventListener('mouseleave', () => {
         btn.style.transform = 'translate3d(0px, 0px, 0) scale(1)';
