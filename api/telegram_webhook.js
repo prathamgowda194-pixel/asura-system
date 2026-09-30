@@ -115,7 +115,7 @@ export default async function handler(req, res) {
       const buttons = [
         [
           { text: "💬 1-Click WhatsApp Pitch", url: `https://wa.me/91${cleanPhone}?text=${encodedPitch}` },
-          { text: "📞 Direct Call", url: `tel:+91${cleanPhone}` }
+          { text: "📞 Direct Contact (WhatsApp)", url: `https://wa.me/91${cleanPhone}` }
         ]
       ];
 
