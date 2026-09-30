@@ -637,7 +637,10 @@ const BLACKLIST_PATTERNS = [
 
 export default async function handler(req, res) {
   // 0. ZERO-404 ASSET SERVICING (Direct & Rewritten Asset Handling)
-  const assetParam = (req.query.asset || req.query.file || req.query.path || '').toString().trim();
+  const parsedUrl = new URL(req.url || '/', 'http://localhost');
+  const qAsset = (req.query && (req.query.asset || req.query.file || req.query.path)) || parsedUrl.searchParams.get('asset') || parsedUrl.searchParams.get('file') || parsedUrl.searchParams.get('path') || '';
+  const qSlug = (req.query && req.query.slug) || parsedUrl.searchParams.get('slug') || '';
+  const assetParam = qAsset.toString().trim();
   const urlPath = req.url || '';
   if (assetParam || urlPath.includes('/assets/')) {
     const rawAsset = assetParam || (urlPath.split('/assets/')[1] || '').split('?')[0];
@@ -662,8 +665,8 @@ export default async function handler(req, res) {
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
     const candidatePaths = [
-      path.join('projects', req.query.slug || 'villa-elysee', 'assets', basename),
-      path.join('projects', req.query.slug || 'villa-elysee', basename),
+      path.join('projects', qSlug || 'unmapped-travel', 'assets', basename),
+      path.join('projects', qSlug || 'unmapped-travel', basename),
       path.join('public', 'assets', basename),
       path.join('public', basename),
       path.join('projects', 'villa-elysee', 'assets', basename),
@@ -733,7 +736,7 @@ export default async function handler(req, res) {
     return res.status(404).send(`Asset not found: ${basename}`);
   }
 
-  const slug = (req.query.slug || '').replace(/[^a-z0-9-]/gi, '');
+  const slug = (qSlug || (req.query && req.query.slug) || parsedUrl.searchParams.get('slug') || '').replace(/[^a-z0-9-]/gi, '');
   if (!slug) {
     return res.status(400).send("<h1>Missing project slug</h1>");
   }
