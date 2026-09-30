@@ -6,11 +6,10 @@
  * Exclusive Karnataka Business Lead Generation (Zero Demo Site Building)
  * ==============================================================================
  */
+import { getNextKarnatakaLeads, KARNATAKA_BUSINESS_VAULT } from './karnataka_lead_scraper.js';
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8909145509:AAF8UhbWxPR5JGt8ddcAd9D1gqZ3L13ZuAo';
 const API_URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
-
-import { getNextKarnatakaLeads, KARNATAKA_BUSINESS_VAULT } from './karnataka_lead_scraper.cjs';
 
 function escapeHtml(str) {
   return String(str || '')
