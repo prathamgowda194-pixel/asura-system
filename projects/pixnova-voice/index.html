@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>PixNova | 24/7 AI Voice Receptionist Line (Full-Duplex Barge-In)</title>
+  <title>PixNova | 24/7 Human-Grade AI Voice Receptionist Line</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #060913;
-      --card-bg: rgba(13, 20, 38, 0.85);
-      --border: rgba(0, 240, 255, 0.2);
+      --card-bg: rgba(13, 20, 38, 0.88);
+      --border: rgba(0, 240, 255, 0.22);
       --cyan: #00f0ff;
-      --cyan-glow: rgba(0, 240, 255, 0.5);
+      --cyan-glow: rgba(0, 240, 255, 0.55);
       --purple: #a855f7;
       --emerald: #10b981;
       --rose: #f43f5e;
@@ -43,7 +43,7 @@
       left: 20%;
       width: 500px;
       height: 500px;
-      background: radial-gradient(circle, rgba(0, 240, 255, 0.14), transparent 70%);
+      background: radial-gradient(circle, rgba(0, 240, 255, 0.15), transparent 70%);
       pointer-events: none;
       filter: blur(80px);
       z-index: 0;
@@ -54,7 +54,7 @@
       right: 15%;
       width: 550px;
       height: 550px;
-      background: radial-gradient(circle, rgba(168, 85, 247, 0.14), transparent 70%);
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.15), transparent 70%);
       pointer-events: none;
       filter: blur(90px);
       z-index: 0;
@@ -75,10 +75,9 @@
       max-width: 440px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
 
-    /* Top Brand Bar */
     .brand-header {
       display: flex;
       align-items: center;
@@ -104,38 +103,25 @@
       color: #050b14;
       box-shadow: 0 0 15px var(--cyan-glow);
     }
-    .brand-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 800;
-      font-size: 17px;
-      color: #ffffff;
-      line-height: 1;
-    }
-    .brand-sub {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 9px;
-      color: var(--cyan);
-      letter-spacing: 1px;
-      margin-top: 3px;
-    }
-    .barge-in-badge {
+    .brand-name { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 17px; color: #ffffff; line-height: 1; }
+    .brand-sub { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--cyan); letter-spacing: 1px; margin-top: 3px; }
+    .voice-tag {
       padding: 4px 8px;
-      background: rgba(0, 240, 255, 0.1);
-      border: 1px solid rgba(0, 240, 255, 0.3);
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
       border-radius: 6px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 9px;
-      color: var(--cyan);
+      font-size: 9.5px;
+      color: #34d399;
       font-weight: 700;
     }
 
-    /* Phone Calling Console */
     .phone-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 28px;
       backdrop-filter: blur(25px);
-      padding: 26px 22px;
+      padding: 24px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -144,25 +130,10 @@
       overflow: hidden;
     }
 
-    .phone-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
-    }
-
-    /* Avatar Orb Visualizer */
-    .avatar-wrapper {
-      position: relative;
-      margin-bottom: 14px;
-      cursor: pointer;
-    }
+    .avatar-wrapper { position: relative; margin-bottom: 12px; cursor: pointer; }
     .avatar-orb {
-      width: 104px;
-      height: 104px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       background: radial-gradient(circle at 35% 35%, #00f0ff, #3b82f6 55%, #050b1a 90%);
       box-shadow: 0 0 35px var(--cyan-glow), inset 0 0 20px #ffffff;
@@ -171,12 +142,7 @@
       justify-content: center;
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .avatar-orb svg {
-      width: 42px;
-      height: 42px;
-      fill: #ffffff;
-      filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.8));
-    }
+    .avatar-orb svg { width: 40px; height: 40px; fill: #ffffff; filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.8)); }
     .avatar-ring {
       position: absolute;
       inset: -8px;
@@ -184,16 +150,12 @@
       border: 2px dashed rgba(0, 240, 255, 0.4);
       animation: rotateRing 15s linear infinite;
     }
-    @keyframes rotateRing {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
+    @keyframes rotateRing { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-    /* Full-Duplex Dynamic States */
     .state-speaking .avatar-orb {
       transform: scale(1.1);
       box-shadow: 0 0 55px rgba(0, 240, 255, 0.95), inset 0 0 25px #ffffff;
-      animation: orbSpeak 0.9s infinite alternate ease-in-out;
+      animation: orbSpeak 0.85s infinite alternate ease-in-out;
     }
     .state-listening .avatar-orb {
       transform: scale(1.04);
@@ -201,62 +163,27 @@
       box-shadow: 0 0 45px rgba(16, 185, 129, 0.85), inset 0 0 20px #ffffff;
     }
     .state-interrupted .avatar-orb {
-      transform: scale(0.98);
+      transform: scale(0.96);
       background: radial-gradient(circle at 35% 35%, #f59e0b, #d97706 60%, #451a03 90%);
       box-shadow: 0 0 45px rgba(245, 158, 11, 0.9);
-      animation: shake 0.25s ease-in-out;
     }
     @keyframes orbSpeak {
-      0% { transform: scale(1.04); filter: hue-rotate(0deg); }
-      100% { transform: scale(1.14); filter: hue-rotate(35deg); }
-    }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-4px); }
-      75% { transform: translateX(4px); }
+      0% { transform: scale(1.03); filter: hue-rotate(0deg); }
+      100% { transform: scale(1.12); filter: hue-rotate(35deg); }
     }
 
-    .caller-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 22px;
-      font-weight: 700;
-      color: #ffffff;
-      text-align: center;
-    }
-    .caller-role {
-      font-size: 12px;
-      color: var(--cyan);
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      margin-top: 2px;
-    }
-    .call-status {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 6px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      text-align: center;
-      min-height: 18px;
-    }
-    .call-timer {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--emerald);
-      margin-top: 4px;
-      display: none;
-    }
+    .caller-name { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; color: #ffffff; text-align: center; }
+    .caller-role { font-size: 11.5px; color: var(--cyan); font-weight: 600; letter-spacing: 0.5px; margin-top: 2px; }
+    .call-status { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-top: 6px; letter-spacing: 0.5px; text-transform: uppercase; text-align: center; }
+    .call-timer { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; color: var(--emerald); margin-top: 4px; display: none; }
 
-    /* Sound Wave Bars */
     .wave-container {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 4px;
-      height: 32px;
-      margin: 14px 0;
+      height: 30px;
+      margin: 12px 0;
       width: 100%;
     }
     .wave-bar {
@@ -264,18 +191,10 @@
       height: 6px;
       background: rgba(0, 240, 255, 0.3);
       border-radius: 4px;
-      transition: height 0.12s ease, background-color 0.2s ease;
+      transition: height 0.12s ease;
     }
-    .active-wave .wave-bar {
-      background: var(--cyan);
-      box-shadow: 0 0 8px var(--cyan);
-      animation: waveDance 1.1s infinite ease-in-out;
-    }
-    .active-wave-listen .wave-bar {
-      background: var(--emerald);
-      box-shadow: 0 0 8px var(--emerald);
-      animation: waveDance 0.75s infinite ease-in-out;
-    }
+    .active-wave .wave-bar { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); animation: waveDance 1.1s infinite ease-in-out; }
+    .active-wave-listen .wave-bar { background: var(--emerald); box-shadow: 0 0 8px var(--emerald); animation: waveDance 0.75s infinite ease-in-out; }
     .wave-bar:nth-child(1) { animation-delay: 0.0s; }
     .wave-bar:nth-child(2) { animation-delay: 0.15s; }
     .wave-bar:nth-child(3) { animation-delay: 0.3s; }
@@ -286,15 +205,34 @@
     .wave-bar:nth-child(8) { animation-delay: 0.3s; }
     .wave-bar:nth-child(9) { animation-delay: 0.15s; }
     .wave-bar:nth-child(10) { animation-delay: 0.0s; }
+    @keyframes waveDance { 0%, 100% { height: 6px; } 50% { height: 26px; } }
 
-    @keyframes waveDance {
-      0%, 100% { height: 6px; }
-      50% { height: 28px; }
+    /* Voice Quality Selector */
+    .voice-selector-box {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .voice-label { font-size: 10.5px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); }
+    .voice-select {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      color: #38bdf8;
+      font-size: 11px;
+      border-radius: 6px;
+      padding: 3px 8px;
+      outline: none;
+      max-width: 220px;
     }
 
-    /* Barge-in Notice Banner */
     .barge-in-tip {
-      font-size: 11px;
+      font-size: 10.5px;
       color: #38bdf8;
       background: rgba(14, 165, 233, 0.1);
       border: 1px solid rgba(14, 165, 233, 0.25);
@@ -306,17 +244,10 @@
       font-family: 'JetBrains Mono', monospace;
     }
 
-    /* Controls */
-    .call-controls {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 18px;
-      width: 100%;
-    }
+    .call-controls { display: flex; align-items: center; justify-content: center; gap: 18px; width: 100%; }
     .circle-btn {
-      width: 50px;
-      height: 50px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       border: 1px solid rgba(255, 255, 255, 0.12);
       background: rgba(255, 255, 255, 0.05);
@@ -329,11 +260,11 @@
     }
     .circle-btn:hover { background: rgba(255, 255, 255, 0.12); transform: scale(1.05); }
     .circle-btn.active { background: rgba(0, 240, 255, 0.2); border-color: var(--cyan); color: var(--cyan); }
-    .circle-btn svg { width: 20px; height: 20px; fill: currentColor; }
+    .circle-btn svg { width: 18px; height: 18px; fill: currentColor; }
 
     .btn-call-main {
-      width: 70px;
-      height: 70px;
+      width: 68px;
+      height: 68px;
       border-radius: 50%;
       border: none;
       background: linear-gradient(135deg, #10b981, #059669);
@@ -353,11 +284,10 @@
     }
     .btn-call-main svg { width: 28px; height: 28px; fill: #ffffff; }
 
-    /* Booking Confirmation Ticket */
     .booking-ticket {
       display: none;
       width: 100%;
-      margin-top: 14px;
+      margin-top: 12px;
       padding: 12px 14px;
       background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 10, 22, 0.95));
       border: 1px solid rgba(16, 185, 129, 0.4);
@@ -369,10 +299,9 @@
     .ticket-id { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 2px 6px; background: rgba(16, 185, 129, 0.2); border-radius: 4px; color: #a7f3d0; }
     .ticket-body { font-size: 11.5px; color: #e2e8f0; line-height: 1.4; }
 
-    /* Spoken Transcript */
     .transcript-box {
       width: 100%;
-      margin-top: 16px;
+      margin-top: 14px;
       background: rgba(6, 10, 22, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 14px;
@@ -389,8 +318,7 @@
     .msg-user { background: linear-gradient(135deg, #0284c7, #0369a1); color: #ffffff; align-self: flex-end; border-bottom-right-radius: 2px; }
     .msg-author { font-size: 9px; font-family: 'JetBrains Mono', monospace; color: var(--cyan); margin-bottom: 2px; }
 
-    /* Quick Prompts */
-    .quick-test-section { width: 100%; margin-top: 12px; }
+    .quick-test-section { width: 100%; margin-top: 10px; }
     .quick-test-title { font-size: 9.5px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; text-align: center; }
     .quick-test-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
     .quick-chip { padding: 7px 9px; border-radius: 8px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--text-muted); font-size: 10.5px; text-align: left; cursor: pointer; transition: all 0.2s; }
@@ -407,24 +335,21 @@
 
   <div class="app-container">
 
-    <!-- TOP HEADER -->
     <header class="brand-header">
       <div class="brand-left">
         <div class="brand-badge">✦</div>
         <div>
           <div class="brand-name">PIXNOVA</div>
-          <div class="brand-sub">24/7 AI RECEPTIONIST</div>
+          <div class="brand-sub">24/7 AI VOICE RECEPTIONIST</div>
         </div>
       </div>
-      <div class="barge-in-badge">
-        ⚡ FULL-DUPLEX BARGE-IN
+      <div class="voice-tag">
+        🎙️ NEURAL VOICE ACTIVE
       </div>
     </header>
 
-    <!-- LIVE PHONE CONSOLE -->
     <main class="phone-card" id="phone-container">
       
-      <!-- AVATAR ORB -->
       <div class="avatar-wrapper" id="avatar-btn" title="Tap to Call Nova">
         <div class="avatar-ring"></div>
         <div class="avatar-orb" id="avatar-orb">
@@ -440,7 +365,6 @@
       <div class="call-status" id="call-status">READY &bull; TAP GREEN BUTTON TO CALL</div>
       <div class="call-timer" id="call-timer">00:00</div>
 
-      <!-- SOUND WAVE BARS -->
       <div class="wave-container" id="wave-container">
         <div class="wave-bar"></div>
         <div class="wave-bar"></div>
@@ -454,11 +378,19 @@
         <div class="wave-bar"></div>
       </div>
 
+      <div class="voice-selector-box">
+        <span class="voice-label">VOICE ENGINE:</span>
+        <select class="voice-select" id="voice-select">
+          <option value="natural-female">Nova (Natural Warm Female)</option>
+          <option value="natural-male">Alex (Natural Executive Male)</option>
+          <option value="expressive">Aura (High-Cadence Neural)</option>
+        </select>
+      </div>
+
       <div class="barge-in-tip">
         🎙️ Interrupt anytime while she is talking — she stops instantly to listen!
       </div>
 
-      <!-- CALL BUTTONS ROW -->
       <div class="call-controls">
         <button class="circle-btn" id="mute-btn" title="Mute Microphone">
           <svg viewBox="0 0 24 24" id="mute-icon">
@@ -480,7 +412,6 @@
         </button>
       </div>
 
-      <!-- CONFIRMED BOOKING TICKET -->
       <div class="booking-ticket" id="booking-ticket">
         <div class="ticket-header">
           <span class="ticket-title">✓ DISCOVERY CALL CONFIRMED</span>
@@ -491,7 +422,6 @@
         </div>
       </div>
 
-      <!-- LIVE TRANSCRIPT -->
       <div class="transcript-box" id="transcript-box">
         <div class="msg-bubble msg-nova">
           <div class="msg-author">NOVA &bull; PIXNOVA CONCIERGE</div>
@@ -499,7 +429,6 @@
         </div>
       </div>
 
-      <!-- QUICK TEST QUESTIONS -->
       <div class="quick-test-section">
         <div class="quick-test-title">Quick Voice Queries (Tap or Speak)</div>
         <div class="quick-test-grid">
@@ -525,16 +454,14 @@
   <script>
     /**
      * ==============================================================================
-     * PIXNOVA FULL-DUPLEX AI VOICE ENGINE
-     * Sub-150ms Groq LPU Core + Instant Barge-In Interruption Detection
+     * PIXNOVA ULTRA-HUMAN VOICE PIPELINE
+     * Sub-150ms Groq LPU Core + Fluent Neural Audio + Full-Duplex Interruption
      * ==============================================================================
      */
 
-    // Groq API Key pre-configured from Hermes / Asura environment
     const GROQ_KEY = "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";
     const NOVA_GREETING = "Hello and welcome to PixNova! I'm Nova, your 24/7 AI voice receptionist. We build high-converting custom websites and deploy intelligent AI voice agents that answer incoming calls for businesses around the clock. Are you looking to build a new website, deploy an AI voice receptionist for your business, or explore our full growth bundle today?";
 
-    // State Variables
     let isCallActive = false;
     let isMuted = false;
     let callTimerInterval = null;
@@ -543,20 +470,20 @@
     let audioCtx = null;
     let isSpeaking = false;
     let isListening = false;
+    let activeUtterance = null;
+
     let conversationHistory = [
       {
         role: "system",
         content: `You are Nova, the elite 24/7 AI voice receptionist for PixNova Digital & AI Agency.
-PixNova builds custom high-performance websites ($499, 48-72h turnaround) and deploys 24/7 AI voice receptionists ($799 setup + $199/mo), plus a Full Growth Bundle ($1,199).
-CRITICAL VOICE RULES:
-1. Speak in a completely natural, warm, consultative human voice. Use conversational bridges like "Got it!", "Oh definitely!", "Sure thing!", "I can help with that."
+PixNova packages: Custom Website ($499, 48-72h turnaround), 24/7 AI Voice Receptionist ($799 setup + $199/mo), Full Growth Bundle ($1,199).
+CRITICAL RULES FOR HUMAN VOICE:
+1. Speak fluently and warmly like a live human receptionist. Use conversational bridges: "Got it!", "Oh definitely!", "Sure thing!", "I can help with that."
 2. NEVER speak in bullet points or robotic lists. Keep every answer under 2-3 short, spoken sentences.
-3. If the user interrupts you or shifts topics, immediately pivot gracefully and answer their new question.
-4. When booking a meeting, confirm the date/time and state that reference code is confirmed.`
+3. If the user interrupts you or shifts topics, pivot immediately and answer their new question.`
       }
     ];
 
-    // DOM Elements
     const mainCallBtn = document.getElementById('main-call-btn');
     const callStatus = document.getElementById('call-status');
     const callTimer = document.getElementById('call-timer');
@@ -568,44 +495,35 @@ CRITICAL VOICE RULES:
     const bookingTicket = document.getElementById('booking-ticket');
     const ticketIdEl = document.getElementById('ticket-id');
     const ticketBodyEl = document.getElementById('ticket-body');
+    const voiceSelect = document.getElementById('voice-select');
 
-    // Speech Recognition Setup with CONTINUOUS LISTENING (Barge-In Capable)
+    // Speech Recognition Setup (Continuous, Barge-in Enabled)
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
     function initSpeechRecognition() {
-      if (!SpeechRecognition) {
-        console.warn("Speech recognition not supported in this browser.");
-        return;
-      }
+      if (!SpeechRecognition) return;
       recognition = new SpeechRecognition();
       recognition.continuous = true;
-      recognition.interimResults = true; // Interim results detect human speech immediately!
+      recognition.interimResults = true;
       recognition.lang = 'en-US';
 
       recognition.onstart = () => {
         isListening = true;
-        if (isCallActive && !isSpeaking) {
-          setUIState('listening');
-        }
+        if (isCallActive && !isSpeaking) setUIState('listening');
       };
 
       recognition.onresult = (event) => {
-        // Detect if speech has started
         for (let i = event.resultIndex; i < event.results.length; ++i) {
           const transcript = event.results[i][0].transcript.trim();
 
-          // ⚡ FULL-DUPLEX BARGE-IN INTERRUPTION LOGIC:
-          // If the AI is speaking and the user says anything longer than 2 characters:
+          // ⚡ FULL-DUPLEX BARGE-IN INTERRUPTION:
           if (isSpeaking && transcript.length > 1) {
-            console.log("⚡ [BARGE-IN] Human interrupted Nova! Halting speech immediately...");
-            // 1. Immediately cancel audio playback
-            if (window.speechSynthesis) window.speechSynthesis.cancel();
-            isSpeaking = false;
+            console.log("⚡ [BARGE-IN] Human interrupted! Cutting audio immediately...");
+            stopSpeakingImmediately();
             setUIState('interrupted');
             callStatus.textContent = 'INTERRUPTED • LISTENING TO YOU...';
           }
 
-          // When the utterance is finalized, process with Groq LLM
           if (event.results[i].isFinal && transcript.length > 1) {
             if (isCallActive) {
               handleIncomingVoice(transcript);
@@ -614,25 +532,28 @@ CRITICAL VOICE RULES:
         }
       };
 
-      recognition.onerror = (e) => {
+      recognition.onerror = () => {
         if (isCallActive && !isMuted) {
-          setTimeout(() => {
-            try { recognition.start(); } catch (err) {}
-          }, 300);
+          setTimeout(() => { try { recognition.start(); } catch (err) {} }, 300);
         }
       };
 
       recognition.onend = () => {
         isListening = false;
         if (isCallActive && !isMuted) {
-          setTimeout(() => {
-            try { recognition.start(); } catch (err) {}
-          }, 200);
+          setTimeout(() => { try { recognition.start(); } catch (err) {} }, 200);
         }
       };
     }
 
-    // Dial Tone Synthesizer
+    function stopSpeakingImmediately() {
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+      isSpeaking = false;
+      activeUtterance = null;
+    }
+
     function playDialTone() {
       try {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -657,19 +578,52 @@ CRITICAL VOICE RULES:
       } catch (e) {}
     }
 
-    // Natural Speech Synthesis with Pitch & Warmth
+    // High-Fidelity Natural Voice Selection (Filters out robotic desktop voices!)
+    function getBestNaturalVoice() {
+      if (!window.speechSynthesis) return null;
+      const voices = window.speechSynthesis.getVoices();
+      if (!voices || voices.length === 0) return null;
+
+      const profile = voiceSelect.value;
+
+      if (profile === 'natural-male') {
+        const maleVoice = voices.find(v => (v.name.includes('Natural') || v.name.includes('Guy') || v.name.includes('Andrew') || v.name.includes('Christopher')) && v.lang.startsWith('en'));
+        if (maleVoice) return maleVoice;
+      }
+
+      // Priority 1: High-Definition Natural Neural Voices (Edge / Chrome Natural)
+      const naturalVoice = voices.find(v => (
+        v.name.includes('Online (Natural)') ||
+        v.name.includes('Jenny') ||
+        v.name.includes('Ava') ||
+        v.name.includes('Emma') ||
+        v.name.includes('Google US English') ||
+        v.name.includes('Samantha') ||
+        v.name.includes('Siri')
+      ) && v.lang.startsWith('en'));
+
+      if (naturalVoice) return naturalVoice;
+
+      // Priority 2: Any English Voice
+      const fallbackVoice = voices.find(v => v.lang.startsWith('en'));
+      return fallbackVoice || voices[0];
+    }
+
+    // Natural Speech Synthesis with Clause Breathing Pauses
     function speakNova(text, onComplete) {
       if (!window.speechSynthesis) return;
-      window.speechSynthesis.cancel();
+      stopSpeakingImmediately();
 
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 1.05;
-      utterance.pitch = 1.08;
+      utterance.rate = 1.04;
+      utterance.pitch = 1.05;
 
-      // Select high quality natural voice
-      const voices = window.speechSynthesis.getVoices();
-      const naturalVoice = voices.find(v => (v.name.includes('Natural') || v.name.includes('Google US English') || v.name.includes('Jenny') || v.name.includes('Samantha') || v.name.includes('Zira')) && v.lang.startsWith('en'));
-      if (naturalVoice) utterance.voice = naturalVoice;
+      const selectedVoice = getBestNaturalVoice();
+      if (selectedVoice) {
+        utterance.voice = selectedVoice;
+      }
+
+      activeUtterance = utterance;
 
       utterance.onstart = () => {
         isSpeaking = true;
@@ -678,10 +632,16 @@ CRITICAL VOICE RULES:
 
       utterance.onend = () => {
         isSpeaking = false;
-        if (isCallActive) {
-          setUIState('listening');
-        }
+        activeUtterance = null;
+        if (isCallActive) setUIState('listening');
         if (onComplete) onComplete();
+      };
+
+      utterance.onerror = (e) => {
+        console.warn("Speech synthesis notice:", e);
+        isSpeaking = false;
+        activeUtterance = null;
+        if (isCallActive) setUIState('listening');
       };
 
       window.speechSynthesis.speak(utterance);
@@ -713,7 +673,6 @@ CRITICAL VOICE RULES:
         return reply;
       } catch (err) {
         console.warn("Groq fallback:", err.message);
-        // Instant smart fallback
         return fallbackHumanBrain(userPrompt);
       }
     }
@@ -748,7 +707,6 @@ CRITICAL VOICE RULES:
       appendTranscript(userText, 'user');
       setUIState('thinking');
 
-      // Call Groq LPU with sub-150ms response
       const reply = await queryGroqLLM(userText);
       appendTranscript(reply, 'nova');
       speakNova(reply);
@@ -774,11 +732,9 @@ CRITICAL VOICE RULES:
         callTimer.style.display = 'block';
         startTimer();
 
-        // Greet caller
         appendTranscript(NOVA_GREETING, 'nova');
         speakNova(NOVA_GREETING);
 
-        // Start listening immediately
         if (recognition) {
           try { recognition.start(); } catch (e) {}
         }
@@ -791,7 +747,7 @@ CRITICAL VOICE RULES:
       callTimerInterval = null;
       callSeconds = 0;
 
-      if (window.speechSynthesis) window.speechSynthesis.cancel();
+      stopSpeakingImmediately();
       if (recognition) {
         try { recognition.stop(); } catch (e) {}
       }
@@ -859,7 +815,6 @@ CRITICAL VOICE RULES:
       }
     }
 
-    // Listeners
     mainCallBtn.addEventListener('click', toggleCall);
     avatarBtn.addEventListener('click', toggleCall);
 
