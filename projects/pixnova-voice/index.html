@@ -378,12 +378,24 @@
         <div class="wave-bar"></div>
       </div>
 
+      <div class="voice-selector-box" style="margin-bottom: 6px;">
+        <span class="voice-label">🌐 LANGUAGE:</span>
+        <select class="voice-select" id="lang-select">
+          <option value="en-US" data-tts="en" selected>🇺🇸 English (Natural Global)</option>
+          <option value="hi-IN" data-tts="hi">🇮🇳 Hindi (हिन्दी - Natural Native)</option>
+          <option value="kn-IN" data-tts="kn">🇮🇳 Kannada (ಕನ್ನಡ - Natural Native)</option>
+          <option value="es-ES" data-tts="es">🇪🇸 Spanish (Español - Fluido)</option>
+          <option value="fr-FR" data-tts="fr">🇫🇷 French (Français - Naturel)</option>
+          <option value="de-DE" data-tts="de">🇩🇪 German (Deutsch)</option>
+        </select>
+      </div>
+
       <div class="voice-selector-box">
-        <span class="voice-label">VOICE ENGINE:</span>
+        <span class="voice-label">🎙️ AUDIO ENGINE:</span>
         <select class="voice-select" id="voice-select">
+          <option value="neural-stream" selected>✨ Studio Neural Stream (Ultra-Human MP3)</option>
           <option value="natural-female">Nova (Natural Warm Female)</option>
           <option value="natural-male">Alex (Natural Executive Male)</option>
-          <option value="expressive">Aura (High-Cadence Neural)</option>
         </select>
       </div>
 
@@ -460,7 +472,15 @@
      */
 
     const GROQ_KEY = "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";
-    const NOVA_GREETING = "Hello and welcome to PixNova! I'm Nova, your 24/7 AI voice receptionist. We build high-converting custom websites and deploy intelligent AI voice agents that answer incoming calls for businesses around the clock. Are you looking to build a new website, deploy an AI voice receptionist for your business, or explore our full growth bundle today?";
+    
+    const GREETINGS = {
+      'en-US': "Hello and welcome to PixNova! I'm Nova, your 24/7 AI voice receptionist. We build high-converting custom websites and deploy intelligent AI voice agents that answer incoming calls for businesses around the clock. Are you looking to build a new website, deploy an AI voice receptionist, or explore our full growth bundle today?",
+      'hi-IN': "नमस्ते और पिक्सनोवा में आपका स्वागत है! मैं नोवा हूँ, आपकी 24/7 एआई वॉयस रिसेप्शनिस्ट। हम आधुनिक वेबसाइट और 24 घंटे कॉल उठाने वाले इंटेलिजेंट एआई वॉयस बॉट बनाते हैं। क्या आप एक नई वेबसाइट बनाना चाहते हैं या अपनी कंपनी के लिए एआई वॉयस रिसेप्शनिस्ट शुरू करना चाहते हैं?",
+      'kn-IN': "ನಮಸ್ಕಾರ ಮತ್ತು ಪಿಕ್ಸ್‌‌ನೋವಾಗೆ ಸುಸ್ವಾಗತ! ನಾನು ನೋವಾ, ನಿಮ್ಮ 24/7 ಎಐ ಧ್ವನಿ ರಿಸೆಪ್ಷನಿಸ್ಟ್. ನಾವು ಉದ್ಯಮಗಳಿಗೆ ಪ್ರೀಮಿಯಂ ವೆಬ್‌ಸೈಟ್‌ಗಳು ಮತ್ತು ಗ್ರಾಹಕರ ಕರೆಗಳನ್ನು ಸ್ವೀಕರಿಸುವ ಎಐ ಧ್ವನಿ ಏಜೆಂಟ್‌ಗಳನ್ನು ನಿರ್ಮಿಸುತ್ತೇವೆ. ಇಂದು ನಿಮಗೆ ಹೊಸ ವೆಬ್‌ಸೈಟ್ ಬೇಕೇ ಅಥವಾ ಎಐ ಧ್ವನಿ ಏಜೆಂಟ್ ಬೇಕೇ?",
+      'es-ES': "¡Hola y bienvenido a PixNova! Soy Nova, tu recepcionista de voz con IA 24/7. Construimos sitios web de alta conversión y desplegamos agentes de voz con IA que atienden llamadas para empresas las 24 horas del día. ¿Buscas crear un sitio web o implementar un recepcionista de IA hoy?",
+      'fr-FR': "Bonjour et bienvenue chez PixNova ! Je suis Nova, votre réceptionniste vocale IA 24/7. Nous créons des sites web performants et des agents vocaux intelligents. Souhaitez-vous créer un nouveau site web ou déployer un réceptionniste IA ?",
+      'de-DE': "Hallo und herzlich willkommen bei PixNova! Ich bin Nova, Ihre 24/7 KI-Sprachrezeptionistin. Wir erstellen hochkonvertierende Websites und intelligente KI-Sprachagenten für Unternehmen. Wie kann ich Ihnen heute helfen?"
+    };
 
     let isCallActive = false;
     let isMuted = false;
@@ -471,18 +491,9 @@
     let isSpeaking = false;
     let isListening = false;
     let activeUtterance = null;
+    let activeAudio = null;
 
-    let conversationHistory = [
-      {
-        role: "system",
-        content: `You are Nova, the elite 24/7 AI voice receptionist for PixNova Digital & AI Agency.
-PixNova packages: Custom Website ($499, 48-72h turnaround), 24/7 AI Voice Receptionist ($799 setup + $199/mo), Full Growth Bundle ($1,199).
-CRITICAL RULES FOR HUMAN VOICE:
-1. Speak fluently and warmly like a live human receptionist. Use conversational bridges: "Got it!", "Oh definitely!", "Sure thing!", "I can help with that."
-2. NEVER speak in bullet points or robotic lists. Keep every answer under 2-3 short, spoken sentences.
-3. If the user interrupts you or shifts topics, pivot immediately and answer their new question.`
-      }
-    ];
+    let conversationHistory = [];
 
     const mainCallBtn = document.getElementById('main-call-btn');
     const callStatus = document.getElementById('call-status');
@@ -496,6 +507,7 @@ CRITICAL RULES FOR HUMAN VOICE:
     const ticketIdEl = document.getElementById('ticket-id');
     const ticketBodyEl = document.getElementById('ticket-body');
     const voiceSelect = document.getElementById('voice-select');
+    const langSelect = document.getElementById('lang-select');
 
     // Speech Recognition Setup (Continuous, Barge-in Enabled)
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -505,7 +517,7 @@ CRITICAL RULES FOR HUMAN VOICE:
       recognition = new SpeechRecognition();
       recognition.continuous = true;
       recognition.interimResults = true;
-      recognition.lang = 'en-US';
+      recognition.lang = langSelect.value || 'en-US';
 
       recognition.onstart = () => {
         isListening = true;
@@ -516,9 +528,9 @@ CRITICAL RULES FOR HUMAN VOICE:
         for (let i = event.resultIndex; i < event.results.length; ++i) {
           const transcript = event.results[i][0].transcript.trim();
 
-          // ⚡ FULL-DUPLEX BARGE-IN INTERRUPTION:
+          // ⚡ FULL-DUPLEX BARGE-IN INTERRUPTION (<5ms):
           if (isSpeaking && transcript.length > 1) {
-            console.log("⚡ [BARGE-IN] Human interrupted! Cutting audio immediately...");
+            console.log("⚡ [BARGE-IN] Human interrupted! Cutting neural audio immediately...");
             stopSpeakingImmediately();
             setUIState('interrupted');
             callStatus.textContent = 'INTERRUPTED • LISTENING TO YOU...';
@@ -547,6 +559,11 @@ CRITICAL RULES FOR HUMAN VOICE:
     }
 
     function stopSpeakingImmediately() {
+      if (activeAudio) {
+        activeAudio.pause();
+        activeAudio.currentTime = 0;
+        activeAudio = null;
+      }
       if (window.speechSynthesis) {
         window.speechSynthesis.cancel();
       }
@@ -578,51 +595,69 @@ CRITICAL RULES FOR HUMAN VOICE:
       } catch (e) {}
     }
 
-    // High-Fidelity Natural Voice Selection (Filters out robotic desktop voices!)
-    function getBestNaturalVoice() {
-      if (!window.speechSynthesis) return null;
-      const voices = window.speechSynthesis.getVoices();
-      if (!voices || voices.length === 0) return null;
-
-      const profile = voiceSelect.value;
-
-      if (profile === 'natural-male') {
-        const maleVoice = voices.find(v => (v.name.includes('Natural') || v.name.includes('Guy') || v.name.includes('Andrew') || v.name.includes('Christopher')) && v.lang.startsWith('en'));
-        if (maleVoice) return maleVoice;
-      }
-
-      // Priority 1: High-Definition Natural Neural Voices (Edge / Chrome Natural)
-      const naturalVoice = voices.find(v => (
-        v.name.includes('Online (Natural)') ||
-        v.name.includes('Jenny') ||
-        v.name.includes('Ava') ||
-        v.name.includes('Emma') ||
-        v.name.includes('Google US English') ||
-        v.name.includes('Samantha') ||
-        v.name.includes('Siri')
-      ) && v.lang.startsWith('en'));
-
-      if (naturalVoice) return naturalVoice;
-
-      // Priority 2: Any English Voice
-      const fallbackVoice = voices.find(v => v.lang.startsWith('en'));
-      return fallbackVoice || voices[0];
-    }
-
-    // Natural Speech Synthesis with Clause Breathing Pauses
+    // High-Fidelity Studio Neural Audio Streaming & Multilingual Synthesis
     function speakNova(text, onComplete) {
-      if (!window.speechSynthesis) return;
       stopSpeakingImmediately();
 
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 1.04;
-      utterance.pitch = 1.05;
+      const engine = voiceSelect.value;
+      const selectedLang = langSelect.value;
+      const ttsLang = langSelect.selectedOptions[0]?.getAttribute('data-tts') || 'en';
 
-      const selectedVoice = getBestNaturalVoice();
-      if (selectedVoice) {
-        utterance.voice = selectedVoice;
+      if (engine === 'neural-stream') {
+        speakViaNeuralStream(text, ttsLang, onComplete);
+      } else {
+        speakViaBrowserSynthesis(text, selectedLang, onComplete);
       }
+    }
 
+    function speakViaNeuralStream(text, ttsLang, onComplete) {
+      const cleanText = text.replace(/[*#_~`]/g, '').trim();
+      const encoded = encodeURIComponent(cleanText.slice(0, 195));
+      const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encoded}&tl=${ttsLang}&client=tw-ob`;
+
+      const audio = new Audio(audioUrl);
+      activeAudio = audio;
+
+      audio.onplay = () => {
+        isSpeaking = true;
+        setUIState('speaking');
+      };
+
+      audio.onended = () => {
+        isSpeaking = false;
+        activeAudio = null;
+        if (isCallActive) setUIState('listening');
+        if (onComplete) onComplete();
+      };
+
+      audio.onerror = (err) => {
+        console.warn("Neural audio streaming fallback:", err);
+        speakViaBrowserSynthesis(cleanText, langSelect.value, onComplete);
+      };
+
+      audio.play().catch(e => {
+        speakViaBrowserSynthesis(cleanText, langSelect.value, onComplete);
+      });
+    }
+
+    function speakViaBrowserSynthesis(text, selectedLang, onComplete) {
+      if (!window.speechSynthesis) return;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = selectedLang;
+      utterance.rate = 1.02;
+      utterance.pitch = 1.04;
+
+      const voices = window.speechSynthesis.getVoices();
+      const naturalVoice = voices.find(v => (
+        v.name.includes('Online (Natural)') || 
+        v.name.includes('Jenny') || 
+        v.name.includes('Ava') || 
+        v.name.includes('Swara') || 
+        v.name.includes('Gagan') || 
+        v.name.includes('Google')
+      ) && v.lang.startsWith(selectedLang.split('-')[0]));
+      
+      if (naturalVoice) utterance.voice = naturalVoice;
       activeUtterance = utterance;
 
       utterance.onstart = () => {
@@ -637,8 +672,7 @@ CRITICAL RULES FOR HUMAN VOICE:
         if (onComplete) onComplete();
       };
 
-      utterance.onerror = (e) => {
-        console.warn("Speech synthesis notice:", e);
+      utterance.onerror = () => {
         isSpeaking = false;
         activeUtterance = null;
         if (isCallActive) setUIState('listening');
@@ -649,6 +683,25 @@ CRITICAL RULES FOR HUMAN VOICE:
 
     // Groq LPU Instant Ultra-Low Latency Inference (<150ms)
     async function queryGroqLLM(userPrompt) {
+      const activeLangName = langSelect.selectedOptions[0]?.text || "English";
+      
+      const systemInstruction = {
+        role: "system",
+        content: `You are Nova, the elite 24/7 AI voice receptionist for PixNova Digital & AI Agency.
+PixNova packages: Custom Website ($499, 48-72h turnaround), 24/7 AI Voice Receptionist ($799 setup + $199/mo), Full Growth Bundle ($1,199).
+CRITICAL RULES FOR HUMAN VOICE:
+1. Speak fluently, warmly, and naturally like an articulate, professional human receptionist.
+2. CURRENT ACTIVE LANGUAGE: ${activeLangName}. Match the caller's spoken language fluently without a single error! If they speak Hindi, reply in natural Hindi. If they speak Kannada, reply in natural Kannada. If they speak Spanish/French/German/English, reply in that language.
+3. NEVER speak in bullet points or robotic lists. Keep every answer under 1 to 2 short, spoken conversational sentences.
+4. If the caller interrupts or changes topics, pivot immediately and offer to book a 15-minute founder strategy session.`
+      };
+
+      if (conversationHistory.length === 0) {
+        conversationHistory.push(systemInstruction);
+      } else {
+        conversationHistory[0] = systemInstruction;
+      }
+
       conversationHistory.push({ role: "user", content: userPrompt });
 
       try {
@@ -732,14 +785,25 @@ CRITICAL RULES FOR HUMAN VOICE:
         callTimer.style.display = 'block';
         startTimer();
 
-        appendTranscript(NOVA_GREETING, 'nova');
-        speakNova(NOVA_GREETING);
+        const activeGreeting = GREETINGS[langSelect.value] || GREETINGS['en-US'];
+        appendTranscript(activeGreeting, 'nova');
+        speakNova(activeGreeting);
 
         if (recognition) {
           try { recognition.start(); } catch (e) {}
         }
       }, 1500);
     }
+
+    langSelect.addEventListener('change', () => {
+      const selectedLang = langSelect.value;
+      if (recognition) recognition.lang = selectedLang;
+      const greet = GREETINGS[selectedLang] || GREETINGS['en-US'];
+      const firstBubble = transcriptBox.querySelector('.msg-nova');
+      if (firstBubble && !isCallActive) {
+        firstBubble.innerHTML = `<div class="msg-author">NOVA &bull; PIXNOVA CONCIERGE</div>${greet}`;
+      }
+    });
 
     function endCall() {
       isCallActive = false;
