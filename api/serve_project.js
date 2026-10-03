@@ -807,6 +807,24 @@ export default async function handler(req, res) {
           res.setHeader('Content-Type', 'text/html; charset=utf-8');
           res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0');
           return res.status(200).send(html);
+        } else if (data.sha) {
+          // File > 1MB: GitHub Contents API returns sha without content. Fetch from blobs API.
+          const blobRes = await fetch(`https://api.github.com/repos/${REPO}/git/blobs/${data.sha}`, {
+            headers: {
+              'Authorization': `Bearer ${GITHUB_TOKEN}`,
+              'User-Agent': 'ASURA-Edge',
+              'Accept': 'application/vnd.github.v3+json'
+            }
+          });
+          if (blobRes.status === 200) {
+            const blobData = await blobRes.json();
+            if (blobData.content) {
+              const html = Buffer.from(blobData.content, 'base64').toString('utf8');
+              res.setHeader('Content-Type', 'text/html; charset=utf-8');
+              res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0');
+              return res.status(200).send(html);
+            }
+          }
         }
       }
     } catch (e) {}
