@@ -1,0 +1,2163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Logio // Cargo Transportation Solutions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    :root {
+      --bg: #0a0d14;
+      --bg-darker: #06080d;
+      --bg-card: #10151f;
+      --yellow: #ebb036;
+      --yellow-bright: #f5ba38;
+      --yellow-glow: rgba(235, 176, 54, 0.35);
+      --text-white: #ffffff;
+      --text-muted: #8e99a8;
+      --text-sub: #657183;
+      --border: rgba(255, 255, 255, 0.1);
+      --border-light: rgba(255, 255, 255, 0.18);
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Syne', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-white);
+      font-family: var(--font-main);
+      overflow-x: hidden;
+      width: 100vw;
+      min-height: 100vh;
+      line-height: 1.4;
+      cursor: default;
+    }
+
+    /* Custom Cursor */
+    .custom-cursor-follower {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+      z-index: 99999;
+    }
+
+    .custom-cursor-dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 8px;
+      height: 8px;
+      background-color: var(--yellow);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 100000;
+      transition: transform 0.15s ease, background-color 0.25s ease;
+    }
+
+    .cursor-hover .custom-cursor-follower {
+      width: 54px;
+      height: 54px;
+      border-color: var(--yellow);
+      background-color: rgba(235, 176, 54, 0.12);
+    }
+
+    /* Header Nav */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(24px, 5vw, 64px);
+      z-index: 1000;
+      background: linear-gradient(180deg, rgba(10, 13, 20, 0.85) 0%, rgba(10, 13, 20, 0) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      font-size: clamp(22px, 2.2vw, 26px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      text-decoration: none;
+      color: var(--text-white);
+    }
+
+    .brand-logo .dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--yellow);
+      margin-left: 2px;
+      margin-bottom: -1px;
+    }
+
+    .nav-center-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      transition: transform 0.25s ease;
+    }
+
+    .nav-center-menu:hover {
+      transform: scale(1.1);
+    }
+
+    .nav-center-menu span {
+      display: block;
+      width: 32px;
+      height: 2px;
+      background-color: var(--text-white);
+      border-radius: 2px;
+      transition: background-color 0.25s ease, width 0.25s ease;
+    }
+
+    .nav-center-menu:hover span {
+      background-color: var(--yellow);
+      width: 38px;
+    }
+
+    .btn-talk {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--yellow);
+      color: #0b0e14;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 12px 28px;
+      border-radius: 9999px;
+      text-decoration: none;
+      transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 4px 20px var(--yellow-glow);
+    }
+
+    .btn-talk:hover {
+      background-color: var(--yellow-bright);
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 30px rgba(235, 176, 54, 0.5);
+    }
+
+    /* Fixed WebGL Truck Canvas Container */
+    #truck-viewport {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 10;
+      transition: opacity 0.5s ease;
+    }
+
+    #truck-viewport canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      position: relative;
+      width: 100vw;
+      min-height: 100vh;
+      padding: 130px clamp(24px, 5vw, 64px) 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 20;
+    }
+
+    .hero-top-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 40px;
+      position: relative;
+      z-index: 30;
+    }
+
+    .hero-headline {
+      font-size: clamp(2.8rem, 6.2vw, 5.8rem);
+      font-weight: 800;
+      line-height: 1.04;
+      letter-spacing: -0.04em;
+      max-width: 900px;
+    }
+
+    .hero-headline .highlight {
+      color: var(--yellow);
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero-subtext-container {
+      max-width: 320px;
+      padding-top: 18px;
+    }
+
+    .hero-subtext {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.65;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    /* Giant Watermark */
+    .watermark-logistics {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-display);
+      font-size: clamp(6rem, 18vw, 19rem);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.07);
+      user-select: none;
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 5;
+    }
+
+    .hero-bottom-spacer {
+      height: 40vh;
+    }
+
+    /* Intermediate Solutions Section */
+    .solutions-section {
+      position: relative;
+      width: 100vw;
+      min-height: 80vh;
+      padding: 100px clamp(24px, 5vw, 64px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      z-index: 20;
+    }
+
+    .solutions-left {
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .solutions-p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.7;
+      letter-spacing: -0.01em;
+    }
+
+    .circle-arrow-btn {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border-light);
+      background: transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-white);
+      text-decoration: none;
+      font-size: 20px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .circle-arrow-btn:hover {
+      border-color: var(--yellow);
+      background-color: var(--yellow);
+      color: #000;
+      transform: scale(1.1);
+    }
+
+    .solutions-right {
+      max-width: 620px;
+      text-align: right;
+    }
+
+    .solutions-headline {
+      font-size: clamp(2.2rem, 4.5vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+    }
+
+    .badge-solve {
+      display: inline-block;
+      background-color: var(--yellow);
+      color: #0b0e14;
+      padding: 0.05em 0.35em;
+      border-radius: 8px;
+      margin: 0 4px;
+    }
+
+    /* Experience Section (3D Truck 3/4 Rear Quarter View) */
+    .experience-section {
+      position: relative;
+      width: 100vw;
+      min-height: 90vh;
+      padding: 120px clamp(24px, 5vw, 64px) 100px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+      z-index: 20;
+    }
+
+    .stat-block {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-number {
+      font-size: clamp(5.5rem, 11vw, 10rem);
+      font-weight: 800;
+      color: var(--yellow);
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      margin-bottom: 12px;
+    }
+
+    .stat-label {
+      font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--text-white);
+    }
+
+    .experience-right {
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    .experience-p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .btn-learn-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 30px;
+      border-radius: 9999px;
+      border: 1.5px solid var(--border-light);
+      background: transparent;
+      color: var(--text-white);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      transition: all 0.3s ease;
+    }
+
+    .btn-learn-more:hover {
+      border-color: var(--yellow);
+      color: var(--yellow);
+      background: rgba(235, 176, 54, 0.08);
+      transform: translateX(4px);
+    }
+
+    .btn-learn-more svg {
+      transition: transform 0.3s ease;
+    }
+
+    .btn-learn-more:hover svg {
+      transform: translateX(6px);
+    }
+
+    /* Section 3: Capsules Showcase */
+    .capsules-section {
+      position: relative;
+      width: 100vw;
+      min-height: 100vh;
+      padding: 120px clamp(20px, 4vw, 54px);
+      overflow: hidden;
+      z-index: 30;
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg-darker) 100%);
+    }
+
+    .capsules-watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-display);
+      font-size: clamp(7rem, 20vw, 22rem);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.06);
+      user-select: none;
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 1;
+    }
+
+    .capsules-grid {
+      position: relative;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(16px, 2.2vw, 32px);
+      max-width: 1560px;
+      margin: 0 auto;
+      align-items: center;
+    }
+
+    .capsule-card {
+      position: relative;
+      height: clamp(480px, 64vh, 720px);
+      border-radius: 9999px;
+      overflow: hidden;
+      background-color: var(--bg-card);
+      border: 2px solid rgba(255, 255, 255, 0.08);
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+    }
+
+    .capsule-card:hover {
+      transform: translateY(-16px) scale(1.02);
+      border-color: var(--yellow);
+      box-shadow: 0 20px 50px rgba(235, 176, 54, 0.22);
+    }
+
+    .capsule-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+      filter: brightness(0.92) contrast(1.05);
+    }
+
+    .capsule-card:hover .capsule-image {
+      transform: scale(1.1);
+      filter: brightness(1.02) contrast(1.08);
+    }
+
+    .capsule-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(10, 13, 20, 0.1) 0%, rgba(10, 13, 20, 0.6) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: clamp(24px, 3vw, 40px) clamp(16px, 2vw, 24px);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: all 0.35s ease;
+      text-align: center;
+    }
+
+    .capsule-card:hover .capsule-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .capsule-tag {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 6px;
+    }
+
+    .capsule-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+
+    /* Section 4: Interactive Services Hover List */
+    .services-section {
+      position: relative;
+      width: 100vw;
+      padding: 140px clamp(24px, 5vw, 64px) 120px;
+      z-index: 30;
+      background-color: var(--bg);
+    }
+
+    .services-header {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 70px;
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background-color: var(--yellow);
+      color: #0b0e14;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      box-shadow: 0 10px 30px var(--yellow-glow);
+      transition: transform 0.3s ease;
+    }
+
+    .pill-badge:hover {
+      transform: scale(1.08) rotate(5deg);
+    }
+
+    .services-list {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--border);
+    }
+
+    .service-row {
+      position: relative;
+      display: grid;
+      grid-template-columns: 80px 1fr 60px;
+      align-items: center;
+      padding: clamp(36px, 5vw, 60px) 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text-white);
+      transition: all 0.35s ease;
+      cursor: pointer;
+    }
+
+    .service-row:hover {
+      border-bottom-color: rgba(235, 176, 54, 0.4);
+    }
+
+    .service-index {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: color 0.3s ease;
+    }
+
+    .service-row:hover .service-index {
+      color: var(--yellow);
+    }
+
+    .service-main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+    }
+
+    .service-sub {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.01em;
+      transition: color 0.3s ease;
+    }
+
+    .service-title {
+      font-size: clamp(2.4rem, 5.5vw, 4.8rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      transition: color 0.3s ease, transform 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .service-row:hover .service-title {
+      color: var(--yellow);
+      transform: translateX(12px);
+    }
+
+    .service-arrow {
+      display: flex;
+      justify-content: flex-end;
+      color: var(--text-white);
+      transition: all 0.3s ease;
+    }
+
+    .service-row:hover .service-arrow {
+      color: var(--yellow);
+      transform: translateX(12px) scale(1.15);
+    }
+
+    /* Floating 3D Truck Service Hover Preview */
+    .service-truck-preview {
+      position: absolute;
+      right: 120px;
+      top: 50%;
+      transform: translateY(-50%) scale(0.85);
+      width: 260px;
+      height: 140px;
+      border-radius: 18px;
+      background: radial-gradient(circle, rgba(235, 176, 54, 0.15) 0%, rgba(16, 21, 31, 0.95) 80%);
+      border: 1.5px solid rgba(235, 176, 54, 0.3);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 30px var(--yellow-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+      z-index: 50;
+    }
+
+    .service-row:hover .service-truck-preview {
+      opacity: 1;
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    .service-truck-preview canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Section 5: Client Feedback Testimonials */
+    .feedback-section {
+      position: relative;
+      width: 100vw;
+      padding: 120px clamp(24px, 5vw, 64px);
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg-darker) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      z-index: 30;
+    }
+
+    .feedback-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 24px;
+      border-radius: 9999px;
+      background-color: var(--yellow);
+      color: #0b0e14;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      margin-bottom: 48px;
+    }
+
+    .feedback-quote {
+      font-size: clamp(1.4rem, 2.6vw, 2.4rem);
+      font-weight: 500;
+      line-height: 1.45;
+      letter-spacing: -0.02em;
+      color: var(--text-white);
+      max-width: 1080px;
+      margin-bottom: 36px;
+    }
+
+    .feedback-author {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .feedback-stars {
+      color: var(--yellow);
+      font-size: 22px;
+      letter-spacing: 6px;
+      margin-bottom: 40px;
+    }
+
+    .feedback-nav-arrows {
+      display: flex;
+      gap: 16px;
+    }
+
+    .feedback-nav-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border-light);
+      background: transparent;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 18px;
+    }
+
+    .feedback-nav-btn:hover,
+    .feedback-nav-btn.active {
+      border-color: var(--yellow);
+      background-color: var(--yellow);
+      color: #000;
+      transform: scale(1.08);
+    }
+
+    /* Section 6: 3D Shipping Container Showcase */
+    .container-showcase-section {
+      position: relative;
+      width: 100vw;
+      min-height: 110vh;
+      padding: 120px clamp(24px, 5vw, 64px) 80px;
+      background-color: var(--bg-darker);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      overflow: hidden;
+      z-index: 30;
+    }
+
+    .container-top-header {
+      width: 100%;
+      max-width: 1300px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      z-index: 40;
+    }
+
+    .container-headline {
+      font-size: clamp(2.4rem, 4.8vw, 4.6rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+    }
+
+    .container-headline .yellow-text {
+      color: var(--yellow);
+    }
+
+    .quote-badge-btn {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      background-color: var(--yellow);
+      color: #0b0e14;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      box-shadow: 0 10px 30px var(--yellow-glow);
+      transition: transform 0.3s ease;
+    }
+
+    .quote-badge-btn:hover {
+      transform: scale(1.1) rotate(-6deg);
+    }
+
+    /* Dedicated 3D Container Stage */
+    .container-stage-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 1400px;
+      height: clamp(380px, 55vh, 600px);
+      margin: 40px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #container-canvas-box {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      z-index: 20;
+    }
+
+    .giant-container-word {
+      position: absolute;
+      bottom: -15%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 16vw, 17rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: #ffffff;
+      z-index: 10;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0.95;
+    }
+
+    /* Section 7: Footer & Interactive Contact Links */
+    .footer-section {
+      position: relative;
+      width: 100vw;
+      background-color: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 120px clamp(24px, 5vw, 64px) 40px;
+      z-index: 30;
+    }
+
+    .footer-links-wrapper {
+      max-width: 1300px;
+      margin: 0 auto 100px;
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-action-link {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: clamp(36px, 5vw, 64px) 0;
+      border-bottom: 1.5px solid var(--border);
+      text-decoration: none;
+      color: var(--text-white);
+      transition: all 0.35s ease;
+    }
+
+    .footer-action-left {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      line-height: 1.5;
+      max-width: 180px;
+      transition: color 0.3s ease;
+    }
+
+    .footer-action-title {
+      font-size: clamp(2.8rem, 6.5vw, 6.2rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .footer-action-arrow {
+      font-size: clamp(2rem, 4vw, 3.8rem);
+      color: var(--text-white);
+      transition: all 0.3s ease;
+    }
+
+    .footer-action-link:hover .footer-action-title {
+      color: var(--yellow);
+      transform: translateX(16px);
+    }
+
+    .footer-action-link:hover .footer-action-left {
+      color: var(--yellow);
+    }
+
+    .footer-action-link:hover .footer-action-arrow {
+      color: var(--yellow);
+      transform: translateX(16px) scale(1.1);
+    }
+
+    .footer-action-link:hover {
+      border-bottom-color: var(--yellow);
+    }
+
+    /* 4-Column Directory Grid */
+    .footer-directory {
+      max-width: 1300px;
+      margin: 0 auto 80px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+    }
+
+    .directory-col h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-white);
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .directory-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .directory-col a,
+    .directory-col p {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      line-height: 1.6;
+      transition: color 0.25s ease;
+    }
+
+    .directory-col a:hover {
+      color: var(--yellow);
+    }
+
+    .email-link {
+      text-decoration: underline !important;
+      color: var(--text-white) !important;
+    }
+
+    .phone-text {
+      font-size: 18px !important;
+      font-weight: 700 !important;
+      color: var(--text-white) !important;
+    }
+
+    /* Legal Bottom Bar */
+    .footer-legal-bar {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+
+    .footer-legal-bar a {
+      color: var(--text-sub);
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+
+    .footer-legal-bar a:hover {
+      color: var(--yellow);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .capsules-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .capsule-card {
+        height: 480px;
+      }
+      .footer-directory {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-top-row {
+        flex-direction: column;
+        gap: 20px;
+      }
+      .solutions-section {
+        flex-direction: column-reverse;
+        text-align: left;
+      }
+      .solutions-right {
+        text-align: left;
+      }
+      .experience-section {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .capsules-grid {
+        grid-template-columns: 1fr;
+      }
+      .capsule-card {
+        height: 420px;
+      }
+      .service-row {
+        grid-template-columns: 50px 1fr 40px;
+      }
+      .footer-directory {
+        grid-template-columns: 1fr;
+      }
+      .footer-legal-bar {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="custom-cursor-follower" id="cursorFollower"></div>
+  <div class="custom-cursor-dot" id="cursorDot"></div>
+
+  <!-- Header Nav -->
+  <header class="header">
+    <a href="#" class="brand-logo">
+      logio<span class="dot"></span>
+    </a>
+
+    <button class="nav-center-menu" aria-label="Open Navigation Menu">
+      <span></span>
+      <span></span>
+    </button>
+
+    <a href="#footer" class="btn-talk">LET'S TALK</a>
+  </header>
+
+  <!-- Pinned Three.js WebGL Truck Stage -->
+  <div id="truck-viewport">
+    <canvas id="truck-canvas"></canvas>
+  </div>
+
+  <!-- Main Container -->
+  <main>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="hero-top-row">
+        <h1 class="hero-headline">
+          Transport <span class="highlight">solutions</span><br>
+          for your business
+        </h1>
+        <div class="hero-subtext-container">
+          <p class="hero-subtext">
+            We Continue To Pursue That Same Vision In Today's Complex, Uncertain World, Working Every Day To Earn Our Customers'
+          </p>
+        </div>
+      </div>
+
+      <!-- Giant Outlined Watermark -->
+      <div class="watermark-logistics">LOGISTICS</div>
+
+      <div class="hero-bottom-spacer"></div>
+    </section>
+
+    <!-- Intermediate Delivery Solutions Section -->
+    <section class="solutions-section" id="solutions">
+      <div class="solutions-left">
+        <p class="solutions-p">
+          Logistics Is The Process Of Efficiently Moving Goods From Point A To Point B. Success Demands Minute Attention To Detail, From Packaging To Warehousing To Transportation.
+        </p>
+        <a href="#services" class="circle-arrow-btn" aria-label="Explore logistics services">
+          →
+        </a>
+      </div>
+
+      <div class="solutions-right">
+        <h2 class="solutions-headline">
+          Transport Solutions<br>
+          For Businesses To<br>
+          <span class="badge-solve">Solve</span> Any Delivery<br>
+          Problems
+        </h2>
+      </div>
+    </section>
+
+    <!-- Section 2: Experience & Turn (13+ Years Service) -->
+    <section class="experience-section" id="experience">
+      <div class="stat-block">
+        <span class="stat-number">13+</span>
+        <span class="stat-label">Years Service<br>Experienced</span>
+      </div>
+
+      <div class="experience-right">
+        <p class="experience-p">
+          Logistical Best Practices Vary Depending On The Nature Of The Business And Its Product Decisions, But The Process Is Always Complex. Automation Is Key To Efficiency.
+        </p>
+        <a href="#services" class="btn-learn-more">
+          Learn More
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- Section 3: Capsules Showcase -->
+    <section class="capsules-section" id="capsules">
+      <div class="capsules-watermark">LOGISTICS</div>
+
+      <div class="capsules-grid">
+        <!-- Capsule 1 -->
+        <div class="capsule-card">
+          <img src="./assets/capsule_1_port_truck.webp" alt="Container Port Terminal Fleet" class="capsule-image">
+          <div class="capsule-overlay">
+            <span class="capsule-tag">PORT TERMINAL</span>
+            <span class="capsule-title">Volvo Intermodal Transport</span>
+          </div>
+        </div>
+
+        <!-- Capsule 2 -->
+        <div class="capsule-card">
+          <img src="./assets/capsule_2_container.webp" alt="Yellow ISO Shipping Container" class="capsule-image">
+          <div class="capsule-overlay">
+            <span class="capsule-tag">ISO CONTAINER</span>
+            <span class="capsule-title">45G1 High-Cube Steel Unit</span>
+          </div>
+        </div>
+
+        <!-- Capsule 3 -->
+        <div class="capsule-card">
+          <img src="./assets/capsule_3_aerial_cab.webp" alt="Highway Logistics Fleet" class="capsule-image">
+          <div class="capsule-overlay">
+            <span class="capsule-tag">AERIAL FLEET</span>
+            <span class="capsule-title">Highway Freight Express</span>
+          </div>
+        </div>
+
+        <!-- Capsule 4 -->
+        <div class="capsule-card">
+          <img src="./assets/capsule_4_highway_truck.webp" alt="Heavy Cargo Transit Haulage" class="capsule-image">
+          <div class="capsule-overlay">
+            <span class="capsule-tag">ROAD HAULAGE</span>
+            <span class="capsule-title">Long-Distance Cargo Transit</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Interactive Services Hover List -->
+    <section class="services-section" id="services">
+      <div class="services-header">
+        <div class="pill-badge">Services</div>
+      </div>
+
+      <div class="services-list">
+        <!-- Row 01 -->
+        <a href="#container" class="service-row">
+          <span class="service-index">01</span>
+          <div class="service-main-content">
+            <span class="service-sub">We Make It Easy To Find Storage Solutions With Shipping Container</span>
+            <span class="service-title">Container</span>
+          </div>
+          <span class="service-arrow">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </span>
+        </a>
+
+        <!-- Row 02 with 3D Truck Hover Preview -->
+        <a href="#experience" class="service-row" id="roadFreightRow">
+          <span class="service-index">02</span>
+          <div class="service-main-content">
+            <span class="service-sub">Road Transportation Has A Crucial Role</span>
+            <span class="service-title">Road Freight</span>
+
+            <!-- Floating 3D Truck Preview -->
+            <div class="service-truck-preview" id="previewBox">
+              <canvas id="preview-truck-canvas"></canvas>
+            </div>
+          </div>
+          <span class="service-arrow">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </span>
+        </a>
+
+        <!-- Row 03 -->
+        <a href="#hero" class="service-row">
+          <span class="service-index">03</span>
+          <div class="service-main-content">
+            <span class="service-sub">Enterprise Truck Rental Offers Pickups, Cargo Vans & Box Trucks</span>
+            <span class="service-title">Truck</span>
+          </div>
+          <span class="service-arrow">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Section 5: Client Feedback Testimonials -->
+    <section class="feedback-section" id="feedback">
+      <div class="feedback-badge">Clients Feedback</div>
+
+      <blockquote class="feedback-quote" id="feedbackQuote">
+        “Logisti team is the best of the best, and expertly trained team members who take the extra step and go the extra mile, all to fulfill our dedicated promise to deliver innovative and dynamic solutions to our customers”
+      </blockquote>
+
+      <div class="feedback-author" id="feedbackAuthor">Disney Company</div>
+      <div class="feedback-stars">★★★★★</div>
+
+      <div class="feedback-nav-arrows">
+        <button class="feedback-nav-btn" id="prevFeedback" aria-label="Previous Testimonial">←</button>
+        <button class="feedback-nav-btn active" id="nextFeedback" aria-label="Next Testimonial">→</button>
+      </div>
+    </section>
+
+    <!-- Section 6: 3D Shipping Container Showcase -->
+    <section class="container-showcase-section" id="container">
+      <div class="container-top-header">
+        <h2 class="container-headline">
+          Safe & Reliable<br>
+          <span class="yellow-text">Logistics</span> Support
+        </h2>
+        <a href="#footer" class="quote-badge-btn">
+          Get<br>Quote
+        </a>
+      </div>
+
+      <!-- Dedicated 3D Three.js Container Stage -->
+      <div class="container-stage-wrapper">
+        <div id="container-canvas-box">
+          <canvas id="container-canvas"></canvas>
+        </div>
+        <div class="giant-container-word" id="containerTextParallax">Container</div>
+      </div>
+    </section>
+
+    <!-- Section 7: Interactive CTA & Logistics Footer -->
+    <footer class="footer-section" id="footer">
+      <div class="footer-links-wrapper">
+        <a href="#footer" class="footer-action-link">
+          <span class="footer-action-left">Get In Touch<br>With Us</span>
+          <span class="footer-action-title">Contact Us</span>
+          <span class="footer-action-arrow">→</span>
+        </a>
+
+        <a href="#footer" class="footer-action-link">
+          <span class="footer-action-left">Send Your<br>Requirement For<br>Quotation</span>
+          <span class="footer-action-title">Get Quote</span>
+          <span class="footer-action-arrow">→</span>
+        </a>
+      </div>
+
+      <!-- 4 Column Directory -->
+      <div class="footer-directory">
+        <!-- Col 1 -->
+        <div class="directory-col">
+          <h4>Start a Conversation</h4>
+          <ul>
+            <li><p class="phone-text">(316) 555-0116</p></li>
+            <li><a href="mailto:logis@mail.com" class="email-link">logis@mail.com</a></li>
+            <li><a href="https://maps.google.com" target="_blank" rel="noopener">Google Map</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 2 -->
+        <div class="directory-col">
+          <h4>Service</h4>
+          <ul>
+            <li><a href="#services">Air Freight</a></li>
+            <li><a href="#services">Truck Freight</a></li>
+            <li><a href="#services">Rail Freight</a></li>
+            <li><a href="#services">Warehouse Logistics</a></li>
+            <li><a href="#services">Ocean Freight</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3 -->
+        <div class="directory-col">
+          <h4>Address</h4>
+          <ul>
+            <li><p>4517 Washington Ave<br>Manchester, Kentucky<br>39495</p></li>
+          </ul>
+        </div>
+
+        <!-- Col 4 -->
+        <div class="directory-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#hero">About</a></li>
+            <li><a href="#hero">Team & Career</a></li>
+            <li><a href="#hero">Industry Solutions</a></li>
+            <li><a href="#footer">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Legal Bottom Bar -->
+      <div class="footer-legal-bar">
+        <a href="#">Terms of Service</a>
+        <span>Copyright © 2024 Logio // All rights reserved</span>
+        <a href="#">Privacy & Policy</a>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- JavaScript Application Logic -->
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* -------------------------------------------------------------
+       1. Custom Smooth Lag Cursor
+    ------------------------------------------------------------- */
+    const cursorFollower = document.getElementById('cursorFollower');
+    const cursorDot = document.getElementById('cursorDot');
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let followerX = mouseX;
+    let followerY = mouseY;
+    let dotX = mouseX;
+    let dotY = mouseY;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animateCursor() {
+      followerX += (mouseX - followerX) * 0.14;
+      followerY += (mouseY - followerY) * 0.14;
+      dotX += (mouseX - dotX) * 0.35;
+      dotY += (mouseY - dotY) * 0.35;
+
+      cursorFollower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0) translate(-50%, -50%)`;
+      cursorDot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%, -50%)`;
+
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Hover scale trigger
+    const interactiveElements = document.querySelectorAll('a, button, .capsule-card, .service-row, .btn-talk, .pill-badge');
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
+
+    /* -------------------------------------------------------------
+       2. Dynamic Procedural High-Res Texture Canvas Generators
+    ------------------------------------------------------------- */
+    function createSideContainerTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 2048;
+      canvas.height = 1024;
+      const ctx = canvas.getContext('2d');
+
+      // Base Industrial Yellow
+      ctx.fillStyle = '#ebb036';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Vertical corrugated ribs gradient
+      const ribWidth = 24;
+      for (let x = 0; x < canvas.width; x += ribWidth) {
+        const grad = ctx.createLinearGradient(x, 0, x + ribWidth, 0);
+        grad.addColorStop(0, 'rgba(0, 0, 0, 0.08)');
+        grad.addColorStop(0.5, 'rgba(255, 255, 255, 0.09)');
+        grad.addColorStop(1, 'rgba(0, 0, 0, 0.12)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(x, 0, ribWidth, canvas.height);
+      }
+
+      // Top & Bottom structural rails
+      ctx.fillStyle = '#d49b29';
+      ctx.fillRect(0, 0, canvas.width, 36);
+      ctx.fillRect(0, canvas.height - 36, canvas.width, 36);
+
+      // Structural steel rivets
+      ctx.fillStyle = '#7a540f';
+      for (let x = 12; x < canvas.width; x += 36) {
+        ctx.beginPath();
+        ctx.arc(x, 18, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x, canvas.height - 18, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Bold Typography: "Logistic"
+      ctx.fillStyle = '#0b0e14';
+      ctx.font = '900 150px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('Logistic', 180, 480);
+
+      // Subtitle: "Safe & Reliable Cargo Solutions"
+      ctx.font = '800 38px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('Safe & Reliable', 1400, 260);
+      ctx.fillText('Cargo Solutions', 1400, 310);
+
+      // Technical Cargo Specification Markings
+      ctx.font = '600 20px monospace';
+      ctx.fillStyle = 'rgba(11, 14, 20, 0.65)';
+      ctx.fillText('CONTAINER NO: LGO-884291', 180, 720);
+      ctx.fillText('MAX GROSS WT: 30,480 KG / 67,200 LBS', 180, 755);
+      ctx.fillText('TARE WT: 3,700 KG / 8,160 LBS', 180, 790);
+      ctx.fillText('NET CARGO: 26,780 KG / 59,040 LBS', 180, 825);
+
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.wrapS = THREE.ClampToEdgeWrapping;
+      texture.wrapT = THREE.ClampToEdgeWrapping;
+      return texture;
+    }
+
+    function createRearDoorTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1024;
+      canvas.height = 1024;
+      const ctx = canvas.getContext('2d');
+
+      // Yellow Background
+      ctx.fillStyle = '#ebb036';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Vertical corrugated ribs
+      const ribWidth = 20;
+      for (let x = 0; x < canvas.width; x += ribWidth) {
+        const grad = ctx.createLinearGradient(x, 0, x + ribWidth, 0);
+        grad.addColorStop(0, 'rgba(0, 0, 0, 0.1)');
+        grad.addColorStop(0.5, 'rgba(255, 255, 255, 0.08)');
+        grad.addColorStop(1, 'rgba(0, 0, 0, 0.12)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(x, 0, ribWidth, canvas.height);
+      }
+
+      // Vertical door seam split in center
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(canvas.width / 2 - 4, 0, 8, canvas.height);
+
+      // Outer door rubber weather seals
+      ctx.fillStyle = '#101217';
+      ctx.fillRect(0, 0, 18, canvas.height);
+      ctx.fillRect(canvas.width - 18, 0, 18, canvas.height);
+      ctx.fillRect(0, 0, canvas.width, 18);
+      ctx.fillRect(0, canvas.height - 18, canvas.width, 18);
+
+      // Left door text: "Transport"
+      ctx.fillStyle = '#0b0e14';
+      ctx.font = '900 68px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('Transport', 60, 240);
+
+      // Right door text: "Transport"
+      ctx.fillText('Transport', 560, 240);
+
+      // Technical placards
+      ctx.font = '700 24px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('Logistics', 760, 310);
+      ctx.font = '600 28px monospace';
+      ctx.fillText('1000', 60, 360);
+      ctx.font = '600 20px monospace';
+      ctx.fillText('Logistic', 680, 680);
+
+      const texture = new THREE.CanvasTexture(canvas);
+      return texture;
+    }
+
+    function createGroundShadowTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+
+      const grad = ctx.createRadialGradient(256, 256, 40, 256, 256, 240);
+      grad.addColorStop(0, 'rgba(0, 0, 0, 0.85)');
+      grad.addColorStop(0.45, 'rgba(0, 0, 0, 0.55)');
+      grad.addColorStop(0.8, 'rgba(0, 0, 0, 0.15)');
+      grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 512, 512);
+
+      const texture = new THREE.CanvasTexture(canvas);
+      return texture;
+    }
+
+    /* -------------------------------------------------------------
+       3. Build 3D Yellow Semi-Truck Group
+    ------------------------------------------------------------- */
+    function buildDetailedTruckModel() {
+      const truck = new THREE.Group();
+
+      // Materials
+      const yellowPaintMat = new THREE.MeshStandardMaterial({
+        color: 0xebb036,
+        roughness: 0.28,
+        metalness: 0.15
+      });
+
+      const darkSteelMat = new THREE.MeshStandardMaterial({
+        color: 0x161a22,
+        roughness: 0.45,
+        metalness: 0.7
+      });
+
+      const chromeMat = new THREE.MeshStandardMaterial({
+        color: 0xd8e0ea,
+        roughness: 0.12,
+        metalness: 0.95
+      });
+
+      const rubberMat = new THREE.MeshStandardMaterial({
+        color: 0x121417,
+        roughness: 0.9,
+        metalness: 0.05
+      });
+
+      const glassMat = new THREE.MeshStandardMaterial({
+        color: 0x090c12,
+        roughness: 0.05,
+        metalness: 0.95,
+        transparent: true,
+        opacity: 0.92
+      });
+
+      const headlightMat = new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        emissive: 0xfff0c0,
+        emissiveIntensity: 1.8,
+        roughness: 0.1
+      });
+
+      const taillightMat = new THREE.MeshStandardMaterial({
+        color: 0xff1122,
+        emissive: 0xff1122,
+        emissiveIntensity: 1.4,
+        roughness: 0.15
+      });
+
+      // --- Chassis Steel Beams ---
+      const chassisGeo = new THREE.BoxGeometry(9.6, 0.28, 1.3);
+      const chassis = new THREE.Mesh(chassisGeo, darkSteelMat);
+      chassis.position.set(-0.2, 0.22, 0);
+      truck.add(chassis);
+
+      // --- Fuel Tanks (Left & Right) ---
+      const tankGeo = new THREE.CylinderGeometry(0.38, 0.38, 2.2, 24);
+      const tankL = new THREE.Mesh(tankGeo, chromeMat);
+      tankL.rotation.z = Math.PI / 2;
+      tankL.position.set(0.6, 0.15, 0.95);
+      truck.add(tankL);
+
+      const tankR = new THREE.Mesh(tankGeo, chromeMat);
+      tankR.rotation.z = Math.PI / 2;
+      tankR.position.set(0.6, 0.15, -0.95);
+      truck.add(tankR);
+
+      // --- Wheels & Axles Function ---
+      function createWheel(x, z, isDual) {
+        const wheelGroup = new THREE.Group();
+        wheelGroup.position.set(x, 0.02, z);
+
+        if (!isDual) {
+          // Single Steer Wheel
+          const tireGeo = new THREE.CylinderGeometry(0.58, 0.58, 0.42, 28);
+          const tire = new THREE.Mesh(tireGeo, rubberMat);
+          tire.rotation.x = Math.PI / 2;
+          wheelGroup.add(tire);
+
+          const rimGeo = new THREE.CylinderGeometry(0.36, 0.36, 0.44, 24);
+          const rim = new THREE.Mesh(rimGeo, chromeMat);
+          rim.rotation.x = Math.PI / 2;
+          wheelGroup.add(rim);
+
+          const hubGeo = new THREE.CylinderGeometry(0.12, 0.12, 0.46, 16);
+          const hub = new THREE.Mesh(hubGeo, darkSteelMat);
+          hub.rotation.x = Math.PI / 2;
+          wheelGroup.add(hub);
+        } else {
+          // Tandem Dual Wheels
+          const tireGeo = new THREE.CylinderGeometry(0.58, 0.58, 0.34, 28);
+          const rimGeo = new THREE.CylinderGeometry(0.36, 0.36, 0.36, 24);
+
+          // Outer Wheel
+          const tireOut = new THREE.Mesh(tireGeo, rubberMat);
+          tireOut.rotation.x = Math.PI / 2;
+          tireOut.position.z = z > 0 ? 0.22 : -0.22;
+          wheelGroup.add(tireOut);
+
+          const rimOut = new THREE.Mesh(rimGeo, chromeMat);
+          rimOut.rotation.x = Math.PI / 2;
+          rimOut.position.z = z > 0 ? 0.22 : -0.22;
+          wheelGroup.add(rimOut);
+
+          // Inner Wheel
+          const tireIn = new THREE.Mesh(tireGeo, rubberMat);
+          tireIn.rotation.x = Math.PI / 2;
+          tireIn.position.z = z > 0 ? -0.2 : 0.2;
+          wheelGroup.add(tireIn);
+
+          const rimIn = new THREE.Mesh(rimGeo, chromeMat);
+          rimIn.rotation.x = Math.PI / 2;
+          rimIn.position.z = z > 0 ? -0.2 : 0.2;
+          wheelGroup.add(rimIn);
+        }
+
+        truck.add(wheelGroup);
+      }
+
+      // Front Steer Axle (x = 3.6)
+      createWheel(3.6, 1.05, false);
+      createWheel(3.6, -1.05, false);
+
+      // Rear Tandem Axle 1 (x = -2.1)
+      createWheel(-2.1, 0.95, true);
+      createWheel(-2.1, -0.95, true);
+
+      // Rear Tandem Axle 2 (x = -3.7)
+      createWheel(-3.7, 0.95, true);
+      createWheel(-3.7, -0.95, true);
+
+      // Under-chassis spare tire
+      const spareGeo = new THREE.CylinderGeometry(0.56, 0.56, 0.38, 24);
+      const spareTire = new THREE.Mesh(spareGeo, rubberMat);
+      spareTire.position.set(-0.9, 0.1, 0);
+      truck.add(spareTire);
+
+      // --- Cab Body (Front Cab-Over European Styling) ---
+      const cabGroup = new THREE.Group();
+      cabGroup.position.set(3.4, 1.45, 0);
+
+      // Main Cab Cube
+      const cabMain = new THREE.Mesh(new THREE.BoxGeometry(2.3, 2.3, 2.2), yellowPaintMat);
+      cabGroup.add(cabMain);
+
+      // Aerodynamic Sleeper Roof Fairing
+      const roofFairing = new THREE.Mesh(new THREE.BoxGeometry(2.25, 0.7, 2.1), yellowPaintMat);
+      roofFairing.position.set(0, 1.35, 0);
+      cabGroup.add(roofFairing);
+
+      // Windshield (Front Slanted Gloss Glass)
+      const windshield = new THREE.Mesh(new THREE.BoxGeometry(0.08, 1.15, 2.05), glassMat);
+      windshield.position.set(1.13, 0.42, 0);
+      cabGroup.add(windshield);
+
+      // Side Windows
+      const sideWindowL = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.85, 0.08), glassMat);
+      sideWindowL.position.set(0.35, 0.42, 1.08);
+      cabGroup.add(sideWindowL);
+
+      const sideWindowR = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.85, 0.08), glassMat);
+      sideWindowR.position.set(0.35, 0.42, -1.08);
+      cabGroup.add(sideWindowR);
+
+      // Front Radiator Grille
+      const grille = new THREE.Mesh(new THREE.BoxGeometry(0.12, 1.25, 1.6), darkSteelMat);
+      grille.position.set(1.12, -0.45, 0);
+      cabGroup.add(grille);
+
+      // Dual Headlights
+      const hlL = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.28, 0.42), headlightMat);
+      hlL.position.set(1.12, -0.65, 0.75);
+      cabGroup.add(hlL);
+
+      const hlR = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.28, 0.42), headlightMat);
+      hlR.position.set(1.12, -0.65, -0.75);
+      cabGroup.add(hlR);
+
+      // Front Aerodynamic Bumper
+      const bumper = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.45, 2.3), darkSteelMat);
+      bumper.position.set(1.15, -1.05, 0);
+      cabGroup.add(bumper);
+
+      // Side Mirrors
+      const mirrorL = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.6, 0.15), yellowPaintMat);
+      mirrorL.position.set(1.05, 0.55, 1.28);
+      cabGroup.add(mirrorL);
+
+      const mirrorR = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.6, 0.15), yellowPaintMat);
+      mirrorR.position.set(1.05, 0.55, -1.28);
+      cabGroup.add(mirrorR);
+
+      truck.add(cabGroup);
+
+      // --- Trailer Cargo Container Box ---
+      const containerGroup = new THREE.Group();
+      containerGroup.position.set(-1.0, 1.85, 0);
+
+      // Container Dimensions: Length 6.9, Height 3.1, Width 2.35
+      const sideTex = createSideContainerTexture();
+      const rearTex = createRearDoorTexture();
+
+      const containerMaterials = [
+        yellowPaintMat,                          // Front Face (x+)
+        new THREE.MeshStandardMaterial({         // Rear Face Doors (x-)
+          map: rearTex,
+          roughness: 0.35,
+          metalness: 0.15
+        }),
+        yellowPaintMat,                          // Top Roof (y+)
+        darkSteelMat,                            // Bottom Under (y-)
+        new THREE.MeshStandardMaterial({         // Left Side Face (z+)
+          map: sideTex,
+          roughness: 0.3,
+          metalness: 0.12
+        }),
+        new THREE.MeshStandardMaterial({         // Right Side Face (z-)
+          map: sideTex,
+          roughness: 0.3,
+          metalness: 0.12
+        })
+      ];
+
+      const containerBox = new THREE.Mesh(
+        new THREE.BoxGeometry(6.9, 3.1, 2.35),
+        containerMaterials
+      );
+      containerGroup.add(containerBox);
+
+      // Vertical 3D Steel Locking Rods on Rear Doors
+      const rodGeo = new THREE.CylinderGeometry(0.038, 0.038, 3.0, 16);
+      const rodL = new THREE.Mesh(rodGeo, chromeMat);
+      rodL.position.set(-3.48, 0, 0.48);
+      containerGroup.add(rodL);
+
+      const rodR = new THREE.Mesh(rodGeo, chromeMat);
+      rodR.position.set(-3.48, 0, -0.48);
+      containerGroup.add(rodR);
+
+      // Cam Handles on Rods
+      const handleGeo = new THREE.BoxGeometry(0.12, 0.1, 0.28);
+      const handleL = new THREE.Mesh(handleGeo, chromeMat);
+      handleL.position.set(-3.5, -0.3, 0.48);
+      containerGroup.add(handleL);
+
+      const handleR = new THREE.Mesh(handleGeo, chromeMat);
+      handleR.position.set(-3.5, -0.3, -0.48);
+      containerGroup.add(handleR);
+
+      // Rear Crash Bar with Red LED Taillights
+      const rearBumper = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.3, 2.35), darkSteelMat);
+      rearBumper.position.set(-3.52, -1.45, 0);
+      containerGroup.add(rearBumper);
+
+      const tlL = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.16, 0.55), taillightMat);
+      tlL.position.set(-3.64, -1.45, 0.72);
+      containerGroup.add(tlL);
+
+      const tlR = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.16, 0.55), taillightMat);
+      tlR.position.set(-3.64, -1.45, -0.72);
+      containerGroup.add(tlR);
+
+      truck.add(containerGroup);
+
+      // --- Ground Shadow Plane ---
+      const shadowGeo = new THREE.PlaneGeometry(13.5, 6.0);
+      const shadowMat = new THREE.MeshBasicMaterial({
+        map: createGroundShadowTexture(),
+        transparent: true,
+        opacity: 0.82,
+        depthWrite: false
+      });
+      const groundShadow = new THREE.Mesh(shadowGeo, shadowMat);
+      groundShadow.rotation.x = -Math.PI / 2;
+      groundShadow.position.set(-0.2, -0.42, 0);
+      truck.add(groundShadow);
+
+      return truck;
+    }
+
+    /* -------------------------------------------------------------
+       4. Initialize Main Three.js Scene (Truck Viewport)
+    ------------------------------------------------------------- */
+    const truckCanvas = document.getElementById('truck-canvas');
+    const truckViewport = document.getElementById('truck-viewport');
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(36, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 1.2, 13.5);
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas: truckCanvas,
+      alpha: true,
+      antialias: true,
+      powerPreference: 'high-performance'
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // Studio Lighting
+    const ambientLight = new THREE.AmbientLight(0x283040, 1.5);
+    scene.add(ambientLight);
+
+    const keyLight = new THREE.DirectionalLight(0xfff5e4, 2.2);
+    keyLight.position.set(12, 16, 14);
+    scene.add(keyLight);
+
+    const fillLight = new THREE.DirectionalLight(0x7292b5, 0.9);
+    fillLight.position.set(-10, 8, 10);
+    scene.add(fillLight);
+
+    const rimLight = new THREE.DirectionalLight(0xf5ba38, 1.8);
+    rimLight.position.set(-8, 10, -12);
+    scene.add(rimLight);
+
+    // Build & Add Truck
+    const masterTruck = buildDetailedTruckModel();
+    // Default hero orientation: profile view (slightly tilted towards viewer)
+    masterTruck.position.set(0, -0.65, 0);
+    masterTruck.rotation.y = 0.04;
+    scene.add(masterTruck);
+
+    // Mouse Tracking Parallax State
+    let mouseNormX = 0;
+    let mouseNormY = 0;
+    window.addEventListener('mousemove', (e) => {
+      mouseNormX = (e.clientX / window.innerWidth) - 0.5;
+      mouseNormY = (e.clientY / window.innerHeight) - 0.5;
+    });
+
+    // Resize handler
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    /* -------------------------------------------------------------
+       5. ScrollTrigger Synchronized 3D Truck Turntable & Motion
+    ------------------------------------------------------------- */
+    const scrollAnimation = {
+      rotY: 0.04,
+      posY: -0.65,
+      posX: 0,
+      scale: 1,
+      opacity: 1
+    };
+
+    // Hero -> Solutions -> Experience turntable timeline
+    const truckTL = gsap.timeline({
+      scrollTrigger: {
+        trigger: 'body',
+        start: 'top top',
+        end: () => document.getElementById('capsules').offsetTop,
+        scrub: 1.2
+      }
+    });
+
+    truckTL
+      // From Hero to Solutions (slight turn and lift)
+      .to(scrollAnimation, {
+        rotY: -0.55,
+        posY: -0.3,
+        posX: 0.4,
+        scale: 0.96,
+        ease: 'power2.inOut',
+        duration: 1
+      })
+      // From Solutions to Experience Section (smooth turn to 3/4 rear-left quarter perspective)
+      .to(scrollAnimation, {
+        rotY: -2.35,  // Exact 3/4 rear quarter view showing container doors & locking rods
+        posY: 0.55,
+        posX: -0.5,
+        scale: 0.98,
+        ease: 'power2.inOut',
+        duration: 1.5
+      })
+      // Entering Capsules section: Fade out cleanly
+      .to(scrollAnimation, {
+        opacity: 0,
+        posY: 2.2,
+        ease: 'power2.in',
+        duration: 0.6
+      });
+
+    // Render loop with lerping mouse tracking
+    let curTiltX = 0;
+    let curTiltY = 0;
+
+    function renderMainScene() {
+      // Lerp mouse parallax
+      curTiltX += (mouseNormY * 0.12 - curTiltX) * 0.06;
+      curTiltY += (mouseNormX * 0.22 - curTiltY) * 0.06;
+
+      masterTruck.rotation.y = scrollAnimation.rotY + curTiltY;
+      masterTruck.rotation.x = curTiltX;
+      masterTruck.position.y = scrollAnimation.posY;
+      masterTruck.position.x = scrollAnimation.posX;
+      masterTruck.scale.setScalar(scrollAnimation.scale);
+
+      truckViewport.style.opacity = scrollAnimation.opacity;
+      if (scrollAnimation.opacity <= 0.01) {
+        truckViewport.style.visibility = 'hidden';
+      } else {
+        truckViewport.style.visibility = 'visible';
+      }
+
+      renderer.render(scene, camera);
+      requestAnimationFrame(renderMainScene);
+    }
+    renderMainScene();
+
+    /* -------------------------------------------------------------
+       6. Section 4: Mini 3D Truck Service Hover Preview
+    ------------------------------------------------------------- */
+    const previewCanvas = document.getElementById('preview-truck-canvas');
+    if (previewCanvas) {
+      const pScene = new THREE.Scene();
+      const pCamera = new THREE.PerspectiveCamera(38, 260 / 140, 0.1, 50);
+      pCamera.position.set(0, 0.8, 8.5);
+
+      const pRenderer = new THREE.WebGLRenderer({
+        canvas: previewCanvas,
+        alpha: true,
+        antialias: true
+      });
+      pRenderer.setSize(260, 140);
+      pRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      // Lighting for preview
+      pScene.add(new THREE.AmbientLight(0xffffff, 1.4));
+      const pDir = new THREE.DirectionalLight(0xfff0c0, 2.0);
+      pDir.position.set(5, 8, 6);
+      pScene.add(pDir);
+
+      const previewTruck = buildDetailedTruckModel();
+      previewTruck.scale.setScalar(0.55);
+      previewTruck.position.set(0, -0.3, 0);
+      previewTruck.rotation.y = -0.7;
+      pScene.add(previewTruck);
+
+      function renderPreview() {
+        previewTruck.rotation.y += 0.015;
+        pRenderer.render(pScene, pCamera);
+        requestAnimationFrame(renderPreview);
+      }
+      renderPreview();
+    }
+
+    /* -------------------------------------------------------------
+       7. Section 5: Client Feedback Slider Logic
+    ------------------------------------------------------------- */
+    const testimonials = [
+      {
+        quote: "“Logisti team is the best of the best, and expertly trained team members who take the extra step and go the extra mile, all to fulfill our dedicated promise to deliver innovative and dynamic solutions to our customers”",
+        author: "Disney Company"
+      },
+      {
+        quote: "“Unmatched precision in temperature-controlled cargo and intermodal terminal transfers. Logio reduced our inter-state freight transit times by 38% with zero safety incidents.”",
+        author: "Tesla Supply Chain Global"
+      },
+      {
+        quote: "“From heavy industrial container shipping to real-time telemetry across highway corridors, Logio sets the gold standard in intelligent enterprise transportation.”",
+        author: "Apex Automotive Freight"
+      }
+    ];
+
+    let currentTestimonial = 0;
+    const quoteEl = document.getElementById('feedbackQuote');
+    const authorEl = document.getElementById('feedbackAuthor');
+    const prevBtn = document.getElementById('prevFeedback');
+    const nextBtn = document.getElementById('nextFeedback');
+
+    function updateTestimonial(index) {
+      gsap.to([quoteEl, authorEl], {
+        opacity: 0,
+        y: -10,
+        duration: 0.25,
+        onComplete: () => {
+          quoteEl.textContent = testimonials[index].quote;
+          authorEl.textContent = testimonials[index].author;
+          gsap.to([quoteEl, authorEl], {
+            opacity: 1,
+            y: 0,
+            duration: 0.35,
+            ease: 'power2.out'
+          });
+        }
+      });
+    }
+
+    if (prevBtn && nextBtn) {
+      prevBtn.addEventListener('click', () => {
+        currentTestimonial = (currentTestimonial - 1 + testimonials.length) % testimonials.length;
+        updateTestimonial(currentTestimonial);
+      });
+      nextBtn.addEventListener('click', () => {
+        currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+        updateTestimonial(currentTestimonial);
+      });
+    }
+
+    /* -------------------------------------------------------------
+       8. Section 6: Dedicated 3D Yellow Shipping Container Stage
+    ------------------------------------------------------------- */
+    const containerCanvas = document.getElementById('container-canvas');
+    if (containerCanvas) {
+      const cBox = document.getElementById('container-canvas-box');
+      const cScene = new THREE.Scene();
+      const cCamera = new THREE.PerspectiveCamera(36, cBox.clientWidth / cBox.clientHeight, 0.1, 100);
+      cCamera.position.set(0, 1.2, 11.5);
+
+      const cRenderer = new THREE.WebGLRenderer({
+        canvas: containerCanvas,
+        alpha: true,
+        antialias: true
+      });
+      cRenderer.setSize(cBox.clientWidth, cBox.clientHeight);
+      cRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      // Studio Lighting
+      cScene.add(new THREE.AmbientLight(0x283040, 1.6));
+      const cKey = new THREE.DirectionalLight(0xfff5e4, 2.4);
+      cKey.position.set(10, 14, 12);
+      cScene.add(cKey);
+
+      const cRim = new THREE.DirectionalLight(0xf5ba38, 1.8);
+      cRim.position.set(-8, 8, -10);
+      cScene.add(cRim);
+
+      // 3D Shipping Container Construction
+      const containerObj = new THREE.Group();
+
+      const cYellowMat = new THREE.MeshStandardMaterial({
+        color: 0xebb036,
+        roughness: 0.28,
+        metalness: 0.18
+      });
+
+      const cChromeMat = new THREE.MeshStandardMaterial({
+        color: 0xdde4ec,
+        roughness: 0.15,
+        metalness: 0.95
+      });
+
+      const cDarkSteelMat = new THREE.MeshStandardMaterial({
+        color: 0x141820,
+        roughness: 0.45,
+        metalness: 0.8
+      });
+
+      const cSideTex = createSideContainerTexture();
+      const cRearTex = createRearDoorTexture();
+
+      const cMaterials = [
+        cYellowMat,
+        new THREE.MeshStandardMaterial({ map: cRearTex, roughness: 0.35, metalness: 0.15 }),
+        cYellowMat,
+        cDarkSteelMat,
+        new THREE.MeshStandardMaterial({ map: cSideTex, roughness: 0.3, metalness: 0.12 }),
+        new THREE.MeshStandardMaterial({ map: cSideTex, roughness: 0.3, metalness: 0.12 })
+      ];
+
+      // 40ft High Cube Container Proportions (Length 7.8, Height 3.4, Width 2.6)
+      const cMesh = new THREE.Mesh(new THREE.BoxGeometry(7.8, 3.4, 2.6), cMaterials);
+      containerObj.add(cMesh);
+
+      // Steel Locking Door Hardware
+      const cRodGeo = new THREE.CylinderGeometry(0.045, 0.045, 3.3, 16);
+      const cRod1 = new THREE.Mesh(cRodGeo, cChromeMat);
+      cRod1.position.set(-3.94, 0, 0.55);
+      containerObj.add(cRod1);
+
+      const cRod2 = new THREE.Mesh(cRodGeo, cChromeMat);
+      cRod2.position.set(-3.94, 0, -0.55);
+      containerObj.add(cRod2);
+
+      // 4 Corner Castings (Top/Bottom structural steel corners)
+      const castingGeo = new THREE.BoxGeometry(0.32, 0.32, 0.32);
+      const cornerPositions = [
+        [3.9, 1.7, 1.3], [3.9, 1.7, -1.3], [3.9, -1.7, 1.3], [3.9, -1.7, -1.3],
+        [-3.9, 1.7, 1.3], [-3.9, 1.7, -1.3], [-3.9, -1.7, 1.3], [-3.9, -1.7, -1.3]
+      ];
+      cornerPositions.forEach(pos => {
+        const casting = new THREE.Mesh(castingGeo, cDarkSteelMat);
+        casting.position.set(...pos);
+        containerObj.add(casting);
+      });
+
+      // Ground shadow
+      const cShadow = new THREE.Mesh(
+        new THREE.PlaneGeometry(12, 6),
+        new THREE.MeshBasicMaterial({
+          map: createGroundShadowTexture(),
+          transparent: true,
+          opacity: 0.85
+        })
+      );
+      cShadow.rotation.x = -Math.PI / 2;
+      cShadow.position.set(0, -1.72, 0);
+      containerObj.add(cShadow);
+
+      containerObj.position.set(0, 0, 0);
+      containerObj.rotation.y = -0.55; // Angled 3D perspective
+      cScene.add(containerObj);
+
+      // Parallax on scroll for container section
+      gsap.to(containerObj.rotation, {
+        y: -1.05,
+        scrollTrigger: {
+          trigger: '#container',
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.2
+        }
+      });
+
+      // Parallax for giant "Container" text
+      const containerText = document.getElementById('containerTextParallax');
+      if (containerText) {
+        gsap.to(containerText, {
+          y: -80,
+          scrollTrigger: {
+            trigger: '#container',
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1.5
+          }
+        });
+      }
+
+      function renderContainer() {
+        // Subtle floating tilt
+        containerObj.rotation.x = curTiltX * 0.5;
+        cRenderer.render(cScene, cCamera);
+        requestAnimationFrame(renderContainer);
+      }
+      renderContainer();
+
+      window.addEventListener('resize', () => {
+        if (cBox && cBox.clientWidth && cBox.clientHeight) {
+          cCamera.aspect = cBox.clientWidth / cBox.clientHeight;
+          cCamera.updateProjectionMatrix();
+          cRenderer.setSize(cBox.clientWidth, cBox.clientHeight);
+        }
+      });
+    }
+
+    console.log('✓ Logio Logistics 3D interactive web system initialized.');
+  </script>
+</body>
+</html>
