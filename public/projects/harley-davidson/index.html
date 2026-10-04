@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HARLEY-DAVIDSON // LEAN INTO IT — Apex Custom Cafe Racer</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            harleyRed: '#ea3826',
+            harleyOrange: '#f25a2b',
+            darkBg: '#0a0b0d',
+            darkSurface: '#121317'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Rajdhani:wght@500;600;700;800&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- External Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-dark: #0a0b0d;
+      --bg-surface: #121317;
+      --accent-red: #ea3826;
+      --accent-orange: #f25a2b;
+      --font-display: 'Teko', 'Bebas Neue', sans-serif;
+      --font-tech: 'Rajdhani', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background-color: var(--bg-dark);
+      color: #ffffff;
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background: var(--accent-red);
+      color: #fff;
+    }
+
+    .font-display { font-family: var(--font-display); }
+    .font-tech { font-family: var(--font-tech); }
+    .font-body { font-family: var(--font-body); }
+
+    /* Vintage Stamp Badges */
+    .badge-stamp {
+      border: 1.5px solid rgba(255, 255, 255, 0.28);
+      border-radius: 9999px;
+      padding: 6px 14px;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+      font-family: var(--font-tech);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      background: rgba(18, 19, 23, 0.65);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      user-select: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .badge-stamp:hover {
+      border-color: var(--accent-red);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(234, 56, 38, 0.25);
+    }
+
+    .badge-circle {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      border: 1px dashed rgba(255, 255, 255, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: rgba(18, 19, 23, 0.55);
+      backdrop-filter: blur(8px);
+      transition: transform 0.5s ease;
+    }
+    .badge-circle:hover {
+      transform: rotate(15deg) scale(1.05);
+      border-color: var(--accent-red);
+    }
+
+    /* Distressed Hero Typography */
+    .hero-grunge-text {
+      font-family: var(--font-display);
+      font-size: clamp(5.5rem, 16vw, 17.5rem);
+      line-height: 0.85;
+      letter-spacing: 0.02em;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--accent-red);
+      text-align: center;
+      position: relative;
+      user-select: none;
+      filter: drop-shadow(0 15px 35px rgba(234, 56, 38, 0.4));
+      background: linear-gradient(180deg, #f84f3c 0%, #d83020 70%, #9e1f13 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Loft Window Grid & Warm Sunlight */
+    /* Loft Window Grid & Warm Sunlight */
+    .loft-backdrop {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1;
+      background: 
+        radial-gradient(circle at 22% 38%, rgba(245, 158, 11, 0.35) 0%, rgba(245, 158, 11, 0.1) 40%, transparent 70%),
+        linear-gradient(180deg, rgba(10, 11, 13, 0.45) 0%, rgba(10, 11, 13, 0.6) 60%, #0a0b0d 100%),
+        url('./assets/loft_warehouse_windows.jpg') center center / cover no-repeat;
+    }
+
+    .loft-window-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 85%;
+      pointer-events: none;
+      opacity: 0.25;
+      background-image: 
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.15) 0px, rgba(255, 255, 255, 0.15) 2px, transparent 2px, transparent 75px),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.15) 0px, rgba(255, 255, 255, 0.15) 2px, transparent 2px, transparent 110px);
+      mask-image: radial-gradient(ellipse at 30% 40%, black 40%, transparent 85%);
+      -webkit-mask-image: radial-gradient(ellipse at 30% 40%, black 40%, transparent 85%);
+    }
+
+    /* Wet Floor Reflection Gradient */
+    .wet-floor-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 35vh;
+      background: linear-gradient(0deg, #0a0b0d 0%, rgba(10, 11, 13, 0.75) 45%, transparent 100%);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    /* Acrylic Glass Cards */
+    .glass-card {
+      background: rgba(17, 19, 24, 0.78);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+    .glass-card:hover {
+      border-color: rgba(234, 56, 38, 0.5);
+    }
+
+    /* Center Cursor "SCROLL" Indicator */
+    #cursor-scroll-badge {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: rgba(14, 16, 20, 0.65);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-tech);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #ffffff;
+      pointer-events: none;
+      z-index: 60;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 12px rgba(255, 255, 255, 0.1);
+      transition: border-color 0.2s ease, opacity 0.3s ease, transform 0.08s ease-out;
+    }
+    #cursor-scroll-badge.active-hover {
+      border-color: var(--accent-red);
+      transform: translate(-50%, -50%) scale(1.15);
+      background: rgba(234, 56, 38, 0.25);
+    }
+
+    /* Vertical Scroll Progress Bar */
+    .scroll-track {
+      position: fixed;
+      right: 28px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 2px;
+      height: 180px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 2px;
+      z-index: 50;
+    }
+    .scroll-indicator-thumb {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.8), 0 0 20px var(--accent-red);
+      transition: top 0.1s linear;
+    }
+
+    /* Hotspot Annotation Pin */
+    .hotspot-pin {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      pointer-events: auto;
+      cursor: pointer;
+      z-index: 25;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .hotspot-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.25), 0 0 16px var(--accent-red);
+      position: relative;
+    }
+    .hotspot-dot::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      animation: hotspotPulse 2.2s infinite ease-out;
+    }
+    @keyframes hotspotPulse {
+      0% { transform: scale(0.6); opacity: 1; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+    .hotspot-line {
+      height: 1px;
+      width: 44px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.6), transparent);
+    }
+    .hotspot-label {
+      font-family: var(--font-tech);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.88);
+      background: rgba(14, 16, 20, 0.75);
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(8px);
+      white-space: nowrap;
+    }
+
+    /* Floor Watermark */
+    .floor-watermark {
+      position: absolute;
+      bottom: 24px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 5vw;
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 7vw, 7rem);
+      letter-spacing: 0.14em;
+      color: rgba(255, 255, 255, 0.05);
+      text-transform: uppercase;
+      pointer-events: none;
+      user-select: none;
+      z-index: 4;
+      transition: color 1s ease;
+    }
+
+    /* 3D Main Canvas */
+    #threejs-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      outline: none;
+    }
+
+    /* Blueprint 99 Intro Curtain */
+    #blueprint-curtain {
+      position: fixed;
+      inset: 0;
+      background: #111215;
+      z-index: 90;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 4vh 5vw;
+      transition: transform 0.85s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.7s ease;
+    }
+    #blueprint-curtain.opened {
+      transform: translateY(-110%);
+      opacity: 0;
+      pointer-events: none;
+      display: none;
+    }
+
+    /* Modal Backdrop */
+    .dialog-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .dialog-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Swatches */
+    .color-swatch {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .color-swatch:hover, .color-swatch.active {
+      transform: scale(1.2);
+      border-color: #ffffff;
+    }
+  </style>
+</head>
+<body class="bg-[#0a0b0d] text-white">
+
+  <!-- ========================================================================= -->
+  <!-- 0. INTRO CURTAIN // WIREFRAME BLUEPRINT CARD 99 -->
+  <!-- ========================================================================= -->
+  <section id="blueprint-curtain">
+    <div class="flex items-center justify-between border-b border-white/10 pb-4">
+      <div class="flex items-baseline gap-4">
+        <span class="font-display text-6xl sm:text-8xl font-bold text-[#ea3826] leading-none">99</span>
+        <span class="font-tech text-xs sm:text-sm tracking-[0.25em] text-white/50 uppercase">APEX PROTOCOL // CAFE RACER</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <span class="font-tech text-xs sm:text-sm tracking-[0.22em] text-white/70 uppercase">HARLEY DAVIDSON</span>
+        <button id="skip-intro-btn" class="px-5 py-2 rounded-full border border-white/20 font-tech text-xs uppercase tracking-widest hover:border-[#ea3826] hover:bg-[#ea3826]/10 transition-all flex items-center gap-2">
+          <span>Enter Showroom</span>
+          <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Center Blueprint Canvas -->
+    <div class="flex-1 relative flex items-center justify-center my-6">
+      <canvas id="blueprint-canvas" class="w-full h-full max-h-[60vh] object-contain"></canvas>
+      <div class="absolute bottom-4 left-6 text-white/40 font-tech text-[10px] tracking-widest uppercase">
+        FIG 01.0 // CAD TECHNICAL DRAWING — 1200CC V-TWIN CUSTOM CAFE RACER
+      </div>
+      <div class="absolute bottom-4 right-6 text-[#ea3826] font-tech text-[10px] tracking-widest uppercase animate-pulse">
+        SCROLL DOWN TO IGNITE POWERTRAIN ↓
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between pt-4 border-t border-white/10 text-white/40 font-tech text-xs">
+      <div>SPECIFICATION: MILWAUKEE HYBRID // 115 NM TORQUE</div>
+      <div class="flex items-center gap-3">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span class="text-white/80">LIVE 3D SYSTEM READY</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================================= -->
+  <!-- MASTER 3D PINNED SCROLL VIEWPORT -->
+  <!-- ========================================================================= -->
+  <div id="hero-master-pin" class="relative w-screen h-screen overflow-hidden flex flex-col justify-between">
+
+    <!-- WebGL Three.js Canvas -->
+    <canvas id="threejs-canvas"></canvas>
+
+    <!-- Loft Factory Sunlight Backdrop (Fades in dynamically) -->
+    <div class="loft-backdrop" id="loft-ambient">
+      <div class="loft-window-grid"></div>
+    </div>
+
+    <!-- Wet Studio Floor Dark Gradient -->
+    <div class="wet-floor-overlay"></div>
+
+    <!-- Floor Ghost Watermark -->
+    <div class="floor-watermark">
+      <span id="wm-left">HARLEY</span>
+      <span id="wm-right">DAVIDSON</span>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- TOP NAVIGATION BAR -->
+    <!-- ===================================================================== -->
+    <header class="relative z-40 px-6 sm:px-12 pt-6 flex items-center justify-between w-full pointer-events-auto">
+      <!-- Left: Hamburger Menu -->
+      <button id="menu-btn" class="w-12 h-12 rounded-full border border-white/15 bg-black/40 backdrop-blur-md flex items-center justify-center hover:border-[#ea3826] transition-all group" aria-label="Menu">
+        <div class="flex flex-col gap-1.5 w-5 items-start">
+          <span class="w-5 h-[1.5px] bg-white group-hover:bg-[#ea3826] transition-colors"></span>
+          <span class="w-3.5 h-[1.5px] bg-white group-hover:w-5 group-hover:bg-[#ea3826] transition-all"></span>
+          <span class="w-4 h-[1.5px] bg-white group-hover:w-5 group-hover:bg-[#ea3826] transition-all"></span>
+        </div>
+      </button>
+
+      <!-- Center: Constrained Harley-Davidson Bar & Shield Logo -->
+      <a href="#hero" class="flex items-center justify-center hover:opacity-85 transition-opacity" title="Harley Davidson Motor Co.">
+        <svg class="h-9 sm:h-10 w-auto max-w-[100px] text-white drop-shadow-[0_2px_12px_rgba(255,255,255,0.25)]" viewBox="0 0 120 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M60 4L112 18V38C112 56 60 68 60 68C60 68 8 56 8 38V18L60 4Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+          <rect x="2" y="24" width="116" height="20" rx="2" fill="#0a0b0d" stroke="currentColor" stroke-width="2.5"/>
+          <text x="60" y="38" font-family="'Rajdhani', sans-serif" font-weight="800" font-size="10.5" fill="currentColor" text-anchor="middle" letter-spacing="0.12em">HARLEY-DAVIDSON</text>
+          <text x="60" y="19" font-family="'Rajdhani', sans-serif" font-weight="700" font-size="7.5" fill="currentColor" text-anchor="middle" letter-spacing="0.16em">MOTOR</text>
+          <text x="60" y="56" font-family="'Rajdhani', sans-serif" font-weight="700" font-size="7.5" fill="currentColor" text-anchor="middle" letter-spacing="0.16em">CYCLES</text>
+        </svg>
+      </a>
+
+      <!-- Right Controls: Audio Toggle + Buy Now Pill -->
+      <div class="flex items-center gap-3">
+        <button id="sound-btn" class="w-10 h-10 rounded-full border border-white/15 bg-black/40 backdrop-blur-md flex items-center justify-center hover:border-white transition-all text-white/70 hover:text-white" title="Toggle Engine Audio">
+          <i data-lucide="volume-2" class="w-4 h-4"></i>
+        </button>
+        <button class="buy-now-trigger px-6 py-2.5 rounded-full bg-white text-black font-tech font-bold text-xs uppercase tracking-widest hover:bg-[#ea3826] hover:text-white hover:shadow-[0_0_24px_rgba(234,56,38,0.6)] transition-all">
+          Buy now
+        </button>
+      </div>
+    </header>
+
+
+    <!-- ===================================================================== -->
+    <!-- STAGE 1: HERO TITLE // "LEAN INTO IT" & BADGES -->
+    <!-- ===================================================================== -->
+    <div id="stage-hero" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 px-4">
+      <h1 class="hero-grunge-text" id="hero-title">
+        LEAN INTO IT
+      </h1>
+
+      <!-- Interactive Hotspots on 3D Model -->
+      <div class="hotspot-pin" id="pin-headlight" style="top: 42%; left: 60%;">
+        <div class="hotspot-dot"></div>
+        <div class="hotspot-line"></div>
+        <div class="hotspot-label">AERO CAFE COWL // LED PROJECTOR</div>
+      </div>
+
+      <div class="hotspot-pin" id="pin-engine" style="top: 56%; left: 40%;">
+        <div class="hotspot-label">1200CC V-TWIN FLUX POWERTRAIN</div>
+        <div class="hotspot-line" style="transform: rotate(180deg);"></div>
+        <div class="hotspot-dot"></div>
+      </div>
+
+      <div class="hotspot-pin" id="pin-shock" style="top: 48%; left: 24%;">
+        <div class="hotspot-label">MONOSHOCK R-SERIES</div>
+        <div class="hotspot-line" style="transform: rotate(180deg);"></div>
+        <div class="hotspot-dot"></div>
+      </div>
+    </div>
+
+
+    <!-- ===================================================================== -->
+    <!-- STAGE 2: PERFORMANCE SPECS // 04 SECS+ & 30+ MINS -->
+    <!-- ===================================================================== -->
+    <div id="stage-specs" class="absolute inset-0 flex items-center justify-between px-8 sm:px-20 pointer-events-none z-20 opacity-0">
+      <!-- Left Spec: Performance -->
+      <div class="flex flex-col items-start max-w-sm" id="spec-perf-card">
+        <span class="font-tech text-xs sm:text-sm tracking-[0.24em] text-white/50 uppercase mb-1">PERFORMANCE</span>
+        <span class="font-tech text-xs sm:text-sm tracking-[0.16em] text-[#ea3826] uppercase font-semibold mb-2">0-100 KPH (0-60 MPH)</span>
+        <div class="font-display text-7xl sm:text-9xl font-bold tracking-tight text-white leading-none flex items-baseline">
+          <span id="counter-sec">04</span>
+          <span class="text-[#ea3826] ml-2">SECS+</span>
+        </div>
+        <p class="font-body text-xs text-white/60 mt-3 leading-relaxed hidden sm:block">
+          Instant magnetic flux torque curve unleashing blistering linear acceleration from a dead standstill without clutch hesitation.
+        </p>
+      </div>
+
+      <!-- Right Spec: Rapid Charging -->
+      <div class="flex flex-col items-end max-w-sm text-right" id="spec-charge-card">
+        <span class="font-tech text-xs sm:text-sm tracking-[0.24em] text-white/50 uppercase mb-1">RANGE & DYNAMICS</span>
+        <span class="font-tech text-xs sm:text-sm tracking-[0.16em] text-[#ea3826] uppercase font-semibold mb-2">10% — 80% ULTRA CHARGE</span>
+        <div class="font-display text-7xl sm:text-9xl font-bold tracking-tight text-white leading-none flex items-baseline">
+          <span id="counter-mins">30</span>
+          <span class="text-[#ea3826] ml-2">+ MINS</span>
+        </div>
+        <p class="font-body text-xs text-white/60 mt-3 leading-relaxed hidden sm:block">
+          High-density liquid-cooled battery pack engineered for cross-country endurance and rapid 350V DC fast-charging depots.
+        </p>
+      </div>
+    </div>
+
+
+    <!-- ===================================================================== -->
+    <!-- STAGE 3: TELEMETRY HUD & ELECTRIC MOTOR CUTAWAY CARDS -->
+    <!-- ===================================================================== -->
+    <div id="stage-cards" class="absolute inset-0 flex items-end justify-between px-6 sm:px-14 pb-14 pointer-events-none z-30 opacity-0">
+      <!-- Left Card: Intelligent Riding Telemetry HUD -->
+      <div class="glass-card p-6 sm:p-7 w-full max-w-[380px] pointer-events-auto transform transition-all duration-500 hover:scale-[1.02]" id="card-telemetry">
+        <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#ea3826] animate-pulse"></span>
+            <span class="font-tech text-xs uppercase tracking-[0.2em] font-bold text-white">INTELLIGENT RIDING</span>
+          </div>
+          <span class="font-tech text-[10px] tracking-widest text-white/40">IMU 6-AXIS // ACTIVE</span>
+        </div>
+
+        <div class="flex items-baseline justify-between my-2">
+          <div>
+            <div class="font-display text-6xl sm:text-7xl font-bold text-white leading-none" id="telemetry-speed">38</div>
+            <span class="font-tech text-[11px] text-[#ea3826] uppercase tracking-widest">LEAN ANGLE // VELOCITY RATIO</span>
+          </div>
+          <div class="w-24 h-14 bg-black/40 rounded-lg p-1.5 border border-white/5 relative overflow-hidden">
+            <svg class="w-full h-full" viewBox="0 0 80 40">
+              <path d="M 0 30 Q 20 10, 40 25 T 80 15" fill="none" stroke="#ea3826" stroke-width="1.5" stroke-dasharray="100" stroke-dashoffset="0">
+                <animate attributeName="stroke-dashoffset" values="100;0" dur="2s" repeatCount="indefinite" />
+              </path>
+              <circle cx="40" cy="25" r="2.5" fill="#ffffff" />
+            </svg>
+          </div>
+        </div>
+
+        <p class="font-body text-xs text-white/70 leading-relaxed mt-4">
+          Advanced onboard computing unit dynamically monitors chassis pitch, torque distribution and lean angles in real-time.
+        </p>
+
+        <div class="flex items-center justify-between pt-4 mt-4 border-t border-white/10 text-[11px] font-tech text-white/50">
+          <span>ROLL: 14.2° DYN</span>
+          <span class="text-white/80">TRACTION: 99.8%</span>
+        </div>
+      </div>
+
+      <!-- Right Card: Powerful & Silent Powertrain 3D Mini-Engine -->
+      <div class="glass-card p-6 sm:p-7 w-full max-w-[380px] pointer-events-auto transform transition-all duration-500 hover:scale-[1.02]" id="card-motor">
+        <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
+          <span class="font-tech text-xs uppercase tracking-[0.2em] font-bold text-white">POWERFUL & SILENT</span>
+          <span class="font-tech text-[10px] tracking-widest text-[#ea3826]">FLUX-DRIVE // 115 NM</span>
+        </div>
+
+        <!-- Cutaway Electric Motor Canvas Container -->
+        <div class="w-full h-32 bg-black/50 rounded-xl border border-white/10 relative overflow-hidden flex items-center justify-center group/motor">
+          <canvas id="motor-3d-canvas" class="w-full h-full"></canvas>
+          <div class="absolute bottom-2 right-3 font-tech text-[9px] text-white/40 tracking-wider uppercase group-hover/motor:text-[#ea3826] transition-colors">
+            ROTATING 3D CORE [HOVER]
+          </div>
+        </div>
+
+        <p class="font-body text-xs text-white/70 leading-relaxed mt-4">
+          Next-generation permanent magnet synchronous motor delivering instant peak torque with whisper-quiet acoustic signature.
+        </p>
+
+        <div class="flex items-center justify-between pt-4 mt-4 border-t border-white/10 text-[11px] font-tech text-white/50">
+          <span>EFFICIENCY: 97.4%</span>
+          <span class="text-white/80">DIRECT-DRIVE GEAR</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ===================================================================== -->
+    <!-- BOTTOM CONTROLS & FLOATING VINTAGE BADGES -->
+    <!-- ===================================================================== -->
+    <footer class="relative z-40 px-6 sm:px-12 pb-6 flex items-end justify-between w-full pointer-events-none">
+      <!-- Bottom Left: Vintage Badges & Seals -->
+      <div class="flex items-center gap-3 pointer-events-auto transition-transform duration-700" id="bottom-badges-container">
+        <!-- Stamp 1: POUF MATTE -->
+        <div class="badge-stamp">
+          <span class="text-[11px] text-white tracking-widest font-extrabold">POUF</span>
+          <span class="text-[8px] text-white/50 tracking-wider">MATTE</span>
+          <span class="text-[9px] text-[#ea3826]">EST 2024</span>
+          <span class="text-[7px] text-white/40">MILWAUKEE</span>
+        </div>
+
+        <!-- Stamp 2: SECS MATTE -->
+        <div class="badge-stamp">
+          <span class="text-[11px] text-white tracking-widest font-extrabold">SECS</span>
+          <span class="text-[8px] text-white/50 tracking-wider">MATTE</span>
+          <span class="text-[9px] text-[#ea3826]">EST 2024</span>
+          <span class="text-[7px] text-white/40">EDITION</span>
+        </div>
+
+        <!-- Circular Seal 1: Designed by Kyzz -->
+        <div class="badge-circle hidden sm:flex">
+          <span class="text-[7px] font-tech text-white/60 uppercase tracking-widest text-center px-1">DESIGNED BY KYZZ</span>
+          <i data-lucide="shield" class="w-3 h-3 text-[#ea3826] my-0.5"></i>
+          <span class="text-[6px] font-tech text-white/40">CUSTOM LAB</span>
+        </div>
+
+        <!-- Circular Seal 2: Designed in 2025 -->
+        <div class="badge-circle hidden md:flex">
+          <span class="text-[7px] font-tech text-white/60 uppercase tracking-widest text-center px-1">DESIGNED IN 2025</span>
+          <span class="text-[9px] font-tech text-[#ea3826] font-bold">99</span>
+          <span class="text-[6px] font-tech text-white/40">SERIES APEX</span>
+        </div>
+      </div>
+
+      <!-- Center: Interactive Tank Paint Color Swatches -->
+      <div class="hidden lg:flex items-center gap-3 px-5 py-2.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 pointer-events-auto">
+        <span class="font-tech text-[10px] tracking-widest text-white/50 uppercase mr-1">TANK COLOR:</span>
+        <button class="color-swatch active" style="background: #f4f4f2;" data-color="0xf4f4f2" title="Pearl Cream White"></button>
+        <button class="color-swatch" style="background: #18191d;" data-color="0x18191d" title="Stealth Carbon Noir"></button>
+        <button class="color-swatch" style="background: #ea3826;" data-color="0xea3826" title="Daytona Vermilion"></button>
+        <button class="color-swatch" style="background: #a38f78;" data-color="0xa38f78" title="Desert Heritage Khaki"></button>
+      </div>
+
+      <!-- Bottom Right: Pagination & Glowing Buy Now Pill -->
+      <div class="flex items-center gap-4 pointer-events-auto">
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/15 bg-black/40 backdrop-blur-md font-tech text-xs text-white/70">
+          <button id="prev-step" class="hover:text-white transition-colors px-1" title="Previous section">[-]</button>
+          <span id="page-indicator" class="text-white font-bold tracking-widest">01</span>
+          <button id="next-step" class="hover:text-white transition-colors px-1" title="Next section">[+]</button>
+        </div>
+
+        <button class="buy-now-trigger px-7 py-3 rounded-full bg-white text-black font-tech font-bold text-xs uppercase tracking-widest hover:bg-[#ea3826] hover:text-white hover:shadow-[0_0_28px_rgba(234,56,38,0.7)] transition-all">
+          Buy now
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- EXPANDED SHOWROOM: TECHNICAL SPECIFICATIONS & CUSTOMIZER SECTION -->
+  <!-- ========================================================================= -->
+  <section class="relative z-40 bg-[#0c0d11] border-t border-white/10 py-28 px-6 sm:px-14">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        <div>
+          <span class="font-tech text-xs tracking-[0.26em] text-[#ea3826] uppercase font-bold block mb-2">ENGINEERING BLUEPRINT // ARCHITECTURE</span>
+          <h2 class="font-display text-5xl sm:text-7xl font-bold uppercase tracking-tight text-white leading-none">
+            UNCOMPROMISING PRECISION
+          </h2>
+        </div>
+        <p class="font-body text-sm text-white/60 max-w-md leading-relaxed">
+          Forged with aircraft-grade aluminum trellis frame architecture, instant magnetic flux torque vectoring, and handcrafted cafe racer styling.
+        </p>
+      </div>
+
+      <!-- Specs 4-Column Grid -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+        <div class="glass-card p-6">
+          <span class="font-tech text-xs tracking-widest text-white/40 uppercase block mb-1">POWER OUTPUT</span>
+          <div class="font-display text-4xl sm:text-5xl font-bold text-white mb-2">105 HP</div>
+          <p class="font-body text-xs text-white/60">78 kW liquid-cooled synchronous powertrain with 12,000 RPM ceiling.</p>
+        </div>
+
+        <div class="glass-card p-6">
+          <span class="font-tech text-xs tracking-widest text-white/40 uppercase block mb-1">PEAK TORQUE</span>
+          <div class="font-display text-4xl sm:text-5xl font-bold text-white mb-2">115 NM</div>
+          <p class="font-body text-xs text-white/60">Delivered instantaneously from zero RPM across full throttle stroke.</p>
+        </div>
+
+        <div class="glass-card p-6">
+          <span class="font-tech text-xs tracking-widest text-white/40 uppercase block mb-1">CITY RANGE</span>
+          <div class="font-display text-4xl sm:text-5xl font-bold text-white mb-2">235 KM</div>
+          <p class="font-body text-xs text-white/60">15.4 kWh high-capacity cell with regenerative braking recuperation.</p>
+        </div>
+
+        <div class="glass-card p-6">
+          <span class="font-tech text-xs tracking-widest text-white/40 uppercase block mb-1">KERB WEIGHT</span>
+          <div class="font-display text-4xl sm:text-5xl font-bold text-white mb-2">215 KG</div>
+          <p class="font-body text-xs text-white/60">Perfect 50:50 front/rear axle weight distribution with low-slung CG.</p>
+        </div>
+      </div>
+
+      <!-- Customization & Test Ride CTA Banner -->
+      <div class="rounded-3xl border border-white/10 bg-gradient-to-r from-[#14151a] via-[#191b22] to-[#121317] p-8 sm:p-14 flex flex-col lg:flex-row items-center justify-between gap-10 shadow-2xl relative overflow-hidden">
+        <div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-[#ea3826]/10 blur-3xl pointer-events-none"></div>
+        <div class="max-w-xl">
+          <span class="font-tech text-xs tracking-[0.24em] text-[#ea3826] uppercase font-bold block mb-3">EXCLUSIVE PRODUCTION ALLOCATION</span>
+          <h3 class="font-display text-4xl sm:text-6xl font-bold uppercase tracking-tight text-white mb-4">
+            RESERVE YOUR APEX RUN
+          </h3>
+          <p class="font-body text-sm text-white/70 leading-relaxed mb-6">
+            Handcrafted in Milwaukee in strictly limited production runs. Secure your personal chassis build number with concierge test ride delivery.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <button class="buy-now-trigger px-8 py-4 rounded-full bg-[#ea3826] text-white font-tech font-bold text-sm uppercase tracking-widest hover:bg-[#d83020] hover:shadow-[0_0_32px_rgba(234,56,38,0.7)] transition-all">
+              Configure & Reserve
+            </button>
+            <button id="book-testride-btn" class="px-8 py-4 rounded-full border border-white/20 font-tech text-sm uppercase tracking-widest hover:border-white transition-all text-white">
+              Schedule Test Ride
+            </button>
+          </div>
+        </div>
+
+        <div class="flex flex-col items-center gap-4 bg-black/40 p-6 rounded-2xl border border-white/10 text-center w-full lg:w-auto min-w-[260px]">
+          <span class="font-tech text-xs tracking-widest text-white/40 uppercase">CHASSIS SERIAL</span>
+          <span class="font-display text-4xl text-white font-bold tracking-wider">#HD-2026-099</span>
+          <div class="flex items-center gap-2 text-emerald-400 font-tech text-xs tracking-wider">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>PRODUCTION SLOT OPEN</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER -->
+  <!-- ========================================================================= -->
+  <footer class="bg-[#08090b] border-t border-white/10 py-12 px-6 sm:px-14 text-white/40 text-xs font-tech">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-4">
+        <span class="font-bold tracking-widest text-white">HARLEY-DAVIDSON MOTOR CO.</span>
+        <span>// MILWAUKEE, WI</span>
+      </div>
+      <div class="flex items-center gap-8 tracking-widest uppercase">
+        <a href="#hero" class="hover:text-white transition-colors">Overview</a>
+        <a href="#specs" class="hover:text-white transition-colors">Specs</a>
+        <a href="#telemetry" class="hover:text-white transition-colors">Telemetry</a>
+        <a href="#privacy" class="hover:text-white transition-colors">Legal & RERA</a>
+      </div>
+      <div>&copy; 2026 HARLEY-DAVIDSON. ALL RIGHTS RESERVED.</div>
+    </div>
+  </footer>
+
+
+  <!-- ========================================================================= -->
+  <!-- FLOATING INTERACTIVE GLASS CURSOR BADGE "SCROLL" -->
+  <!-- ========================================================================= -->
+  <div id="cursor-scroll-badge">
+    <span>SCROLL</span>
+  </div>
+
+  <!-- Vertical Scroll Indicator Track -->
+  <div class="scroll-track">
+    <div class="scroll-indicator-thumb" id="scroll-thumb"></div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: CHECKOUT & BUILD CONFIGURATOR -->
+  <!-- ========================================================================= -->
+  <div class="dialog-backdrop" id="checkout-modal">
+    <div class="glass-card max-w-lg w-[92vw] p-8 sm:p-10 relative">
+      <button class="modal-close absolute top-6 right-6 text-white/50 hover:text-white" aria-label="Close">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-[#ea3826]"></span>
+        <span class="font-tech text-xs tracking-[0.25em] text-[#ea3826] font-bold uppercase">RESERVATION PORTAL</span>
+      </div>
+      <h3 class="font-display text-4xl sm:text-5xl font-bold uppercase text-white mb-2 leading-none">
+        HARLEY APEX 99
+      </h3>
+      <p class="font-body text-xs text-white/60 mb-6 leading-relaxed">
+        Submit your reservation inquiry to lock in early factory allocation with numbered collector plaque and priority hand-off.
+      </p>
+
+      <form id="reservation-form" class="space-y-4 font-tech">
+        <div>
+          <label class="block text-xs uppercase tracking-widest text-white/50 mb-1.5">Full Name</label>
+          <input type="text" required placeholder="Alexander Vance" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white text-sm focus:border-[#ea3826] focus:outline-none transition-colors">
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs uppercase tracking-widest text-white/50 mb-1.5">Mobile Number</label>
+            <input type="tel" required placeholder="+1 (555) 019-2834" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white text-sm focus:border-[#ea3826] focus:outline-none transition-colors">
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-widest text-white/50 mb-1.5">Delivery City</label>
+            <input type="text" required placeholder="Milwaukee / Chicago" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white text-sm focus:border-[#ea3826] focus:outline-none transition-colors">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs uppercase tracking-widest text-white/50 mb-1.5">Selected Paint Finish</label>
+          <select id="modal-paint-select" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white text-sm focus:border-[#ea3826] focus:outline-none transition-colors">
+            <option value="0xf4f4f2">Pearl Cream White (Hero Launch Spec)</option>
+            <option value="0x18191d">Stealth Carbon Noir</option>
+            <option value="0xea3826">Daytona Vermilion Red</option>
+            <option value="0xa38f78">Desert Heritage Khaki</option>
+          </select>
+        </div>
+
+        <button type="submit" class="w-full py-4 mt-2 rounded-full bg-[#ea3826] hover:bg-[#d83020] text-white font-tech font-bold text-sm uppercase tracking-widest shadow-[0_0_24px_rgba(234,56,38,0.5)] transition-all">
+          Confirm Reservation Inquiry
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT: THREE.JS 3D MOTORCYCLE, GSAP SCROLL, HUD & AUDIO -->
+  <!-- ========================================================================= -->
+  <script>
+    lucide.createIcons();
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 1. INTRO BLUEPRINT TECHNICAL DRAWING ON CANVAS
+    // ─────────────────────────────────────────────────────────────────────────
+    (function initBlueprintCanvas() {
+      const canvas = document.getElementById('blueprint-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      
+      function draw() {
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        
+        const w = rect.width;
+        const h = rect.height;
+        ctx.clearRect(0, 0, w, h);
+        
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+        ctx.lineWidth = 1;
+        const step = 28;
+        for (let x = 0; x < w; x += step) {
+          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+        }
+        for (let y = 0; y < h; y += step) {
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+        }
+
+        ctx.save();
+        ctx.translate(w / 2 - 210, h / 2 - 80);
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 1.6;
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+
+        function drawSpokeWheel(cx, cy, r) {
+          ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
+          ctx.beginPath(); ctx.arc(cx, cy, r - 8, 0, Math.PI * 2); ctx.stroke();
+          ctx.beginPath(); ctx.arc(cx, cy, 14, 0, Math.PI * 2); ctx.stroke();
+          for (let a = 0; a < Math.PI * 2; a += Math.PI / 10) {
+            ctx.beginPath();
+            ctx.moveTo(cx + Math.cos(a) * 14, cy + Math.sin(a) * 14);
+            ctx.lineTo(cx + Math.cos(a) * (r - 8), cy + Math.sin(a) * (r - 8));
+            ctx.stroke();
+          }
+          ctx.beginPath(); ctx.arc(cx, cy, r * 0.58, 0, Math.PI * 2); ctx.stroke();
+        }
+
+        drawSpokeWheel(80, 130, 68);
+        drawSpokeWheel(340, 130, 68);
+
+        ctx.beginPath();
+        ctx.moveTo(80, 130);
+        ctx.lineTo(165, 110);
+        ctx.lineTo(175, 65);
+        ctx.lineTo(270, 42);
+        ctx.lineTo(340, 130);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(265, 26);
+        ctx.lineTo(335, 130);
+        ctx.moveTo(275, 26);
+        ctx.lineTo(345, 130);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(175, 62);
+        ctx.bezierCurveTo(185, 22, 235, 18, 270, 38);
+        ctx.lineTo(260, 68);
+        ctx.lineTo(175, 62);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(175, 62);
+        ctx.lineTo(125, 66);
+        ctx.bezierCurveTo(110, 56, 92, 56, 80, 72);
+        ctx.lineTo(125, 76);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(295, 40, 14, -Math.PI / 2, Math.PI / 2);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(270, 30);
+        ctx.lineTo(255, 24);
+        ctx.stroke();
+
+        ctx.strokeRect(180, 72, 60, 52);
+        for (let i = 0; i < 5; i++) {
+          ctx.beginPath();
+          ctx.moveTo(175, 78 + i * 9);
+          ctx.lineTo(245, 78 + i * 9);
+          ctx.stroke();
+        }
+
+        ctx.beginPath();
+        ctx.moveTo(225, 108);
+        ctx.bezierCurveTo(205, 145, 140, 145, 80, 136);
+        ctx.lineTo(50, 134);
+        ctx.stroke();
+
+        ctx.restore();
+      }
+
+      window.addEventListener('resize', draw);
+      draw();
+    })();
+
+    const curtain = document.getElementById('blueprint-curtain');
+    function openCurtain() {
+      if (curtain && !curtain.classList.contains('opened')) {
+        curtain.classList.add('opened');
+        setTimeout(() => {
+          curtain.style.display = 'none';
+        }, 850);
+      }
+    }
+    document.getElementById('skip-intro-btn')?.addEventListener('click', openCurtain);
+    window.addEventListener('wheel', (e) => {
+      if (e.deltaY > 10) openCurtain();
+    }, { passive: true });
+    window.addEventListener('touchmove', () => openCurtain(), { passive: true });
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 2. MASTER THREE.JS 3D CAFE RACER MOTORCYCLE ENGINE
+    // ─────────────────────────────────────────────────────────────────────────
+    const canvasContainer = document.getElementById('threejs-canvas');
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x0a0b0d, 0.08);
+
+    const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0.0, 0.38, 3.6);
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvasContainer,
+      antialias: true,
+      alpha: true,
+      powerPreference: 'high-performance'
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.35;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    // Lighting Setup
+    const ambientLight = new THREE.AmbientLight(0x717786, 0.95);
+    scene.add(ambientLight);
+
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.4);
+    keyLight.position.set(4, 5, 4);
+    keyLight.castShadow = true;
+    keyLight.shadow.mapSize.width = 2048;
+    keyLight.shadow.mapSize.height = 2048;
+    keyLight.shadow.bias = -0.0005;
+    scene.add(keyLight);
+
+    const loftSunLight = new THREE.DirectionalLight(0xff9933, 0.2);
+    loftSunLight.position.set(-5, 4, -2);
+    scene.add(loftSunLight);
+
+    const rimLight = new THREE.DirectionalLight(0x38bdf8, 0.9);
+    rimLight.position.set(3, 2, -4);
+    scene.add(rimLight);
+
+    const headlightSpot = new THREE.SpotLight(0xffffff, 0, 10, Math.PI / 5, 0.4, 1);
+    headlightSpot.position.set(0, 0.45, 1.4);
+    scene.add(headlightSpot);
+
+    // Ground Reflective Plane
+    const groundGeo = new THREE.PlaneGeometry(30, 30);
+    const groundMat = new THREE.MeshStandardMaterial({
+      color: 0x0a0b0e,
+      roughness: 0.22,
+      metalness: 0.6
+    });
+    const groundMesh = new THREE.Mesh(groundGeo, groundMat);
+    groundMesh.rotation.x = -Math.PI / 2;
+    groundMesh.position.y = -0.58;
+    groundMesh.receiveShadow = true;
+    scene.add(groundMesh);
+
+    // Contact Shadow Plane under tires
+    const shadowGeo = new THREE.PlaneGeometry(3.6, 1.4);
+    const shadowMat = new THREE.MeshBasicMaterial({
+      color: 0x000000,
+      transparent: true,
+      opacity: 0.65
+    });
+    const contactShadow = new THREE.Mesh(shadowGeo, shadowMat);
+    contactShadow.rotation.x = -Math.PI / 2;
+    contactShadow.position.set(0, -0.575, 0);
+    scene.add(contactShadow);
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // MOTORCYCLE 3D MODEL ARCHITECTURE
+    // ─────────────────────────────────────────────────────────────────────────
+    const bikeGroup = new THREE.Group();
+    scene.add(bikeGroup);
+    // STAGE 1 (Hero): 3/4 Perspective angle facing forward-right!
+    bikeGroup.position.set(0.04, -0.06, 0);
+    bikeGroup.rotation.set(0.04, 0.44, 0.0);
+
+    // PBR Materials
+    const chromeMat = new THREE.MeshStandardMaterial({ color: 0xf5f5f5, metalness: 0.98, roughness: 0.05 });
+    const darkMetalMat = new THREE.MeshStandardMaterial({ color: 0x16161a, metalness: 0.85, roughness: 0.32 });
+    const brushedAlloyMat = new THREE.MeshStandardMaterial({ color: 0x9497a0, metalness: 0.82, roughness: 0.22 });
+    const tireRubberMat = new THREE.MeshStandardMaterial({ color: 0x141416, metalness: 0.05, roughness: 0.88 });
+    const leatherSeatMat = new THREE.MeshStandardMaterial({ color: 0x5a3118, metalness: 0.05, roughness: 0.7 });
+    const brakeRedMat = new THREE.MeshStandardMaterial({ color: 0xcc1122, metalness: 0.6, roughness: 0.2 });
+
+    const tankPaintMat = new THREE.MeshPhysicalMaterial({
+      color: 0xf4f4f2,
+      metalness: 0.22,
+      roughness: 0.12,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.04
+    });
+
+    const stripeMat = new THREE.MeshBasicMaterial({ color: 0x111111 });
+
+    function createTube(p1, p2, radius = 0.02) {
+      const v1 = new THREE.Vector3(...p1);
+      const v2 = new THREE.Vector3(...p2);
+      const distance = v1.distanceTo(v2);
+      const geom = new THREE.CylinderGeometry(radius, radius, distance, 12);
+      const mesh = new THREE.Mesh(geom, darkMetalMat);
+      mesh.castShadow = true;
+      mesh.position.copy(v1.clone().add(v2).multiplyScalar(0.5));
+      mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), v2.clone().sub(v1).normalize());
+      return mesh;
+    }
+
+    // 1. Frame Trellis
+    const frameGroup = new THREE.Group();
+    bikeGroup.add(frameGroup);
+
+    frameGroup.add(createTube([0, 0.44, 0.68], [0, 0.36, -0.42], 0.028));
+    frameGroup.add(createTube([0, 0.36, -0.42], [0, -0.08, -0.42], 0.025));
+
+    [-0.11, 0.11].forEach(offset => {
+      frameGroup.add(createTube([offset, 0.4, 0.52], [offset, -0.22, 0.22], 0.018));
+      frameGroup.add(createTube([offset, -0.22, 0.22], [offset, -0.22, -0.32], 0.018));
+      frameGroup.add(createTube([offset, -0.22, -0.32], [0, 0.36, -0.42], 0.018));
+    });
+
+    const neckGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.22, 16);
+    const neckMesh = new THREE.Mesh(neckGeo, darkMetalMat);
+    neckMesh.position.set(0, 0.44, 0.68);
+    neckMesh.rotation.x = 0.45;
+    frameGroup.add(neckMesh);
+
+    // 2. Sculpted Cafe Racer Fuel Tank
+    const tankGroup = new THREE.Group();
+    tankGroup.position.set(0, 0.44, 0.18);
+    bikeGroup.add(tankGroup);
+
+    // Main sculpted torso: tapered teardrop
+    const tankBody = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.15, 0.09, 0.64, 32),
+      tankPaintMat
+    );
+    tankBody.rotation.x = Math.PI / 2;
+    tankBody.scale.set(1.0, 0.72, 1.0);
+    tankBody.castShadow = true;
+    tankGroup.add(tankBody);
+
+    // Front muscular dual-shoulder lobes
+    [-0.05, 0.05].forEach(x => {
+      const shoulder = new THREE.Mesh(
+        new THREE.SphereGeometry(0.11, 24, 18),
+        tankPaintMat
+      );
+      shoulder.position.set(x, 0.02, 0.24);
+      shoulder.scale.set(0.9, 0.7, 1.1);
+      tankGroup.add(shoulder);
+    });
+
+    // Front center fill nose
+    const tankNose = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.09, 0.13, 0.14, 24),
+      tankPaintMat
+    );
+    tankNose.rotation.x = Math.PI / 2;
+    tankNose.position.set(0, 0.02, 0.32);
+    tankNose.scale.set(0.9, 0.68, 1.0);
+    tankGroup.add(tankNose);
+
+    // Knee grip rubber pads with grooved ribbed texture
+    [-0.14, 0.14].forEach(x => {
+      const pad = new THREE.Mesh(
+        new THREE.BoxGeometry(0.012, 0.09, 0.24),
+        darkMetalMat
+      );
+      pad.position.set(x, 0.01, 0.04);
+      tankGroup.add(pad);
+      for (let r = -2; r <= 2; r++) {
+        const rib = new THREE.Mesh(
+          new THREE.BoxGeometry(0.015, 0.01, 0.035),
+          tireRubberMat
+        );
+        rib.position.set(x > 0 ? x + 0.003 : x - 0.003, 0.01 + r * 0.018, 0.04);
+        tankGroup.add(rib);
+      }
+    });
+
+    // Center Twin Racing Stripes
+    const stripeMesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.042, 0.72),
+      stripeMat
+    );
+    stripeMesh.rotation.x = -Math.PI / 2;
+    stripeMesh.position.set(0, 0.125, 0.06);
+    tankGroup.add(stripeMesh);
+
+    // Billet Monza Flip-Up Chrome Fuel Cap
+    const capBase = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.042, 0.044, 0.014, 24),
+      darkMetalMat
+    );
+    capBase.position.set(0, 0.128, 0.18);
+    tankGroup.add(capBase);
+
+    const capMesh = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.034, 0.034, 0.016, 24),
+      chromeMat
+    );
+    capMesh.position.set(0, 0.14, 0.18);
+    tankGroup.add(capMesh);
+
+    const capLatch = new THREE.Mesh(
+      new THREE.BoxGeometry(0.012, 0.01, 0.025),
+      chromeMat
+    );
+    capLatch.position.set(0, 0.15, 0.198);
+    tankGroup.add(capLatch);
+
+    // 3. Cafe Racer Solo Seat & Tail Cowl
+    const seatGroup = new THREE.Group();
+    seatGroup.position.set(0, 0.36, -0.42);
+    bikeGroup.add(seatGroup);
+
+    // Base leather saddle
+    const saddleMesh = new THREE.Mesh(
+      new THREE.BoxGeometry(0.20, 0.045, 0.32),
+      leatherSeatMat
+    );
+    saddleMesh.position.set(0, 0, 0.08);
+    saddleMesh.castShadow = true;
+    seatGroup.add(saddleMesh);
+
+    // Tuck-and-roll transverse ribbed rolls
+    for (let s = -3; s <= 3; s++) {
+      const seam = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.012, 0.012, 0.205, 12),
+        new THREE.MeshStandardMaterial({ color: 0x422410, roughness: 0.75 })
+      );
+      seam.rotation.z = Math.PI / 2;
+      seam.position.set(0, 0.022, 0.08 + s * 0.042);
+      seatGroup.add(seam);
+    }
+
+    // Aerodynamic Tapered Cafe Tail Cowl
+    const cowlGeo = new THREE.CylinderGeometry(0.075, 0.11, 0.26, 24);
+    const cowlMesh = new THREE.Mesh(cowlGeo, tankPaintMat);
+    cowlMesh.rotation.x = Math.PI / 2;
+    cowlMesh.position.set(0, 0.035, -0.19);
+    cowlMesh.scale.set(1.0, 0.72, 1.0);
+    cowlMesh.castShadow = true;
+    seatGroup.add(cowlMesh);
+
+    // Rounded cowl tail cap
+    const cowlCap = new THREE.Mesh(
+      new THREE.SphereGeometry(0.075, 20, 16),
+      tankPaintMat
+    );
+    cowlCap.position.set(0, 0.035, -0.32);
+    cowlCap.scale.set(1.0, 0.72, 0.8);
+    seatGroup.add(cowlCap);
+
+    // Flush LED Taillight Strip
+    const tailLight = new THREE.Mesh(
+      new THREE.BoxGeometry(0.09, 0.012, 0.015),
+      new THREE.MeshBasicMaterial({ color: 0xff1122 })
+    );
+    tailLight.position.set(0, 0.015, -0.36);
+    seatGroup.add(tailLight);
+
+    // 4. Steerable Front Fork & Handlebars
+    const forkGroup = new THREE.Group();
+    forkGroup.position.set(0, 0.44, 0.68);
+    forkGroup.rotation.x = 0.45;
+    bikeGroup.add(forkGroup);
+
+    const upperClamp = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.025, 0.07), brushedAlloyMat);
+    upperClamp.position.set(0, 0.08, 0);
+    forkGroup.add(upperClamp);
+
+    const lowerClamp = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.025, 0.07), brushedAlloyMat);
+    lowerClamp.position.set(0, -0.1, 0);
+    forkGroup.add(lowerClamp);
+
+    [-0.12, 0.12].forEach(x => {
+      const chromeTube = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.5, 16), chromeMat);
+      chromeTube.position.set(x, -0.14, 0);
+      forkGroup.add(chromeTube);
+
+      const blackLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.44, 16), darkMetalMat);
+      blackLeg.position.set(x, -0.46, 0);
+      blackLeg.castShadow = true;
+      forkGroup.add(blackLeg);
+    });
+
+    const barMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.01, 0.6, 12), darkMetalMat);
+    barMesh.rotation.z = Math.PI / 2;
+    barMesh.position.set(0, 0.07, -0.04);
+    forkGroup.add(barMesh);
+
+    [-0.29, 0.29].forEach(x => {
+      const grip = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.1, 12), darkMetalMat);
+      grip.rotation.z = Math.PI / 2;
+      grip.position.set(x, 0.07, -0.04);
+      forkGroup.add(grip);
+
+      const mirror = new THREE.Mesh(new THREE.CylinderGeometry(0.034, 0.034, 0.008, 16), chromeMat);
+      mirror.position.set(x > 0 ? x + 0.05 : x - 0.05, 0.07, -0.07);
+      mirror.rotation.x = Math.PI / 2;
+      forkGroup.add(mirror);
+    });
+
+    // 7-inch Round Cafe Headlight with Bullet Fairing
+    const headlightGroup = new THREE.Group();
+    headlightGroup.position.set(0, 0.02, 0.12);
+    forkGroup.add(headlightGroup);
+
+    // Aerodynamic cafe cowl / fairing wrapping behind headlight
+    const cowlShell = new THREE.Mesh(
+      new THREE.SphereGeometry(0.12, 24, 18, 0, Math.PI * 2, 0, Math.PI * 0.45),
+      tankPaintMat
+    );
+    cowlShell.rotation.x = -Math.PI / 2;
+    cowlShell.position.set(0, 0.02, -0.06);
+    cowlShell.scale.set(0.95, 0.95, 1.1);
+    cowlShell.castShadow = true;
+    headlightGroup.add(cowlShell);
+
+    const bucketMesh = new THREE.Mesh(
+      new THREE.SphereGeometry(0.095, 24, 18, 0, Math.PI * 2, 0, Math.PI / 2),
+      darkMetalMat
+    );
+    bucketMesh.rotation.x = -Math.PI / 2;
+    headlightGroup.add(bucketMesh);
+
+    const bezelMesh = new THREE.Mesh(new THREE.TorusGeometry(0.095, 0.01, 12, 32), chromeMat);
+    bezelMesh.position.z = 0.02;
+    headlightGroup.add(bezelMesh);
+
+    const lensMesh = new THREE.Mesh(
+      new THREE.CircleGeometry(0.092, 32),
+      new THREE.MeshPhysicalMaterial({
+        color: 0xffffff,
+        transmission: 0.9,
+        transparent: true,
+        opacity: 0.85,
+        roughness: 0.05,
+        ior: 1.45
+      })
+    );
+    lensMesh.position.z = 0.025;
+    headlightGroup.add(lensMesh);
+
+    const haloMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const haloMesh = new THREE.Mesh(new THREE.TorusGeometry(0.076, 0.005, 8, 32), haloMat);
+    haloMesh.position.z = 0.028;
+    headlightGroup.add(haloMesh);
+
+    // 5. Spoked Wheels with True 36-Spoke Cross Lacing
+    function buildSpokedWheel(isFront = false) {
+      const wheel = new THREE.Group();
+
+      const tireRadius = isFront ? 0.32 : 0.315;
+      const tireTubeRadius = isFront ? 0.044 : 0.052; // wider rear tire!
+      const tire = new THREE.Mesh(new THREE.TorusGeometry(tireRadius, tireTubeRadius, 24, 64), tireRubberMat);
+      tire.castShadow = true;
+      wheel.add(tire);
+
+      // Matte Black Rim with machined lip
+      const rimOuter = new THREE.Mesh(new THREE.TorusGeometry(0.285, 0.014, 16, 64), darkMetalMat);
+      wheel.add(rimOuter);
+
+      const rimLip = new THREE.Mesh(new THREE.TorusGeometry(0.283, 0.004, 12, 64), chromeMat);
+      wheel.add(rimLip);
+
+      // Dual Flange Billet Hub
+      const hubCenter = new THREE.Mesh(new THREE.CylinderGeometry(0.038, 0.038, 0.08, 24), darkMetalMat);
+      hubCenter.rotation.x = Math.PI / 2;
+      wheel.add(hubCenter);
+
+      [-0.035, 0.035].forEach(z => {
+        const flange = new THREE.Mesh(new THREE.CylinderGeometry(0.052, 0.052, 0.008, 24), brushedAlloyMat);
+        flange.rotation.x = Math.PI / 2;
+        flange.position.z = z;
+        wheel.add(flange);
+      });
+
+      // True 36-spoke cross lacing
+      const numSpokes = 36;
+      for (let i = 0; i < numSpokes; i++) {
+        const angle = (i / numSpokes) * Math.PI * 2;
+        const isEven = i % 2 === 0;
+        const hx = Math.cos(angle) * 0.048;
+        const hy = Math.sin(angle) * 0.048;
+        const hz = isEven ? 0.035 : -0.035;
+
+        const crossAngle = angle + (isEven ? 0.42 : -0.42);
+        const rx = Math.cos(crossAngle) * 0.272;
+        const ry = Math.sin(crossAngle) * 0.272;
+        const rz = isEven ? 0.008 : -0.008;
+
+        const v1 = new THREE.Vector3(hx, hy, hz);
+        const v2 = new THREE.Vector3(rx, ry, rz);
+        const dist = v1.distanceTo(v2);
+        const spoke = new THREE.Mesh(new THREE.CylinderGeometry(0.0016, 0.0016, dist, 6), chromeMat);
+        spoke.position.copy(v1.clone().add(v2).multiplyScalar(0.5));
+        spoke.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), v2.clone().sub(v1).normalize());
+        wheel.add(spoke);
+      }
+
+      // Slotted / Drilled Stainless Steel Disc Brake
+      const disc = new THREE.Mesh(new THREE.RingGeometry(0.09, 0.21, 36), chromeMat);
+      disc.position.z = 0.042;
+      wheel.add(disc);
+
+      const caliper = new THREE.Mesh(new THREE.BoxGeometry(0.042, 0.088, 0.038), brakeRedMat);
+      caliper.position.set(0.12, 0.12, 0.042);
+      wheel.add(caliper);
+
+      if (isFront) {
+        const disc2 = disc.clone();
+        disc2.position.z = -0.042;
+        wheel.add(disc2);
+        const caliper2 = caliper.clone();
+        caliper2.position.z = -0.042;
+        wheel.add(caliper2);
+      }
+
+      return wheel;
+    }
+
+    const frontWheel = buildSpokedWheel(true);
+    frontWheel.position.set(0, -0.65, 0.04);
+    forkGroup.add(frontWheel);
+
+    const rearSwingarmGroup = new THREE.Group();
+    bikeGroup.add(rearSwingarmGroup);
+
+    [-0.12, 0.12].forEach(x => {
+      const arm = createTube([x, -0.05, -0.3], [x, -0.24, -0.9], 0.024);
+      rearSwingarmGroup.add(arm);
+    });
+
+    const rearWheel = buildSpokedWheel(false);
+    rearWheel.position.set(0, -0.24, -0.9);
+    rearSwingarmGroup.add(rearWheel);
+
+    // Dual Rear Shocks with Red Coils
+    [-0.13, 0.13].forEach(x => {
+      const shock = createTube([x, 0.3, -0.42], [x, -0.18, -0.8], 0.02);
+      rearSwingarmGroup.add(shock);
+
+      const resGeo = new THREE.CylinderGeometry(0.018, 0.018, 0.08, 16);
+      const resMat = new THREE.MeshStandardMaterial({ color: 0xd4af37, metalness: 0.85, roughness: 0.18 });
+      const resMesh = new THREE.Mesh(resGeo, resMat);
+      resMesh.position.set(x > 0 ? x + 0.03 : x - 0.03, 0.25, -0.45);
+      resMesh.rotation.x = 0.45;
+      rearSwingarmGroup.add(resMesh);
+    });
+
+    // 6. Powertrain // V-Twin Engine Block & Fin Stack
+    const engineGroup = new THREE.Group();
+    engineGroup.position.set(0, -0.06, 0.05);
+    bikeGroup.add(engineGroup);
+
+    const crankcaseGeo = new THREE.CylinderGeometry(0.15, 0.15, 0.26, 32);
+    const crankcaseMesh = new THREE.Mesh(crankcaseGeo, darkMetalMat);
+    crankcaseMesh.rotation.z = Math.PI / 2;
+    crankcaseMesh.castShadow = true;
+    engineGroup.add(crankcaseMesh);
+
+    const clutchCover = new THREE.Mesh(new THREE.CylinderGeometry(0.095, 0.095, 0.016, 28), chromeMat);
+    clutchCover.rotation.z = Math.PI / 2;
+    clutchCover.position.x = 0.14;
+    engineGroup.add(clutchCover);
+
+    // 45° V-Twin Cylinders
+    [-0.39, 0.39].forEach(angle => {
+      const cyl = new THREE.Group();
+      cyl.rotation.x = angle;
+      cyl.position.set(0, 0.12, angle * 0.22);
+
+      const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, 0.22, 20), darkMetalMat);
+      cyl.add(barrel);
+
+      for (let f = 0; f < 9; f++) {
+        const fin = new THREE.Mesh(new THREE.CylinderGeometry(0.105, 0.105, 0.006, 24), brushedAlloyMat);
+        fin.position.y = -0.08 + f * 0.02;
+        cyl.add(fin);
+      }
+
+      const rocker = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.045, 0.16), chromeMat);
+      rocker.position.y = 0.12;
+      cyl.add(rocker);
+
+      const pushrod = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.24, 12), chromeMat);
+      pushrod.position.set(0.085, 0.02, 0.04);
+      cyl.add(pushrod);
+
+      engineGroup.add(cyl);
+    });
+
+    // Swept Titanium / Matte Black Exhaust System
+    const exhaustPipes = new THREE.Group();
+    bikeGroup.add(exhaustPipes);
+    exhaustPipes.add(createTube([0.12, 0.06, 0.22], [0.16, -0.2, 0.1], 0.024));
+    exhaustPipes.add(createTube([0.12, 0.06, -0.05], [0.16, -0.2, 0.0], 0.024));
+    exhaustPipes.add(createTube([0.16, -0.2, 0.1], [0.18, -0.22, -0.45], 0.032));
+    exhaustPipes.add(createTube([0.18, -0.22, -0.45], [0.22, -0.19, -0.88], 0.044));
+
+    // Kickstand
+    bikeGroup.add(createTube([-0.07, -0.22, -0.2], [-0.24, -0.575, -0.15], 0.014));
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 3. RIGHT CARD: 3D MINI-ELECTRIC MOTOR CUTAWAY CANVAS
+    // ─────────────────────────────────────────────────────────────────────────
+    (function initMotor3DCanvas() {
+      const mCanvas = document.getElementById('motor-3d-canvas');
+      if (!mCanvas) return;
+      const mScene = new THREE.Scene();
+      const mCamera = new THREE.PerspectiveCamera(45, mCanvas.clientWidth / mCanvas.clientHeight, 0.1, 10);
+      mCamera.position.set(0, 0, 2.5);
+
+      const mRenderer = new THREE.WebGLRenderer({ canvas: mCanvas, antialias: true, alpha: true });
+      mRenderer.setSize(mCanvas.clientWidth, mCanvas.clientHeight);
+      mRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      const mLight1 = new THREE.DirectionalLight(0xffffff, 2.0);
+      mLight1.position.set(2, 3, 3);
+      mScene.add(mLight1);
+
+      const mLight2 = new THREE.DirectionalLight(0xea3826, 1.5);
+      mLight2.position.set(-2, -1, 2);
+      mScene.add(mLight2);
+
+      const mAmbient = new THREE.AmbientLight(0x404040, 1.0);
+      mScene.add(mAmbient);
+
+      const motorGroup = new THREE.Group();
+      mScene.add(motorGroup);
+
+      const statorGeo = new THREE.CylinderGeometry(0.4, 0.4, 0.8, 32);
+      const statorMat = new THREE.MeshStandardMaterial({ color: 0xf25a2b, roughness: 0.3, metalness: 0.6 });
+      const stator = new THREE.Mesh(statorGeo, statorMat);
+      stator.rotation.z = Math.PI / 2;
+      motorGroup.add(stator);
+
+      for (let i = -4; i <= 4; i++) {
+        const rib = new THREE.Mesh(new THREE.CylinderGeometry(0.44, 0.44, 0.02, 32), brushedAlloyMat);
+        rib.rotation.z = Math.PI / 2;
+        rib.position.x = i * 0.075;
+        motorGroup.add(rib);
+      }
+
+      [-0.42, 0.42].forEach(x => {
+        const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.38, 0.09, 24), chromeMat);
+        cap.rotation.z = Math.PI / 2;
+        cap.position.x = x;
+        motorGroup.add(cap);
+      });
+
+      const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 1.3, 20), chromeMat);
+      shaft.rotation.z = Math.PI / 2;
+      motorGroup.add(shaft);
+
+      function animateMotor() {
+        requestAnimationFrame(animateMotor);
+        motorGroup.rotation.y += 0.015;
+        motorGroup.rotation.x = Math.sin(Date.now() * 0.001) * 0.1;
+        mRenderer.render(mScene, mCamera);
+      }
+      animateMotor();
+
+      window.addEventListener('resize', () => {
+        if (!mCanvas.clientWidth || !mCanvas.clientHeight) return;
+        mCamera.aspect = mCanvas.clientWidth / mCanvas.clientHeight;
+        mCamera.updateProjectionMatrix();
+        mRenderer.setSize(mCanvas.clientWidth, mCanvas.clientHeight);
+      });
+    })();
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 4. GSAP SCROLLTRIGGER PIN & 3D CHOREOGRAPHY
+    // ─────────────────────────────────────────────────────────────────────────
+    gsap.registerPlugin(ScrollTrigger);
+
+    const loftAmbient = document.getElementById('loft-ambient');
+    const heroTitle = document.getElementById('hero-title');
+    const stageSpecs = document.getElementById('stage-specs');
+    const stageCards = document.getElementById('stage-cards');
+    const bottomBadges = document.getElementById('bottom-badges-container');
+    const scrollThumb = document.getElementById('scroll-thumb');
+    const pageIndicator = document.getElementById('page-indicator');
+    const wmLeft = document.getElementById('wm-left');
+    const wmRight = document.getElementById('wm-right');
+    const telemetrySpeed = document.getElementById('telemetry-speed');
+
+    const masterTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#hero-master-pin',
+        start: 'top top',
+        end: '+=3200',
+        pin: true,
+        scrub: 1.0,
+        anticipatePin: 1,
+        onUpdate: (self) => {
+          if (scrollThumb) {
+            scrollThumb.style.top = (self.progress * 100) + '%';
+          }
+          if (pageIndicator) {
+            if (self.progress < 0.3) pageIndicator.innerText = '01';
+            else if (self.progress < 0.7) pageIndicator.innerText = '02';
+            else pageIndicator.innerText = '03';
+          }
+        }
+      }
+    });
+
+    // ── STAGE 1 -> STAGE 2: Bank into aggressive turn + Loft Sunlight + 04 SECS+
+    masterTl
+      .to(heroTitle, { y: -120, opacity: 0, scale: 0.9, ease: 'power2.inOut', duration: 2 }, 0)
+      .to('.hotspot-pin', { opacity: 0, y: -20, stagger: 0.1, duration: 1 }, 0)
+      .to(loftAmbient, { opacity: 0.95, duration: 2.5 }, 0.5)
+      .to(loftSunLight, { intensity: 2.8, duration: 2.5 }, 0.5)
+      // 3D Bike Turn: Bank into curve matching Frame 11
+      .to(bikeGroup.position, { x: -0.02, y: -0.08, z: 0.15, duration: 3, ease: 'power2.inOut' }, 0)
+      .to(bikeGroup.rotation, { x: 0.08, y: 0.22, z: 0.16, duration: 3, ease: 'power2.inOut' }, 0)
+      .to(forkGroup.rotation, { y: -0.12, duration: 3, ease: 'power2.inOut' }, 0)
+      .to(camera.position, { x: -0.22, y: 0.22, z: 2.9, duration: 3, ease: 'power2.inOut' }, 0)
+      // Shift badges to top
+      .to(bottomBadges, { y: -window.innerHeight + 140, scale: 0.85, duration: 2.5, ease: 'power2.inOut' }, 0.5)
+      // Show Stage 2 Specs
+      .to(stageSpecs, { opacity: 1, duration: 1.5, ease: 'power2.out' }, 1.5)
+      .fromTo('#spec-perf-card', { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 1.5 }, 1.5)
+      .fromTo('#spec-charge-card', { x: 60, opacity: 0 }, { x: 0, opacity: 1, duration: 1.5 }, 1.5)
+      .to([wmLeft, wmRight], { color: 'rgba(255, 255, 255, 0.15)', duration: 1.5 }, 1.5);
+
+    // ── STAGE 2 -> STAGE 3: Menacing Head-on Posture + HUD Cards
+    masterTl
+      .to(stageSpecs, { y: -80, opacity: 0, duration: 2, ease: 'power2.in' }, 3.5)
+      // Straighten Bike directly toward camera matching Frame 16 & 20
+      .to(bikeGroup.position, { x: 0, y: -0.12, z: 0.35, duration: 3.5, ease: 'power2.inOut' }, 3.5)
+      .to(bikeGroup.rotation, { x: 0.0, y: 0.0, z: 0.0, duration: 3.5, ease: 'power2.inOut' }, 3.5)
+      .to(forkGroup.rotation, { y: 0, duration: 3.5, ease: 'power2.inOut' }, 3.5)
+      .to(camera.position, { x: 0, y: 0.15, z: 2.65, duration: 3.5, ease: 'power2.inOut' }, 3.5)
+      .to(headlightSpot, { intensity: 4.5, duration: 2 }, 4)
+      .to(haloMat, { color: 0xffffff, duration: 1 }, 4)
+      // Slide in Cards
+      .to(stageCards, { opacity: 1, duration: 1.5 }, 4.5)
+      .fromTo('#card-telemetry', { x: -100, opacity: 0 }, { x: 0, opacity: 1, duration: 2, ease: 'power3.out' }, 4.5)
+      .fromTo('#card-motor', { x: 100, opacity: 0 }, { x: 0, opacity: 1, duration: 2, ease: 'power3.out' }, 4.5);
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 5. MOUSE PARALLAX & CURSOR TRACKING
+    // ─────────────────────────────────────────────────────────────────────────
+    const cursorBadge = document.getElementById('cursor-scroll-badge');
+    let mouseX = 0, mouseY = 0;
+    let targetX = 0, targetY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+
+      if (cursorBadge) {
+        gsap.to(cursorBadge, { x: e.clientX, y: e.clientY, duration: 0.25, ease: 'power2.out' });
+      }
+    });
+
+    document.querySelectorAll('button, a, .color-swatch, .glass-card, .hotspot-pin').forEach(el => {
+      el.addEventListener('mouseenter', () => cursorBadge?.classList.add('active-hover'));
+      el.addEventListener('mouseleave', () => cursorBadge?.classList.remove('active-hover'));
+    });
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 6. MAIN THREE.JS ANIMATION LOOP
+    // ─────────────────────────────────────────────────────────────────────────
+    let clock = new THREE.Clock();
+
+    function renderLoop() {
+      requestAnimationFrame(renderLoop);
+
+      const delta = clock.getDelta();
+      const time = clock.getElapsedTime();
+
+      targetX += (mouseX * 0.25 - targetX) * 0.05;
+      targetY += (mouseY * 0.15 - targetY) * 0.05;
+
+      camera.position.x += (targetX - camera.position.x * 0.08) * 0.02;
+      camera.position.y += (targetY - camera.position.y * 0.08) * 0.02;
+      camera.lookAt(0, -0.02, 0);
+
+      bikeGroup.position.y += Math.sin(time * 3) * 0.0002;
+
+      if (telemetrySpeed && Math.random() > 0.85) {
+        telemetrySpeed.innerText = Math.floor(37 + Math.random() * 3);
+      }
+
+      renderer.render(scene, camera);
+    }
+    renderLoop();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 7. COLOR CUSTOMIZER // REAL-TIME 3D REPAINTING
+    // ─────────────────────────────────────────────────────────────────────────
+    const swatches = document.querySelectorAll('.color-swatch');
+    const modalPaintSelect = document.getElementById('modal-paint-select');
+
+    function applyPaintColor(colorHex) {
+      const colorVal = parseInt(colorHex, 16);
+      gsap.to(tankPaintMat.color, {
+        r: ((colorVal >> 16) & 255) / 255,
+        g: ((colorVal >> 8) & 255) / 255,
+        b: (colorVal & 255) / 255,
+        duration: 0.6
+      });
+      swatches.forEach(s => {
+        if (s.dataset.color === colorHex) s.classList.add('active');
+        else s.classList.remove('active');
+      });
+      if (modalPaintSelect) modalPaintSelect.value = colorHex;
+    }
+
+    swatches.forEach(swatch => {
+      swatch.addEventListener('click', () => applyPaintColor(swatch.dataset.color));
+    });
+
+    modalPaintSelect?.addEventListener('change', (e) => applyPaintColor(e.target.value));
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 8. WEB AUDIO ENGINE // CAFE RACER V-TWIN & STATOR SYNTHESIZER
+    // ─────────────────────────────────────────────────────────────────────────
+    let audioCtx = null;
+    let isAudioPlaying = false;
+    let engineOsc = null;
+    let engineGain = null;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      if (!isAudioPlaying) {
+        engineOsc = audioCtx.createOscillator();
+        engineGain = audioCtx.createGain();
+
+        engineOsc.type = 'sawtooth';
+        engineOsc.frequency.setValueAtTime(45, audioCtx.currentTime);
+
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(140, audioCtx.currentTime);
+
+        engineGain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+
+        engineOsc.connect(filter);
+        filter.connect(engineGain);
+        engineGain.connect(audioCtx.destination);
+
+        engineOsc.start();
+        isAudioPlaying = true;
+        document.getElementById('sound-btn')?.classList.add('border-[#ea3826]', 'text-[#ea3826]');
+      } else {
+        if (engineOsc) {
+          engineOsc.stop();
+          engineOsc.disconnect();
+        }
+        isAudioPlaying = false;
+        document.getElementById('sound-btn')?.classList.remove('border-[#ea3826]', 'text-[#ea3826]');
+      }
+    }
+
+    document.getElementById('sound-btn')?.addEventListener('click', initAudio);
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 9. MODALS & CHECKOUT LOGIC
+    // ─────────────────────────────────────────────────────────────────────────
+    const checkoutModal = document.getElementById('checkout-modal');
+    document.querySelectorAll('.buy-now-trigger, #book-testride-btn').forEach(btn => {
+      btn.addEventListener('click', () => checkoutModal?.classList.add('active'));
+    });
+
+    document.querySelectorAll('.modal-close').forEach(btn => {
+      btn.addEventListener('click', () => checkoutModal?.classList.remove('active'));
+    });
+
+    checkoutModal?.addEventListener('click', (e) => {
+      if (e.target === checkoutModal) checkoutModal.classList.remove('active');
+    });
+
+    document.getElementById('reservation-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('✓ Reservation Allocation Confirmed!\nYour custom chassis configuration has been submitted to the Milwaukee Custom Workshop Concierge.');
+      checkoutModal?.classList.remove('active');
+    });
+
+    document.getElementById('prev-step')?.addEventListener('click', () => {
+      window.scrollBy({ top: -1400, behavior: 'smooth' });
+    });
+    document.getElementById('next-step')?.addEventListener('click', () => {
+      window.scrollBy({ top: 1400, behavior: 'smooth' });
+    });
+
+    document.getElementById('pin-headlight')?.addEventListener('click', () => {
+      window.scrollTo({ top: 2900, behavior: 'smooth' });
+    });
+    document.getElementById('pin-engine')?.addEventListener('click', () => {
+      window.scrollTo({ top: 1400, behavior: 'smooth' });
+    });
+    document.getElementById('pin-shock')?.addEventListener('click', () => {
+      window.scrollTo({ top: 1400, behavior: 'smooth' });
+    });
+
+  </script>
+</body>
+</html>
