@@ -118,22 +118,22 @@
     /* Distressed Hero Typography */
     .hero-grunge-text {
       font-family: var(--font-display);
-      font-size: clamp(5.5rem, 16vw, 17.5rem);
-      line-height: 0.85;
-      letter-spacing: 0.02em;
+      font-size: clamp(6.5rem, 18vw, 21rem);
+      line-height: 0.82;
+      letter-spacing: 0.03em;
       font-weight: 700;
       text-transform: uppercase;
       color: var(--accent-red);
       text-align: center;
       position: relative;
       user-select: none;
-      filter: drop-shadow(0 15px 35px rgba(234, 56, 38, 0.4));
-      background: linear-gradient(180deg, #f84f3c 0%, #d83020 70%, #9e1f13 100%);
+      filter: drop-shadow(0 20px 45px rgba(234, 56, 38, 0.45));
+      background: linear-gradient(180deg, #ff4c36 0%, #ea3826 65%, #9e1c10 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      white-space: nowrap;
     }
 
-    /* Loft Window Grid & Warm Sunlight */
     /* Loft Window Grid & Warm Sunlight */
     .loft-backdrop {
       position: absolute;
@@ -162,6 +162,46 @@
         repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.15) 0px, rgba(255, 255, 255, 0.15) 2px, transparent 2px, transparent 110px);
       mask-image: radial-gradient(ellipse at 30% 40%, black 40%, transparent 85%);
       -webkit-mask-image: radial-gradient(ellipse at 30% 40%, black 40%, transparent 85%);
+    }
+
+    /* Master 3D Visual Stage */
+    .bike-stage-container {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 12;
+      perspective: 1200px;
+    }
+    .bike-stage-layer {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.12s ease-out;
+      will-change: transform, opacity;
+    }
+    .bike-cutout {
+      max-height: 76vh;
+      max-width: 88vw;
+      object-fit: contain;
+      filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.98)) drop-shadow(0 12px 25px rgba(0, 0, 0, 0.8));
+      transition: filter 0.4s ease, transform 0.4s ease;
+      user-select: none;
+      pointer-events: auto;
+    }
+    .bike-curve-layer {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      filter: brightness(0.9) contrast(1.1);
+      mask-image: radial-gradient(ellipse 90% 85% at 50% 50%, black 65%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 90% 85% at 50% 50%, black 65%, transparent 100%);
+      transition: filter 0.4s ease, transform 0.4s ease;
+      user-select: none;
     }
 
     /* Wet Floor Reflection Gradient */
@@ -429,8 +469,29 @@
   <!-- ========================================================================= -->
   <div id="hero-master-pin" class="relative w-screen h-screen overflow-hidden flex flex-col justify-between">
 
-    <!-- WebGL Three.js Canvas -->
-    <canvas id="threejs-canvas"></canvas>
+    <!-- Master 3D Visual Stage -->
+    <div id="motorcycle-visual-stage" class="bike-stage-container">
+      <!-- Stage 1: Hero 3/4 Stance View (True Transparent Cutout) -->
+      <div id="bike-view-hero" class="bike-stage-layer opacity-100">
+        <img id="bike-img-hero" src="./assets/hero_bike_cutout.png" 
+             class="bike-cutout" alt="Harley-Davidson Custom Cruiser 3/4 Hero" />
+      </div>
+
+      <!-- Stage 2: Banking Turn Stance View -->
+      <div id="bike-view-curve" class="bike-stage-layer opacity-0 pointer-events-none">
+        <img id="bike-img-curve" src="./assets/curve_banking_speed.jpg" 
+             class="bike-curve-layer" alt="Harley-Davidson Curve Banking Turn" />
+      </div>
+
+      <!-- Stage 3: Side Profile Engineering Stance View (True Transparent Cutout) -->
+      <div id="bike-view-front" class="bike-stage-layer opacity-0 pointer-events-none">
+        <img id="bike-img-front" src="./assets/profile_bike_cutout.png" 
+             class="bike-cutout" alt="Harley-Davidson Engineering Stance Profile" />
+      </div>
+
+      <!-- Dynamic Specular Spotlight Overlay -->
+      <div id="hero-specular-light" class="absolute inset-0 pointer-events-none mix-blend-soft-light transition-opacity duration-300"></div>
+    </div>
 
     <!-- Loft Factory Sunlight Backdrop (Fades in dynamically) -->
     <div class="loft-backdrop" id="loft-ambient">
@@ -485,28 +546,34 @@
     <!-- ===================================================================== -->
     <!-- STAGE 1: HERO TITLE // "LEAN INTO IT" & BADGES -->
     <!-- ===================================================================== -->
-    <div id="stage-hero" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 px-4">
+    <div id="stage-hero" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-[8] px-4">
       <h1 class="hero-grunge-text" id="hero-title">
         LEAN INTO IT
       </h1>
 
-      <!-- Interactive Hotspots on 3D Model -->
-      <div class="hotspot-pin" id="pin-headlight" style="top: 42%; left: 60%;">
+      <!-- Interactive Hotspots on Motorcycle -->
+      <div class="hotspot-pin" id="pin-headlight" style="top: 36%; left: 72%;">
         <div class="hotspot-dot"></div>
         <div class="hotspot-line"></div>
-        <div class="hotspot-label">AERO CAFE COWL // LED PROJECTOR</div>
+        <div class="hotspot-label">AERO NACELLE // DUAL REFLECTOR LED</div>
       </div>
 
-      <div class="hotspot-pin" id="pin-engine" style="top: 56%; left: 40%;">
-        <div class="hotspot-label">1200CC V-TWIN FLUX POWERTRAIN</div>
-        <div class="hotspot-line" style="transform: rotate(180deg);"></div>
+      <div class="hotspot-pin" id="pin-engine" style="top: 55%; left: 47%;">
         <div class="hotspot-dot"></div>
+        <div class="hotspot-line" style="transform: rotate(180deg);"></div>
+        <div class="hotspot-label">114 CI MILWAUKEE-EIGHT® // 115 NM TORQUE</div>
       </div>
 
-      <div class="hotspot-pin" id="pin-shock" style="top: 48%; left: 24%;">
-        <div class="hotspot-label">MONOSHOCK R-SERIES</div>
-        <div class="hotspot-line" style="transform: rotate(180deg);"></div>
+      <div class="hotspot-pin" id="pin-shock" style="top: 66%; left: 76%;">
         <div class="hotspot-dot"></div>
+        <div class="hotspot-line"></div>
+        <div class="hotspot-label">SHOWA® DUAL BENDING VALVES</div>
+      </div>
+
+      <div class="hotspot-pin" id="pin-exhaust" style="top: 55%; left: 24%;">
+        <div class="hotspot-dot"></div>
+        <div class="hotspot-line" style="transform: rotate(180deg);"></div>
+        <div class="hotspot-label">HIGH-VOLUME 2-INTO-2 CUSTOM EXHAUST</div>
       </div>
     </div>
 
@@ -646,13 +713,18 @@
         </div>
       </div>
 
-      <!-- Center: Interactive Tank Paint Color Swatches -->
-      <div class="hidden lg:flex items-center gap-3 px-5 py-2.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 pointer-events-auto">
-        <span class="font-tech text-[10px] tracking-widest text-white/50 uppercase mr-1">TANK COLOR:</span>
-        <button class="color-swatch active" style="background: #f4f4f2;" data-color="0xf4f4f2" title="Pearl Cream White"></button>
-        <button class="color-swatch" style="background: #18191d;" data-color="0x18191d" title="Stealth Carbon Noir"></button>
-        <button class="color-swatch" style="background: #ea3826;" data-color="0xea3826" title="Daytona Vermilion"></button>
-        <button class="color-swatch" style="background: #a38f78;" data-color="0xa38f78" title="Desert Heritage Khaki"></button>
+      <!-- Center: Interactive Tank Paint Color Swatches & Scroll Badge -->
+      <div class="flex flex-col items-center gap-2 pointer-events-auto">
+        <div class="flex items-center gap-3 px-5 py-2 rounded-full bg-black/60 backdrop-blur-md border border-white/15">
+          <span class="font-tech text-[10px] tracking-widest text-white/50 uppercase mr-1">TANK COLOR:</span>
+          <button class="color-swatch active" style="background: #18191d;" data-color="0x18191d" title="Stealth Vivid Black"></button>
+          <button class="color-swatch" style="background: #f4f4f2;" data-color="0xf4f4f2" title="Pearl White"></button>
+          <button class="color-swatch" style="background: #ea3826;" data-color="0xea3826" title="Daytona Vermilion"></button>
+          <button class="color-swatch" style="background: #a38f78;" data-color="0xa38f78" title="Desert Heritage Khaki"></button>
+        </div>
+        <div class="px-6 py-1.5 rounded-full border border-white/20 bg-black/40 backdrop-blur-md font-tech text-[10px] tracking-[0.25em] text-white/70 uppercase">
+          SCROLL
+        </div>
       </div>
 
       <!-- Bottom Right: Pagination & Glowing Buy Now Pill -->
@@ -970,513 +1042,48 @@
 
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 2. MASTER THREE.JS 3D CAFE RACER MOTORCYCLE ENGINE
+    // 2. MASTER 3D PHOTOREALISTIC VISUAL ENGINE & PARALLAX TRACKING
     // ─────────────────────────────────────────────────────────────────────────
-    const canvasContainer = document.getElementById('threejs-canvas');
-    const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x0a0b0d, 0.08);
+    const stageHero = document.getElementById('bike-view-hero');
+    const stageCurve = document.getElementById('bike-view-curve');
+    const stageFront = document.getElementById('bike-view-front');
+    const specularLight = document.getElementById('hero-specular-light');
+    const cursorBadge = document.getElementById('cursor-scroll-badge');
 
-    const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
-    camera.position.set(0.0, 0.38, 3.6);
+    let mouseX = 0, mouseY = 0;
+    let currentTiltX = 0, currentTiltY = 0;
 
-    const renderer = new THREE.WebGLRenderer({
-      canvas: canvasContainer,
-      antialias: true,
-      alpha: true,
-      powerPreference: 'high-performance'
-    });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.35;
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    window.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
 
-    // Lighting Setup
-    const ambientLight = new THREE.AmbientLight(0x717786, 0.95);
-    scene.add(ambientLight);
+      if (cursorBadge) {
+        gsap.to(cursorBadge, { x: e.clientX, y: e.clientY, duration: 0.25, ease: 'power2.out' });
+      }
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, 2.4);
-    keyLight.position.set(4, 5, 4);
-    keyLight.castShadow = true;
-    keyLight.shadow.mapSize.width = 2048;
-    keyLight.shadow.mapSize.height = 2048;
-    keyLight.shadow.bias = -0.0005;
-    scene.add(keyLight);
-
-    const loftSunLight = new THREE.DirectionalLight(0xff9933, 0.2);
-    loftSunLight.position.set(-5, 4, -2);
-    scene.add(loftSunLight);
-
-    const rimLight = new THREE.DirectionalLight(0x38bdf8, 0.9);
-    rimLight.position.set(3, 2, -4);
-    scene.add(rimLight);
-
-    const headlightSpot = new THREE.SpotLight(0xffffff, 0, 10, Math.PI / 5, 0.4, 1);
-    headlightSpot.position.set(0, 0.45, 1.4);
-    scene.add(headlightSpot);
-
-    // Ground Reflective Plane
-    const groundGeo = new THREE.PlaneGeometry(30, 30);
-    const groundMat = new THREE.MeshStandardMaterial({
-      color: 0x0a0b0e,
-      roughness: 0.22,
-      metalness: 0.6
-    });
-    const groundMesh = new THREE.Mesh(groundGeo, groundMat);
-    groundMesh.rotation.x = -Math.PI / 2;
-    groundMesh.position.y = -0.58;
-    groundMesh.receiveShadow = true;
-    scene.add(groundMesh);
-
-    // Contact Shadow Plane under tires
-    const shadowGeo = new THREE.PlaneGeometry(3.6, 1.4);
-    const shadowMat = new THREE.MeshBasicMaterial({
-      color: 0x000000,
-      transparent: true,
-      opacity: 0.65
-    });
-    const contactShadow = new THREE.Mesh(shadowGeo, shadowMat);
-    contactShadow.rotation.x = -Math.PI / 2;
-    contactShadow.position.set(0, -0.575, 0);
-    scene.add(contactShadow);
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // MOTORCYCLE 3D MODEL ARCHITECTURE
-    // ─────────────────────────────────────────────────────────────────────────
-    const bikeGroup = new THREE.Group();
-    scene.add(bikeGroup);
-    // STAGE 1 (Hero): 3/4 Perspective angle facing forward-right!
-    bikeGroup.position.set(0.04, -0.06, 0);
-    bikeGroup.rotation.set(0.04, 0.44, 0.0);
-
-    // PBR Materials
-    const chromeMat = new THREE.MeshStandardMaterial({ color: 0xf5f5f5, metalness: 0.98, roughness: 0.05 });
-    const darkMetalMat = new THREE.MeshStandardMaterial({ color: 0x16161a, metalness: 0.85, roughness: 0.32 });
-    const brushedAlloyMat = new THREE.MeshStandardMaterial({ color: 0x9497a0, metalness: 0.82, roughness: 0.22 });
-    const tireRubberMat = new THREE.MeshStandardMaterial({ color: 0x141416, metalness: 0.05, roughness: 0.88 });
-    const leatherSeatMat = new THREE.MeshStandardMaterial({ color: 0x5a3118, metalness: 0.05, roughness: 0.7 });
-    const brakeRedMat = new THREE.MeshStandardMaterial({ color: 0xcc1122, metalness: 0.6, roughness: 0.2 });
-
-    const tankPaintMat = new THREE.MeshPhysicalMaterial({
-      color: 0xf4f4f2,
-      metalness: 0.22,
-      roughness: 0.12,
-      clearcoat: 1.0,
-      clearcoatRoughness: 0.04
+      if (specularLight) {
+        specularLight.style.background = `radial-gradient(circle 500px at ${e.clientX}px ${e.clientY}px, rgba(255, 255, 255, 0.12) 0%, transparent 75%)`;
+      }
     });
 
-    const stripeMat = new THREE.MeshBasicMaterial({ color: 0x111111 });
+    function updateParallax() {
+      currentTiltX += ((-mouseY * 7) - currentTiltX) * 0.08;
+      currentTiltY += ((mouseX * 9) - currentTiltY) * 0.08;
 
-    function createTube(p1, p2, radius = 0.02) {
-      const v1 = new THREE.Vector3(...p1);
-      const v2 = new THREE.Vector3(...p2);
-      const distance = v1.distanceTo(v2);
-      const geom = new THREE.CylinderGeometry(radius, radius, distance, 12);
-      const mesh = new THREE.Mesh(geom, darkMetalMat);
-      mesh.castShadow = true;
-      mesh.position.copy(v1.clone().add(v2).multiplyScalar(0.5));
-      mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), v2.clone().sub(v1).normalize());
-      return mesh;
+      const transformStr = `perspective(1200px) rotateX(${currentTiltX.toFixed(2)}deg) rotateY(${currentTiltY.toFixed(2)}deg) scale(1.02)`;
+
+      if (stageHero && stageHero.style.opacity !== '0') stageHero.style.transform = transformStr;
+      if (stageCurve && stageCurve.style.opacity !== '0') stageCurve.style.transform = transformStr;
+      if (stageFront && stageFront.style.opacity !== '0') stageFront.style.transform = transformStr;
+
+      requestAnimationFrame(updateParallax);
     }
+    requestAnimationFrame(updateParallax);
 
-    // 1. Frame Trellis
-    const frameGroup = new THREE.Group();
-    bikeGroup.add(frameGroup);
-
-    frameGroup.add(createTube([0, 0.44, 0.68], [0, 0.36, -0.42], 0.028));
-    frameGroup.add(createTube([0, 0.36, -0.42], [0, -0.08, -0.42], 0.025));
-
-    [-0.11, 0.11].forEach(offset => {
-      frameGroup.add(createTube([offset, 0.4, 0.52], [offset, -0.22, 0.22], 0.018));
-      frameGroup.add(createTube([offset, -0.22, 0.22], [offset, -0.22, -0.32], 0.018));
-      frameGroup.add(createTube([offset, -0.22, -0.32], [0, 0.36, -0.42], 0.018));
+    document.querySelectorAll('button, a, .color-swatch, .glass-card, .hotspot-pin').forEach(el => {
+      el.addEventListener('mouseenter', () => cursorBadge?.classList.add('active-hover'));
+      el.addEventListener('mouseleave', () => cursorBadge?.classList.remove('active-hover'));
     });
-
-    const neckGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.22, 16);
-    const neckMesh = new THREE.Mesh(neckGeo, darkMetalMat);
-    neckMesh.position.set(0, 0.44, 0.68);
-    neckMesh.rotation.x = 0.45;
-    frameGroup.add(neckMesh);
-
-    // 2. Sculpted Cafe Racer Fuel Tank
-    const tankGroup = new THREE.Group();
-    tankGroup.position.set(0, 0.44, 0.18);
-    bikeGroup.add(tankGroup);
-
-    // Main sculpted torso: tapered teardrop
-    const tankBody = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.15, 0.09, 0.64, 32),
-      tankPaintMat
-    );
-    tankBody.rotation.x = Math.PI / 2;
-    tankBody.scale.set(1.0, 0.72, 1.0);
-    tankBody.castShadow = true;
-    tankGroup.add(tankBody);
-
-    // Front muscular dual-shoulder lobes
-    [-0.05, 0.05].forEach(x => {
-      const shoulder = new THREE.Mesh(
-        new THREE.SphereGeometry(0.11, 24, 18),
-        tankPaintMat
-      );
-      shoulder.position.set(x, 0.02, 0.24);
-      shoulder.scale.set(0.9, 0.7, 1.1);
-      tankGroup.add(shoulder);
-    });
-
-    // Front center fill nose
-    const tankNose = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.09, 0.13, 0.14, 24),
-      tankPaintMat
-    );
-    tankNose.rotation.x = Math.PI / 2;
-    tankNose.position.set(0, 0.02, 0.32);
-    tankNose.scale.set(0.9, 0.68, 1.0);
-    tankGroup.add(tankNose);
-
-    // Knee grip rubber pads with grooved ribbed texture
-    [-0.14, 0.14].forEach(x => {
-      const pad = new THREE.Mesh(
-        new THREE.BoxGeometry(0.012, 0.09, 0.24),
-        darkMetalMat
-      );
-      pad.position.set(x, 0.01, 0.04);
-      tankGroup.add(pad);
-      for (let r = -2; r <= 2; r++) {
-        const rib = new THREE.Mesh(
-          new THREE.BoxGeometry(0.015, 0.01, 0.035),
-          tireRubberMat
-        );
-        rib.position.set(x > 0 ? x + 0.003 : x - 0.003, 0.01 + r * 0.018, 0.04);
-        tankGroup.add(rib);
-      }
-    });
-
-    // Center Twin Racing Stripes
-    const stripeMesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(0.042, 0.72),
-      stripeMat
-    );
-    stripeMesh.rotation.x = -Math.PI / 2;
-    stripeMesh.position.set(0, 0.125, 0.06);
-    tankGroup.add(stripeMesh);
-
-    // Billet Monza Flip-Up Chrome Fuel Cap
-    const capBase = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.042, 0.044, 0.014, 24),
-      darkMetalMat
-    );
-    capBase.position.set(0, 0.128, 0.18);
-    tankGroup.add(capBase);
-
-    const capMesh = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.034, 0.034, 0.016, 24),
-      chromeMat
-    );
-    capMesh.position.set(0, 0.14, 0.18);
-    tankGroup.add(capMesh);
-
-    const capLatch = new THREE.Mesh(
-      new THREE.BoxGeometry(0.012, 0.01, 0.025),
-      chromeMat
-    );
-    capLatch.position.set(0, 0.15, 0.198);
-    tankGroup.add(capLatch);
-
-    // 3. Cafe Racer Solo Seat & Tail Cowl
-    const seatGroup = new THREE.Group();
-    seatGroup.position.set(0, 0.36, -0.42);
-    bikeGroup.add(seatGroup);
-
-    // Base leather saddle
-    const saddleMesh = new THREE.Mesh(
-      new THREE.BoxGeometry(0.20, 0.045, 0.32),
-      leatherSeatMat
-    );
-    saddleMesh.position.set(0, 0, 0.08);
-    saddleMesh.castShadow = true;
-    seatGroup.add(saddleMesh);
-
-    // Tuck-and-roll transverse ribbed rolls
-    for (let s = -3; s <= 3; s++) {
-      const seam = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.012, 0.012, 0.205, 12),
-        new THREE.MeshStandardMaterial({ color: 0x422410, roughness: 0.75 })
-      );
-      seam.rotation.z = Math.PI / 2;
-      seam.position.set(0, 0.022, 0.08 + s * 0.042);
-      seatGroup.add(seam);
-    }
-
-    // Aerodynamic Tapered Cafe Tail Cowl
-    const cowlGeo = new THREE.CylinderGeometry(0.075, 0.11, 0.26, 24);
-    const cowlMesh = new THREE.Mesh(cowlGeo, tankPaintMat);
-    cowlMesh.rotation.x = Math.PI / 2;
-    cowlMesh.position.set(0, 0.035, -0.19);
-    cowlMesh.scale.set(1.0, 0.72, 1.0);
-    cowlMesh.castShadow = true;
-    seatGroup.add(cowlMesh);
-
-    // Rounded cowl tail cap
-    const cowlCap = new THREE.Mesh(
-      new THREE.SphereGeometry(0.075, 20, 16),
-      tankPaintMat
-    );
-    cowlCap.position.set(0, 0.035, -0.32);
-    cowlCap.scale.set(1.0, 0.72, 0.8);
-    seatGroup.add(cowlCap);
-
-    // Flush LED Taillight Strip
-    const tailLight = new THREE.Mesh(
-      new THREE.BoxGeometry(0.09, 0.012, 0.015),
-      new THREE.MeshBasicMaterial({ color: 0xff1122 })
-    );
-    tailLight.position.set(0, 0.015, -0.36);
-    seatGroup.add(tailLight);
-
-    // 4. Steerable Front Fork & Handlebars
-    const forkGroup = new THREE.Group();
-    forkGroup.position.set(0, 0.44, 0.68);
-    forkGroup.rotation.x = 0.45;
-    bikeGroup.add(forkGroup);
-
-    const upperClamp = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.025, 0.07), brushedAlloyMat);
-    upperClamp.position.set(0, 0.08, 0);
-    forkGroup.add(upperClamp);
-
-    const lowerClamp = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.025, 0.07), brushedAlloyMat);
-    lowerClamp.position.set(0, -0.1, 0);
-    forkGroup.add(lowerClamp);
-
-    [-0.12, 0.12].forEach(x => {
-      const chromeTube = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.5, 16), chromeMat);
-      chromeTube.position.set(x, -0.14, 0);
-      forkGroup.add(chromeTube);
-
-      const blackLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.44, 16), darkMetalMat);
-      blackLeg.position.set(x, -0.46, 0);
-      blackLeg.castShadow = true;
-      forkGroup.add(blackLeg);
-    });
-
-    const barMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.01, 0.6, 12), darkMetalMat);
-    barMesh.rotation.z = Math.PI / 2;
-    barMesh.position.set(0, 0.07, -0.04);
-    forkGroup.add(barMesh);
-
-    [-0.29, 0.29].forEach(x => {
-      const grip = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.1, 12), darkMetalMat);
-      grip.rotation.z = Math.PI / 2;
-      grip.position.set(x, 0.07, -0.04);
-      forkGroup.add(grip);
-
-      const mirror = new THREE.Mesh(new THREE.CylinderGeometry(0.034, 0.034, 0.008, 16), chromeMat);
-      mirror.position.set(x > 0 ? x + 0.05 : x - 0.05, 0.07, -0.07);
-      mirror.rotation.x = Math.PI / 2;
-      forkGroup.add(mirror);
-    });
-
-    // 7-inch Round Cafe Headlight with Bullet Fairing
-    const headlightGroup = new THREE.Group();
-    headlightGroup.position.set(0, 0.02, 0.12);
-    forkGroup.add(headlightGroup);
-
-    // Aerodynamic cafe cowl / fairing wrapping behind headlight
-    const cowlShell = new THREE.Mesh(
-      new THREE.SphereGeometry(0.12, 24, 18, 0, Math.PI * 2, 0, Math.PI * 0.45),
-      tankPaintMat
-    );
-    cowlShell.rotation.x = -Math.PI / 2;
-    cowlShell.position.set(0, 0.02, -0.06);
-    cowlShell.scale.set(0.95, 0.95, 1.1);
-    cowlShell.castShadow = true;
-    headlightGroup.add(cowlShell);
-
-    const bucketMesh = new THREE.Mesh(
-      new THREE.SphereGeometry(0.095, 24, 18, 0, Math.PI * 2, 0, Math.PI / 2),
-      darkMetalMat
-    );
-    bucketMesh.rotation.x = -Math.PI / 2;
-    headlightGroup.add(bucketMesh);
-
-    const bezelMesh = new THREE.Mesh(new THREE.TorusGeometry(0.095, 0.01, 12, 32), chromeMat);
-    bezelMesh.position.z = 0.02;
-    headlightGroup.add(bezelMesh);
-
-    const lensMesh = new THREE.Mesh(
-      new THREE.CircleGeometry(0.092, 32),
-      new THREE.MeshPhysicalMaterial({
-        color: 0xffffff,
-        transmission: 0.9,
-        transparent: true,
-        opacity: 0.85,
-        roughness: 0.05,
-        ior: 1.45
-      })
-    );
-    lensMesh.position.z = 0.025;
-    headlightGroup.add(lensMesh);
-
-    const haloMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    const haloMesh = new THREE.Mesh(new THREE.TorusGeometry(0.076, 0.005, 8, 32), haloMat);
-    haloMesh.position.z = 0.028;
-    headlightGroup.add(haloMesh);
-
-    // 5. Spoked Wheels with True 36-Spoke Cross Lacing
-    function buildSpokedWheel(isFront = false) {
-      const wheel = new THREE.Group();
-
-      const tireRadius = isFront ? 0.32 : 0.315;
-      const tireTubeRadius = isFront ? 0.044 : 0.052; // wider rear tire!
-      const tire = new THREE.Mesh(new THREE.TorusGeometry(tireRadius, tireTubeRadius, 24, 64), tireRubberMat);
-      tire.castShadow = true;
-      wheel.add(tire);
-
-      // Matte Black Rim with machined lip
-      const rimOuter = new THREE.Mesh(new THREE.TorusGeometry(0.285, 0.014, 16, 64), darkMetalMat);
-      wheel.add(rimOuter);
-
-      const rimLip = new THREE.Mesh(new THREE.TorusGeometry(0.283, 0.004, 12, 64), chromeMat);
-      wheel.add(rimLip);
-
-      // Dual Flange Billet Hub
-      const hubCenter = new THREE.Mesh(new THREE.CylinderGeometry(0.038, 0.038, 0.08, 24), darkMetalMat);
-      hubCenter.rotation.x = Math.PI / 2;
-      wheel.add(hubCenter);
-
-      [-0.035, 0.035].forEach(z => {
-        const flange = new THREE.Mesh(new THREE.CylinderGeometry(0.052, 0.052, 0.008, 24), brushedAlloyMat);
-        flange.rotation.x = Math.PI / 2;
-        flange.position.z = z;
-        wheel.add(flange);
-      });
-
-      // True 36-spoke cross lacing
-      const numSpokes = 36;
-      for (let i = 0; i < numSpokes; i++) {
-        const angle = (i / numSpokes) * Math.PI * 2;
-        const isEven = i % 2 === 0;
-        const hx = Math.cos(angle) * 0.048;
-        const hy = Math.sin(angle) * 0.048;
-        const hz = isEven ? 0.035 : -0.035;
-
-        const crossAngle = angle + (isEven ? 0.42 : -0.42);
-        const rx = Math.cos(crossAngle) * 0.272;
-        const ry = Math.sin(crossAngle) * 0.272;
-        const rz = isEven ? 0.008 : -0.008;
-
-        const v1 = new THREE.Vector3(hx, hy, hz);
-        const v2 = new THREE.Vector3(rx, ry, rz);
-        const dist = v1.distanceTo(v2);
-        const spoke = new THREE.Mesh(new THREE.CylinderGeometry(0.0016, 0.0016, dist, 6), chromeMat);
-        spoke.position.copy(v1.clone().add(v2).multiplyScalar(0.5));
-        spoke.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), v2.clone().sub(v1).normalize());
-        wheel.add(spoke);
-      }
-
-      // Slotted / Drilled Stainless Steel Disc Brake
-      const disc = new THREE.Mesh(new THREE.RingGeometry(0.09, 0.21, 36), chromeMat);
-      disc.position.z = 0.042;
-      wheel.add(disc);
-
-      const caliper = new THREE.Mesh(new THREE.BoxGeometry(0.042, 0.088, 0.038), brakeRedMat);
-      caliper.position.set(0.12, 0.12, 0.042);
-      wheel.add(caliper);
-
-      if (isFront) {
-        const disc2 = disc.clone();
-        disc2.position.z = -0.042;
-        wheel.add(disc2);
-        const caliper2 = caliper.clone();
-        caliper2.position.z = -0.042;
-        wheel.add(caliper2);
-      }
-
-      return wheel;
-    }
-
-    const frontWheel = buildSpokedWheel(true);
-    frontWheel.position.set(0, -0.65, 0.04);
-    forkGroup.add(frontWheel);
-
-    const rearSwingarmGroup = new THREE.Group();
-    bikeGroup.add(rearSwingarmGroup);
-
-    [-0.12, 0.12].forEach(x => {
-      const arm = createTube([x, -0.05, -0.3], [x, -0.24, -0.9], 0.024);
-      rearSwingarmGroup.add(arm);
-    });
-
-    const rearWheel = buildSpokedWheel(false);
-    rearWheel.position.set(0, -0.24, -0.9);
-    rearSwingarmGroup.add(rearWheel);
-
-    // Dual Rear Shocks with Red Coils
-    [-0.13, 0.13].forEach(x => {
-      const shock = createTube([x, 0.3, -0.42], [x, -0.18, -0.8], 0.02);
-      rearSwingarmGroup.add(shock);
-
-      const resGeo = new THREE.CylinderGeometry(0.018, 0.018, 0.08, 16);
-      const resMat = new THREE.MeshStandardMaterial({ color: 0xd4af37, metalness: 0.85, roughness: 0.18 });
-      const resMesh = new THREE.Mesh(resGeo, resMat);
-      resMesh.position.set(x > 0 ? x + 0.03 : x - 0.03, 0.25, -0.45);
-      resMesh.rotation.x = 0.45;
-      rearSwingarmGroup.add(resMesh);
-    });
-
-    // 6. Powertrain // V-Twin Engine Block & Fin Stack
-    const engineGroup = new THREE.Group();
-    engineGroup.position.set(0, -0.06, 0.05);
-    bikeGroup.add(engineGroup);
-
-    const crankcaseGeo = new THREE.CylinderGeometry(0.15, 0.15, 0.26, 32);
-    const crankcaseMesh = new THREE.Mesh(crankcaseGeo, darkMetalMat);
-    crankcaseMesh.rotation.z = Math.PI / 2;
-    crankcaseMesh.castShadow = true;
-    engineGroup.add(crankcaseMesh);
-
-    const clutchCover = new THREE.Mesh(new THREE.CylinderGeometry(0.095, 0.095, 0.016, 28), chromeMat);
-    clutchCover.rotation.z = Math.PI / 2;
-    clutchCover.position.x = 0.14;
-    engineGroup.add(clutchCover);
-
-    // 45° V-Twin Cylinders
-    [-0.39, 0.39].forEach(angle => {
-      const cyl = new THREE.Group();
-      cyl.rotation.x = angle;
-      cyl.position.set(0, 0.12, angle * 0.22);
-
-      const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, 0.22, 20), darkMetalMat);
-      cyl.add(barrel);
-
-      for (let f = 0; f < 9; f++) {
-        const fin = new THREE.Mesh(new THREE.CylinderGeometry(0.105, 0.105, 0.006, 24), brushedAlloyMat);
-        fin.position.y = -0.08 + f * 0.02;
-        cyl.add(fin);
-      }
-
-      const rocker = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.045, 0.16), chromeMat);
-      rocker.position.y = 0.12;
-      cyl.add(rocker);
-
-      const pushrod = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.24, 12), chromeMat);
-      pushrod.position.set(0.085, 0.02, 0.04);
-      cyl.add(pushrod);
-
-      engineGroup.add(cyl);
-    });
-
-    // Swept Titanium / Matte Black Exhaust System
-    const exhaustPipes = new THREE.Group();
-    bikeGroup.add(exhaustPipes);
-    exhaustPipes.add(createTube([0.12, 0.06, 0.22], [0.16, -0.2, 0.1], 0.024));
-    exhaustPipes.add(createTube([0.12, 0.06, -0.05], [0.16, -0.2, 0.0], 0.024));
-    exhaustPipes.add(createTube([0.16, -0.2, 0.1], [0.18, -0.22, -0.45], 0.032));
-    exhaustPipes.add(createTube([0.18, -0.22, -0.45], [0.22, -0.19, -0.88], 0.044));
-
-    // Kickstand
-    bikeGroup.add(createTube([-0.07, -0.22, -0.2], [-0.24, -0.575, -0.15], 0.014));
 
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -1506,6 +1113,9 @@
 
       const motorGroup = new THREE.Group();
       mScene.add(motorGroup);
+
+      const brushedAlloyMat = new THREE.MeshStandardMaterial({ color: 0x888e95, roughness: 0.35, metalness: 0.85 });
+      const chromeMat = new THREE.MeshStandardMaterial({ color: 0xf0f2f5, roughness: 0.1, metalness: 0.95 });
 
       const statorGeo = new THREE.CylinderGeometry(0.4, 0.4, 0.8, 32);
       const statorMat = new THREE.MeshStandardMaterial({ color: 0xf25a2b, roughness: 0.3, metalness: 0.6 });
@@ -1564,6 +1174,13 @@
     const wmRight = document.getElementById('wm-right');
     const telemetrySpeed = document.getElementById('telemetry-speed');
 
+    // Telemetry HUD dynamic speed ratio jitter
+    setInterval(() => {
+      if (telemetrySpeed && Math.random() > 0.6) {
+        telemetrySpeed.innerText = Math.floor(37 + Math.random() * 4);
+      }
+    }, 380);
+
     const masterTl = gsap.timeline({
       scrollTrigger: {
         trigger: '#hero-master-pin',
@@ -1590,12 +1207,9 @@
       .to(heroTitle, { y: -120, opacity: 0, scale: 0.9, ease: 'power2.inOut', duration: 2 }, 0)
       .to('.hotspot-pin', { opacity: 0, y: -20, stagger: 0.1, duration: 1 }, 0)
       .to(loftAmbient, { opacity: 0.95, duration: 2.5 }, 0.5)
-      .to(loftSunLight, { intensity: 2.8, duration: 2.5 }, 0.5)
-      // 3D Bike Turn: Bank into curve matching Frame 11
-      .to(bikeGroup.position, { x: -0.02, y: -0.08, z: 0.15, duration: 3, ease: 'power2.inOut' }, 0)
-      .to(bikeGroup.rotation, { x: 0.08, y: 0.22, z: 0.16, duration: 3, ease: 'power2.inOut' }, 0)
-      .to(forkGroup.rotation, { y: -0.12, duration: 3, ease: 'power2.inOut' }, 0)
-      .to(camera.position, { x: -0.22, y: 0.22, z: 2.9, duration: 3, ease: 'power2.inOut' }, 0)
+      // Visual Scrubber Transition: Crossfade from Hero to Curve Lean
+      .to(stageHero, { opacity: 0, scale: 0.95, duration: 2.2, ease: 'power2.inOut' }, 0.5)
+      .to(stageCurve, { opacity: 1, scale: 1.0, duration: 2.5, ease: 'power2.inOut' }, 0.6)
       // Shift badges to top
       .to(bottomBadges, { y: -window.innerHeight + 140, scale: 0.85, duration: 2.5, ease: 'power2.inOut' }, 0.5)
       // Show Stage 2 Specs
@@ -1607,13 +1221,9 @@
     // ── STAGE 2 -> STAGE 3: Menacing Head-on Posture + HUD Cards
     masterTl
       .to(stageSpecs, { y: -80, opacity: 0, duration: 2, ease: 'power2.in' }, 3.5)
-      // Straighten Bike directly toward camera matching Frame 16 & 20
-      .to(bikeGroup.position, { x: 0, y: -0.12, z: 0.35, duration: 3.5, ease: 'power2.inOut' }, 3.5)
-      .to(bikeGroup.rotation, { x: 0.0, y: 0.0, z: 0.0, duration: 3.5, ease: 'power2.inOut' }, 3.5)
-      .to(forkGroup.rotation, { y: 0, duration: 3.5, ease: 'power2.inOut' }, 3.5)
-      .to(camera.position, { x: 0, y: 0.15, z: 2.65, duration: 3.5, ease: 'power2.inOut' }, 3.5)
-      .to(headlightSpot, { intensity: 4.5, duration: 2 }, 4)
-      .to(haloMat, { color: 0xffffff, duration: 1 }, 4)
+      // Visual Scrubber Transition: Crossfade from Curve to Front Head-on
+      .to(stageCurve, { opacity: 0, scale: 0.96, duration: 2.2, ease: 'power2.inOut' }, 3.5)
+      .to(stageFront, { opacity: 1, scale: 1.0, duration: 2.5, ease: 'power2.inOut' }, 3.6)
       // Slide in Cards
       .to(stageCards, { opacity: 1, duration: 1.5 }, 4.5)
       .fromTo('#card-telemetry', { x: -100, opacity: 0 }, { x: 0, opacity: 1, duration: 2, ease: 'power3.out' }, 4.5)
@@ -1621,75 +1231,22 @@
 
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 5. MOUSE PARALLAX & CURSOR TRACKING
-    // ─────────────────────────────────────────────────────────────────────────
-    const cursorBadge = document.getElementById('cursor-scroll-badge');
-    let mouseX = 0, mouseY = 0;
-    let targetX = 0, targetY = 0;
-
-    window.addEventListener('mousemove', (e) => {
-      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-      mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-
-      if (cursorBadge) {
-        gsap.to(cursorBadge, { x: e.clientX, y: e.clientY, duration: 0.25, ease: 'power2.out' });
-      }
-    });
-
-    document.querySelectorAll('button, a, .color-swatch, .glass-card, .hotspot-pin').forEach(el => {
-      el.addEventListener('mouseenter', () => cursorBadge?.classList.add('active-hover'));
-      el.addEventListener('mouseleave', () => cursorBadge?.classList.remove('active-hover'));
-    });
-
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // 6. MAIN THREE.JS ANIMATION LOOP
-    // ─────────────────────────────────────────────────────────────────────────
-    let clock = new THREE.Clock();
-
-    function renderLoop() {
-      requestAnimationFrame(renderLoop);
-
-      const delta = clock.getDelta();
-      const time = clock.getElapsedTime();
-
-      targetX += (mouseX * 0.25 - targetX) * 0.05;
-      targetY += (mouseY * 0.15 - targetY) * 0.05;
-
-      camera.position.x += (targetX - camera.position.x * 0.08) * 0.02;
-      camera.position.y += (targetY - camera.position.y * 0.08) * 0.02;
-      camera.lookAt(0, -0.02, 0);
-
-      bikeGroup.position.y += Math.sin(time * 3) * 0.0002;
-
-      if (telemetrySpeed && Math.random() > 0.85) {
-        telemetrySpeed.innerText = Math.floor(37 + Math.random() * 3);
-      }
-
-      renderer.render(scene, camera);
-    }
-    renderLoop();
-
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // 7. COLOR CUSTOMIZER // REAL-TIME 3D REPAINTING
+    // 5. COLOR CUSTOMIZER // REAL-TIME 3D REPAINTING
     // ─────────────────────────────────────────────────────────────────────────
     const swatches = document.querySelectorAll('.color-swatch');
     const modalPaintSelect = document.getElementById('modal-paint-select');
 
+    const colorFilters = {
+      '0x18191d': 'drop-shadow(0 40px 60px rgba(0, 0, 0, 0.98)) drop-shadow(0 12px 25px rgba(0, 0, 0, 0.8)) brightness(0.92) contrast(1.15)',
+      '0xf4f4f2': 'drop-shadow(0 40px 60px rgba(0, 0, 0, 0.98)) drop-shadow(0 12px 25px rgba(0, 0, 0, 0.8)) brightness(1.22) contrast(1.08) saturate(0.8)',
+      '0xea3826': 'drop-shadow(0 40px 60px rgba(0, 0, 0, 0.98)) drop-shadow(0 12px 25px rgba(0, 0, 0, 0.8)) hue-rotate(330deg) saturate(1.5) brightness(1.1)',
+      '0xa38f78': 'drop-shadow(0 40px 60px rgba(0, 0, 0, 0.98)) drop-shadow(0 12px 25px rgba(0, 0, 0, 0.8)) sepia(0.4) brightness(1.02) contrast(1.1)'
+    };
+
     function applyPaintColor(colorHex) {
-      const colorVal = parseInt(colorHex, 16);
-      gsap.to(tankPaintMat.color, {
-        r: ((colorVal >> 16) & 255) / 255,
-        g: ((colorVal >> 8) & 255) / 255,
-        b: (colorVal & 255) / 255,
-        duration: 0.6
+      const filterVal = colorFilters[colorHex] || 'drop-shadow(0 40px 60px rgba(0, 0, 0, 0.98)) drop-shadow(0 12px 25px rgba(0, 0, 0, 0.8))';
+      document.querySelectorAll('.bike-cutout').forEach(img => {
+        img.style.filter = filterVal;
       });
       swatches.forEach(s => {
         if (s.dataset.color === colorHex) s.classList.add('active');
@@ -1706,7 +1263,7 @@
 
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 8. WEB AUDIO ENGINE // CAFE RACER V-TWIN & STATOR SYNTHESIZER
+    // 6. WEB AUDIO ENGINE // CAFE RACER V-TWIN & STATOR SYNTHESIZER
     // ─────────────────────────────────────────────────────────────────────────
     let audioCtx = null;
     let isAudioPlaying = false;
@@ -1755,7 +1312,7 @@
 
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 9. MODALS & CHECKOUT LOGIC
+    // 7. MODALS & CHECKOUT LOGIC
     // ─────────────────────────────────────────────────────────────────────────
     const checkoutModal = document.getElementById('checkout-modal');
     document.querySelectorAll('.buy-now-trigger, #book-testride-btn').forEach(btn => {
