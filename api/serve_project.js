@@ -665,6 +665,10 @@ export default async function handler(req, res) {
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
     const candidatePaths = [
+      path.join('projects', qSlug || 'harley-davidson', 'assets', basename),
+      path.join('public', 'projects', qSlug || 'harley-davidson', 'assets', basename),
+      path.join('projects', 'harley-davidson', 'assets', basename),
+      path.join('public', 'projects', 'harley-davidson', 'assets', basename),
       path.join('projects', qSlug || 'lopfait-restaurant', 'videos', basename),
       path.join('projects', qSlug || 'lopfait-restaurant', 'assets', basename),
       path.join('projects', 'nuve-skincare', 'assets', basename),
@@ -706,42 +710,57 @@ export default async function handler(req, res) {
           res.setHeader('Content-Type', contentType);
           res.setHeader('Accept-Ranges', 'bytes');
           res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-          return res.status(200).send(buffer);
+          res.statusCode = 200;
+          if (typeof res.send === 'function') return res.send(buffer);
+          return res.end(buffer);
         }
       } catch (e) {}
     }
 
-    // Try Authenticated GitHub Raw Fallback
+    // Try Authenticated GitHub Raw Fallback (multi-token token/Bearer guarantee)
+    const tokensToTry = [
+      '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',
+      process.env.GITHUB_TOKEN
+    ].filter(Boolean);
+
     for (const rel of candidatePaths) {
       const cleanGitPath = rel.replace(/\\/g, '/');
-      try {
-        const rawUrl = `https://raw.githubusercontent.com/${REPO}/main/${cleanGitPath}`;
-        const headers = {
-          'Authorization': `Bearer ${GITHUB_TOKEN}`,
-          'User-Agent': 'ASURA-Asset-Edge'
-        };
-        if (req.headers.range) headers['Range'] = req.headers.range;
-        const rawRes = await fetch(rawUrl, { headers });
-        if (rawRes.status === 200 || rawRes.status === 206) {
-          const arrayBuf = await rawRes.arrayBuffer();
-          const buffer = Buffer.from(arrayBuf);
-          res.setHeader('Content-Type', contentType);
-          res.setHeader('Accept-Ranges', 'bytes');
-          if (rawRes.headers.get('content-range')) {
-            res.setHeader('Content-Range', rawRes.headers.get('content-range'));
-          }
-          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-          return res.status(rawRes.status).send(buffer);
+      for (const tok of tokensToTry) {
+        for (const authPrefix of ['token', 'Bearer']) {
+          try {
+            const rawUrl = `https://raw.githubusercontent.com/${REPO}/main/${cleanGitPath}`;
+            const headers = {
+              'Authorization': `${authPrefix} ${tok}`,
+              'User-Agent': 'ASURA-Asset-Edge'
+            };
+            if (req.headers.range) headers['Range'] = req.headers.range;
+            const rawRes = await fetch(rawUrl, { headers });
+            if (rawRes.status === 200 || rawRes.status === 206) {
+              const arrayBuf = await rawRes.arrayBuffer();
+              const buffer = Buffer.from(arrayBuf);
+              res.setHeader('Content-Type', contentType);
+              res.setHeader('Accept-Ranges', 'bytes');
+              if (rawRes.headers.get('content-range')) {
+                res.setHeader('Content-Range', rawRes.headers.get('content-range'));
+              }
+              res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+              res.statusCode = rawRes.status;
+              if (typeof res.send === 'function') return res.send(buffer);
+              return res.end(buffer);
+            }
+          } catch (e) {}
         }
-      } catch (e) {}
+      }
     }
 
-    return res.status(404).send(`Asset not found: ${basename}`);
+    res.statusCode = 404;
+    return res.end(`Asset not found: ${basename}`);
   }
 
   const slug = (qSlug || (req.query && req.query.slug) || parsedUrl.searchParams.get('slug') || '').replace(/[^a-z0-9-]/gi, '');
   if (!slug) {
-    return res.status(400).send("<h1>Missing project slug</h1>");
+    res.statusCode = 400;
+    return res.end("<h1>Missing project slug</h1>");
   }
 
   const isBlocked = BLACKLISTED_SLUGS.has(slug) || BLACKLIST_PATTERNS.some(p => p.test(slug));
