@@ -52,6 +52,7 @@ The following production applications are active and continuously tracked inside
 
 | Project Slug | Domain / Client | Tech Stack & Signature Features | Vercel Live Route |
 | :--- | :--- | :--- | :--- |
+| **`era-residence`** | ERA Residence (Estepona / New Golden Mile) | 3D Pinned Stage, Day/Night Lighting Shift, SVG Hotspot Radar Pins, 3D Perspective Deck, Lenis Momentum Scroll | [`/projects/era-residence`](https://asura-system.vercel.app/projects/era-residence) |
 | **`villa-elysee`** | Villa Élysée (Cap de Nice) | 3D AI Clifftop Drone Fly-Through, 60fps Canvas Scrubber, GPS Telemetry, 3D Tilt Cards | [`/projects/villa-elysee`](https://asura-system.vercel.app/projects/villa-elysee) |
 | **`aadriti-learning-centre`** | Aadriti Centre For Learning And Psychological Well Being | Folder-Tab Cards, Bento Mosaic, Programs Slider, 1,500+ Metric Counter, Official Client Branding | [`/projects/aadriti-learning-centre`](https://asura-system.vercel.app/projects/aadriti-learning-centre) |
 | **`pixnova`** | Pixnova Digital Architecture | Multi-Niche Digital Agency Portfolio, Interactive Dark Blue / White Theme, GSAP Motion | [`/projects/pixnova`](https://asura-system.vercel.app/projects/pixnova) |
@@ -59,7 +60,24 @@ The following production applications are active and continuously tracked inside
 
 ---
 
-### 4. Zero-404 Vercel Edge Pipeline
+### 4. Supreme 3D Animation & Kinetic Inspiration Vault
+To eliminate generic AI slop layouts and enforce bespoke 3D scroll kinetics, interactive card physics, and micro-interactions, the Asura / Manus pipeline continuously cross-references these tier-1 motion design resources:
+
+| Platform | Domain | Specialty & Core Architectural Patterns |
+| :--- | :--- | :--- |
+| **Details.so** | `details.so` | Handpicked luxury & boutique site designs with copyable prompt architectures for precise AI recreation. |
+| **Refero.design** | `refero.design` | Real production product screens, comprehensive user flows, and real UX interaction recordings from world-class applications. |
+| **Design Spells** | `designspells.com` | Micro-interactions, delightful haptics, cursor physics, and subtle details that make digital experiences feel magical. |
+| **Codrops / Tympanus** | `tympanus.net/codrops` | Experimental 3D WebGL card shaders, smooth camera scrubbers, multi-layer depth transitions, and canvas effects. |
+| **Awwwards / Site of the Day** | `awwwards.com` | Award-winning interactive luxury real estate, editorial architecture layouts, and kinetic typography. |
+| **Godly Website** | `godly.website` | Curated astronomical web design, high-end motion mechanics, and cutting-edge typography. |
+| **Hoverstat.es** | `hoverstat.es` | Alternative interaction paradigms, unusual scroll dynamics, and tactile UI components. |
+| **Lenis & GSAP ScrollTrigger** | `lenis.darkroom.engineering` | Butter-smooth momentum inertia scrolling, pinned sticky sheet sequences, and perspective card decks. |
+
+---
+
+### 5. Zero-404 Vercel Edge Pipeline
 - **Auto-Sync**: Any atomic Git tree push to `main` branch immediately triggers Vercel CI/CD.
 - **Dynamic Asset Fallback**: `api/serve_project.js` and `api/serve_asset.js` ensure that all media (videos, WebP frames, photos) resolve with HTTP 200/206 Range streaming without breakage.
 - **Studio Fleet Sync**: Asura Studio automatically registers newly deployed projects in its active radar and monitors live status.
+
