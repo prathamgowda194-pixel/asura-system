@@ -665,6 +665,8 @@ export default async function handler(req, res) {
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
     const candidatePaths = [
+      path.join('projects', 'era-residence', 'assets', basename),
+      path.join('public', 'projects', 'era-residence', 'assets', basename),
       path.join('projects', qSlug || 'harley-davidson', 'assets', basename),
       path.join('public', 'projects', qSlug || 'harley-davidson', 'assets', basename),
       path.join('projects', 'harley-davidson', 'assets', basename),
