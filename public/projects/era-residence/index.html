@@ -330,42 +330,49 @@
   </div>
 
   <!-- ══════════════════════════════════════════════════════════════════════════
-       HERO ZONE: REAL-TIME 3D CINEMATIC CAMERA SCROLL (KEYFRAME A -> KEYFRAME B)
+       HERO ZONE: REAL-TIME 60 FPS 3D SCROLL-DRIVEN FPV DRONE FLY-THROUGH
        ══════════════════════════════════════════════════════════════════════════ -->
-  <section id="hero" class="relative w-full h-[180vh]">
+  <section id="hero" class="relative w-full h-[240vh]">
     <div class="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between p-6 md:p-14 select-none">
 
-      <!-- 3D Cinematic Architectural Mansion Stage (Keyframe A -> Keyframe B Camera Scroll) -->
+      <!-- 3D Cinematic Architectural Mansion Stage (Scroll-Driven FPV Drone Fly-Through) -->
       <div id="mansion-camera-stage" class="absolute inset-0 w-full h-full overflow-hidden pointer-events-auto">
         <div id="camera-viewport-3d" class="relative w-full h-full will-change-transform">
           
-          <!-- Keyframe A: Starting Image — Grand Mediterranean Arrival & Reflection Pool -->
-          <div id="camera-layer-start" class="camera-layer z-0">
+          <!-- Master Continuous 3D Fly-Through Video Layer (Using User Master Drone Video) -->
+          <div id="camera-video-container" class="camera-layer z-0">
+            <video id="era-scroll-video" 
+                   class="w-full h-full object-cover select-none pointer-events-none transition-all duration-700" 
+                   playsinline 
+                   webkit-playsinline 
+                   muted 
+                   preload="auto" 
+                   tabindex="-1"
+                   crossorigin="anonymous">
+              <source src="./assets/era_scroll_master.mp4" type="video/mp4">
+              <source src="/projects/era-residence/assets/era_scroll_master.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <!-- High-Definition Fallback & Instant Backdrop (Guarantees zero black screen while video initializes) -->
+          <div id="camera-layer-start" class="camera-layer z-[1] transition-opacity duration-700 pointer-events-none">
             <img src="./assets/era_hero_day.jpg" 
                  onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=85'"
                  alt="ERA Residence — Grand Mediterranean Arrival & Travertine Pavilions" 
                  class="w-full h-full object-cover">
           </div>
 
-          <!-- Keyframe B: Ending Image — Intimate Penthouse Cantilever & Ocean Solarium Transition -->
-          <div id="camera-layer-end" class="camera-layer z-1 opacity-0">
-            <img src="./assets/era_penthouse_terrace.jpg" 
-                 onerror="this.src='https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1920&q=85'"
-                 alt="ERA Residence — Intimate Cantilevered Solarium & Ocean Horizon" 
-                 class="w-full h-full object-cover">
-          </div>
-
-          <!-- Dusk / Twilight Architectural Lighting Layer -->
-          <div id="camera-layer-night" class="camera-layer z-2 opacity-0 transition-opacity duration-1000">
+          <!-- Dusk / Twilight Architectural Lighting Layer (Day/Night Mode Shift) -->
+          <div id="camera-layer-night" class="camera-layer z-[2] opacity-0 transition-opacity duration-1000 pointer-events-none mix-blend-overlay">
             <img src="./assets/era_hero_night.jpg" 
                  onerror="this.src='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=85'"
                  alt="ERA Residence — Evening Twilight & Amber Architectural Lighting" 
                  class="w-full h-full object-cover">
           </div>
 
-          <!-- 3D Architectural Blueprint Wireframe Overlay -->
-          <div id="camera-blueprint-overlay" class="absolute inset-0 w-full h-full z-3 opacity-0 pointer-events-none transition-opacity duration-700 bg-black/45 backdrop-blur-[2px]">
-            <svg class="w-full h-full opacity-45" viewBox="0 0 1920 1080" fill="none" stroke="#C4A47C" stroke-width="1.2">
+          <!-- 3D Architectural Blueprint Wireframe Overlay (Interactive CAD View) -->
+          <div id="camera-blueprint-overlay" class="absolute inset-0 w-full h-full z-[3] opacity-0 pointer-events-none transition-opacity duration-700 bg-black/45 backdrop-blur-[2px]">
+            <svg class="w-full h-full opacity-60" viewBox="0 0 1920 1080" fill="none" stroke="#C4A47C" stroke-width="1.2">
               <rect x="260" y="200" width="1400" height="680" stroke-dasharray="8 8"/>
               <line x1="260" y1="520" x2="1660" y2="520"/>
               <line x1="780" y1="200" x2="780" y2="880"/>
@@ -437,8 +444,8 @@
       <!-- Hero Top Title & Day/Night Toggle Bar -->
       <div class="relative z-20 pt-20 md:pt-16 max-w-4xl pointer-events-auto">
         <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white text-[11px] font-mono uppercase tracking-[0.2em] mb-6">
-          <span class="w-2 h-2 rounded-full bg-[#C4A47C]"></span>
-          <span>Cinematic 3D Camera Scroll · Push Forward to Glide</span>
+          <span class="w-2 h-2 rounded-full bg-[#C4A47C] animate-pulse"></span>
+          <span>60 FPS FPV Drone 3D Scroll · Push Forward to Glide</span>
         </div>
 
         <h1 class="font-serif text-5xl sm:text-7xl md:text-9xl font-light text-white tracking-tight leading-[0.92] mb-6 drop-shadow-lg">
@@ -1161,20 +1168,60 @@
       duration: 1.25,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      touchMultiplier: 2
+      touchMultiplier: 1.6
     });
 
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
+    // Connect Lenis smoothly to GSAP ticker for 60 FPS synchronization
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
 
     // ═════════════════════════════════════════════════════════════════════════
-    // 3. PHOTOREALISTIC 3D CAMERA SCROLL & VIEWPORT GYROSCOPE ENGINE
+    // 3. MASTER 60 FPS 3D SCROLL-DRIVEN VIDEO ENGINE & VIEWPORT GYROSCOPE
     // ═════════════════════════════════════════════════════════════════════════
     let isNightMode = false;
     let isBlueprintActive = false;
+    const video = document.getElementById("era-scroll-video");
+    const photoFallback = document.getElementById("camera-layer-start");
+    let targetVideoProgress = 0;
+    let currentVideoProgress = 0;
+    let videoDuration = 10.1; // Baseline fallback duration matching master video
+    let isVideoReady = false;
+
+    // Direct Blob Hydration for instantaneous memory-level scrubbing seeking
+    async function initVideoBlob() {
+      if (!video) return;
+      try {
+        const res = await fetch('./assets/era_scroll_master.mp4');
+        if (res.ok) {
+          const blob = await res.blob();
+          const blobUrl = URL.createObjectURL(blob);
+          video.src = blobUrl;
+          video.load();
+        }
+      } catch (e) {
+        console.log("Serving directly from static video path");
+      }
+    }
+    initVideoBlob();
+
+    if (video) {
+      video.addEventListener('loadedmetadata', () => {
+        isVideoReady = true;
+        if (video.duration && !isNaN(video.duration) && video.duration > 0) {
+          videoDuration = video.duration;
+        }
+        video.currentTime = 0.001;
+        if (photoFallback) photoFallback.style.opacity = "0";
+      });
+
+      video.addEventListener('canplay', () => {
+        isVideoReady = true;
+        if (photoFallback) photoFallback.style.opacity = "0";
+      });
+    }
 
     function initCameraStage() {
       const viewport = document.getElementById("camera-viewport-3d");
@@ -1203,6 +1250,7 @@
       const btnDay = document.getElementById("toggle-day");
       const btnNight = document.getElementById("toggle-night");
       const nightLayer = document.getElementById("camera-layer-night");
+      const videoEl = document.getElementById("era-scroll-video");
 
       if (mode === "night") {
         isNightMode = true;
@@ -1211,7 +1259,8 @@
         btnDay.classList.remove("bg-[#F6F4EF]", "text-black", "font-semibold");
         btnDay.classList.add("text-white/70");
 
-        if (nightLayer) nightLayer.style.opacity = "1";
+        if (nightLayer) nightLayer.style.opacity = "0.85";
+        if (videoEl) videoEl.style.filter = "brightness(0.68) saturate(1.15) hue-rotate(205deg) contrast(1.12)";
       } else {
         isNightMode = false;
         btnDay.classList.add("bg-[#F6F4EF]", "text-black", "font-semibold");
@@ -1220,6 +1269,7 @@
         btnNight.classList.add("text-white/70");
 
         if (nightLayer) nightLayer.style.opacity = "0";
+        if (videoEl) videoEl.style.filter = "none";
       }
     }
 
@@ -1246,102 +1296,112 @@
     }
 
     // ═════════════════════════════════════════════════════════════════════════
-    // 6. GSAP SCROLLTRIGGER 3D CAMERA TRAJECTORY ENGINE
+    // 6. GSAP SCROLLTRIGGER 3D CAMERA & 60 FPS VIDEO SCRUB ENGINE
     // ═════════════════════════════════════════════════════════════════════════
     gsap.registerPlugin(ScrollTrigger);
 
     function initScrollAnimations() {
-      // Hero: 3D Camera Fly-Through (Keyframe A -> Keyframe B)
+      // Hero: 60 FPS 3D FPV Drone Video Scrub
       ScrollTrigger.create({
         trigger: "#hero",
         start: "top top",
         end: "bottom top",
-        scrub: 1.2,
+        scrub: 1.0,
         onUpdate: (self) => {
           const p = self.progress;
+          targetVideoProgress = p;
 
-          // Starting Image: Smooth forward dolly zoom & perspective push
-          const scaleStart = 1.0 + p * 0.28;
-          const rotX = p * 4;
-          const transZ = p * 80;
-          const opacStart = Math.max(0, 1 - p * 1.5);
-
-          gsap.set("#camera-layer-start", {
-            scale: scaleStart,
-            rotationX: rotX,
-            z: transZ,
-            opacity: opacStart
-          });
-
-          // Ending Image: Smooth glide-in transition
-          const scaleEnd = 1.25 - p * 0.25;
-          const opacEnd = Math.min(1, Math.max(0, (p - 0.2) * 1.6));
-
-          gsap.set("#camera-layer-end", {
-            scale: scaleEnd,
-            rotationX: rotX * 0.5,
-            opacity: opacEnd
+          // Subtle physical camera dolly scale for extra immersion
+          const scaleVal = 1.0 + p * 0.18;
+          const rotXVal = p * 2.8;
+          gsap.set("#camera-viewport-3d", {
+            scale: scaleVal,
+            rotationX: rotXVal,
+            z: p * 50
           });
 
           // Live Telemetry Readouts
           const zoomEl = document.getElementById("hud-zoom-metric");
-          if (zoomEl) zoomEl.innerText = `${scaleStart.toFixed(2)}x`;
+          if (zoomEl) zoomEl.innerText = `${scaleVal.toFixed(2)}x`;
           const elevEl = document.getElementById("hud-elev-metric");
           if (elevEl) elevEl.innerText = `+${(12 - p * 7.6).toFixed(1)}m`;
 
           // Spatial Hotspot Pins glide along 3D spatial anchor trajectory
           gsap.set(".arch-pin[data-pin='cantilever']", {
-            x: -p * 60,
-            y: -p * 40,
-            scale: 1 + p * 0.2
+            x: -p * 65,
+            y: -p * 45,
+            scale: 1 + p * 0.25
           });
           gsap.set(".arch-pin[data-pin='pool']", {
-            x: p * 40,
-            y: p * 30,
-            scale: 1 - p * 0.15
+            x: p * 45,
+            y: p * 35,
+            scale: 1 - p * 0.12
           });
           gsap.set(".arch-pin[data-pin='garden']", {
-            x: -p * 30,
-            y: p * 20
+            x: -p * 35,
+            y: p * 25
           });
         }
       });
 
-      // Chapter 1: The Three Pillars (Smooth perspective card rise)
+      // Lerp Tick Loop for 60 FPS Smooth Scrubbing
+      function scrubVideoTick() {
+        if (video) {
+          const dur = (video.duration && !isNaN(video.duration) && video.duration > 0) ? video.duration : videoDuration;
+          currentVideoProgress += (targetVideoProgress - currentVideoProgress) * 0.18;
+          const targetTime = currentVideoProgress * dur;
+          if (Math.abs(video.currentTime - targetTime) > 0.002) {
+            video.currentTime = targetTime;
+          }
+        }
+        requestAnimationFrame(scrubVideoTick);
+      }
+      requestAnimationFrame(scrubVideoTick);
+
+      // Chapter 1: The Three Pillars (Smooth perspective card rise & permanent appearance)
       gsap.fromTo("#concept .pillar-card", 
         {
           opacity: 0,
-          y: 60,
-          rotationX: -8
+          y: 70,
+          rotationX: -10
         },
         {
           opacity: 1,
           y: 0,
           rotationX: 0,
-          duration: 0.85,
+          duration: 0.9,
           ease: "power2.out",
           stagger: 0.15,
           scrollTrigger: {
             trigger: "#concept",
-            start: "top 75%",
-            toggleActions: "play none none reverse"
+            start: "top 78%",
+            toggleActions: "play none none none"
           }
         }
       );
 
-      // Chapter 2: Residence Deck 3D Unroll
-      gsap.from("#deck-wrapper", {
-        scrollTrigger: {
-          trigger: "#residences",
-          start: "top 70%",
-          end: "top 30%",
-          scrub: 1.2
+      // Chapter 2: Residence Deck 3D Unroll (Forward entrance & permanent visibility)
+      gsap.fromTo("#deck-wrapper", 
+        {
+          rotationY: -10,
+          rotationX: 8,
+          scale: 0.95,
+          opacity: 0
         },
-        rotationY: -12,
-        rotationX: 10,
-        scale: 0.94,
-        opacity: 0.4
-      });
+        {
+          rotationY: 0,
+          rotationX: 0,
+          scale: 1,
+          opacity: 1,
+          duration: 1.1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: "#residences",
+            start: "top 78%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
 
       // Chapter 3: Resort-Grade Wellness Cards (Smooth forward entrance & permanent visibility)
       gsap.fromTo("#amenities .amenity-card", 
@@ -1349,20 +1409,60 @@
           opacity: 0,
           y: 70,
           rotationX: 10,
-          scale: 0.94
+          scale: 0.95
         },
         {
           opacity: 1,
           y: 0,
           rotationX: 0,
           scale: 1,
-          duration: 0.85,
+          duration: 0.9,
           ease: "power2.out",
           stagger: 0.16,
           scrollTrigger: {
             trigger: "#amenities",
-            start: "top 75%",
-            toggleActions: "play none none reverse"
+            start: "top 78%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+
+      // Chapter 4: Built Specification Bento Grid (Cards appear as you scroll in)
+      gsap.fromTo("#specifications .tilt-card-3d",
+        {
+          opacity: 0,
+          y: 50
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: "#specifications",
+            start: "top 80%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+
+      // Chapter 5: Location Prime Enclave Cards (Cards appear as you scroll in)
+      gsap.fromTo("#location .tilt-card-3d",
+        {
+          opacity: 0,
+          y: 50
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          stagger: 0.12,
+          scrollTrigger: {
+            trigger: "#location",
+            start: "top 80%",
+            toggleActions: "play none none none"
           }
         }
       );

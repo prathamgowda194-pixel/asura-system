@@ -220,6 +220,91 @@ document.querySelectorAll('.rv, .rt').forEach(el => observer.observe(el));
 
 ---
 
+### MECHANIC 10: SMOOTH FPV DRONE VIDEO SCRUB & PHOTOGRAPHIC FALLBACK ENGINE
+*Use for: Continuous fly-through video hero stages (Real Estate villas, hypercars, architectural walkthroughs).*
+- **Doctrine:** Real video footage scrubbed seamlessly by the user's scroll position gives an unmatched sense of physical presence that pure 3D canvas models cannot replicate.
+- **HTML Structure:**
+```html
+<section id="hero-scrub-zone" class="relative w-full h-[220vh]">
+  <div class="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between">
+    <div id="video-stage" class="absolute inset-0 w-full h-full">
+      <video id="scroll-drone-video" class="w-full h-full object-cover" muted playsinline preload="auto" src="./assets/era_scroll_master.mp4"></video>
+      <div id="photo-fallback-layer" class="absolute inset-0 w-full h-full opacity-0 pointer-events-none transition-opacity duration-700">
+        <img src="./assets/era_hero_day.jpg" class="w-full h-full object-cover">
+      </div>
+    </div>
+    <!-- Overlay Scrims & Dynamic Telemetry HUD -->
+  </div>
+</section>
+```
+- **JS Scrub Engine (GSAP ScrollTrigger + Lerp):**
+```javascript
+const video = document.getElementById('scroll-drone-video');
+let targetTime = 0;
+let currentTime = 0;
+
+ScrollTrigger.create({
+  trigger: "#hero-scrub-zone",
+  start: "top top",
+  end: "bottom bottom",
+  scrub: 1.0,
+  onUpdate: (self) => {
+    if (video && video.duration) {
+      targetTime = self.progress * video.duration;
+    }
+  }
+});
+
+function videoLerpLoop() {
+  if (video && video.duration) {
+    currentTime += (targetTime - currentTime) * 0.16;
+    if (Math.abs(targetTime - currentTime) > 0.002) {
+      video.currentTime = currentTime;
+    }
+  }
+  requestAnimationFrame(videoLerpLoop);
+}
+requestAnimationFrame(videoLerpLoop);
+```
+- **Citation Comment:** `<!-- USING MECHANIC 10: SMOOTH FPV DRONE VIDEO SCRUB & PHOTOGRAPHIC FALLBACK ENGINE -->`
+
+---
+
+### MECHANIC 11: ACETERNITY 3D CARD PINNING & TRACING BEAMS (Aceternity UI Pattern)
+*Use for: Interactive property cards, floorplans, and product inspection decks.*
+- **Structure:** Perspective container with mouse-reactive 3D tilt, dynamic radial glow beam, and glowing pin radar anchor.
+- **CSS Rule:**
+```css
+.card-pin-perspective { perspective: 1400px; transform-style: preserve-3d; }
+.card-pin-box {
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+  will-change: transform;
+}
+.card-pin-box:hover {
+  transform: perspective(1400px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(30px);
+  box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.35), 0 0 25px rgba(196, 164, 124, 0.25);
+}
+```
+- **Citation Comment:** `<!-- USING MECHANIC 11: ACETERNITY 3D CARD PINNING & TRACING BEAMS -->`
+
+---
+
+### MECHANIC 12: PROCEDURAL WEBGL ATMOSPHERIC SHADERS (Vanta.js / Three.js Pattern)
+*Use for: Atmospheric background motion, reflection pools, fog, rings, and generative ambient depth.*
+- **Doctrine:** Avoid static solid backgrounds. Inject lightweight procedural WebGL noise, waves, or halo rings behind content cards.
+- **Implementation:** Integrated via lightweight Three.js shaders or Vanta.js CDN with viewport intersection observer auto-pausing when off-screen to preserve 60 FPS mobile efficiency.
+- **Citation Comment:** `<!-- USING MECHANIC 12: PROCEDURAL WEBGL ATMOSPHERIC SHADERS (VANTA PATTERN) -->`
+
+---
+
+### MECHANIC 13: TACTILE STATE DOCKS & DYNAMIC CONCIERGE HUDS (Cult UI & Uiverse Pattern)
+*Use for: Floating control bars, Day/Night switches, blueprint wireframe toggles, and live enquiry docks.*
+- **Structure:** Pinned floating pill dock with backdrop blur (24px), micro-tactile spring active states, and real-time telemetry counters.
+- **Citation Comment:** `<!-- USING MECHANIC 13: TACTILE STATE DOCKS & DYNAMIC CONCIERGE HUDS -->`
+
+---
+
 ## MOTION & INSPIRATION VAULT (ANTI-SLOP ENGINE)
 Before building any new project, cross-reference and synthesize mechanics from:
 1. **Details.so**: Boutique editorial site layouts and curated prompts.

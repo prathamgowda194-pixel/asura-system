@@ -61,23 +61,41 @@ The following production applications are active and continuously tracked inside
 ---
 
 ### 4. Supreme 3D Animation & Kinetic Inspiration Vault
-To eliminate generic AI slop layouts and enforce bespoke 3D scroll kinetics, interactive card physics, and micro-interactions, the Asura / Manus pipeline continuously cross-references these tier-1 motion design resources:
+To eliminate generic AI slop layouts and enforce bespoke 3D scroll kinetics, interactive card physics, and micro-interactions, the Asura / Manus pipeline continuously cross-references these tier-1 motion design resources and GitHub repositories:
 
-| Platform | Domain | Specialty & Core Architectural Patterns |
+| Platform / Repository | Domain & Source | Specialty & Core Architectural Patterns |
 | :--- | :--- | :--- |
+| **Lenis Scroll** | `lenis.darkroom.engineering`<br>`github.com/darkroomengineering/lenis` | Butter-smooth 60fps momentum inertia scrolling, zero scrollbar hijacking, perfectly synced with GSAP ScrollTrigger. |
+| **GSAP & ScrollTrigger** | `gsap.com`<br>`github.com/greensock/GSAP` | The gold standard animation platform: pinned scrub timelines, scrubbed HTML5 video playback, FLIP layout morphs. |
+| **Vanta.js** | `vantajs.com`<br>`github.com/tengbao/vanta` | Animated 3D WebGL procedural canvas shaders: Birds, Waves, Clouds, Halo, Net, Rings, Trunk, Cells with Three.js. |
+| **React Bits** | `reactbits.dev`<br>`github.com/DavidHDev/react-bits` | 60+ physics-driven animated UI components, kinetic typography, spring physics, split-text reveal, glitch & particle effects. |
+| **21st.dev** | `21st.dev`<br>`github.com/21st-dev` | The open-source "npm for design engineers", modern component registry with MCP server support for direct AI integration. |
+| **Cult UI** | `cult-ui.com`<br>`github.com/cult-ui` | Specialized AI agent interface patterns, streaming status docks, dynamic canvas flows, glassmorphism, responsive feeds. |
+| **Aceternity UI** | `ui.aceternity.com` | Trending animated UI components: 3D Pin Cards, Canvas Reveal Effect, Tracing Beam, 3D Parallax Scroll, Background Beams, Meteors. |
+| **Magic UI** | `magicui.design`<br>`github.com/magicuidesign/magicui` | 50+ animated UI components: Bento Grid, Orbiting Circles, 3D Globe, Velocity Scroll, Shimmer Buttons, Animated Grid Patterns. |
+| **Uiverse.io** | `uiverse.io` | World's largest open-source library of 3,000+ interactive CSS/Tailwind UI elements: buttons, switches, cards, loaders, tooltips. |
 | **Details.so** | `details.so` | Handpicked luxury & boutique site designs with copyable prompt architectures for precise AI recreation. |
 | **Refero.design** | `refero.design` | Real production product screens, comprehensive user flows, and real UX interaction recordings from world-class applications. |
 | **Design Spells** | `designspells.com` | Micro-interactions, delightful haptics, cursor physics, and subtle details that make digital experiences feel magical. |
 | **Codrops / Tympanus** | `tympanus.net/codrops` | Experimental 3D WebGL card shaders, smooth camera scrubbers, multi-layer depth transitions, and canvas effects. |
-| **Awwwards / Site of the Day** | `awwwards.com` | Award-winning interactive luxury real estate, editorial architecture layouts, and kinetic typography. |
+| **Awwwards / SOTD** | `awwwards.com` | Award-winning interactive luxury real estate, editorial architecture layouts, and kinetic typography. |
 | **Godly Website** | `godly.website` | Curated astronomical web design, high-end motion mechanics, and cutting-edge typography. |
 | **Hoverstat.es** | `hoverstat.es` | Alternative interaction paradigms, unusual scroll dynamics, and tactile UI components. |
-| **Lenis & GSAP ScrollTrigger** | `lenis.darkroom.engineering` | Butter-smooth momentum inertia scrolling, pinned sticky sheet sequences, and perspective card decks. |
 
 ---
 
-### 5. Zero-404 Vercel Edge Pipeline
+### 5. Autonomous Kinetic Integration Protocol
+When Pixel or CodeSmith builds any section, they must implement at least two kinetic primitives from the vault:
+1. **Pinned Hero Stage**: Pinned 60fps video scrub (`video.currentTime = progress * video.duration`) with Lerp smoothing or multi-layer WebGL camera projection.
+2. **3D Tilt & Pinning**: Aceternity 3D Pin / React Bits card tilt responding to mouse coords with realistic depth (`perspective: 1400px`, `transform-style: preserve-3d`).
+3. **Lenis Momentum Smoothing**: All pages wrapped in `Lenis` instance connected to `gsap.ticker.add((time) => lenis.raf(time * 1000))` for cinematic fluidity.
+4. **Interactive HUD Telemetry**: Real-time camera zoom, elevation, and stage readouts updating synchronously with the scroll progress.
+
+---
+
+### 6. Zero-404 Vercel Edge Pipeline
 - **Auto-Sync**: Any atomic Git tree push to `main` branch immediately triggers Vercel CI/CD.
 - **Dynamic Asset Fallback**: `api/serve_project.js` and `api/serve_asset.js` ensure that all media (videos, WebP frames, photos) resolve with HTTP 200/206 Range streaming without breakage.
 - **Studio Fleet Sync**: Asura Studio automatically registers newly deployed projects in its active radar and monitors live status.
+
 
