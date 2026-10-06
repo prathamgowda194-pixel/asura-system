@@ -728,6 +728,28 @@ export default async function handler(req, res) {
     for (const rel of candidatePaths) {
       const cleanGitPath = rel.replace(/\\/g, '/');
       for (const tok of tokensToTry) {
+        // Try official GitHub Contents API with vnd.github.v3.raw
+        try {
+          const apiRawUrl = `https://api.github.com/repos/${REPO}/contents/${cleanGitPath}?ref=main`;
+          const apiRes = await fetch(apiRawUrl, {
+            headers: {
+              'Authorization': `token ${tok}`,
+              'User-Agent': 'ASURA-Asset-Edge',
+              'Accept': 'application/vnd.github.v3.raw'
+            }
+          });
+          if (apiRes.status === 200 || apiRes.status === 206) {
+            const arrayBuf = await apiRes.arrayBuffer();
+            const buffer = Buffer.from(arrayBuf);
+            res.setHeader('Content-Type', contentType);
+            res.setHeader('Accept-Ranges', 'bytes');
+            res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+            res.statusCode = apiRes.status;
+            if (typeof res.send === 'function') return res.send(buffer);
+            return res.end(buffer);
+          }
+        } catch (e) {}
+
         for (const authPrefix of ['token', 'Bearer']) {
           try {
             const rawUrl = `https://raw.githubusercontent.com/${REPO}/main/${cleanGitPath}`;
