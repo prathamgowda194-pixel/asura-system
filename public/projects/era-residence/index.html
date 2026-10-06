@@ -1137,29 +1137,50 @@
     // ═════════════════════════════════════════════════════════════════════════
     // 1. MASTER PRELOADER TICKER
     // ═════════════════════════════════════════════════════════════════════════
-    document.addEventListener("DOMContentLoaded", () => {
+    function runPreloader() {
       let count = 0;
       const counterEl = document.getElementById("preloader-counter");
       const barEl = document.getElementById("preloader-bar");
       const preloader = document.getElementById("preloader");
+      if (!preloader) return;
 
       const timer = setInterval(() => {
-        count += Math.floor(Math.random() * 8) + 5;
+        count += Math.floor(Math.random() * 16) + 14;
         if (count >= 100) {
           count = 100;
           clearInterval(timer);
-          counterEl.innerText = "100%";
-          barEl.style.width = "100%";
+          if (counterEl) counterEl.innerText = "100%";
+          if (barEl) barEl.style.width = "100%";
 
           setTimeout(() => {
+            preloader.style.opacity = "0";
             preloader.style.transform = "translateY(-100%)";
-          }, 400);
+            preloader.style.pointerEvents = "none";
+            setTimeout(() => { preloader.style.display = "none"; }, 500);
+          }, 150);
         } else {
-          counterEl.innerText = (count < 10 ? "0" + count : count) + "%";
-          barEl.style.width = count + "%";
+          if (counterEl) counterEl.innerText = (count < 10 ? "0" + count : count) + "%";
+          if (barEl) barEl.style.width = count + "%";
         }
-      }, 35);
-    });
+      }, 20);
+
+      // Robust failsafe auto-dismiss
+      setTimeout(() => {
+        if (preloader && preloader.style.display !== "none") {
+          clearInterval(timer);
+          preloader.style.opacity = "0";
+          preloader.style.transform = "translateY(-100%)";
+          preloader.style.pointerEvents = "none";
+          setTimeout(() => { preloader.style.display = "none"; }, 300);
+        }
+      }, 1800);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener("DOMContentLoaded", runPreloader);
+    } else {
+      runPreloader();
+    }
 
     // ═════════════════════════════════════════════════════════════════════════
     // 2. LENIS SMOOTH MOMENTUM SCROLL
@@ -1635,10 +1656,15 @@
     // ═════════════════════════════════════════════════════════════════════════
     // 11. INITIALIZATION LIFECYCLE
     // ═════════════════════════════════════════════════════════════════════════
-    window.addEventListener("load", () => {
+    function startApp() {
       initCameraStage();
       initScrollAnimations();
-    });
+    }
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      startApp();
+    } else {
+      window.addEventListener("load", startApp);
+    }
   </script>
 </body>
 </html>
