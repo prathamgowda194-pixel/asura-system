@@ -190,11 +190,9 @@
     .cylinder-track-wrapper {
       perspective: 1800px;
       transform-style: preserve-3d;
-      overflow: hidden;
     }
     .cylinder-card {
-      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease;
-      will-change: transform;
+      will-change: transform, opacity;
     }
 
     /* Editorial Header */
@@ -209,18 +207,20 @@
       transition: height 0.15s ease-out;
     }
 
-    /* Exploded 3D Blueprint Styles */
-    .exploded-mode .villa-roof {
-      transform: translateY(-90px) rotateX(12deg);
-      transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    /* 3D Photographic Camera Stage */
+    #mansion-camera-stage {
+      perspective: 1400px;
     }
-    .exploded-mode .villa-first-floor {
-      transform: translateY(-40px) rotateX(6deg);
-      transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    #camera-viewport-3d {
+      transform-style: preserve-3d;
     }
-    .exploded-mode .villa-basement {
-      transform: translateY(40px) rotateX(-6deg);
-      transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    .camera-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      will-change: transform, opacity;
+      transform-origin: center center;
     }
   </style>
 </head>
@@ -309,9 +309,9 @@
 
     <!-- Right Concierge Action & Mode Toggle -->
     <div class="flex items-center gap-4 md:gap-6 pointer-events-auto">
-      <button onclick="toggleExploded3D()" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/30 text-xs tracking-wider uppercase font-mono hover:bg-white hover:text-black transition-all duration-300">
+      <button onclick="toggleBlueprint3D()" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/30 text-xs tracking-wider uppercase font-mono hover:bg-white hover:text-black transition-all duration-300">
         <span class="w-2 h-2 rounded-full bg-[#C4A47C] animate-pulse"></span>
-        <span id="exploded-btn-text">3D Exploded View</span>
+        <span id="exploded-btn-text">3D Blueprint View</span>
       </button>
 
       <button onclick="openConciergeModal()" class="px-5 py-2.5 rounded-full bg-[#C4A47C] text-black text-xs font-semibold tracking-wider uppercase font-mono hover:bg-white hover:text-black transition-all duration-300 shadow-lg hover:scale-105 active:scale-95">
@@ -326,26 +326,59 @@
     <div class="w-[2px] h-24 bg-[#181715]/15 rounded-full relative overflow-hidden">
       <div id="hud-progress-bar" class="hud-progress-fill absolute top-0 left-0 right-0 bg-[#C4A47C] rounded-full"></div>
     </div>
-    <span class="font-mono text-[10px] uppercase tracking-widest text-[#7E786E] rotate-90 origin-center translate-y-3">3D Orbit</span>
+    <span class="font-mono text-[10px] uppercase tracking-widest text-[#7E786E] rotate-90 origin-center translate-y-3">3D Flight</span>
   </div>
 
   <!-- ══════════════════════════════════════════════════════════════════════════
-       HERO ZONE: REAL-TIME WEBGL 3D VILLA STAGE & CINEMATIC 3D SCROLL CAMERA
+       HERO ZONE: REAL-TIME 3D CINEMATIC CAMERA SCROLL (KEYFRAME A -> KEYFRAME B)
        ══════════════════════════════════════════════════════════════════════════ -->
   <section id="hero" class="relative w-full h-[180vh]">
     <div class="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between p-6 md:p-14 select-none">
 
-      <!-- WebGL 3D Interactive Architecture Canvas -->
-      <div id="webgl-canvas-container">
-        <canvas id="three-villa-canvas" class="w-full h-full block cursor-grab active:cursor-grabbing"></canvas>
-      </div>
+      <!-- 3D Cinematic Architectural Mansion Stage (Keyframe A -> Keyframe B Camera Scroll) -->
+      <div id="mansion-camera-stage" class="absolute inset-0 w-full h-full overflow-hidden pointer-events-auto">
+        <div id="camera-viewport-3d" class="relative w-full h-full will-change-transform">
+          
+          <!-- Keyframe A: Starting Image — Grand Mediterranean Arrival & Reflection Pool -->
+          <div id="camera-layer-start" class="camera-layer z-0">
+            <img src="./assets/era_hero_day.jpg" 
+                 onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=85'"
+                 alt="ERA Residence — Grand Mediterranean Arrival & Travertine Pavilions" 
+                 class="w-full h-full object-cover">
+          </div>
 
-      <!-- Photographic Fallback / Crossfade Layer (Background depth) -->
-      <div class="absolute inset-0 z-[-1] pointer-events-none">
-        <img src="./assets/era_hero_day.jpg" 
-             onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=85'"
-             alt="Era Residence Mediterranean Architecture by Day" 
-             class="w-full h-full object-cover opacity-25 filter blur-sm">
+          <!-- Keyframe B: Ending Image — Intimate Penthouse Cantilever & Ocean Solarium Transition -->
+          <div id="camera-layer-end" class="camera-layer z-1 opacity-0">
+            <img src="./assets/era_penthouse_terrace.jpg" 
+                 onerror="this.src='https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1920&q=85'"
+                 alt="ERA Residence — Intimate Cantilevered Solarium & Ocean Horizon" 
+                 class="w-full h-full object-cover">
+          </div>
+
+          <!-- Dusk / Twilight Architectural Lighting Layer -->
+          <div id="camera-layer-night" class="camera-layer z-2 opacity-0 transition-opacity duration-1000">
+            <img src="./assets/era_hero_night.jpg" 
+                 onerror="this.src='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=85'"
+                 alt="ERA Residence — Evening Twilight & Amber Architectural Lighting" 
+                 class="w-full h-full object-cover">
+          </div>
+
+          <!-- 3D Architectural Blueprint Wireframe Overlay -->
+          <div id="camera-blueprint-overlay" class="absolute inset-0 w-full h-full z-3 opacity-0 pointer-events-none transition-opacity duration-700 bg-black/45 backdrop-blur-[2px]">
+            <svg class="w-full h-full opacity-45" viewBox="0 0 1920 1080" fill="none" stroke="#C4A47C" stroke-width="1.2">
+              <rect x="260" y="200" width="1400" height="680" stroke-dasharray="8 8"/>
+              <line x1="260" y1="520" x2="1660" y2="520"/>
+              <line x1="780" y1="200" x2="780" y2="880"/>
+              <line x1="1220" y1="200" x2="1220" y2="880"/>
+              <circle cx="820" cy="520" r="14" stroke="#FFF" stroke-width="2"/>
+              <circle cx="1220" cy="400" r="14" stroke="#FFF" stroke-width="2"/>
+              <text x="290" y="245" fill="#C4A47C" font-family="'Space Mono', monospace" font-size="13">STRUCTURAL ELEVATION +8.4m // DUPLEX CANTILEVER</text>
+              <text x="290" y="555" fill="#C4A47C" font-family="'Space Mono', monospace" font-size="13">GROUND RESIDENCE SUITE // PLATFORM 0.00m</text>
+              <text x="800" y="850" fill="#C4A47C" font-family="'Space Mono', monospace" font-size="13">MINERAL SALTWATER BASIN // 25m RECTILINEAR REFLECTION</text>
+            </svg>
+          </div>
+
+        </div>
       </div>
 
       <!-- Scrim Overlays -->
@@ -405,7 +438,7 @@
       <div class="relative z-20 pt-20 md:pt-16 max-w-4xl pointer-events-auto">
         <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white text-[11px] font-mono uppercase tracking-[0.2em] mb-6">
           <span class="w-2 h-2 rounded-full bg-[#C4A47C]"></span>
-          <span>Interactive 3D WebGL Model · Scroll to Orbit</span>
+          <span>Cinematic 3D Camera Scroll · Push Forward to Glide</span>
         </div>
 
         <h1 class="font-serif text-5xl sm:text-7xl md:text-9xl font-light text-white tracking-tight leading-[0.92] mb-6 drop-shadow-lg">
@@ -432,7 +465,7 @@
       <!-- Hero Bottom Bar: 3D Camera Guide & Key Telemetry -->
       <div class="relative z-20 flex flex-col md:flex-row items-start md:items-end justify-between gap-8 pb-4 pointer-events-auto">
         <!-- Telemetry Details -->
-        <div class="grid grid-cols-3 gap-6 md:gap-10 text-white font-mono text-xs bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/10">
+        <div class="grid grid-cols-4 gap-4 md:gap-8 text-white font-mono text-xs bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/10">
           <div>
             <div class="text-[#C4A47C] text-lg md:text-2xl font-serif font-bold">25</div>
             <div class="text-white/60 text-[10px] uppercase tracking-wider mt-0.5">Boutique Homes</div>
@@ -442,8 +475,12 @@
             <div class="text-white/60 text-[10px] uppercase tracking-wider mt-0.5">Square Metres</div>
           </div>
           <div>
-            <div class="text-[#C4A47C] text-lg md:text-2xl font-serif font-bold">60 FPS</div>
-            <div class="text-white/60 text-[10px] uppercase tracking-wider mt-0.5">3D Scroll Engine</div>
+            <div id="hud-zoom-metric" class="text-[#C4A47C] text-lg md:text-2xl font-mono font-bold">1.00x</div>
+            <div class="text-white/60 text-[10px] uppercase tracking-wider mt-0.5">Camera Zoom</div>
+          </div>
+          <div>
+            <div id="hud-elev-metric" class="text-[#C4A47C] text-lg md:text-2xl font-mono font-bold">+12.0m</div>
+            <div class="text-white/60 text-[10px] uppercase tracking-wider mt-0.5">3D Elevation</div>
           </div>
         </div>
 
@@ -493,7 +530,7 @@
       <div class="perspective-container grid grid-cols-1 md:grid-cols-3 gap-8">
         
         <!-- Pillar 1 -->
-        <div class="tilt-card-3d bg-[#FAF9F5] p-8 md:p-12 rounded-3xl border border-[#181715]/10 flex flex-col justify-between"
+        <div class="tilt-card-3d pillar-card bg-[#FAF9F5] p-8 md:p-12 rounded-3xl border border-[#181715]/10 flex flex-col justify-between"
              data-tilt data-tilt-max="12" data-tilt-speed="400" data-tilt-perspective="1200">
           <div class="layer-z-20">
             <div class="flex justify-between items-center font-mono text-xs text-[#7E786E] mb-8">
@@ -512,7 +549,7 @@
         </div>
 
         <!-- Pillar 2 -->
-        <div class="tilt-card-3d bg-[#FAF9F5] p-8 md:p-12 rounded-3xl border border-[#181715]/10 flex flex-col justify-between"
+        <div class="tilt-card-3d pillar-card bg-[#FAF9F5] p-8 md:p-12 rounded-3xl border border-[#181715]/10 flex flex-col justify-between"
              data-tilt data-tilt-max="12" data-tilt-speed="400" data-tilt-perspective="1200">
           <div class="layer-z-20">
             <div class="flex justify-between items-center font-mono text-xs text-[#7E786E] mb-8">
@@ -531,7 +568,7 @@
         </div>
 
         <!-- Pillar 3 -->
-        <div class="tilt-card-3d bg-[#FAF9F5] p-8 md:p-12 rounded-3xl border border-[#181715]/10 flex flex-col justify-between"
+        <div class="tilt-card-3d pillar-card bg-[#FAF9F5] p-8 md:p-12 rounded-3xl border border-[#181715]/10 flex flex-col justify-between"
              data-tilt data-tilt-max="12" data-tilt-speed="400" data-tilt-perspective="1200">
           <div class="layer-z-20">
             <div class="flex justify-between items-center font-mono text-xs text-[#7E786E] mb-8">
@@ -692,7 +729,7 @@
     <div class="cylinder-track-wrapper max-w-7xl mx-auto px-6 md:px-14 grid grid-cols-1 md:grid-cols-3 gap-8">
       
       <!-- Amenity 1: Pool -->
-      <div class="cylinder-card tilt-card-3d bg-[#FAF9F5] rounded-3xl overflow-hidden border border-[#181715]/10 hover:border-[#C4A47C] flex flex-col"
+      <div class="cylinder-card amenity-card tilt-card-3d bg-[#FAF9F5] rounded-3xl overflow-hidden border border-[#181715]/10 hover:border-[#C4A47C] flex flex-col"
            data-tilt data-tilt-max="10" data-tilt-speed="300">
         <div class="relative h-72 overflow-hidden">
           <img src="./assets/era_hero_day.jpg" 
@@ -718,7 +755,7 @@
       </div>
 
       <!-- Amenity 2: Spa & Sauna -->
-      <div class="cylinder-card tilt-card-3d bg-[#FAF9F5] rounded-3xl overflow-hidden border border-[#181715]/10 hover:border-[#C4A47C] flex flex-col"
+      <div class="cylinder-card amenity-card tilt-card-3d bg-[#FAF9F5] rounded-3xl overflow-hidden border border-[#181715]/10 hover:border-[#C4A47C] flex flex-col"
            data-tilt data-tilt-max="10" data-tilt-speed="300">
         <div class="relative h-72 overflow-hidden">
           <img src="./assets/era_spa_wellness.jpg" 
@@ -744,7 +781,7 @@
       </div>
 
       <!-- Amenity 3: Botanical Paths -->
-      <div class="cylinder-card tilt-card-3d bg-[#FAF9F5] rounded-3xl overflow-hidden border border-[#181715]/10 hover:border-[#C4A47C] flex flex-col"
+      <div class="cylinder-card amenity-card tilt-card-3d bg-[#FAF9F5] rounded-3xl overflow-hidden border border-[#181715]/10 hover:border-[#C4A47C] flex flex-col"
            data-tilt data-tilt-max="10" data-tilt-speed="300">
         <div class="relative h-72 overflow-hidden">
           <img src="./assets/era_garden_ground.jpg" 
@@ -1134,305 +1171,38 @@
     requestAnimationFrame(raf);
 
     // ═════════════════════════════════════════════════════════════════════════
-    // 3. THREE.JS 3D ARCHITECTURAL VILLA SCENE ENGINE
+    // 3. PHOTOREALISTIC 3D CAMERA SCROLL & VIEWPORT GYROSCOPE ENGINE
     // ═════════════════════════════════════════════════════════════════════════
-    let scene, camera, renderer;
-    let villaGroup, roofMesh, firstFloorGroup, basementGroup, poolMesh, waterMaterial;
-    let ambientLight, sunLight, nightPointLight1, nightPointLight2, poolLight;
     let isNightMode = false;
-    let isExploded = false;
+    let isBlueprintActive = false;
 
-    // Interactive Mouse Orbit
-    let mouseX = 0, mouseY = 0;
-    let targetRotationX = 0, targetRotationY = 0;
-    let isDragging = false, prevMouseX = 0, prevMouseY = 0;
+    function initCameraStage() {
+      const viewport = document.getElementById("camera-viewport-3d");
+      if (!viewport) return;
 
-    function initThreeScene() {
-      const canvas = document.getElementById("three-villa-canvas");
-      const container = document.getElementById("webgl-canvas-container");
-      if (!canvas || !container) return;
-
-      const width = container.clientWidth || window.innerWidth;
-      const height = container.clientHeight || window.innerHeight;
-
-      // Scene
-      scene = new THREE.Scene();
-      scene.background = new THREE.Color(0xF6F4EF);
-      scene.fog = new THREE.FogExp2(0xF6F4EF, 0.012);
-
-      // Camera
-      camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 1000);
-      camera.position.set(22, 16, 32);
-      camera.lookAt(0, 2, 0);
-
-      // Renderer
-      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
-      renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-      // Lights
-      ambientLight = new THREE.AmbientLight(0xFFFBF2, 0.9);
-      scene.add(ambientLight);
-
-      sunLight = new THREE.DirectionalLight(0xFFF0D4, 1.4);
-      sunLight.position.set(35, 45, 25);
-      sunLight.castShadow = true;
-      sunLight.shadow.mapSize.width = 2048;
-      sunLight.shadow.mapSize.height = 2048;
-      sunLight.shadow.camera.near = 0.5;
-      sunLight.shadow.camera.far = 150;
-      const d = 30;
-      sunLight.shadow.camera.left = -d;
-      sunLight.shadow.camera.right = d;
-      sunLight.shadow.camera.top = d;
-      sunLight.shadow.camera.bottom = -d;
-      scene.add(sunLight);
-
-      // Warm interior cove lights (for night mode)
-      nightPointLight1 = new THREE.PointLight(0xFFAA44, 0, 30);
-      nightPointLight1.position.set(0, 5, 2);
-      scene.add(nightPointLight1);
-
-      nightPointLight2 = new THREE.PointLight(0xFF9933, 0, 25);
-      nightPointLight2.position.set(4, 9, -2);
-      scene.add(nightPointLight2);
-
-      poolLight = new THREE.PointLight(0x38BDF8, 0, 20);
-      poolLight.position.set(-8, 0.5, 6);
-      scene.add(poolLight);
-
-      // Build 3D Architectural Villa
-      buildMediterraneanVilla();
-
-      // Window resize
-      window.addEventListener("resize", onWindowResize);
-
-      // Mouse drag controls on canvas
-      canvas.addEventListener("mousedown", (e) => {
-        isDragging = true;
-        prevMouseX = e.clientX;
-        prevMouseY = e.clientY;
-      });
-      window.addEventListener("mouseup", () => isDragging = false);
+      // Mouse Gyroscope 3D Perspective Parallax
       window.addEventListener("mousemove", (e) => {
-        if (!isDragging) {
-          mouseX = (e.clientX - window.innerWidth / 2) * 0.0003;
-          mouseY = (e.clientY - window.innerHeight / 2) * 0.0003;
-          return;
-        }
-        const deltaX = e.clientX - prevMouseX;
-        const deltaY = e.clientY - prevMouseY;
-        prevMouseX = e.clientX;
-        prevMouseY = e.clientY;
+        const cx = window.innerWidth / 2;
+        const cy = window.innerHeight / 2;
+        const dx = (e.clientX - cx) / cx;
+        const dy = (e.clientY - cy) / cy;
 
-        targetRotationY += deltaX * 0.005;
-        targetRotationX += deltaY * 0.005;
-        targetRotationX = Math.max(-0.4, Math.min(0.5, targetRotationX));
+        gsap.to(viewport, {
+          rotationY: dx * 3.5,
+          rotationX: -dy * 2.8,
+          duration: 0.8,
+          ease: "power2.out"
+        });
       });
-
-      animateThreeScene();
-    }
-
-    function buildMediterraneanVilla() {
-      villaGroup = new THREE.Group();
-      scene.add(villaGroup);
-
-      // Materials
-      const travertineMat = new THREE.MeshStandardMaterial({
-        color: 0xEAE4D8,
-        roughness: 0.85,
-        metalness: 0.05
-      });
-      const wallMat = new THREE.MeshStandardMaterial({
-        color: 0xF7F5F0,
-        roughness: 0.9,
-        metalness: 0.02
-      });
-      const woodLouversMat = new THREE.MeshStandardMaterial({
-        color: 0x6E543C,
-        roughness: 0.7,
-        metalness: 0.1
-      });
-      const glassMat = new THREE.MeshPhysicalMaterial({
-        color: 0x93C5FD,
-        transparent: true,
-        opacity: 0.38,
-        roughness: 0.1,
-        transmission: 0.8,
-        reflectivity: 0.9
-      });
-      const darkFrameMat = new THREE.MeshStandardMaterial({
-        color: 0x1E1E22,
-        roughness: 0.4,
-        metalness: 0.8
-      });
-
-      // 1. BASE PLAZA & TERRAIN
-      const groundGeo = new THREE.BoxGeometry(60, 1, 50);
-      const groundMesh = new THREE.Mesh(groundGeo, travertineMat);
-      groundMesh.position.y = -0.5;
-      groundMesh.receiveShadow = true;
-      villaGroup.add(groundMesh);
-
-      // Travertine Platform Steps
-      const step1 = new THREE.Mesh(new THREE.BoxGeometry(32, 0.4, 26), travertineMat);
-      step1.position.set(-2, 0.2, 2);
-      step1.receiveShadow = true;
-      step1.castShadow = true;
-      villaGroup.add(step1);
-
-      // 2. REFLECTION SWIMMING POOL
-      const poolBorderGeo = new THREE.BoxGeometry(16.5, 0.6, 8.5);
-      const poolBorder = new THREE.Mesh(poolBorderGeo, travertineMat);
-      poolBorder.position.set(-8, 0.3, 8);
-      poolBorder.castShadow = true;
-      poolBorder.receiveShadow = true;
-      villaGroup.add(poolBorder);
-
-      const waterGeo = new THREE.PlaneGeometry(15.5, 7.5, 32, 32);
-      waterMaterial = new THREE.MeshStandardMaterial({
-        color: 0x2299C8,
-        roughness: 0.1,
-        metalness: 0.85,
-        transparent: true,
-        opacity: 0.85
-      });
-      poolMesh = new THREE.Mesh(waterGeo, waterMaterial);
-      poolMesh.rotation.x = -Math.PI / 2;
-      poolMesh.position.set(-8, 0.55, 8);
-      villaGroup.add(poolMesh);
-
-      // 3. GROUND FLOOR RESIDENCE
-      basementGroup = new THREE.Group();
-      villaGroup.add(basementGroup);
-
-      const mainFloorGeo = new THREE.BoxGeometry(18, 4.2, 12);
-      const mainFloor = new THREE.Mesh(mainFloorGeo, wallMat);
-      mainFloor.position.set(3, 2.5, 0);
-      mainFloor.castShadow = true;
-      mainFloor.receiveShadow = true;
-      basementGroup.add(mainFloor);
-
-      // Panoramic Sliding Glass Frontage
-      const glassFront = new THREE.Mesh(new THREE.BoxGeometry(16, 3.6, 0.3), glassMat);
-      glassFront.position.set(3, 2.5, 6.1);
-      basementGroup.add(glassFront);
-
-      // Architectural Metal Frames
-      for (let x = -4; x <= 10; x += 3.5) {
-        const mullion = new THREE.Mesh(new THREE.BoxGeometry(0.12, 3.8, 0.4), darkFrameMat);
-        mullion.position.set(x, 2.5, 6.1);
-        basementGroup.add(mullion);
-      }
-
-      // 4. FIRST FLOOR / DUPLEX PENTHOUSE (CANTILEVER)
-      firstFloorGroup = new THREE.Group();
-      villaGroup.add(firstFloorGroup);
-
-      const upperFloorGeo = new THREE.BoxGeometry(15, 3.8, 14);
-      const upperFloor = new THREE.Mesh(upperFloorGeo, wallMat);
-      upperFloor.position.set(0, 6.5, -1);
-      upperFloor.castShadow = true;
-      upperFloor.receiveShadow = true;
-      firstFloorGroup.add(upperFloor);
-
-      // Upper Glass Solarium
-      const upperGlass = new THREE.Mesh(new THREE.BoxGeometry(13, 3.2, 0.3), glassMat);
-      upperGlass.position.set(0, 6.5, 6.1);
-      firstFloorGroup.add(upperGlass);
-
-      // Vertical Wood Louvers (Solar shading)
-      for (let lx = 6; lx <= 8; lx += 0.45) {
-        const louver = new THREE.Mesh(new THREE.BoxGeometry(0.08, 3.6, 0.5), woodLouversMat);
-        louver.position.set(lx, 6.5, 6.15);
-        louver.castShadow = true;
-        firstFloorGroup.add(louver);
-      }
-
-      // 5. CANTILEVERED ROOF & PERGOLA
-      const roofGeo = new THREE.BoxGeometry(18, 0.5, 17);
-      roofMesh = new THREE.Mesh(roofGeo, wallMat);
-      roofMesh.position.set(0, 8.6, -1);
-      roofMesh.castShadow = true;
-      roofMesh.receiveShadow = true;
-      villaGroup.add(roofMesh);
-
-      // Architectural Slatted Pergola
-      for (let pz = -8; pz <= 6; pz += 1.4) {
-        const slat = new THREE.Mesh(new THREE.BoxGeometry(6, 0.35, 0.15), darkFrameMat);
-        slat.position.set(-6, 8.8, pz);
-        slat.castShadow = true;
-        villaGroup.add(slat);
-      }
-
-      // 6. SCULPTURAL MEDITERRANEAN VEGETATION (OLIVE TREES)
-      createOliveTree(-13, 0.4, 1);
-      createOliveTree(-3, 0.4, -9);
-      createOliveTree(14, 0.4, 8);
-    }
-
-    function createOliveTree(x, y, z) {
-      const treeGroup = new THREE.Group();
-      treeGroup.position.set(x, y, z);
-
-      const trunkMat = new THREE.MeshStandardMaterial({ color: 0x4A3B32, roughness: 0.9 });
-      const foliageMat = new THREE.MeshStandardMaterial({ color: 0x708268, roughness: 0.8 });
-
-      // Trunk
-      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.45, 3.2, 7), trunkMat);
-      trunk.position.y = 1.6;
-      trunk.rotation.z = (Math.random() - 0.5) * 0.2;
-      trunk.castShadow = true;
-      treeGroup.add(trunk);
-
-      // Foliage Clusters
-      for (let i = 0; i < 4; i++) {
-        const r = 1.4 + Math.random() * 0.8;
-        const fol = new THREE.Mesh(new THREE.DodecahedronGeometry(r, 1), foliageMat);
-        fol.position.set((Math.random() - 0.5) * 1.5, 3.2 + Math.random() * 1.4, (Math.random() - 0.5) * 1.5);
-        fol.castShadow = true;
-        treeGroup.add(fol);
-      }
-      villaGroup.add(treeGroup);
-    }
-
-    function onWindowResize() {
-      const container = document.getElementById("webgl-canvas-container");
-      if (!container || !renderer || !camera) return;
-      const w = container.clientWidth;
-      const h = container.clientHeight;
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
-    }
-
-    let clock = new THREE.Clock();
-    function animateThreeScene() {
-      requestAnimationFrame(animateThreeScene);
-      const elapsed = clock.getElapsedTime();
-
-      // Subtle water shimmer
-      if (waterMaterial) {
-        waterMaterial.roughness = 0.1 + Math.sin(elapsed * 2) * 0.03;
-      }
-
-      // Smooth mouse rotation damping
-      if (villaGroup) {
-        villaGroup.rotation.y += (targetRotationY + mouseX - villaGroup.rotation.y) * 0.05;
-        villaGroup.rotation.x += (targetRotationX + mouseY - villaGroup.rotation.x) * 0.05;
-      }
-
-      renderer.render(scene, camera);
     }
 
     // ═════════════════════════════════════════════════════════════════════════
-    // 4. DAY / NIGHT LIGHTING TRANSITIONS
+    // 4. DAY / NIGHT ARCHITECTURAL LIGHTING SHIFT
     // ═════════════════════════════════════════════════════════════════════════
     function setLightingMode(mode) {
       const btnDay = document.getElementById("toggle-day");
       const btnNight = document.getElementById("toggle-night");
+      const nightLayer = document.getElementById("camera-layer-night");
 
       if (mode === "night") {
         isNightMode = true;
@@ -1441,14 +1211,7 @@
         btnDay.classList.remove("bg-[#F6F4EF]", "text-black", "font-semibold");
         btnDay.classList.add("text-white/70");
 
-        // Animate Three.js lights to twilight / night
-        gsap.to(scene.background, { r: 0.05, g: 0.07, b: 0.10, duration: 1.4 });
-        gsap.to(scene.fog.color, { r: 0.05, g: 0.07, b: 0.10, duration: 1.4 });
-        gsap.to(ambientLight, { intensity: 0.22, duration: 1.4 });
-        gsap.to(sunLight, { intensity: 0.15, duration: 1.4 });
-        gsap.to(nightPointLight1, { intensity: 2.8, duration: 1.4 });
-        gsap.to(nightPointLight2, { intensity: 2.2, duration: 1.4 });
-        gsap.to(poolLight, { intensity: 2.5, duration: 1.4 });
+        if (nightLayer) nightLayer.style.opacity = "1";
       } else {
         isNightMode = false;
         btnDay.classList.add("bg-[#F6F4EF]", "text-black", "font-semibold");
@@ -1456,76 +1219,115 @@
         btnNight.classList.remove("bg-[#F6F4EF]", "text-black", "font-semibold");
         btnNight.classList.add("text-white/70");
 
-        // Animate Three.js lights to radiant Mediterranean day
-        gsap.to(scene.background, { r: 0.965, g: 0.957, b: 0.937, duration: 1.4 });
-        gsap.to(scene.fog.color, { r: 0.965, g: 0.957, b: 0.937, duration: 1.4 });
-        gsap.to(ambientLight, { intensity: 0.9, duration: 1.4 });
-        gsap.to(sunLight, { intensity: 1.4, duration: 1.4 });
-        gsap.to(nightPointLight1, { intensity: 0, duration: 1.4 });
-        gsap.to(nightPointLight2, { intensity: 0, duration: 1.4 });
-        gsap.to(poolLight, { intensity: 0, duration: 1.4 });
+        if (nightLayer) nightLayer.style.opacity = "0";
       }
     }
 
     // ═════════════════════════════════════════════════════════════════════════
-    // 5. 3D EXPLODED ARCHITECTURAL VIEWPORT TOGGLE
+    // 5. 3D ARCHITECTURAL BLUEPRINT WIREFRAME TOGGLE
     // ═════════════════════════════════════════════════════════════════════════
-    function toggleExploded3D() {
-      isExploded = !isExploded;
+    function toggleBlueprint3D() {
+      isBlueprintActive = !isBlueprintActive;
       const btnText = document.getElementById("exploded-btn-text");
+      const overlay = document.getElementById("camera-blueprint-overlay");
 
-      if (isExploded) {
-        btnText.innerText = "Collapse 3D Model";
-        gsap.to(roofMesh.position, { y: 14.5, duration: 1.2, ease: "power3.out" });
-        gsap.to(firstFloorGroup.position, { y: 4.5, duration: 1.2, ease: "power3.out" });
-        gsap.to(basementGroup.position, { y: -2.5, duration: 1.2, ease: "power3.out" });
-        gsap.to(camera.position, { x: 30, y: 22, z: 28, duration: 1.5, ease: "power3.inOut" });
+      if (isBlueprintActive) {
+        if (btnText) btnText.innerText = "Hide Blueprint";
+        if (overlay) overlay.style.opacity = "1";
       } else {
-        btnText.innerText = "3D Exploded View";
-        gsap.to(roofMesh.position, { y: 8.6, duration: 1.2, ease: "power3.out" });
-        gsap.to(firstFloorGroup.position, { y: 0, duration: 1.2, ease: "power3.out" });
-        gsap.to(basementGroup.position, { y: 0, duration: 1.2, ease: "power3.out" });
-        gsap.to(camera.position, { x: 22, y: 16, z: 32, duration: 1.5, ease: "power3.inOut" });
+        if (btnText) btnText.innerText = "3D Blueprint View";
+        if (overlay) overlay.style.opacity = "0";
       }
     }
 
+    // Compatibility alias
+    function toggleExploded3D() {
+      toggleBlueprint3D();
+    }
+
     // ═════════════════════════════════════════════════════════════════════════
-    // 6. GSAP SCROLLTRIGGER 3D CAMERA ORBIT PIPELINE
+    // 6. GSAP SCROLLTRIGGER 3D CAMERA TRAJECTORY ENGINE
     // ═════════════════════════════════════════════════════════════════════════
     gsap.registerPlugin(ScrollTrigger);
 
     function initScrollAnimations() {
-      // 3D Camera Path synced with scroll position
+      // Hero: 3D Camera Fly-Through (Keyframe A -> Keyframe B)
       ScrollTrigger.create({
         trigger: "#hero",
         start: "top top",
         end: "bottom top",
-        scrub: 1.5,
+        scrub: 1.2,
         onUpdate: (self) => {
           const p = self.progress;
-          // Smooth camera dolly, elevation, and azimuth
-          if (!isExploded && camera) {
-            camera.position.x = 22 - p * 14;
-            camera.position.y = 16 - p * 7;
-            camera.position.z = 32 - p * 12;
-            camera.lookAt(p * 2, 2 - p * 1, 0);
-          }
+
+          // Starting Image: Smooth forward dolly zoom & perspective push
+          const scaleStart = 1.0 + p * 0.28;
+          const rotX = p * 4;
+          const transZ = p * 80;
+          const opacStart = Math.max(0, 1 - p * 1.5);
+
+          gsap.set("#camera-layer-start", {
+            scale: scaleStart,
+            rotationX: rotX,
+            z: transZ,
+            opacity: opacStart
+          });
+
+          // Ending Image: Smooth glide-in transition
+          const scaleEnd = 1.25 - p * 0.25;
+          const opacEnd = Math.min(1, Math.max(0, (p - 0.2) * 1.6));
+
+          gsap.set("#camera-layer-end", {
+            scale: scaleEnd,
+            rotationX: rotX * 0.5,
+            opacity: opacEnd
+          });
+
+          // Live Telemetry Readouts
+          const zoomEl = document.getElementById("hud-zoom-metric");
+          if (zoomEl) zoomEl.innerText = `${scaleStart.toFixed(2)}x`;
+          const elevEl = document.getElementById("hud-elev-metric");
+          if (elevEl) elevEl.innerText = `+${(12 - p * 7.6).toFixed(1)}m`;
+
+          // Spatial Hotspot Pins glide along 3D spatial anchor trajectory
+          gsap.set(".arch-pin[data-pin='cantilever']", {
+            x: -p * 60,
+            y: -p * 40,
+            scale: 1 + p * 0.2
+          });
+          gsap.set(".arch-pin[data-pin='pool']", {
+            x: p * 40,
+            y: p * 30,
+            scale: 1 - p * 0.15
+          });
+          gsap.set(".arch-pin[data-pin='garden']", {
+            x: -p * 30,
+            y: p * 20
+          });
         }
       });
 
-      // Chapter 1: Pillar Parallax Slide-In
-      gsap.from(".tilt-card-3d", {
-        scrollTrigger: {
-          trigger: "#concept",
-          start: "top 75%",
-          end: "top 25%",
-          scrub: 1
+      // Chapter 1: The Three Pillars (Smooth perspective card rise)
+      gsap.fromTo("#concept .pillar-card", 
+        {
+          opacity: 0,
+          y: 60,
+          rotationX: -8
         },
-        y: 80,
-        rotationX: -15,
-        opacity: 0,
-        stagger: 0.15
-      });
+        {
+          opacity: 1,
+          y: 0,
+          rotationX: 0,
+          duration: 0.85,
+          ease: "power2.out",
+          stagger: 0.15,
+          scrollTrigger: {
+            trigger: "#concept",
+            start: "top 75%",
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
 
       // Chapter 2: Residence Deck 3D Unroll
       gsap.from("#deck-wrapper", {
@@ -1541,19 +1343,29 @@
         opacity: 0.4
       });
 
-      // Chapter 3: Cylinder Carousel Track Curve
-      gsap.from(".cylinder-card", {
-        scrollTrigger: {
-          trigger: "#amenities",
-          start: "top 75%",
-          end: "top 20%",
-          scrub: 1
+      // Chapter 3: Resort-Grade Wellness Cards (Smooth forward entrance & permanent visibility)
+      gsap.fromTo("#amenities .amenity-card", 
+        {
+          opacity: 0,
+          y: 70,
+          rotationX: 10,
+          scale: 0.94
         },
-        y: 100,
-        rotationY: -20,
-        stagger: 0.2,
-        opacity: 0.2
-      });
+        {
+          opacity: 1,
+          y: 0,
+          rotationX: 0,
+          scale: 1,
+          duration: 0.85,
+          ease: "power2.out",
+          stagger: 0.16,
+          scrollTrigger: {
+            trigger: "#amenities",
+            start: "top 75%",
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
     }
 
     // ═════════════════════════════════════════════════════════════════════════
@@ -1710,7 +1522,7 @@
     // 11. INITIALIZATION LIFECYCLE
     // ═════════════════════════════════════════════════════════════════════════
     window.addEventListener("load", () => {
-      initThreeScene();
+      initCameraStage();
       initScrollAnimations();
     });
   </script>
