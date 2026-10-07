@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node -e \"const fs=require('fs'); fs.mkdirSync('dist', {recursive:true}); fs.cpSync('projects', 'dist/projects', {recursive:true}); if(fs.existsSync('projects/studio')) fs.cpSync('projects/studio', 'dist/studio', {recursive:true}); if(fs.existsSync('public')) fs.cpSync('public', 'dist', {recursive:true}); if(fs.existsSync('index.html')) fs.copyFileSync('index.html', 'dist/index.html'); console.log('Build OK: all projects, studio and assets copied to dist');\"",
-    "preview": "vite preview"
+    "build": "node -e \"const fs=require('fs'); fs.mkdirSync('dist/projects/studio', {recursive:true}); if(fs.existsSync('projects/studio/index.html')) { fs.copyFileSync('projects/studio/index.html', 'dist/index.html'); fs.copyFileSync('projects/studio/index.html', 'dist/projects/studio/index.html'); } else if(fs.existsSync('index.html')) { fs.copyFileSync('index.html', 'dist/index.html'); } if(fs.existsSync('projects/manifest.json')) { fs.copyFileSync('projects/manifest.json', 'dist/projects/manifest.json'); } if(fs.existsSync('public')) { fs.cpSync('public', 'dist', {recursive:true}); } console.log('Build OK: fast zero-timeout Vercel bundle ready');\"",
+    "preview": "vite preview",
+    "voice": "node asura_voice_core/asura_voice_server.cjs"
   },
   "dependencies": {
     "@react-three/drei": "^9.122.0",
