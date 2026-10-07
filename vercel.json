@@ -1,11 +1,5 @@
 {
   "version": 2,
-  "crons": [
-    {
-      "path": "/api/cron_hunt",
-      "schedule": "*/30 * * * *"
-    }
-  ],
   "redirects": [
     {
       "source": "/",
@@ -14,6 +8,14 @@
     }
   ],
   "rewrites": [
+    {
+      "source": "/projects/manifest.json",
+      "destination": "/api/manifest"
+    },
+    {
+      "source": "/manifest.json",
+      "destination": "/api/manifest"
+    },
     {
       "source": "/studio",
       "destination": "/projects/studio/index.html"
@@ -32,7 +34,7 @@
     },
     {
       "source": "/projects/era-residence/assets/:asset*",
-      "destination": "/projects/era-residence/assets/:asset*"
+      "destination": "/api/serve_project?slug=era-residence&asset=:asset*"
     },
     {
       "source": "/projects/ktm-showroom",
@@ -44,7 +46,7 @@
     },
     {
       "source": "/projects/ktm-showroom/assets/:asset*",
-      "destination": "/projects/ktm-showroom/assets/:asset*"
+      "destination": "/api/serve_project?slug=ktm-showroom&asset=:asset*"
     },
     {
       "source": "/projects/nuve-skincare",
