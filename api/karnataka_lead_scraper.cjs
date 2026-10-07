@@ -445,9 +445,21 @@ async function getNextKarnatakaLeads(dispatchedVaultSet) {
   }];
 }
 
-module.exports = {
-  KARNATAKA_AREAS,
-  TARGET_NICHES,
-  KARNATAKA_BUSINESS_VAULT,
-  getNextKarnatakaLeads
-};
+async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  return res.status(200).json({ ok: true, region: "Karnataka, India" });
+}
+
+handler.KARNATAKA_AREAS = KARNATAKA_AREAS;
+handler.TARGET_NICHES = TARGET_NICHES;
+handler.KARNATAKA_BUSINESS_VAULT = KARNATAKA_BUSINESS_VAULT;
+handler.getNextKarnatakaLeads = getNextKarnatakaLeads;
+
+module.exports = handler;
+module.exports.default = handler;
+module.exports.KARNATAKA_AREAS = KARNATAKA_AREAS;
+module.exports.TARGET_NICHES = TARGET_NICHES;
+module.exports.KARNATAKA_BUSINESS_VAULT = KARNATAKA_BUSINESS_VAULT;
+module.exports.getNextKarnatakaLeads = getNextKarnatakaLeads;
+
