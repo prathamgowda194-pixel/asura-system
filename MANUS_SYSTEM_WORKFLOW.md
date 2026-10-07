@@ -84,12 +84,14 @@ To eliminate generic AI slop layouts and enforce bespoke 3D scroll kinetics, int
 
 ---
 
-### 5. Autonomous Kinetic Integration Protocol
-When Pixel or CodeSmith builds any section, they must implement at least two kinetic primitives from the vault:
+### 5. Autonomous Kinetic Integration Protocol (Compulsory Mandate)
+Every single website built by Asura across any industry (Automotive Showrooms, Luxury Real Estate, High-Tech Portfolios, E-Commerce, Hospitality) **MUST COMPULSORILY** reference and utilize the Supreme Kinetic Inspiration Vault. AI agents must enforce:
 1. **Pinned Hero Stage**: Pinned 60fps video scrub (`video.currentTime = progress * video.duration`) with Lerp smoothing or multi-layer WebGL camera projection.
 2. **3D Tilt & Pinning**: Aceternity 3D Pin / React Bits card tilt responding to mouse coords with realistic depth (`perspective: 1400px`, `transform-style: preserve-3d`).
 3. **Lenis Momentum Smoothing**: All pages wrapped in `Lenis` instance connected to `gsap.ticker.add((time) => lenis.raf(time * 1000))` for cinematic fluidity.
-4. **Interactive HUD Telemetry**: Real-time camera zoom, elevation, and stage readouts updating synchronously with the scroll progress.
+4. **Interactive HUD Telemetry**: Real-time camera zoom, speed, lean angle, RPM, elevation, and stage readouts updating synchronously with scroll progress.
+5. **Exploded Engineering Cutaway (Mechanic 14)**: As the user scrolls through specifications, the assembly must dynamically deconstruct into floating technical subsystems with interactive hotspot radar pins.
+6. **Tactile Micro-Interactions**: Cult UI floating state docks, Uiverse tactile switches, Magic UI bento borders, and Aceternity glowing tracing beams.
 
 ---
 

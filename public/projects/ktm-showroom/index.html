@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KTM READY TO RACE | Flagship Showroom & 3D Interactive Experience</title>
+  <meta name="description" content="Experience the raw adrenaline of KTM. 3D scroll-driven showroom fly-through, exploded engineering parts cutaway, and 60 FPS interactive model configurator.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Three.js (WebGL 3D Engine) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- GSAP 3.12 & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Lenis Smooth Inertia Momentum Scroll -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+  <!-- Google Fonts: Inter, Cabinet Grotesk, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ktm: {
+              orange: '#FF6600',
+              neon: '#FF7700',
+              dark: '#0A0B0E',
+              card: '#12141A',
+              border: 'rgba(255, 102, 0, 0.25)',
+              muted: '#7A808C'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Cabinet Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ═════════════════════════════════════════════════════════════════════════
+       ASURA SUPREME 3D KINETIC ENGINE & TACTILE STYLING (KTM APEX)
+       ═════════════════════════════════════════════════════════════════════════ */
+    :root {
+      --ktm-orange: #FF6600;
+      --ktm-dark: #0A0B0E;
+    }
+
+    body {
+      background-color: #0A0B0E;
+      color: #F4F5F7;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      selection-background-color: #FF6600;
+      selection-color: #000000;
+    }
+
+    ::selection {
+      background: #FF6600;
+      color: #000000;
+    }
+
+    /* Custom Lenis Smooth Scroll Setup */
+    html.lenis, html.lenis body {
+      height: auto;
+    }
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+
+    /* Kinetic 3D Perspective Stages */
+    .perspective-stage {
+      perspective: 1600px;
+      transform-style: preserve-3d;
+    }
+
+    /* Interactive Tilt Physics */
+    .tilt-card-3d {
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
+    }
+    .tilt-card-3d:hover {
+      border-color: rgba(255, 102, 0, 0.6);
+      box-shadow: 0 20px 50px -10px rgba(255, 102, 0, 0.25);
+    }
+
+    /* Glassmorphism Docks */
+    .glass-dock {
+      background: rgba(18, 20, 26, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .glass-dock-orange {
+      background: rgba(18, 20, 26, 0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 102, 0, 0.3);
+      box-shadow: 0 10px 40px -10px rgba(255, 102, 0, 0.2);
+    }
+
+    /* Spatial Hotspot Radar Pins */
+    .hotspot-pin {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      z-index: 30;
+    }
+    .hotspot-core {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #FF6600;
+      box-shadow: 0 0 15px #FF6600;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+    .hotspot-pulse {
+      position: absolute;
+      inset: -10px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 102, 0, 0.7);
+      animation: hotspotPulse 2s infinite cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    @keyframes hotspotPulse {
+      0% { transform: scale(0.6); opacity: 1; }
+      100% { transform: scale(2.4); opacity: 0; }
+    }
+    .hotspot-pin:hover .hotspot-core {
+      transform: scale(1.35);
+      background: #FFFFFF;
+      box-shadow: 0 0 20px #FFFFFF;
+    }
+
+    /* Exploded Subsystem Glow */
+    .component-glow {
+      filter: drop-shadow(0 0 35px rgba(255, 102, 0, 0.55));
+    }
+
+    /* Tachometer Revving Gauge */
+    .rpm-bar {
+      transition: width 0.08s ease-out;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0A0B0E;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #252833;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #FF6600;
+    }
+  </style>
+</head>
+<body class="bg-[#0A0B0E] text-white antialiased selection:bg-[#FF6600] selection:text-black">
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       TACHOMETER REVVING PRELOADER (READY TO RACE TELEMETRY)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <div id="preloader" class="fixed inset-0 z-[100] bg-[#0A0B0E] text-white flex flex-col justify-between p-8 md:p-14 transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)]">
+    <div class="flex justify-between items-center text-xs tracking-[0.3em] font-mono text-[#7A808C] uppercase">
+      <span class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-[#FF6600] animate-ping"></span>
+        KTM AUSTRIA RACING TELEMETRY
+      </span>
+      <span>READY TO RACE // 2026</span>
+    </div>
+
+    <div class="flex flex-col items-center justify-center my-auto text-center">
+      <div class="text-7xl md:text-9xl font-black font-display tracking-tighter text-white mb-2 flex items-baseline">
+        <span id="rpm-counter">0</span>
+        <span class="text-2xl md:text-3xl font-mono text-[#FF6600] font-normal ml-3">RPM</span>
+      </div>
+      <div class="text-sm md:text-base font-mono uppercase tracking-[0.35em] text-[#A0A6B2]">
+        CALIBRATING APEX 3D SHOWROOM
+      </div>
+
+      <!-- Tachometer Shift Light Bar -->
+      <div class="flex gap-1.5 mt-8 max-w-md w-full justify-center">
+        <div class="h-2 w-8 rounded-sm bg-green-500/20 shift-led" data-led="1"></div>
+        <div class="h-2 w-8 rounded-sm bg-green-500/20 shift-led" data-led="2"></div>
+        <div class="h-2 w-8 rounded-sm bg-yellow-500/20 shift-led" data-led="3"></div>
+        <div class="h-2 w-8 rounded-sm bg-yellow-500/20 shift-led" data-led="4"></div>
+        <div class="h-2 w-8 rounded-sm bg-[#FF6600]/20 shift-led" data-led="5"></div>
+        <div class="h-2 w-8 rounded-sm bg-[#FF6600]/20 shift-led" data-led="6"></div>
+        <div class="h-2 w-8 rounded-sm bg-red-500/20 shift-led" data-led="7"></div>
+        <div class="h-2 w-8 rounded-sm bg-red-500/20 shift-led" data-led="8"></div>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-3 max-w-xl mx-auto w-full">
+      <div class="flex justify-between items-end text-xs font-mono text-[#7A808C]">
+        <span>Synthesizing 60 FPS Digital Shaders</span>
+        <span id="preloader-counter" class="text-sm font-bold text-white">00%</span>
+      </div>
+      <div class="w-full h-[3px] bg-white/10 relative overflow-hidden rounded-full">
+        <div id="preloader-bar" class="absolute left-0 top-0 bottom-0 bg-[#FF6600] w-0 transition-all duration-200 ease-out"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       STICKY KINETIC NAVIGATION BAR
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <header class="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-5 transition-all duration-500 flex justify-between items-center bg-[#0A0B0E]/80 backdrop-blur-md border-b border-white/5">
+    <div class="flex items-center gap-6">
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-10 h-7 bg-[#FF6600] flex items-center justify-center font-black font-display text-black text-xl italic tracking-tighter skew-x-[-12deg] group-hover:scale-105 transition-transform">
+          KTM
+        </div>
+        <div class="flex flex-col">
+          <span class="text-xs font-mono tracking-[0.2em] text-[#FF6600] font-bold uppercase leading-none">READY TO RACE</span>
+          <span class="text-xs font-mono tracking-widest text-[#7A808C] uppercase leading-tight">SHOWROOM 3D</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="hidden lg:flex items-center gap-8 text-xs font-mono tracking-[0.2em] uppercase text-white/70">
+      <a href="#hero-stage" class="hover:text-[#FF6600] transition-colors">01 // Fly-Through</a>
+      <a href="#parts-cutaway" class="hover:text-[#FF6600] transition-colors">02 // Exploded Parts</a>
+      <a href="#fleet-showroom" class="hover:text-[#FF6600] transition-colors">03 // The Fleet</a>
+      <a href="#configurator" class="hover:text-[#FF6600] transition-colors">04 // Configurator</a>
+      <a href="#locator" class="hover:text-[#FF6600] transition-colors">05 // Dealer Locator</a>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="flex items-center gap-4">
+      <!-- Web Audio Exhaust Engine Sound Simulator -->
+      <button id="engine-sound-btn" onclick="toggleEngineSound()" class="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-[#FF6600] transition-colors text-xs font-mono text-white/80 group">
+        <span class="w-2 h-2 rounded-full bg-[#FF6600] group-hover:animate-ping"></span>
+        <span id="sound-btn-text">EXHAUST SOUND</span>
+      </button>
+
+      <!-- Book Test Ride Button -->
+      <button onclick="openBookingModal()" class="px-5 py-2.5 rounded-lg bg-[#FF6600] text-black font-bold font-mono text-xs tracking-wider uppercase hover:bg-[#FF7700] hover:shadow-[0_0_25px_rgba(255,102,0,0.5)] transition-all">
+        BOOK TEST RIDE
+      </button>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       CHAPTER 1: 3D HERO SHOWROOM DRONE FLY-THROUGH & 60 FPS SCRUBBER
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <section id="hero-stage" class="relative w-full h-[240vh] bg-[#0A0B0E]">
+    <div class="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between perspective-stage">
+      
+      <!-- Viewport 3D Canvas / Multi-Layer Image Transform -->
+      <div id="hero-viewport-3d" class="absolute inset-0 w-full h-full transform-gpu transition-transform duration-100 ease-out">
+        
+        <!-- Layer 1: Showroom Exterior Dusk (Start Frame) -->
+        <div id="layer-showroom-ext" class="absolute inset-0 w-full h-full transition-opacity duration-700">
+          <img src="./assets/ktm_showroom_drone_start.jpg" alt="KTM Showroom Dusk Fly-through" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0A0B0E] via-transparent to-black/60"></div>
+        </div>
+
+        <!-- Layer 2: Showroom Center Stage Pedestal (Fly-Through End Frame) -->
+        <div id="layer-showroom-int" class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-700">
+          <img src="./assets/ktm_showroom_drone_end.jpg" alt="KTM Duke 390 On Revolving Showroom Turntable" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0A0B0E] via-transparent to-black/60"></div>
+        </div>
+
+        <!-- Layer 3: Studio Hero Profile (Orbit Stance) -->
+        <div id="layer-studio-hero" class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-700">
+          <img src="./assets/ktm_bike_assembled_start.jpg" alt="KTM 390 Duke Studio Assembly" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0A0B0E] via-transparent to-black/60"></div>
+        </div>
+
+        <!-- Spatial Hotspot Radar Pins (Hover to inspect components) -->
+        <div id="hotspot-engine" class="hotspot-pin" style="left: 52%; top: 62%;" onclick="scrollToPart('engine')">
+          <div class="hotspot-core"><div class="hotspot-pulse"></div></div>
+          <div class="absolute left-6 top-1/2 -translate-y-1/2 whitespace-nowrap bg-black/90 px-3 py-1.5 rounded border border-[#FF6600]/40 text-xs font-mono hidden md:block">
+            <span class="text-[#FF6600] font-bold">01 //</span> 399cc DOHC ENGINE
+          </div>
+        </div>
+
+        <div id="hotspot-chassis" class="hotspot-pin" style="left: 44%; top: 48%;" onclick="scrollToPart('chassis')">
+          <div class="hotspot-core"><div class="hotspot-pulse"></div></div>
+          <div class="absolute left-6 top-1/2 -translate-y-1/2 whitespace-nowrap bg-black/90 px-3 py-1.5 rounded border border-[#FF6600]/40 text-xs font-mono hidden md:block">
+            <span class="text-[#FF6600] font-bold">02 //</span> ORANGE TRELLIS FRAME
+          </div>
+        </div>
+
+        <div id="hotspot-suspension" class="hotspot-pin" style="left: 70%; top: 52%;" onclick="scrollToPart('suspension')">
+          <div class="hotspot-core"><div class="hotspot-pulse"></div></div>
+          <div class="absolute left-6 top-1/2 -translate-y-1/2 whitespace-nowrap bg-black/90 px-3 py-1.5 rounded border border-[#FF6600]/40 text-xs font-mono hidden md:block">
+            <span class="text-[#FF6600] font-bold">03 //</span> WP APEX 43mm FORKS
+          </div>
+        </div>
+
+        <div id="hotspot-brakes" class="hotspot-pin" style="left: 75%; top: 68%;" onclick="scrollToPart('brakes')">
+          <div class="hotspot-core"><div class="hotspot-pulse"></div></div>
+          <div class="absolute left-6 top-1/2 -translate-y-1/2 whitespace-nowrap bg-black/90 px-3 py-1.5 rounded border border-[#FF6600]/40 text-xs font-mono hidden md:block">
+            <span class="text-[#FF6600] font-bold">04 //</span> ByBre 320mm BRAKES
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Overlay: Showroom Mode Switcher Dock (Cult UI & Aceternity Style) -->
+      <div class="relative z-20 pt-28 px-6 md:px-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF6600]/10 border border-[#FF6600]/30 text-[#FF6600] font-mono text-xs font-bold tracking-widest uppercase mb-3">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#FF6600] animate-pulse"></span>
+            60 FPS FPV DRONE SCROLL · SCROLL DOWN TO ENTER
+          </div>
+          <h1 class="text-4xl md:text-7xl lg:text-8xl font-black font-display tracking-tighter text-white uppercase leading-[0.9]">
+            KTM 390 DUKE
+          </h1>
+          <p class="text-sm md:text-lg text-[#A0A6B2] font-mono max-w-xl mt-2">
+            The Corner Rocket. Pure Austrian aggression engineered with predatory precision and class-leading electronic telemetry.
+          </p>
+        </div>
+
+        <!-- Mode Toggle Dock -->
+        <div class="glass-dock p-1.5 rounded-xl flex items-center gap-1 text-xs font-mono uppercase">
+          <button id="btn-mode-drone" onclick="setHeroMode('drone')" class="px-4 py-2 rounded-lg bg-[#FF6600] text-black font-bold transition-all shadow-sm">
+            SHOWROOM DRONE
+          </button>
+          <button id="btn-mode-studio" onclick="setHeroMode('studio')" class="px-4 py-2 rounded-lg text-white/70 hover:text-white transition-all">
+            STUDIO STANCE
+          </button>
+        </div>
+      </div>
+
+      <!-- Bottom Floating Telemetry Cockpit (HUD Tracker) -->
+      <div class="relative z-20 pb-8 px-6 md:px-12 flex flex-col lg:flex-row justify-between items-end gap-6">
+        
+        <!-- Live Cockpit Readouts Grid -->
+        <div class="glass-dock-orange px-6 py-4 rounded-2xl grid grid-cols-2 sm:grid-cols-5 gap-6 text-center max-w-3xl w-full">
+          <div>
+            <div class="text-xs font-mono text-[#7A808C] uppercase tracking-wider">TACHOMETER</div>
+            <div id="hud-rpm" class="text-xl md:text-2xl font-black font-mono text-[#FF6600] mt-0.5">8,500 <span class="text-xs font-normal text-white/60">RPM</span></div>
+          </div>
+          <div>
+            <div class="text-xs font-mono text-[#7A808C] uppercase tracking-wider">POWER</div>
+            <div class="text-xl md:text-2xl font-black font-mono text-white mt-0.5">45 <span class="text-xs font-normal text-white/60">HP</span></div>
+          </div>
+          <div>
+            <div class="text-xs font-mono text-[#7A808C] uppercase tracking-wider">TORQUE</div>
+            <div class="text-xl md:text-2xl font-black font-mono text-white mt-0.5">39 <span class="text-xs font-normal text-white/60">NM</span></div>
+          </div>
+          <div>
+            <div class="text-xs font-mono text-[#7A808C] uppercase tracking-wider">WET WEIGHT</div>
+            <div class="text-xl md:text-2xl font-black font-mono text-white mt-0.5">165 <span class="text-xs font-normal text-white/60">KG</span></div>
+          </div>
+          <div>
+            <div class="text-xs font-mono text-[#7A808C] uppercase tracking-wider">CAMERA ZOOM</div>
+            <div id="hud-zoom" class="text-xl md:text-2xl font-black font-mono text-[#FF6600] mt-0.5">1.00x</div>
+          </div>
+        </div>
+
+        <!-- Scroll Indicator Hint -->
+        <div class="flex items-center gap-4 text-right">
+          <div class="hidden sm:block">
+            <div class="text-xs font-mono tracking-widest text-[#FF6600] font-bold uppercase">EXPLORE 3D ASSEMBLY</div>
+            <div class="text-xs font-mono text-[#7A808C]">Scroll to decompose engineering parts</div>
+          </div>
+          <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center animate-bounce">
+            <svg class="w-5 h-5 text-[#FF6600]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       CHAPTER 2: 3D EXPLODED PARTS CUTAWAY & SUBSYSTEM DECONSTRUCTION (MECHANIC 14)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <section id="parts-cutaway" class="relative w-full min-h-screen py-28 px-6 md:px-12 bg-gradient-to-b from-[#0A0B0E] via-[#0F1117] to-[#0A0B0E] border-t border-white/5">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
+        <div>
+          <div class="text-xs font-mono tracking-[0.25em] text-[#FF6600] uppercase font-bold mb-2">
+            02 // PRECISION ENGINEERING
+          </div>
+          <h2 class="text-4xl md:text-6xl lg:text-7xl font-black font-display tracking-tight uppercase text-white leading-none">
+            EXPLODED <span class="text-[#FF6600]">PARTS</span> CUTAWAY
+          </h2>
+        </div>
+        <p class="text-sm md:text-base text-[#A0A6B2] font-mono max-w-md">
+          Deconstructing the apex machinery. Click or hover any subsystem below to isolate the mechanical anatomy and view dyno benchmarks.
+        </p>
+      </div>
+
+      <!-- Parts Cutaway Interactive Workspace -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        
+        <!-- Left 7 Cols: Interactive 3D Exploded Visual Stage -->
+        <div class="lg:col-span-7 relative rounded-3xl overflow-hidden border border-white/10 bg-[#12141A] p-4 md:p-8 perspective-stage group">
+          <div id="exploded-interactive-container" class="relative w-full aspect-[16/10] overflow-hidden rounded-2xl flex items-center justify-center">
+            
+            <!-- Main Motorcycle Hero Visual with Smooth Cutaway Swap -->
+            <img id="cutaway-visual" src="./assets/ktm_bike_assembled_start.jpg" alt="KTM Exploded Engineering Cutaway" class="w-full h-full object-cover rounded-xl transition-all duration-700">
+
+            <!-- Laser Holographic Crosshairs & Blueprint Overlays -->
+            <div class="absolute inset-0 pointer-events-none border border-[#FF6600]/20 rounded-xl"></div>
+            <div class="absolute top-4 left-4 font-mono text-[10px] text-[#FF6600] tracking-widest uppercase bg-black/70 px-2.5 py-1 rounded border border-[#FF6600]/30">
+              SYS ID // LC4c-GEN3 · READY TO RACE
+            </div>
+            <div id="part-laser-box" class="absolute inset-0 pointer-events-none transition-all duration-500 opacity-0 border-2 border-[#FF6600] shadow-[0_0_30px_rgba(255,102,0,0.5)] rounded-lg"></div>
+          </div>
+
+          <!-- Bottom Micro-Controls -->
+          <div class="flex justify-between items-center mt-4 text-xs font-mono text-[#7A808C]">
+            <span>ISOLATION VIEW: <strong id="active-part-label" class="text-white">FULL VEHICLE STANCE</strong></span>
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-green-500"></span>
+              CAD BIM SPEC VERIFIED
+            </span>
+          </div>
+        </div>
+
+        <!-- Right 5 Cols: Technical Subsystem Selector & Dyno Telemetry -->
+        <div class="lg:col-span-5 flex flex-col gap-3">
+          
+          <!-- Subsystem Card 1: Engine -->
+          <div class="subsystem-card p-5 rounded-2xl bg-[#12141A] border border-white/10 hover:border-[#FF6600] cursor-pointer transition-all duration-300" onclick="selectSubsystem('engine')">
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="text-xs font-mono text-[#FF6600] font-bold">01 // POWERTRAIN</span>
+                <h3 class="text-xl font-bold font-display text-white mt-1">399cc DOHC Single-Cylinder</h3>
+              </div>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-white/5 text-white/70">45 HP / 39 NM</span>
+            </div>
+            <p class="text-xs text-[#A0A6B2] mt-2 font-mono leading-relaxed">
+              Newly re-engineered LC4c engine featuring a lightweight cylinder head, anti-hopping slipper clutch, and ride-by-wire precision fueling.
+            </p>
+          </div>
+
+          <!-- Subsystem Card 2: Trellis Frame -->
+          <div class="subsystem-card p-5 rounded-2xl bg-[#12141A] border border-white/10 hover:border-[#FF6600] cursor-pointer transition-all duration-300" onclick="selectSubsystem('chassis')">
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="text-xs font-mono text-[#FF6600] font-bold">02 // CHASSIS</span>
+                <h3 class="text-xl font-bold font-display text-white mt-1">2-Piece Steel Trellis Frame</h3>
+              </div>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-white/5 text-white/70">165 KG WET</span>
+            </div>
+            <p class="text-xs text-[#A0A6B2] mt-2 font-mono leading-relaxed">
+              Hydroformed steel main frame powder-coated in signature KTM orange, bolted to a die-cast aluminum subframe for apex cornering rigidity.
+            </p>
+          </div>
+
+          <!-- Subsystem Card 3: WP Suspension -->
+          <div class="subsystem-card p-5 rounded-2xl bg-[#12141A] border border-white/10 hover:border-[#FF6600] cursor-pointer transition-all duration-300" onclick="selectSubsystem('suspension')">
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="text-xs font-mono text-[#FF6600] font-bold">03 // SUSPENSION</span>
+                <h3 class="text-xl font-bold font-display text-white mt-1">WP APEX 43mm Inverted Forks</h3>
+              </div>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-white/5 text-white/70">5-CLICK ADJUST</span>
+            </div>
+            <p class="text-xs text-[#A0A6B2] mt-2 font-mono leading-relaxed">
+              Open-cartridge front forks with compression and rebound adjustment paired with an offset WP APEX rear monoshock.
+            </p>
+          </div>
+
+          <!-- Subsystem Card 4: ByBre Radial Brakes -->
+          <div class="subsystem-card p-5 rounded-2xl bg-[#12141A] border border-white/10 hover:border-[#FF6600] cursor-pointer transition-all duration-300" onclick="selectSubsystem('brakes')">
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="text-xs font-mono text-[#FF6600] font-bold">04 // BRAKING</span>
+                <h3 class="text-xl font-bold font-display text-white mt-1">ByBre 320mm Radial Caliper</h3>
+              </div>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-white/5 text-white/70">SUPERMOTO ABS</span>
+            </div>
+            <p class="text-xs text-[#A0A6B2] mt-2 font-mono leading-relaxed">
+              Radial 4-piston caliper clamping onto a 320mm drilled disc, supported by Bosch 9.3 MP Cornering ABS with rear wheel disengagement mode.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       CHAPTER 3: THE FLEET SHOWROOM (3D TILT CARDS & MODEL SELECTOR)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <section id="fleet-showroom" class="relative w-full py-28 px-6 md:px-12 bg-[#0A0B0E] border-t border-white/5">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
+        <div>
+          <div class="text-xs font-mono tracking-[0.25em] text-[#FF6600] uppercase font-bold mb-2">
+            03 // SHOWROOM LINEUP
+          </div>
+          <h2 class="text-4xl md:text-6xl lg:text-7xl font-black font-display tracking-tight uppercase text-white leading-none">
+            THE 2026 <span class="text-[#FF6600]">FLEET</span>
+          </h2>
+        </div>
+        <div class="text-xs font-mono text-[#7A808C] uppercase tracking-widest">
+          INTERACTIVE 3D PERSPECTIVE CARDS · MOVE CURSOR TO TILT
+        </div>
+      </div>
+
+      <!-- 3D Tilt Card Grid (Aceternity UI + React Bits Physics) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Card 1: KTM 390 DUKE -->
+        <div class="tilt-card-3d bg-[#12141A] rounded-3xl p-6 border border-white/10 flex flex-col justify-between group">
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <span class="text-xs font-mono tracking-widest px-3 py-1 rounded-full bg-[#FF6600]/10 text-[#FF6600] font-bold">NAKED AGGRESSION</span>
+              <span class="text-xs font-mono text-[#7A808C]">MY 2026</span>
+            </div>
+            <div class="relative w-full aspect-[16/11] rounded-2xl overflow-hidden mb-6 bg-black/40">
+              <img src="./assets/ktm_bike_assembled_start.jpg" alt="KTM 390 Duke" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+            <h3 class="text-2xl font-black font-display text-white uppercase">KTM 390 DUKE</h3>
+            <p class="text-xs font-mono text-[#A0A6B2] mt-2 leading-relaxed">
+              The Corner Rocket. Razor-sharp lightweight chassis with class-leading 45 HP output and cornering ABS.
+            </p>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-white/10">
+            <div class="grid grid-cols-3 gap-2 text-center font-mono text-xs mb-6">
+              <div class="p-2 rounded-lg bg-black/40">
+                <div class="text-[#7A808C]">DISP</div>
+                <div class="font-bold text-white mt-1">399 cc</div>
+              </div>
+              <div class="p-2 rounded-lg bg-black/40">
+                <div class="text-[#7A808C]">POWER</div>
+                <div class="font-bold text-[#FF6600] mt-1">45 PS</div>
+              </div>
+              <div class="p-2 rounded-lg bg-black/40">
+                <div class="text-[#7A808C]">WEIGHT</div>
+                <div class="font-bold text-white mt-1">165 kg</div>
+              </div>
+            </div>
+            <button onclick="openBookingModal('KTM 390 DUKE')" class="w-full py-3 rounded-xl bg-[#FF6600] text-black font-bold font-mono text-xs uppercase tracking-wider hover:bg-[#FF7700] transition-colors">
+              CONFIGURE & TEST RIDE
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 2: KTM RC 390 -->
+        <div class="tilt-card-3d bg-[#12141A] rounded-3xl p-6 border border-white/10 flex flex-col justify-between group">
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <span class="text-xs font-mono tracking-widest px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 font-bold">SUPERSPORT RACER</span>
+              <span class="text-xs font-mono text-[#7A808C]">MY 2026</span>
+            </div>
+            <div class="relative w-full aspect-[16/11] rounded-2xl overflow-hidden mb-6 bg-black/40">
+              <img src="./assets/ktm_rc390_track.jpg" alt="KTM RC 390 Track" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+            <h3 class="text-2xl font-black font-display text-white uppercase">KTM RC 390</h3>
+            <p class="text-xs font-mono text-[#A0A6B2] mt-2 leading-relaxed">
+              Grand Prix aerodynamics. Clip-on race geometry, Moto3-derived windscreen, and full-fairing wind tunnel stability.
+            </p>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-white/10">
+            <div class="grid grid-cols-3 gap-2 text-center font-mono text-xs mb-6">
+              <div class="p-2 rounded-lg bg-black/40">
+                <div class="text-[#7A808C]">DISP</div>
+                <div class="font-bold text-white mt-1">373 cc</div>
+              </div>
+              <div class="p-2 rounded-lg bg-black/40">
+                <div class="text-[#7A808C]">POWER</div>
+                <div class="font-bold text-[#FF6600] mt-1">43.5 PS</div>
+              </div>
+              <div class="p-2 rounded-lg bg-black/40">
+                <div class="text-[#7A808C]">TOP SPEED</div>
+                <div class="font-bold text-white mt-1">179 km/h</div>
+              </div>
+            </div>
+            <button onclick="openBookingModal('KTM RC 390')" class="w-full py-3 rounded-xl bg-white/10 text-white font-bold font-mono text-xs uppercase tracking-wider hover:bg-[#FF6600] hover:text-black transition-colors">
+              CONFIGURE & TEST RIDE
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 3: KTM 390 ADVENTURE -->
+        <div class="tilt-card-3d bg-[#12141A] rounded-3xl p-6 border border-white/10 flex flex-col justify-between group">
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <span class="text-xs font-mono tracking-widest px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 font-bold">ALL-TERRAIN EXPLORER</span>
+              <span class="text-xs font-mono text-[#7A808C]">MY 2026</span>
+            </div>
+            <div class="relative w-full aspect-[16/11] rounded-2xl overflow-hidden mb-6 bg-black/40">
+              <img src="./assets/ktm_adventure.jpg" alt="KTM 390 Adventure" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+            <h3 class="text-2xl font-black font-display text-white uppercase">KTM 390 ADVENTURE</h3>
+            <p class="text-xs font-mono text-[#A0A6B2] mt-2 leading-relaxed">
+              Dakar-proven DNA. Spoked wheels, long-travel WP Apex suspension, off-road traction control, and 14.5L endurance fuel tank.
+            </p>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-white/10">
+            <div class="grid grid-cols-3 gap-2 text-center font-mono text-xs mb-6">
+              <div class="p-2 rounded-lg bg-black/40">
+                <div class="text-[#7A808C]">CLEARANCE</div>
+                <div class="font-bold text-white mt-1">200 mm</div>
+              </div>
+              <div class="p-2 rounded-lg bg-black/40">
+                <div class="text-[#7A808C]">FUEL</div>
+                <div class="font-bold text-[#FF6600] mt-1">14.5 L</div>
+              </div>
+              <div class="p-2 rounded-lg bg-black/40">
+                <div class="text-[#7A808C]">RANGE</div>
+                <div class="font-bold text-white mt-1">400+ km</div>
+              </div>
+            </div>
+            <button onclick="openBookingModal('KTM 390 ADVENTURE')" class="w-full py-3 rounded-xl bg-white/10 text-white font-bold font-mono text-xs uppercase tracking-wider hover:bg-[#FF6600] hover:text-black transition-colors">
+              CONFIGURE & TEST RIDE
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       CHAPTER 4: INTERACTIVE 3D CONFIGURATOR DOCK (CULT UI & UIVERSE PATTERN)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <section id="configurator" class="relative w-full py-28 px-6 md:px-12 bg-gradient-to-b from-[#0A0B0E] via-[#0D0F14] to-[#0A0B0E] border-t border-white/5">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
+        <div>
+          <div class="text-xs font-mono tracking-[0.25em] text-[#FF6600] uppercase font-bold mb-2">
+            04 // PERSONAL BUILD STUDIO
+          </div>
+          <h2 class="text-4xl md:text-6xl lg:text-7xl font-black font-display tracking-tight uppercase text-white leading-none">
+            SPEC <span class="text-[#FF6600]">CONFIGURATOR</span>
+          </h2>
+        </div>
+        <p class="text-sm md:text-base text-[#A0A6B2] font-mono max-w-md">
+          Equip factory KTM PowerParts, select exhaust tuning, and calculate real-time delivery allocation.
+        </p>
+      </div>
+
+      <!-- Configurator Shell -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        
+        <!-- Left 7 Cols: Interactive 3D Render Preview -->
+        <div class="lg:col-span-7 relative rounded-3xl overflow-hidden border border-white/10 bg-[#12141A] p-6 md:p-10 flex flex-col items-center justify-center">
+          <div class="relative w-full aspect-[16/10] flex items-center justify-center">
+            <img id="configurator-bike-img" src="./assets/ktm_bike_assembled_start.jpg" alt="Configured KTM 390 Duke" class="w-full h-full object-cover rounded-2xl transition-all duration-500">
+          </div>
+
+          <!-- Color Swatches Bar -->
+          <div class="flex items-center gap-4 mt-6">
+            <span class="text-xs font-mono text-[#7A808C] uppercase">FACTORY LIVERY:</span>
+            <button onclick="setLivery('orange')" class="w-8 h-8 rounded-full bg-[#FF6600] border-2 border-white shadow-lg shadow-[#FF6600]/40"></button>
+            <button onclick="setLivery('white')" class="w-8 h-8 rounded-full bg-white border-2 border-transparent hover:border-white/60 transition-colors"></button>
+            <button onclick="setLivery('black')" class="w-8 h-8 rounded-full bg-[#181A20] border-2 border-transparent hover:border-white/60 transition-colors"></button>
+          </div>
+        </div>
+
+        <!-- Right 5 Cols: PowerParts Add-On Toggles -->
+        <div class="lg:col-span-5 flex flex-col gap-4">
+          <div class="text-xs font-mono text-[#7A808C] uppercase tracking-wider mb-2">OFFICIAL KTM POWERPARTS CATALOGUE</div>
+
+          <!-- Option 1: Akrapovič Exhaust -->
+          <label class="flex items-center justify-between p-4 rounded-xl bg-[#12141A] border border-white/10 hover:border-[#FF6600]/60 cursor-pointer transition-all">
+            <div class="flex items-center gap-3">
+              <input type="checkbox" id="opt-exhaust" onchange="updateConfigPrice()" class="w-5 h-5 accent-[#FF6600] rounded">
+              <div>
+                <div class="font-bold text-white text-sm">Akrapovič Titanium Slip-On</div>
+                <div class="text-xs text-[#7A808C] font-mono">-1.2 kg weight · Racing exhaust note</div>
+              </div>
+            </div>
+            <span class="font-mono text-sm text-[#FF6600] font-bold">+$850</span>
+          </label>
+
+          <!-- Option 2: Quickshifter+ -->
+          <label class="flex items-center justify-between p-4 rounded-xl bg-[#12141A] border border-white/10 hover:border-[#FF6600]/60 cursor-pointer transition-all">
+            <div class="flex items-center gap-3">
+              <input type="checkbox" id="opt-quickshifter" checked onchange="updateConfigPrice()" class="w-5 h-5 accent-[#FF6600] rounded">
+              <div>
+                <div class="font-bold text-white text-sm">Quickshifter+ (Bi-Directional)</div>
+                <div class="text-xs text-[#7A808C] font-mono">Clutchless up & down gear shifts</div>
+              </div>
+            </div>
+            <span class="font-mono text-sm text-[#FF6600] font-bold">+$320</span>
+          </label>
+
+          <!-- Option 3: Bar-End CNC Mirrors -->
+          <label class="flex items-center justify-between p-4 rounded-xl bg-[#12141A] border border-white/10 hover:border-[#FF6600]/60 cursor-pointer transition-all">
+            <div class="flex items-center gap-3">
+              <input type="checkbox" id="opt-mirrors" onchange="updateConfigPrice()" class="w-5 h-5 accent-[#FF6600] rounded">
+              <div>
+                <div class="font-bold text-white text-sm">CNC Billet Bar-End Mirrors</div>
+                <div class="text-xs text-[#7A808C] font-mono">Anodized matte black aero optics</div>
+              </div>
+            </div>
+            <span class="font-mono text-sm text-[#FF6600] font-bold">+$195</span>
+          </label>
+
+          <!-- Option 4: Factory Crash Bungs -->
+          <label class="flex items-center justify-between p-4 rounded-xl bg-[#12141A] border border-white/10 hover:border-[#FF6600]/60 cursor-pointer transition-all">
+            <div class="flex items-center gap-3">
+              <input type="checkbox" id="opt-crash" checked onchange="updateConfigPrice()" class="w-5 h-5 accent-[#FF6600] rounded">
+              <div>
+                <div class="font-bold text-white text-sm">Orange Tubular Crash Bungs</div>
+                <div class="text-xs text-[#7A808C] font-mono">Frame & engine casing drop shield</div>
+              </div>
+            </div>
+            <span class="font-mono text-sm text-[#FF6600] font-bold">+$240</span>
+          </label>
+
+          <!-- Price Dock -->
+          <div class="mt-4 p-5 rounded-2xl glass-dock-orange flex justify-between items-center">
+            <div>
+              <div class="text-xs font-mono text-[#7A808C] uppercase">ESTIMATED AS-BUILT PRICE</div>
+              <div id="config-total-price" class="text-3xl font-black font-mono text-[#FF6600]">$6,645</div>
+            </div>
+            <button onclick="openBookingModal('Configured KTM 390 Duke')" class="px-6 py-3 rounded-xl bg-white text-black font-bold font-mono text-xs uppercase tracking-wider hover:bg-[#FF6600] hover:text-black transition-colors">
+              RESERVE BUILD
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       CHAPTER 5: FLAGSHIP SHOWROOM LOCATOR & CONCIERGE (MECHANIC 8)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <section id="locator" class="relative w-full py-28 px-6 md:px-12 bg-[#0A0B0E] border-t border-white/5">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6">
+          <div class="text-xs font-mono tracking-[0.25em] text-[#FF6600] uppercase font-bold mb-2">
+            05 // GLOBAL NETWORK
+          </div>
+          <h2 class="text-4xl md:text-6xl font-black font-display tracking-tight uppercase text-white leading-none">
+            FLAGSHIP <span class="text-[#FF6600]">SHOWROOM</span> LOCATOR
+          </h2>
+          <p class="text-sm md:text-base text-[#A0A6B2] font-mono mt-4 leading-relaxed">
+            Step onto the floor of our state-of-the-art dealerships. Experience our 3D interactive dyno bays, factory race gear, and official service technicians.
+          </p>
+
+          <div class="flex flex-col gap-4 mt-8 font-mono text-xs">
+            <div class="p-4 rounded-xl bg-[#12141A] border border-white/10 flex justify-between items-center">
+              <div>
+                <strong class="text-white text-sm block">KTM Flagship Apex Hub</strong>
+                <span class="text-[#7A808C]">Stallhofnerstraße 3, Mattighofen, Austria</span>
+              </div>
+              <span class="text-[#FF6600] font-bold">HEADQUARTERS</span>
+            </div>
+            <div class="p-4 rounded-xl bg-[#12141A] border border-white/10 flex justify-between items-center">
+              <div>
+                <strong class="text-white text-sm block">KTM Southern Dealership</strong>
+                <span class="text-[#7A808C]">Perambalur High Road, South Hub</span>
+              </div>
+              <span class="text-emerald-400 font-bold">OPEN TODAY</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 rounded-3xl overflow-hidden border border-white/10 bg-[#12141A] p-8">
+          <h3 class="text-2xl font-bold font-display text-white uppercase mb-2">Book A Priority Test Ride</h3>
+          <p class="text-xs font-mono text-[#7A808C] mb-6">Select your preferred machine and our certified rider concierge will prep your machine.</p>
+          
+          <form onsubmit="handleTestRideSubmit(event)" class="space-y-4 font-mono text-xs">
+            <div>
+              <label class="block text-[#7A808C] mb-1">RIDER FULL NAME</label>
+              <input type="text" required placeholder="Alex Mercer" class="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 focus:border-[#FF6600] text-white outline-none">
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-[#7A808C] mb-1">PHONE NUMBER</label>
+                <input type="tel" required placeholder="+1 (555) 019-2834" class="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 focus:border-[#FF6600] text-white outline-none">
+              </div>
+              <div>
+                <label class="block text-[#7A808C] mb-1">PREFERRED MODEL</label>
+                <select id="form-model-select" class="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 focus:border-[#FF6600] text-white outline-none">
+                  <option value="KTM 390 DUKE">KTM 390 DUKE</option>
+                  <option value="KTM RC 390">KTM RC 390</option>
+                  <option value="KTM 390 ADVENTURE">KTM 390 ADVENTURE</option>
+                  <option value="KTM 1390 SUPER DUKE R">KTM 1390 SUPER DUKE R</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="w-full py-4 rounded-xl bg-[#FF6600] text-black font-bold font-mono text-xs uppercase tracking-wider hover:bg-[#FF7700] hover:shadow-[0_0_30px_rgba(255,102,0,0.5)] transition-all">
+              CONFIRM APPOINTMENT NOW
+            </button>
+            <div id="form-confirmation" class="hidden text-center text-xs font-mono text-emerald-400 mt-2">
+              ✓ Test ride reserved! Our dealer concierge will contact you within 2 hours.
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       FOOTER (EDITORIAL GIANT WORDMARK - MECHANIC 8)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <footer class="w-full py-16 px-6 md:px-12 bg-black border-t border-white/5 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-6 bg-[#FF6600] flex items-center justify-center font-black font-display text-black text-sm italic skew-x-[-12deg]">
+          KTM
+        </div>
+        <span class="text-xs font-mono text-[#7A808C]">© 2026 KTM SPORTMOTORCYCLE GMBH · ALL RIGHTS RESERVED</span>
+      </div>
+      <div class="flex gap-6 text-xs font-mono text-[#7A808C]">
+        <a href="#hero-stage" class="hover:text-[#FF6600] transition-colors">TOP</a>
+        <a href="#parts-cutaway" class="hover:text-[#FF6600] transition-colors">CUTAWAY</a>
+        <a href="#fleet-showroom" class="hover:text-[#FF6600] transition-colors">MODELS</a>
+        <a href="#configurator" class="hover:text-[#FF6600] transition-colors">CONFIGURATOR</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       BOOKING MODAL (CULT UI OVERLAY)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <div id="booking-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-6">
+    <div class="bg-[#12141A] border border-[#FF6600]/40 rounded-3xl max-w-lg w-full p-8 relative">
+      <button onclick="closeBookingModal()" class="absolute top-6 right-6 text-white/60 hover:text-white font-mono text-lg">✕</button>
+      <div class="text-xs font-mono text-[#FF6600] font-bold uppercase mb-1">PRIORITY PASS</div>
+      <h3 class="text-2xl font-black font-display text-white uppercase mb-2">Reserve Test Ride</h3>
+      <p id="modal-model-title" class="text-xs font-mono text-[#A0A6B2] mb-6">Select date and your nearest dealer will prepare the motorcycle.</p>
+
+      <form onsubmit="handleModalSubmit(event)" class="space-y-4 font-mono text-xs">
+        <div>
+          <label class="block text-[#7A808C] mb-1">FULL NAME</label>
+          <input type="text" required placeholder="Alex Mercer" class="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 text-white outline-none focus:border-[#FF6600]">
+        </div>
+        <div>
+          <label class="block text-[#7A808C] mb-1">PHONE NUMBER</label>
+          <input type="tel" required placeholder="+1 (555) 019-2834" class="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 text-white outline-none focus:border-[#FF6600]">
+        </div>
+        <button type="submit" class="w-full py-4 rounded-xl bg-[#FF6600] text-black font-bold font-mono text-xs uppercase tracking-wider hover:bg-[#FF7700] transition-colors">
+          COMPLETE RESERVATION
+        </button>
+        <div id="modal-success" class="hidden text-center text-xs font-mono text-emerald-400 mt-2">
+          ✓ Booking confirmed! Check your SMS for rider pass.
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       MASTER JAVASCRIPT: 60 FPS GSAP SCROLLTRIGGER + LENIS + AUDIO ENGINE
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <script>
+    // ═════════════════════════════════════════════════════════════════════════
+    // 1. TACHOMETER PRELOADER TICKER & ROBUST AUTO-DISMISS
+    // ═════════════════════════════════════════════════════════════════════════
+    function runPreloader() {
+      let count = 0;
+      let rpm = 0;
+      const counterEl = document.getElementById("preloader-counter");
+      const barEl = document.getElementById("preloader-bar");
+      const rpmEl = document.getElementById("rpm-counter");
+      const preloader = document.getElementById("preloader");
+      if (!preloader) return;
+
+      const timer = setInterval(() => {
+        count += Math.floor(Math.random() * 16) + 14;
+        rpm = Math.floor((count / 100) * 11500);
+
+        // Update shift lights
+        const leds = document.querySelectorAll(".shift-led");
+        const activeCount = Math.floor((count / 100) * 8);
+        leds.forEach((led, idx) => {
+          if (idx < activeCount) {
+            led.style.opacity = "1";
+            led.style.filter = "brightness(1.5)";
+          }
+        });
+
+        if (count >= 100) {
+          count = 100;
+          rpm = 11500;
+          clearInterval(timer);
+          if (counterEl) counterEl.innerText = "100%";
+          if (barEl) barEl.style.width = "100%";
+          if (rpmEl) rpmEl.innerText = "11,500";
+
+          setTimeout(() => {
+            preloader.style.opacity = "0";
+            preloader.style.transform = "translateY(-100%)";
+            preloader.style.pointerEvents = "none";
+            setTimeout(() => { preloader.style.display = "none"; }, 500);
+          }, 150);
+        } else {
+          if (counterEl) counterEl.innerText = (count < 10 ? "0" + count : count) + "%";
+          if (barEl) barEl.style.width = count + "%";
+          if (rpmEl) rpmEl.innerText = rpm.toLocaleString();
+        }
+      }, 20);
+
+      // Robust failsafe auto-dismiss
+      setTimeout(() => {
+        if (preloader && preloader.style.display !== "none") {
+          clearInterval(timer);
+          preloader.style.opacity = "0";
+          preloader.style.transform = "translateY(-100%)";
+          preloader.style.pointerEvents = "none";
+          setTimeout(() => { preloader.style.display = "none"; }, 300);
+        }
+      }, 1800);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener("DOMContentLoaded", runPreloader);
+    } else {
+      runPreloader();
+    }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // 2. LENIS SMOOTH MOMENTUM SCROLL
+    // ═════════════════════════════════════════════════════════════════════════
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 1.5
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // 3. GSAP SCROLLTRIGGER 3D FLY-THROUGH SCRUB ENGINE
+    // ═════════════════════════════════════════════════════════════════════════
+    gsap.registerPlugin(ScrollTrigger);
+
+    let currentHeroMode = 'drone'; // 'drone' | 'studio'
+
+    function setHeroMode(mode) {
+      currentHeroMode = mode;
+      const btnDrone = document.getElementById("btn-mode-drone");
+      const btnStudio = document.getElementById("btn-mode-studio");
+      const layerExt = document.getElementById("layer-showroom-ext");
+      const layerInt = document.getElementById("layer-showroom-int");
+      const layerStudio = document.getElementById("layer-studio-hero");
+
+      if (mode === 'studio') {
+        btnStudio.classList.add("bg-[#FF6600]", "text-black", "font-bold");
+        btnStudio.classList.remove("text-white/70");
+        btnDrone.classList.remove("bg-[#FF6600]", "text-black", "font-bold");
+        btnDrone.classList.add("text-white/70");
+
+        layerStudio.style.opacity = "1";
+        layerExt.style.opacity = "0";
+        layerInt.style.opacity = "0";
+      } else {
+        btnDrone.classList.add("bg-[#FF6600]", "text-black", "font-bold");
+        btnDrone.classList.remove("text-white/70");
+        btnStudio.classList.remove("bg-[#FF6600]", "text-black", "font-bold");
+        btnStudio.classList.add("text-white/70");
+
+        layerStudio.style.opacity = "0";
+        // Re-evaluate scroll position for drone layers
+        ScrollTrigger.refresh();
+      }
+    }
+
+    function initScrollAnimations() {
+      // 1. Hero 3D Drone Push-In Timeline
+      ScrollTrigger.create({
+        trigger: "#hero-stage",
+        start: "top top",
+        end: "bottom top",
+        scrub: 1.2,
+        onUpdate: (self) => {
+          const p = self.progress;
+
+          if (currentHeroMode === 'drone') {
+            const layerExt = document.getElementById("layer-showroom-ext");
+            const layerInt = document.getElementById("layer-showroom-int");
+            
+            // Cross-dissolve between outside dusk and inside showroom
+            if (p < 0.45) {
+              layerExt.style.opacity = (1 - (p / 0.45)).toFixed(2);
+              layerInt.style.opacity = (p / 0.45).toFixed(2);
+            } else {
+              layerExt.style.opacity = "0";
+              layerInt.style.opacity = "1";
+            }
+          }
+
+          // Camera Zoom Dolly
+          const scaleVal = 1.0 + p * 0.35;
+          gsap.set("#hero-viewport-3d", {
+            scale: scaleVal,
+            z: p * 80
+          });
+
+          // Telemetry HUD Readout
+          const zoomEl = document.getElementById("hud-zoom");
+          if (zoomEl) zoomEl.innerText = `${scaleVal.toFixed(2)}x`;
+
+          const rpmEl = document.getElementById("hud-rpm");
+          if (rpmEl) {
+            const calculatedRpm = Math.floor(4000 + p * 5200);
+            rpmEl.innerHTML = `${calculatedRpm.toLocaleString()} <span class="text-xs font-normal text-white/60">RPM</span>`;
+          }
+
+          // Hotspot pin parallax glide
+          gsap.set("#hotspot-engine", { x: -p * 40, y: -p * 25 });
+          gsap.set("#hotspot-chassis", { x: -p * 30, y: -p * 15 });
+          gsap.set("#hotspot-suspension", { x: p * 35, y: -p * 20 });
+          gsap.set("#hotspot-brakes", { x: p * 45, y: p * 15 });
+        }
+      });
+
+      // 2. Parts Cutaway Forward Reveal
+      gsap.fromTo("#parts-cutaway .subsystem-card",
+        { opacity: 0, y: 50, rotationX: -10 },
+        {
+          opacity: 1,
+          y: 0,
+          rotationX: 0,
+          duration: 0.8,
+          stagger: 0.12,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: "#parts-cutaway",
+            start: "top 75%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+
+      // 3. The Fleet 3D Tilt Cards Entrance
+      gsap.fromTo("#fleet-showroom .tilt-card-3d",
+        { opacity: 0, y: 60, scale: 0.95 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.9,
+          stagger: 0.15,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: "#fleet-showroom",
+            start: "top 75%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+    }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // 4. INTERACTIVE 3D PARTS CUTAWAY SUBSYSTEM ENGINE
+    // ═════════════════════════════════════════════════════════════════════════
+    const subsystemData = {
+      engine: {
+        label: "399cc DOHC POWERTRAIN ISOLATION",
+        laserBox: { left: "30%", top: "45%", width: "40%", height: "40%" }
+      },
+      chassis: {
+        label: "ORANGE TUBULAR TRELLIS CHASSIS ISOLATION",
+        laserBox: { left: "25%", top: "35%", width: "48%", height: "35%" }
+      },
+      suspension: {
+        label: "WP APEX 43mm INVERTED FORKS ISOLATION",
+        laserBox: { left: "62%", top: "30%", width: "25%", height: "55%" }
+      },
+      brakes: {
+        label: "ByBre 320mm RADIAL BRAKE CALIPER ISOLATION",
+        laserBox: { left: "68%", top: "58%", width: "22%", height: "32%" }
+      }
+    };
+
+    function selectSubsystem(key) {
+      const data = subsystemData[key];
+      if (!data) return;
+
+      const labelEl = document.getElementById("active-part-label");
+      const box = document.getElementById("part-laser-box");
+      const visual = document.getElementById("cutaway-visual");
+
+      if (labelEl) labelEl.innerText = data.label;
+      if (box) {
+        box.style.left = data.laserBox.left;
+        box.style.top = data.laserBox.top;
+        box.style.width = data.laserBox.width;
+        box.style.height = data.laserBox.height;
+        box.style.opacity = "1";
+      }
+
+      // Subtle pulse scale
+      gsap.fromTo(visual, { scale: 0.98 }, { scale: 1.02, duration: 0.4, ease: "power2.out" });
+    }
+
+    function scrollToPart(key) {
+      const el = document.getElementById("parts-cutaway");
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => selectSubsystem(key), 600);
+      }
+    }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // 5. 3D TILT PHYSICS (VANILLA MOUSE TRACKER)
+    // ═════════════════════════════════════════════════════════════════════════
+    document.querySelectorAll(".tilt-card-3d").forEach(card => {
+      card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const rotX = -(y / (rect.height / 2)) * 10;
+        const rotY = (x / (rect.width / 2)) * 10;
+        card.style.transform = `perspective(1200px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(1.02)`;
+      });
+      card.addEventListener("mouseleave", () => {
+        card.style.transform = "perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)";
+      });
+    });
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // 6. CONFIGURATOR PRICING ENGINE & LIVERY SELECTOR
+    // ═════════════════════════════════════════════════════════════════════════
+    function updateConfigPrice() {
+      let base = 5890;
+      if (document.getElementById("opt-exhaust").checked) base += 850;
+      if (document.getElementById("opt-quickshifter").checked) base += 320;
+      if (document.getElementById("opt-mirrors").checked) base += 195;
+      if (document.getElementById("opt-crash").checked) base += 240;
+
+      const priceEl = document.getElementById("config-total-price");
+      if (priceEl) priceEl.innerText = `$${base.toLocaleString()}`;
+    }
+
+    function setLivery(color) {
+      const img = document.getElementById("configurator-bike-img");
+      if (!img) return;
+
+      gsap.to(img, {
+        opacity: 0.3,
+        scale: 0.95,
+        duration: 0.25,
+        onComplete: () => {
+          if (color === 'white') {
+            img.src = "./assets/ktm_duke_white.jpg";
+          } else {
+            img.src = "./assets/ktm_bike_assembled_start.jpg";
+          }
+          gsap.to(img, { opacity: 1, scale: 1, duration: 0.35 });
+        }
+      });
+    }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // 7. WEB AUDIO API SYNTHESIZER: RAW EXHAUST ENGINE REVS
+    // ═════════════════════════════════════════════════════════════════════════
+    let audioCtx = null;
+    let isSoundPlaying = false;
+    let soundNodes = [];
+
+    function toggleEngineSound() {
+      const btnText = document.getElementById("sound-btn-text");
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+
+      if (isSoundPlaying) {
+        soundNodes.forEach(n => { try { n.stop(); } catch(e){} });
+        soundNodes = [];
+        isSoundPlaying = false;
+        if (btnText) btnText.innerText = "EXHAUST SOUND";
+        return;
+      }
+
+      // Synthesize high-compression 4-stroke thumper exhaust tone
+      const osc1 = audioCtx.createOscillator();
+      const osc2 = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      const filter = audioCtx.createBiquadFilter();
+
+      osc1.type = 'sawtooth';
+      osc1.frequency.setValueAtTime(65, audioCtx.currentTime); // 1300 RPM idle
+      osc1.frequency.exponentialRampToValueAtTime(140, audioCtx.currentTime + 0.8); // Rev pulse
+      osc1.frequency.exponentialRampToValueAtTime(75, audioCtx.currentTime + 1.8);
+
+      osc2.type = 'triangle';
+      osc2.frequency.setValueAtTime(130, audioCtx.currentTime);
+      osc2.frequency.exponentialRampToValueAtTime(280, audioCtx.currentTime + 0.8);
+      osc2.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 1.8);
+
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(450, audioCtx.currentTime);
+      filter.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.8);
+      filter.frequency.exponentialRampToValueAtTime(500, audioCtx.currentTime + 1.8);
+
+      gainNode.gain.setValueAtTime(0.12, audioCtx.currentTime);
+
+      osc1.connect(filter);
+      osc2.connect(filter);
+      filter.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      osc1.start();
+      osc2.start();
+      soundNodes.push(osc1, osc2);
+      isSoundPlaying = true;
+      if (btnText) btnText.innerText = "MUTE EXHAUST";
+
+      setTimeout(() => {
+        if (isSoundPlaying) toggleEngineSound();
+      }, 2600);
+    }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // 8. TEST RIDE CONCIERGE MODALS
+    // ═════════════════════════════════════════════════════════════════════════
+    function openBookingModal(model = "KTM 390 DUKE") {
+      const modal = document.getElementById("booking-modal");
+      const title = document.getElementById("modal-model-title");
+      if (title) title.innerText = `Machine selected: ${model} · Choose appointment slot.`;
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function closeBookingModal() {
+      const modal = document.getElementById("booking-modal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    function handleModalSubmit(e) {
+      e.preventDefault();
+      const success = document.getElementById("modal-success");
+      if (success) success.classList.remove("hidden");
+      setTimeout(() => { closeBookingModal(); }, 1800);
+    }
+
+    function handleTestRideSubmit(e) {
+      e.preventDefault();
+      const conf = document.getElementById("form-confirmation");
+      if (conf) conf.classList.remove("hidden");
+    }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // 9. APP INITIALIZATION LIFECYCLE
+    // ═════════════════════════════════════════════════════════════════════════
+    function startApp() {
+      initScrollAnimations();
+    }
+
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      startApp();
+    } else {
+      window.addEventListener("load", startApp);
+    }
+  </script>
+</body>
+</html>

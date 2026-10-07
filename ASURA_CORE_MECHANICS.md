@@ -305,6 +305,21 @@ requestAnimationFrame(videoLerpLoop);
 
 ---
 
+### MECHANIC 14: INTERACTIVE EXPLODED ENGINEERING CUTAWAY & PARTS INSPECTION SCRUBBER
+*Use for: Superbikes, Hypercars, Aerospace, Mechanical Watches, and Precision Hardware.*
+- **Structure:** Pinned multi-stage scroll zone where scrolling smoothly transforms an assembled hero vehicle into an exploded component assembly (engine block, trellis chassis, inverted WP suspension, disc brakes, carbon exhausts).
+- **Interactive Part Focus:** Hovering/clicking technical hotspots isolates the subsystem, dims surrounding parts, and renders live dyno/spec telemetry cards.
+- **CSS Rule:**
+```css
+.exploded-chassis-stage { perspective: 1600px; transform-style: preserve-3d; }
+.subsystem-component { transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease; }
+.subsystem-component.is-active { filter: drop-shadow(0 0 25px rgba(255, 102, 0, 0.6)); transform: translateZ(60px) scale(1.08); }
+.subsystem-component.is-dimmed { opacity: 0.25; filter: grayscale(80%) blur(2px); }
+```
+- **Citation Comment:** `<!-- USING MECHANIC 14: INTERACTIVE EXPLODED ENGINEERING CUTAWAY & PARTS INSPECTION SCRUBBER -->`
+
+---
+
 ## MOTION & INSPIRATION VAULT (ANTI-SLOP ENGINE)
 Before building any new project, cross-reference and synthesize mechanics from:
 1. **Details.so**: Boutique editorial site layouts and curated prompts.
