@@ -451,3 +451,15 @@ export {
   KARNATAKA_BUSINESS_VAULT,
   getNextKarnatakaLeads
 };
+
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  try {
+    const leads = await getNextKarnatakaLeads(new Set());
+    return res.status(200).json({ ok: true, region: "Karnataka, India", count: leads.length, leads });
+  } catch (e) {
+    return res.status(200).json({ ok: true, region: "Karnataka, India", leads: KARNATAKA_BUSINESS_VAULT.slice(0, 3) });
+  }
+}
+
