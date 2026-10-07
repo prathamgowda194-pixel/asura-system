@@ -25,6 +25,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
 
   <script>
+    // Universal Zero-404 Image Fallback Resolver
+    window.addEventListener('error', function(e) {
+      if (e.target && e.target.tagName === 'IMG') {
+        const img = e.target;
+        const src = img.getAttribute('src');
+        if (src && !img.dataset.fallbackTried) {
+          img.dataset.fallbackTried = '1';
+          const filename = src.split('/').pop().split('?')[0];
+          img.src = '/api/serve_project?slug=ktm-showroom&asset=' + filename;
+        }
+      }
+    }, true);
+  </script>
+
+  <script>
     tailwind.config = {
       theme: {
         extend: {

@@ -747,7 +747,6 @@ export default async function handler(req, res) {
             res.setHeader('Accept-Ranges', 'bytes');
             res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
             res.statusCode = apiRes.status;
-            if (typeof res.send === 'function') return res.send(buffer);
             return res.end(buffer);
           }
         } catch (e) {}
@@ -771,7 +770,6 @@ export default async function handler(req, res) {
               }
               res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
               res.statusCode = rawRes.status;
-              if (typeof res.send === 'function') return res.send(buffer);
               return res.end(buffer);
             }
           } catch (e) {}
