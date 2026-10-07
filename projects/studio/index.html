@@ -1579,9 +1579,72 @@
     }
 
         // --- 7. VERCEL LIVE RADAR MONITOR & TWO-WAY FLEET LIFECYCLE ---
-    var RADAR_STORAGE_KEY = 'asura_live_radar_sites_v9';
+    var RADAR_STORAGE_KEY = 'asura_live_radar_sites_v12';
 
     var DEFAULT_VERCEL_SITES = [
+      {
+        slug: 'pixnova-voice',
+        name: 'Pixnova AI // 24/7 Neural Voice Receptionist',
+        niche: 'Human-Grade Multilingual Receptionist (EN, HI, KN, ES, FR, DE), Sub-150ms Groq LPU & Instant Barge-in',
+        url: 'https://asura-system.vercel.app/projects/pixnova-voice/index.html',
+        status: '200 OK'
+      },
+      {
+        slug: 'lopfait-restaurant',
+        name: "L'Opfait // Haute Gastronomy & Wine Cellar",
+        niche: '3D Arch Reveal, Sommelier Vintage Vault & Michelin-Standard Fine Dining Experience',
+        url: 'https://asura-system.vercel.app/projects/lopfait-restaurant/index.html',
+        status: '200 OK'
+      },
+      {
+        slug: 'forge-automotive',
+        name: 'Forge Automotive // Detailing & Ceramic Studio',
+        niche: '3D Vehicle Pin-Parallax, Paint Protection Film (PPF) & Ultra-Luxury Studio Telemetry',
+        url: 'https://asura-system.vercel.app/projects/forge-automotive/index.html',
+        status: '200 OK'
+      },
+      {
+        slug: 'era-residence',
+        name: 'ERA Residence // Haute Clifftop Horizon',
+        niche: '60FPS Continuous Scroll Video Telemetry & Luxury Architectural Motion (Cap de Nice)',
+        url: 'https://asura-system.vercel.app/projects/era-residence/index.html',
+        status: '200 OK'
+      },
+      {
+        slug: 'ktm-showroom',
+        name: 'KTM 390 Duke // Ready To Race Interactive Showroom',
+        niche: '3D Interactive Motorcycle Cutaway, Exploded Parts Telemetry & 60FPS Acceleration Audio',
+        url: 'https://asura-system.vercel.app/projects/ktm-showroom/index.html',
+        status: '200 OK'
+      },
+      {
+        slug: 'harley-davidson',
+        name: 'Harley-Davidson // Freedom Machine Cruiser',
+        niche: '3D Kinetic Motorcycle Reveal, Sound Engine & Heritage Custom Workshop Showcase',
+        url: 'https://asura-system.vercel.app/projects/harley-davidson/index.html',
+        status: '200 OK'
+      },
+      {
+        slug: 'nuve-skincare',
+        name: 'Nüve Skincare // Botanical Dermal Formulation',
+        niche: 'Clean Beauty Science, Micro-Emulsion Scroll Reveal & Organic Skincare Elixir',
+        url: 'https://asura-system.vercel.app/projects/nuve-skincare/index.html',
+        status: '200 OK'
+      },
+      {
+        slug: 'unmapped-travel',
+        name: 'Unmapped Expeditions // Curated Wilderness Journeys',
+        niche: 'Cinematic Expedition Drone Reveal, High-Altitude Route Planner & Bespoke Luxury Travel',
+        url: 'https://asura-system.vercel.app/projects/unmapped-travel/index.html',
+        status: '200 OK'
+      },
+      {
+        slug: 'logio-logistics',
+        name: 'Logio Global // Autonomous Fleet Logistics',
+        niche: 'Interactive Route Network, Global Freight Supply Chain & Real-Time Tracking Telemetry',
+        url: 'https://asura-system.vercel.app/projects/logio-logistics/index.html',
+        status: '200 OK'
+      },
       {
         slug: 'dental-clinic',
         name: 'otto // Gentle Dental Care & Specialist Clinic',
@@ -1623,18 +1686,39 @@
         niche: 'Bespoke Multi-Niche Digital Architecture & GSAP Interactive Showcase',
         url: 'https://asura-system.vercel.app/projects/pixnova/index.html',
         status: '200 OK'
+      },
+      {
+        slug: 'demo-dental-client',
+        name: 'Dr. Shetty Dental & Maxillofacial Implantology Clinic',
+        niche: '3D Dental Smile Gallery, Treatment Estimator & Appointment Suite (Indiranagar, Bangalore)',
+        url: 'https://asura-system.vercel.app/projects/demo-dental-client/index.html',
+        status: '200 OK'
       }
     ];
 
     function loadVercelSites() {
+      var map = {};
+      DEFAULT_VERCEL_SITES.forEach(function(s) { map[s.slug] = s; });
+
       try {
         var raw = localStorage.getItem(RADAR_STORAGE_KEY);
         if (raw) {
           var parsed = JSON.parse(raw);
-          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            parsed.forEach(function(s) {
+              if (s && s.slug) {
+                if (map[s.slug]) {
+                  map[s.slug] = Object.assign({}, map[s.slug], s);
+                } else {
+                  map[s.slug] = s;
+                }
+              }
+            });
+          }
         }
       } catch (e) {}
-      return DEFAULT_VERCEL_SITES.slice();
+
+      return Object.values(map);
     }
 
     function saveVercelSites(sites) {
@@ -1762,10 +1846,48 @@
       var countEl = document.getElementById('radarSiteCount');
       if (countEl) countEl.innerText = 'Syncing...';
 
+      var metaMap = {
+        'pixnova-voice': { name: 'Pixnova AI // 24/7 Neural Voice Receptionist', niche: 'Human-Grade Multilingual Receptionist (EN, HI, KN, ES, FR, DE), Sub-150ms Groq LPU & Instant Barge-in' },
+        'lopfait-restaurant': { name: "L'Opfait // Haute Gastronomy & Wine Cellar", niche: '3D Arch Reveal, Sommelier Vintage Vault & Michelin-Standard Fine Dining Experience' },
+        'forge-automotive': { name: 'Forge Automotive // Detailing & Ceramic Studio', niche: '3D Vehicle Pin-Parallax, Paint Protection Film (PPF) & Ultra-Luxury Studio Telemetry' },
+        'era-residence': { name: 'ERA Residence // Haute Clifftop Horizon', niche: '60FPS Continuous Scroll Video Telemetry & Luxury Architectural Motion (Cap de Nice)' },
+        'ktm-showroom': { name: 'KTM 390 Duke // Ready To Race Interactive Showroom', niche: '3D Interactive Motorcycle Cutaway, Exploded Parts Telemetry & 60FPS Acceleration Audio' },
+        'harley-davidson': { name: 'Harley-Davidson // Freedom Machine Cruiser', niche: '3D Kinetic Motorcycle Reveal, Sound Engine & Heritage Custom Workshop Showcase' },
+        'nuve-skincare': { name: 'Nüve Skincare // Botanical Dermal Formulation', niche: 'Clean Beauty Science, Micro-Emulsion Scroll Reveal & Organic Skincare Elixir' },
+        'unmapped-travel': { name: 'Unmapped Expeditions // Curated Wilderness Journeys', niche: 'Cinematic Expedition Drone Reveal, High-Altitude Route Planner & Bespoke Luxury Travel' },
+        'logio-logistics': { name: 'Logio Global // Autonomous Fleet Logistics', niche: 'Interactive Route Network, Global Freight Supply Chain & Real-Time Tracking Telemetry' },
+        'dental-clinic': { name: 'otto // Gentle Dental Care & Specialist Clinic', niche: '3D Isometric Clinic Canvas, Marquee Services Accordion, 9-Doctor Specialist Slider & Modern Appointment Suite' },
+        'villa-elysee': { name: 'Villa Élysée // Haute Clifftop Horizon', niche: '3D AI Clifftop Drone Fly-Through & Continuous 60FPS Video Telemetry (Cap de Nice)' },
+        'aadriti-learning-centre': { name: 'Aadriti Centre For Learning And Psychological Well Being', niche: 'Bento Mosaic, Folder-Tab Cards, Interactive Programs Slider & Child Psychology' },
+        'tesla-cybertruck': { name: 'Tesla Cybertruck // The Power of Innovation', niche: '3D Futuristic Vehicle Incline Scrub, Aceternity Glass Bento, Armor Glass Exoskeleton' },
+        'find-real-estate': { name: 'FIND Real Estate // Find What Moves You', niche: '3D Floating Penthouse Scroll Reveal, Chevron Architectural Slider & Obsidian Services Switcher' },
+        'pixnova': { name: 'Pixnova // Digital Architecture Showcase', niche: 'Bespoke Multi-Niche Digital Agency Portfolio & GSAP Showcase' },
+        'demo-dental-client': { name: 'Dr. Shetty Dental & Maxillofacial Implantology Clinic', niche: '3D Dental Smile Gallery, Treatment Estimator & Appointment Suite (Bangalore)' }
+      };
+
+      var fleetMap = {};
+      DEFAULT_VERCEL_SITES.forEach(function(s) { fleetMap[s.slug] = s; });
+
+      // 1. Try fetching authoritative projects/manifest.json
+      try {
+        var manRes = await fetch('/projects/manifest.json?v=' + Date.now());
+        if (manRes.ok) {
+          var manList = await manRes.json();
+          if (Array.isArray(manList)) {
+            manList.forEach(function(item) {
+              if (item && item.slug) {
+                fleetMap[item.slug] = item;
+              }
+            });
+          }
+        }
+      } catch (errManifest) {}
+
+      // 2. Query GitHub API for any dynamically created project folders
       try {
         var token = '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';
         var repo = 'prathamgowda194-pixel/asura-system';
-        var res = await fetch('https://api.github.com/repos/' + repo + '/contents/projects', {
+        var res = await fetch('https://api.github.com/repos/' + repo + '/contents/projects?v=' + Date.now(), {
           headers: {
             'Authorization': 'Bearer ' + token,
             'User-Agent': 'ASURA-Studio-Sync',
@@ -1777,36 +1899,28 @@
           var items = await res.json();
           var activeFolders = items.filter(function(i) { return i.type === 'dir' && i.name !== 'studio'; });
 
-          // Map known slugs to prestigious metadata
-          var metaMap = {
-            'dental-clinic': { name: 'otto // Gentle Dental Care & Specialist Clinic', niche: '3D Isometric Clinic Canvas, Marquee Services Accordion, 9-Doctor Specialist Slider & Modern Appointment Suite' },
-            'villa-elysee': { name: 'Villa Élysée // Haute Clifftop Horizon', niche: '3D AI Clifftop Drone Fly-Through & Continuous 60FPS Video Telemetry (Cap de Nice)' },
-            'aadriti-learning-centre': { name: 'Aadriti Centre For Learning And Psychological Well Being', niche: 'Bento Mosaic, Folder-Tab Cards, Interactive Programs Slider & Child Psychology' },
-            'pixnova': { name: 'Pixnova // Digital Architecture', niche: 'Bespoke Multi-Niche Digital Agency Portfolio & GSAP Showcase' }
-          };
-
-          var updatedList = [];
           activeFolders.forEach(function(f) {
-            var meta = metaMap[f.name] || {
+            var meta = metaMap[f.name] || fleetMap[f.name] || {
               name: titleCase(f.name.replace(/-/g, ' ')),
               niche: 'Autonomously Architected 3D Cinema Showcase'
             };
-            updatedList.push({
+            fleetMap[f.name] = {
               slug: f.name,
               name: meta.name,
               niche: meta.niche,
               url: 'https://asura-system.vercel.app/projects/' + f.name + '/index.html',
               status: '200 OK'
-            });
+            };
           });
-
-          if (updatedList.length > 0) {
-            VERCEL_SITES = updatedList;
-            saveVercelSites(VERCEL_SITES);
-          }
         }
       } catch (e) {
-        console.warn('Sync failed:', e);
+        console.warn('GitHub API sync warning:', e);
+      }
+
+      var combined = Object.values(fleetMap);
+      if (combined.length > 0) {
+        VERCEL_SITES = combined;
+        saveVercelSites(VERCEL_SITES);
       }
       renderVercelRadar();
     }
@@ -5827,6 +5941,9 @@ function generateUniversalCinemaShowcaseHtml(brand, colors, prompt) {
       renderHistoryList();
       initJarvisOrb();
       renderVercelRadar();
+      syncDeploymentsFromGitHub();
+      // Auto-poll every 30 seconds to automatically detect any newly built or deployed websites
+      setInterval(syncDeploymentsFromGitHub, 30000);
 
       window.addEventListener('keydown', function(e) {
         if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'n') {
