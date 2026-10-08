@@ -25,15 +25,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
 
   <script>
-    // Universal Zero-404 Image Fallback Resolver
+    // Universal Zero-404 Image Fallback Resolver with Curated High-Res Motorbike Imagery
+    const FALLBACK_MAP = {
+      'ktm_showroom_drone_end.jpg': 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=2070&auto=format&fit=crop',
+      'ktm_showroom_drone_start.jpg': 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=2070&auto=format&fit=crop',
+      'ktm_bike_assembled_start.jpg': 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070&auto=format&fit=crop',
+      'ktm_parts_exploded_end.jpg': 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=2070&auto=format&fit=crop',
+      'ktm_rc390_track.jpg': 'https://images.unsplash.com/photo-1615172282427-9a57ef2d142e?q=80&w=2070&auto=format&fit=crop',
+      'ktm_adventure.jpg': 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=2070&auto=format&fit=crop',
+      'ktm_duke_white.jpg': 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070&auto=format&fit=crop'
+    };
+
     window.addEventListener('error', function(e) {
       if (e.target && e.target.tagName === 'IMG') {
         const img = e.target;
-        const src = img.getAttribute('src');
-        if (src && !img.dataset.fallbackTried) {
+        const src = img.getAttribute('src') || '';
+        const filename = src.split('/').pop().split('?')[0];
+        if (!img.dataset.fallbackTried) {
           img.dataset.fallbackTried = '1';
-          const filename = src.split('/').pop().split('?')[0];
-          img.src = '/api/serve_project?slug=ktm-showroom&asset=' + filename;
+          img.src = FALLBACK_MAP[filename] || 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070&auto=format&fit=crop';
         }
       }
     }, true);
@@ -392,7 +402,7 @@
           <div id="exploded-interactive-container" class="relative w-full aspect-[16/10] overflow-hidden rounded-2xl flex items-center justify-center">
             
             <!-- Exploded Engineering Visual & Sequence Canvas -->
-            <img id="cutaway-visual" src="./assets/ktm_parts_exploded_end.jpg" onerror="this.onerror=null; this.src='./assets/ktm_bike_assembled_start.jpg';" alt="KTM Exploded Engineering Cutaway" class="absolute inset-0 w-full h-full object-cover rounded-xl transition-all duration-500">
+            <img id="cutaway-visual" src="./assets/ktm_parts_exploded_end.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=2070&auto=format&fit=crop';" alt="KTM Exploded Engineering Cutaway" class="absolute inset-0 w-full h-full object-cover rounded-xl transition-all duration-500">
             <canvas id="cutaway-sequence-canvas" class="relative z-10 w-full h-full object-cover rounded-xl transition-all duration-700"></canvas>
 
             <!-- Laser Holographic Crosshairs & Blueprint Overlays -->
@@ -508,7 +518,7 @@
               <span class="text-xs font-mono text-[#7A808C]">MY 2026</span>
             </div>
             <div class="relative w-full aspect-[16/11] rounded-2xl overflow-hidden mb-6 bg-black/40">
-              <img src="./assets/ktm_bike_assembled_start.jpg" alt="KTM 390 Duke" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img src="./assets/ktm_bike_assembled_start.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070&auto=format&fit=crop';" alt="KTM 390 Duke" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
             </div>
             <h3 class="text-2xl font-black font-display text-white uppercase">KTM 390 DUKE</h3>
             <p class="text-xs font-mono text-[#A0A6B2] mt-2 leading-relaxed">
@@ -545,7 +555,7 @@
               <span class="text-xs font-mono text-[#7A808C]">MY 2026</span>
             </div>
             <div class="relative w-full aspect-[16/11] rounded-2xl overflow-hidden mb-6 bg-black/40">
-              <img src="./assets/ktm_rc390_track.jpg" alt="KTM RC 390 Track" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img src="./assets/ktm_rc390_track.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1615172282427-9a57ef2d142e?q=80&w=2070&auto=format&fit=crop';" alt="KTM RC 390 Track" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
             </div>
             <h3 class="text-2xl font-black font-display text-white uppercase">KTM RC 390</h3>
             <p class="text-xs font-mono text-[#A0A6B2] mt-2 leading-relaxed">
@@ -582,7 +592,7 @@
               <span class="text-xs font-mono text-[#7A808C]">MY 2026</span>
             </div>
             <div class="relative w-full aspect-[16/11] rounded-2xl overflow-hidden mb-6 bg-black/40">
-              <img src="./assets/ktm_adventure.jpg" alt="KTM 390 Adventure" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img src="./assets/ktm_adventure.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=2070&auto=format&fit=crop';" alt="KTM 390 Adventure" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
             </div>
             <h3 class="text-2xl font-black font-display text-white uppercase">KTM 390 ADVENTURE</h3>
             <p class="text-xs font-mono text-[#A0A6B2] mt-2 leading-relaxed">
@@ -641,7 +651,7 @@
         <!-- Left 7 Cols: Interactive 3D Render Preview -->
         <div class="lg:col-span-7 relative rounded-3xl overflow-hidden border border-white/10 bg-[#12141A] p-6 md:p-10 flex flex-col items-center justify-center">
           <div class="relative w-full aspect-[16/10] flex items-center justify-center">
-            <img id="configurator-bike-img" src="./assets/ktm_bike_assembled_start.jpg" alt="Configured KTM 390 Duke" class="w-full h-full object-cover rounded-2xl transition-all duration-500">
+            <img id="configurator-bike-img" src="./assets/ktm_bike_assembled_start.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070&auto=format&fit=crop';" alt="Configured KTM 390 Duke" class="w-full h-full object-cover rounded-2xl transition-all duration-500">
           </div>
 
           <!-- Color Swatches Bar -->
@@ -889,7 +899,7 @@
     function renderHeroFrame(index) {
       if (!heroCtx || !heroCanvas) return;
       const img = droneImages[index];
-      if (!img || !img.complete) return;
+      if (!img || !img.complete || !img.naturalWidth) return;
 
       const w = window.innerWidth;
       const h = window.innerHeight;
@@ -929,7 +939,7 @@
     function renderCutawayFrame(index) {
       if (!cutawayCtx || !cutawayCanvas) return;
       const img = explodedImages[index] || droneImages[index];
-      if (!img || !img.complete) return;
+      if (!img || !img.complete || !img.naturalWidth) return;
 
       const container = cutawayCanvas.parentElement;
       const w = container ? container.clientWidth : 800;
