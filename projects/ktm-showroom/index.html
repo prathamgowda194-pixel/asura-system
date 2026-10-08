@@ -280,20 +280,12 @@
       <!-- Viewport 3D Canvas / Multi-Layer Image Transform -->
       <div id="hero-viewport-3d" class="absolute inset-0 w-full h-full transform-gpu transition-transform duration-100 ease-out">
         
-        <!-- Layer 1: Showroom Exterior Dusk (Start Frame) -->
-        <div id="layer-showroom-ext" class="absolute inset-0 w-full h-full transition-opacity duration-700">
-          <img src="./assets/ktm_showroom_drone_start.jpg" alt="KTM Showroom Dusk Fly-through" class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-gradient-to-t from-[#0A0B0E] via-transparent to-black/60"></div>
-        </div>
-
-        <!-- Layer 2: Showroom Center Stage Pedestal (Fly-Through End Frame) -->
-        <div id="layer-showroom-int" class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-700">
-          <img src="./assets/ktm_showroom_drone_end.jpg" alt="KTM Duke 390 On Revolving Showroom Turntable" class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-gradient-to-t from-[#0A0B0E] via-transparent to-black/60"></div>
-        </div>
+        <!-- High-DPI 300-Frame Apple-Style Canvas Sequence (Primary Fly-Through) -->
+        <canvas id="hero-sequence-canvas" class="absolute inset-0 w-full h-full object-cover"></canvas>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0A0B0E] via-transparent to-black/60 pointer-events-none"></div>
 
         <!-- Layer 3: Studio Hero Profile (Orbit Stance) -->
-        <div id="layer-studio-hero" class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-700">
+        <div id="layer-studio-hero" class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-700 pointer-events-none">
           <img src="./assets/ktm_bike_assembled_start.jpg" alt="KTM 390 Duke Studio Assembly" class="w-full h-full object-cover">
           <div class="absolute inset-0 bg-gradient-to-t from-[#0A0B0E] via-transparent to-black/60"></div>
         </div>
@@ -425,8 +417,9 @@
         <div class="lg:col-span-7 relative rounded-3xl overflow-hidden border border-white/10 bg-[#12141A] p-4 md:p-8 perspective-stage group">
           <div id="exploded-interactive-container" class="relative w-full aspect-[16/10] overflow-hidden rounded-2xl flex items-center justify-center">
             
-            <!-- Main Motorcycle Hero Visual with Smooth Cutaway Swap -->
-            <img id="cutaway-visual" src="./assets/ktm_bike_assembled_start.jpg" alt="KTM Exploded Engineering Cutaway" class="w-full h-full object-cover rounded-xl transition-all duration-700">
+            <!-- High-DPI 300-Frame Exploded Canvas Sequence -->
+            <canvas id="cutaway-sequence-canvas" class="w-full h-full object-cover rounded-xl transition-all duration-700"></canvas>
+            <img id="cutaway-visual" src="./assets/ktm_bike_assembled_start.jpg" alt="KTM Exploded Engineering Cutaway" class="hidden w-full h-full object-cover rounded-xl">
 
             <!-- Laser Holographic Crosshairs & Blueprint Overlays -->
             <div class="absolute inset-0 pointer-events-none border border-[#FF6600]/20 rounded-xl"></div>
@@ -881,69 +874,196 @@
        ══════════════════════════════════════════════════════════════════════════ -->
   <script>
     // ═════════════════════════════════════════════════════════════════════════
-    // 1. TACHOMETER PRELOADER TICKER & ROBUST AUTO-DISMISS
+    // 1. APPLE-STYLE 300-FRAME CANVAS SEQUENCE CONFIGURATION
     // ═════════════════════════════════════════════════════════════════════════
-    function runPreloader() {
-      let count = 0;
-      let rpm = 0;
+    const DRONE_FRAME_FOLDER = './frames/drone/';
+    const EXPLODED_FRAME_FOLDER = './frames/exploded/';
+    const FRAME_PATTERN = 'ezgif-frame-%03d.jpg';
+    const TOTAL_FRAMES = 300;
+
+    const droneImages = [];
+    const explodedImages = [];
+    const droneSequence = { frame: 0 };
+    const cutawaySequence = { frame: 0 };
+    let droneFramesLoaded = 0;
+    let explodedFramesLoaded = 0;
+
+    const heroCanvas = document.getElementById("hero-sequence-canvas");
+    const heroCtx = heroCanvas ? heroCanvas.getContext("2d") : null;
+    const cutawayCanvas = document.getElementById("cutaway-sequence-canvas");
+    const cutawayCtx = cutawayCanvas ? cutawayCanvas.getContext("2d") : null;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function getFrameUrl(folder, index) {
+      const padded = String(index).padStart(3, '0');
+      return folder + FRAME_PATTERN.replace('%03d', padded);
+    }
+
+    function setHeroCanvasDimensions() {
+      if (!heroCanvas || !heroCtx) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      heroCanvas.width = w * dpr;
+      heroCanvas.height = h * dpr;
+      heroCanvas.style.width = w + "px";
+      heroCanvas.style.height = h + "px";
+      heroCtx.scale(dpr, dpr);
+    }
+
+    function renderHeroFrame(index) {
+      if (!heroCtx || !heroCanvas) return;
+      const img = droneImages[index];
+      if (!img || !img.complete) return;
+
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      heroCtx.clearRect(0, 0, w, h);
+
+      const imgAspect = img.naturalWidth / img.naturalHeight;
+      const canvasAspect = w / h;
+      let drawW, drawH, drawX, drawY;
+
+      if (canvasAspect > imgAspect) {
+        drawW = w;
+        drawH = w / imgAspect;
+        drawX = 0;
+        drawY = (h - drawH) / 2;
+      } else {
+        drawH = h;
+        drawW = h * imgAspect;
+        drawX = (w - drawW) / 2;
+        drawY = 0;
+      }
+      heroCtx.drawImage(img, drawX, drawY, drawW, drawH);
+    }
+
+    function setCutawayCanvasDimensions() {
+      if (!cutawayCanvas || !cutawayCtx) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const container = cutawayCanvas.parentElement;
+      const w = container ? container.clientWidth : 800;
+      const h = container ? container.clientHeight : 500;
+      cutawayCanvas.width = w * dpr;
+      cutawayCanvas.height = h * dpr;
+      cutawayCanvas.style.width = w + "px";
+      cutawayCanvas.style.height = h + "px";
+      cutawayCtx.scale(dpr, dpr);
+    }
+
+    function renderCutawayFrame(index) {
+      if (!cutawayCtx || !cutawayCanvas) return;
+      const img = explodedImages[index] || droneImages[index];
+      if (!img || !img.complete) return;
+
+      const container = cutawayCanvas.parentElement;
+      const w = container ? container.clientWidth : 800;
+      const h = container ? container.clientHeight : 500;
+      cutawayCtx.clearRect(0, 0, w, h);
+
+      const imgAspect = img.naturalWidth / img.naturalHeight;
+      const canvasAspect = w / h;
+      let drawW, drawH, drawX, drawY;
+
+      if (canvasAspect > imgAspect) {
+        drawW = w;
+        drawH = w / imgAspect;
+        drawX = 0;
+        drawY = (h - drawH) / 2;
+      } else {
+        drawH = h;
+        drawW = h * imgAspect;
+        drawX = (w - drawW) / 2;
+        drawY = 0;
+      }
+      cutawayCtx.drawImage(img, drawX, drawY, drawW, drawH);
+    }
+
+    function preloadAllSequences() {
       const counterEl = document.getElementById("preloader-counter");
       const barEl = document.getElementById("preloader-bar");
       const rpmEl = document.getElementById("rpm-counter");
       const preloader = document.getElementById("preloader");
-      if (!preloader) return;
 
-      const timer = setInterval(() => {
-        count += Math.floor(Math.random() * 16) + 14;
-        rpm = Math.floor((count / 100) * 11500);
-
-        // Update shift lights
-        const leds = document.querySelectorAll(".shift-led");
-        const activeCount = Math.floor((count / 100) * 8);
-        leds.forEach((led, idx) => {
-          if (idx < activeCount) {
-            led.style.opacity = "1";
-            led.style.filter = "brightness(1.5)";
-          }
-        });
-
-        if (count >= 100) {
-          count = 100;
-          rpm = 11500;
-          clearInterval(timer);
-          if (counterEl) counterEl.innerText = "100%";
-          if (barEl) barEl.style.width = "100%";
-          if (rpmEl) rpmEl.innerText = "11,500";
-
-          setTimeout(() => {
-            preloader.style.opacity = "0";
-            preloader.style.transform = "translateY(-100%)";
-            preloader.style.pointerEvents = "none";
-            setTimeout(() => { preloader.style.display = "none"; }, 500);
-          }, 150);
-        } else {
-          if (counterEl) counterEl.innerText = (count < 10 ? "0" + count : count) + "%";
-          if (barEl) barEl.style.width = count + "%";
-          if (rpmEl) rpmEl.innerText = rpm.toLocaleString();
-        }
-      }, 20);
-
-      // Robust failsafe auto-dismiss
-      setTimeout(() => {
-        if (preloader && preloader.style.display !== "none") {
-          clearInterval(timer);
+      let preloaderDismissed = false;
+      function dismissPreloader() {
+        if (preloaderDismissed) return;
+        preloaderDismissed = true;
+        if (preloader) {
           preloader.style.opacity = "0";
           preloader.style.transform = "translateY(-100%)";
           preloader.style.pointerEvents = "none";
-          setTimeout(() => { preloader.style.display = "none"; }, 300);
+          setTimeout(() => { preloader.style.display = "none"; }, 500);
         }
-      }, 1800);
+        renderHeroFrame(0);
+        renderCutawayFrame(0);
+      }
+
+      // Preload 300 drone fly-through frames
+      for (let i = 1; i <= TOTAL_FRAMES; i++) {
+        const img = new Image();
+        img.src = getFrameUrl(DRONE_FRAME_FOLDER, i);
+        img.onload = () => {
+          droneFramesLoaded++;
+          const percent = Math.floor((droneFramesLoaded / TOTAL_FRAMES) * 100);
+          const rpm = Math.floor((percent / 100) * 11500);
+
+          if (counterEl) counterEl.innerText = `${percent}% (${droneFramesLoaded}/${TOTAL_FRAMES})`;
+          if (barEl) barEl.style.width = `${percent}%`;
+          if (rpmEl) rpmEl.innerText = rpm.toLocaleString();
+
+          const leds = document.querySelectorAll(".shift-led");
+          const activeCount = Math.floor((percent / 100) * 8);
+          leds.forEach((led, idx) => {
+            if (idx < activeCount) {
+              led.style.opacity = "1";
+              led.style.filter = "brightness(1.5)";
+            }
+          });
+
+          if (droneFramesLoaded === 1) renderHeroFrame(0);
+          if (droneFramesLoaded === TOTAL_FRAMES) dismissPreloader();
+        };
+        img.onerror = () => {
+          droneFramesLoaded++;
+          if (droneFramesLoaded === TOTAL_FRAMES) dismissPreloader();
+        };
+        droneImages.push(img);
+      }
+
+      // Preload 300 exploded frames in parallel
+      for (let i = 1; i <= TOTAL_FRAMES; i++) {
+        const img = new Image();
+        img.src = getFrameUrl(EXPLODED_FRAME_FOLDER, i);
+        img.onload = () => {
+          explodedFramesLoaded++;
+          if (explodedFramesLoaded === 1) renderCutawayFrame(0);
+        };
+        explodedImages.push(img);
+      }
+
+      setTimeout(dismissPreloader, 2200);
     }
 
     if (document.readyState === 'loading') {
-      document.addEventListener("DOMContentLoaded", runPreloader);
+      document.addEventListener("DOMContentLoaded", () => {
+        setHeroCanvasDimensions();
+        setCutawayCanvasDimensions();
+        preloadAllSequences();
+      });
     } else {
-      runPreloader();
+      setHeroCanvasDimensions();
+      setCutawayCanvasDimensions();
+      preloadAllSequences();
     }
+
+    window.addEventListener("resize", () => {
+      setHeroCanvasDimensions();
+      setCutawayCanvasDimensions();
+      renderHeroFrame(Math.round(droneSequence.frame));
+      renderCutawayFrame(Math.round(cutawaySequence.frame));
+    });
 
     // ═════════════════════════════════════════════════════════════════════════
     // 2. LENIS SMOOTH MOMENTUM SCROLL
@@ -972,8 +1092,7 @@
       currentHeroMode = mode;
       const btnDrone = document.getElementById("btn-mode-drone");
       const btnStudio = document.getElementById("btn-mode-studio");
-      const layerExt = document.getElementById("layer-showroom-ext");
-      const layerInt = document.getElementById("layer-showroom-int");
+      const heroCanvasEl = document.getElementById("hero-sequence-canvas");
       const layerStudio = document.getElementById("layer-studio-hero");
 
       if (mode === 'studio') {
@@ -982,69 +1101,76 @@
         btnDrone.classList.remove("bg-[#FF6600]", "text-black", "font-bold");
         btnDrone.classList.add("text-white/70");
 
-        layerStudio.style.opacity = "1";
-        layerExt.style.opacity = "0";
-        layerInt.style.opacity = "0";
+        if (layerStudio) layerStudio.style.opacity = "1";
+        if (heroCanvasEl) heroCanvasEl.style.opacity = "0";
       } else {
         btnDrone.classList.add("bg-[#FF6600]", "text-black", "font-bold");
         btnDrone.classList.remove("text-white/70");
         btnStudio.classList.remove("bg-[#FF6600]", "text-black", "font-bold");
         btnStudio.classList.add("text-white/70");
 
-        layerStudio.style.opacity = "0";
-        // Re-evaluate scroll position for drone layers
+        if (layerStudio) layerStudio.style.opacity = "0";
+        if (heroCanvasEl) {
+          heroCanvasEl.style.opacity = "1";
+          renderHeroFrame(Math.round(droneSequence.frame));
+        }
         ScrollTrigger.refresh();
       }
     }
 
     function initScrollAnimations() {
-      // 1. Hero 3D Drone Push-In Timeline
-      ScrollTrigger.create({
-        trigger: "#hero-stage",
-        start: "top top",
-        end: "bottom top",
-        scrub: 1.2,
-        onUpdate: (self) => {
-          const p = self.progress;
+      // 1. Hero 3D Drone Push-In Timeline via Canvas Scrubbing
+      const heroStage = document.getElementById("hero-stage");
+      const pinDistance = TOTAL_FRAMES * 15; // 4500px natural scrub track for 300 frames
+      if (heroStage) heroStage.style.height = `${pinDistance + window.innerHeight}px`;
 
-          if (currentHeroMode === 'drone') {
-            const layerExt = document.getElementById("layer-showroom-ext");
-            const layerInt = document.getElementById("layer-showroom-int");
-            
-            // Cross-dissolve between outside dusk and inside showroom
-            if (p < 0.45) {
-              layerExt.style.opacity = (1 - (p / 0.45)).toFixed(2);
-              layerInt.style.opacity = (p / 0.45).toFixed(2);
-            } else {
-              layerExt.style.opacity = "0";
-              layerInt.style.opacity = "1";
+      if (!prefersReducedMotion) {
+        gsap.to(droneSequence, {
+          frame: TOTAL_FRAMES - 1,
+          snap: "frame",
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#hero-stage",
+            start: "top top",
+            end: `+=${pinDistance}`,
+            pin: ".perspective-stage",
+            scrub: 0.5,
+            onUpdate: (self) => {
+              const currentFrame = Math.round(droneSequence.frame);
+              if (currentHeroMode === 'drone') {
+                renderHeroFrame(currentFrame);
+              }
+
+              const p = self.progress;
+
+              // Camera Zoom Dolly
+              const scaleVal = 1.0 + p * 0.30;
+              gsap.set("#hero-viewport-3d", {
+                scale: scaleVal,
+                z: p * 60
+              });
+
+              // Telemetry HUD Readout
+              const zoomEl = document.getElementById("hud-zoom");
+              if (zoomEl) zoomEl.innerText = `${scaleVal.toFixed(2)}x`;
+
+              const rpmEl = document.getElementById("hud-rpm");
+              if (rpmEl) {
+                const calculatedRpm = Math.floor(1200 + p * 8600);
+                rpmEl.innerHTML = `${calculatedRpm.toLocaleString()} <span class="text-xs font-normal text-white/60">RPM</span>`;
+              }
+
+              // Hotspot pin parallax glide
+              gsap.set("#hotspot-engine", { x: -p * 40, y: -p * 25 });
+              gsap.set("#hotspot-chassis", { x: -p * 30, y: -p * 15 });
+              gsap.set("#hotspot-suspension", { x: p * 35, y: -p * 20 });
+              gsap.set("#hotspot-brakes", { x: p * 45, y: p * 15 });
             }
           }
-
-          // Camera Zoom Dolly
-          const scaleVal = 1.0 + p * 0.35;
-          gsap.set("#hero-viewport-3d", {
-            scale: scaleVal,
-            z: p * 80
-          });
-
-          // Telemetry HUD Readout
-          const zoomEl = document.getElementById("hud-zoom");
-          if (zoomEl) zoomEl.innerText = `${scaleVal.toFixed(2)}x`;
-
-          const rpmEl = document.getElementById("hud-rpm");
-          if (rpmEl) {
-            const calculatedRpm = Math.floor(4000 + p * 5200);
-            rpmEl.innerHTML = `${calculatedRpm.toLocaleString()} <span class="text-xs font-normal text-white/60">RPM</span>`;
-          }
-
-          // Hotspot pin parallax glide
-          gsap.set("#hotspot-engine", { x: -p * 40, y: -p * 25 });
-          gsap.set("#hotspot-chassis", { x: -p * 30, y: -p * 15 });
-          gsap.set("#hotspot-suspension", { x: p * 35, y: -p * 20 });
-          gsap.set("#hotspot-brakes", { x: p * 45, y: p * 15 });
-        }
-      });
+        });
+      } else {
+        renderHeroFrame(0);
+      }
 
       // 2. Parts Cutaway Forward Reveal
       gsap.fromTo("#parts-cutaway .subsystem-card",
@@ -1105,13 +1231,20 @@
       }
     };
 
+    const subsystemFrameMap = {
+      engine: 150,     // DOHC engine & clutch isolated
+      chassis: 225,    // Steel trellis frame detached
+      suspension: 75,  // WP Apex forks isolated
+      brakes: 290      // ByBre caliper & rotor exploded
+    };
+
     function selectSubsystem(key) {
       const data = subsystemData[key];
       if (!data) return;
 
       const labelEl = document.getElementById("active-part-label");
       const box = document.getElementById("part-laser-box");
-      const visual = document.getElementById("cutaway-visual");
+      const canvasEl = document.getElementById("cutaway-sequence-canvas");
 
       if (labelEl) labelEl.innerText = data.label;
       if (box) {
@@ -1122,8 +1255,18 @@
         box.style.opacity = "1";
       }
 
-      // Subtle pulse scale
-      gsap.fromTo(visual, { scale: 0.98 }, { scale: 1.02, duration: 0.4, ease: "power2.out" });
+      // Smoothly animate cutaway canvas frame to target exploded index
+      const targetFrame = subsystemFrameMap[key] || 0;
+      gsap.to(cutawaySequence, {
+        frame: targetFrame,
+        duration: 0.7,
+        ease: "power2.out",
+        onUpdate: () => renderCutawayFrame(Math.round(cutawaySequence.frame))
+      });
+
+      if (canvasEl) {
+        gsap.fromTo(canvasEl, { scale: 0.98 }, { scale: 1.0, duration: 0.4, ease: "power2.out" });
+      }
     }
 
     function scrollToPart(key) {
