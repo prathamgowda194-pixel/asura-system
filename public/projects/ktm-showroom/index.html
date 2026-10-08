@@ -274,49 +274,23 @@
   <!-- ══════════════════════════════════════════════════════════════════════════
        CHAPTER 1: 3D HERO SHOWROOM DRONE FLY-THROUGH & 60 FPS SCRUBBER
        ══════════════════════════════════════════════════════════════════════════ -->
-  <section id="hero-stage" class="relative w-full h-[240vh] bg-[#0A0B0E]">
+  <section id="hero-stage" class="relative w-full h-[200vh] bg-[#0A0B0E]">
     <div class="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between perspective-stage">
       
       <!-- Viewport 3D Canvas / Multi-Layer Image Transform -->
       <div id="hero-viewport-3d" class="absolute inset-0 w-full h-full transform-gpu transition-transform duration-100 ease-out">
         
+        <!-- Permanent High-Res Cinematic Backdrop (Zero Black Screen Guarantee) -->
+        <img id="hero-backdrop-img" src="./assets/ktm_showroom_drone_end.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=2070&auto=format&fit=crop';" alt="KTM Flagship Showroom" class="absolute inset-0 w-full h-full object-cover">
+
         <!-- High-DPI 300-Frame Apple-Style Canvas Sequence (Primary Fly-Through) -->
         <canvas id="hero-sequence-canvas" class="absolute inset-0 w-full h-full object-cover"></canvas>
         <div class="absolute inset-0 bg-gradient-to-t from-[#0A0B0E] via-transparent to-black/60 pointer-events-none"></div>
 
         <!-- Layer 3: Studio Hero Profile (Orbit Stance) -->
         <div id="layer-studio-hero" class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-700 pointer-events-none">
-          <img src="./assets/ktm_bike_assembled_start.jpg" alt="KTM 390 Duke Studio Assembly" class="w-full h-full object-cover">
+          <img src="./assets/ktm_bike_assembled_start.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070&auto=format&fit=crop';" alt="KTM 390 Duke Studio Assembly" class="w-full h-full object-cover">
           <div class="absolute inset-0 bg-gradient-to-t from-[#0A0B0E] via-transparent to-black/60"></div>
-        </div>
-
-        <!-- Spatial Hotspot Radar Pins (Hover to inspect components) -->
-        <div id="hotspot-engine" class="hotspot-pin" style="left: 52%; top: 62%;" onclick="scrollToPart('engine')">
-          <div class="hotspot-core"><div class="hotspot-pulse"></div></div>
-          <div class="absolute left-6 top-1/2 -translate-y-1/2 whitespace-nowrap bg-black/90 px-3 py-1.5 rounded border border-[#FF6600]/40 text-xs font-mono hidden md:block">
-            <span class="text-[#FF6600] font-bold">01 //</span> 399cc DOHC ENGINE
-          </div>
-        </div>
-
-        <div id="hotspot-chassis" class="hotspot-pin" style="left: 44%; top: 48%;" onclick="scrollToPart('chassis')">
-          <div class="hotspot-core"><div class="hotspot-pulse"></div></div>
-          <div class="absolute left-6 top-1/2 -translate-y-1/2 whitespace-nowrap bg-black/90 px-3 py-1.5 rounded border border-[#FF6600]/40 text-xs font-mono hidden md:block">
-            <span class="text-[#FF6600] font-bold">02 //</span> ORANGE TRELLIS FRAME
-          </div>
-        </div>
-
-        <div id="hotspot-suspension" class="hotspot-pin" style="left: 70%; top: 52%;" onclick="scrollToPart('suspension')">
-          <div class="hotspot-core"><div class="hotspot-pulse"></div></div>
-          <div class="absolute left-6 top-1/2 -translate-y-1/2 whitespace-nowrap bg-black/90 px-3 py-1.5 rounded border border-[#FF6600]/40 text-xs font-mono hidden md:block">
-            <span class="text-[#FF6600] font-bold">03 //</span> WP APEX 43mm FORKS
-          </div>
-        </div>
-
-        <div id="hotspot-brakes" class="hotspot-pin" style="left: 75%; top: 68%;" onclick="scrollToPart('brakes')">
-          <div class="hotspot-core"><div class="hotspot-pulse"></div></div>
-          <div class="absolute left-6 top-1/2 -translate-y-1/2 whitespace-nowrap bg-black/90 px-3 py-1.5 rounded border border-[#FF6600]/40 text-xs font-mono hidden md:block">
-            <span class="text-[#FF6600] font-bold">04 //</span> ByBre 320mm BRAKES
-          </div>
         </div>
       </div>
 
@@ -417,9 +391,9 @@
         <div class="lg:col-span-7 relative rounded-3xl overflow-hidden border border-white/10 bg-[#12141A] p-4 md:p-8 perspective-stage group">
           <div id="exploded-interactive-container" class="relative w-full aspect-[16/10] overflow-hidden rounded-2xl flex items-center justify-center">
             
-            <!-- High-DPI 300-Frame Exploded Canvas Sequence -->
-            <canvas id="cutaway-sequence-canvas" class="w-full h-full object-cover rounded-xl transition-all duration-700"></canvas>
-            <img id="cutaway-visual" src="./assets/ktm_bike_assembled_start.jpg" alt="KTM Exploded Engineering Cutaway" class="hidden w-full h-full object-cover rounded-xl">
+            <!-- Exploded Engineering Visual & Sequence Canvas -->
+            <img id="cutaway-visual" src="./assets/ktm_parts_exploded_end.jpg" onerror="this.onerror=null; this.src='./assets/ktm_bike_assembled_start.jpg';" alt="KTM Exploded Engineering Cutaway" class="absolute inset-0 w-full h-full object-cover rounded-xl transition-all duration-500">
+            <canvas id="cutaway-sequence-canvas" class="relative z-10 w-full h-full object-cover rounded-xl transition-all duration-700"></canvas>
 
             <!-- Laser Holographic Crosshairs & Blueprint Overlays -->
             <div class="absolute inset-0 pointer-events-none border border-[#FF6600]/20 rounded-xl"></div>
@@ -1023,17 +997,16 @@
           });
 
           if (droneFramesLoaded === 1) renderHeroFrame(0);
-          if (droneFramesLoaded === TOTAL_FRAMES) dismissPreloader();
+          if (droneFramesLoaded >= 15) dismissPreloader();
         };
         img.onerror = () => {
           droneFramesLoaded++;
-          if (droneFramesLoaded === TOTAL_FRAMES) dismissPreloader();
         };
         droneImages.push(img);
       }
 
-      // Preload 300 exploded frames in parallel
-      for (let i = 1; i <= TOTAL_FRAMES; i++) {
+      // Preload exploded frames in background
+      for (let i = 1; i <= Math.min(TOTAL_FRAMES, 50); i++) {
         const img = new Image();
         img.src = getFrameUrl(EXPLODED_FRAME_FOLDER, i);
         img.onload = () => {
@@ -1043,7 +1016,8 @@
         explodedImages.push(img);
       }
 
-      setTimeout(dismissPreloader, 2200);
+      // Dismiss preloader quickly so user never sits waiting on black screen
+      setTimeout(dismissPreloader, 400);
     }
 
     if (document.readyState === 'loading') {
@@ -1069,10 +1043,10 @@
     // 2. LENIS SMOOTH MOMENTUM SCROLL
     // ═════════════════════════════════════════════════════════════════════════
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.0,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      touchMultiplier: 1.5
+      touchMultiplier: 1.2
     });
 
     lenis.on('scroll', ScrollTrigger.update);
@@ -1119,9 +1093,9 @@
     }
 
     function initScrollAnimations() {
-      // 1. Hero 3D Drone Push-In Timeline via Canvas Scrubbing
+      // 1. Hero 3D Drone Push-In Timeline (Natural ~1200px calibrated scrub)
       const heroStage = document.getElementById("hero-stage");
-      const pinDistance = TOTAL_FRAMES * 15; // 4500px natural scrub track for 300 frames
+      const pinDistance = Math.min(window.innerHeight * 1.3, 1200);
       if (heroStage) heroStage.style.height = `${pinDistance + window.innerHeight}px`;
 
       if (!prefersReducedMotion) {
@@ -1134,7 +1108,7 @@
             start: "top top",
             end: `+=${pinDistance}`,
             pin: ".perspective-stage",
-            scrub: 0.5,
+            scrub: 0.4,
             onUpdate: (self) => {
               const currentFrame = Math.round(droneSequence.frame);
               if (currentHeroMode === 'drone') {
@@ -1144,10 +1118,10 @@
               const p = self.progress;
 
               // Camera Zoom Dolly
-              const scaleVal = 1.0 + p * 0.30;
+              const scaleVal = 1.0 + p * 0.35;
               gsap.set("#hero-viewport-3d", {
                 scale: scaleVal,
-                z: p * 60
+                z: p * 50
               });
 
               // Telemetry HUD Readout
@@ -1159,12 +1133,6 @@
                 const calculatedRpm = Math.floor(1200 + p * 8600);
                 rpmEl.innerHTML = `${calculatedRpm.toLocaleString()} <span class="text-xs font-normal text-white/60">RPM</span>`;
               }
-
-              // Hotspot pin parallax glide
-              gsap.set("#hotspot-engine", { x: -p * 40, y: -p * 25 });
-              gsap.set("#hotspot-chassis", { x: -p * 30, y: -p * 15 });
-              gsap.set("#hotspot-suspension", { x: p * 35, y: -p * 20 });
-              gsap.set("#hotspot-brakes", { x: p * 45, y: p * 15 });
             }
           }
         });

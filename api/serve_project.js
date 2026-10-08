@@ -11,8 +11,8 @@
  * - Solid Pre-Rendered Metrics (Zero 0-start broken counters)
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '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';
 const REPO = 'prathamgowda194-pixel/asura-system';
 
@@ -667,6 +667,10 @@ export default async function handler(req, res) {
     const candidatePaths = [
       path.join('projects', 'ktm-showroom', 'assets', basename),
       path.join('public', 'projects', 'ktm-showroom', 'assets', basename),
+      path.join('projects', 'ktm-showroom', 'frames', 'drone', basename),
+      path.join('projects', 'ktm-showroom', 'frames', 'exploded', basename),
+      path.join('public', 'projects', 'ktm-showroom', 'frames', 'drone', basename),
+      path.join('public', 'projects', 'ktm-showroom', 'frames', 'exploded', basename),
       path.join('projects', 'era-residence', 'assets', basename),
       path.join('public', 'projects', 'era-residence', 'assets', basename),
       path.join('projects', qSlug || 'harley-davidson', 'assets', basename),
