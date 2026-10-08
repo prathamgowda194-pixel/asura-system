@@ -811,7 +811,12 @@ export default async function handler(req, res) {
   const isAdmin = (req.query && (req.query.admin === 'true' || req.query.admin === '1')) || slug.includes('admin');
   const cleanSlug = slug.replace(/\/(admin|index)(\.html)?$/, '').replace(/-admin$/, '');
 
-  const paths = isAdmin ? [
+  const customFile = (req.query && (req.query.file || req.query.page)) || '';
+  const paths = customFile ? [
+    `projects/${slug}/${customFile}`,
+    `public/projects/${slug}/${customFile}`,
+    `projects/${cleanSlug}/${customFile}`
+  ] : isAdmin ? [
     `projects/${cleanSlug}/admin.html`,
     `projects/${slug}/admin.html`,
     `projects/${slug}/index.html`,
