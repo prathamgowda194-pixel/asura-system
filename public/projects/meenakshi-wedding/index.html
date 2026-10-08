@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>The Sacred Union of Kavya & Adhithya | Sri Meenakshi Temple Wedding</title>
+  
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="The Sacred Union of Kavya & Adhithya | Sri Meenakshi Temple Wedding">
+  <meta name="description" content="You are cordially invited to celebrate the holy matrimony of Kavya and Adhithya in the divine presence of Goddess Meenakshi & Lord Sundareswarar, Madurai.">
+  <meta name="theme-color" content="#4A0512">
+
+  <!-- Premium Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Rozha+One&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS & Animation Libraries -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            vermilion: {
+              900: '#3D030C',
+              800: '#540B16',
+              700: '#70091B',
+              600: '#8E0E23',
+            },
+            templegold: {
+              50: '#FDFBF0',
+              100: '#F9F3D3',
+              200: '#F3E5AB',
+              300: '#E8CE76',
+              400: '#D4AF37',
+              500: '#C59B27',
+              600: '#AA771C',
+              700: '#7D5413',
+            },
+            ivory: {
+              50: '#FDFBF7',
+              100: '#F7F2E9',
+              200: '#EFE6D7',
+              300: '#E2D5C0',
+            }
+          },
+          fontFamily: {
+            cinzel: ['"Cinzel Decorative"', 'serif'],
+            serif: ['"Cormorant Garamond"', 'serif'],
+            script: ['"Great Vibes"', 'cursive'],
+            rozha: ['"Rozha One"', 'serif'],
+            sans: ['"Montserrat"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Golden Shimmer & Royal Borders */
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #FFE898 0%, #D4AF37 30%, #FFF3B3 55%, #AA771C 80%, #F5DE7A 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+    .gold-foil-border {
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.15), inset 0 0 15px rgba(212, 175, 55, 0.1);
+    }
+    .temple-arch-card {
+      border-radius: 120px 120px 24px 24px;
+    }
+    .perspective-stage {
+      perspective: 1400px;
+      transform-style: preserve-3d;
+    }
+    .tilt-card-3d {
+      transition: transform 0.15s ease-out, box-shadow 0.3s ease;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    /* Ambient Glow & Floating Diya */
+    @keyframes diyaFlicker {
+      0%, 100% { opacity: 0.9; transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 170, 0, 0.8)); }
+      50% { opacity: 0.7; transform: scale(0.96); filter: drop-shadow(0 0 6px rgba(255, 140, 0, 0.6)); }
+    }
+    .diya-flame {
+      animation: diyaFlicker 2.4s infinite ease-in-out;
+    }
+    @keyframes spinDisc {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .animate-spin-slow {
+      animation: spinDisc 12s linear infinite;
+    }
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #240207;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #AA771C;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #D4AF37;
+    }
+    /* Door 3D Swing */
+    .door-left {
+      transform-origin: left center;
+      transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .door-right {
+      transform-origin: right center;
+      transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .doors-open .door-left {
+      transform: perspective(1200px) rotateY(-110deg);
+    }
+    .doors-open .door-right {
+      transform: perspective(1200px) rotateY(110deg);
+    }
+  </style>
+</head>
+
+<body class="bg-[#1C0207] text-ivory-100 font-sans antialiased overflow-x-hidden selection:bg-templegold-400 selection:text-vermilion-900">
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       FALLING PETAL CANVAS BACKGROUND (FLORA PARTICLE ENGINE)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <canvas id="petal-canvas" class="fixed inset-0 pointer-events-none z-30 w-full h-full"></canvas>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       THE ROYAL TEMPLE DOORS & INVITATION UNLOCK OVERLAY (ENTRANCE CEREMONY)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <div id="entrance-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-[#150104] transition-opacity duration-1000">
+    <!-- Temple Door Left -->
+    <div class="door-left absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-[#290308] via-[#38040B] to-[#45050E] border-r-2 border-templegold-400/40 flex items-center justify-end pr-4 md:pr-12 shadow-[15px_0_40px_rgba(0,0,0,0.8)]">
+      <!-- Intricate Temple Door Brass Carvings -->
+      <div class="w-full max-w-sm h-[80%] border-2 border-templegold-400/30 rounded-2xl p-6 flex flex-col justify-between opacity-80 pointer-events-none">
+        <div class="text-right text-templegold-400/50 font-serif text-xs tracking-widest uppercase">SRI MEENAKSHI</div>
+        <div class="flex justify-center my-auto">
+          <div class="w-24 h-24 md:w-36 md:h-36 rounded-full border-2 border-templegold-400/40 flex items-center justify-center">
+            <span class="text-3xl md:text-5xl text-templegold-300">ॐ</span>
+          </div>
+        </div>
+        <div class="text-right text-templegold-400/40 text-[10px] font-mono">MADURAI NAYAK DYNASTY HERITAGE</div>
+      </div>
+    </div>
+
+    <!-- Temple Door Right -->
+    <div class="door-right absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#290308] via-[#38040B] to-[#45050E] border-l-2 border-templegold-400/40 flex items-center justify-start pl-4 md:pl-12 shadow-[-15px_0_40px_rgba(0,0,0,0.8)]">
+      <div class="w-full max-w-sm h-[80%] border-2 border-templegold-400/30 rounded-2xl p-6 flex flex-col justify-between opacity-80 pointer-events-none">
+        <div class="text-left text-templegold-400/50 font-serif text-xs tracking-widest uppercase">SUNDARESWARAR</div>
+        <div class="flex justify-center my-auto">
+          <div class="w-24 h-24 md:w-36 md:h-36 rounded-full border-2 border-templegold-400/40 flex items-center justify-center">
+            <span class="text-3xl md:text-5xl text-templegold-300">卐</span>
+          </div>
+        </div>
+        <div class="text-left text-templegold-400/40 text-[10px] font-mono">SACRED MEENAKSHI THIRUKALYANAM</div>
+      </div>
+    </div>
+
+    <!-- Center Brass Latch & Sacred Invitation Seal -->
+    <div id="center-seal" class="relative z-10 flex flex-col items-center text-center p-6 max-w-md mx-auto transition-all duration-700">
+      <div class="w-20 h-20 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-templegold-200 via-templegold-400 to-templegold-600 p-1 shadow-[0_0_50px_rgba(212,175,55,0.6)] mb-6 animate-pulse">
+        <div class="w-full h-full rounded-full bg-[#38040B] flex items-center justify-center border border-templegold-300/40">
+          <span class="text-4xl md:text-5xl">🪷</span>
+        </div>
+      </div>
+
+      <div class="font-serif italic text-templegold-200 text-sm md:text-base mb-1 tracking-wider">
+        ॥ मांगल्ल्यं तन्तुनानेन मम जीवन हेतुना ॥
+      </div>
+      <h1 class="font-cinzel text-xl md:text-2xl text-white font-bold tracking-widest uppercase mb-1">
+        THE ROYAL WEDDING INVITATION
+      </h1>
+      <p class="font-serif text-xs md:text-sm text-templegold-200/80 mb-6">
+        KAVYA & ADHITHYA · MADURAI TEMPLE CONSECRATION
+      </p>
+
+      <button id="open-doors-btn" onclick="unlockTempleDoors()" class="group relative px-8 py-4 rounded-full bg-gradient-to-r from-templegold-500 via-templegold-400 to-templegold-600 text-vermilion-900 font-bold font-serif text-sm md:text-base tracking-widest uppercase shadow-[0_0_35px_rgba(212,175,55,0.5)] hover:shadow-[0_0_50px_rgba(212,175,55,0.8)] hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-3">
+        <span>ENTER THE SACRED CELEBRATION</span>
+        <span class="text-lg group-hover:translate-x-1 transition-transform">✨</span>
+      </button>
+
+      <div class="mt-4 text-[10px] font-mono text-templegold-400/60 uppercase tracking-widest flex items-center gap-2">
+        <span>🔔 TRADITIONAL NADASWARAM AUDIO ENABLED</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       STICKY ROYAL NAVIGATION BAR (WITH WEB AUDIO CONTROLLER)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <header class="fixed top-0 left-0 w-full z-40 bg-[#1C0207]/80 backdrop-blur-md border-b border-templegold-400/20 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      
+      <!-- Brand Crest -->
+      <a href="#hero" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-full border border-templegold-400/40 flex items-center justify-center bg-vermilion-900/60 group-hover:border-templegold-400 transition-colors">
+          <span class="font-cinzel text-templegold-300 text-base font-bold">K·A</span>
+        </div>
+        <div>
+          <span class="font-cinzel text-sm text-white tracking-widest font-bold block">KAVYA & ADHITHYA</span>
+          <span class="font-serif italic text-xs text-templegold-300/80 block -mt-1">Sri Meenakshi Consecration</span>
+        </div>
+      </a>
+
+      <!-- Quick Nav Links -->
+      <nav class="hidden md:flex items-center gap-8 font-serif text-sm tracking-wider">
+        <a href="#muhurtham" class="text-ivory-100/80 hover:text-templegold-300 transition-colors">THE MUHURTHAM</a>
+        <a href="#couple" class="text-ivory-100/80 hover:text-templegold-300 transition-colors">THE COUPLE</a>
+        <a href="#events" class="text-ivory-100/80 hover:text-templegold-300 transition-colors">EVENTS ITINERARY</a>
+        <a href="#venue" class="text-ivory-100/80 hover:text-templegold-300 transition-colors">TEMPLE VENUE</a>
+        <a href="#blessings" class="text-ivory-100/80 hover:text-templegold-300 transition-colors">BLESSINGS WALL</a>
+      </nav>
+
+      <!-- Right Action Controls -->
+      <div class="flex items-center gap-4">
+        
+        <!-- Sacred Nadaswaram Audio Player Trigger -->
+        <button id="audio-toggle-btn" onclick="toggleTraditionalMusic()" class="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-vermilion-900/80 border border-templegold-400/40 hover:border-templegold-400 transition-all group">
+          <div id="audio-disc" class="w-6 h-6 rounded-full bg-gradient-to-br from-templegold-300 to-templegold-600 flex items-center justify-center shadow-[0_0_10px_rgba(212,175,55,0.4)]">
+            <span class="text-[10px]">🎶</span>
+          </div>
+          <div class="hidden sm:flex flex-col text-left">
+            <span id="audio-status-text" class="text-[10px] font-mono text-templegold-300 font-bold uppercase tracking-wider">NADASWARAM</span>
+            <span id="audio-sub-text" class="text-[9px] font-serif text-ivory-200/60 -mt-0.5">Raga Mohanam</span>
+          </div>
+          <div class="flex items-center gap-0.5 h-3">
+            <span class="w-0.5 bg-templegold-400 rounded-full animate-pulse h-2"></span>
+            <span class="w-0.5 bg-templegold-400 rounded-full animate-pulse h-3"></span>
+            <span class="w-0.5 bg-templegold-400 rounded-full animate-pulse h-1.5"></span>
+          </div>
+        </button>
+
+        <!-- RSVP Trigger -->
+        <a href="#rsvp" class="px-5 py-2 rounded-full bg-gradient-to-r from-templegold-500 to-templegold-600 text-vermilion-900 font-bold font-serif text-xs uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all shadow-[0_0_20px_rgba(212,175,55,0.3)]">
+          RSVP NOW
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       HERO CHAPTER: THE DIVINE CONSECRATION (PINNED 3D GOPURAM REVEAL)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <section id="hero" class="relative w-full min-h-screen flex items-center justify-center pt-24 pb-16 px-6 overflow-hidden">
+    
+    <!-- Hero Background Image Stage with Parallax Depth -->
+    <div class="absolute inset-0 z-0">
+      <img id="temple-hero-img" 
+           src="./assets/temple_hero.jpg" 
+           onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1582510003544-4d00b7f74220?q=80&w=2070&auto=format&fit=crop';" 
+           alt="Sri Meenakshi Temple Gopuram Consecration" 
+           class="w-full h-full object-cover object-center filter brightness-[0.45] contrast-[1.1] scale-105 transition-transform duration-1000 ease-out">
+      <div class="absolute inset-0 bg-gradient-to-b from-[#1C0207]/70 via-[#1C0207]/30 to-[#1C0207]"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.15)_0%,transparent_70%)]"></div>
+    </div>
+
+    <!-- Sacred Content Stage -->
+    <div class="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
+      
+      <!-- Auspicious Sanskrit Invocation Badge -->
+      <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-vermilion-900/80 border border-templegold-400/40 backdrop-blur-md mb-6 shadow-[0_0_20px_rgba(212,175,55,0.2)]">
+        <span class="text-templegold-300 text-sm">🪷</span>
+        <span class="font-serif italic text-xs md:text-sm text-templegold-200 tracking-wider">
+          ॥ श्री मीनाक्षी सुन्दरेश्वराय नमः ॥
+        </span>
+        <span class="text-templegold-300 text-sm">🪷</span>
+      </div>
+
+      <div class="text-xs md:text-sm font-serif tracking-[0.3em] uppercase text-templegold-300 mb-2">
+        WITH THE DIVINE GRACE OF THE ALMIGHTY
+      </div>
+
+      <!-- Couple Names in Sacred Royal Typography -->
+      <h1 class="font-cinzel text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white uppercase tracking-tight leading-none mb-3">
+        KAVYA <span class="font-script lowercase font-normal text-templegold-300 text-4xl sm:text-6xl md:text-7xl inline-block mx-2">&amp;</span> ADHITHYA
+      </h1>
+
+      <p class="font-serif italic text-lg sm:text-2xl text-ivory-100 max-w-2xl mx-auto mb-8 font-normal leading-relaxed">
+        Cordially invite you and your family to witness their holy union at the sacred altar of Meenakshi Thirukalyanam.
+      </p>
+
+      <!-- Sacred Date & Mandapam Badge -->
+      <div class="flex flex-wrap items-center justify-center gap-4 md:gap-8 font-serif text-sm md:text-base text-templegold-200 border-y border-templegold-400/30 py-4 px-8 mb-10 bg-vermilion-900/30 backdrop-blur-sm">
+        <div class="flex items-center gap-2">
+          <span>📅</span>
+          <span class="font-semibold text-white">SATURDAY, NOVEMBER 28, 2026</span>
+        </div>
+        <div class="hidden md:block w-1.5 h-1.5 rounded-full bg-templegold-400"></div>
+        <div class="flex items-center gap-2">
+          <span>⏰</span>
+          <span class="font-semibold text-templegold-300">BRAHMA MUHURTHAM · 06:15 AM - 07:30 AM</span>
+        </div>
+        <div class="hidden md:block w-1.5 h-1.5 rounded-full bg-templegold-400"></div>
+        <div class="flex items-center gap-2">
+          <span>📍</span>
+          <span class="font-semibold text-white">SRI MEENAKSHI MANDAPAM, MADURAI</span>
+        </div>
+      </div>
+
+      <!-- Live Auspicious Countdown Grid -->
+      <div id="countdown-container" class="w-full max-w-xl mx-auto mb-10">
+        <div class="text-[11px] font-mono tracking-widest text-templegold-300 uppercase mb-3 text-center">
+          TIME REMAINING UNTIL SACRED MANGALYA DHARANAM
+        </div>
+        <div class="grid grid-cols-4 gap-3 sm:gap-4">
+          <div class="bg-vermilion-900/70 border border-templegold-400/30 rounded-2xl p-3 sm:p-4 text-center backdrop-blur-md shadow-lg">
+            <span id="days-count" class="font-cinzel text-2xl sm:text-4xl font-bold text-white block">48</span>
+            <span class="text-[10px] font-mono text-templegold-300 uppercase tracking-wider">DAYS</span>
+          </div>
+          <div class="bg-vermilion-900/70 border border-templegold-400/30 rounded-2xl p-3 sm:p-4 text-center backdrop-blur-md shadow-lg">
+            <span id="hours-count" class="font-cinzel text-2xl sm:text-4xl font-bold text-white block">08</span>
+            <span class="text-[10px] font-mono text-templegold-300 uppercase tracking-wider">HOURS</span>
+          </div>
+          <div class="bg-vermilion-900/70 border border-templegold-400/30 rounded-2xl p-3 sm:p-4 text-center backdrop-blur-md shadow-lg">
+            <span id="mins-count" class="font-cinzel text-2xl sm:text-4xl font-bold text-white block">24</span>
+            <span class="text-[10px] font-mono text-templegold-300 uppercase tracking-wider">MINUTES</span>
+          </div>
+          <div class="bg-vermilion-900/70 border border-templegold-400/30 rounded-2xl p-3 sm:p-4 text-center backdrop-blur-md shadow-lg">
+            <span id="secs-count" class="font-cinzel text-2xl sm:text-4xl font-bold text-templegold-300 block">56</span>
+            <span class="text-[10px] font-mono text-templegold-300 uppercase tracking-wider">SECONDS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <button onclick="downloadCalendarInvite()" class="px-6 py-3.5 rounded-full bg-gradient-to-r from-templegold-500 via-templegold-400 to-templegold-600 text-vermilion-900 font-bold font-serif text-sm tracking-wider uppercase shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+          <span>📅</span>
+          <span>SAVE TO CALENDAR (.ICS)</span>
+        </button>
+        <a href="#events" class="px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-serif text-sm tracking-wider uppercase border border-white/20 backdrop-blur-md transition-all">
+          EXPLORE WEDDING ITINERARY
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Scroll Down Hint Indicator -->
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10 text-templegold-300/80">
+      <span class="text-[10px] font-mono tracking-widest uppercase">SCROLL FOR BLESSINGS</span>
+      <div class="w-6 h-10 rounded-full border-2 border-templegold-400/40 flex items-start justify-center p-1">
+        <div class="w-1.5 h-2.5 rounded-full bg-templegold-400 animate-bounce"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       CHAPTER 2: THE SACRED COUPLE & LOVE STORY (3D PERSPECTIVE PHYSICS)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <section id="couple" class="relative w-full py-28 px-6 md:px-12 bg-gradient-to-b from-[#1C0207] via-[#2A030A] to-[#1C0207] border-t border-templegold-400/20">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-2xl mx-auto mb-20">
+        <div class="text-xs font-serif tracking-[0.25em] text-templegold-300 uppercase mb-2">
+          CHAPTER 01 // TWO SOULS, ONE DESTINY
+        </div>
+        <h2 class="font-cinzel text-3xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tight">
+          THE DIVINE <span class="gold-gradient-text">UNION</span>
+        </h2>
+        <div class="w-24 h-0.5 bg-gradient-to-r from-transparent via-templegold-400 to-transparent mx-auto mt-4 mb-4"></div>
+        <p class="font-serif italic text-base sm:text-lg text-ivory-200">
+          "As water poured upon water blends in complete harmony, so our souls unite through sacred fire and Vedic chants."
+        </p>
+      </div>
+
+      <!-- Couple Interactive Stage (3D Card & Story Columns) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left 6 Cols: 3D Tilt Polaroid Couple Portrait (Aceternity / React Bits Physics) -->
+        <div class="lg:col-span-6 flex justify-center perspective-stage">
+          <div id="couple-card-tilt" class="tilt-card-3d relative w-full max-w-md bg-gradient-to-b from-[#38040C] to-[#240207] p-4 sm:p-6 rounded-3xl border border-templegold-400/40 shadow-[0_20px_50px_rgba(0,0,0,0.8)] group cursor-pointer">
+            
+            <!-- Traditional Temple Arch Framing -->
+            <div class="relative w-full aspect-[3/4] rounded-2xl overflow-hidden mb-6 bg-black/50 border border-templegold-400/30">
+              <img id="couple-portrait-img" 
+                   src="./assets/royal_couple.jpg" 
+                   onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=2070&auto=format&fit=crop';" 
+                   alt="Kavya and Adhithya South Indian Royal Couple" 
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              
+              <!-- Gold Leaf Corner Motifs -->
+              <div class="absolute top-3 left-3 text-templegold-300 text-lg opacity-80">⚜</div>
+              <div class="absolute top-3 right-3 text-templegold-300 text-lg opacity-80">⚜</div>
+              <div class="absolute bottom-3 left-3 text-templegold-300 text-lg opacity-80">⚜</div>
+              <div class="absolute bottom-3 right-3 text-templegold-300 text-lg opacity-80">⚜</div>
+            </div>
+
+            <!-- Couple Card Subtext -->
+            <div class="text-center px-2">
+              <span class="text-xs font-mono text-templegold-300 tracking-widest uppercase block mb-1">BRIDE & GROOM</span>
+              <h3 class="font-cinzel text-2xl sm:text-3xl font-bold text-white tracking-wide uppercase">
+                KAVYA & ADHITHYA
+              </h3>
+              <p class="font-serif italic text-sm text-ivory-200/80 mt-2">
+                Blessed by their parents Shri. Sundaram &amp; Smt. Meenakshi Sundaram, and Shri. Ramachandran &amp; Smt. Vasanthi Ramachandran.
+              </p>
+            </div>
+
+            <!-- Dynamic 3D Specular Glare Layer -->
+            <div id="card-glare" class="absolute inset-0 rounded-3xl pointer-events-none opacity-0 transition-opacity duration-300 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.15),transparent_60%)]"></div>
+          </div>
+        </div>
+
+        <!-- Right 6 Cols: Sacred Timeline & Milestones -->
+        <div class="lg:col-span-6 flex flex-col gap-8">
+          
+          <!-- Milestone 1 -->
+          <div class="relative pl-8 sm:pl-10 border-l-2 border-templegold-400/30 group hover:border-templegold-400 transition-colors">
+            <div class="absolute -left-3 top-0 w-6 h-6 rounded-full bg-vermilion-900 border-2 border-templegold-400 flex items-center justify-center text-[10px] text-templegold-300">
+              1
+            </div>
+            <div class="text-xs font-mono text-templegold-300 tracking-widest uppercase mb-1">FIRST ENCOUNTER · MADURAI HERITAGE</div>
+            <h4 class="font-cinzel text-xl text-white font-bold mb-2">When Destiny Spoke</h4>
+            <p class="font-serif text-sm sm:text-base text-ivory-200/80 leading-relaxed">
+              Under the shadows of the ancient Thousand Pillar Hall, a fleeting conversation over filter coffee blossomed into an unbreakable bond of shared dreams and deep spiritual reverence.
+            </p>
+          </div>
+
+          <!-- Milestone 2 -->
+          <div class="relative pl-8 sm:pl-10 border-l-2 border-templegold-400/30 group hover:border-templegold-400 transition-colors">
+            <div class="absolute -left-3 top-0 w-6 h-6 rounded-full bg-vermilion-900 border-2 border-templegold-400 flex items-center justify-center text-[10px] text-templegold-300">
+              2
+            </div>
+            <div class="text-xs font-mono text-templegold-300 tracking-widest uppercase mb-1">NICHAYATHARTHAM · THE SACRED ENGAGEMENT</div>
+            <h4 class="font-cinzel text-xl text-white font-bold mb-2">Families United in Blessings</h4>
+            <p class="font-serif text-sm sm:text-base text-ivory-200/80 leading-relaxed">
+              With the exchange of betel leaves, coconuts, and silk sarees in the presence of elders, the wedding lagna patrika was formalized under Vedic astrological alignment.
+            </p>
+          </div>
+
+          <!-- Milestone 3 -->
+          <div class="relative pl-8 sm:pl-10 border-l-2 border-templegold-400/30 group hover:border-templegold-400 transition-colors">
+            <div class="absolute -left-3 top-0 w-6 h-6 rounded-full bg-vermilion-900 border-2 border-templegold-400 flex items-center justify-center text-[10px] text-templegold-300">
+              3
+            </div>
+            <div class="text-xs font-mono text-templegold-300 tracking-widest uppercase mb-1">THE MEENAKSHI THIRUKALYANAM</div>
+            <h4 class="font-cinzel text-xl text-white font-bold mb-2">The Seven Eternal Vows</h4>
+            <p class="font-serif text-sm sm:text-base text-ivory-200/80 leading-relaxed">
+              Now stepping together onto the holy mandapam to take the Saptapadi vows, seeking your divine presence to shower unbroken blessings on their eternal journey.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       CHAPTER 3: THE SACRED WEDDING CEREMONIES & AUSPICIOUS ITINERARY
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <section id="events" class="relative w-full py-28 px-6 md:px-12 bg-[#1C0207] border-t border-templegold-400/20">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-2xl mx-auto mb-20">
+        <div class="text-xs font-serif tracking-[0.25em] text-templegold-300 uppercase mb-2">
+          CHAPTER 02 // SACRED SCHEDULE
+        </div>
+        <h2 class="font-cinzel text-3xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tight">
+          WEDDING <span class="gold-gradient-text">ITINERARY</span>
+        </h2>
+        <div class="w-24 h-0.5 bg-gradient-to-r from-transparent via-templegold-400 to-transparent mx-auto mt-4 mb-4"></div>
+        <p class="font-serif italic text-base sm:text-lg text-ivory-200">
+          Join us across four auspicious celebrations infused with Vedic tradition, classical ragas, and joyous hospitality.
+        </p>
+      </div>
+
+      <!-- 4 Heritage Event Cards Grid (Aceternity UI / Cult UI Physics) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Event Card 1: Mappillai Azhaippu -->
+        <div class="tilt-card-3d bg-gradient-to-b from-[#2C030A] to-[#1F0207] rounded-3xl p-6 border border-templegold-400/30 flex flex-col justify-between hover:border-templegold-400 transition-all duration-300 shadow-xl group">
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <span class="text-xs font-mono tracking-widest px-3 py-1 rounded-full bg-templegold-400/10 text-templegold-300 font-bold border border-templegold-400/30">CEREMONY 01</span>
+              <span class="text-xs font-serif text-ivory-200/60">FRIDAY EVE</span>
+            </div>
+            <div class="text-3xl mb-4">🎺</div>
+            <h3 class="font-cinzel text-xl font-bold text-white uppercase mb-2 group-hover:text-templegold-300 transition-colors">
+              MAPPILLAI AZHAIPPU
+            </h3>
+            <p class="font-serif text-xs sm:text-sm text-ivory-200/80 leading-relaxed mb-4">
+              Traditional welcoming of the groom with grand Nadaswaram procession, temple aarti, and joyful family sangeet.
+            </p>
+            <div class="space-y-2 text-xs font-mono text-templegold-200/80 pt-4 border-t border-templegold-400/20">
+              <div class="flex items-center gap-2">
+                <span>⏰</span>
+                <span>NOV 27, 2026 · 6:30 PM ONWARDS</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span>📍</span>
+                <span>HERITAGE HALL, MADURAI</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span>👗</span>
+                <span>SILK DHOTI & KANJIVARAM</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-templegold-400/20">
+            <button onclick="downloadEventCalendar('Mappillai Azhaippu', '20261127T183000', '20261127T220000', 'Heritage Hall, Madurai')" class="w-full py-2.5 rounded-xl bg-vermilion-900 hover:bg-templegold-500 hover:text-vermilion-900 border border-templegold-400/40 text-templegold-300 text-xs font-serif font-bold tracking-wider uppercase transition-colors">
+              + ADD TO CALENDAR
+            </button>
+          </div>
+        </div>
+
+        <!-- Event Card 2: The Sacred Muhurtham (Highlight Card) -->
+        <div class="tilt-card-3d bg-gradient-to-b from-[#3D040E] to-[#260309] rounded-3xl p-6 border-2 border-templegold-400 flex flex-col justify-between shadow-[0_0_35px_rgba(212,175,55,0.25)] relative group">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-0.5 rounded-full bg-templegold-400 text-vermilion-900 font-mono text-[10px] font-bold tracking-widest uppercase">
+            AUSPICIOUS APEX
+          </div>
+          <div>
+            <div class="flex justify-between items-center mb-4 mt-1">
+              <span class="text-xs font-mono tracking-widest px-3 py-1 rounded-full bg-templegold-400/20 text-templegold-300 font-bold border border-templegold-400/50">CEREMONY 02</span>
+              <span class="text-xs font-serif text-ivory-200/60">SATURDAY DAWN</span>
+            </div>
+            <div class="text-3xl mb-4">🪷</div>
+            <h3 class="font-cinzel text-xl font-bold text-templegold-300 uppercase mb-2">
+              SACRED MUHURTHAM
+            </h3>
+            <p class="font-serif text-xs sm:text-sm text-ivory-200 leading-relaxed mb-4">
+              Meenakshi Thirukalyanam ceremony: Kanyadaanam, Mangalya Dharanam, and the seven sacred Saptapadi vows.
+            </p>
+            <div class="space-y-2 text-xs font-mono text-templegold-200 pt-4 border-t border-templegold-400/30">
+              <div class="flex items-center gap-2">
+                <span>⏰</span>
+                <span class="font-bold text-white">06:15 AM - 07:30 AM (BRAHMA)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span>📍</span>
+                <span>MEENAKSHI KALYANA MANDAPAM</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span>👗</span>
+                <span>ROYAL TRADITIONAL ETHNIC</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-templegold-400/30">
+            <button onclick="downloadEventCalendar('Sacred Muhurtham', '20261128T061500', '20261128T073000', 'Sri Meenakshi Kalyana Mandapam, Madurai')" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-templegold-500 to-templegold-400 text-vermilion-900 text-xs font-serif font-bold tracking-wider uppercase shadow-md hover:brightness-110 transition-all">
+              + ADD TO CALENDAR
+            </button>
+          </div>
+        </div>
+
+        <!-- Event Card 3: Banana Leaf Sadya -->
+        <div class="tilt-card-3d bg-gradient-to-b from-[#2C030A] to-[#1F0207] rounded-3xl p-6 border border-templegold-400/30 flex flex-col justify-between hover:border-templegold-400 transition-all duration-300 shadow-xl group">
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <span class="text-xs font-mono tracking-widest px-3 py-1 rounded-full bg-templegold-400/10 text-templegold-300 font-bold border border-templegold-400/30">FEAST 03</span>
+              <span class="text-xs font-serif text-ivory-200/60">SATURDAY NOON</span>
+            </div>
+            <div class="text-3xl mb-4">🍃</div>
+            <h3 class="font-cinzel text-xl font-bold text-white uppercase mb-2 group-hover:text-templegold-300 transition-colors">
+              TEMPLE SADYA FEAST
+            </h3>
+            <p class="font-serif text-xs sm:text-sm text-ivory-200/80 leading-relaxed mb-4">
+              A grand 24-course traditional South Indian royal banquet served on fresh banana leaves with artisanal payasam.
+            </p>
+            <div class="space-y-2 text-xs font-mono text-templegold-200/80 pt-4 border-t border-templegold-400/20">
+              <div class="flex items-center gap-2">
+                <span>⏰</span>
+                <span>NOV 28, 2026 · 11:30 AM ONWARDS</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span>📍</span>
+                <span>ANNAPOORNA BANQUET HALL</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span>🍛</span>
+                <span>PURE VEGETARIAN SADYA</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-templegold-400/20">
+            <button onclick="downloadEventCalendar('Temple Sadya Feast', '20261128T113000', '20261128T150000', 'Annapoorna Banquet Hall, Madurai')" class="w-full py-2.5 rounded-xl bg-vermilion-900 hover:bg-templegold-500 hover:text-vermilion-900 border border-templegold-400/40 text-templegold-300 text-xs font-serif font-bold tracking-wider uppercase transition-colors">
+              + ADD TO CALENDAR
+            </button>
+          </div>
+        </div>
+
+        <!-- Event Card 4: Grand Reception -->
+        <div class="tilt-card-3d bg-gradient-to-b from-[#2C030A] to-[#1F0207] rounded-3xl p-6 border border-templegold-400/30 flex flex-col justify-between hover:border-templegold-400 transition-all duration-300 shadow-xl group">
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <span class="text-xs font-mono tracking-widest px-3 py-1 rounded-full bg-templegold-400/10 text-templegold-300 font-bold border border-templegold-400/30">GALA 04</span>
+              <span class="text-xs font-serif text-ivory-200/60">SATURDAY EVE</span>
+            </div>
+            <div class="text-3xl mb-4">✨</div>
+            <h3 class="font-cinzel text-xl font-bold text-white uppercase mb-2 group-hover:text-templegold-300 transition-colors">
+              ROYAL RECEPTION GALA
+            </h3>
+            <p class="font-serif text-xs sm:text-sm text-ivory-200/80 leading-relaxed mb-4">
+              An enchanting evening of live Carnatic fusion orchestra, congratulations, photographs, and royal dinner.
+            </p>
+            <div class="space-y-2 text-xs font-mono text-templegold-200/80 pt-4 border-t border-templegold-400/20">
+              <div class="flex items-center gap-2">
+                <span>⏰</span>
+                <span>NOV 28, 2026 · 7:00 PM ONWARDS</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span>📍</span>
+                <span>MADURAI PALACE LAWNS</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span>👗</span>
+                <span>INDO-WESTERN / ROYAL GLAM</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-templegold-400/20">
+            <button onclick="downloadEventCalendar('Royal Reception Gala', '20261128T190000', '20261128T230000', 'Madurai Palace Lawns')" class="w-full py-2.5 rounded-xl bg-vermilion-900 hover:bg-templegold-500 hover:text-vermilion-900 border border-templegold-400/40 text-templegold-300 text-xs font-serif font-bold tracking-wider uppercase transition-colors">
+              + ADD TO CALENDAR
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       CHAPTER 4: THE SACRED MANDAPAM & VEDIC RITUALS (INTERACTIVE STAGE)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <section id="mandapam" class="relative w-full py-28 px-6 md:px-12 bg-gradient-to-b from-[#1C0207] via-[#2D030B] to-[#1C0207] border-t border-templegold-400/20">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
+        <div>
+          <div class="text-xs font-serif tracking-[0.25em] text-templegold-300 uppercase mb-2">
+            CHAPTER 03 // VEDIC SANCTITY
+          </div>
+          <h2 class="font-cinzel text-3xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tight">
+            THE SACRED <span class="gold-gradient-text">MANDAPAM</span>
+          </h2>
+        </div>
+        <p class="font-serif italic text-sm md:text-base text-ivory-200/80 max-w-md">
+          Explore the sanctified rites performed before Agni, invoking the blessings of Goddess Meenakshi for eternal companionship.
+        </p>
+      </div>
+
+      <!-- Mandapam Visual Stage + Ritual Breakdown -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        
+        <!-- Left 7 Cols: Grand Mandapam Visual -->
+        <div class="lg:col-span-7 relative rounded-3xl overflow-hidden border border-templegold-400/40 p-3 sm:p-5 bg-vermilion-900/40 shadow-2xl group">
+          <div class="relative w-full aspect-[16/10] overflow-hidden rounded-2xl">
+            <img id="mandapam-visual-img" 
+                 src="./assets/muhurtham_mandap.jpg" 
+                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1545232979-fbf6c63a232b?q=80&w=2070&auto=format&fit=crop';" 
+                 alt="Grand Temple Wedding Mandapam" 
+                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+            
+            <!-- Live Active Ritual Badge Overlay -->
+            <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+              <div>
+                <span class="text-[10px] font-mono text-templegold-300 uppercase tracking-widest block">ACTIVE RITUAL SPOTLIGHT</span>
+                <h4 id="active-ritual-title" class="font-cinzel text-xl sm:text-2xl text-white font-bold">
+                  MANGALYA DHARANAM
+                </h4>
+              </div>
+              <span class="text-xs font-mono px-3 py-1 rounded-full bg-templegold-400 text-vermilion-900 font-bold">
+                SACRED THALI
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right 5 Cols: Interactive Ritual Selectors -->
+        <div class="lg:col-span-5 flex flex-col gap-3">
+          
+          <!-- Ritual 1: Mangalya Dharanam -->
+          <div class="ritual-card p-5 rounded-2xl bg-[#260309] border border-templegold-400 cursor-pointer transition-all duration-300 shadow-md" onclick="selectRitual('mangalyam')">
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-mono text-templegold-300 font-bold">01 // MANGALYA DHARANAM</span>
+              <span class="text-xs font-serif text-templegold-300">3 SACRED KNOTS</span>
+            </div>
+            <h4 class="font-cinzel text-lg text-white font-bold mb-1">The Tying of the Golden Thali</h4>
+            <p class="font-serif text-xs text-ivory-200/80 leading-relaxed">
+              At the exact Brahma Muhurtham, to the crescendo of Nadaswaram, the groom ties the sacred yellow thread around the bride's neck amidst shower of Akshata.
+            </p>
+          </div>
+
+          <!-- Ritual 2: Saptapadi -->
+          <div class="ritual-card p-5 rounded-2xl bg-[#200207] border border-templegold-400/20 hover:border-templegold-400 cursor-pointer transition-all duration-300" onclick="selectRitual('saptapadi')">
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-mono text-templegold-300 font-bold">02 // SAPTAPADI</span>
+              <span class="text-xs font-serif text-templegold-300">7 SACRED STEPS</span>
+            </div>
+            <h4 class="font-cinzel text-lg text-white font-bold mb-1">Walking Together for Eternity</h4>
+            <p class="font-serif text-xs text-ivory-200/80 leading-relaxed">
+              Taking seven vows around the holy Agni fire for nourishment, strength, prosperity, happiness, harmony, lifelong devotion, and spiritual oneness.
+            </p>
+          </div>
+
+          <!-- Ritual 3: Kanyadaanam -->
+          <div class="ritual-card p-5 rounded-2xl bg-[#200207] border border-templegold-400/20 hover:border-templegold-400 cursor-pointer transition-all duration-300" onclick="selectRitual('kanyadaanam')">
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-mono text-templegold-300 font-bold">03 // KANYADAANAM</span>
+              <span class="text-xs font-serif text-templegold-300">DIVINE GIFT</span>
+            </div>
+            <h4 class="font-cinzel text-lg text-white font-bold mb-1">The Sacred Entrustment</h4>
+            <p class="font-serif text-xs text-ivory-200/80 leading-relaxed">
+              The bride's parents place her hands into the groom's over sacred Ganga water, betel leaves, and gold coins, entrusting her as Goddess Lakshmi incarnate.
+            </p>
+          </div>
+
+          <!-- Ritual 4: Laja Homam -->
+          <div class="ritual-card p-5 rounded-2xl bg-[#200207] border border-templegold-400/20 hover:border-templegold-400 cursor-pointer transition-all duration-300" onclick="selectRitual('lajahomam')">
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-mono text-templegold-300 font-bold">04 // LAJA HOMAM</span>
+              <span class="text-xs font-serif text-templegold-300">PUFFED RICE OFFERING</span>
+            </div>
+            <h4 class="font-cinzel text-lg text-white font-bold mb-1">Offerings to the Holy Agni</h4>
+            <p class="font-serif text-xs text-ivory-200/80 leading-relaxed">
+              The bride’s brother pours toasted grain into the couple’s joined hands to offer into the sacred fire, praying for endless health and abundance.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       CHAPTER 5: TEMPLE VENUE & GUEST CONCIERGE (GOOGLE MAPS DEEP-LINK)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <section id="venue" class="relative w-full py-28 px-6 md:px-12 bg-[#1C0207] border-t border-templegold-400/20">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left 6 Cols: Venue Information & Transportation -->
+        <div class="lg:col-span-6">
+          <div class="text-xs font-serif tracking-[0.25em] text-templegold-300 uppercase mb-2">
+            CHAPTER 04 // SACRED SANCTUARY
+          </div>
+          <h2 class="font-cinzel text-3xl sm:text-5xl font-black text-white uppercase tracking-tight mb-4">
+            SRI MEENAKSHI <span class="gold-gradient-text">TEMPLE VENUE</span>
+          </h2>
+          <p class="font-serif text-sm sm:text-base text-ivory-200/80 leading-relaxed mb-8">
+            The wedding will be celebrated in the grand heritage Kalyana Mandapam adjacent to the ancient Meenakshi Sundareswarar Temple in the legendary temple city of Madurai, Tamil Nadu.
+          </p>
+
+          <div class="space-y-4 font-mono text-xs">
+            <div class="p-4 rounded-2xl bg-[#260309] border border-templegold-400/30 flex items-start gap-4">
+              <span class="text-2xl">🏛</span>
+              <div>
+                <strong class="text-white text-sm block font-serif">Sri Meenakshi Sundareswarar Kalyana Mandapam</strong>
+                <span class="text-templegold-300/80">Madurai Main Temple Enclave, Madurai, Tamil Nadu 625001</span>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-[#260309] border border-templegold-400/30 flex items-start gap-4">
+              <span class="text-2xl">✈️</span>
+              <div>
+                <strong class="text-white text-sm block font-serif">Transit & Accessibility</strong>
+                <span class="text-ivory-200/70">Madurai Airport (IXM) · 12 km (25 mins drive)</span><br>
+                <span class="text-ivory-200/70">Madurai Junction Railway Station · 2.2 km (8 mins drive)</span>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-[#260309] border border-templegold-400/30 flex items-start gap-4">
+              <span class="text-2xl">👗</span>
+              <div>
+                <strong class="text-white text-sm block font-serif">Traditional Temple Dress Code Guide</strong>
+                <span class="text-ivory-200/70">Gentlemen: Traditional Dhoti / Veshti with Angavastram or Kurta</span><br>
+                <span class="text-ivory-200/70">Ladies: Traditional Silk Sarees (Kanchipuram preferred) or Anarkalis</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8">
+            <a href="https://maps.google.com/?q=Meenakshi+Amman+Temple+Madurai" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-templegold-500 to-templegold-600 text-vermilion-900 font-bold font-serif text-sm tracking-wider uppercase shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:scale-105 transition-all">
+              <span>📍</span>
+              <span>OPEN IN GOOGLE MAPS</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right 6 Cols: Interactive Decorative Map Card -->
+        <div class="lg:col-span-6 relative rounded-3xl overflow-hidden border border-templegold-400/40 bg-gradient-to-br from-[#2D030B] to-[#1C0207] p-8 shadow-2xl">
+          <div class="flex justify-between items-center mb-6">
+            <span class="text-xs font-mono text-templegold-300 font-bold tracking-widest uppercase">MADURAI NAVIGATION COMPASS</span>
+            <span class="text-xs font-serif text-ivory-200/60">GPS: 9.9195° N, 78.1193° E</span>
+          </div>
+
+          <!-- Stylized Map Graphic Box -->
+          <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-templegold-400/30 bg-[#160205] flex items-center justify-center p-6 text-center">
+            <div class="absolute inset-0 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:16px_16px] opacity-20"></div>
+            
+            <div class="relative z-10 flex flex-col items-center">
+              <div class="w-16 h-16 rounded-full bg-templegold-400/20 border-2 border-templegold-400 flex items-center justify-center mb-3 animate-bounce">
+                <span class="text-2xl">📍</span>
+              </div>
+              <h4 class="font-cinzel text-xl text-white font-bold mb-1">MEENAKSHI MANDAPAM</h4>
+              <p class="font-serif text-xs text-templegold-200/80 max-w-xs mb-4">
+                Valet parking available at North Tower Gate 3. Special shuttle carts provided for senior citizens.
+              </p>
+              <a href="https://maps.google.com/?q=Meenakshi+Amman+Temple+Madurai" target="_blank" rel="noopener noreferrer" class="px-5 py-2 rounded-full bg-vermilion-900 border border-templegold-400 text-templegold-300 text-xs font-mono font-bold tracking-wider uppercase hover:bg-templegold-400 hover:text-vermilion-900 transition-colors">
+                LAUNCH LIVE GPS DIRECTIONS →
+              </a>
+            </div>
+          </div>
+
+          <div class="mt-6 flex justify-between items-center text-xs font-serif text-ivory-200/70">
+            <span>NEED ASSISTANCE? CONCIERGE DESK:</span>
+            <span class="text-templegold-300 font-bold font-mono">+91 98401 23456</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       CHAPTER 6: DIGITAL RSVP & LIVE BLESSINGS WALL (CULT UI REAL-TIME ENGINE)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <section id="rsvp" class="relative w-full py-28 px-6 md:px-12 bg-gradient-to-b from-[#1C0207] via-[#2A030A] to-[#1C0207] border-t border-templegold-400/20">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        
+        <!-- Left 6 Cols: Digital RSVP Form -->
+        <div class="lg:col-span-6 bg-gradient-to-b from-[#2E030C] to-[#1C0207] rounded-3xl p-8 border border-templegold-400/40 shadow-2xl">
+          <div class="text-xs font-serif tracking-[0.25em] text-templegold-300 uppercase mb-2">
+            CHAPTER 05 // CONFIRM PRESENCE
+          </div>
+          <h3 class="font-cinzel text-3xl font-black text-white uppercase tracking-tight mb-2">
+            DIGITAL <span class="gold-gradient-text">RSVP</span>
+          </h3>
+          <p class="font-serif text-xs sm:text-sm text-ivory-200/80 mb-6">
+            Please grace us with your confirmation to help us prepare the auspicious Sadya feast and hospitality arrangements.
+          </p>
+
+          <form onsubmit="handleRSVPSubmit(event)" class="space-y-4 font-serif text-sm">
+            <div>
+              <label class="block text-templegold-200/90 mb-1 text-xs font-mono uppercase tracking-wider">YOUR FULL NAME</label>
+              <input type="text" id="rsvp-name" required placeholder="e.g. Dr. Raghavan Sundaram" class="w-full px-4 py-3 rounded-xl bg-black/40 border border-templegold-400/30 text-white placeholder-ivory-200/40 outline-none focus:border-templegold-400 transition-colors">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-templegold-200/90 mb-1 text-xs font-mono uppercase tracking-wider">PHONE / WHATSAPP</label>
+                <input type="tel" id="rsvp-phone" required placeholder="+91 98765 43210" class="w-full px-4 py-3 rounded-xl bg-black/40 border border-templegold-400/30 text-white placeholder-ivory-200/40 outline-none focus:border-templegold-400 transition-colors">
+              </div>
+              <div>
+                <label class="block text-templegold-200/90 mb-1 text-xs font-mono uppercase tracking-wider">TOTAL GUESTS ATTENDING</label>
+                <select id="rsvp-guests" class="w-full px-4 py-3 rounded-xl bg-[#260309] border border-templegold-400/30 text-white outline-none focus:border-templegold-400 transition-colors">
+                  <option value="1">1 Guest</option>
+                  <option value="2" selected>2 Guests</option>
+                  <option value="3">3 Guests</option>
+                  <option value="4">4 Guests</option>
+                  <option value="5+">5+ Family Members</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-templegold-200/90 mb-1 text-xs font-mono uppercase tracking-wider">ATTENDANCE STATUS</label>
+              <div class="grid grid-cols-2 gap-3 font-mono text-xs">
+                <label class="flex items-center gap-2 p-3 rounded-xl bg-black/40 border border-templegold-400/30 cursor-pointer hover:border-templegold-400">
+                  <input type="radio" name="attending" value="yes" checked class="accent-templegold-400">
+                  <span class="text-white">Attending In Person</span>
+                </label>
+                <label class="flex items-center gap-2 p-3 rounded-xl bg-black/40 border border-templegold-400/30 cursor-pointer hover:border-templegold-400">
+                  <input type="radio" name="attending" value="spirit" class="accent-templegold-400">
+                  <span class="text-white">With You in Spirit</span>
+                </label>
+              </div>
+            </div>
+
+            <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-templegold-500 via-templegold-400 to-templegold-600 text-vermilion-900 font-bold font-serif text-sm tracking-widest uppercase shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:brightness-110 active:scale-98 transition-all">
+              CONFIRM WEDDING RSVP
+            </button>
+
+            <div id="rsvp-success-msg" class="hidden text-center text-xs font-mono text-templegold-300 mt-2 bg-templegold-400/10 p-3 rounded-xl border border-templegold-400/30">
+              ✓ Nandi &amp; Gratitude! Your RSVP has been graciously registered. We eagerly anticipate welcoming you!
+            </div>
+          </form>
+        </div>
+
+        <!-- Right 6 Cols: Sacred Blessings Wall Guestbook -->
+        <div id="blessings" class="lg:col-span-6 flex flex-col justify-between">
+          <div>
+            <div class="text-xs font-serif tracking-[0.25em] text-templegold-300 uppercase mb-2">
+              CHAPTER 06 // SACRED WISHES
+            </div>
+            <h3 class="font-cinzel text-3xl font-black text-white uppercase tracking-tight mb-2">
+              BLESSINGS <span class="gold-gradient-text">WALL</span>
+            </h3>
+            <p class="font-serif text-xs sm:text-sm text-ivory-200/80 mb-6">
+              Leave your sacred prayer or heartfelt congratulations for Kavya and Adhithya.
+            </p>
+
+            <!-- Blessings Form Trigger -->
+            <form onsubmit="handleBlessingSubmit(event)" class="space-y-3 font-serif text-sm mb-6">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <input type="text" id="blessing-author" required placeholder="Your Name" class="px-4 py-2.5 rounded-xl bg-black/40 border border-templegold-400/30 text-white placeholder-ivory-200/40 outline-none focus:border-templegold-400 text-xs">
+                <select id="blessing-relation" class="px-4 py-2.5 rounded-xl bg-[#260309] border border-templegold-400/30 text-white outline-none focus:border-templegold-400 text-xs font-mono">
+                  <option value="Well Wisher">Well Wisher</option>
+                  <option value="Bride's Family">Bride's Family</option>
+                  <option value="Groom's Family">Groom's Family</option>
+                  <option value="Close Friend">Close Friend</option>
+                </select>
+              </div>
+              <textarea id="blessing-text" required rows="2" placeholder="Write your sacred blessing here..." class="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-templegold-400/30 text-white placeholder-ivory-200/40 outline-none focus:border-templegold-400 text-xs resize-none"></textarea>
+              <button type="submit" class="w-full py-2.5 rounded-xl bg-vermilion-800 hover:bg-templegold-500 hover:text-vermilion-900 border border-templegold-400 text-templegold-300 font-serif text-xs tracking-wider uppercase font-bold transition-all flex items-center justify-center gap-2">
+                <span>🪷</span>
+                <span>OFFER SACRED BLESSING</span>
+              </button>
+            </form>
+
+            <!-- Live Blessings Scrollable Container -->
+            <div id="blessings-wall-list" class="space-y-3 max-h-[320px] overflow-y-auto pr-2">
+              
+              <!-- Blessing 1 -->
+              <div class="p-4 rounded-2xl bg-[#260309] border border-templegold-400/30 text-left">
+                <div class="flex justify-between items-center mb-1">
+                  <strong class="font-cinzel text-white text-xs">Smt. & Shri. Krishnamurthy</strong>
+                  <span class="text-[10px] font-mono text-templegold-300 px-2 py-0.5 rounded-full bg-templegold-400/10">Family Elder</span>
+                </div>
+                <p class="font-serif italic text-xs text-ivory-200/90 leading-relaxed">
+                  "May Goddess Meenakshi shower you both with boundless health, unending love, and prosperity throughout all seven lifetimes. Shubham Bhavathu!"
+                </p>
+              </div>
+
+              <!-- Blessing 2 -->
+              <div class="p-4 rounded-2xl bg-[#260309] border border-templegold-400/30 text-left">
+                <div class="flex justify-between items-center mb-1">
+                  <strong class="font-cinzel text-white text-xs">Ananya & Karthik</strong>
+                  <span class="text-[10px] font-mono text-templegold-300 px-2 py-0.5 rounded-full bg-templegold-400/10">Childhood Friends</span>
+                </div>
+                <p class="font-serif italic text-xs text-ivory-200/90 leading-relaxed">
+                  "From temple corridors in Madurai to your big day! So overjoyed to celebrate Kavya and Adhithya. See you at the Sangeet!"
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       CHAPTER 7: ROYAL PHOTO MOMENTS (POLAROID 3D MASONRY)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <section id="gallery" class="relative w-full py-28 px-6 md:px-12 bg-[#1C0207] border-t border-templegold-400/20">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <div class="text-xs font-serif tracking-[0.25em] text-templegold-300 uppercase mb-2">
+          SACRED MEMORIES
+        </div>
+        <h2 class="font-cinzel text-3xl sm:text-5xl font-black text-white uppercase tracking-tight">
+          CHERISHED <span class="gold-gradient-text">MOMENTS</span>
+        </h2>
+        <div class="w-24 h-0.5 bg-gradient-to-r from-transparent via-templegold-400 to-transparent mx-auto mt-4 mb-4"></div>
+      </div>
+
+      <!-- 3-Column Image Showcase with High-Res Fallbacks -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <div class="tilt-card-3d bg-[#2A030A] p-4 rounded-3xl border border-templegold-400/30 shadow-xl group cursor-pointer" onclick="openLightbox(this)">
+          <div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-black">
+            <img src="./assets/temple_hero.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1582510003544-4d00b7f74220?q=80&w=2070&auto=format&fit=crop';" alt="Gopuram Sunset" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          </div>
+          <div class="text-center font-serif">
+            <h4 class="text-white text-sm font-bold uppercase font-cinzel">The Divine Gopuram</h4>
+            <span class="text-xs text-templegold-300 italic">Madurai Sunset Aarti</span>
+          </div>
+        </div>
+
+        <div class="tilt-card-3d bg-[#2A030A] p-4 rounded-3xl border border-templegold-400/30 shadow-xl group cursor-pointer" onclick="openLightbox(this)">
+          <div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-black">
+            <img src="./assets/royal_couple.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=2070&auto=format&fit=crop';" alt="The Royal Couple" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          </div>
+          <div class="text-center font-serif">
+            <h4 class="text-white text-sm font-bold uppercase font-cinzel">Kavya &amp; Adhithya</h4>
+            <span class="text-xs text-templegold-300 italic">Pre-Wedding Temple Stroll</span>
+          </div>
+        </div>
+
+        <div class="tilt-card-3d bg-[#2A030A] p-4 rounded-3xl border border-templegold-400/30 shadow-xl group cursor-pointer" onclick="openLightbox(this)">
+          <div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-black">
+            <img src="./assets/muhurtham_mandap.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1545232979-fbf6c63a232b?q=80&w=2070&auto=format&fit=crop';" alt="Sacred Mandapam" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          </div>
+          <div class="text-center font-serif">
+            <h4 class="text-white text-sm font-bold uppercase font-cinzel">The Holy Mandapam</h4>
+            <span class="text-xs text-templegold-300 italic">Floral Sanctum &amp; Agni</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       SACRED FOOTER
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <footer class="w-full py-16 px-6 bg-[#120104] border-t border-templegold-400/20 text-center relative overflow-hidden">
+    <div class="max-w-4xl mx-auto flex flex-col items-center">
+      
+      <div class="w-12 h-12 rounded-full border border-templegold-400/40 flex items-center justify-center bg-vermilion-900/60 mb-4">
+        <span class="font-cinzel text-templegold-300 text-lg">🪷</span>
+      </div>
+
+      <div class="font-cinzel text-xl text-white font-bold tracking-widest uppercase mb-1">
+        KAVYA &amp; ADHITHYA
+      </div>
+      <p class="font-serif italic text-sm text-templegold-300/80 mb-6">
+        #KavyaWedsAdhithya · Meenakshi Temple Thirukalyanam 2026
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-6 font-serif text-xs text-ivory-200/60 mb-8">
+        <a href="#hero" class="hover:text-templegold-300 transition-colors">TOP</a>
+        <a href="#couple" class="hover:text-templegold-300 transition-colors">THE COUPLE</a>
+        <a href="#events" class="hover:text-templegold-300 transition-colors">ITINERARY</a>
+        <a href="#mandapam" class="hover:text-templegold-300 transition-colors">MANDAPAM</a>
+        <a href="#venue" class="hover:text-templegold-300 transition-colors">VENUE</a>
+        <a href="#rsvp" class="hover:text-templegold-300 transition-colors">RSVP</a>
+      </div>
+
+      <div class="text-[10px] font-mono text-templegold-400/50">
+        SRI MEENAKSHI SUNDARESWARAR TEMPLE SANCTUM · ALL RIGHTS RESERVED 2026
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       MASTER JAVASCRIPT: 60FPS PETAL ENGINE + WEB AUDIO + GSAP TILT + RSVP
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <script>
+    // ═════════════════════════════════════════════════════════════════════════
+    // 1. FLORA PETAL PARTICLE CANVAS ENGINE (FALLING MARIGOLD & JASMINE)
+    // ═════════════════════════════════════════════════════════════════════════
+    const canvas = document.getElementById("petal-canvas");
+    const ctx = canvas.getContext("2d");
+    let petals = [];
+    const TOTAL_PETALS = 35;
+
+    function resizeCanvas() {
+      if (!canvas) return;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    class Petal {
+      constructor() {
+        this.reset(true);
+      }
+      reset(initial = false) {
+        this.x = Math.random() * canvas.width;
+        this.y = initial ? Math.random() * canvas.height : -20;
+        this.size = Math.random() * 8 + 6;
+        this.speedY = Math.random() * 1.2 + 0.8;
+        this.speedX = Math.random() * 0.8 - 0.4;
+        this.angle = Math.random() * 360;
+        this.spinSpeed = Math.random() * 2 - 1;
+        // Marigold orange, yellow, or white jasmine
+        const types = ['#FF9900', '#FFCC00', '#F8F9FA', '#FF7700'];
+        this.color = types[Math.floor(Math.random() * types.length)];
+        this.opacity = Math.random() * 0.5 + 0.4;
+      }
+      update() {
+        this.y += this.speedY;
+        this.x += this.speedX + Math.sin(this.y * 0.01) * 0.5;
+        this.angle += this.spinSpeed;
+        if (this.y > canvas.height + 20) {
+          this.reset(false);
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate((this.angle * Math.PI) / 180);
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.opacity;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, this.size, this.size * 0.6, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < TOTAL_PETALS; i++) {
+      petals.push(new Petal());
+    }
+
+    function animatePetals() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      petals.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animatePetals);
+    }
+    animatePetals();
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // 2. WEB AUDIO API SYNTHESIZER: SACRED NADASWARAM & TANPURA MELODY
+    // ═════════════════════════════════════════════════════════════════════════
+    let audioCtx = null;
+    let isPlayingAudio = false;
+    let nadaswaramLoopTimeout = null;
+
+    // Raga Mohanam auspicious swaras (Sa, Ri2, Ga3, Pa, Dha2, Sa')
+    const MOHANAM_NOTES = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25];
+
+    function initAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playNote(freq, duration, delay = 0) {
+      if (!audioCtx || !isPlayingAudio) return;
+      setTimeout(() => {
+        if (!isPlayingAudio) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        // Nadaswaram reed sound characteristics (rich harmonics)
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+        // Smooth vibrato
+        const vibrato = audioCtx.createOscillator();
+        const vibratoGain = audioCtx.createGain();
+        vibrato.frequency.setValueAtTime(5.5, audioCtx.currentTime);
+        vibratoGain.gain.setValueAtTime(4, audioCtx.currentTime);
+        vibrato.connect(osc.frequency);
+        vibrato.start();
+
+        // Envelope
+        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.06, audioCtx.currentTime + 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+        vibrato.stop(audioCtx.currentTime + duration);
+      }, delay * 1000);
+    }
+
+    function playSacredMelodyLoop() {
+      if (!isPlayingAudio) return;
+      // Traditional Mohanam auspicious phrase
+      const phrase = [
+        { note: MOHANAM_NOTES[0], dur: 0.6 },
+        { note: MOHANAM_NOTES[1], dur: 0.6 },
+        { note: MOHANAM_NOTES[2], dur: 0.8 },
+        { note: MOHANAM_NOTES[3], dur: 0.9 },
+        { note: MOHANAM_NOTES[4], dur: 0.7 },
+        { note: MOHANAM_NOTES[5], dur: 1.2 },
+        { note: MOHANAM_NOTES[4], dur: 0.6 },
+        { note: MOHANAM_NOTES[3], dur: 0.7 },
+        { note: MOHANAM_NOTES[2], dur: 0.8 },
+        { note: MOHANAM_NOTES[0], dur: 1.4 },
+      ];
+
+      let t = 0;
+      phrase.forEach(step => {
+        playNote(step.note, step.dur, t);
+        t += step.dur * 0.85;
+      });
+
+      nadaswaramLoopTimeout = setTimeout(() => {
+        if (isPlayingAudio) playSacredMelodyLoop();
+      }, (t + 1) * 1000);
+    }
+
+    function playTempleBellChime() {
+      initAudioContext();
+      if (!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 2.5);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 2.5);
+    }
+
+    function toggleTraditionalMusic() {
+      initAudioContext();
+      const disc = document.getElementById("audio-disc");
+      const statusText = document.getElementById("audio-status-text");
+
+      if (isPlayingAudio) {
+        isPlayingAudio = false;
+        clearTimeout(nadaswaramLoopTimeout);
+        if (disc) disc.classList.remove("animate-spin-slow");
+        if (statusText) statusText.innerText = "MUTED";
+      } else {
+        isPlayingAudio = true;
+        playSacredMelodyLoop();
+        if (disc) disc.classList.add("animate-spin-slow");
+        if (statusText) statusText.innerText = "PLAYING";
+      }
+    }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // 3. ENTRANCE CEREMONY: UNLOCK TEMPLE GATES
+    // ═════════════════════════════════════════════════════════════════════════
+    function unlockTempleDoors() {
+      playTempleBellChime();
+      const overlay = document.getElementById("entrance-overlay");
+      const seal = document.getElementById("center-seal");
+
+      // Confetti burst
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 60,
+          spread: 80,
+          origin: { y: 0.5 },
+          colors: ['#D4AF37', '#FF9900', '#FFCC00', '#70091B']
+        });
+      }
+
+      if (seal) seal.style.transform = "scale(0.8) translateY(-40px)";
+      if (seal) seal.style.opacity = "0";
+
+      setTimeout(() => {
+        if (overlay) overlay.classList.add("doors-open");
+      }, 300);
+
+      setTimeout(() => {
+        if (overlay) {
+          overlay.style.opacity = "0";
+          overlay.style.pointerEvents = "none";
+          setTimeout(() => { overlay.style.display = "none"; }, 900);
+        }
+        // Start background music automatically upon explicit user click
+        toggleTraditionalMusic();
+      }, 1400);
+    }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // 4. AUSPICIOUS MUHURTHAM COUNTDOWN TIMER
+    // ═════════════════════════════════════════════════════════════════════════
+    const weddingDate = new Date("November 28, 2026 06:15:00 GMT+0530").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = weddingDate - now;
+
+      if (distance < 0) return;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      const dEl = document.getElementById("days-count");
+      const hEl = document.getElementById("hours-count");
+      const mEl = document.getElementById("mins-count");
+      const sEl = document.getElementById("secs-count");
+
+      if (dEl) dEl.innerText = String(days).padStart(2, '0');
+      if (hEl) hEl.innerText = String(hours).padStart(2, '0');
+      if (mEl) mEl.innerText = String(minutes).padStart(2, '0');
+      if (sEl) sEl.innerText = String(seconds).padStart(2, '0');
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // 5. 3D TILT PHYSICS CARDS (REACT BITS / ACETERNITY PATTERN)
+    // ═════════════════════════════════════════════════════════════════════════
+    const coupleCard = document.getElementById("couple-card-tilt");
+    const cardGlare = document.getElementById("card-glare");
+
+    if (coupleCard) {
+      coupleCard.addEventListener("mousemove", (e) => {
+        const rect = coupleCard.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * -12;
+        const rotateY = ((x - centerX) / centerX) * 12;
+
+        coupleCard.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+
+        if (cardGlare) {
+          cardGlare.style.opacity = "1";
+          cardGlare.style.background = `radial-gradient(circle at ${(x / rect.width) * 100}% ${(y / rect.height) * 100}%, rgba(212, 175, 55, 0.3), transparent 60%)`;
+        }
+      });
+
+      coupleCard.addEventListener("mouseleave", () => {
+        coupleCard.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        if (cardGlare) cardGlare.style.opacity = "0";
+      });
+    }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // 6. INTERACTIVE RITUAL SPOTLIGHT ENGINE
+    // ═════════════════════════════════════════════════════════════════════════
+    const ritualDetails = {
+      mangalyam: {
+        title: "MANGALYA DHARANAM",
+        tag: "SACRED THALI"
+      },
+      saptapadi: {
+        title: "SAPTAPADI VOWS",
+        tag: "7 SACRED STEPS"
+      },
+      kanyadaanam: {
+        title: "KANYADAANAM ENTRUSTMENT",
+        tag: "DIVINE BLESSINGS"
+      },
+      lajahomam: {
+        title: "LAJA HOMAM OFFERINGS",
+        tag: "SACRED AGNI RITES"
+      }
+    };
+
+    function selectRitual(key) {
+      const data = ritualDetails[key];
+      if (!data) return;
+
+      const titleEl = document.getElementById("active-ritual-title");
+      if (titleEl) {
+        gsap.to(titleEl, {
+          opacity: 0,
+          y: -10,
+          duration: 0.2,
+          onComplete: () => {
+            titleEl.innerText = data.title;
+            gsap.to(titleEl, { opacity: 1, y: 0, duration: 0.3 });
+          }
+        });
+      }
+
+      // Highlight active ritual card
+      const cards = document.querySelectorAll(".ritual-card");
+      cards.forEach(c => {
+        c.classList.remove("border-templegold-400", "bg-[#260309]");
+        c.classList.add("border-templegold-400/20", "bg-[#200207]");
+      });
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.remove("border-templegold-400/20", "bg-[#200207]");
+        event.currentTarget.classList.add("border-templegold-400", "bg-[#260309]");
+      }
+    }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // 7. CALENDAR INVITE GENERATOR (.ICS EXPORT)
+    // ═════════════════════════════════════════════════════════════════════════
+    function downloadCalendarInvite() {
+      downloadEventCalendar(
+        "Kavya & Adhithya - Sri Meenakshi Temple Wedding",
+        "20261128T061500",
+        "20261128T140000",
+        "Sri Meenakshi Sundareswarar Kalyana Mandapam, Madurai, Tamil Nadu"
+      );
+    }
+
+    function downloadEventCalendar(title, startUTC, endUTC, location) {
+      const icsData = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//The Artful Invite//Meenakshi Temple Wedding//EN",
+        "CALSCALE:GREGORIAN",
+        "METHOD:PUBLISH",
+        "BEGIN:VEVENT",
+        `SUMMARY:${title}`,
+        `DESCRIPTION:Sacred wedding celebration of Kavya and Adhithya in Madurai.`,
+        `LOCATION:${location}`,
+        `DTSTART:${startUTC}`,
+        `DTEND:${endUTC}`,
+        "STATUS:CONFIRMED",
+        "END:VEVENT",
+        "END:VCALENDAR"
+      ].join("\r\n");
+
+      const blob = new Blob([icsData], { type: "text/calendar;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.setAttribute("download", `${title.replace(/\s+/g, '_')}.ics`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Celebration sparkle
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 40,
+          spread: 60,
+          origin: { y: 0.8 },
+          colors: ['#D4AF37', '#FFCC00', '#F8F9FA']
+        });
+      }
+    }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // 8. RSVP SUBMISSION HANDLER
+    // ═════════════════════════════════════════════════════════════════════════
+    function handleRSVPSubmit(e) {
+      e.preventDefault();
+      const msg = document.getElementById("rsvp-success-msg");
+      if (msg) msg.classList.remove("hidden");
+
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 75,
+          spread: 90,
+          origin: { y: 0.7 },
+          colors: ['#D4AF37', '#FF9900', '#FFCC00', '#8E0E23']
+        });
+      }
+    }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // 9. SACRED BLESSINGS WALL HANDLER (REAL-TIME PREPEND)
+    // ═════════════════════════════════════════════════════════════════════════
+    function handleBlessingSubmit(e) {
+      e.preventDefault();
+      const author = document.getElementById("blessing-author").value.trim();
+      const relation = document.getElementById("blessing-relation").value;
+      const text = document.getElementById("blessing-text").value.trim();
+      const list = document.getElementById("blessings-wall-list");
+
+      if (!author || !text || !list) return;
+
+      const card = document.createElement("div");
+      card.className = "p-4 rounded-2xl bg-[#2D040C] border border-templegold-400 text-left transition-all duration-500 transform -translate-y-2 opacity-0 shadow-lg";
+      card.innerHTML = `
+        <div class="flex justify-between items-center mb-1">
+          <strong class="font-cinzel text-templegold-300 text-xs">${author}</strong>
+          <span class="text-[10px] font-mono text-templegold-400 px-2 py-0.5 rounded-full bg-templegold-400/20">${relation}</span>
+        </div>
+        <p class="font-serif italic text-xs text-ivory-100 leading-relaxed">
+          "${text}"
+        </p>
+      `;
+
+      list.prepend(card);
+      requestAnimationFrame(() => {
+        card.style.transform = "translateY(0)";
+        card.style.opacity = "1";
+      });
+
+      // Clear inputs
+      document.getElementById("blessing-author").value = "";
+      document.getElementById("blessing-text").value = "";
+
+      // Confetti burst
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 50,
+          spread: 70,
+          origin: { y: 0.75 },
+          colors: ['#D4AF37', '#FF9900', '#FFFFFF']
+        });
+      }
+    }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // 10. LENIS SMOOTH MOMENTUM SCROLL INITIALIZATION
+    // ═════════════════════════════════════════════════════════════════════════
+    let lenis = null;
+    if (typeof Lenis !== 'undefined') {
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        smoothWheel: true,
+      });
+
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+    }
+  </script>
+</body>
+</html>
