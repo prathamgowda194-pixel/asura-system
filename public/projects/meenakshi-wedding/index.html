@@ -13,7 +13,7 @@
   <!-- Premium Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Rozha+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS & Animation Libraries -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -54,7 +54,6 @@
             cinzel: ['"Cinzel Decorative"', 'serif'],
             serif: ['"Cormorant Garamond"', 'serif'],
             script: ['"Great Vibes"', 'cursive'],
-            rozha: ['"Rozha One"', 'serif'],
             sans: ['"Montserrat"', 'sans-serif'],
           }
         }
@@ -74,9 +73,6 @@
       border: 1px solid rgba(212, 175, 55, 0.4);
       box-shadow: 0 0 25px rgba(212, 175, 55, 0.15), inset 0 0 15px rgba(212, 175, 55, 0.1);
     }
-    .temple-arch-card {
-      border-radius: 120px 120px 24px 24px;
-    }
     .perspective-stage {
       perspective: 1400px;
       transform-style: preserve-3d;
@@ -85,14 +81,6 @@
       transition: transform 0.15s ease-out, box-shadow 0.3s ease;
       transform-style: preserve-3d;
       will-change: transform;
-    }
-    /* Ambient Glow & Floating Diya */
-    @keyframes diyaFlicker {
-      0%, 100% { opacity: 0.9; transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 170, 0, 0.8)); }
-      50% { opacity: 0.7; transform: scale(0.96); filter: drop-shadow(0 0 6px rgba(255, 140, 0, 0.6)); }
-    }
-    .diya-flame {
-      animation: diyaFlicker 2.4s infinite ease-in-out;
     }
     @keyframes spinDisc {
       from { transform: rotate(0deg); }
@@ -146,12 +134,13 @@
   <div id="entrance-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-[#150104] transition-opacity duration-1000">
     <!-- Temple Door Left -->
     <div class="door-left absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-[#290308] via-[#38040B] to-[#45050E] border-r-2 border-templegold-400/40 flex items-center justify-end pr-4 md:pr-12 shadow-[15px_0_40px_rgba(0,0,0,0.8)]">
-      <!-- Intricate Temple Door Brass Carvings -->
       <div class="w-full max-w-sm h-[80%] border-2 border-templegold-400/30 rounded-2xl p-6 flex flex-col justify-between opacity-80 pointer-events-none">
         <div class="text-right text-templegold-400/50 font-serif text-xs tracking-widest uppercase">SRI MEENAKSHI</div>
         <div class="flex justify-center my-auto">
           <div class="w-24 h-24 md:w-36 md:h-36 rounded-full border-2 border-templegold-400/40 flex items-center justify-center">
-            <span class="text-3xl md:text-5xl text-templegold-300">ॐ</span>
+            <svg width="48" height="48" style="width: 48px; height: 48px;" class="text-templegold-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+            </svg>
           </div>
         </div>
         <div class="text-right text-templegold-400/40 text-[10px] font-mono">MADURAI NAYAK DYNASTY HERITAGE</div>
@@ -164,7 +153,10 @@
         <div class="text-left text-templegold-400/50 font-serif text-xs tracking-widest uppercase">SUNDARESWARAR</div>
         <div class="flex justify-center my-auto">
           <div class="w-24 h-24 md:w-36 md:h-36 rounded-full border-2 border-templegold-400/40 flex items-center justify-center">
-            <span class="text-3xl md:text-5xl text-templegold-300">卐</span>
+            <svg width="48" height="48" style="width: 48px; height: 48px;" class="text-templegold-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" stroke-width="1.5"></circle>
+              <polygon points="12 6 15 12 12 18 9 12" stroke-width="1.5"></polygon>
+            </svg>
           </div>
         </div>
         <div class="text-left text-templegold-400/40 text-[10px] font-mono">SACRED MEENAKSHI THIRUKALYANAM</div>
@@ -175,12 +167,14 @@
     <div id="center-seal" class="relative z-10 flex flex-col items-center text-center p-6 max-w-md mx-auto transition-all duration-700">
       <div class="w-20 h-20 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-templegold-200 via-templegold-400 to-templegold-600 p-1 shadow-[0_0_50px_rgba(212,175,55,0.6)] mb-6 animate-pulse">
         <div class="w-full h-full rounded-full bg-[#38040B] flex items-center justify-center border border-templegold-300/40">
-          <span class="text-4xl md:text-5xl">🪷</span>
+          <svg width="40" height="40" style="width: 40px; height: 40px;" class="text-templegold-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3c1.5 3 4 5 7 6-2 3-5 5-7 9-2-4-5-6-7-9 3-1 5.5-3 7-6z"></path>
+          </svg>
         </div>
       </div>
 
       <div class="font-serif italic text-templegold-200 text-sm md:text-base mb-1 tracking-wider">
-        ॥ मांगल्ल्यं तन्तुनानेन मम जीवन हेतुना ॥
+        MANGALYAM TANTUNANENA MAMA JEEVANA HETUNA
       </div>
       <h1 class="font-cinzel text-xl md:text-2xl text-white font-bold tracking-widest uppercase mb-1">
         THE ROYAL WEDDING INVITATION
@@ -191,11 +185,13 @@
 
       <button id="open-doors-btn" onclick="unlockTempleDoors()" class="group relative px-8 py-4 rounded-full bg-gradient-to-r from-templegold-500 via-templegold-400 to-templegold-600 text-vermilion-900 font-bold font-serif text-sm md:text-base tracking-widest uppercase shadow-[0_0_35px_rgba(212,175,55,0.5)] hover:shadow-[0_0_50px_rgba(212,175,55,0.8)] hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-3">
         <span>ENTER THE SACRED CELEBRATION</span>
-        <span class="text-lg group-hover:translate-x-1 transition-transform">✨</span>
+        <svg width="18" height="18" style="width: 18px; height: 18px;" class="text-vermilion-900 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        </svg>
       </button>
 
       <div class="mt-4 text-[10px] font-mono text-templegold-400/60 uppercase tracking-widest flex items-center gap-2">
-        <span>🔔 TRADITIONAL NADASWARAM AUDIO ENABLED</span>
+        <span>TRADITIONAL NADASWARAM AUDIO ENABLED</span>
       </div>
     </div>
   </div>
@@ -219,7 +215,7 @@
 
       <!-- Quick Nav Links -->
       <nav class="hidden md:flex items-center gap-8 font-serif text-sm tracking-wider">
-        <a href="#muhurtham" class="text-ivory-100/80 hover:text-templegold-300 transition-colors">THE MUHURTHAM</a>
+        <a href="#hero" class="text-ivory-100/80 hover:text-templegold-300 transition-colors">THE MUHURTHAM</a>
         <a href="#couple" class="text-ivory-100/80 hover:text-templegold-300 transition-colors">THE COUPLE</a>
         <a href="#events" class="text-ivory-100/80 hover:text-templegold-300 transition-colors">EVENTS ITINERARY</a>
         <a href="#venue" class="text-ivory-100/80 hover:text-templegold-300 transition-colors">TEMPLE VENUE</a>
@@ -232,7 +228,9 @@
         <!-- Sacred Nadaswaram Audio Player Trigger -->
         <button id="audio-toggle-btn" onclick="toggleTraditionalMusic()" class="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-vermilion-900/80 border border-templegold-400/40 hover:border-templegold-400 transition-all group">
           <div id="audio-disc" class="w-6 h-6 rounded-full bg-gradient-to-br from-templegold-300 to-templegold-600 flex items-center justify-center shadow-[0_0_10px_rgba(212,175,55,0.4)]">
-            <span class="text-[10px]">🎶</span>
+            <svg width="12" height="12" style="width: 12px; height: 12px;" class="text-vermilion-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm12-2c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2z"></path>
+            </svg>
           </div>
           <div class="hidden sm:flex flex-col text-left">
             <span id="audio-status-text" class="text-[10px] font-mono text-templegold-300 font-bold uppercase tracking-wider">NADASWARAM</span>
@@ -273,13 +271,17 @@
     <!-- Sacred Content Stage -->
     <div class="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
       
-      <!-- Auspicious Sanskrit Invocation Badge -->
+      <!-- Auspicious Invocation Badge -->
       <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-vermilion-900/80 border border-templegold-400/40 backdrop-blur-md mb-6 shadow-[0_0_20px_rgba(212,175,55,0.2)]">
-        <span class="text-templegold-300 text-sm">🪷</span>
-        <span class="font-serif italic text-xs md:text-sm text-templegold-200 tracking-wider">
-          ॥ श्री मीनाक्षी सुन्दरेश्वराय नमः ॥
+        <svg width="14" height="14" style="width: 14px; height: 14px;" class="text-templegold-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3c1.5 3 4 5 7 6-2 3-5 5-7 9-2-4-5-6-7-9 3-1 5.5-3 7-6z"></path>
+        </svg>
+        <span class="font-serif italic text-xs md:text-sm text-templegold-200 tracking-wider uppercase">
+          SRI MEENAKSHI SUNDARESWARAYA NAMAHA
         </span>
-        <span class="text-templegold-300 text-sm">🪷</span>
+        <svg width="14" height="14" style="width: 14px; height: 14px;" class="text-templegold-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3c1.5 3 4 5 7 6-2 3-5 5-7 9-2-4-5-6-7-9 3-1 5.5-3 7-6z"></path>
+        </svg>
       </div>
 
       <div class="text-xs md:text-sm font-serif tracking-[0.3em] uppercase text-templegold-300 mb-2">
@@ -298,17 +300,28 @@
       <!-- Sacred Date & Mandapam Badge -->
       <div class="flex flex-wrap items-center justify-center gap-4 md:gap-8 font-serif text-sm md:text-base text-templegold-200 border-y border-templegold-400/30 py-4 px-8 mb-10 bg-vermilion-900/30 backdrop-blur-sm">
         <div class="flex items-center gap-2">
-          <span>📅</span>
+          <svg width="16" height="16" style="width: 16px; height: 16px;" class="text-templegold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke-width="1.8"></rect>
+            <line x1="16" y1="2" x2="16" y2="6" stroke-width="1.8"></line>
+            <line x1="8" y1="2" x2="8" y2="6" stroke-width="1.8"></line>
+            <line x1="3" y1="10" x2="21" y2="10" stroke-width="1.8"></line>
+          </svg>
           <span class="font-semibold text-white">SATURDAY, NOVEMBER 28, 2026</span>
         </div>
         <div class="hidden md:block w-1.5 h-1.5 rounded-full bg-templegold-400"></div>
         <div class="flex items-center gap-2">
-          <span>⏰</span>
+          <svg width="16" height="16" style="width: 16px; height: 16px;" class="text-templegold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" stroke-width="1.8"></circle>
+            <polyline points="12 6 12 12 16 14" stroke-width="1.8"></polyline>
+          </svg>
           <span class="font-semibold text-templegold-300">BRAHMA MUHURTHAM · 06:15 AM - 07:30 AM</span>
         </div>
         <div class="hidden md:block w-1.5 h-1.5 rounded-full bg-templegold-400"></div>
         <div class="flex items-center gap-2">
-          <span>📍</span>
+          <svg width="16" height="16" style="width: 16px; height: 16px;" class="text-templegold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke-width="1.8"></path>
+            <circle cx="12" cy="10" r="3" stroke-width="1.8"></circle>
+          </svg>
           <span class="font-semibold text-white">SRI MEENAKSHI MANDAPAM, MADURAI</span>
         </div>
       </div>
@@ -341,7 +354,12 @@
       <!-- Quick Action Buttons -->
       <div class="flex flex-wrap items-center justify-center gap-4">
         <button onclick="downloadCalendarInvite()" class="px-6 py-3.5 rounded-full bg-gradient-to-r from-templegold-500 via-templegold-400 to-templegold-600 text-vermilion-900 font-bold font-serif text-sm tracking-wider uppercase shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
-          <span>📅</span>
+          <svg width="16" height="16" style="width: 16px; height: 16px;" class="text-vermilion-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke-width="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6" stroke-width="2"></line>
+            <line x1="8" y1="2" x2="8" y2="6" stroke-width="2"></line>
+            <line x1="3" y1="10" x2="21" y2="10" stroke-width="2"></line>
+          </svg>
           <span>SAVE TO CALENDAR (.ICS)</span>
         </button>
         <a href="#events" class="px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-serif text-sm tracking-wider uppercase border border-white/20 backdrop-blur-md transition-all">
@@ -395,12 +413,6 @@
                    alt="Kavya and Adhithya South Indian Royal Couple" 
                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
               <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-              
-              <!-- Gold Leaf Corner Motifs -->
-              <div class="absolute top-3 left-3 text-templegold-300 text-lg opacity-80">⚜</div>
-              <div class="absolute top-3 right-3 text-templegold-300 text-lg opacity-80">⚜</div>
-              <div class="absolute bottom-3 left-3 text-templegold-300 text-lg opacity-80">⚜</div>
-              <div class="absolute bottom-3 right-3 text-templegold-300 text-lg opacity-80">⚜</div>
             </div>
 
             <!-- Couple Card Subtext -->
@@ -424,8 +436,8 @@
           
           <!-- Milestone 1 -->
           <div class="relative pl-8 sm:pl-10 border-l-2 border-templegold-400/30 group hover:border-templegold-400 transition-colors">
-            <div class="absolute -left-3 top-0 w-6 h-6 rounded-full bg-vermilion-900 border-2 border-templegold-400 flex items-center justify-center text-[10px] text-templegold-300">
-              1
+            <div class="absolute -left-3 top-0 w-6 h-6 rounded-full bg-vermilion-900 border-2 border-templegold-400 flex items-center justify-center text-[10px] text-templegold-300 font-bold font-mono">
+              01
             </div>
             <div class="text-xs font-mono text-templegold-300 tracking-widest uppercase mb-1">FIRST ENCOUNTER · MADURAI HERITAGE</div>
             <h4 class="font-cinzel text-xl text-white font-bold mb-2">When Destiny Spoke</h4>
@@ -436,8 +448,8 @@
 
           <!-- Milestone 2 -->
           <div class="relative pl-8 sm:pl-10 border-l-2 border-templegold-400/30 group hover:border-templegold-400 transition-colors">
-            <div class="absolute -left-3 top-0 w-6 h-6 rounded-full bg-vermilion-900 border-2 border-templegold-400 flex items-center justify-center text-[10px] text-templegold-300">
-              2
+            <div class="absolute -left-3 top-0 w-6 h-6 rounded-full bg-vermilion-900 border-2 border-templegold-400 flex items-center justify-center text-[10px] text-templegold-300 font-bold font-mono">
+              02
             </div>
             <div class="text-xs font-mono text-templegold-300 tracking-widest uppercase mb-1">NICHAYATHARTHAM · THE SACRED ENGAGEMENT</div>
             <h4 class="font-cinzel text-xl text-white font-bold mb-2">Families United in Blessings</h4>
@@ -448,8 +460,8 @@
 
           <!-- Milestone 3 -->
           <div class="relative pl-8 sm:pl-10 border-l-2 border-templegold-400/30 group hover:border-templegold-400 transition-colors">
-            <div class="absolute -left-3 top-0 w-6 h-6 rounded-full bg-vermilion-900 border-2 border-templegold-400 flex items-center justify-center text-[10px] text-templegold-300">
-              3
+            <div class="absolute -left-3 top-0 w-6 h-6 rounded-full bg-vermilion-900 border-2 border-templegold-400 flex items-center justify-center text-[10px] text-templegold-300 font-bold font-mono">
+              03
             </div>
             <div class="text-xs font-mono text-templegold-300 tracking-widest uppercase mb-1">THE MEENAKSHI THIRUKALYANAM</div>
             <h4 class="font-cinzel text-xl text-white font-bold mb-2">The Seven Eternal Vows</h4>
@@ -495,7 +507,11 @@
               <span class="text-xs font-mono tracking-widest px-3 py-1 rounded-full bg-templegold-400/10 text-templegold-300 font-bold border border-templegold-400/30">CEREMONY 01</span>
               <span class="text-xs font-serif text-ivory-200/60">FRIDAY EVE</span>
             </div>
-            <div class="text-3xl mb-4">🎺</div>
+            <div class="w-12 h-12 rounded-2xl bg-templegold-400/10 border border-templegold-400/30 flex items-center justify-center mb-4 text-templegold-300">
+              <svg width="24" height="24" style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"></path>
+              </svg>
+            </div>
             <h3 class="font-cinzel text-xl font-bold text-white uppercase mb-2 group-hover:text-templegold-300 transition-colors">
               MAPPILLAI AZHAIPPU
             </h3>
@@ -504,22 +520,34 @@
             </p>
             <div class="space-y-2 text-xs font-mono text-templegold-200/80 pt-4 border-t border-templegold-400/20">
               <div class="flex items-center gap-2">
-                <span>⏰</span>
+                <svg width="14" height="14" style="width: 14px; height: 14px;" class="text-templegold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke-width="1.8"></circle>
+                  <polyline points="12 6 12 12 16 14" stroke-width="1.8"></polyline>
+                </svg>
                 <span>NOV 27, 2026 · 6:30 PM ONWARDS</span>
               </div>
               <div class="flex items-center gap-2">
-                <span>📍</span>
+                <svg width="14" height="14" style="width: 14px; height: 14px;" class="text-templegold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke-width="1.8"></path>
+                  <circle cx="12" cy="10" r="3" stroke-width="1.8"></circle>
+                </svg>
                 <span>HERITAGE HALL, MADURAI</span>
               </div>
               <div class="flex items-center gap-2">
-                <span>👗</span>
+                <svg width="14" height="14" style="width: 14px; height: 14px;" class="text-templegold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.47a1 1 0 00.99.84H6v10a2 2 0 002 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.47a2 2 0 00-1.34-2.23z" stroke-width="1.8"></path>
+                </svg>
                 <span>SILK DHOTI & KANJIVARAM</span>
               </div>
             </div>
           </div>
           <div class="mt-6 pt-4 border-t border-templegold-400/20">
-            <button onclick="downloadEventCalendar('Mappillai Azhaippu', '20261127T183000', '20261127T220000', 'Heritage Hall, Madurai')" class="w-full py-2.5 rounded-xl bg-vermilion-900 hover:bg-templegold-500 hover:text-vermilion-900 border border-templegold-400/40 text-templegold-300 text-xs font-serif font-bold tracking-wider uppercase transition-colors">
-              + ADD TO CALENDAR
+            <button onclick="downloadEventCalendar('Mappillai Azhaippu', '20261127T183000', '20261127T220000', 'Heritage Hall, Madurai')" class="w-full py-2.5 rounded-xl bg-vermilion-900 hover:bg-templegold-500 hover:text-vermilion-900 border border-templegold-400/40 text-templegold-300 text-xs font-serif font-bold tracking-wider uppercase transition-colors flex items-center justify-center gap-2">
+              <svg width="14" height="14" style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <line x1="12" y1="5" x2="12" y2="19" stroke-width="2"></line>
+                <line x1="5" y1="12" x2="19" y2="12" stroke-width="2"></line>
+              </svg>
+              <span>ADD TO CALENDAR</span>
             </button>
           </div>
         </div>
@@ -534,7 +562,11 @@
               <span class="text-xs font-mono tracking-widest px-3 py-1 rounded-full bg-templegold-400/20 text-templegold-300 font-bold border border-templegold-400/50">CEREMONY 02</span>
               <span class="text-xs font-serif text-ivory-200/60">SATURDAY DAWN</span>
             </div>
-            <div class="text-3xl mb-4">🪷</div>
+            <div class="w-12 h-12 rounded-2xl bg-templegold-400/20 border border-templegold-400/50 flex items-center justify-center mb-4 text-templegold-300">
+              <svg width="24" height="24" style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3c1.5 3 4 5 7 6-2 3-5 5-7 9-2-4-5-6-7-9 3-1 5.5-3 7-6z"></path>
+              </svg>
+            </div>
             <h3 class="font-cinzel text-xl font-bold text-templegold-300 uppercase mb-2">
               SACRED MUHURTHAM
             </h3>
@@ -543,22 +575,34 @@
             </p>
             <div class="space-y-2 text-xs font-mono text-templegold-200 pt-4 border-t border-templegold-400/30">
               <div class="flex items-center gap-2">
-                <span>⏰</span>
+                <svg width="14" height="14" style="width: 14px; height: 14px;" class="text-templegold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke-width="1.8"></circle>
+                  <polyline points="12 6 12 12 16 14" stroke-width="1.8"></polyline>
+                </svg>
                 <span class="font-bold text-white">06:15 AM - 07:30 AM (BRAHMA)</span>
               </div>
               <div class="flex items-center gap-2">
-                <span>📍</span>
+                <svg width="14" height="14" style="width: 14px; height: 14px;" class="text-templegold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke-width="1.8"></path>
+                  <circle cx="12" cy="10" r="3" stroke-width="1.8"></circle>
+                </svg>
                 <span>MEENAKSHI KALYANA MANDAPAM</span>
               </div>
               <div class="flex items-center gap-2">
-                <span>👗</span>
+                <svg width="14" height="14" style="width: 14px; height: 14px;" class="text-templegold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.47a1 1 0 00.99.84H6v10a2 2 0 002 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.47a2 2 0 00-1.34-2.23z" stroke-width="1.8"></path>
+                </svg>
                 <span>ROYAL TRADITIONAL ETHNIC</span>
               </div>
             </div>
           </div>
           <div class="mt-6 pt-4 border-t border-templegold-400/30">
-            <button onclick="downloadEventCalendar('Sacred Muhurtham', '20261128T061500', '20261128T073000', 'Sri Meenakshi Kalyana Mandapam, Madurai')" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-templegold-500 to-templegold-400 text-vermilion-900 text-xs font-serif font-bold tracking-wider uppercase shadow-md hover:brightness-110 transition-all">
-              + ADD TO CALENDAR
+            <button onclick="downloadEventCalendar('Sacred Muhurtham', '20261128T061500', '20261128T073000', 'Sri Meenakshi Kalyana Mandapam, Madurai')" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-templegold-500 to-templegold-400 text-vermilion-900 text-xs font-serif font-bold tracking-wider uppercase shadow-md hover:brightness-110 transition-all flex items-center justify-center gap-2">
+              <svg width="14" height="14" style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <line x1="12" y1="5" x2="12" y2="19" stroke-width="2"></line>
+                <line x1="5" y1="12" x2="19" y2="12" stroke-width="2"></line>
+              </svg>
+              <span>ADD TO CALENDAR</span>
             </button>
           </div>
         </div>
@@ -570,7 +614,12 @@
               <span class="text-xs font-mono tracking-widest px-3 py-1 rounded-full bg-templegold-400/10 text-templegold-300 font-bold border border-templegold-400/30">FEAST 03</span>
               <span class="text-xs font-serif text-ivory-200/60">SATURDAY NOON</span>
             </div>
-            <div class="text-3xl mb-4">🍃</div>
+            <div class="w-12 h-12 rounded-2xl bg-templegold-400/10 border border-templegold-400/30 flex items-center justify-center mb-4 text-templegold-300">
+              <svg width="24" height="24" style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke-width="1.8"></circle>
+                <path d="M12 2a14.5 14.5 0 000 20 14.5 14.5 0 000-20M2 12h20" stroke-width="1.8"></path>
+              </svg>
+            </div>
             <h3 class="font-cinzel text-xl font-bold text-white uppercase mb-2 group-hover:text-templegold-300 transition-colors">
               TEMPLE SADYA FEAST
             </h3>
@@ -579,22 +628,34 @@
             </p>
             <div class="space-y-2 text-xs font-mono text-templegold-200/80 pt-4 border-t border-templegold-400/20">
               <div class="flex items-center gap-2">
-                <span>⏰</span>
+                <svg width="14" height="14" style="width: 14px; height: 14px;" class="text-templegold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke-width="1.8"></circle>
+                  <polyline points="12 6 12 12 16 14" stroke-width="1.8"></polyline>
+                </svg>
                 <span>NOV 28, 2026 · 11:30 AM ONWARDS</span>
               </div>
               <div class="flex items-center gap-2">
-                <span>📍</span>
+                <svg width="14" height="14" style="width: 14px; height: 14px;" class="text-templegold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke-width="1.8"></path>
+                  <circle cx="12" cy="10" r="3" stroke-width="1.8"></circle>
+                </svg>
                 <span>ANNAPOORNA BANQUET HALL</span>
               </div>
               <div class="flex items-center gap-2">
-                <span>🍛</span>
+                <svg width="14" height="14" style="width: 14px; height: 14px;" class="text-templegold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
                 <span>PURE VEGETARIAN SADYA</span>
               </div>
             </div>
           </div>
           <div class="mt-6 pt-4 border-t border-templegold-400/20">
-            <button onclick="downloadEventCalendar('Temple Sadya Feast', '20261128T113000', '20261128T150000', 'Annapoorna Banquet Hall, Madurai')" class="w-full py-2.5 rounded-xl bg-vermilion-900 hover:bg-templegold-500 hover:text-vermilion-900 border border-templegold-400/40 text-templegold-300 text-xs font-serif font-bold tracking-wider uppercase transition-colors">
-              + ADD TO CALENDAR
+            <button onclick="downloadEventCalendar('Temple Sadya Feast', '20261128T113000', '20261128T150000', 'Annapoorna Banquet Hall, Madurai')" class="w-full py-2.5 rounded-xl bg-vermilion-900 hover:bg-templegold-500 hover:text-vermilion-900 border border-templegold-400/40 text-templegold-300 text-xs font-serif font-bold tracking-wider uppercase transition-colors flex items-center justify-center gap-2">
+              <svg width="14" height="14" style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <line x1="12" y1="5" x2="12" y2="19" stroke-width="2"></line>
+                <line x1="5" y1="12" x2="19" y2="12" stroke-width="2"></line>
+              </svg>
+              <span>ADD TO CALENDAR</span>
             </button>
           </div>
         </div>
@@ -606,7 +667,11 @@
               <span class="text-xs font-mono tracking-widest px-3 py-1 rounded-full bg-templegold-400/10 text-templegold-300 font-bold border border-templegold-400/30">GALA 04</span>
               <span class="text-xs font-serif text-ivory-200/60">SATURDAY EVE</span>
             </div>
-            <div class="text-3xl mb-4">✨</div>
+            <div class="w-12 h-12 rounded-2xl bg-templegold-400/10 border border-templegold-400/30 flex items-center justify-center mb-4 text-templegold-300">
+              <svg width="24" height="24" style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" stroke-width="1.8"></polygon>
+              </svg>
+            </div>
             <h3 class="font-cinzel text-xl font-bold text-white uppercase mb-2 group-hover:text-templegold-300 transition-colors">
               ROYAL RECEPTION GALA
             </h3>
@@ -615,22 +680,34 @@
             </p>
             <div class="space-y-2 text-xs font-mono text-templegold-200/80 pt-4 border-t border-templegold-400/20">
               <div class="flex items-center gap-2">
-                <span>⏰</span>
+                <svg width="14" height="14" style="width: 14px; height: 14px;" class="text-templegold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke-width="1.8"></circle>
+                  <polyline points="12 6 12 12 16 14" stroke-width="1.8"></polyline>
+                </svg>
                 <span>NOV 28, 2026 · 7:00 PM ONWARDS</span>
               </div>
               <div class="flex items-center gap-2">
-                <span>📍</span>
+                <svg width="14" height="14" style="width: 14px; height: 14px;" class="text-templegold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke-width="1.8"></path>
+                  <circle cx="12" cy="10" r="3" stroke-width="1.8"></circle>
+                </svg>
                 <span>MADURAI PALACE LAWNS</span>
               </div>
               <div class="flex items-center gap-2">
-                <span>👗</span>
+                <svg width="14" height="14" style="width: 14px; height: 14px;" class="text-templegold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.47a1 1 0 00.99.84H6v10a2 2 0 002 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.47a2 2 0 00-1.34-2.23z" stroke-width="1.8"></path>
+                </svg>
                 <span>INDO-WESTERN / ROYAL GLAM</span>
               </div>
             </div>
           </div>
           <div class="mt-6 pt-4 border-t border-templegold-400/20">
-            <button onclick="downloadEventCalendar('Royal Reception Gala', '20261128T190000', '20261128T230000', 'Madurai Palace Lawns')" class="w-full py-2.5 rounded-xl bg-vermilion-900 hover:bg-templegold-500 hover:text-vermilion-900 border border-templegold-400/40 text-templegold-300 text-xs font-serif font-bold tracking-wider uppercase transition-colors">
-              + ADD TO CALENDAR
+            <button onclick="downloadEventCalendar('Royal Reception Gala', '20261128T190000', '20261128T230000', 'Madurai Palace Lawns')" class="w-full py-2.5 rounded-xl bg-vermilion-900 hover:bg-templegold-500 hover:text-vermilion-900 border border-templegold-400/40 text-templegold-300 text-xs font-serif font-bold tracking-wider uppercase transition-colors flex items-center justify-center gap-2">
+              <svg width="14" height="14" style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <line x1="12" y1="5" x2="12" y2="19" stroke-width="2"></line>
+                <line x1="5" y1="12" x2="19" y2="12" stroke-width="2"></line>
+              </svg>
+              <span>ADD TO CALENDAR</span>
             </button>
           </div>
         </div>
@@ -769,7 +846,11 @@
 
           <div class="space-y-4 font-mono text-xs">
             <div class="p-4 rounded-2xl bg-[#260309] border border-templegold-400/30 flex items-start gap-4">
-              <span class="text-2xl">🏛</span>
+              <div class="w-10 h-10 rounded-xl bg-templegold-400/10 border border-templegold-400/30 flex items-center justify-center text-templegold-300 shrink-0">
+                <svg width="20" height="20" style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6" stroke-width="1.8"></path>
+                </svg>
+              </div>
               <div>
                 <strong class="text-white text-sm block font-serif">Sri Meenakshi Sundareswarar Kalyana Mandapam</strong>
                 <span class="text-templegold-300/80">Madurai Main Temple Enclave, Madurai, Tamil Nadu 625001</span>
@@ -777,7 +858,11 @@
             </div>
 
             <div class="p-4 rounded-2xl bg-[#260309] border border-templegold-400/30 flex items-start gap-4">
-              <span class="text-2xl">✈️</span>
+              <div class="w-10 h-10 rounded-xl bg-templegold-400/10 border border-templegold-400/30 flex items-center justify-center text-templegold-300 shrink-0">
+                <svg width="20" height="20" style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-width="1.8"></path>
+                </svg>
+              </div>
               <div>
                 <strong class="text-white text-sm block font-serif">Transit & Accessibility</strong>
                 <span class="text-ivory-200/70">Madurai Airport (IXM) · 12 km (25 mins drive)</span><br>
@@ -786,7 +871,11 @@
             </div>
 
             <div class="p-4 rounded-2xl bg-[#260309] border border-templegold-400/30 flex items-start gap-4">
-              <span class="text-2xl">👗</span>
+              <div class="w-10 h-10 rounded-xl bg-templegold-400/10 border border-templegold-400/30 flex items-center justify-center text-templegold-300 shrink-0">
+                <svg width="20" height="20" style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.47a1 1 0 00.99.84H6v10a2 2 0 002 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.47a2 2 0 00-1.34-2.23z" stroke-width="1.8"></path>
+                </svg>
+              </div>
               <div>
                 <strong class="text-white text-sm block font-serif">Traditional Temple Dress Code Guide</strong>
                 <span class="text-ivory-200/70">Gentlemen: Traditional Dhoti / Veshti with Angavastram or Kurta</span><br>
@@ -797,7 +886,10 @@
 
           <div class="mt-8">
             <a href="https://maps.google.com/?q=Meenakshi+Amman+Temple+Madurai" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-templegold-500 to-templegold-600 text-vermilion-900 font-bold font-serif text-sm tracking-wider uppercase shadow-[0_0_25px_rgba(212,175,55,0.4)] hover:scale-105 transition-all">
-              <span>📍</span>
+              <svg width="18" height="18" style="width: 18px; height: 18px;" class="text-vermilion-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke-width="2"></path>
+                <circle cx="12" cy="10" r="3" stroke-width="2"></circle>
+              </svg>
               <span>OPEN IN GOOGLE MAPS</span>
             </a>
           </div>
@@ -816,14 +908,18 @@
             
             <div class="relative z-10 flex flex-col items-center">
               <div class="w-16 h-16 rounded-full bg-templegold-400/20 border-2 border-templegold-400 flex items-center justify-center mb-3 animate-bounce">
-                <span class="text-2xl">📍</span>
+                <svg width="28" height="28" style="width: 28px; height: 28px;" class="text-templegold-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke-width="2"></path>
+                  <circle cx="12" cy="10" r="3" stroke-width="2"></circle>
+                </svg>
               </div>
               <h4 class="font-cinzel text-xl text-white font-bold mb-1">MEENAKSHI MANDAPAM</h4>
               <p class="font-serif text-xs text-templegold-200/80 max-w-xs mb-4">
                 Valet parking available at North Tower Gate 3. Special shuttle carts provided for senior citizens.
               </p>
-              <a href="https://maps.google.com/?q=Meenakshi+Amman+Temple+Madurai" target="_blank" rel="noopener noreferrer" class="px-5 py-2 rounded-full bg-vermilion-900 border border-templegold-400 text-templegold-300 text-xs font-mono font-bold tracking-wider uppercase hover:bg-templegold-400 hover:text-vermilion-900 transition-colors">
-                LAUNCH LIVE GPS DIRECTIONS →
+              <a href="https://maps.google.com/?q=Meenakshi+Amman+Temple+Madurai" target="_blank" rel="noopener noreferrer" class="px-5 py-2 rounded-full bg-vermilion-900 border border-templegold-400 text-templegold-300 text-xs font-mono font-bold tracking-wider uppercase hover:bg-templegold-400 hover:text-vermilion-900 transition-colors flex items-center gap-2">
+                <span>LAUNCH LIVE GPS DIRECTIONS</span>
+                <span>&rarr;</span>
               </a>
             </div>
           </div>
@@ -901,7 +997,7 @@
             </button>
 
             <div id="rsvp-success-msg" class="hidden text-center text-xs font-mono text-templegold-300 mt-2 bg-templegold-400/10 p-3 rounded-xl border border-templegold-400/30">
-              ✓ Nandi &amp; Gratitude! Your RSVP has been graciously registered. We eagerly anticipate welcoming you!
+              Nandi &amp; Gratitude! Your RSVP has been graciously registered. We eagerly anticipate welcoming you!
             </div>
           </form>
         </div>
@@ -932,7 +1028,9 @@
               </div>
               <textarea id="blessing-text" required rows="2" placeholder="Write your sacred blessing here..." class="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-templegold-400/30 text-white placeholder-ivory-200/40 outline-none focus:border-templegold-400 text-xs resize-none"></textarea>
               <button type="submit" class="w-full py-2.5 rounded-xl bg-vermilion-800 hover:bg-templegold-500 hover:text-vermilion-900 border border-templegold-400 text-templegold-300 font-serif text-xs tracking-wider uppercase font-bold transition-all flex items-center justify-center gap-2">
-                <span>🪷</span>
+                <svg width="14" height="14" style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3c1.5 3 4 5 7 6-2 3-5 5-7 9-2-4-5-6-7-9 3-1 5.5-3 7-6z"></path>
+                </svg>
                 <span>OFFER SACRED BLESSING</span>
               </button>
             </form>
@@ -981,7 +1079,7 @@
         <div class="text-xs font-serif tracking-[0.25em] text-templegold-300 uppercase mb-2">
           SACRED MEMORIES
         </div>
-        <h2 class="font-cinzel text-3xl sm:text-5xl font-black text-white uppercase tracking-tight">
+        <h2 class="font-cinzel text-3xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tight">
           CHERISHED <span class="gold-gradient-text">MOMENTS</span>
         </h2>
         <div class="w-24 h-0.5 bg-gradient-to-r from-transparent via-templegold-400 to-transparent mx-auto mt-4 mb-4"></div>
@@ -990,7 +1088,7 @@
       <!-- 3-Column Image Showcase with High-Res Fallbacks -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         
-        <div class="tilt-card-3d bg-[#2A030A] p-4 rounded-3xl border border-templegold-400/30 shadow-xl group cursor-pointer" onclick="openLightbox(this)">
+        <div class="tilt-card-3d bg-[#2A030A] p-4 rounded-3xl border border-templegold-400/30 shadow-xl group cursor-pointer">
           <div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-black">
             <img src="./assets/temple_hero.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1582510003544-4d00b7f74220?q=80&w=2070&auto=format&fit=crop';" alt="Gopuram Sunset" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
           </div>
@@ -1000,7 +1098,7 @@
           </div>
         </div>
 
-        <div class="tilt-card-3d bg-[#2A030A] p-4 rounded-3xl border border-templegold-400/30 shadow-xl group cursor-pointer" onclick="openLightbox(this)">
+        <div class="tilt-card-3d bg-[#2A030A] p-4 rounded-3xl border border-templegold-400/30 shadow-xl group cursor-pointer">
           <div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-black">
             <img src="./assets/royal_couple.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=2070&auto=format&fit=crop';" alt="The Royal Couple" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
           </div>
@@ -1010,7 +1108,7 @@
           </div>
         </div>
 
-        <div class="tilt-card-3d bg-[#2A030A] p-4 rounded-3xl border border-templegold-400/30 shadow-xl group cursor-pointer" onclick="openLightbox(this)">
+        <div class="tilt-card-3d bg-[#2A030A] p-4 rounded-3xl border border-templegold-400/30 shadow-xl group cursor-pointer">
           <div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-black">
             <img src="./assets/muhurtham_mandap.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1545232979-fbf6c63a232b?q=80&w=2070&auto=format&fit=crop';" alt="Sacred Mandapam" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
           </div>
@@ -1031,8 +1129,10 @@
   <footer class="w-full py-16 px-6 bg-[#120104] border-t border-templegold-400/20 text-center relative overflow-hidden">
     <div class="max-w-4xl mx-auto flex flex-col items-center">
       
-      <div class="w-12 h-12 rounded-full border border-templegold-400/40 flex items-center justify-center bg-vermilion-900/60 mb-4">
-        <span class="font-cinzel text-templegold-300 text-lg">🪷</span>
+      <div class="w-12 h-12 rounded-full border border-templegold-400/40 flex items-center justify-center bg-vermilion-900/60 mb-4 text-templegold-300">
+        <svg width="20" height="20" style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3c1.5 3 4 5 7 6-2 3-5 5-7 9-2-4-5-6-7-9 3-1 5.5-3 7-6z"></path>
+        </svg>
       </div>
 
       <div class="font-cinzel text-xl text-white font-bold tracking-widest uppercase mb-1">
@@ -1051,7 +1151,7 @@
         <a href="#rsvp" class="hover:text-templegold-300 transition-colors">RSVP</a>
       </div>
 
-      <div class="text-[10px] font-mono text-templegold-400/50">
+      <div class="text-[10px] font-mono text-templegold-400/50 uppercase tracking-widest">
         SRI MEENAKSHI SUNDARESWARAR TEMPLE SANCTUM · ALL RIGHTS RESERVED 2026
       </div>
     </div>
@@ -1089,7 +1189,6 @@
         this.speedX = Math.random() * 0.8 - 0.4;
         this.angle = Math.random() * 360;
         this.spinSpeed = Math.random() * 2 - 1;
-        // Marigold orange, yellow, or white jasmine
         const types = ['#FF9900', '#FFCC00', '#F8F9FA', '#FF7700'];
         this.color = types[Math.floor(Math.random() * types.length)];
         this.opacity = Math.random() * 0.5 + 0.4;
@@ -1136,7 +1235,6 @@
     let isPlayingAudio = false;
     let nadaswaramLoopTimeout = null;
 
-    // Raga Mohanam auspicious swaras (Sa, Ri2, Ga3, Pa, Dha2, Sa')
     const MOHANAM_NOTES = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25];
 
     function initAudioContext() {
@@ -1158,11 +1256,9 @@
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
 
-        // Nadaswaram reed sound characteristics (rich harmonics)
         osc.type = "sawtooth";
         osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
 
-        // Smooth vibrato
         const vibrato = audioCtx.createOscillator();
         const vibratoGain = audioCtx.createGain();
         vibrato.frequency.setValueAtTime(5.5, audioCtx.currentTime);
@@ -1170,7 +1266,6 @@
         vibrato.connect(osc.frequency);
         vibrato.start();
 
-        // Envelope
         gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.06, audioCtx.currentTime + 0.08);
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
@@ -1186,7 +1281,6 @@
 
     function playSacredMelodyLoop() {
       if (!isPlayingAudio) return;
-      // Traditional Mohanam auspicious phrase
       const phrase = [
         { note: MOHANAM_NOTES[0], dur: 0.6 },
         { note: MOHANAM_NOTES[1], dur: 0.6 },
@@ -1252,7 +1346,6 @@
       const overlay = document.getElementById("entrance-overlay");
       const seal = document.getElementById("center-seal");
 
-      // Confetti burst
       if (typeof confetti === 'function') {
         confetti({
           particleCount: 60,
@@ -1275,7 +1368,6 @@
           overlay.style.pointerEvents = "none";
           setTimeout(() => { overlay.style.display = "none"; }, 900);
         }
-        // Start background music automatically upon explicit user click
         toggleTraditionalMusic();
       }, 1400);
     }
@@ -1379,7 +1471,6 @@
         });
       }
 
-      // Highlight active ritual card
       const cards = document.querySelectorAll(".ritual-card");
       cards.forEach(c => {
         c.classList.remove("border-templegold-400", "bg-[#260309]");
@@ -1429,7 +1520,6 @@
       link.click();
       document.body.removeChild(link);
 
-      // Celebration sparkle
       if (typeof confetti === 'function') {
         confetti({
           particleCount: 40,
@@ -1488,11 +1578,9 @@
         card.style.opacity = "1";
       });
 
-      // Clear inputs
       document.getElementById("blessing-author").value = "";
       document.getElementById("blessing-text").value = "";
 
-      // Confetti burst
       if (typeof confetti === 'function') {
         confetti({
           particleCount: 50,
