@@ -728,858 +728,1295 @@
 
 
   <script>
+    /* ==========================================================================
+       APPLE-STYLE 4K WEBP SCROLLYTELLING ENGINE
+       1. Dual-Tier WebP Asset Pipeline (960px Low-Res + 2x High-Res / 1080p Mobile @ q=85)
+       2. Sliding Window Preloader in requestAnimationFrame (10 initial low-res, +20 ahead, -10 behind)
+       3. Exact getBoundingClientRect() * DPR Canvas Scaling + ctx.scale(dpr, dpr)
+       4. GPU Warming via img.decode() on next 3-5 frames + ImageBitmap rendering
+       5. Lenis Smooth Scroll + Floating-Point Lerp (Zero Math.round())
+       6. Mobile Optimization (Every 2nd frame @ 1080p WebP)
+       ========================================================================== */
     const HERO_SEQUENCE_FOLDER   = "/projects/royal-wedding-invitation/sequences/ezgif-4d7d6efb92ca91b7-jpg";
     const COUPLE_SEQUENCE_FOLDER = "/projects/royal-wedding-invitation/sequences/ezgif-4e9e9acb65350fae-jpg";
     const FINALE_SEQUENCE_FOLDER = "/projects/royal-wedding-invitation/sequences/ezgif-4f13e7947c171340-jpg";
     const ASSET_BASE_PATH        = "/projects/royal-wedding-invitation/assets";
 
-    const RAW_SEQUENCE_MANIFEST = {
+    const WEBP_MANIFEST = {
   "seq1": {
     "dir": "ezgif-4d7d6efb92ca91b7-jpg",
     "totalFrames": 163,
-    "rawFiles": [
-      "ezgif-frame-028.jpg",
-      "ezgif-frame-029.jpg",
-      "ezgif-frame-030.jpg",
-      "ezgif-frame-031.jpg",
-      "ezgif-frame-032.jpg",
-      "ezgif-frame-033.jpg",
-      "ezgif-frame-034.jpg",
-      "ezgif-frame-035.jpg",
-      "ezgif-frame-036.jpg",
-      "ezgif-frame-037.jpg",
-      "ezgif-frame-038.jpg",
-      "ezgif-frame-039.jpg",
-      "ezgif-frame-040.jpg",
-      "ezgif-frame-041.jpg",
-      "ezgif-frame-042.jpg",
-      "ezgif-frame-043.jpg",
-      "ezgif-frame-044.jpg",
-      "ezgif-frame-045.jpg",
-      "ezgif-frame-046.jpg",
-      "ezgif-frame-047.jpg",
-      "ezgif-frame-048.jpg",
-      "ezgif-frame-049.jpg",
-      "ezgif-frame-050.jpg",
-      "ezgif-frame-051.jpg",
-      "ezgif-frame-052.jpg",
-      "ezgif-frame-053.jpg",
-      "ezgif-frame-054.jpg",
-      "ezgif-frame-055.jpg",
-      "ezgif-frame-056.jpg",
-      "ezgif-frame-057.jpg",
-      "ezgif-frame-058.jpg",
-      "ezgif-frame-059.jpg",
-      "ezgif-frame-060.jpg",
-      "ezgif-frame-061.jpg",
-      "ezgif-frame-062.jpg",
-      "ezgif-frame-063.jpg",
-      "ezgif-frame-064.jpg",
-      "ezgif-frame-065.jpg",
-      "ezgif-frame-066.jpg",
-      "ezgif-frame-067.jpg",
-      "ezgif-frame-068.jpg",
-      "ezgif-frame-069.jpg",
-      "ezgif-frame-070.jpg",
-      "ezgif-frame-071.jpg",
-      "ezgif-frame-072.jpg",
-      "ezgif-frame-073.jpg",
-      "ezgif-frame-074.jpg",
-      "ezgif-frame-075.jpg",
-      "ezgif-frame-076.jpg",
-      "ezgif-frame-077.jpg",
-      "ezgif-frame-078.jpg",
-      "ezgif-frame-079.jpg",
-      "ezgif-frame-080.jpg",
-      "ezgif-frame-081.jpg",
-      "ezgif-frame-082.jpg",
-      "ezgif-frame-083.jpg",
-      "ezgif-frame-084.jpg",
-      "ezgif-frame-085.jpg",
-      "ezgif-frame-086.jpg",
-      "ezgif-frame-087.jpg",
-      "ezgif-frame-088.jpg",
-      "ezgif-frame-089.jpg",
-      "ezgif-frame-090.jpg",
-      "ezgif-frame-091.jpg",
-      "ezgif-frame-092.jpg",
-      "ezgif-frame-093.jpg",
-      "ezgif-frame-094.jpg",
-      "ezgif-frame-095.jpg",
-      "ezgif-frame-096.jpg",
-      "ezgif-frame-097.jpg",
-      "ezgif-frame-098.jpg",
-      "ezgif-frame-099.jpg",
-      "ezgif-frame-100.jpg",
-      "ezgif-frame-101.jpg",
-      "ezgif-frame-102.jpg",
-      "ezgif-frame-103.jpg",
-      "ezgif-frame-104.jpg",
-      "ezgif-frame-105.jpg",
-      "ezgif-frame-106.jpg",
-      "ezgif-frame-107.jpg",
-      "ezgif-frame-108.jpg",
-      "ezgif-frame-109.jpg",
-      "ezgif-frame-110.jpg",
-      "ezgif-frame-111.jpg",
-      "ezgif-frame-112.jpg",
-      "ezgif-frame-113.jpg",
-      "ezgif-frame-114.jpg",
-      "ezgif-frame-115.jpg",
-      "ezgif-frame-116.jpg",
-      "ezgif-frame-117.jpg",
-      "ezgif-frame-118.jpg",
-      "ezgif-frame-119.jpg",
-      "ezgif-frame-120.jpg",
-      "ezgif-frame-121.jpg",
-      "ezgif-frame-122.jpg",
-      "ezgif-frame-123.jpg",
-      "ezgif-frame-124.jpg",
-      "ezgif-frame-125.jpg",
-      "ezgif-frame-126.jpg",
-      "ezgif-frame-127.jpg",
-      "ezgif-frame-128.jpg",
-      "ezgif-frame-129.jpg",
-      "ezgif-frame-130.jpg",
-      "ezgif-frame-131.jpg",
-      "ezgif-frame-132.jpg",
-      "ezgif-frame-133.jpg",
-      "ezgif-frame-134.jpg",
-      "ezgif-frame-135.jpg",
-      "ezgif-frame-136.jpg",
-      "ezgif-frame-137.jpg",
-      "ezgif-frame-138.jpg",
-      "ezgif-frame-139.jpg",
-      "ezgif-frame-140.jpg",
-      "ezgif-frame-141.jpg",
-      "ezgif-frame-142.jpg",
-      "ezgif-frame-143.jpg",
-      "ezgif-frame-144.jpg",
-      "ezgif-frame-145.jpg",
-      "ezgif-frame-146.jpg",
-      "ezgif-frame-147.jpg",
-      "ezgif-frame-148.jpg",
-      "ezgif-frame-149.jpg",
-      "ezgif-frame-150.jpg",
-      "ezgif-frame-151.jpg",
-      "ezgif-frame-152.jpg",
-      "ezgif-frame-153.jpg",
-      "ezgif-frame-154.jpg",
-      "ezgif-frame-155.jpg",
-      "ezgif-frame-156.jpg",
-      "ezgif-frame-157.jpg",
-      "ezgif-frame-158.jpg",
-      "ezgif-frame-159.jpg",
-      "ezgif-frame-160.jpg",
-      "ezgif-frame-161.jpg",
-      "ezgif-frame-162.jpg",
-      "ezgif-frame-163.jpg",
-      "ezgif-frame-164.jpg",
-      "ezgif-frame-165.jpg",
-      "ezgif-frame-166.jpg",
-      "ezgif-frame-167.jpg",
-      "ezgif-frame-168.jpg",
-      "ezgif-frame-169.jpg",
-      "ezgif-frame-170.jpg",
-      "ezgif-frame-171.jpg",
-      "ezgif-frame-172.jpg",
-      "ezgif-frame-173.jpg",
-      "ezgif-frame-174.jpg",
-      "ezgif-frame-175.jpg",
-      "ezgif-frame-176.jpg",
-      "ezgif-frame-177.jpg",
-      "ezgif-frame-178.jpg",
-      "ezgif-frame-179.jpg",
-      "ezgif-frame-180.jpg",
-      "ezgif-frame-181.jpg",
-      "ezgif-frame-182.jpg",
-      "ezgif-frame-183.jpg",
-      "ezgif-frame-184.jpg",
-      "ezgif-frame-185.jpg",
-      "ezgif-frame-186.jpg",
-      "ezgif-frame-187.jpg",
-      "ezgif-frame-188.jpg",
-      "ezgif-frame-189.jpg",
-      "ezgif-frame-190.jpg"
+    "lowFiles": [
+      "seq1_low_000.webp",
+      "seq1_low_001.webp",
+      "seq1_low_002.webp",
+      "seq1_low_003.webp",
+      "seq1_low_004.webp",
+      "seq1_low_005.webp",
+      "seq1_low_006.webp",
+      "seq1_low_007.webp",
+      "seq1_low_008.webp",
+      "seq1_low_009.webp",
+      "seq1_low_010.webp",
+      "seq1_low_011.webp",
+      "seq1_low_012.webp",
+      "seq1_low_013.webp",
+      "seq1_low_014.webp",
+      "seq1_low_015.webp",
+      "seq1_low_016.webp",
+      "seq1_low_017.webp",
+      "seq1_low_018.webp",
+      "seq1_low_019.webp",
+      "seq1_low_020.webp",
+      "seq1_low_021.webp",
+      "seq1_low_022.webp",
+      "seq1_low_023.webp",
+      "seq1_low_024.webp",
+      "seq1_low_025.webp",
+      "seq1_low_026.webp",
+      "seq1_low_027.webp",
+      "seq1_low_028.webp",
+      "seq1_low_029.webp",
+      "seq1_low_030.webp",
+      "seq1_low_031.webp",
+      "seq1_low_032.webp",
+      "seq1_low_033.webp",
+      "seq1_low_034.webp",
+      "seq1_low_035.webp",
+      "seq1_low_036.webp",
+      "seq1_low_037.webp",
+      "seq1_low_038.webp",
+      "seq1_low_039.webp",
+      "seq1_low_040.webp",
+      "seq1_low_041.webp",
+      "seq1_low_042.webp",
+      "seq1_low_043.webp",
+      "seq1_low_044.webp",
+      "seq1_low_045.webp",
+      "seq1_low_046.webp",
+      "seq1_low_047.webp",
+      "seq1_low_048.webp",
+      "seq1_low_049.webp",
+      "seq1_low_050.webp",
+      "seq1_low_051.webp",
+      "seq1_low_052.webp",
+      "seq1_low_053.webp",
+      "seq1_low_054.webp",
+      "seq1_low_055.webp",
+      "seq1_low_056.webp",
+      "seq1_low_057.webp",
+      "seq1_low_058.webp",
+      "seq1_low_059.webp",
+      "seq1_low_060.webp",
+      "seq1_low_061.webp",
+      "seq1_low_062.webp",
+      "seq1_low_063.webp",
+      "seq1_low_064.webp",
+      "seq1_low_065.webp",
+      "seq1_low_066.webp",
+      "seq1_low_067.webp",
+      "seq1_low_068.webp",
+      "seq1_low_069.webp",
+      "seq1_low_070.webp",
+      "seq1_low_071.webp",
+      "seq1_low_072.webp",
+      "seq1_low_073.webp",
+      "seq1_low_074.webp",
+      "seq1_low_075.webp",
+      "seq1_low_076.webp",
+      "seq1_low_077.webp",
+      "seq1_low_078.webp",
+      "seq1_low_079.webp",
+      "seq1_low_080.webp",
+      "seq1_low_081.webp",
+      "seq1_low_082.webp",
+      "seq1_low_083.webp",
+      "seq1_low_084.webp",
+      "seq1_low_085.webp",
+      "seq1_low_086.webp",
+      "seq1_low_087.webp",
+      "seq1_low_088.webp",
+      "seq1_low_089.webp",
+      "seq1_low_090.webp",
+      "seq1_low_091.webp",
+      "seq1_low_092.webp",
+      "seq1_low_093.webp",
+      "seq1_low_094.webp",
+      "seq1_low_095.webp",
+      "seq1_low_096.webp",
+      "seq1_low_097.webp",
+      "seq1_low_098.webp",
+      "seq1_low_099.webp",
+      "seq1_low_100.webp",
+      "seq1_low_101.webp",
+      "seq1_low_102.webp",
+      "seq1_low_103.webp",
+      "seq1_low_104.webp",
+      "seq1_low_105.webp",
+      "seq1_low_106.webp",
+      "seq1_low_107.webp",
+      "seq1_low_108.webp",
+      "seq1_low_109.webp",
+      "seq1_low_110.webp",
+      "seq1_low_111.webp",
+      "seq1_low_112.webp",
+      "seq1_low_113.webp",
+      "seq1_low_114.webp",
+      "seq1_low_115.webp",
+      "seq1_low_116.webp",
+      "seq1_low_117.webp",
+      "seq1_low_118.webp",
+      "seq1_low_119.webp",
+      "seq1_low_120.webp",
+      "seq1_low_121.webp",
+      "seq1_low_122.webp",
+      "seq1_low_123.webp",
+      "seq1_low_124.webp",
+      "seq1_low_125.webp",
+      "seq1_low_126.webp",
+      "seq1_low_127.webp",
+      "seq1_low_128.webp",
+      "seq1_low_129.webp",
+      "seq1_low_130.webp",
+      "seq1_low_131.webp",
+      "seq1_low_132.webp",
+      "seq1_low_133.webp",
+      "seq1_low_134.webp",
+      "seq1_low_135.webp",
+      "seq1_low_136.webp",
+      "seq1_low_137.webp",
+      "seq1_low_138.webp",
+      "seq1_low_139.webp",
+      "seq1_low_140.webp",
+      "seq1_low_141.webp",
+      "seq1_low_142.webp",
+      "seq1_low_143.webp",
+      "seq1_low_144.webp",
+      "seq1_low_145.webp",
+      "seq1_low_146.webp",
+      "seq1_low_147.webp",
+      "seq1_low_148.webp",
+      "seq1_low_149.webp",
+      "seq1_low_150.webp",
+      "seq1_low_151.webp",
+      "seq1_low_152.webp",
+      "seq1_low_153.webp",
+      "seq1_low_154.webp",
+      "seq1_low_155.webp",
+      "seq1_low_156.webp",
+      "seq1_low_157.webp",
+      "seq1_low_158.webp",
+      "seq1_low_159.webp",
+      "seq1_low_160.webp",
+      "seq1_low_161.webp",
+      "seq1_low_162.webp"
     ],
-    "assetFiles": [
-      "seq1_ezgif-frame-028.jpg",
-      "seq1_ezgif-frame-029.jpg",
-      "seq1_ezgif-frame-030.jpg",
-      "seq1_ezgif-frame-031.jpg",
-      "seq1_ezgif-frame-032.jpg",
-      "seq1_ezgif-frame-033.jpg",
-      "seq1_ezgif-frame-034.jpg",
-      "seq1_ezgif-frame-035.jpg",
-      "seq1_ezgif-frame-036.jpg",
-      "seq1_ezgif-frame-037.jpg",
-      "seq1_ezgif-frame-038.jpg",
-      "seq1_ezgif-frame-039.jpg",
-      "seq1_ezgif-frame-040.jpg",
-      "seq1_ezgif-frame-041.jpg",
-      "seq1_ezgif-frame-042.jpg",
-      "seq1_ezgif-frame-043.jpg",
-      "seq1_ezgif-frame-044.jpg",
-      "seq1_ezgif-frame-045.jpg",
-      "seq1_ezgif-frame-046.jpg",
-      "seq1_ezgif-frame-047.jpg",
-      "seq1_ezgif-frame-048.jpg",
-      "seq1_ezgif-frame-049.jpg",
-      "seq1_ezgif-frame-050.jpg",
-      "seq1_ezgif-frame-051.jpg",
-      "seq1_ezgif-frame-052.jpg",
-      "seq1_ezgif-frame-053.jpg",
-      "seq1_ezgif-frame-054.jpg",
-      "seq1_ezgif-frame-055.jpg",
-      "seq1_ezgif-frame-056.jpg",
-      "seq1_ezgif-frame-057.jpg",
-      "seq1_ezgif-frame-058.jpg",
-      "seq1_ezgif-frame-059.jpg",
-      "seq1_ezgif-frame-060.jpg",
-      "seq1_ezgif-frame-061.jpg",
-      "seq1_ezgif-frame-062.jpg",
-      "seq1_ezgif-frame-063.jpg",
-      "seq1_ezgif-frame-064.jpg",
-      "seq1_ezgif-frame-065.jpg",
-      "seq1_ezgif-frame-066.jpg",
-      "seq1_ezgif-frame-067.jpg",
-      "seq1_ezgif-frame-068.jpg",
-      "seq1_ezgif-frame-069.jpg",
-      "seq1_ezgif-frame-070.jpg",
-      "seq1_ezgif-frame-071.jpg",
-      "seq1_ezgif-frame-072.jpg",
-      "seq1_ezgif-frame-073.jpg",
-      "seq1_ezgif-frame-074.jpg",
-      "seq1_ezgif-frame-075.jpg",
-      "seq1_ezgif-frame-076.jpg",
-      "seq1_ezgif-frame-077.jpg",
-      "seq1_ezgif-frame-078.jpg",
-      "seq1_ezgif-frame-079.jpg",
-      "seq1_ezgif-frame-080.jpg",
-      "seq1_ezgif-frame-081.jpg",
-      "seq1_ezgif-frame-082.jpg",
-      "seq1_ezgif-frame-083.jpg",
-      "seq1_ezgif-frame-084.jpg",
-      "seq1_ezgif-frame-085.jpg",
-      "seq1_ezgif-frame-086.jpg",
-      "seq1_ezgif-frame-087.jpg",
-      "seq1_ezgif-frame-088.jpg",
-      "seq1_ezgif-frame-089.jpg",
-      "seq1_ezgif-frame-090.jpg",
-      "seq1_ezgif-frame-091.jpg",
-      "seq1_ezgif-frame-092.jpg",
-      "seq1_ezgif-frame-093.jpg",
-      "seq1_ezgif-frame-094.jpg",
-      "seq1_ezgif-frame-095.jpg",
-      "seq1_ezgif-frame-096.jpg",
-      "seq1_ezgif-frame-097.jpg",
-      "seq1_ezgif-frame-098.jpg",
-      "seq1_ezgif-frame-099.jpg",
-      "seq1_ezgif-frame-100.jpg",
-      "seq1_ezgif-frame-101.jpg",
-      "seq1_ezgif-frame-102.jpg",
-      "seq1_ezgif-frame-103.jpg",
-      "seq1_ezgif-frame-104.jpg",
-      "seq1_ezgif-frame-105.jpg",
-      "seq1_ezgif-frame-106.jpg",
-      "seq1_ezgif-frame-107.jpg",
-      "seq1_ezgif-frame-108.jpg",
-      "seq1_ezgif-frame-109.jpg",
-      "seq1_ezgif-frame-110.jpg",
-      "seq1_ezgif-frame-111.jpg",
-      "seq1_ezgif-frame-112.jpg",
-      "seq1_ezgif-frame-113.jpg",
-      "seq1_ezgif-frame-114.jpg",
-      "seq1_ezgif-frame-115.jpg",
-      "seq1_ezgif-frame-116.jpg",
-      "seq1_ezgif-frame-117.jpg",
-      "seq1_ezgif-frame-118.jpg",
-      "seq1_ezgif-frame-119.jpg",
-      "seq1_ezgif-frame-120.jpg",
-      "seq1_ezgif-frame-121.jpg",
-      "seq1_ezgif-frame-122.jpg",
-      "seq1_ezgif-frame-123.jpg",
-      "seq1_ezgif-frame-124.jpg",
-      "seq1_ezgif-frame-125.jpg",
-      "seq1_ezgif-frame-126.jpg",
-      "seq1_ezgif-frame-127.jpg",
-      "seq1_ezgif-frame-128.jpg",
-      "seq1_ezgif-frame-129.jpg",
-      "seq1_ezgif-frame-130.jpg",
-      "seq1_ezgif-frame-131.jpg",
-      "seq1_ezgif-frame-132.jpg",
-      "seq1_ezgif-frame-133.jpg",
-      "seq1_ezgif-frame-134.jpg",
-      "seq1_ezgif-frame-135.jpg",
-      "seq1_ezgif-frame-136.jpg",
-      "seq1_ezgif-frame-137.jpg",
-      "seq1_ezgif-frame-138.jpg",
-      "seq1_ezgif-frame-139.jpg",
-      "seq1_ezgif-frame-140.jpg",
-      "seq1_ezgif-frame-141.jpg",
-      "seq1_ezgif-frame-142.jpg",
-      "seq1_ezgif-frame-143.jpg",
-      "seq1_ezgif-frame-144.jpg",
-      "seq1_ezgif-frame-145.jpg",
-      "seq1_ezgif-frame-146.jpg",
-      "seq1_ezgif-frame-147.jpg",
-      "seq1_ezgif-frame-148.jpg",
-      "seq1_ezgif-frame-149.jpg",
-      "seq1_ezgif-frame-150.jpg",
-      "seq1_ezgif-frame-151.jpg",
-      "seq1_ezgif-frame-152.jpg",
-      "seq1_ezgif-frame-153.jpg",
-      "seq1_ezgif-frame-154.jpg",
-      "seq1_ezgif-frame-155.jpg",
-      "seq1_ezgif-frame-156.jpg",
-      "seq1_ezgif-frame-157.jpg",
-      "seq1_ezgif-frame-158.jpg",
-      "seq1_ezgif-frame-159.jpg",
-      "seq1_ezgif-frame-160.jpg",
-      "seq1_ezgif-frame-161.jpg",
-      "seq1_ezgif-frame-162.jpg",
-      "seq1_ezgif-frame-163.jpg",
-      "seq1_ezgif-frame-164.jpg",
-      "seq1_ezgif-frame-165.jpg",
-      "seq1_ezgif-frame-166.jpg",
-      "seq1_ezgif-frame-167.jpg",
-      "seq1_ezgif-frame-168.jpg",
-      "seq1_ezgif-frame-169.jpg",
-      "seq1_ezgif-frame-170.jpg",
-      "seq1_ezgif-frame-171.jpg",
-      "seq1_ezgif-frame-172.jpg",
-      "seq1_ezgif-frame-173.jpg",
-      "seq1_ezgif-frame-174.jpg",
-      "seq1_ezgif-frame-175.jpg",
-      "seq1_ezgif-frame-176.jpg",
-      "seq1_ezgif-frame-177.jpg",
-      "seq1_ezgif-frame-178.jpg",
-      "seq1_ezgif-frame-179.jpg",
-      "seq1_ezgif-frame-180.jpg",
-      "seq1_ezgif-frame-181.jpg",
-      "seq1_ezgif-frame-182.jpg",
-      "seq1_ezgif-frame-183.jpg",
-      "seq1_ezgif-frame-184.jpg",
-      "seq1_ezgif-frame-185.jpg",
-      "seq1_ezgif-frame-186.jpg",
-      "seq1_ezgif-frame-187.jpg",
-      "seq1_ezgif-frame-188.jpg",
-      "seq1_ezgif-frame-189.jpg",
-      "seq1_ezgif-frame-190.jpg"
+    "hiFiles": [
+      "seq1_hi_000.webp",
+      "seq1_hi_001.webp",
+      "seq1_hi_002.webp",
+      "seq1_hi_003.webp",
+      "seq1_hi_004.webp",
+      "seq1_hi_005.webp",
+      "seq1_hi_006.webp",
+      "seq1_hi_007.webp",
+      "seq1_hi_008.webp",
+      "seq1_hi_009.webp",
+      "seq1_hi_010.webp",
+      "seq1_hi_011.webp",
+      "seq1_hi_012.webp",
+      "seq1_hi_013.webp",
+      "seq1_hi_014.webp",
+      "seq1_hi_015.webp",
+      "seq1_hi_016.webp",
+      "seq1_hi_017.webp",
+      "seq1_hi_018.webp",
+      "seq1_hi_019.webp",
+      "seq1_hi_020.webp",
+      "seq1_hi_021.webp",
+      "seq1_hi_022.webp",
+      "seq1_hi_023.webp",
+      "seq1_hi_024.webp",
+      "seq1_hi_025.webp",
+      "seq1_hi_026.webp",
+      "seq1_hi_027.webp",
+      "seq1_hi_028.webp",
+      "seq1_hi_029.webp",
+      "seq1_hi_030.webp",
+      "seq1_hi_031.webp",
+      "seq1_hi_032.webp",
+      "seq1_hi_033.webp",
+      "seq1_hi_034.webp",
+      "seq1_hi_035.webp",
+      "seq1_hi_036.webp",
+      "seq1_hi_037.webp",
+      "seq1_hi_038.webp",
+      "seq1_hi_039.webp",
+      "seq1_hi_040.webp",
+      "seq1_hi_041.webp",
+      "seq1_hi_042.webp",
+      "seq1_hi_043.webp",
+      "seq1_hi_044.webp",
+      "seq1_hi_045.webp",
+      "seq1_hi_046.webp",
+      "seq1_hi_047.webp",
+      "seq1_hi_048.webp",
+      "seq1_hi_049.webp",
+      "seq1_hi_050.webp",
+      "seq1_hi_051.webp",
+      "seq1_hi_052.webp",
+      "seq1_hi_053.webp",
+      "seq1_hi_054.webp",
+      "seq1_hi_055.webp",
+      "seq1_hi_056.webp",
+      "seq1_hi_057.webp",
+      "seq1_hi_058.webp",
+      "seq1_hi_059.webp",
+      "seq1_hi_060.webp",
+      "seq1_hi_061.webp",
+      "seq1_hi_062.webp",
+      "seq1_hi_063.webp",
+      "seq1_hi_064.webp",
+      "seq1_hi_065.webp",
+      "seq1_hi_066.webp",
+      "seq1_hi_067.webp",
+      "seq1_hi_068.webp",
+      "seq1_hi_069.webp",
+      "seq1_hi_070.webp",
+      "seq1_hi_071.webp",
+      "seq1_hi_072.webp",
+      "seq1_hi_073.webp",
+      "seq1_hi_074.webp",
+      "seq1_hi_075.webp",
+      "seq1_hi_076.webp",
+      "seq1_hi_077.webp",
+      "seq1_hi_078.webp",
+      "seq1_hi_079.webp",
+      "seq1_hi_080.webp",
+      "seq1_hi_081.webp",
+      "seq1_hi_082.webp",
+      "seq1_hi_083.webp",
+      "seq1_hi_084.webp",
+      "seq1_hi_085.webp",
+      "seq1_hi_086.webp",
+      "seq1_hi_087.webp",
+      "seq1_hi_088.webp",
+      "seq1_hi_089.webp",
+      "seq1_hi_090.webp",
+      "seq1_hi_091.webp",
+      "seq1_hi_092.webp",
+      "seq1_hi_093.webp",
+      "seq1_hi_094.webp",
+      "seq1_hi_095.webp",
+      "seq1_hi_096.webp",
+      "seq1_hi_097.webp",
+      "seq1_hi_098.webp",
+      "seq1_hi_099.webp",
+      "seq1_hi_100.webp",
+      "seq1_hi_101.webp",
+      "seq1_hi_102.webp",
+      "seq1_hi_103.webp",
+      "seq1_hi_104.webp",
+      "seq1_hi_105.webp",
+      "seq1_hi_106.webp",
+      "seq1_hi_107.webp",
+      "seq1_hi_108.webp",
+      "seq1_hi_109.webp",
+      "seq1_hi_110.webp",
+      "seq1_hi_111.webp",
+      "seq1_hi_112.webp",
+      "seq1_hi_113.webp",
+      "seq1_hi_114.webp",
+      "seq1_hi_115.webp",
+      "seq1_hi_116.webp",
+      "seq1_hi_117.webp",
+      "seq1_hi_118.webp",
+      "seq1_hi_119.webp",
+      "seq1_hi_120.webp",
+      "seq1_hi_121.webp",
+      "seq1_hi_122.webp",
+      "seq1_hi_123.webp",
+      "seq1_hi_124.webp",
+      "seq1_hi_125.webp",
+      "seq1_hi_126.webp",
+      "seq1_hi_127.webp",
+      "seq1_hi_128.webp",
+      "seq1_hi_129.webp",
+      "seq1_hi_130.webp",
+      "seq1_hi_131.webp",
+      "seq1_hi_132.webp",
+      "seq1_hi_133.webp",
+      "seq1_hi_134.webp",
+      "seq1_hi_135.webp",
+      "seq1_hi_136.webp",
+      "seq1_hi_137.webp",
+      "seq1_hi_138.webp",
+      "seq1_hi_139.webp",
+      "seq1_hi_140.webp",
+      "seq1_hi_141.webp",
+      "seq1_hi_142.webp",
+      "seq1_hi_143.webp",
+      "seq1_hi_144.webp",
+      "seq1_hi_145.webp",
+      "seq1_hi_146.webp",
+      "seq1_hi_147.webp",
+      "seq1_hi_148.webp",
+      "seq1_hi_149.webp",
+      "seq1_hi_150.webp",
+      "seq1_hi_151.webp",
+      "seq1_hi_152.webp",
+      "seq1_hi_153.webp",
+      "seq1_hi_154.webp",
+      "seq1_hi_155.webp",
+      "seq1_hi_156.webp",
+      "seq1_hi_157.webp",
+      "seq1_hi_158.webp",
+      "seq1_hi_159.webp",
+      "seq1_hi_160.webp",
+      "seq1_hi_161.webp",
+      "seq1_hi_162.webp"
+    ],
+    "mobileTotalFrames": 82,
+    "mobFiles": [
+      "seq1_mob_000.webp",
+      "seq1_mob_002.webp",
+      "seq1_mob_004.webp",
+      "seq1_mob_006.webp",
+      "seq1_mob_008.webp",
+      "seq1_mob_010.webp",
+      "seq1_mob_012.webp",
+      "seq1_mob_014.webp",
+      "seq1_mob_016.webp",
+      "seq1_mob_018.webp",
+      "seq1_mob_020.webp",
+      "seq1_mob_022.webp",
+      "seq1_mob_024.webp",
+      "seq1_mob_026.webp",
+      "seq1_mob_028.webp",
+      "seq1_mob_030.webp",
+      "seq1_mob_032.webp",
+      "seq1_mob_034.webp",
+      "seq1_mob_036.webp",
+      "seq1_mob_038.webp",
+      "seq1_mob_040.webp",
+      "seq1_mob_042.webp",
+      "seq1_mob_044.webp",
+      "seq1_mob_046.webp",
+      "seq1_mob_048.webp",
+      "seq1_mob_050.webp",
+      "seq1_mob_052.webp",
+      "seq1_mob_054.webp",
+      "seq1_mob_056.webp",
+      "seq1_mob_058.webp",
+      "seq1_mob_060.webp",
+      "seq1_mob_062.webp",
+      "seq1_mob_064.webp",
+      "seq1_mob_066.webp",
+      "seq1_mob_068.webp",
+      "seq1_mob_070.webp",
+      "seq1_mob_072.webp",
+      "seq1_mob_074.webp",
+      "seq1_mob_076.webp",
+      "seq1_mob_078.webp",
+      "seq1_mob_080.webp",
+      "seq1_mob_082.webp",
+      "seq1_mob_084.webp",
+      "seq1_mob_086.webp",
+      "seq1_mob_088.webp",
+      "seq1_mob_090.webp",
+      "seq1_mob_092.webp",
+      "seq1_mob_094.webp",
+      "seq1_mob_096.webp",
+      "seq1_mob_098.webp",
+      "seq1_mob_100.webp",
+      "seq1_mob_102.webp",
+      "seq1_mob_104.webp",
+      "seq1_mob_106.webp",
+      "seq1_mob_108.webp",
+      "seq1_mob_110.webp",
+      "seq1_mob_112.webp",
+      "seq1_mob_114.webp",
+      "seq1_mob_116.webp",
+      "seq1_mob_118.webp",
+      "seq1_mob_120.webp",
+      "seq1_mob_122.webp",
+      "seq1_mob_124.webp",
+      "seq1_mob_126.webp",
+      "seq1_mob_128.webp",
+      "seq1_mob_130.webp",
+      "seq1_mob_132.webp",
+      "seq1_mob_134.webp",
+      "seq1_mob_136.webp",
+      "seq1_mob_138.webp",
+      "seq1_mob_140.webp",
+      "seq1_mob_142.webp",
+      "seq1_mob_144.webp",
+      "seq1_mob_146.webp",
+      "seq1_mob_148.webp",
+      "seq1_mob_150.webp",
+      "seq1_mob_152.webp",
+      "seq1_mob_154.webp",
+      "seq1_mob_156.webp",
+      "seq1_mob_158.webp",
+      "seq1_mob_160.webp",
+      "seq1_mob_162.webp"
+    ],
+    "mobLowFiles": [
+      "seq1_low_000.webp",
+      "seq1_low_002.webp",
+      "seq1_low_004.webp",
+      "seq1_low_006.webp",
+      "seq1_low_008.webp",
+      "seq1_low_010.webp",
+      "seq1_low_012.webp",
+      "seq1_low_014.webp",
+      "seq1_low_016.webp",
+      "seq1_low_018.webp",
+      "seq1_low_020.webp",
+      "seq1_low_022.webp",
+      "seq1_low_024.webp",
+      "seq1_low_026.webp",
+      "seq1_low_028.webp",
+      "seq1_low_030.webp",
+      "seq1_low_032.webp",
+      "seq1_low_034.webp",
+      "seq1_low_036.webp",
+      "seq1_low_038.webp",
+      "seq1_low_040.webp",
+      "seq1_low_042.webp",
+      "seq1_low_044.webp",
+      "seq1_low_046.webp",
+      "seq1_low_048.webp",
+      "seq1_low_050.webp",
+      "seq1_low_052.webp",
+      "seq1_low_054.webp",
+      "seq1_low_056.webp",
+      "seq1_low_058.webp",
+      "seq1_low_060.webp",
+      "seq1_low_062.webp",
+      "seq1_low_064.webp",
+      "seq1_low_066.webp",
+      "seq1_low_068.webp",
+      "seq1_low_070.webp",
+      "seq1_low_072.webp",
+      "seq1_low_074.webp",
+      "seq1_low_076.webp",
+      "seq1_low_078.webp",
+      "seq1_low_080.webp",
+      "seq1_low_082.webp",
+      "seq1_low_084.webp",
+      "seq1_low_086.webp",
+      "seq1_low_088.webp",
+      "seq1_low_090.webp",
+      "seq1_low_092.webp",
+      "seq1_low_094.webp",
+      "seq1_low_096.webp",
+      "seq1_low_098.webp",
+      "seq1_low_100.webp",
+      "seq1_low_102.webp",
+      "seq1_low_104.webp",
+      "seq1_low_106.webp",
+      "seq1_low_108.webp",
+      "seq1_low_110.webp",
+      "seq1_low_112.webp",
+      "seq1_low_114.webp",
+      "seq1_low_116.webp",
+      "seq1_low_118.webp",
+      "seq1_low_120.webp",
+      "seq1_low_122.webp",
+      "seq1_low_124.webp",
+      "seq1_low_126.webp",
+      "seq1_low_128.webp",
+      "seq1_low_130.webp",
+      "seq1_low_132.webp",
+      "seq1_low_134.webp",
+      "seq1_low_136.webp",
+      "seq1_low_138.webp",
+      "seq1_low_140.webp",
+      "seq1_low_142.webp",
+      "seq1_low_144.webp",
+      "seq1_low_146.webp",
+      "seq1_low_148.webp",
+      "seq1_low_150.webp",
+      "seq1_low_152.webp",
+      "seq1_low_154.webp",
+      "seq1_low_156.webp",
+      "seq1_low_158.webp",
+      "seq1_low_160.webp",
+      "seq1_low_162.webp"
     ]
   },
   "seq2": {
     "dir": "ezgif-4e9e9acb65350fae-jpg",
     "totalFrames": 94,
-    "rawFiles": [
-      "ezgif-frame-001.jpg",
-      "ezgif-frame-002.jpg",
-      "ezgif-frame-003.jpg",
-      "ezgif-frame-004.jpg",
-      "ezgif-frame-005.jpg",
-      "ezgif-frame-006.jpg",
-      "ezgif-frame-007.jpg",
-      "ezgif-frame-008.jpg",
-      "ezgif-frame-009.jpg",
-      "ezgif-frame-010.jpg",
-      "ezgif-frame-011.jpg",
-      "ezgif-frame-012.jpg",
-      "ezgif-frame-013.jpg",
-      "ezgif-frame-014.jpg",
-      "ezgif-frame-015.jpg",
-      "ezgif-frame-016.jpg",
-      "ezgif-frame-017.jpg",
-      "ezgif-frame-018.jpg",
-      "ezgif-frame-019.jpg",
-      "ezgif-frame-020.jpg",
-      "ezgif-frame-021.jpg",
-      "ezgif-frame-022.jpg",
-      "ezgif-frame-023.jpg",
-      "ezgif-frame-024.jpg",
-      "ezgif-frame-025.jpg",
-      "ezgif-frame-026.jpg",
-      "ezgif-frame-027.jpg",
-      "ezgif-frame-028.jpg",
-      "ezgif-frame-029.jpg",
-      "ezgif-frame-030.jpg",
-      "ezgif-frame-031.jpg",
-      "ezgif-frame-032.jpg",
-      "ezgif-frame-033.jpg",
-      "ezgif-frame-034.jpg",
-      "ezgif-frame-035.jpg",
-      "ezgif-frame-036.jpg",
-      "ezgif-frame-037.jpg",
-      "ezgif-frame-038.jpg",
-      "ezgif-frame-039.jpg",
-      "ezgif-frame-040.jpg",
-      "ezgif-frame-041.jpg",
-      "ezgif-frame-042.jpg",
-      "ezgif-frame-043.jpg",
-      "ezgif-frame-044.jpg",
-      "ezgif-frame-045.jpg",
-      "ezgif-frame-046.jpg",
-      "ezgif-frame-047.jpg",
-      "ezgif-frame-048.jpg",
-      "ezgif-frame-049.jpg",
-      "ezgif-frame-104.jpg",
-      "ezgif-frame-105.jpg",
-      "ezgif-frame-106.jpg",
-      "ezgif-frame-107.jpg",
-      "ezgif-frame-108.jpg",
-      "ezgif-frame-109.jpg",
-      "ezgif-frame-110.jpg",
-      "ezgif-frame-111.jpg",
-      "ezgif-frame-112.jpg",
-      "ezgif-frame-113.jpg",
-      "ezgif-frame-114.jpg",
-      "ezgif-frame-115.jpg",
-      "ezgif-frame-116.jpg",
-      "ezgif-frame-117.jpg",
-      "ezgif-frame-118.jpg",
-      "ezgif-frame-119.jpg",
-      "ezgif-frame-120.jpg",
-      "ezgif-frame-121.jpg",
-      "ezgif-frame-122.jpg",
-      "ezgif-frame-123.jpg",
-      "ezgif-frame-124.jpg",
-      "ezgif-frame-125.jpg",
-      "ezgif-frame-126.jpg",
-      "ezgif-frame-127.jpg",
-      "ezgif-frame-128.jpg",
-      "ezgif-frame-129.jpg",
-      "ezgif-frame-130.jpg",
-      "ezgif-frame-131.jpg",
-      "ezgif-frame-132.jpg",
-      "ezgif-frame-133.jpg",
-      "ezgif-frame-134.jpg",
-      "ezgif-frame-135.jpg",
-      "ezgif-frame-136.jpg",
-      "ezgif-frame-137.jpg",
-      "ezgif-frame-138.jpg",
-      "ezgif-frame-139.jpg",
-      "ezgif-frame-140.jpg",
-      "ezgif-frame-141.jpg",
-      "ezgif-frame-142.jpg",
-      "ezgif-frame-143.jpg",
-      "ezgif-frame-144.jpg",
-      "ezgif-frame-145.jpg",
-      "ezgif-frame-146.jpg",
-      "ezgif-frame-147.jpg",
-      "ezgif-frame-148.jpg"
+    "lowFiles": [
+      "seq2_low_000.webp",
+      "seq2_low_001.webp",
+      "seq2_low_002.webp",
+      "seq2_low_003.webp",
+      "seq2_low_004.webp",
+      "seq2_low_005.webp",
+      "seq2_low_006.webp",
+      "seq2_low_007.webp",
+      "seq2_low_008.webp",
+      "seq2_low_009.webp",
+      "seq2_low_010.webp",
+      "seq2_low_011.webp",
+      "seq2_low_012.webp",
+      "seq2_low_013.webp",
+      "seq2_low_014.webp",
+      "seq2_low_015.webp",
+      "seq2_low_016.webp",
+      "seq2_low_017.webp",
+      "seq2_low_018.webp",
+      "seq2_low_019.webp",
+      "seq2_low_020.webp",
+      "seq2_low_021.webp",
+      "seq2_low_022.webp",
+      "seq2_low_023.webp",
+      "seq2_low_024.webp",
+      "seq2_low_025.webp",
+      "seq2_low_026.webp",
+      "seq2_low_027.webp",
+      "seq2_low_028.webp",
+      "seq2_low_029.webp",
+      "seq2_low_030.webp",
+      "seq2_low_031.webp",
+      "seq2_low_032.webp",
+      "seq2_low_033.webp",
+      "seq2_low_034.webp",
+      "seq2_low_035.webp",
+      "seq2_low_036.webp",
+      "seq2_low_037.webp",
+      "seq2_low_038.webp",
+      "seq2_low_039.webp",
+      "seq2_low_040.webp",
+      "seq2_low_041.webp",
+      "seq2_low_042.webp",
+      "seq2_low_043.webp",
+      "seq2_low_044.webp",
+      "seq2_low_045.webp",
+      "seq2_low_046.webp",
+      "seq2_low_047.webp",
+      "seq2_low_048.webp",
+      "seq2_low_049.webp",
+      "seq2_low_050.webp",
+      "seq2_low_051.webp",
+      "seq2_low_052.webp",
+      "seq2_low_053.webp",
+      "seq2_low_054.webp",
+      "seq2_low_055.webp",
+      "seq2_low_056.webp",
+      "seq2_low_057.webp",
+      "seq2_low_058.webp",
+      "seq2_low_059.webp",
+      "seq2_low_060.webp",
+      "seq2_low_061.webp",
+      "seq2_low_062.webp",
+      "seq2_low_063.webp",
+      "seq2_low_064.webp",
+      "seq2_low_065.webp",
+      "seq2_low_066.webp",
+      "seq2_low_067.webp",
+      "seq2_low_068.webp",
+      "seq2_low_069.webp",
+      "seq2_low_070.webp",
+      "seq2_low_071.webp",
+      "seq2_low_072.webp",
+      "seq2_low_073.webp",
+      "seq2_low_074.webp",
+      "seq2_low_075.webp",
+      "seq2_low_076.webp",
+      "seq2_low_077.webp",
+      "seq2_low_078.webp",
+      "seq2_low_079.webp",
+      "seq2_low_080.webp",
+      "seq2_low_081.webp",
+      "seq2_low_082.webp",
+      "seq2_low_083.webp",
+      "seq2_low_084.webp",
+      "seq2_low_085.webp",
+      "seq2_low_086.webp",
+      "seq2_low_087.webp",
+      "seq2_low_088.webp",
+      "seq2_low_089.webp",
+      "seq2_low_090.webp",
+      "seq2_low_091.webp",
+      "seq2_low_092.webp",
+      "seq2_low_093.webp"
     ],
-    "assetFiles": [
-      "seq2_ezgif-frame-001.jpg",
-      "seq2_ezgif-frame-002.jpg",
-      "seq2_ezgif-frame-003.jpg",
-      "seq2_ezgif-frame-004.jpg",
-      "seq2_ezgif-frame-005.jpg",
-      "seq2_ezgif-frame-006.jpg",
-      "seq2_ezgif-frame-007.jpg",
-      "seq2_ezgif-frame-008.jpg",
-      "seq2_ezgif-frame-009.jpg",
-      "seq2_ezgif-frame-010.jpg",
-      "seq2_ezgif-frame-011.jpg",
-      "seq2_ezgif-frame-012.jpg",
-      "seq2_ezgif-frame-013.jpg",
-      "seq2_ezgif-frame-014.jpg",
-      "seq2_ezgif-frame-015.jpg",
-      "seq2_ezgif-frame-016.jpg",
-      "seq2_ezgif-frame-017.jpg",
-      "seq2_ezgif-frame-018.jpg",
-      "seq2_ezgif-frame-019.jpg",
-      "seq2_ezgif-frame-020.jpg",
-      "seq2_ezgif-frame-021.jpg",
-      "seq2_ezgif-frame-022.jpg",
-      "seq2_ezgif-frame-023.jpg",
-      "seq2_ezgif-frame-024.jpg",
-      "seq2_ezgif-frame-025.jpg",
-      "seq2_ezgif-frame-026.jpg",
-      "seq2_ezgif-frame-027.jpg",
-      "seq2_ezgif-frame-028.jpg",
-      "seq2_ezgif-frame-029.jpg",
-      "seq2_ezgif-frame-030.jpg",
-      "seq2_ezgif-frame-031.jpg",
-      "seq2_ezgif-frame-032.jpg",
-      "seq2_ezgif-frame-033.jpg",
-      "seq2_ezgif-frame-034.jpg",
-      "seq2_ezgif-frame-035.jpg",
-      "seq2_ezgif-frame-036.jpg",
-      "seq2_ezgif-frame-037.jpg",
-      "seq2_ezgif-frame-038.jpg",
-      "seq2_ezgif-frame-039.jpg",
-      "seq2_ezgif-frame-040.jpg",
-      "seq2_ezgif-frame-041.jpg",
-      "seq2_ezgif-frame-042.jpg",
-      "seq2_ezgif-frame-043.jpg",
-      "seq2_ezgif-frame-044.jpg",
-      "seq2_ezgif-frame-045.jpg",
-      "seq2_ezgif-frame-046.jpg",
-      "seq2_ezgif-frame-047.jpg",
-      "seq2_ezgif-frame-048.jpg",
-      "seq2_ezgif-frame-049.jpg",
-      "seq2_ezgif-frame-104.jpg",
-      "seq2_ezgif-frame-105.jpg",
-      "seq2_ezgif-frame-106.jpg",
-      "seq2_ezgif-frame-107.jpg",
-      "seq2_ezgif-frame-108.jpg",
-      "seq2_ezgif-frame-109.jpg",
-      "seq2_ezgif-frame-110.jpg",
-      "seq2_ezgif-frame-111.jpg",
-      "seq2_ezgif-frame-112.jpg",
-      "seq2_ezgif-frame-113.jpg",
-      "seq2_ezgif-frame-114.jpg",
-      "seq2_ezgif-frame-115.jpg",
-      "seq2_ezgif-frame-116.jpg",
-      "seq2_ezgif-frame-117.jpg",
-      "seq2_ezgif-frame-118.jpg",
-      "seq2_ezgif-frame-119.jpg",
-      "seq2_ezgif-frame-120.jpg",
-      "seq2_ezgif-frame-121.jpg",
-      "seq2_ezgif-frame-122.jpg",
-      "seq2_ezgif-frame-123.jpg",
-      "seq2_ezgif-frame-124.jpg",
-      "seq2_ezgif-frame-125.jpg",
-      "seq2_ezgif-frame-126.jpg",
-      "seq2_ezgif-frame-127.jpg",
-      "seq2_ezgif-frame-128.jpg",
-      "seq2_ezgif-frame-129.jpg",
-      "seq2_ezgif-frame-130.jpg",
-      "seq2_ezgif-frame-131.jpg",
-      "seq2_ezgif-frame-132.jpg",
-      "seq2_ezgif-frame-133.jpg",
-      "seq2_ezgif-frame-134.jpg",
-      "seq2_ezgif-frame-135.jpg",
-      "seq2_ezgif-frame-136.jpg",
-      "seq2_ezgif-frame-137.jpg",
-      "seq2_ezgif-frame-138.jpg",
-      "seq2_ezgif-frame-139.jpg",
-      "seq2_ezgif-frame-140.jpg",
-      "seq2_ezgif-frame-141.jpg",
-      "seq2_ezgif-frame-142.jpg",
-      "seq2_ezgif-frame-143.jpg",
-      "seq2_ezgif-frame-144.jpg",
-      "seq2_ezgif-frame-145.jpg",
-      "seq2_ezgif-frame-146.jpg",
-      "seq2_ezgif-frame-147.jpg",
-      "seq2_ezgif-frame-148.jpg"
+    "hiFiles": [
+      "seq2_hi_000.webp",
+      "seq2_hi_001.webp",
+      "seq2_hi_002.webp",
+      "seq2_hi_003.webp",
+      "seq2_hi_004.webp",
+      "seq2_hi_005.webp",
+      "seq2_hi_006.webp",
+      "seq2_hi_007.webp",
+      "seq2_hi_008.webp",
+      "seq2_hi_009.webp",
+      "seq2_hi_010.webp",
+      "seq2_hi_011.webp",
+      "seq2_hi_012.webp",
+      "seq2_hi_013.webp",
+      "seq2_hi_014.webp",
+      "seq2_hi_015.webp",
+      "seq2_hi_016.webp",
+      "seq2_hi_017.webp",
+      "seq2_hi_018.webp",
+      "seq2_hi_019.webp",
+      "seq2_hi_020.webp",
+      "seq2_hi_021.webp",
+      "seq2_hi_022.webp",
+      "seq2_hi_023.webp",
+      "seq2_hi_024.webp",
+      "seq2_hi_025.webp",
+      "seq2_hi_026.webp",
+      "seq2_hi_027.webp",
+      "seq2_hi_028.webp",
+      "seq2_hi_029.webp",
+      "seq2_hi_030.webp",
+      "seq2_hi_031.webp",
+      "seq2_hi_032.webp",
+      "seq2_hi_033.webp",
+      "seq2_hi_034.webp",
+      "seq2_hi_035.webp",
+      "seq2_hi_036.webp",
+      "seq2_hi_037.webp",
+      "seq2_hi_038.webp",
+      "seq2_hi_039.webp",
+      "seq2_hi_040.webp",
+      "seq2_hi_041.webp",
+      "seq2_hi_042.webp",
+      "seq2_hi_043.webp",
+      "seq2_hi_044.webp",
+      "seq2_hi_045.webp",
+      "seq2_hi_046.webp",
+      "seq2_hi_047.webp",
+      "seq2_hi_048.webp",
+      "seq2_hi_049.webp",
+      "seq2_hi_050.webp",
+      "seq2_hi_051.webp",
+      "seq2_hi_052.webp",
+      "seq2_hi_053.webp",
+      "seq2_hi_054.webp",
+      "seq2_hi_055.webp",
+      "seq2_hi_056.webp",
+      "seq2_hi_057.webp",
+      "seq2_hi_058.webp",
+      "seq2_hi_059.webp",
+      "seq2_hi_060.webp",
+      "seq2_hi_061.webp",
+      "seq2_hi_062.webp",
+      "seq2_hi_063.webp",
+      "seq2_hi_064.webp",
+      "seq2_hi_065.webp",
+      "seq2_hi_066.webp",
+      "seq2_hi_067.webp",
+      "seq2_hi_068.webp",
+      "seq2_hi_069.webp",
+      "seq2_hi_070.webp",
+      "seq2_hi_071.webp",
+      "seq2_hi_072.webp",
+      "seq2_hi_073.webp",
+      "seq2_hi_074.webp",
+      "seq2_hi_075.webp",
+      "seq2_hi_076.webp",
+      "seq2_hi_077.webp",
+      "seq2_hi_078.webp",
+      "seq2_hi_079.webp",
+      "seq2_hi_080.webp",
+      "seq2_hi_081.webp",
+      "seq2_hi_082.webp",
+      "seq2_hi_083.webp",
+      "seq2_hi_084.webp",
+      "seq2_hi_085.webp",
+      "seq2_hi_086.webp",
+      "seq2_hi_087.webp",
+      "seq2_hi_088.webp",
+      "seq2_hi_089.webp",
+      "seq2_hi_090.webp",
+      "seq2_hi_091.webp",
+      "seq2_hi_092.webp",
+      "seq2_hi_093.webp"
+    ],
+    "mobileTotalFrames": 47,
+    "mobFiles": [
+      "seq2_mob_000.webp",
+      "seq2_mob_002.webp",
+      "seq2_mob_004.webp",
+      "seq2_mob_006.webp",
+      "seq2_mob_008.webp",
+      "seq2_mob_010.webp",
+      "seq2_mob_012.webp",
+      "seq2_mob_014.webp",
+      "seq2_mob_016.webp",
+      "seq2_mob_018.webp",
+      "seq2_mob_020.webp",
+      "seq2_mob_022.webp",
+      "seq2_mob_024.webp",
+      "seq2_mob_026.webp",
+      "seq2_mob_028.webp",
+      "seq2_mob_030.webp",
+      "seq2_mob_032.webp",
+      "seq2_mob_034.webp",
+      "seq2_mob_036.webp",
+      "seq2_mob_038.webp",
+      "seq2_mob_040.webp",
+      "seq2_mob_042.webp",
+      "seq2_mob_044.webp",
+      "seq2_mob_046.webp",
+      "seq2_mob_048.webp",
+      "seq2_mob_050.webp",
+      "seq2_mob_052.webp",
+      "seq2_mob_054.webp",
+      "seq2_mob_056.webp",
+      "seq2_mob_058.webp",
+      "seq2_mob_060.webp",
+      "seq2_mob_062.webp",
+      "seq2_mob_064.webp",
+      "seq2_mob_066.webp",
+      "seq2_mob_068.webp",
+      "seq2_mob_070.webp",
+      "seq2_mob_072.webp",
+      "seq2_mob_074.webp",
+      "seq2_mob_076.webp",
+      "seq2_mob_078.webp",
+      "seq2_mob_080.webp",
+      "seq2_mob_082.webp",
+      "seq2_mob_084.webp",
+      "seq2_mob_086.webp",
+      "seq2_mob_088.webp",
+      "seq2_mob_090.webp",
+      "seq2_mob_092.webp"
+    ],
+    "mobLowFiles": [
+      "seq2_low_000.webp",
+      "seq2_low_002.webp",
+      "seq2_low_004.webp",
+      "seq2_low_006.webp",
+      "seq2_low_008.webp",
+      "seq2_low_010.webp",
+      "seq2_low_012.webp",
+      "seq2_low_014.webp",
+      "seq2_low_016.webp",
+      "seq2_low_018.webp",
+      "seq2_low_020.webp",
+      "seq2_low_022.webp",
+      "seq2_low_024.webp",
+      "seq2_low_026.webp",
+      "seq2_low_028.webp",
+      "seq2_low_030.webp",
+      "seq2_low_032.webp",
+      "seq2_low_034.webp",
+      "seq2_low_036.webp",
+      "seq2_low_038.webp",
+      "seq2_low_040.webp",
+      "seq2_low_042.webp",
+      "seq2_low_044.webp",
+      "seq2_low_046.webp",
+      "seq2_low_048.webp",
+      "seq2_low_050.webp",
+      "seq2_low_052.webp",
+      "seq2_low_054.webp",
+      "seq2_low_056.webp",
+      "seq2_low_058.webp",
+      "seq2_low_060.webp",
+      "seq2_low_062.webp",
+      "seq2_low_064.webp",
+      "seq2_low_066.webp",
+      "seq2_low_068.webp",
+      "seq2_low_070.webp",
+      "seq2_low_072.webp",
+      "seq2_low_074.webp",
+      "seq2_low_076.webp",
+      "seq2_low_078.webp",
+      "seq2_low_080.webp",
+      "seq2_low_082.webp",
+      "seq2_low_084.webp",
+      "seq2_low_086.webp",
+      "seq2_low_088.webp",
+      "seq2_low_090.webp",
+      "seq2_low_092.webp"
     ]
   },
   "seq3": {
     "dir": "ezgif-4f13e7947c171340-jpg",
     "totalFrames": 152,
-    "rawFiles": [
-      "ezgif-frame-001.jpg",
-      "ezgif-frame-002.jpg",
-      "ezgif-frame-003.jpg",
-      "ezgif-frame-004.jpg",
-      "ezgif-frame-005.jpg",
-      "ezgif-frame-006.jpg",
-      "ezgif-frame-007.jpg",
-      "ezgif-frame-008.jpg",
-      "ezgif-frame-009.jpg",
-      "ezgif-frame-010.jpg",
-      "ezgif-frame-011.jpg",
-      "ezgif-frame-012.jpg",
-      "ezgif-frame-013.jpg",
-      "ezgif-frame-014.jpg",
-      "ezgif-frame-015.jpg",
-      "ezgif-frame-016.jpg",
-      "ezgif-frame-017.jpg",
-      "ezgif-frame-018.jpg",
-      "ezgif-frame-019.jpg",
-      "ezgif-frame-020.jpg",
-      "ezgif-frame-021.jpg",
-      "ezgif-frame-022.jpg",
-      "ezgif-frame-023.jpg",
-      "ezgif-frame-024.jpg",
-      "ezgif-frame-025.jpg",
-      "ezgif-frame-026.jpg",
-      "ezgif-frame-027.jpg",
-      "ezgif-frame-028.jpg",
-      "ezgif-frame-029.jpg",
-      "ezgif-frame-030.jpg",
-      "ezgif-frame-031.jpg",
-      "ezgif-frame-032.jpg",
-      "ezgif-frame-033.jpg",
-      "ezgif-frame-034.jpg",
-      "ezgif-frame-035.jpg",
-      "ezgif-frame-036.jpg",
-      "ezgif-frame-037.jpg",
-      "ezgif-frame-038.jpg",
-      "ezgif-frame-039.jpg",
-      "ezgif-frame-040.jpg",
-      "ezgif-frame-041.jpg",
-      "ezgif-frame-042.jpg",
-      "ezgif-frame-043.jpg",
-      "ezgif-frame-044.jpg",
-      "ezgif-frame-045.jpg",
-      "ezgif-frame-046.jpg",
-      "ezgif-frame-047.jpg",
-      "ezgif-frame-048.jpg",
-      "ezgif-frame-049.jpg",
-      "ezgif-frame-050.jpg",
-      "ezgif-frame-051.jpg",
-      "ezgif-frame-052.jpg",
-      "ezgif-frame-053.jpg",
-      "ezgif-frame-054.jpg",
-      "ezgif-frame-055.jpg",
-      "ezgif-frame-056.jpg",
-      "ezgif-frame-057.jpg",
-      "ezgif-frame-058.jpg",
-      "ezgif-frame-059.jpg",
-      "ezgif-frame-060.jpg",
-      "ezgif-frame-061.jpg",
-      "ezgif-frame-062.jpg",
-      "ezgif-frame-063.jpg",
-      "ezgif-frame-064.jpg",
-      "ezgif-frame-065.jpg",
-      "ezgif-frame-066.jpg",
-      "ezgif-frame-067.jpg",
-      "ezgif-frame-068.jpg",
-      "ezgif-frame-069.jpg",
-      "ezgif-frame-070.jpg",
-      "ezgif-frame-071.jpg",
-      "ezgif-frame-072.jpg",
-      "ezgif-frame-073.jpg",
-      "ezgif-frame-074.jpg",
-      "ezgif-frame-075.jpg",
-      "ezgif-frame-076.jpg",
-      "ezgif-frame-077.jpg",
-      "ezgif-frame-078.jpg",
-      "ezgif-frame-079.jpg",
-      "ezgif-frame-080.jpg",
-      "ezgif-frame-081.jpg",
-      "ezgif-frame-082.jpg",
-      "ezgif-frame-083.jpg",
-      "ezgif-frame-084.jpg",
-      "ezgif-frame-085.jpg",
-      "ezgif-frame-086.jpg",
-      "ezgif-frame-087.jpg",
-      "ezgif-frame-088.jpg",
-      "ezgif-frame-089.jpg",
-      "ezgif-frame-090.jpg",
-      "ezgif-frame-091.jpg",
-      "ezgif-frame-092.jpg",
-      "ezgif-frame-093.jpg",
-      "ezgif-frame-094.jpg",
-      "ezgif-frame-095.jpg",
-      "ezgif-frame-096.jpg",
-      "ezgif-frame-097.jpg",
-      "ezgif-frame-098.jpg",
-      "ezgif-frame-099.jpg",
-      "ezgif-frame-100.jpg",
-      "ezgif-frame-101.jpg",
-      "ezgif-frame-102.jpg",
-      "ezgif-frame-103.jpg",
-      "ezgif-frame-104.jpg",
-      "ezgif-frame-105.jpg",
-      "ezgif-frame-106.jpg",
-      "ezgif-frame-107.jpg",
-      "ezgif-frame-108.jpg",
-      "ezgif-frame-109.jpg",
-      "ezgif-frame-110.jpg",
-      "ezgif-frame-111.jpg",
-      "ezgif-frame-112.jpg",
-      "ezgif-frame-113.jpg",
-      "ezgif-frame-114.jpg",
-      "ezgif-frame-115.jpg",
-      "ezgif-frame-116.jpg",
-      "ezgif-frame-117.jpg",
-      "ezgif-frame-118.jpg",
-      "ezgif-frame-119.jpg",
-      "ezgif-frame-120.jpg",
-      "ezgif-frame-121.jpg",
-      "ezgif-frame-122.jpg",
-      "ezgif-frame-123.jpg",
-      "ezgif-frame-124.jpg",
-      "ezgif-frame-125.jpg",
-      "ezgif-frame-126.jpg",
-      "ezgif-frame-127.jpg",
-      "ezgif-frame-128.jpg",
-      "ezgif-frame-129.jpg",
-      "ezgif-frame-130.jpg",
-      "ezgif-frame-131.jpg",
-      "ezgif-frame-132.jpg",
-      "ezgif-frame-133.jpg",
-      "ezgif-frame-134.jpg",
-      "ezgif-frame-135.jpg",
-      "ezgif-frame-136.jpg",
-      "ezgif-frame-137.jpg",
-      "ezgif-frame-138.jpg",
-      "ezgif-frame-139.jpg",
-      "ezgif-frame-140.jpg",
-      "ezgif-frame-141.jpg",
-      "ezgif-frame-142.jpg",
-      "ezgif-frame-143.jpg",
-      "ezgif-frame-144.jpg",
-      "ezgif-frame-145.jpg",
-      "ezgif-frame-146.jpg",
-      "ezgif-frame-147.jpg",
-      "ezgif-frame-148.jpg",
-      "ezgif-frame-149.jpg",
-      "ezgif-frame-150.jpg",
-      "ezgif-frame-151.jpg",
-      "ezgif-frame-152.jpg"
+    "lowFiles": [
+      "seq3_low_000.webp",
+      "seq3_low_001.webp",
+      "seq3_low_002.webp",
+      "seq3_low_003.webp",
+      "seq3_low_004.webp",
+      "seq3_low_005.webp",
+      "seq3_low_006.webp",
+      "seq3_low_007.webp",
+      "seq3_low_008.webp",
+      "seq3_low_009.webp",
+      "seq3_low_010.webp",
+      "seq3_low_011.webp",
+      "seq3_low_012.webp",
+      "seq3_low_013.webp",
+      "seq3_low_014.webp",
+      "seq3_low_015.webp",
+      "seq3_low_016.webp",
+      "seq3_low_017.webp",
+      "seq3_low_018.webp",
+      "seq3_low_019.webp",
+      "seq3_low_020.webp",
+      "seq3_low_021.webp",
+      "seq3_low_022.webp",
+      "seq3_low_023.webp",
+      "seq3_low_024.webp",
+      "seq3_low_025.webp",
+      "seq3_low_026.webp",
+      "seq3_low_027.webp",
+      "seq3_low_028.webp",
+      "seq3_low_029.webp",
+      "seq3_low_030.webp",
+      "seq3_low_031.webp",
+      "seq3_low_032.webp",
+      "seq3_low_033.webp",
+      "seq3_low_034.webp",
+      "seq3_low_035.webp",
+      "seq3_low_036.webp",
+      "seq3_low_037.webp",
+      "seq3_low_038.webp",
+      "seq3_low_039.webp",
+      "seq3_low_040.webp",
+      "seq3_low_041.webp",
+      "seq3_low_042.webp",
+      "seq3_low_043.webp",
+      "seq3_low_044.webp",
+      "seq3_low_045.webp",
+      "seq3_low_046.webp",
+      "seq3_low_047.webp",
+      "seq3_low_048.webp",
+      "seq3_low_049.webp",
+      "seq3_low_050.webp",
+      "seq3_low_051.webp",
+      "seq3_low_052.webp",
+      "seq3_low_053.webp",
+      "seq3_low_054.webp",
+      "seq3_low_055.webp",
+      "seq3_low_056.webp",
+      "seq3_low_057.webp",
+      "seq3_low_058.webp",
+      "seq3_low_059.webp",
+      "seq3_low_060.webp",
+      "seq3_low_061.webp",
+      "seq3_low_062.webp",
+      "seq3_low_063.webp",
+      "seq3_low_064.webp",
+      "seq3_low_065.webp",
+      "seq3_low_066.webp",
+      "seq3_low_067.webp",
+      "seq3_low_068.webp",
+      "seq3_low_069.webp",
+      "seq3_low_070.webp",
+      "seq3_low_071.webp",
+      "seq3_low_072.webp",
+      "seq3_low_073.webp",
+      "seq3_low_074.webp",
+      "seq3_low_075.webp",
+      "seq3_low_076.webp",
+      "seq3_low_077.webp",
+      "seq3_low_078.webp",
+      "seq3_low_079.webp",
+      "seq3_low_080.webp",
+      "seq3_low_081.webp",
+      "seq3_low_082.webp",
+      "seq3_low_083.webp",
+      "seq3_low_084.webp",
+      "seq3_low_085.webp",
+      "seq3_low_086.webp",
+      "seq3_low_087.webp",
+      "seq3_low_088.webp",
+      "seq3_low_089.webp",
+      "seq3_low_090.webp",
+      "seq3_low_091.webp",
+      "seq3_low_092.webp",
+      "seq3_low_093.webp",
+      "seq3_low_094.webp",
+      "seq3_low_095.webp",
+      "seq3_low_096.webp",
+      "seq3_low_097.webp",
+      "seq3_low_098.webp",
+      "seq3_low_099.webp",
+      "seq3_low_100.webp",
+      "seq3_low_101.webp",
+      "seq3_low_102.webp",
+      "seq3_low_103.webp",
+      "seq3_low_104.webp",
+      "seq3_low_105.webp",
+      "seq3_low_106.webp",
+      "seq3_low_107.webp",
+      "seq3_low_108.webp",
+      "seq3_low_109.webp",
+      "seq3_low_110.webp",
+      "seq3_low_111.webp",
+      "seq3_low_112.webp",
+      "seq3_low_113.webp",
+      "seq3_low_114.webp",
+      "seq3_low_115.webp",
+      "seq3_low_116.webp",
+      "seq3_low_117.webp",
+      "seq3_low_118.webp",
+      "seq3_low_119.webp",
+      "seq3_low_120.webp",
+      "seq3_low_121.webp",
+      "seq3_low_122.webp",
+      "seq3_low_123.webp",
+      "seq3_low_124.webp",
+      "seq3_low_125.webp",
+      "seq3_low_126.webp",
+      "seq3_low_127.webp",
+      "seq3_low_128.webp",
+      "seq3_low_129.webp",
+      "seq3_low_130.webp",
+      "seq3_low_131.webp",
+      "seq3_low_132.webp",
+      "seq3_low_133.webp",
+      "seq3_low_134.webp",
+      "seq3_low_135.webp",
+      "seq3_low_136.webp",
+      "seq3_low_137.webp",
+      "seq3_low_138.webp",
+      "seq3_low_139.webp",
+      "seq3_low_140.webp",
+      "seq3_low_141.webp",
+      "seq3_low_142.webp",
+      "seq3_low_143.webp",
+      "seq3_low_144.webp",
+      "seq3_low_145.webp",
+      "seq3_low_146.webp",
+      "seq3_low_147.webp",
+      "seq3_low_148.webp",
+      "seq3_low_149.webp",
+      "seq3_low_150.webp",
+      "seq3_low_151.webp"
     ],
-    "assetFiles": [
-      "seq3_ezgif-frame-001.jpg",
-      "seq3_ezgif-frame-002.jpg",
-      "seq3_ezgif-frame-003.jpg",
-      "seq3_ezgif-frame-004.jpg",
-      "seq3_ezgif-frame-005.jpg",
-      "seq3_ezgif-frame-006.jpg",
-      "seq3_ezgif-frame-007.jpg",
-      "seq3_ezgif-frame-008.jpg",
-      "seq3_ezgif-frame-009.jpg",
-      "seq3_ezgif-frame-010.jpg",
-      "seq3_ezgif-frame-011.jpg",
-      "seq3_ezgif-frame-012.jpg",
-      "seq3_ezgif-frame-013.jpg",
-      "seq3_ezgif-frame-014.jpg",
-      "seq3_ezgif-frame-015.jpg",
-      "seq3_ezgif-frame-016.jpg",
-      "seq3_ezgif-frame-017.jpg",
-      "seq3_ezgif-frame-018.jpg",
-      "seq3_ezgif-frame-019.jpg",
-      "seq3_ezgif-frame-020.jpg",
-      "seq3_ezgif-frame-021.jpg",
-      "seq3_ezgif-frame-022.jpg",
-      "seq3_ezgif-frame-023.jpg",
-      "seq3_ezgif-frame-024.jpg",
-      "seq3_ezgif-frame-025.jpg",
-      "seq3_ezgif-frame-026.jpg",
-      "seq3_ezgif-frame-027.jpg",
-      "seq3_ezgif-frame-028.jpg",
-      "seq3_ezgif-frame-029.jpg",
-      "seq3_ezgif-frame-030.jpg",
-      "seq3_ezgif-frame-031.jpg",
-      "seq3_ezgif-frame-032.jpg",
-      "seq3_ezgif-frame-033.jpg",
-      "seq3_ezgif-frame-034.jpg",
-      "seq3_ezgif-frame-035.jpg",
-      "seq3_ezgif-frame-036.jpg",
-      "seq3_ezgif-frame-037.jpg",
-      "seq3_ezgif-frame-038.jpg",
-      "seq3_ezgif-frame-039.jpg",
-      "seq3_ezgif-frame-040.jpg",
-      "seq3_ezgif-frame-041.jpg",
-      "seq3_ezgif-frame-042.jpg",
-      "seq3_ezgif-frame-043.jpg",
-      "seq3_ezgif-frame-044.jpg",
-      "seq3_ezgif-frame-045.jpg",
-      "seq3_ezgif-frame-046.jpg",
-      "seq3_ezgif-frame-047.jpg",
-      "seq3_ezgif-frame-048.jpg",
-      "seq3_ezgif-frame-049.jpg",
-      "seq3_ezgif-frame-050.jpg",
-      "seq3_ezgif-frame-051.jpg",
-      "seq3_ezgif-frame-052.jpg",
-      "seq3_ezgif-frame-053.jpg",
-      "seq3_ezgif-frame-054.jpg",
-      "seq3_ezgif-frame-055.jpg",
-      "seq3_ezgif-frame-056.jpg",
-      "seq3_ezgif-frame-057.jpg",
-      "seq3_ezgif-frame-058.jpg",
-      "seq3_ezgif-frame-059.jpg",
-      "seq3_ezgif-frame-060.jpg",
-      "seq3_ezgif-frame-061.jpg",
-      "seq3_ezgif-frame-062.jpg",
-      "seq3_ezgif-frame-063.jpg",
-      "seq3_ezgif-frame-064.jpg",
-      "seq3_ezgif-frame-065.jpg",
-      "seq3_ezgif-frame-066.jpg",
-      "seq3_ezgif-frame-067.jpg",
-      "seq3_ezgif-frame-068.jpg",
-      "seq3_ezgif-frame-069.jpg",
-      "seq3_ezgif-frame-070.jpg",
-      "seq3_ezgif-frame-071.jpg",
-      "seq3_ezgif-frame-072.jpg",
-      "seq3_ezgif-frame-073.jpg",
-      "seq3_ezgif-frame-074.jpg",
-      "seq3_ezgif-frame-075.jpg",
-      "seq3_ezgif-frame-076.jpg",
-      "seq3_ezgif-frame-077.jpg",
-      "seq3_ezgif-frame-078.jpg",
-      "seq3_ezgif-frame-079.jpg",
-      "seq3_ezgif-frame-080.jpg",
-      "seq3_ezgif-frame-081.jpg",
-      "seq3_ezgif-frame-082.jpg",
-      "seq3_ezgif-frame-083.jpg",
-      "seq3_ezgif-frame-084.jpg",
-      "seq3_ezgif-frame-085.jpg",
-      "seq3_ezgif-frame-086.jpg",
-      "seq3_ezgif-frame-087.jpg",
-      "seq3_ezgif-frame-088.jpg",
-      "seq3_ezgif-frame-089.jpg",
-      "seq3_ezgif-frame-090.jpg",
-      "seq3_ezgif-frame-091.jpg",
-      "seq3_ezgif-frame-092.jpg",
-      "seq3_ezgif-frame-093.jpg",
-      "seq3_ezgif-frame-094.jpg",
-      "seq3_ezgif-frame-095.jpg",
-      "seq3_ezgif-frame-096.jpg",
-      "seq3_ezgif-frame-097.jpg",
-      "seq3_ezgif-frame-098.jpg",
-      "seq3_ezgif-frame-099.jpg",
-      "seq3_ezgif-frame-100.jpg",
-      "seq3_ezgif-frame-101.jpg",
-      "seq3_ezgif-frame-102.jpg",
-      "seq3_ezgif-frame-103.jpg",
-      "seq3_ezgif-frame-104.jpg",
-      "seq3_ezgif-frame-105.jpg",
-      "seq3_ezgif-frame-106.jpg",
-      "seq3_ezgif-frame-107.jpg",
-      "seq3_ezgif-frame-108.jpg",
-      "seq3_ezgif-frame-109.jpg",
-      "seq3_ezgif-frame-110.jpg",
-      "seq3_ezgif-frame-111.jpg",
-      "seq3_ezgif-frame-112.jpg",
-      "seq3_ezgif-frame-113.jpg",
-      "seq3_ezgif-frame-114.jpg",
-      "seq3_ezgif-frame-115.jpg",
-      "seq3_ezgif-frame-116.jpg",
-      "seq3_ezgif-frame-117.jpg",
-      "seq3_ezgif-frame-118.jpg",
-      "seq3_ezgif-frame-119.jpg",
-      "seq3_ezgif-frame-120.jpg",
-      "seq3_ezgif-frame-121.jpg",
-      "seq3_ezgif-frame-122.jpg",
-      "seq3_ezgif-frame-123.jpg",
-      "seq3_ezgif-frame-124.jpg",
-      "seq3_ezgif-frame-125.jpg",
-      "seq3_ezgif-frame-126.jpg",
-      "seq3_ezgif-frame-127.jpg",
-      "seq3_ezgif-frame-128.jpg",
-      "seq3_ezgif-frame-129.jpg",
-      "seq3_ezgif-frame-130.jpg",
-      "seq3_ezgif-frame-131.jpg",
-      "seq3_ezgif-frame-132.jpg",
-      "seq3_ezgif-frame-133.jpg",
-      "seq3_ezgif-frame-134.jpg",
-      "seq3_ezgif-frame-135.jpg",
-      "seq3_ezgif-frame-136.jpg",
-      "seq3_ezgif-frame-137.jpg",
-      "seq3_ezgif-frame-138.jpg",
-      "seq3_ezgif-frame-139.jpg",
-      "seq3_ezgif-frame-140.jpg",
-      "seq3_ezgif-frame-141.jpg",
-      "seq3_ezgif-frame-142.jpg",
-      "seq3_ezgif-frame-143.jpg",
-      "seq3_ezgif-frame-144.jpg",
-      "seq3_ezgif-frame-145.jpg",
-      "seq3_ezgif-frame-146.jpg",
-      "seq3_ezgif-frame-147.jpg",
-      "seq3_ezgif-frame-148.jpg",
-      "seq3_ezgif-frame-149.jpg",
-      "seq3_ezgif-frame-150.jpg",
-      "seq3_ezgif-frame-151.jpg",
-      "seq3_ezgif-frame-152.jpg"
+    "hiFiles": [
+      "seq3_hi_000.webp",
+      "seq3_hi_001.webp",
+      "seq3_hi_002.webp",
+      "seq3_hi_003.webp",
+      "seq3_hi_004.webp",
+      "seq3_hi_005.webp",
+      "seq3_hi_006.webp",
+      "seq3_hi_007.webp",
+      "seq3_hi_008.webp",
+      "seq3_hi_009.webp",
+      "seq3_hi_010.webp",
+      "seq3_hi_011.webp",
+      "seq3_hi_012.webp",
+      "seq3_hi_013.webp",
+      "seq3_hi_014.webp",
+      "seq3_hi_015.webp",
+      "seq3_hi_016.webp",
+      "seq3_hi_017.webp",
+      "seq3_hi_018.webp",
+      "seq3_hi_019.webp",
+      "seq3_hi_020.webp",
+      "seq3_hi_021.webp",
+      "seq3_hi_022.webp",
+      "seq3_hi_023.webp",
+      "seq3_hi_024.webp",
+      "seq3_hi_025.webp",
+      "seq3_hi_026.webp",
+      "seq3_hi_027.webp",
+      "seq3_hi_028.webp",
+      "seq3_hi_029.webp",
+      "seq3_hi_030.webp",
+      "seq3_hi_031.webp",
+      "seq3_hi_032.webp",
+      "seq3_hi_033.webp",
+      "seq3_hi_034.webp",
+      "seq3_hi_035.webp",
+      "seq3_hi_036.webp",
+      "seq3_hi_037.webp",
+      "seq3_hi_038.webp",
+      "seq3_hi_039.webp",
+      "seq3_hi_040.webp",
+      "seq3_hi_041.webp",
+      "seq3_hi_042.webp",
+      "seq3_hi_043.webp",
+      "seq3_hi_044.webp",
+      "seq3_hi_045.webp",
+      "seq3_hi_046.webp",
+      "seq3_hi_047.webp",
+      "seq3_hi_048.webp",
+      "seq3_hi_049.webp",
+      "seq3_hi_050.webp",
+      "seq3_hi_051.webp",
+      "seq3_hi_052.webp",
+      "seq3_hi_053.webp",
+      "seq3_hi_054.webp",
+      "seq3_hi_055.webp",
+      "seq3_hi_056.webp",
+      "seq3_hi_057.webp",
+      "seq3_hi_058.webp",
+      "seq3_hi_059.webp",
+      "seq3_hi_060.webp",
+      "seq3_hi_061.webp",
+      "seq3_hi_062.webp",
+      "seq3_hi_063.webp",
+      "seq3_hi_064.webp",
+      "seq3_hi_065.webp",
+      "seq3_hi_066.webp",
+      "seq3_hi_067.webp",
+      "seq3_hi_068.webp",
+      "seq3_hi_069.webp",
+      "seq3_hi_070.webp",
+      "seq3_hi_071.webp",
+      "seq3_hi_072.webp",
+      "seq3_hi_073.webp",
+      "seq3_hi_074.webp",
+      "seq3_hi_075.webp",
+      "seq3_hi_076.webp",
+      "seq3_hi_077.webp",
+      "seq3_hi_078.webp",
+      "seq3_hi_079.webp",
+      "seq3_hi_080.webp",
+      "seq3_hi_081.webp",
+      "seq3_hi_082.webp",
+      "seq3_hi_083.webp",
+      "seq3_hi_084.webp",
+      "seq3_hi_085.webp",
+      "seq3_hi_086.webp",
+      "seq3_hi_087.webp",
+      "seq3_hi_088.webp",
+      "seq3_hi_089.webp",
+      "seq3_hi_090.webp",
+      "seq3_hi_091.webp",
+      "seq3_hi_092.webp",
+      "seq3_hi_093.webp",
+      "seq3_hi_094.webp",
+      "seq3_hi_095.webp",
+      "seq3_hi_096.webp",
+      "seq3_hi_097.webp",
+      "seq3_hi_098.webp",
+      "seq3_hi_099.webp",
+      "seq3_hi_100.webp",
+      "seq3_hi_101.webp",
+      "seq3_hi_102.webp",
+      "seq3_hi_103.webp",
+      "seq3_hi_104.webp",
+      "seq3_hi_105.webp",
+      "seq3_hi_106.webp",
+      "seq3_hi_107.webp",
+      "seq3_hi_108.webp",
+      "seq3_hi_109.webp",
+      "seq3_hi_110.webp",
+      "seq3_hi_111.webp",
+      "seq3_hi_112.webp",
+      "seq3_hi_113.webp",
+      "seq3_hi_114.webp",
+      "seq3_hi_115.webp",
+      "seq3_hi_116.webp",
+      "seq3_hi_117.webp",
+      "seq3_hi_118.webp",
+      "seq3_hi_119.webp",
+      "seq3_hi_120.webp",
+      "seq3_hi_121.webp",
+      "seq3_hi_122.webp",
+      "seq3_hi_123.webp",
+      "seq3_hi_124.webp",
+      "seq3_hi_125.webp",
+      "seq3_hi_126.webp",
+      "seq3_hi_127.webp",
+      "seq3_hi_128.webp",
+      "seq3_hi_129.webp",
+      "seq3_hi_130.webp",
+      "seq3_hi_131.webp",
+      "seq3_hi_132.webp",
+      "seq3_hi_133.webp",
+      "seq3_hi_134.webp",
+      "seq3_hi_135.webp",
+      "seq3_hi_136.webp",
+      "seq3_hi_137.webp",
+      "seq3_hi_138.webp",
+      "seq3_hi_139.webp",
+      "seq3_hi_140.webp",
+      "seq3_hi_141.webp",
+      "seq3_hi_142.webp",
+      "seq3_hi_143.webp",
+      "seq3_hi_144.webp",
+      "seq3_hi_145.webp",
+      "seq3_hi_146.webp",
+      "seq3_hi_147.webp",
+      "seq3_hi_148.webp",
+      "seq3_hi_149.webp",
+      "seq3_hi_150.webp",
+      "seq3_hi_151.webp"
+    ],
+    "mobileTotalFrames": 76,
+    "mobFiles": [
+      "seq3_mob_000.webp",
+      "seq3_mob_002.webp",
+      "seq3_mob_004.webp",
+      "seq3_mob_006.webp",
+      "seq3_mob_008.webp",
+      "seq3_mob_010.webp",
+      "seq3_mob_012.webp",
+      "seq3_mob_014.webp",
+      "seq3_mob_016.webp",
+      "seq3_mob_018.webp",
+      "seq3_mob_020.webp",
+      "seq3_mob_022.webp",
+      "seq3_mob_024.webp",
+      "seq3_mob_026.webp",
+      "seq3_mob_028.webp",
+      "seq3_mob_030.webp",
+      "seq3_mob_032.webp",
+      "seq3_mob_034.webp",
+      "seq3_mob_036.webp",
+      "seq3_mob_038.webp",
+      "seq3_mob_040.webp",
+      "seq3_mob_042.webp",
+      "seq3_mob_044.webp",
+      "seq3_mob_046.webp",
+      "seq3_mob_048.webp",
+      "seq3_mob_050.webp",
+      "seq3_mob_052.webp",
+      "seq3_mob_054.webp",
+      "seq3_mob_056.webp",
+      "seq3_mob_058.webp",
+      "seq3_mob_060.webp",
+      "seq3_mob_062.webp",
+      "seq3_mob_064.webp",
+      "seq3_mob_066.webp",
+      "seq3_mob_068.webp",
+      "seq3_mob_070.webp",
+      "seq3_mob_072.webp",
+      "seq3_mob_074.webp",
+      "seq3_mob_076.webp",
+      "seq3_mob_078.webp",
+      "seq3_mob_080.webp",
+      "seq3_mob_082.webp",
+      "seq3_mob_084.webp",
+      "seq3_mob_086.webp",
+      "seq3_mob_088.webp",
+      "seq3_mob_090.webp",
+      "seq3_mob_092.webp",
+      "seq3_mob_094.webp",
+      "seq3_mob_096.webp",
+      "seq3_mob_098.webp",
+      "seq3_mob_100.webp",
+      "seq3_mob_102.webp",
+      "seq3_mob_104.webp",
+      "seq3_mob_106.webp",
+      "seq3_mob_108.webp",
+      "seq3_mob_110.webp",
+      "seq3_mob_112.webp",
+      "seq3_mob_114.webp",
+      "seq3_mob_116.webp",
+      "seq3_mob_118.webp",
+      "seq3_mob_120.webp",
+      "seq3_mob_122.webp",
+      "seq3_mob_124.webp",
+      "seq3_mob_126.webp",
+      "seq3_mob_128.webp",
+      "seq3_mob_130.webp",
+      "seq3_mob_132.webp",
+      "seq3_mob_134.webp",
+      "seq3_mob_136.webp",
+      "seq3_mob_138.webp",
+      "seq3_mob_140.webp",
+      "seq3_mob_142.webp",
+      "seq3_mob_144.webp",
+      "seq3_mob_146.webp",
+      "seq3_mob_148.webp",
+      "seq3_mob_150.webp"
+    ],
+    "mobLowFiles": [
+      "seq3_low_000.webp",
+      "seq3_low_002.webp",
+      "seq3_low_004.webp",
+      "seq3_low_006.webp",
+      "seq3_low_008.webp",
+      "seq3_low_010.webp",
+      "seq3_low_012.webp",
+      "seq3_low_014.webp",
+      "seq3_low_016.webp",
+      "seq3_low_018.webp",
+      "seq3_low_020.webp",
+      "seq3_low_022.webp",
+      "seq3_low_024.webp",
+      "seq3_low_026.webp",
+      "seq3_low_028.webp",
+      "seq3_low_030.webp",
+      "seq3_low_032.webp",
+      "seq3_low_034.webp",
+      "seq3_low_036.webp",
+      "seq3_low_038.webp",
+      "seq3_low_040.webp",
+      "seq3_low_042.webp",
+      "seq3_low_044.webp",
+      "seq3_low_046.webp",
+      "seq3_low_048.webp",
+      "seq3_low_050.webp",
+      "seq3_low_052.webp",
+      "seq3_low_054.webp",
+      "seq3_low_056.webp",
+      "seq3_low_058.webp",
+      "seq3_low_060.webp",
+      "seq3_low_062.webp",
+      "seq3_low_064.webp",
+      "seq3_low_066.webp",
+      "seq3_low_068.webp",
+      "seq3_low_070.webp",
+      "seq3_low_072.webp",
+      "seq3_low_074.webp",
+      "seq3_low_076.webp",
+      "seq3_low_078.webp",
+      "seq3_low_080.webp",
+      "seq3_low_082.webp",
+      "seq3_low_084.webp",
+      "seq3_low_086.webp",
+      "seq3_low_088.webp",
+      "seq3_low_090.webp",
+      "seq3_low_092.webp",
+      "seq3_low_094.webp",
+      "seq3_low_096.webp",
+      "seq3_low_098.webp",
+      "seq3_low_100.webp",
+      "seq3_low_102.webp",
+      "seq3_low_104.webp",
+      "seq3_low_106.webp",
+      "seq3_low_108.webp",
+      "seq3_low_110.webp",
+      "seq3_low_112.webp",
+      "seq3_low_114.webp",
+      "seq3_low_116.webp",
+      "seq3_low_118.webp",
+      "seq3_low_120.webp",
+      "seq3_low_122.webp",
+      "seq3_low_124.webp",
+      "seq3_low_126.webp",
+      "seq3_low_128.webp",
+      "seq3_low_130.webp",
+      "seq3_low_132.webp",
+      "seq3_low_134.webp",
+      "seq3_low_136.webp",
+      "seq3_low_138.webp",
+      "seq3_low_140.webp",
+      "seq3_low_142.webp",
+      "seq3_low_144.webp",
+      "seq3_low_146.webp",
+      "seq3_low_148.webp",
+      "seq3_low_150.webp"
     ]
   }
 };
 
-    const WINDOW_PREV_FRAMES = 10;
-    const WINDOW_NEXT_FRAMES = 20;
+    const IS_MOBILE_DEVICE = (window.innerWidth <= 768) || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const INITIAL_PRELOAD_COUNT = 10;
+    const WINDOW_BEHIND_LIMIT   = 10;
+    const WINDOW_AHEAD_LIMIT    = 20;
+    const GPU_WARM_AHEAD_COUNT  = 5;
 
     const STAGES = [
       {
@@ -1590,8 +2027,8 @@
         canvasSelector: "#canvas-seq1",
         particlesSelector: "#particles-seq1",
         pxPerFrameDesktop: 16,
-        pxPerFrameMobile: 12,
-        manifest: RAW_SEQUENCE_MANIFEST.seq1
+        pxPerFrameMobile: 22,
+        manifest: WEBP_MANIFEST.seq1
       },
       {
         id: "seq2",
@@ -1601,8 +2038,8 @@
         canvasSelector: "#canvas-seq2",
         particlesSelector: "#particles-seq2",
         pxPerFrameDesktop: 18,
-        pxPerFrameMobile: 14,
-        manifest: RAW_SEQUENCE_MANIFEST.seq2
+        pxPerFrameMobile: 24,
+        manifest: WEBP_MANIFEST.seq2
       },
       {
         id: "seq3",
@@ -1612,229 +2049,355 @@
         canvasSelector: "#canvas-seq3",
         particlesSelector: "#particles-seq3",
         pxPerFrameDesktop: 16,
-        pxPerFrameMobile: 12,
-        manifest: RAW_SEQUENCE_MANIFEST.seq3
+        pxPerFrameMobile: 22,
+        manifest: WEBP_MANIFEST.seq3
       }
     ];
 
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
     const sequenceState = {};
-    let initialWindowTotal = 0;
-    let initialWindowLoaded = 0;
+    let initialFramesTarget = 0;
+    let initialFramesLoaded = 0;
+    let telemetryLogCount = 0;
 
     STAGES.forEach((s) => {
       const canvas = document.querySelector(s.canvasSelector);
-      const ctx = canvas.getContext("2d", { alpha: false });
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = "high";
+      const activeLowList = IS_MOBILE_DEVICE ? s.manifest.mobLowFiles : s.manifest.lowFiles;
+      const activeHiList  = IS_MOBILE_DEVICE ? s.manifest.mobFiles    : s.manifest.hiFiles;
+      const totalFrames   = activeHiList.length;
 
-      const initialCount = Math.min(s.manifest.totalFrames, WINDOW_NEXT_FRAMES + 1);
-      initialWindowTotal += initialCount;
+      const initCount = Math.min(INITIAL_PRELOAD_COUNT, totalFrames);
+      initialFramesTarget += initCount;
 
       sequenceState[s.id] = {
         id: s.id,
-        folder: s.folder,
-        totalFrames: s.manifest.totalFrames,
-        rawFiles: s.manifest.rawFiles,
-        assetFiles: s.manifest.assetFiles,
-        frameCache: Object.create(null),
-        windowCenter: -1,
-        targetFrame: 0,
-        currentFrame: 0,
+        label: s.label,
+        totalFrames: totalFrames,
+        lowFiles: activeLowList,
+        hiFiles: activeHiList,
+        lowImgCache: Object.create(null),
+        hiImgCache: Object.create(null),
+        bitmapCache: Object.create(null),
+        gpuWarmingSet: Object.create(null),
+        rectWidth: window.innerWidth,
+        rectHeight: window.innerHeight,
+        dpr: window.devicePixelRatio || 1,
+        targetFrame: 0.0,
+        currentFrame: 0.0,
         lastDrawnFrame: -1,
+        lastDrawnTier: "",
         needsRedraw: true,
         canvas: canvas,
-        ctx: ctx
+        ctx: canvas.getContext("2d")
       };
     });
 
     function updatePreloaderUI() {
-      const pct = Math.min(100, Math.round((initialWindowLoaded / Math.max(1, initialWindowTotal)) * 100));
+      const pct = Math.min(100, Math.floor((initialFramesLoaded / Math.max(1, initialFramesTarget)) * 100));
       const bar = document.getElementById("preloader-bar");
       const status = document.getElementById("preloader-status");
       if (bar) bar.style.width = pct + "%";
       if (status) {
-        status.textContent = "Preloading Active 4K Window [-10, +20]: " + initialWindowLoaded + " / " + initialWindowTotal + " (" + pct + "%)";
+        status.textContent = "Preloading Initial 10 WebP Placeholders (960px): " + initialFramesLoaded + " / " + initialFramesTarget + " (" + pct + "%)";
       }
     }
 
-    function syncCanvasDPR(state) {
+    /* ==========================================================================
+       3. CANVAS RENDERING WITH TRUE 4K SHARPNESS
+          Exact getBoundingClientRect() + ctx.scale(dpr, dpr) + high smoothing
+       ========================================================================== */
+    function setupCanvasSharpness(state) {
       const canvas = state.canvas;
-      const ctx = state.ctx;
-      if (!canvas || !ctx) return;
-
+      if (!canvas) return;
       const dpr = window.devicePixelRatio || 1;
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
+      // Measure container or viewport rect before resizing style so rect is accurate
+      const parentRect = canvas.parentElement ? canvas.parentElement.getBoundingClientRect() : canvas.getBoundingClientRect();
+      const rect = {
+        width: parentRect.width || window.innerWidth,
+        height: parentRect.height || window.innerHeight
+      };
 
-      canvas.width = vw * dpr;
-      canvas.height = vh * dpr;
-      canvas.style.width = vw + "px";
-      canvas.style.height = vh + "px";
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      canvas.style.width = rect.width + "px";
+      canvas.style.height = rect.height + "px";
 
+      const ctx = canvas.getContext("2d");
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = "high";
 
+      state.ctx = ctx;
+      state.rectWidth = rect.width;
+      state.rectHeight = rect.height;
+      state.dpr = dpr;
       state.lastDrawnFrame = -1;
       state.needsRedraw = true;
+
+      console.log("[4K-ScrollEngine] Canvas Synchronized:", {
+        stage: state.id,
+        cssWidth: rect.width,
+        cssHeight: rect.height,
+        physicalWidth: canvas.width,
+        physicalHeight: canvas.height,
+        dpr: dpr,
+        mobileMode: IS_MOBILE_DEVICE,
+        activeFrames: state.totalFrames
+      });
     }
 
-    function drawSequenceFrame(state, frameIndex) {
-      const total = state.totalFrames;
-      if (!total) return;
-      const clamped = Math.max(0, Math.min(total - 1, frameIndex));
+    /* ==========================================================================
+       4. GPU WARMING & DECODING (img.decode() ON NEXT 3-5 FRAMES + ImageBitmap)
+       ========================================================================== */
+    function promoteToGpuBitmap(state, index, img, tierLabel) {
+      if (state.gpuWarmingSet[index + "_" + tierLabel]) return;
+      state.gpuWarmingSet[index + "_" + tierLabel] = true;
+      const t0 = performance.now();
 
-      let img = state.frameCache[clamped];
-      if (!img || !img.complete || img.naturalWidth === 0) {
-        for (let offset = 1; offset <= WINDOW_NEXT_FRAMES + WINDOW_PREV_FRAMES; offset++) {
-          const prev = clamped - offset;
-          const next = clamped + offset;
-          if (prev >= 0 && state.frameCache[prev] && state.frameCache[prev].complete && state.frameCache[prev].naturalWidth > 0) {
-            img = state.frameCache[prev];
-            break;
+      const decodePromise = (typeof img.decode === "function") ? img.decode() : Promise.resolve();
+      decodePromise.then(() => {
+        if (typeof createImageBitmap === "function") {
+          return createImageBitmap(img);
+        }
+        return null;
+      }).then((bitmap) => {
+        if (bitmap) {
+          const prevBmp = state.bitmapCache[index];
+          if (prevBmp && prevBmp !== bitmap && typeof prevBmp.close === "function") {
+            try { prevBmp.close(); } catch (e) {}
           }
-          if (next < total && state.frameCache[next] && state.frameCache[next].complete && state.frameCache[next].naturalWidth > 0) {
-            img = state.frameCache[next];
-            break;
+          state.bitmapCache[index] = bitmap;
+          state.bitmapCache[index]._tier = tierLabel;
+        }
+        const elapsed = (performance.now() - t0).toFixed(2);
+        if (telemetryLogCount < 24) {
+          telemetryLogCount++;
+          console.log("[4K-ScrollEngine] Frame Decoded & GPU Warmed:", {
+            stage: state.id,
+            frameIndex: index,
+            tier: tierLabel,
+            decodeAndBitmapMs: Number(elapsed),
+            usingImageBitmap: Boolean(bitmap)
+          });
+        }
+        const curInt = Math.floor(state.currentFrame + 0.0001);
+        if (curInt === index) {
+          state.needsRedraw = true;
+        }
+      }).catch(() => {});
+    }
+
+    function warmGpuNextFrames(state, currentIntFrame) {
+      // Before drawing a frame, call img.decode() on the next 3-5 frames
+      for (let offset = 1; offset <= GPU_WARM_AHEAD_COUNT; offset++) {
+        const nextIdx = currentIntFrame + offset;
+        if (nextIdx >= state.totalFrames) break;
+        const hiImg = state.hiImgCache[nextIdx];
+        if (hiImg && hiImg.complete && hiImg.naturalWidth > 0) {
+          promoteToGpuBitmap(state, nextIdx, hiImg, "hi-webp");
+        } else {
+          const lowImg = state.lowImgCache[nextIdx];
+          if (lowImg && lowImg.complete && lowImg.naturalWidth > 0 && !state.bitmapCache[nextIdx]) {
+            promoteToGpuBitmap(state, nextIdx, lowImg, "low-webp");
           }
         }
-        if ((!img || !img.complete || img.naturalWidth === 0) && state.frameCache[0] && state.frameCache[0].complete && state.frameCache[0].naturalWidth > 0) {
-          img = state.frameCache[0];
+      }
+    }
+
+    function drawSequenceFrame(state, intFrameIndex) {
+      const total = state.totalFrames;
+      if (!total) return;
+      const clamped = Math.max(0, Math.min(total - 1, intFrameIndex));
+
+      // Warm GPU on the next 3-5 frames ahead of current frame
+      warmGpuNextFrames(state, clamped);
+
+      let drawable = state.bitmapCache[clamped];
+      let tier = drawable ? (drawable._tier || "bitmap") : "";
+
+      if (!drawable) {
+        const hiImg = state.hiImgCache[clamped];
+        if (hiImg && hiImg.complete && hiImg.naturalWidth > 0) {
+          drawable = hiImg;
+          tier = "hi-img";
+          promoteToGpuBitmap(state, clamped, hiImg, "hi-webp");
+        } else {
+          const lowImg = state.lowImgCache[clamped];
+          if (lowImg && lowImg.complete && lowImg.naturalWidth > 0) {
+            drawable = lowImg;
+            tier = "low-img";
+          }
         }
       }
 
-      if (!img || !img.complete || img.naturalWidth === 0) return;
+      // If exact frame not yet in RAM, find nearest loaded frame in sliding window
+      if (!drawable) {
+        for (let step = 1; step <= WINDOW_AHEAD_LIMIT; step++) {
+          const prev = clamped - step;
+          const next = clamped + step;
+          if (prev >= 0 && state.bitmapCache[prev]) { drawable = state.bitmapCache[prev]; tier = "fallback-bmp"; break; }
+          if (next < total && state.bitmapCache[next]) { drawable = state.bitmapCache[next]; tier = "fallback-bmp"; break; }
+          if (prev >= 0 && state.hiImgCache[prev] && state.hiImgCache[prev].complete) { drawable = state.hiImgCache[prev]; tier = "fallback-hi"; break; }
+          if (prev >= 0 && state.lowImgCache[prev] && state.lowImgCache[prev].complete) { drawable = state.lowImgCache[prev]; tier = "fallback-low"; break; }
+        }
+        if (!drawable && state.lowImgCache[0] && state.lowImgCache[0].complete) {
+          drawable = state.lowImgCache[0];
+          tier = "anchor-0";
+        }
+      }
 
-      const canvas = state.canvas;
+      if (!drawable) return;
+
       const ctx = state.ctx;
-      const cw = canvas.width;
-      const ch = canvas.height;
-      const iw = img.naturalWidth;
-      const ih = img.naturalHeight;
+      const rectW = state.rectWidth;
+      const rectH = state.rectHeight;
 
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = "high";
+      ctx.clearRect(0, 0, rectW, rectH);
+      // Map the high-res 2x WebP image directly to CSS pixel dimensions (ctx.scale(dpr, dpr) handles physical 4K pixels)
+      ctx.drawImage(drawable, 0, 0, rectW, rectH);
 
-      const scale = Math.max(cw / iw, ch / ih);
-      const sw = Math.round(iw * scale);
-      const sh = Math.round(ih * scale);
-      const dx = Math.round((cw - sw) * 0.5);
-      const dy = Math.round((ch - sh) * 0.5);
-
-      ctx.clearRect(0, 0, cw, ch);
-      ctx.drawImage(img, dx, dy, sw, sh);
-
-      if (img === state.frameCache[clamped]) {
-        state.lastDrawnFrame = clamped;
+      state.lastDrawnFrame = clamped;
+      state.lastDrawnTier = tier;
+      if (tier === "hi-webp" || tier === "hi-img") {
         state.needsRedraw = false;
       }
     }
 
-    function getRawFrameUrl(state, index) {
-      return ASSET_BASE_PATH + "/" + state.assetFiles[index];
-    }
-
-    function getFallbackSequenceUrl(state, index) {
-      return state.folder + "/" + state.rawFiles[index];
-    }
-
-    function loadSingleFrameIntoWindow(state, index, onReadyCallback) {
+    /* ==========================================================================
+       2. SLIDING WINDOW QUEUE MANAGED EXCLUSIVELY IN requestAnimationFrame
+          - Initial: first 10 frames (960px low-res WebP placeholders)
+          - Scroll Window: [currentIntFrame - 10, currentIntFrame + 20]
+          - Unloads frames > 10 behind (and > 20 ahead)
+       ========================================================================== */
+    function requestFrameAsset(state, index, tier, onDone) {
       if (index < 0 || index >= state.totalFrames) {
-        if (onReadyCallback) onReadyCallback();
+        if (onDone) onDone();
         return;
       }
-      const existing = state.frameCache[index];
-      if (existing) {
-        if (existing.complete && existing.naturalWidth > 0) {
-          if (onReadyCallback) onReadyCallback();
-        } else if (onReadyCallback) {
-          existing.addEventListener("load", onReadyCallback, { once: true });
-          existing.addEventListener("error", onReadyCallback, { once: true });
+      const cache = tier === "hi" ? state.hiImgCache : state.lowImgCache;
+      const fileList = tier === "hi" ? state.hiFiles : state.lowFiles;
+
+      if (cache[index]) {
+        if (cache[index].complete && cache[index].naturalWidth > 0) {
+          if (onDone) onDone();
+        } else if (onDone) {
+          cache[index].addEventListener("load", onDone, { once: true });
+          cache[index].addEventListener("error", onDone, { once: true });
         }
         return;
       }
 
+      const tStart = performance.now();
       const img = new Image();
       img.decoding = "async";
-      let triedFallback = false;
+      cache[index] = img;
 
       img.onload = () => {
-        if (Math.round(state.currentFrame) === index || state.lastDrawnFrame === -1) {
+        const loadMs = (performance.now() - tStart).toFixed(2);
+        if (telemetryLogCount < 24) {
+          console.log("[4K-ScrollEngine] WebP Frame Loaded:", {
+            stage: state.id,
+            frameIndex: index,
+            tier: tier === "hi" ? (IS_MOBILE_DEVICE ? "1080p-webp" : "2x-hi-webp") : "960w-low-webp",
+            loadTimeMs: Number(loadMs)
+          });
+        }
+        promoteToGpuBitmap(state, index, img, tier === "hi" ? "hi-webp" : "low-webp");
+        const curInt = Math.floor(state.currentFrame + 0.0001);
+        if (curInt === index || state.lastDrawnFrame === -1) {
           state.needsRedraw = true;
         }
-        if (onReadyCallback) onReadyCallback();
+        if (onDone) onDone();
       };
 
       img.onerror = () => {
-        if (!triedFallback) {
-          triedFallback = true;
-          img.src = getFallbackSequenceUrl(state, index);
-        } else {
-          if (onReadyCallback) onReadyCallback();
-        }
+        if (onDone) onDone();
       };
 
-      state.frameCache[index] = img;
-      img.src = getRawFrameUrl(state, index);
+      img.src = ASSET_BASE_PATH + "/" + fileList[index];
     }
 
-    function updateWindowedPreloader(state, centerIndex) {
-      const clampedCenter = Math.max(0, Math.min(state.totalFrames - 1, Math.round(centerIndex)));
-      if (state.windowCenter === clampedCenter) return;
-      state.windowCenter = clampedCenter;
+    function manageSlidingWindowInRAF(state, currentIntFrame) {
+      const clamped = Math.max(0, Math.min(state.totalFrames - 1, currentIntFrame));
+      const minKeep = Math.max(0, clamped - WINDOW_BEHIND_LIMIT);
+      const maxKeep = Math.min(state.totalFrames - 1, clamped + WINDOW_AHEAD_LIMIT);
 
-      const minIdx = Math.max(0, clampedCenter - WINDOW_PREV_FRAMES);
-      const maxIdx = Math.min(state.totalFrames - 1, clampedCenter + WINDOW_NEXT_FRAMES);
+      // 1. Unload frames more than 10 frames behind (or > 20 ahead) to keep memory low
+      const allIndices = new Set([
+        ...Object.keys(state.lowImgCache),
+        ...Object.keys(state.hiImgCache),
+        ...Object.keys(state.bitmapCache)
+      ]);
 
-      const cachedKeys = Object.keys(state.frameCache);
-      for (let i = 0; i < cachedKeys.length; i++) {
-        const idx = Number(cachedKeys[i]);
-        if (idx < minIdx || idx > maxIdx) {
+      allIndices.forEach((keyStr) => {
+        const idx = Number(keyStr);
+        if (idx < minKeep || idx > maxKeep) {
           if (idx !== 0 && idx !== state.lastDrawnFrame) {
-            const oldImg = state.frameCache[idx];
-            if (oldImg) {
-              oldImg.onload = null;
-              oldImg.onerror = null;
-              oldImg.src = "";
+            if (state.bitmapCache[idx]) {
+              if (typeof state.bitmapCache[idx].close === "function") {
+                try { state.bitmapCache[idx].close(); } catch (e) {}
+              }
+              delete state.bitmapCache[idx];
             }
-            delete state.frameCache[idx];
+            if (state.hiImgCache[idx]) {
+              state.hiImgCache[idx].onload = null;
+              state.hiImgCache[idx].onerror = null;
+              state.hiImgCache[idx].src = "";
+              delete state.hiImgCache[idx];
+            }
+            if (state.lowImgCache[idx]) {
+              state.lowImgCache[idx].onload = null;
+              state.lowImgCache[idx].onerror = null;
+              state.lowImgCache[idx].src = "";
+              delete state.lowImgCache[idx];
+            }
+            delete state.gpuWarmingSet[idx + "_hi-webp"];
+            delete state.gpuWarmingSet[idx + "_low-webp"];
           }
         }
-      }
+      });
 
-      loadSingleFrameIntoWindow(state, clampedCenter);
-      const maxRadius = Math.max(WINDOW_PREV_FRAMES, WINDOW_NEXT_FRAMES);
-      for (let offset = 1; offset <= maxRadius; offset++) {
-        const nextIdx = clampedCenter + offset;
-        const prevIdx = clampedCenter - offset;
-        if (offset <= WINDOW_NEXT_FRAMES && nextIdx <= maxIdx) {
-          loadSingleFrameIntoWindow(state, nextIdx);
+      // 2. Dynamically load current frame + next 20 frames ahead (and 10 behind) in High-Res WebP
+      requestFrameAsset(state, clamped, "hi");
+      for (let ahead = 1; ahead <= WINDOW_AHEAD_LIMIT; ahead++) {
+        const idx = clamped + ahead;
+        if (idx <= maxKeep) {
+          // Ensure fast low-res placeholder for immediate neighbors if hi-res not yet loaded
+          if (ahead <= 4 && !state.hiImgCache[idx] && !state.lowImgCache[idx]) {
+            requestFrameAsset(state, idx, "low");
+          }
+          requestFrameAsset(state, idx, "hi");
         }
-        if (offset <= WINDOW_PREV_FRAMES && prevIdx >= minIdx) {
-          loadSingleFrameIntoWindow(state, prevIdx);
+      }
+      for (let behind = 1; behind <= WINDOW_BEHIND_LIMIT; behind++) {
+        const idx = clamped - behind;
+        if (idx >= minKeep) {
+          requestFrameAsset(state, idx, "hi");
         }
       }
     }
 
-    async function preloadInitialWindows() {
-      const bootPromises = [];
+    async function preloadInitialTenLowResFrames() {
+      const promises = [];
       STAGES.forEach((s) => {
         const state = sequenceState[s.id];
-        const initialMax = Math.min(state.totalFrames - 1, WINDOW_NEXT_FRAMES);
-        for (let idx = 0; idx <= initialMax; idx++) {
-          bootPromises.push(new Promise((resolve) => {
-            loadSingleFrameIntoWindow(state, idx, () => {
-              initialWindowLoaded++;
+        const count = Math.min(INITIAL_PRELOAD_COUNT, state.totalFrames);
+        for (let i = 0; i < count; i++) {
+          promises.push(new Promise((resolve) => {
+            requestFrameAsset(state, i, "low", () => {
+              initialFramesLoaded++;
               updatePreloaderUI();
-              if (idx === 0) state.needsRedraw = true;
+              if (i === 0) state.needsRedraw = true;
               resolve();
             });
           }));
         }
-        state.windowCenter = 0;
       });
-      await Promise.all(bootPromises);
+      await Promise.all(promises);
     }
 
     const particleSystems = [];
@@ -1848,13 +2411,15 @@
 
       const applyDpr = () => {
         dpr = window.devicePixelRatio || 1;
-        w = window.innerWidth;
-        h = window.innerHeight;
+        const rect = canvas.parentElement ? canvas.parentElement.getBoundingClientRect() : canvas.getBoundingClientRect();
+        w = rect.width || window.innerWidth;
+        h = rect.height || window.innerHeight;
         canvas.width = w * dpr;
         canvas.height = h * dpr;
         canvas.style.width = w + "px";
         canvas.style.height = h + "px";
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = "high";
       };
@@ -1895,33 +2460,41 @@
       });
     }
 
+    /* ==========================================================================
+       5. SMOOTH SCROLLING INTEGRATION & RAF RENDERING QUEUE
+          - Lenis normalizes scroll input
+          - Floating-point Lerp frame interpolation (Zero Math.round())
+          - Sliding window loading queue + canvas draw executed inside RAF
+       ========================================================================== */
     let lenis = null;
     let scrollVelocity = 0;
-    let rafActive = false;
+    let rafRunning = false;
 
     function startRequestAnimationFrameLoop() {
-      if (rafActive) return;
-      rafActive = true;
+      if (rafRunning) return;
+      rafRunning = true;
 
       function rafStep(timestampMs) {
         const timeSec = timestampMs * 0.001;
 
         for (let i = 0; i < STAGES.length; i++) {
           const state = sequenceState[STAGES[i].id];
-          const diff = state.targetFrame - state.currentFrame;
-          if (Math.abs(diff) > 0.005) {
-            state.currentFrame += diff * 0.22;
+          // Linear interpolation (lerp) on floating-point frame position
+          const delta = state.targetFrame - state.currentFrame;
+          if (Math.abs(delta) > 0.001) {
+            state.currentFrame += delta * 0.18;
           } else {
             state.currentFrame = state.targetFrame;
           }
 
-          const targetRounded = Math.round(state.currentFrame);
-          if (targetRounded !== state.windowCenter) {
-            updateWindowedPreloader(state, targetRounded);
-          }
+          // Select integer frame index without Math.round()
+          const intFrame = Math.floor(state.currentFrame + 0.0001);
 
-          if (targetRounded !== state.lastDrawnFrame || state.needsRedraw) {
-            drawSequenceFrame(state, targetRounded);
+          // Manage sliding window queue [+20 ahead, -10 behind] inside requestAnimationFrame
+          manageSlidingWindowInRAF(state, intFrame);
+
+          if (intFrame !== state.lastDrawnFrame || state.needsRedraw) {
+            drawSequenceFrame(state, intFrame);
           }
         }
 
@@ -1955,13 +2528,12 @@
         gsap.ticker.lagSmoothing(0);
       }
 
-      const isMobile = window.innerWidth < 768;
       const hudText = document.getElementById("hud-text");
 
       STAGES.forEach((stageCfg) => {
         const state = sequenceState[stageCfg.id];
         const totalFrames = state.totalFrames;
-        const pinDistance = totalFrames * (isMobile ? stageCfg.pxPerFrameMobile : stageCfg.pxPerFrameDesktop);
+        const pinDistance = totalFrames * (IS_MOBILE_DEVICE ? stageCfg.pxPerFrameMobile : stageCfg.pxPerFrameDesktop);
 
         ScrollTrigger.create({
           trigger: stageCfg.pinSelector,
@@ -1973,13 +2545,13 @@
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const p = self.progress;
+            // Scroll event ONLY updates floating-point targetFrame; RAF manages loading & drawing
             state.targetFrame = p * (totalFrames - 1);
-            updateWindowedPreloader(state, Math.round(state.targetFrame));
 
-            const fNum = Math.min(totalFrames, Math.max(1, Math.round(state.targetFrame) + 1));
-            const activeMemCount = Object.keys(state.frameCache).length;
+            const fNum = Math.min(totalFrames, Math.max(1, Math.floor(state.currentFrame + 0.0001) + 1));
+            const activeBitmaps = Object.keys(state.bitmapCache).length;
             if (hudText) {
-              hudText.textContent = stageCfg.label + " // 4K DPR " + (window.devicePixelRatio || 1) + "x ? FRAME " + String(fNum).padStart(3, "0") + "/" + totalFrames + " [RAM: " + activeMemCount + "f]";
+              hudText.textContent = stageCfg.label + " // WEBP q85 (" + (IS_MOBILE_DEVICE ? "1080p MOB" : "2x 4K") + ") ? FRAME " + String(fNum).padStart(3, "0") + "/" + totalFrames + " [GPU: " + activeBitmaps + "]";
             }
 
             if (stageCfg.id === "seq1") {
@@ -2115,7 +2687,7 @@
           gsap.to(invCard, { rotateY: nx * 22, rotateX: -ny * 22, z: 35, duration: 0.35, ease: "power2.out", overwrite: "auto" });
           if (invGlare) {
             invGlare.style.opacity = "0.75";
-            invGlare.style.background = "radial-gradient(circle at " + Math.round((nx + 0.5) * 100) + "% " + Math.round((ny + 0.5) * 100) + "%, rgba(255, 248, 210, 0.65), transparent 62%)";
+            invGlare.style.background = "radial-gradient(circle at " + Math.floor((nx + 0.5) * 100) + "% " + Math.floor((ny + 0.5) * 100) + "%, rgba(255, 248, 210, 0.65), transparent 62%)";
           }
         });
         invCard.addEventListener("pointerleave", () => {
@@ -2278,7 +2850,7 @@
     }
 
     window.addEventListener("resize", () => {
-      STAGES.forEach((s) => syncCanvasDPR(sequenceState[s.id]));
+      STAGES.forEach((s) => setupCanvasSharpness(sequenceState[s.id]));
       particleSystems.forEach((ps) => ps.resize());
       ScrollTrigger.refresh();
     });
@@ -2288,17 +2860,17 @@
       initParticlesForCanvas("#particles-seq2", 45);
       initParticlesForCanvas("#particles-seq3", 50);
 
-      STAGES.forEach((s) => syncCanvasDPR(sequenceState[s.id]));
+      STAGES.forEach((s) => setupCanvasSharpness(sequenceState[s.id]));
 
       const safetyTimeout = setTimeout(() => {
         const pre = document.getElementById("royal-preloader");
         if (pre) pre.classList.add("loaded");
-      }, 3500);
+      }, 2500);
 
-      await preloadInitialWindows();
+      await preloadInitialTenLowResFrames();
       clearTimeout(safetyTimeout);
 
-      STAGES.forEach((s) => syncCanvasDPR(sequenceState[s.id]));
+      STAGES.forEach((s) => setupCanvasSharpness(sequenceState[s.id]));
       init3DScrollArchitecture();
       initInteractive3DEffects();
       ScrollTrigger.refresh();
