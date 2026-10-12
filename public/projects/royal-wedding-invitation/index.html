@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Abhishek & Kanika ? Royal Madurai Meenakshi Temple 3D Scroll Wedding Invitation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <style>
+    :root {
+      --bg-obsidian: #150709;
+      --bg-crimson: #380A14;
+      --bg-sandstone: #24110B;
+      --gold-primary: #F3C65F;
+      --gold-bright: #FFE89E;
+      --gold-deep: #B88628;
+      --ivory-cream: #FFF9EC;
+      --ivory-muted: #EAD8B8;
+      --crimson-royal: #6E1022;
+      --font-display: 'Cinzel Decorative', Georgia, serif;
+      --font-editorial: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background-color: var(--bg-obsidian);
+      color: var(--ivory-cream);
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: auto;
+    }
+    .perspective-stage { perspective: 1400px; transform-style: preserve-3d; }
+    .preserve-3d { transform-style: preserve-3d; will-change: transform, opacity; }
+
+    #royal-preloader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: radial-gradient(circle at 50% 38%, #4A0E1B 0%, #1C060B 65%, #0D0305 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 24px;
+      transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.75s;
+    }
+    #royal-preloader.loaded { opacity: 0; visibility: hidden; pointer-events: none; }
+    .preloader-crest {
+      width: 92px; height: 92px; border-radius: 50%;
+      border: 1.5px solid rgba(243, 198, 95, 0.65);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 50px rgba(243, 198, 95, 0.3), inset 0 0 24px rgba(243, 198, 95, 0.2);
+      margin-bottom: 20px;
+      animation: pulseCrest 2.4s ease-in-out infinite;
+    }
+    @keyframes pulseCrest {
+      0%, 100% { transform: scale(1) rotate(0deg); box-shadow: 0 0 40px rgba(243, 198, 95, 0.28); }
+      50% { transform: scale(1.06) rotate(3deg); box-shadow: 0 0 65px rgba(243, 198, 95, 0.55); }
+    }
+    .preloader-bar-track {
+      width: min(360px, 84vw); height: 6px;
+      background: rgba(255, 249, 236, 0.12);
+      border-radius: 999px; overflow: hidden; margin-top: 16px;
+      border: 1px solid rgba(243, 198, 95, 0.35);
+    }
+    .preloader-bar-fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, #B88628, #F3C65F, #FFF2B2, #F3C65F);
+      border-radius: 999px; transition: width 0.15s ease-out;
+    }
+
+    .royal-navbar {
+      position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
+      z-index: 120; width: min(1220px, 95vw); padding: 10px 18px;
+      border-radius: 999px; background: rgba(24, 6, 11, 0.78);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(243, 198, 95, 0.38);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55), 0 0 25px rgba(243, 198, 95, 0.12);
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ivory-cream); }
+    .nav-monogram {
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 1px solid var(--gold-primary);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 12px; font-weight: 700; color: var(--gold-bright);
+      background: radial-gradient(circle, rgba(243, 198, 95, 0.25), rgba(56, 10, 20, 0.85));
+    }
+    .nav-links { display: flex; align-items: center; gap: 6px; }
+    .nav-links a {
+      color: var(--ivory-muted); text-decoration: none; font-size: 11px;
+      letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 11px;
+      border-radius: 999px; transition: all 0.25s ease;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: #1A070B; background: linear-gradient(135deg, var(--gold-bright), var(--gold-primary)); font-weight: 600;
+    }
+    .nav-actions { display: flex; align-items: center; gap: 8px; }
+    .royal-pill-btn {
+      appearance: none; border: 1px solid rgba(243, 198, 95, 0.55);
+      background: linear-gradient(135deg, rgba(110, 16, 34, 0.9), rgba(44, 8, 16, 0.95));
+      color: var(--gold-bright); font-family: var(--font-sans); font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 13px; border-radius: 999px;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .royal-pill-btn:hover { transform: translateY(-1.5px); box-shadow: 0 6px 20px rgba(243, 198, 95, 0.35); border-color: var(--gold-bright); }
+    .royal-pill-btn.gold-solid {
+      background: linear-gradient(135deg, #FFE89E 0%, #F3C65F 50%, #C8922E 100%);
+      color: #1B060A; border-color: #FFF3C4; font-weight: 700;
+    }
+
+    #hud-telemetry {
+      position: fixed; bottom: 18px; right: 18px; z-index: 115;
+      background: rgba(20, 5, 9, 0.84); backdrop-filter: blur(14px);
+      border: 1px solid rgba(243, 198, 95, 0.42); border-radius: 14px;
+      padding: 9px 14px; display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-mono); font-size: 11px; color: var(--gold-bright);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); pointer-events: none;
+    }
+    .hud-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ADE80; box-shadow: 0 0 10px #4ADE80; animation: hudBlink 1.4s infinite; }
+    @keyframes hudBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+    .sequence-pin-stage {
+      position: relative; width: 100%; height: 100vh; overflow: hidden;
+      background-color: var(--bg-obsidian); perspective: 1400px; transform-style: preserve-3d;
+    }
+    .sequence-canvas {
+      position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+      z-index: 1; will-change: transform; transform-origin: center center;
+    }
+    #canvas-seq1 { filter: saturate(1.26) contrast(1.09) brightness(1.07); }
+    #canvas-seq2 { filter: saturate(1.16) contrast(1.06) brightness(1.03); }
+    #canvas-seq3 { filter: saturate(1.18) contrast(1.07) brightness(1.04); }
+    .particles-overlay { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; }
+
+    .stage1-sunlit-aura {
+      position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255, 232, 158, 0.22) 0%, rgba(243, 198, 95, 0.06) 42%, transparent 70%),
+        linear-gradient(180deg, rgba(18, 5, 8, 0.25) 0%, transparent 22%, transparent 78%, rgba(21, 7, 9, 0.65) 100%);
+    }
+    .temple-corner { position: absolute; width: 68px; height: 68px; z-index: 6; pointer-events: none; opacity: 0.85; will-change: transform, opacity; }
+    .temple-corner.tl { top: 76px; left: 24px; }
+    .temple-corner.tr { top: 76px; right: 24px; transform: scaleX(-1); }
+    .temple-corner.bl { bottom: 24px; left: 24px; transform: scaleY(-1); }
+    .temple-corner.br { bottom: 24px; right: 24px; transform: scale(-1, -1); }
+
+    .stage-overlay-center {
+      position: absolute; inset: 0; z-index: 5;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 80px 20px 40px; pointer-events: none;
+      perspective: 1400px; transform-style: preserve-3d;
+    }
+    .hero-3d-monogram-card {
+      pointer-events: auto; padding: 28px 38px; border-radius: 28px;
+      background: radial-gradient(circle at 50% 0%, rgba(74, 14, 27, 0.56), rgba(20, 5, 9, 0.48));
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border: 1.5px solid rgba(243, 198, 95, 0.55);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.55), 0 0 50px rgba(243, 198, 95, 0.22);
+      max-width: 680px; transform-style: preserve-3d; will-change: transform, opacity;
+    }
+    .royal-kicker {
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.26em;
+      text-transform: uppercase; color: var(--gold-bright); margin-bottom: 10px;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .hero-couple-names {
+      font-family: var(--font-display); font-size: clamp(2.2rem, 5.2vw, 4.3rem);
+      font-weight: 700; line-height: 1.08;
+      background: linear-gradient(180deg, #FFFFFF 0%, #FFE89E 45%, #F3C65F 85%, #C8922E 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 6px 24px rgba(0, 0, 0, 0.65)); margin-bottom: 10px; transform: translateZ(40px);
+    }
+    .hero-subtitle {
+      font-family: var(--font-editorial); font-size: clamp(1.15rem, 2vw, 1.5rem);
+      font-style: italic; color: var(--ivory-cream); margin-bottom: 16px;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8); transform: translateZ(25px);
+    }
+    .hero-date-badge {
+      display: inline-flex; align-items: center; gap: 12px; padding: 8px 22px;
+      border-radius: 999px; background: rgba(24, 6, 11, 0.78);
+      border: 1px solid rgba(243, 198, 95, 0.65); color: var(--gold-bright);
+      font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.2em; transform: translateZ(30px);
+    }
+    #hero-midflight-card {
+      position: absolute; bottom: 44px; left: 50%; transform: translate3d(-50%, 40px, 120px);
+      z-index: 6; background: rgba(22, 5, 10, 0.82); backdrop-filter: blur(14px);
+      border: 1px solid rgba(243, 198, 95, 0.55); border-radius: 999px; padding: 12px 28px;
+      color: var(--ivory-cream); font-family: var(--font-editorial);
+      font-size: clamp(1rem, 1.6vw, 1.3rem); letter-spacing: 0.06em;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65), 0 0 30px rgba(243, 198, 95, 0.2);
+      opacity: 0; pointer-events: none; white-space: nowrap;
+    }
+    .scroll-cue {
+      position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+      z-index: 6; display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: var(--gold-bright); font-family: var(--font-mono); font-size: 10px;
+      letter-spacing: 0.22em; text-transform: uppercase; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+    }
+    .scroll-cue-line { width: 1.5px; height: 32px; background: linear-gradient(180deg, var(--gold-bright), transparent); animation: scrollPulse 1.6s ease-in-out infinite; }
+    @keyframes scrollPulse { 0%, 100% { transform: scaleY(0.6); opacity: 0.5; } 50% { transform: scaleY(1.1); opacity: 1; } }
+
+    #stage-invitation {
+      position: relative; min-height: 100vh; width: 100%; padding: 84px 20px 64px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: radial-gradient(circle at 50% 18%, rgba(138, 24, 46, 0.55) 0%, rgba(44, 8, 16, 0.92) 58%, #150709 100%);
+      overflow: hidden; perspective: 1400px; transform-style: preserve-3d;
+    }
+    .sanctuary-door-3d {
+      position: absolute; top: 0; bottom: 0; width: 50%; z-index: 8; pointer-events: none;
+      background: radial-gradient(circle at center, rgba(110, 16, 34, 0.94), rgba(24, 5, 10, 0.98));
+      box-shadow: 0 0 80px rgba(0, 0, 0, 0.85); will-change: transform, opacity;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sanctuary-door-3d.left { left: 0; transform-origin: left center; border-right: 2px solid var(--gold-primary); }
+    .sanctuary-door-3d.right { right: 0; transform-origin: right center; border-left: 2px solid var(--gold-primary); }
+
+    .ganesha-stage-wrap {
+      position: relative; display: flex; flex-direction: column; align-items: center;
+      margin-bottom: 18px; z-index: 4; transform-style: preserve-3d;
+    }
+    .chakra-halo-svg {
+      position: absolute; top: -18px; width: 148px; height: 148px; pointer-events: none;
+      animation: spinChakra 24s linear infinite; opacity: 0.75;
+    }
+    @keyframes spinChakra { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .ganesha-medallion {
+      width: 112px; height: 112px; border-radius: 50%; overflow: hidden;
+      border: 2.5px solid var(--gold-primary);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65), 0 0 35px rgba(243, 198, 95, 0.38);
+      position: relative; z-index: 2; background: #2A0810;
+    }
+    .ganesha-medallion img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .sanskrit-blessing {
+      margin-top: 10px; font-family: var(--font-display); font-size: 13px;
+      letter-spacing: 0.18em; color: var(--gold-bright); text-transform: uppercase;
+    }
+
+    .royal-scalloped-card {
+      position: relative; z-index: 5; width: 100%; max-width: 455px;
+      padding: 34px 28px 28px; border-radius: 220px 220px 26px 26px;
+      background: radial-gradient(circle at 50% 12%, #FFFDF7 0%, #FDF3DC 58%, #F4E0B8 100%);
+      color: #3A0C16; border: 3px solid var(--gold-primary);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.72), 0 0 50px rgba(243, 198, 95, 0.25), inset 0 0 0 6px rgba(184, 134, 40, 0.22);
+      text-align: center; transform-style: preserve-3d; will-change: transform; cursor: grab;
+    }
+    .royal-scalloped-card::before {
+      content: ""; position: absolute; inset: 8px;
+      border-radius: 212px 212px 20px 20px;
+      border: 1.5px dashed rgba(110, 16, 34, 0.35); pointer-events: none;
+    }
+    .card-glare {
+      position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.55), transparent 60%);
+      opacity: 0; transition: opacity 0.25s ease; mix-blend-mode: overlay;
+    }
+    .card-inner-3d { transform: translateZ(30px); transform-style: preserve-3d; }
+    .card-parents-line { font-family: var(--font-editorial); font-size: 15px; font-weight: 600; color: #5B1321; line-height: 1.35; margin-bottom: 6px; }
+    .card-invite-sub { font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #7C4D25; margin-bottom: 12px; }
+    .card-couple-display { font-family: var(--font-display); font-size: clamp(1.75rem, 3.5vw, 2.35rem); font-weight: 700; color: #6E1022; line-height: 1.12; margin: 8px 0; }
+    .card-ampersand { display: block; font-family: var(--font-editorial); font-style: italic; font-size: 1.35rem; color: #B88628; margin: 2px 0; }
+    .card-divider { width: 72%; height: 1px; margin: 12px auto; background: linear-gradient(90deg, transparent, #B88628, transparent); }
+    .card-date-highlight { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: #4A0D19; letter-spacing: 0.08em; margin-bottom: 4px; }
+    .card-venue-line { font-family: var(--font-editorial); font-size: 15px; font-weight: 600; color: #6E1022; }
+
+    #stage-events {
+      position: relative; min-height: 105vh; width: 100%; padding: 96px 24px 96px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      overflow: hidden; background-color: #1D0B07; perspective: 1500px; transform-style: preserve-3d;
+    }
+    .stage3-bg-wrap { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; overflow: hidden; }
+    .stage3-bg-img {
+      width: 100%; height: 116%; object-fit: cover; object-position: center center; display: block;
+      filter: saturate(1.2) contrast(1.08) brightness(0.68); will-change: transform;
+    }
+    .stage3-bg-wash {
+      position: absolute; inset: 0; z-index: 2;
+      background: radial-gradient(circle at 50% 30%, rgba(56, 16, 24, 0.38) 0%, rgba(21, 7, 9, 0.84) 90%);
+      pointer-events: none;
+    }
+    .stage3-content { position: relative; z-index: 5; width: min(1240px, 96vw); display: flex; flex-direction: column; align-items: center; transform-style: preserve-3d; }
+    .section-header-3d { text-align: center; margin-bottom: 28px; transform-style: preserve-3d; }
+    .section-title-gold {
+      font-family: var(--font-display); font-size: clamp(1.85rem, 3.8vw, 3rem);
+      background: linear-gradient(180deg, #FFFDF7 0%, #FFE89E 55%, #D69E3A 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;
+    }
+    .section-desc { font-family: var(--font-editorial); font-size: clamp(1.1rem, 1.8vw, 1.35rem); color: var(--ivory-muted); max-width: 640px; margin: 0 auto 16px; }
+    .scatter-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; margin-bottom: 28px; }
+
+    .events-polaroid-grid {
+      width: 100%; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 22px; perspective: 1500px; transform-style: preserve-3d;
+    }
+    .event-polaroid-card {
+      position: relative; background: linear-gradient(180deg, #FFFDF8 0%, #F7E8C8 100%);
+      color: #2E0911; border-radius: 18px; padding: 12px 12px 20px;
+      border: 2px solid var(--gold-primary);
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.65), 0 0 25px rgba(243, 198, 95, 0.16);
+      transform-style: preserve-3d; will-change: transform; cursor: pointer; transition: box-shadow 0.3s ease;
+    }
+    .event-polaroid-card:hover { box-shadow: 0 30px 65px rgba(0, 0, 0, 0.8), 0 0 38px rgba(243, 198, 95, 0.42); }
+    .polaroid-img-box {
+      width: 100%; aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden;
+      margin-bottom: 14px; position: relative; background: #2C0911;
+      border: 1px solid rgba(184, 134, 40, 0.4); transform: translateZ(20px);
+    }
+    .polaroid-img-box img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+    .event-polaroid-card:hover .polaroid-img-box img { transform: scale(1.07); }
+    .polaroid-tag {
+      display: inline-block; font-family: var(--font-mono); font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase; color: #7A1427;
+      background: rgba(243, 198, 95, 0.35); padding: 4px 10px; border-radius: 999px;
+      margin-bottom: 6px; font-weight: 600; transform: translateZ(25px);
+    }
+    .polaroid-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: #4A0D19; margin-bottom: 4px; transform: translateZ(30px); }
+    .polaroid-meta { font-family: var(--font-editorial); font-size: 15px; font-weight: 600; color: #6B3A1E; line-height: 1.35; transform: translateZ(22px); }
+
+    #couple-card-3d {
+      position: relative; z-index: 6; width: min(420px, 88vw); padding: 18px 18px 22px;
+      border-radius: 200px 200px 24px 24px; background: rgba(28, 6, 12, 0.76);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border: 2px solid rgba(243, 198, 95, 0.72);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.75), 0 0 45px rgba(243, 198, 95, 0.28);
+      text-align: center; pointer-events: auto; transform-style: preserve-3d; will-change: transform, opacity;
+    }
+    .couple-arch-photo {
+      width: 100%; height: 250px; border-radius: 180px 180px 16px 16px;
+      overflow: hidden; border: 1.5px solid var(--gold-primary); margin-bottom: 14px; transform: translateZ(28px);
+    }
+    .couple-arch-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    #peacock-mandap-caption {
+      position: absolute; bottom: 36px; left: 50%; transform: translate3d(-50%, 40px, 90px);
+      z-index: 6; background: rgba(22, 5, 10, 0.84); backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(243, 198, 95, 0.65); border-radius: 999px; padding: 12px 28px;
+      text-align: center; color: var(--gold-bright); font-family: var(--font-display);
+      font-size: clamp(0.85rem, 1.5vw, 1.1rem); letter-spacing: 0.1em;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.75); opacity: 0; pointer-events: none;
+    }
+
+    #rsvp-overlay-wrap {
+      position: absolute; inset: 0; z-index: 6;
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+      padding: 20px 18px 34px; pointer-events: none; perspective: 1400px; transform-style: preserve-3d;
+    }
+    #rsvp-card-3d {
+      pointer-events: auto; width: min(460px, 92vw); padding: 24px 26px; border-radius: 26px;
+      background: linear-gradient(165deg, rgba(36, 7, 14, 0.88) 0%, rgba(18, 4, 8, 0.94) 100%);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border: 1.5px solid rgba(243, 198, 95, 0.68);
+      box-shadow: 0 28px 75px rgba(0, 0, 0, 0.82), 0 0 45px rgba(243, 198, 95, 0.25);
+      text-align: center; transform-style: preserve-3d; will-change: transform, opacity;
+    }
+    .rsvp-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; margin-bottom: 12px; }
+    .rsvp-input {
+      width: 100%; padding: 10px 13px; border-radius: 10px;
+      border: 1px solid rgba(243, 198, 95, 0.4); background: rgba(255, 249, 236, 0.08);
+      color: var(--ivory-cream); font-family: var(--font-sans); font-size: 13px; outline: none;
+    }
+    .rsvp-input:focus { border-color: var(--gold-bright); box-shadow: 0 0 0 2px rgba(243, 198, 95, 0.25); }
+
+    @media (max-width: 960px) {
+      .events-polaroid-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .royal-navbar { top: 10px; padding: 8px 12px; }
+      .hero-3d-monogram-card { padding: 20px 18px; }
+      .royal-scalloped-card { max-width: 92vw; padding: 28px 18px 22px; }
+      .events-polaroid-grid { grid-template-columns: 1fr; max-width: 370px; }
+      .rsvp-form-row { grid-template-columns: 1fr; }
+      #hud-telemetry { bottom: 10px; right: 10px; font-size: 10px; padding: 7px 10px; }
+      .temple-corner { width: 44px; height: 44px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="royal-preloader" role="status" aria-live="polite">
+    <div class="preloader-crest">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#F3C65F" stroke-width="1.5">
+        <path d="M12 2L15 8L21 9L16.5 14L18 20L12 17L6 20L7.5 14L3 9L9 8L12 2Z" />
+      </svg>
+    </div>
+    <div class="royal-kicker">SACRED MADURAI MEENAKSHI TEMPLE // 3D SCROLL EXPERIENCE</div>
+    <h2 style="font-family: var(--font-display); font-size: clamp(1.4rem, 3vw, 2.1rem); color: var(--gold-bright); margin-bottom: 6px;">
+      Abhishek &amp; Kanika
+    </h2>
+    <p id="preloader-status" style="font-family: var(--font-mono); font-size: 12px; color: var(--ivory-muted);">
+      Preloading 4K 3D Sequence Frames: 0 / 409 (0%)
+    </p>
+    <div class="preloader-bar-track">
+      <div id="preloader-bar" class="preloader-bar-fill"></div>
+    </div>
+  </div>
+
+  <header class="royal-navbar">
+    <a href="#stage-hero-pin" class="nav-brand">
+      <div class="nav-monogram">A&amp;K</div>
+      <div>
+        <div style="font-family: var(--font-display); font-size: 12px; color: var(--gold-bright); letter-spacing: 0.08em;">ABHISHEK &amp; KANIKA</div>
+        <div style="font-family: var(--font-mono); font-size: 9px; color: var(--ivory-muted); letter-spacing: 0.14em;">12 ? 12 ? 2026 // MADURAI</div>
+      </div>
+    </a>
+
+    <nav class="nav-links" aria-label="Wedding Stages">
+      <a href="#stage-hero-pin" class="active">01 Gopuram 3D</a>
+      <a href="#stage-invitation">02 Invitation</a>
+      <a href="#stage-events">03 Celebrations</a>
+      <a href="#stage-couple-pin">04 Peacock Mandap 3D</a>
+      <a href="#stage-finale-pin">05 Finale &amp; RSVP 3D</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button type="button" id="btn-autoplay-3d" class="royal-pill-btn gold-solid" title="Auto-Play Full 3D Scroll Fly-Through">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <span id="autoplay-label">Auto-Play 3D Tour</span>
+      </button>
+      <button type="button" id="btn-audio-chime" class="royal-pill-btn" title="Toggle Sacred Temple Veena & Chime Ambience">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        </svg>
+        <span id="audio-label">Sound</span>
+      </button>
+    </div>
+  </header>
+
+  <div id="hud-telemetry">
+    <span class="hud-dot"></span>
+    <span id="hud-text">3D ENGINE READY // SEQ 01 ? FRAME 001 / 163</span>
+  </div>
+
+  <main>
+    <section id="stage-hero-pin" class="sequence-pin-stage">
+      <canvas id="canvas-seq1" class="sequence-canvas"></canvas>
+      <div class="stage1-sunlit-aura"></div>
+      <canvas id="particles-seq1" class="particles-overlay"></canvas>
+
+      <svg class="temple-corner tl" viewBox="0 0 100 100" fill="none">
+        <path d="M4 96V20C4 11.16 11.16 4 20 4H96" stroke="#F3C65F" stroke-width="3"/>
+        <path d="M14 82V26C14 19.37 19.37 14 26 14H82" stroke="#FFE89E" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <circle cx="24" cy="24" r="6" fill="#F3C65F"/>
+      </svg>
+      <svg class="temple-corner tr" viewBox="0 0 100 100" fill="none">
+        <path d="M4 96V20C4 11.16 11.16 4 20 4H96" stroke="#F3C65F" stroke-width="3"/>
+        <path d="M14 82V26C14 19.37 19.37 14 26 14H82" stroke="#FFE89E" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <circle cx="24" cy="24" r="6" fill="#F3C65F"/>
+      </svg>
+      <svg class="temple-corner bl" viewBox="0 0 100 100" fill="none">
+        <path d="M4 96V20C4 11.16 11.16 4 20 4H96" stroke="#F3C65F" stroke-width="3"/>
+        <circle cx="24" cy="24" r="6" fill="#F3C65F"/>
+      </svg>
+      <svg class="temple-corner br" viewBox="0 0 100 100" fill="none">
+        <path d="M4 96V20C4 11.16 11.16 4 20 4H96" stroke="#F3C65F" stroke-width="3"/>
+        <circle cx="24" cy="24" r="6" fill="#F3C65F"/>
+      </svg>
+
+      <div class="stage-overlay-center">
+        <div id="hero-monogram-3d" class="hero-3d-monogram-card">
+          <div class="royal-kicker">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#F3C65F"><circle cx="12" cy="12" r="8"/></svg>
+            SHRI MEENAKSHI SUNDARESWARAR SANCTUARY
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#F3C65F"><circle cx="12" cy="12" r="8"/></svg>
+          </div>
+          <h1 class="hero-couple-names">Abhishek &amp; Kanika</h1>
+          <p class="hero-subtitle">A Royal South Indian Temple Wedding Celebration in 3D</p>
+          <div class="hero-date-badge">
+            <span>DECEMBER 12, 2026</span>
+            <span>?</span>
+            <span>MADURAI PALACE &amp; MANDAPAM</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="hero-midflight-card">
+        ? Soaring Through the Sunlit Gopuram Towers into the Sacred Sanctum ?
+      </div>
+
+      <div id="hero-scroll-cue" class="scroll-cue">
+        <span>SCROLL TO FLY THROUGH IN 3D</span>
+        <div class="scroll-cue-line"></div>
+      </div>
+    </section>
+
+    <section id="stage-invitation" class="perspective-stage">
+      <div id="door-left-3d" class="sanctuary-door-3d left">
+        <svg width="90" height="220" viewBox="0 0 90 220" fill="none" opacity="0.45">
+          <rect x="10" y="10" width="70" height="200" rx="35" stroke="#F3C65F" stroke-width="2"/>
+          <circle cx="45" cy="110" r="22" stroke="#FFE89E" stroke-width="2"/>
+        </svg>
+      </div>
+      <div id="door-right-3d" class="sanctuary-door-3d right">
+        <svg width="90" height="220" viewBox="0 0 90 220" fill="none" opacity="0.45">
+          <rect x="10" y="10" width="70" height="200" rx="35" stroke="#F3C65F" stroke-width="2"/>
+          <circle cx="45" cy="110" r="22" stroke="#FFE89E" stroke-width="2"/>
+        </svg>
+      </div>
+
+      <div id="ganesha-3d-wrap" class="ganesha-stage-wrap">
+        <svg class="chakra-halo-svg" viewBox="0 0 200 200" fill="none">
+          <circle cx="100" cy="100" r="92" stroke="#F3C65F" stroke-width="1.5" stroke-dasharray="6 6"/>
+          <circle cx="100" cy="100" r="78" stroke="#FFE89E" stroke-width="1"/>
+          <path d="M100 4L108 24L92 24Z M100 196L108 176L92 176Z M4 100L24 108L24 92Z M196 100L176 108L176 92Z" fill="#F3C65F"/>
+        </svg>
+        <div class="ganesha-medallion">
+          <img src="/projects/royal-wedding-invitation/assets/nb_ganesha_emblem.jpg"
+               alt="Lord Ganesha Sacred Temple Emblem"
+               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1567591414240-e9c1e59f3e06?auto=format&fit=crop&w=800&q=85';" />
+        </div>
+        <div class="sanskrit-blessing">? ???? ?????? ??? ? ????????? ?????? ?</div>
+      </div>
+
+      <article id="invitation-card-3d" class="royal-scalloped-card">
+        <div id="inv-card-glare" class="card-glare"></div>
+        <div class="card-inner-3d">
+          <div class="card-invite-sub">WITH THE DIVINE BLESSINGS OF MEENAKSHI SUNDARESWARAR</div>
+          <p class="card-parents-line">
+            Smt. Lakshmi &amp; Shri Rajeshwar Sharma<br/>
+            <span style="font-size: 13px; font-weight: 400; color: #7C4D25;">Together with Smt. Kavitha &amp; Shri Vikramaditya Nair</span>
+          </p>
+          <div class="card-invite-sub" style="margin-top: 8px;">CORDIALLY INVITE YOU TO THE ROYAL WEDDING OF</div>
+
+          <div class="card-couple-display">
+            Abhishek
+            <span class="card-ampersand">&amp;</span>
+            Kanika
+          </div>
+
+          <div class="card-divider"></div>
+
+          <div class="card-date-highlight">SATURDAY ? DECEMBER 12, 2026</div>
+          <div class="card-venue-line">Meenakshi Amman Royal Mandapam, Madurai</div>
+          <p style="font-family: var(--font-sans); font-size: 11px; color: #7C4D25; margin-top: 8px;">
+            Move cursor or touch to tilt in 3D ? Scroll down for Celebrations
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section id="stage-events" class="perspective-stage">
+      <div class="stage3-bg-wrap">
+        <img id="stage3-frieze-img"
+             class="stage3-bg-img"
+             src="/projects/royal-wedding-invitation/assets/nb_page3_temple_frieze.jpg"
+             alt="Chola Sandstone Temple Frieze Background"
+             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1800&q=85';" />
+        <div class="stage3-bg-wash"></div>
+      </div>
+
+      <div class="stage3-content">
+        <div class="section-header-3d">
+          <div class="royal-kicker">THREE DAYS OF ROYAL GRANDEUR // MADURAI</div>
+          <h2 class="section-title-gold">The Sacred Celebrations</h2>
+          <p class="section-desc">
+            Each ceremony unfolds inside a bespoke temple courtyard. Scroll to fan out the 3D Polaroid deck or click below to scatter in 3D space.
+          </p>
+          <div class="scatter-controls">
+            <button type="button" id="btn-scatter-polaroids" class="royal-pill-btn gold-solid">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>
+              </svg>
+              <span id="scatter-btn-text">Scatter 3D Polaroids</span>
+            </button>
+            <button type="button" id="btn-fan-polaroids" class="royal-pill-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v20M2 12h20"/>
+              </svg>
+              <span>3D Royal Arc Formation</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="polaroid-grid" class="events-polaroid-grid">
+          <div class="event-polaroid-card" data-index="0">
+            <div class="polaroid-img-box">
+              <img src="/projects/royal-wedding-invitation/assets/event_mehendi.jpg"
+                   alt="Palace Courtyard Mehendi"
+                   onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=900&q=85';" />
+            </div>
+            <span class="polaroid-tag">DEC 10 ? 4:00 PM</span>
+            <h3 class="polaroid-title">Royal Mehendi</h3>
+            <p class="polaroid-meta">Lotus Courtyard ? Henna Artistry &amp; Carnatic Flute</p>
+          </div>
+
+          <div class="event-polaroid-card" data-index="1">
+            <div class="polaroid-img-box">
+              <img src="/projects/royal-wedding-invitation/assets/event_haldi.jpg"
+                   alt="Golden Marigold Haldi"
+                   onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=85';" />
+            </div>
+            <span class="polaroid-tag">DEC 11 ? 10:30 AM</span>
+            <h3 class="polaroid-title">Suvarna Haldi</h3>
+            <p class="polaroid-meta">Surya Mandapam ? Marigold Petals &amp; Nadaswaram</p>
+          </div>
+
+          <div class="event-polaroid-card" data-index="2">
+            <div class="polaroid-img-box">
+              <img src="/projects/royal-wedding-invitation/assets/event_sangeet.jpg"
+                   alt="Starlight Palace Sangeet"
+                   onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=900&q=85';" />
+            </div>
+            <span class="polaroid-tag">DEC 11 ? 7:30 PM</span>
+            <h3 class="polaroid-title">Imperial Sangeet</h3>
+            <p class="polaroid-meta">Chola Durbar Hall ? 1000 Oil Diyas &amp; Symphony</p>
+          </div>
+
+          <div class="event-polaroid-card" data-index="3">
+            <div class="polaroid-img-box">
+              <img src="/projects/royal-wedding-invitation/assets/event_baraat.jpg"
+                   alt="Royal Baraat & Sacred Muhurtham"
+                   onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1545232972-907690f5f76e?auto=format&fit=crop&w=900&q=85';" />
+            </div>
+            <span class="polaroid-tag">DEC 12 ? 9:15 AM</span>
+            <h3 class="polaroid-title">Muhurtham &amp; Baraat</h3>
+            <p class="polaroid-meta">Golden Peacock Sanctum ? Auspicious Vedic Lagnam</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="stage-couple-pin" class="sequence-pin-stage">
+      <canvas id="canvas-seq2" class="sequence-canvas"></canvas>
+      <canvas id="particles-seq2" class="particles-overlay"></canvas>
+
+      <div class="stage-overlay-center">
+        <div id="couple-card-3d">
+          <div class="royal-kicker" style="margin-bottom: 6px;">SACRED UNION // 3D ARCHWAY REVEAL</div>
+          <div class="couple-arch-photo">
+            <img src="/projects/royal-wedding-invitation/assets/meenakshi_couple_end.jpg"
+                 alt="Abhishek and Kanika Royal Portrait"
+                 onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=900&q=85';" />
+          </div>
+          <h3 style="font-family: var(--font-display); font-size: 1.55rem; color: var(--gold-bright); margin-bottom: 4px;">
+            Abhishek &amp; Kanika
+          </h3>
+          <p style="font-family: var(--font-editorial); font-size: 1.08rem; color: var(--ivory-cream);">
+            ?Two souls woven beneath the thousand sculpted pillars of Madurai.?
+          </p>
+        </div>
+      </div>
+
+      <div id="peacock-mandap-caption">
+        ? THE GOLDEN PEACOCK MANDAPAM ? AUSPICIOUS MUHURTHAM 9:15 AM ?
+      </div>
+    </section>
+
+    <section id="stage-finale-pin" class="sequence-pin-stage">
+      <canvas id="canvas-seq3" class="sequence-canvas"></canvas>
+      <canvas id="particles-seq3" class="particles-overlay"></canvas>
+
+      <div id="rsvp-overlay-wrap">
+        <div id="rsvp-card-3d">
+          <div class="royal-kicker" style="margin-bottom: 4px;">ROYAL SEAL OF ATTENDANCE // MADURAI</div>
+          <h2 style="font-family: var(--font-display); font-size: clamp(1.35rem, 2.5vw, 1.8rem); color: var(--gold-bright); margin-bottom: 4px;">
+            Await Your Royal Presence
+          </h2>
+          <p style="font-family: var(--font-editorial); font-size: 1rem; color: var(--ivory-muted);">
+            Kindly confirm your attendance for the Madurai Temple Celebrations
+          </p>
+
+          <form id="rsvp-form" onsubmit="return false;">
+            <div class="rsvp-form-row">
+              <input type="text" id="rsvp-name" class="rsvp-input" placeholder="Your Full Name" required />
+              <select id="rsvp-guests" class="rsvp-input" style="background-color: #24070D;">
+                <option value="2 Guests">2 Royal Guests</option>
+                <option value="1 Guest">1 Royal Guest</option>
+                <option value="Family (4)">Family Suite (4)</option>
+              </select>
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+              <button type="submit" id="rsvp-submit-btn" class="royal-pill-btn gold-solid" style="padding: 10px 22px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 6L9 17l-5-5"/>
+                </svg>
+                <span>Confirm Royal RSVP</span>
+              </button>
+              <a href="https://maps.google.com/?q=Meenakshi+Amman+Temple+Madurai" target="_blank" rel="noopener" class="royal-pill-btn" style="text-decoration: none; padding: 10px 16px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span>Temple Route Map</span>
+              </a>
+            </div>
+            <div id="rsvp-toast" style="display:none; margin-top: 10px; font-family: var(--font-mono); font-size: 11px; color: #4ADE80;">
+              ? Royal Attendance Recorded! We look forward to welcoming you in Madurai.
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <script>
+    const HERO_SEQUENCE_FOLDER   = "/projects/royal-wedding-invitation/sequences/ezgif-4d7d6efb92ca91b7-jpg";
+    const COUPLE_SEQUENCE_FOLDER = "/projects/royal-wedding-invitation/sequences/ezgif-4e9e9acb65350fae-jpg";
+    const FINALE_SEQUENCE_FOLDER = "/projects/royal-wedding-invitation/sequences/ezgif-4f13e7947c171340-jpg";
+    const ASSET_BASE_PATH        = "/projects/royal-wedding-invitation/assets";
+
+    const SEQUENCE_MANIFEST = {"seq1":{"dir":"ezgif-4d7d6efb92ca91b7-jpg","totalFrames":163,"files":["ezgif-frame-028.jpg","ezgif-frame-029.jpg","ezgif-frame-030.jpg","ezgif-frame-031.jpg","ezgif-frame-032.jpg","ezgif-frame-033.jpg","ezgif-frame-034.jpg","ezgif-frame-035.jpg","ezgif-frame-036.jpg","ezgif-frame-037.jpg","ezgif-frame-038.jpg","ezgif-frame-039.jpg","ezgif-frame-040.jpg","ezgif-frame-041.jpg","ezgif-frame-042.jpg","ezgif-frame-043.jpg","ezgif-frame-044.jpg","ezgif-frame-045.jpg","ezgif-frame-046.jpg","ezgif-frame-047.jpg","ezgif-frame-048.jpg","ezgif-frame-049.jpg","ezgif-frame-050.jpg","ezgif-frame-051.jpg","ezgif-frame-052.jpg","ezgif-frame-053.jpg","ezgif-frame-054.jpg","ezgif-frame-055.jpg","ezgif-frame-056.jpg","ezgif-frame-057.jpg","ezgif-frame-058.jpg","ezgif-frame-059.jpg","ezgif-frame-060.jpg","ezgif-frame-061.jpg","ezgif-frame-062.jpg","ezgif-frame-063.jpg","ezgif-frame-064.jpg","ezgif-frame-065.jpg","ezgif-frame-066.jpg","ezgif-frame-067.jpg","ezgif-frame-068.jpg","ezgif-frame-069.jpg","ezgif-frame-070.jpg","ezgif-frame-071.jpg","ezgif-frame-072.jpg","ezgif-frame-073.jpg","ezgif-frame-074.jpg","ezgif-frame-075.jpg","ezgif-frame-076.jpg","ezgif-frame-077.jpg","ezgif-frame-078.jpg","ezgif-frame-079.jpg","ezgif-frame-080.jpg","ezgif-frame-081.jpg","ezgif-frame-082.jpg","ezgif-frame-083.jpg","ezgif-frame-084.jpg","ezgif-frame-085.jpg","ezgif-frame-086.jpg","ezgif-frame-087.jpg","ezgif-frame-088.jpg","ezgif-frame-089.jpg","ezgif-frame-090.jpg","ezgif-frame-091.jpg","ezgif-frame-092.jpg","ezgif-frame-093.jpg","ezgif-frame-094.jpg","ezgif-frame-095.jpg","ezgif-frame-096.jpg","ezgif-frame-097.jpg","ezgif-frame-098.jpg","ezgif-frame-099.jpg","ezgif-frame-100.jpg","ezgif-frame-101.jpg","ezgif-frame-102.jpg","ezgif-frame-103.jpg","ezgif-frame-104.jpg","ezgif-frame-105.jpg","ezgif-frame-106.jpg","ezgif-frame-107.jpg","ezgif-frame-108.jpg","ezgif-frame-109.jpg","ezgif-frame-110.jpg","ezgif-frame-111.jpg","ezgif-frame-112.jpg","ezgif-frame-113.jpg","ezgif-frame-114.jpg","ezgif-frame-115.jpg","ezgif-frame-116.jpg","ezgif-frame-117.jpg","ezgif-frame-118.jpg","ezgif-frame-119.jpg","ezgif-frame-120.jpg","ezgif-frame-121.jpg","ezgif-frame-122.jpg","ezgif-frame-123.jpg","ezgif-frame-124.jpg","ezgif-frame-125.jpg","ezgif-frame-126.jpg","ezgif-frame-127.jpg","ezgif-frame-128.jpg","ezgif-frame-129.jpg","ezgif-frame-130.jpg","ezgif-frame-131.jpg","ezgif-frame-132.jpg","ezgif-frame-133.jpg","ezgif-frame-134.jpg","ezgif-frame-135.jpg","ezgif-frame-136.jpg","ezgif-frame-137.jpg","ezgif-frame-138.jpg","ezgif-frame-139.jpg","ezgif-frame-140.jpg","ezgif-frame-141.jpg","ezgif-frame-142.jpg","ezgif-frame-143.jpg","ezgif-frame-144.jpg","ezgif-frame-145.jpg","ezgif-frame-146.jpg","ezgif-frame-147.jpg","ezgif-frame-148.jpg","ezgif-frame-149.jpg","ezgif-frame-150.jpg","ezgif-frame-151.jpg","ezgif-frame-152.jpg","ezgif-frame-153.jpg","ezgif-frame-154.jpg","ezgif-frame-155.jpg","ezgif-frame-156.jpg","ezgif-frame-157.jpg","ezgif-frame-158.jpg","ezgif-frame-159.jpg","ezgif-frame-160.jpg","ezgif-frame-161.jpg","ezgif-frame-162.jpg","ezgif-frame-163.jpg","ezgif-frame-164.jpg","ezgif-frame-165.jpg","ezgif-frame-166.jpg","ezgif-frame-167.jpg","ezgif-frame-168.jpg","ezgif-frame-169.jpg","ezgif-frame-170.jpg","ezgif-frame-171.jpg","ezgif-frame-172.jpg","ezgif-frame-173.jpg","ezgif-frame-174.jpg","ezgif-frame-175.jpg","ezgif-frame-176.jpg","ezgif-frame-177.jpg","ezgif-frame-178.jpg","ezgif-frame-179.jpg","ezgif-frame-180.jpg","ezgif-frame-181.jpg","ezgif-frame-182.jpg","ezgif-frame-183.jpg","ezgif-frame-184.jpg","ezgif-frame-185.jpg","ezgif-frame-186.jpg","ezgif-frame-187.jpg","ezgif-frame-188.jpg","ezgif-frame-189.jpg","ezgif-frame-190.jpg"],"chunks":[{"file":"seq1_chunk_0.json","startFrame":0,"count":26,"sizeKB":654},{"file":"seq1_chunk_1.json","startFrame":26,"count":21,"sizeKB":661},{"file":"seq1_chunk_2.json","startFrame":47,"count":17,"sizeKB":648},{"file":"seq1_chunk_3.json","startFrame":64,"count":15,"sizeKB":626},{"file":"seq1_chunk_4.json","startFrame":79,"count":16,"sizeKB":644},{"file":"seq1_chunk_5.json","startFrame":95,"count":18,"sizeKB":654},{"file":"seq1_chunk_6.json","startFrame":113,"count":18,"sizeKB":652},{"file":"seq1_chunk_7.json","startFrame":131,"count":17,"sizeKB":649},{"file":"seq1_chunk_8.json","startFrame":148,"count":15,"sizeKB":560}]},"seq2":{"dir":"ezgif-4e9e9acb65350fae-jpg","totalFrames":94,"files":["ezgif-frame-001.jpg","ezgif-frame-002.jpg","ezgif-frame-003.jpg","ezgif-frame-004.jpg","ezgif-frame-005.jpg","ezgif-frame-006.jpg","ezgif-frame-007.jpg","ezgif-frame-008.jpg","ezgif-frame-009.jpg","ezgif-frame-010.jpg","ezgif-frame-011.jpg","ezgif-frame-012.jpg","ezgif-frame-013.jpg","ezgif-frame-014.jpg","ezgif-frame-015.jpg","ezgif-frame-016.jpg","ezgif-frame-017.jpg","ezgif-frame-018.jpg","ezgif-frame-019.jpg","ezgif-frame-020.jpg","ezgif-frame-021.jpg","ezgif-frame-022.jpg","ezgif-frame-023.jpg","ezgif-frame-024.jpg","ezgif-frame-025.jpg","ezgif-frame-026.jpg","ezgif-frame-027.jpg","ezgif-frame-028.jpg","ezgif-frame-029.jpg","ezgif-frame-030.jpg","ezgif-frame-031.jpg","ezgif-frame-032.jpg","ezgif-frame-033.jpg","ezgif-frame-034.jpg","ezgif-frame-035.jpg","ezgif-frame-036.jpg","ezgif-frame-037.jpg","ezgif-frame-038.jpg","ezgif-frame-039.jpg","ezgif-frame-040.jpg","ezgif-frame-041.jpg","ezgif-frame-042.jpg","ezgif-frame-043.jpg","ezgif-frame-044.jpg","ezgif-frame-045.jpg","ezgif-frame-046.jpg","ezgif-frame-047.jpg","ezgif-frame-048.jpg","ezgif-frame-049.jpg","ezgif-frame-104.jpg","ezgif-frame-105.jpg","ezgif-frame-106.jpg","ezgif-frame-107.jpg","ezgif-frame-108.jpg","ezgif-frame-109.jpg","ezgif-frame-110.jpg","ezgif-frame-111.jpg","ezgif-frame-112.jpg","ezgif-frame-113.jpg","ezgif-frame-114.jpg","ezgif-frame-115.jpg","ezgif-frame-116.jpg","ezgif-frame-117.jpg","ezgif-frame-118.jpg","ezgif-frame-119.jpg","ezgif-frame-120.jpg","ezgif-frame-121.jpg","ezgif-frame-122.jpg","ezgif-frame-123.jpg","ezgif-frame-124.jpg","ezgif-frame-125.jpg","ezgif-frame-126.jpg","ezgif-frame-127.jpg","ezgif-frame-128.jpg","ezgif-frame-129.jpg","ezgif-frame-130.jpg","ezgif-frame-131.jpg","ezgif-frame-132.jpg","ezgif-frame-133.jpg","ezgif-frame-134.jpg","ezgif-frame-135.jpg","ezgif-frame-136.jpg","ezgif-frame-137.jpg","ezgif-frame-138.jpg","ezgif-frame-139.jpg","ezgif-frame-140.jpg","ezgif-frame-141.jpg","ezgif-frame-142.jpg","ezgif-frame-143.jpg","ezgif-frame-144.jpg","ezgif-frame-145.jpg","ezgif-frame-146.jpg","ezgif-frame-147.jpg","ezgif-frame-148.jpg"],"chunks":[{"file":"seq2_chunk_0.json","startFrame":0,"count":6,"sizeKB":632},{"file":"seq2_chunk_1.json","startFrame":6,"count":13,"sizeKB":653},{"file":"seq2_chunk_2.json","startFrame":19,"count":15,"sizeKB":643},{"file":"seq2_chunk_3.json","startFrame":34,"count":16,"sizeKB":632},{"file":"seq2_chunk_4.json","startFrame":50,"count":13,"sizeKB":650},{"file":"seq2_chunk_5.json","startFrame":63,"count":10,"sizeKB":606},{"file":"seq2_chunk_6.json","startFrame":73,"count":10,"sizeKB":646},{"file":"seq2_chunk_7.json","startFrame":83,"count":9,"sizeKB":611},{"file":"seq2_chunk_8.json","startFrame":92,"count":2,"sizeKB":138}]},"seq3":{"dir":"ezgif-4f13e7947c171340-jpg","totalFrames":152,"files":["ezgif-frame-001.jpg","ezgif-frame-002.jpg","ezgif-frame-003.jpg","ezgif-frame-004.jpg","ezgif-frame-005.jpg","ezgif-frame-006.jpg","ezgif-frame-007.jpg","ezgif-frame-008.jpg","ezgif-frame-009.jpg","ezgif-frame-010.jpg","ezgif-frame-011.jpg","ezgif-frame-012.jpg","ezgif-frame-013.jpg","ezgif-frame-014.jpg","ezgif-frame-015.jpg","ezgif-frame-016.jpg","ezgif-frame-017.jpg","ezgif-frame-018.jpg","ezgif-frame-019.jpg","ezgif-frame-020.jpg","ezgif-frame-021.jpg","ezgif-frame-022.jpg","ezgif-frame-023.jpg","ezgif-frame-024.jpg","ezgif-frame-025.jpg","ezgif-frame-026.jpg","ezgif-frame-027.jpg","ezgif-frame-028.jpg","ezgif-frame-029.jpg","ezgif-frame-030.jpg","ezgif-frame-031.jpg","ezgif-frame-032.jpg","ezgif-frame-033.jpg","ezgif-frame-034.jpg","ezgif-frame-035.jpg","ezgif-frame-036.jpg","ezgif-frame-037.jpg","ezgif-frame-038.jpg","ezgif-frame-039.jpg","ezgif-frame-040.jpg","ezgif-frame-041.jpg","ezgif-frame-042.jpg","ezgif-frame-043.jpg","ezgif-frame-044.jpg","ezgif-frame-045.jpg","ezgif-frame-046.jpg","ezgif-frame-047.jpg","ezgif-frame-048.jpg","ezgif-frame-049.jpg","ezgif-frame-050.jpg","ezgif-frame-051.jpg","ezgif-frame-052.jpg","ezgif-frame-053.jpg","ezgif-frame-054.jpg","ezgif-frame-055.jpg","ezgif-frame-056.jpg","ezgif-frame-057.jpg","ezgif-frame-058.jpg","ezgif-frame-059.jpg","ezgif-frame-060.jpg","ezgif-frame-061.jpg","ezgif-frame-062.jpg","ezgif-frame-063.jpg","ezgif-frame-064.jpg","ezgif-frame-065.jpg","ezgif-frame-066.jpg","ezgif-frame-067.jpg","ezgif-frame-068.jpg","ezgif-frame-069.jpg","ezgif-frame-070.jpg","ezgif-frame-071.jpg","ezgif-frame-072.jpg","ezgif-frame-073.jpg","ezgif-frame-074.jpg","ezgif-frame-075.jpg","ezgif-frame-076.jpg","ezgif-frame-077.jpg","ezgif-frame-078.jpg","ezgif-frame-079.jpg","ezgif-frame-080.jpg","ezgif-frame-081.jpg","ezgif-frame-082.jpg","ezgif-frame-083.jpg","ezgif-frame-084.jpg","ezgif-frame-085.jpg","ezgif-frame-086.jpg","ezgif-frame-087.jpg","ezgif-frame-088.jpg","ezgif-frame-089.jpg","ezgif-frame-090.jpg","ezgif-frame-091.jpg","ezgif-frame-092.jpg","ezgif-frame-093.jpg","ezgif-frame-094.jpg","ezgif-frame-095.jpg","ezgif-frame-096.jpg","ezgif-frame-097.jpg","ezgif-frame-098.jpg","ezgif-frame-099.jpg","ezgif-frame-100.jpg","ezgif-frame-101.jpg","ezgif-frame-102.jpg","ezgif-frame-103.jpg","ezgif-frame-104.jpg","ezgif-frame-105.jpg","ezgif-frame-106.jpg","ezgif-frame-107.jpg","ezgif-frame-108.jpg","ezgif-frame-109.jpg","ezgif-frame-110.jpg","ezgif-frame-111.jpg","ezgif-frame-112.jpg","ezgif-frame-113.jpg","ezgif-frame-114.jpg","ezgif-frame-115.jpg","ezgif-frame-116.jpg","ezgif-frame-117.jpg","ezgif-frame-118.jpg","ezgif-frame-119.jpg","ezgif-frame-120.jpg","ezgif-frame-121.jpg","ezgif-frame-122.jpg","ezgif-frame-123.jpg","ezgif-frame-124.jpg","ezgif-frame-125.jpg","ezgif-frame-126.jpg","ezgif-frame-127.jpg","ezgif-frame-128.jpg","ezgif-frame-129.jpg","ezgif-frame-130.jpg","ezgif-frame-131.jpg","ezgif-frame-132.jpg","ezgif-frame-133.jpg","ezgif-frame-134.jpg","ezgif-frame-135.jpg","ezgif-frame-136.jpg","ezgif-frame-137.jpg","ezgif-frame-138.jpg","ezgif-frame-139.jpg","ezgif-frame-140.jpg","ezgif-frame-141.jpg","ezgif-frame-142.jpg","ezgif-frame-143.jpg","ezgif-frame-144.jpg","ezgif-frame-145.jpg","ezgif-frame-146.jpg","ezgif-frame-147.jpg","ezgif-frame-148.jpg","ezgif-frame-149.jpg","ezgif-frame-150.jpg","ezgif-frame-151.jpg","ezgif-frame-152.jpg"],"chunks":[{"file":"seq3_chunk_0.json","startFrame":0,"count":4,"sizeKB":590},{"file":"seq3_chunk_1.json","startFrame":4,"count":8,"sizeKB":620},{"file":"seq3_chunk_2.json","startFrame":12,"count":13,"sizeKB":638},{"file":"seq3_chunk_3.json","startFrame":25,"count":14,"sizeKB":638},{"file":"seq3_chunk_4.json","startFrame":39,"count":14,"sizeKB":628},{"file":"seq3_chunk_5.json","startFrame":53,"count":14,"sizeKB":638},{"file":"seq3_chunk_6.json","startFrame":67,"count":15,"sizeKB":658},{"file":"seq3_chunk_7.json","startFrame":82,"count":15,"sizeKB":648},{"file":"seq3_chunk_8.json","startFrame":97,"count":14,"sizeKB":632},{"file":"seq3_chunk_9.json","startFrame":111,"count":13,"sizeKB":622},{"file":"seq3_chunk_10.json","startFrame":124,"count":13,"sizeKB":653},{"file":"seq3_chunk_11.json","startFrame":137,"count":12,"sizeKB":621},{"file":"seq3_chunk_12.json","startFrame":149,"count":3,"sizeKB":156}]}};
+
+    const STAGES = [
+      {
+        id: "seq1",
+        label: "01 GOPURAM 3D FLY-THROUGH",
+        folder: HERO_SEQUENCE_FOLDER,
+        pinSelector: "#stage-hero-pin",
+        canvasSelector: "#canvas-seq1",
+        particlesSelector: "#particles-seq1",
+        pxPerFrameDesktop: 16,
+        pxPerFrameMobile: 12,
+        manifest: SEQUENCE_MANIFEST.seq1
+      },
+      {
+        id: "seq2",
+        label: "04 GOLDEN PEACOCK MANDAP 3D",
+        folder: COUPLE_SEQUENCE_FOLDER,
+        pinSelector: "#stage-couple-pin",
+        canvasSelector: "#canvas-seq2",
+        particlesSelector: "#particles-seq2",
+        pxPerFrameDesktop: 18,
+        pxPerFrameMobile: 14,
+        manifest: SEQUENCE_MANIFEST.seq2
+      },
+      {
+        id: "seq3",
+        label: "05 TEMPLE FINALE 3D",
+        folder: FINALE_SEQUENCE_FOLDER,
+        pinSelector: "#stage-finale-pin",
+        canvasSelector: "#canvas-seq3",
+        particlesSelector: "#particles-seq3",
+        pxPerFrameDesktop: 16,
+        pxPerFrameMobile: 12,
+        manifest: SEQUENCE_MANIFEST.seq3
+      }
+    ];
+
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+    const sequenceState = {};
+    let totalFramesAll = 0;
+    let loadedFramesAll = 0;
+
+    STAGES.forEach(s => {
+      totalFramesAll += s.manifest.totalFrames;
+      sequenceState[s.id] = {
+        images: new Array(s.manifest.totalFrames).fill(null),
+        targetFrame: 0,
+        currentFrame: 0,
+        lastDrawnFrame: -1,
+        canvas: document.querySelector(s.canvasSelector),
+        ctx: document.querySelector(s.canvasSelector).getContext("2d", { alpha: false })
+      };
+    });
+
+    function updatePreloaderUI() {
+      const pct = Math.min(100, Math.round((loadedFramesAll / Math.max(1, totalFramesAll)) * 100));
+      const bar = document.getElementById("preloader-bar");
+      const status = document.getElementById("preloader-status");
+      if (bar) bar.style.width = pct + "%";
+      if (status) {
+        status.textContent = "Preloading 4K 3D Sequence Frames: " + loadedFramesAll + " / " + totalFramesAll + " (" + pct + "%)";
+      }
+    }
+
+    function sizeCanvasHighDPI(state) {
+      const canvas = state.canvas;
+      if (!canvas) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = Math.max(1, window.innerWidth);
+      const h = Math.max(1, window.innerHeight);
+      if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) {
+        canvas.width = Math.round(w * dpr);
+        canvas.height = Math.round(h * dpr);
+      }
+      state.lastDrawnFrame = -1;
+      drawSequenceFrame(state, Math.round(state.currentFrame));
+    }
+
+    function drawSequenceFrame(state, frameIndex) {
+      const imgs = state.images;
+      if (!imgs || !imgs.length) return;
+      const clamped = Math.max(0, Math.min(imgs.length - 1, frameIndex));
+      let img = imgs[clamped];
+      if (!img || !img.complete || img.naturalWidth === 0) {
+        for (let offset = 1; offset < imgs.length; offset++) {
+          const prev = clamped - offset;
+          const next = clamped + offset;
+          if (prev >= 0 && imgs[prev] && imgs[prev].complete && imgs[prev].naturalWidth > 0) {
+            img = imgs[prev];
+            break;
+          }
+          if (next < imgs.length && imgs[next] && imgs[next].complete && imgs[next].naturalWidth > 0) {
+            img = imgs[next];
+            break;
+          }
+        }
+      }
+      if (!img || !img.complete || img.naturalWidth === 0) return;
+
+      const canvas = state.canvas;
+      const ctx = state.ctx;
+      const cw = canvas.width;
+      const ch = canvas.height;
+      const iw = img.naturalWidth;
+      const ih = img.naturalHeight;
+
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+
+      const scale = Math.max(cw / iw, ch / ih);
+      const sw = iw * scale;
+      const sh = ih * scale;
+      const dx = (cw - sw) * 0.5;
+      const dy = (ch - sh) * 0.5;
+
+      ctx.clearRect(0, 0, cw, ch);
+      ctx.drawImage(img, dx, dy, sw, sh);
+      state.lastDrawnFrame = clamped;
+    }
+
+    async function loadChunkForStage(stageCfg, chunkMeta) {
+      const state = sequenceState[stageCfg.id];
+      const url = ASSET_BASE_PATH + "/" + chunkMeta.file;
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("Chunk HTTP " + res.status);
+        const data = await res.json();
+        const decodePromises = data.frames.map((dataUri, idx) => {
+          return new Promise((resolve) => {
+            const img = new Image();
+            img.decoding = "async";
+            img.onload = () => {
+              state.images[data.startFrame + idx] = img;
+              loadedFramesAll++;
+              updatePreloaderUI();
+              if (data.startFrame + idx === 0) sizeCanvasHighDPI(state);
+              resolve();
+            };
+            img.onerror = () => {
+              loadedFramesAll++;
+              updatePreloaderUI();
+              resolve();
+            };
+            img.src = dataUri;
+          });
+        });
+        await Promise.all(decodePromises);
+      } catch (err) {
+        const slice = stageCfg.manifest.files.slice(chunkMeta.startFrame, chunkMeta.startFrame + chunkMeta.count);
+        await Promise.all(slice.map((fname, idx) => {
+          return new Promise((resolve) => {
+            const img = new Image();
+            img.decoding = "async";
+            img.onload = () => {
+              state.images[chunkMeta.startFrame + idx] = img;
+              loadedFramesAll++;
+              updatePreloaderUI();
+              if (chunkMeta.startFrame + idx === 0) sizeCanvasHighDPI(state);
+              resolve();
+            };
+            img.onerror = () => {
+              loadedFramesAll++;
+              updatePreloaderUI();
+              resolve();
+            };
+            img.src = stageCfg.folder + "/" + fname;
+          });
+        }));
+      }
+    }
+
+    async function preloadAllSequences() {
+      const priorityJobs = [];
+      for (const s of STAGES) {
+        s.manifest.chunks.slice(0, 2).forEach(c => priorityJobs.push(loadChunkForStage(s, c)));
+      }
+      await Promise.all(priorityJobs);
+
+      const remainingJobs = [];
+      for (const s of STAGES) {
+        s.manifest.chunks.slice(2).forEach(c => remainingJobs.push(() => loadChunkForStage(s, c)));
+      }
+      const CONCURRENCY = 6;
+      let cursor = 0;
+      async function worker() {
+        while (cursor < remainingJobs.length) {
+          const job = remainingJobs[cursor++];
+          await job();
+        }
+      }
+      await Promise.all(Array.from({ length: CONCURRENCY }, () => worker()));
+    }
+
+    const particleSystems = [];
+    function initParticlesForCanvas(selector, count) {
+      const canvas = document.querySelector(selector);
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      let w = (canvas.width = window.innerWidth);
+      let h = (canvas.height = window.innerHeight);
+      const particles = Array.from({ length: count }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        z: 0.4 + Math.random() * 1.4,
+        r: 1.1 + Math.random() * 2.4,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: -0.25 - Math.random() * 0.65,
+        alpha: 0.25 + Math.random() * 0.65,
+        phase: Math.random() * Math.PI * 2
+      }));
+      particleSystems.push({
+        canvas,
+        ctx,
+        particles,
+        resize() {
+          w = canvas.width = window.innerWidth;
+          h = canvas.height = window.innerHeight;
+        },
+        render(time, scrollBoost) {
+          ctx.clearRect(0, 0, w, h);
+          for (const p of particles) {
+            p.x += p.vx * p.z;
+            p.y += (p.vy - scrollBoost * 0.04) * p.z;
+            if (p.y < -10) p.y = h + 10;
+            if (p.y > h + 10) p.y = -10;
+            if (p.x < -10) p.x = w + 10;
+            if (p.x > w + 10) p.x = -10;
+            const glow = 0.5 + 0.5 * Math.sin(time * 2.2 + p.phase);
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r * p.z, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(255, 232, 158, " + (p.alpha * glow).toFixed(3) + ")";
+            ctx.fill();
+          }
+        }
+      });
+    }
+
+    let lenis = null;
+    let scrollVelocity = 0;
+
+    function init3DScrollArchitecture() {
+      if (typeof Lenis !== "undefined") {
+        lenis = new Lenis({
+          lerp: 0.09,
+          smoothWheel: true,
+          syncTouch: true,
+          wheelMultiplier: 1.0,
+          touchMultiplier: 1.25
+        });
+        lenis.on("scroll", (e) => {
+          scrollVelocity = e.velocity || 0;
+          ScrollTrigger.update();
+        });
+        gsap.ticker.add((time) => {
+          lenis.raf(time * 1000);
+        });
+        gsap.ticker.lagSmoothing(0);
+      }
+
+      const isMobile = window.innerWidth < 768;
+      const hudText = document.getElementById("hud-text");
+
+      STAGES.forEach((stageCfg) => {
+        const state = sequenceState[stageCfg.id];
+        const totalFrames = stageCfg.manifest.totalFrames;
+        const pinDistance = totalFrames * (isMobile ? stageCfg.pxPerFrameMobile : stageCfg.pxPerFrameDesktop);
+
+        ScrollTrigger.create({
+          trigger: stageCfg.pinSelector,
+          start: "top top",
+          end: () => "+=" + pinDistance,
+          pin: true,
+          scrub: 0.35,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const p = self.progress;
+            state.targetFrame = p * (totalFrames - 1);
+            const fNum = Math.min(totalFrames, Math.max(1, Math.round(state.targetFrame) + 1));
+            if (hudText) {
+              hudText.textContent = stageCfg.label + " // FRAME " + String(fNum).padStart(3, "0") + " / " + totalFrames;
+            }
+
+            if (stageCfg.id === "seq1") {
+              const heroCard = document.getElementById("hero-monogram-3d");
+              const scrollCue = document.getElementById("hero-scroll-cue");
+              const midCard = document.getElementById("hero-midflight-card");
+              const corners = document.querySelectorAll("#stage-hero-pin .temple-corner");
+
+              if (heroCard) {
+                const t = Math.min(1, p / 0.36);
+                const z = t * 440;
+                const ry = Math.sin(t * Math.PI) * 6;
+                const rx = t * 16;
+                const op = Math.max(0, 1 - Math.pow(t, 1.5));
+                heroCard.style.transform = "translate3d(0px, " + (-t * 45).toFixed(1) + "px, " + z.toFixed(1) + "px) rotateX(" + rx.toFixed(1) + "deg) rotateY(" + ry.toFixed(1) + "deg)";
+                heroCard.style.opacity = op.toFixed(3);
+                heroCard.style.pointerEvents = op > 0.2 ? "auto" : "none";
+              }
+              if (scrollCue) {
+                scrollCue.style.opacity = Math.max(0, 1 - p * 5).toFixed(2);
+              }
+              corners.forEach((c, idx) => {
+                const sx = idx % 2 === 0 ? -1 : 1;
+                const sy = idx < 2 ? -1 : 1;
+                const shift = Math.min(1, p * 2.2) * 60;
+                c.style.transform = "translate3d(" + (sx * shift).toFixed(1) + "px, " + (sy * shift).toFixed(1) + "px, 0px)";
+                c.style.opacity = Math.max(0.25, 1 - p * 0.9).toFixed(2);
+              });
+              if (midCard) {
+                let mOp = 0;
+                let mZ = 60;
+                if (p > 0.38 && p < 0.88) {
+                  mOp = Math.sin(((p - 0.38) / 0.50) * Math.PI);
+                  mZ = 60 + ((p - 0.38) / 0.50) * 110;
+                }
+                midCard.style.opacity = mOp.toFixed(3);
+                midCard.style.transform = "translate3d(-50%, " + ((1 - mOp) * 24).toFixed(1) + "px, " + mZ.toFixed(1) + "px)";
+              }
+              state.canvas.style.transform = "scale(" + (1 + Math.sin(p * Math.PI) * 0.045).toFixed(4) + ")";
+            }
+
+            if (stageCfg.id === "seq2") {
+              const coupleCard = document.getElementById("couple-card-3d");
+              const mandapCap = document.getElementById("peacock-mandap-caption");
+              if (coupleCard) {
+                if (p <= 0.52) {
+                  const e = Math.min(1, p / 0.28);
+                  const z = -220 + e * 260;
+                  const rx = (1 - e) * 22;
+                  const y = (1 - e) * 60;
+                  coupleCard.style.opacity = Math.min(1, 0.25 + e * 0.85).toFixed(3);
+                  coupleCard.style.transform = "translate3d(0px, " + y.toFixed(1) + "px, " + z.toFixed(1) + "px) rotateX(" + rx.toFixed(1) + "deg)";
+                } else {
+                  const out = Math.min(1, (p - 0.52) / 0.22);
+                  const z = 40 + out * 360;
+                  const op = Math.max(0, 1 - out * 1.25);
+                  coupleCard.style.opacity = op.toFixed(3);
+                  coupleCard.style.transform = "translate3d(0px, " + (-out * 55).toFixed(1) + "px, " + z.toFixed(1) + "px) scale(" + (1 + out * 0.22).toFixed(3) + ")";
+                }
+              }
+              if (mandapCap) {
+                const cOp = p > 0.58 ? Math.min(1, (p - 0.58) / 0.18) : 0;
+                mandapCap.style.opacity = cOp.toFixed(3);
+                mandapCap.style.transform = "translate3d(-50%, " + ((1 - cOp) * 28).toFixed(1) + "px, 90px)";
+              }
+              state.canvas.style.transform = "scale(" + (1 + Math.sin(p * Math.PI) * 0.04).toFixed(4) + ")";
+            }
+
+            if (stageCfg.id === "seq3") {
+              const rsvpCard = document.getElementById("rsvp-card-3d");
+              if (rsvpCard) {
+                const r = p < 0.58 ? 0 : Math.min(1, (p - 0.58) / 0.28);
+                const rx = (1 - r) * -28;
+                const y = (1 - r) * 80;
+                const z = -160 + r * 200;
+                rsvpCard.style.opacity = r.toFixed(3);
+                rsvpCard.style.transform = "translate3d(0px, " + y.toFixed(1) + "px, " + z.toFixed(1) + "px) rotateX(" + rx.toFixed(1) + "deg)";
+                rsvpCard.style.pointerEvents = r > 0.4 ? "auto" : "none";
+              }
+              state.canvas.style.transform = "scale(" + (1 + p * 0.04).toFixed(4) + ")";
+            }
+          }
+        });
+      });
+
+      gsap.fromTo("#door-left-3d",
+        { rotateY: 0, xPercent: 0, opacity: 0.95 },
+        { rotateY: -65, xPercent: -92, opacity: 0, ease: "power2.inOut", scrollTrigger: { trigger: "#stage-invitation", start: "top 88%", end: "top 18%", scrub: 0.5 } }
+      );
+      gsap.fromTo("#door-right-3d",
+        { rotateY: 0, xPercent: 0, opacity: 0.95 },
+        { rotateY: 65, xPercent: 92, opacity: 0, ease: "power2.inOut", scrollTrigger: { trigger: "#stage-invitation", start: "top 88%", end: "top 18%", scrub: 0.5 } }
+      );
+
+      gsap.fromTo("#ganesha-3d-wrap",
+        { y: -70, z: 180, rotateX: 28, opacity: 0, scale: 0.78 },
+        { y: 0, z: 30, rotateX: 0, opacity: 1, scale: 1, ease: "power3.out", scrollTrigger: { trigger: "#stage-invitation", start: "top 80%", end: "top 25%", scrub: 0.5 } }
+      );
+
+      gsap.fromTo("#invitation-card-3d",
+        { y: 110, z: -240, rotateX: 32, rotateY: -12, opacity: 0, scale: 0.84 },
+        { y: 0, z: 0, rotateX: 0, rotateY: 0, opacity: 1, scale: 1, ease: "power3.out", scrollTrigger: { trigger: "#stage-invitation", start: "top 75%", end: "center center", scrub: 0.5 } }
+      );
+
+      gsap.fromTo("#stage3-frieze-img",
+        { yPercent: -8, scale: 1.08 },
+        { yPercent: 8, scale: 1.15, ease: "none", scrollTrigger: { trigger: "#stage-events", start: "top bottom", end: "bottom top", scrub: true } }
+      );
+
+      const polaroids = gsap.utils.toArray(".event-polaroid-card");
+      polaroids.forEach((card, i) => {
+        const offsetFromCenter = (i - 1.5) * -140;
+        const startRotZ = (i - 1.5) * 14;
+        const startRotY = (i - 1.5) * -22;
+        gsap.fromTo(card,
+          { x: offsetFromCenter, y: 110, z: -260, rotateZ: startRotZ, rotateY: startRotY, rotateX: 24, opacity: 0.15 },
+          {
+            x: 0, y: 0, z: 0, rotateZ: (i % 2 === 0 ? -1.8 : 1.8), rotateY: 0, rotateX: 0, opacity: 1,
+            ease: "power3.out",
+            scrollTrigger: { trigger: "#stage-events", start: "top 78%", end: "center 52%", scrub: 0.55 }
+          }
+        );
+      });
+
+      gsap.ticker.add((time) => {
+        STAGES.forEach((s) => {
+          const state = sequenceState[s.id];
+          const diff = state.targetFrame - state.currentFrame;
+          if (Math.abs(diff) > 0.01) {
+            state.currentFrame += diff * 0.24;
+          } else {
+            state.currentFrame = state.targetFrame;
+          }
+          const frameToDraw = Math.round(state.currentFrame);
+          if (frameToDraw !== state.lastDrawnFrame) {
+            drawSequenceFrame(state, frameToDraw);
+          }
+        });
+        particleSystems.forEach(ps => ps.render(time, scrollVelocity));
+        scrollVelocity *= 0.92;
+      });
+    }
+
+    function initInteractive3DEffects() {
+      const invCard = document.getElementById("invitation-card-3d");
+      const invGlare = document.getElementById("inv-card-glare");
+      if (invCard) {
+        invCard.addEventListener("pointermove", (e) => {
+          const rect = invCard.getBoundingClientRect();
+          const nx = (e.clientX - rect.left) / rect.width - 0.5;
+          const ny = (e.clientY - rect.top) / rect.height - 0.5;
+          gsap.to(invCard, { rotateY: nx * 22, rotateX: -ny * 22, z: 35, duration: 0.35, ease: "power2.out", overwrite: "auto" });
+          if (invGlare) {
+            invGlare.style.opacity = "0.75";
+            invGlare.style.background = "radial-gradient(circle at " + Math.round((nx + 0.5) * 100) + "% " + Math.round((ny + 0.5) * 100) + "%, rgba(255, 248, 210, 0.65), transparent 62%)";
+          }
+        });
+        invCard.addEventListener("pointerleave", () => {
+          gsap.to(invCard, { rotateY: 0, rotateX: 0, z: 0, duration: 0.65, ease: "elastic.out(1, 0.5)", overwrite: "auto" });
+          if (invGlare) invGlare.style.opacity = "0";
+        });
+      }
+
+      const cards = Array.from(document.querySelectorAll(".event-polaroid-card"));
+      const scatterBtn = document.getElementById("btn-scatter-polaroids");
+      const scatterText = document.getElementById("scatter-btn-text");
+      const fanBtn = document.getElementById("btn-fan-polaroids");
+      let isScattered = false;
+
+      const scatterPresets = [
+        { x: -38, y: -26, z: 95, rZ: -14, rY: 18, rX: 8 },
+        { x: 28,  y: 32,  z: 45, rZ: 11,  rY: -14, rX: -6 },
+        { x: -24, y: -30, z: 120, rZ: -9, rY: 15, rX: 10 },
+        { x: 42,  y: 22,  z: 75, rZ: 15,  rY: -18, rX: -8 }
+      ];
+      const arcPresets = [
+        { x: 25,  y: 28, z: 40,  rZ: -12, rY: 22, rX: 4 },
+        { x: 8,   y: -8, z: 90,  rZ: -4,  rY: 8,  rX: 2 },
+        { x: -8,  y: -8, z: 90,  rZ: 4,   rY: -8, rX: 2 },
+        { x: -25, y: 28, z: 40,  rZ: 12,  rY: -22, rX: 4 }
+      ];
+
+      if (scatterBtn) {
+        scatterBtn.addEventListener("click", () => {
+          isScattered = !isScattered;
+          if (isScattered) {
+            if (scatterText) scatterText.textContent = "Reset 3D Polaroid Grid";
+            cards.forEach((card, i) => {
+              const p = scatterPresets[i % scatterPresets.length];
+              gsap.to(card, { x: p.x, y: p.y, z: p.z, rotateZ: p.rZ, rotateY: p.rY, rotateX: p.rX, scale: 1.05, duration: 0.75, ease: "back.out(1.6)", overwrite: "auto" });
+            });
+          } else {
+            if (scatterText) scatterText.textContent = "Scatter 3D Polaroids";
+            cards.forEach((card, i) => {
+              gsap.to(card, { x: 0, y: 0, z: 0, rotateZ: (i % 2 === 0 ? -1.8 : 1.8), rotateY: 0, rotateX: 0, scale: 1, duration: 0.7, ease: "power3.out", overwrite: "auto" });
+            });
+          }
+        });
+      }
+
+      if (fanBtn) {
+        fanBtn.addEventListener("click", () => {
+          isScattered = true;
+          if (scatterText) scatterText.textContent = "Reset 3D Polaroid Grid";
+          cards.forEach((card, i) => {
+            const p = arcPresets[i % arcPresets.length];
+            gsap.to(card, { x: p.x, y: p.y, z: p.z, rotateZ: p.rZ, rotateY: p.rY, rotateX: p.rX, scale: 1.04, duration: 0.75, ease: "expo.out", overwrite: "auto" });
+          });
+        });
+      }
+
+      cards.forEach((card, i) => {
+        card.addEventListener("pointermove", (e) => {
+          if (isScattered) return;
+          const rect = card.getBoundingClientRect();
+          const nx = (e.clientX - rect.left) / rect.width - 0.5;
+          const ny = (e.clientY - rect.top) / rect.height - 0.5;
+          gsap.to(card, { rotateY: nx * 20, rotateX: -ny * 20, z: 45, scale: 1.04, duration: 0.3, ease: "power2.out", overwrite: "auto" });
+        });
+        card.addEventListener("pointerleave", () => {
+          if (isScattered) return;
+          gsap.to(card, { rotateY: 0, rotateX: 0, rotateZ: (i % 2 === 0 ? -1.8 : 1.8), z: 0, scale: 1, duration: 0.5, ease: "power3.out", overwrite: "auto" });
+        });
+        card.addEventListener("click", () => {
+          gsap.fromTo(card, { z: 130, scale: 1.1, rotateY: -8 }, { z: isScattered ? 80 : 0, scale: 1, rotateY: 0, duration: 0.65, ease: "elastic.out(1, 0.5)" });
+        });
+      });
+
+      let autoTourTween = null;
+      const autoBtn = document.getElementById("btn-autoplay-3d");
+      const autoLabel = document.getElementById("autoplay-label");
+      const stopAutoTour = () => {
+        if (autoTourTween) {
+          autoTourTween.kill();
+          autoTourTween = null;
+          if (autoLabel) autoLabel.textContent = "Auto-Play 3D Tour";
+        }
+      };
+      window.addEventListener("wheel", stopAutoTour, { passive: true });
+      window.addEventListener("touchstart", stopAutoTour, { passive: true });
+
+      if (autoBtn) {
+        autoBtn.addEventListener("click", () => {
+          if (autoTourTween) {
+            stopAutoTour();
+            return;
+          }
+          const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+          const currentY = window.scrollY;
+          const startY = currentY > maxScroll * 0.92 ? 0 : currentY;
+          if (startY === 0) window.scrollTo(0, 0);
+          const remainingRatio = (maxScroll - startY) / maxScroll;
+          if (autoLabel) autoLabel.textContent = "Pause 3D Tour";
+          const proxy = { y: startY };
+          autoTourTween = gsap.to(proxy, {
+            y: maxScroll,
+            duration: Math.max(8, 34 * remainingRatio),
+            ease: "none",
+            onUpdate: () => {
+              if (lenis) lenis.scrollTo(proxy.y, { immediate: true });
+              else window.scrollTo(0, proxy.y);
+            },
+            onComplete: () => {
+              autoTourTween = null;
+              if (autoLabel) autoLabel.textContent = "Replay 3D Tour";
+            }
+          });
+        });
+      }
+
+      let audioCtx = null;
+      let audioTimer = null;
+      const audioBtn = document.getElementById("btn-audio-chime");
+      const audioLabel = document.getElementById("audio-label");
+      if (audioBtn) {
+        audioBtn.addEventListener("click", () => {
+          if (audioTimer) {
+            clearInterval(audioTimer);
+            audioTimer = null;
+            if (audioLabel) audioLabel.textContent = "Sound";
+            return;
+          }
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (!AC) return;
+          if (!audioCtx) audioCtx = new AC();
+          if (audioCtx.state === "suspended") audioCtx.resume();
+          const notes = [261.63, 329.63, 392.00, 523.25, 659.25];
+          const playNote = () => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = "sine";
+            osc.frequency.value = notes[Math.floor(Math.random() * notes.length)];
+            gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.045, audioCtx.currentTime + 0.08);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 2.4);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 2.5);
+          };
+          playNote();
+          audioTimer = setInterval(playNote, 1800);
+          if (audioLabel) audioLabel.textContent = "Playing";
+        });
+      }
+
+      const rsvpForm = document.getElementById("rsvp-form");
+      if (rsvpForm) {
+        rsvpForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const toast = document.getElementById("rsvp-toast");
+          if (toast) toast.style.display = "block";
+        });
+      }
+    }
+
+    window.addEventListener("resize", () => {
+      STAGES.forEach(s => sizeCanvasHighDPI(sequenceState[s.id]));
+      particleSystems.forEach(ps => ps.resize());
+      ScrollTrigger.refresh();
+    });
+
+    (async function boot() {
+      initParticlesForCanvas("#particles-seq1", 60);
+      initParticlesForCanvas("#particles-seq2", 45);
+      initParticlesForCanvas("#particles-seq3", 50);
+
+      STAGES.forEach(s => sizeCanvasHighDPI(sequenceState[s.id]));
+
+      const safetyTimeout = setTimeout(() => {
+        const pre = document.getElementById("royal-preloader");
+        if (pre) pre.classList.add("loaded");
+      }, 4500);
+
+      await preloadAllSequences();
+      clearTimeout(safetyTimeout);
+
+      STAGES.forEach(s => sizeCanvasHighDPI(sequenceState[s.id]));
+      init3DScrollArchitecture();
+      initInteractive3DEffects();
+      ScrollTrigger.refresh();
+
+      const pre = document.getElementById("royal-preloader");
+      if (pre) pre.classList.add("loaded");
+    })();
+  </script>
+</body>
+</html>

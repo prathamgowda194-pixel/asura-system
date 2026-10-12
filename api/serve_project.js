@@ -665,6 +665,10 @@ export default async function handler(req, res) {
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
     const candidatePaths = [
+      path.join('projects', qSlug || 'royal-wedding-invitation', 'assets', basename),
+      path.join('public', 'projects', qSlug || 'royal-wedding-invitation', 'assets', basename),
+      path.join('projects', 'royal-wedding-invitation', 'assets', basename),
+      path.join('public', 'projects', 'royal-wedding-invitation', 'assets', basename),
       path.join('projects', 'ktm-showroom', 'assets', basename),
       path.join('public', 'projects', 'ktm-showroom', 'assets', basename),
       path.join('projects', 'ktm-showroom', 'frames', 'drone', basename),
