@@ -642,7 +642,7 @@ export default async function handler(req, res) {
   const qSlug = (req.query && req.query.slug) || parsedUrl.searchParams.get('slug') || '';
   const assetParam = qAsset.toString().trim();
   const urlPath = req.url || '';
-  if (assetParam || urlPath.includes('/assets/')) {
+  if (assetParam || urlPath.includes('/assets/') || urlPath.includes('/frames/')) {
     const rawAsset = assetParam || (urlPath.split('/assets/')[1] || '').split('?')[0];
     const cleanAsset = rawAsset.replace(/^[/\\]+/, '').replace(/\.\./g, '');
     const basename = path.basename(cleanAsset);
@@ -665,6 +665,10 @@ export default async function handler(req, res) {
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
     const candidatePaths = [
+      path.join('projects', qSlug || 'filter-coffee', cleanAsset),
+      path.join('public', 'projects', qSlug || 'filter-coffee', cleanAsset),
+      path.join('projects', qSlug || 'filter-coffee', 'frames', cleanAsset),
+      path.join('projects', qSlug || 'filter-coffee', 'frames', 'assets', basename),
       path.join('projects', qSlug || 'royal-wedding-invitation', 'assets', basename),
       path.join('public', 'projects', qSlug || 'royal-wedding-invitation', 'assets', basename),
       path.join('projects', 'royal-wedding-invitation', 'assets', basename),
