@@ -1,0 +1,2621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Bruva Filter Coffee — South Indian Filter Coffee</title>
+  <meta name="description" content="Bruva Filter Coffee — From the hills of Coorg. Slow-dripped decoction, frothed by hand and served in brass. Twenty-five years of the same pour." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <style>
+    :root {
+      --espresso-deep: #180C07;
+      --espresso-dark: #23110A;
+      --espresso-mid: #32180E;
+      --terracotta-left: #8E4A1F;
+      --terracotta-mid: #A85B2B;
+      --terracotta-right: #B86B35;
+      --brass-bright: #F4D28C;
+      --brass-gold: #D8A95B;
+      --brass-deep: #9F6E28;
+      --ivory-pack: #F4F0EB;
+      --ivory-warm: #FAF6F0;
+      --text-cream: #F6ECE0;
+      --text-muted: rgba(246, 236, 224, 0.76);
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background-color: var(--espresso-deep);
+      color: var(--text-cream);
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    html.lenis, html.lenis body {
+      height: auto;
+    }
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+
+    /* ==========================================================================
+       PERSISTENT TOP NAVIGATION (OPUS 5.5 GLASS-TO-SOLID STATE MACHINE)
+       ========================================================================== */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: clamp(14px, 2vw, 24px) clamp(24px, 4.5vw, 68px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 320ms cubic-bezier(0.22, 1, 0.36, 1),
+                  backdrop-filter 320ms cubic-bezier(0.22, 1, 0.36, 1),
+                  border-color 320ms cubic-bezier(0.22, 1, 0.36, 1),
+                  opacity 400ms ease,
+                  transform 400ms ease;
+      background: linear-gradient(180deg, rgba(24, 12, 7, 0.55) 0%, rgba(24, 12, 7, 0) 100%);
+      border-bottom: 1px solid transparent;
+      pointer-events: auto;
+    }
+
+    .site-header.header-intro-hidden {
+      opacity: 0;
+      transform: translateY(-12px);
+      pointer-events: none;
+    }
+
+    .site-header.is-solid {
+      background: rgba(32, 16, 10, 0.86);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(216, 169, 91, 0.16);
+    }
+
+    .site-header.theme-light {
+      background: rgba(244, 240, 235, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(43, 24, 16, 0.08);
+    }
+
+    .brand-lockup {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: var(--text-cream);
+      gap: 2px;
+      cursor: pointer;
+      transition: transform 0.25s ease;
+    }
+    .brand-lockup:hover {
+      transform: translateY(-1px);
+    }
+    .brand-lockup svg {
+      width: 38px;
+      height: 38px;
+      display: block;
+    }
+    .brand-wordmark {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 19px;
+      letter-spacing: 0.12em;
+      line-height: 1;
+      color: #F8EFE4;
+      transition: color 300ms ease;
+    }
+    .brand-sub {
+      font-family: var(--font-sans);
+      font-size: 6.5px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--brass-gold);
+      transition: color 300ms ease;
+    }
+
+    .site-header.theme-light .brand-wordmark {
+      color: #2B1810;
+    }
+    .site-header.theme-light .brand-sub {
+      color: #7A4624;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: clamp(10px, 2vw, 26px);
+      list-style: none;
+    }
+
+    .nav-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 7px 18px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(246, 236, 224, 0.85);
+      text-decoration: none;
+      transition: all 280ms cubic-bezier(0.22, 1, 0.36, 1);
+      cursor: pointer;
+      background: transparent;
+    }
+    .nav-pill:hover {
+      color: #FFFFFF;
+      border-color: rgba(244, 210, 140, 0.32);
+    }
+    .nav-pill.active {
+      border-color: rgba(244, 210, 140, 0.65);
+      background: rgba(244, 210, 140, 0.08);
+      color: #FFFDF9;
+    }
+
+    .site-header.theme-light .nav-pill {
+      color: rgba(43, 24, 16, 0.72);
+    }
+    .site-header.theme-light .nav-pill:hover {
+      color: #180C07;
+      border-color: rgba(43, 24, 16, 0.25);
+    }
+    .site-header.theme-light .nav-pill.active {
+      color: #180C07;
+      border-color: rgba(43, 24, 16, 0.55);
+      background: rgba(43, 24, 16, 0.05);
+    }
+
+    /* Mobile Hamburger */
+    .mobile-menu-btn {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(244, 210, 140, 0.35);
+      background: rgba(24, 12, 7, 0.5);
+      color: var(--text-cream);
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    /* ==========================================================================
+       SCENE 1 + 2A: COORG DRONE FLY-THROUGH -> MELTED ESPRESSO DRIP WIPE HERO
+       ========================================================================== */
+    .hero-master-pin {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--espresso-deep);
+    }
+
+    /* Layer 1: 4K Coorg Plantation Drone Fly-Through Canvas */
+    #drone-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 1;
+    }
+
+    /* Centered Bruva Intro Overlay (00:00 - 00:01.4 in video) */
+    .intro-center-lockup {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, rgba(18, 10, 6, 0.44) 0%, rgba(18, 10, 6, 0.14) 48%, rgba(18, 10, 6, 0) 75%);
+      padding: 24px;
+      will-change: transform, opacity;
+    }
+
+    .intro-overline {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      font-family: var(--font-sans);
+      font-size: clamp(9px, 0.95vw, 12px);
+      font-weight: 500;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: rgba(248, 236, 216, 0.9);
+      margin-bottom: 18px;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65);
+    }
+    .intro-overline::before,
+    .intro-overline::after {
+      content: "";
+      width: clamp(32px, 4.5vw, 64px);
+      height: 1px;
+      background: linear-gradient(90deg, rgba(244, 210, 140, 0.15), rgba(244, 210, 140, 0.8), rgba(244, 210, 140, 0.15));
+    }
+
+    .intro-emblem-wrap {
+      width: clamp(110px, 12vw, 164px);
+      height: clamp(110px, 12vw, 164px);
+      margin-bottom: 8px;
+      filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.55));
+    }
+    .intro-emblem-wrap svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .intro-title {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: clamp(54px, 7.2vw, 104px);
+      letter-spacing: 0.08em;
+      line-height: 0.94;
+      color: #FFFDF9;
+      text-shadow: 0 8px 32px rgba(0, 0, 0, 0.65);
+      margin-bottom: 10px;
+    }
+
+    .intro-subline {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--font-sans);
+      font-size: clamp(10px, 1vw, 13px);
+      font-weight: 500;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--brass-bright);
+      margin-bottom: 16px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+    }
+    .intro-subline::before,
+    .intro-subline::after {
+      content: "";
+      width: clamp(24px, 3vw, 44px);
+      height: 1px;
+      background: rgba(244, 210, 140, 0.65);
+    }
+
+    .intro-tagline {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(18px, 1.85vw, 27px);
+      color: rgba(255, 248, 238, 0.92);
+      text-shadow: 0 4px 18px rgba(0, 0, 0, 0.75);
+    }
+
+    .skip-intro-btn {
+      position: absolute;
+      right: clamp(24px, 4vw, 56px);
+      bottom: clamp(24px, 3.5vh, 42px);
+      z-index: 15;
+      background: rgba(24, 12, 7, 0.42);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(244, 210, 140, 0.35);
+      color: #FFF9F0;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      padding: 10px 20px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .skip-intro-btn:hover {
+      background: rgba(244, 210, 140, 0.18);
+      border-color: var(--brass-bright);
+      transform: translateY(-2px);
+    }
+
+    /* Layer 2: Melted Espresso & Caramel Drip Hero Layer (00:01.4 - 00:03.2 in video) */
+    .drip-hero-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+      pointer-events: none;
+      opacity: 0;
+      will-change: opacity, transform;
+      background: linear-gradient(90deg, #985224 0%, #AD612E 52%, #B66833 100%);
+      overflow: hidden;
+    }
+
+    /* Viscous Dark Espresso Drip Curtain SVG at Top */
+    .drip-curtain-wrap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      will-change: transform;
+    }
+    .drip-curtain-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Filter Coffee Hero Center Lockup */
+    .filter-coffee-stage {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 clamp(24px, 5vw, 80px);
+    }
+
+    .filter-word-left,
+    .filter-word-right {
+      font-family: var(--font-serif);
+      font-size: clamp(58px, 8.8vw, 136px);
+      line-height: 0.92;
+      color: #F6ECE0;
+      text-shadow: 0 10px 35px rgba(18, 8, 4, 0.55);
+      will-change: transform, opacity;
+      user-select: none;
+    }
+    .filter-word-left {
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-right: clamp(16px, 2.5vw, 44px);
+    }
+    .filter-word-right {
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      margin-left: clamp(16px, 2.5vw, 44px);
+    }
+
+    .hero-brass-cup-card {
+      position: relative;
+      width: clamp(220px, 27vw, 410px);
+      aspect-ratio: 1 / 1.06;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-style: preserve-3d;
+      will-change: transform;
+      filter: drop-shadow(0 28px 36px rgba(38, 16, 6, 0.55));
+    }
+
+    /* Clean circular/elliptical studio blend around the extracted hero brass cup */
+    .hero-brass-cup-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 50%;
+      mask-image: radial-gradient(ellipse 48% 48% at 50% 50%, #000 66%, rgba(0,0,0,0.6) 84%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 48% 48% at 50% 50%, #000 66%, rgba(0,0,0,0.6) 84%, transparent 100%);
+    }
+
+    /* Bottom-Left Caption & Bottom-Right 25 Years Counter in Drip Hero */
+    .drip-hero-footer-left {
+      position: absolute;
+      left: clamp(24px, 4.5vw, 68px);
+      bottom: clamp(28px, 5.5vh, 56px);
+      z-index: 6;
+      max-width: 290px;
+      font-family: var(--font-sans);
+      font-size: clamp(12px, 1.05vw, 15px);
+      line-height: 1.55;
+      color: rgba(248, 236, 222, 0.86);
+      will-change: transform, opacity;
+    }
+
+    .drip-hero-footer-right {
+      position: absolute;
+      right: clamp(24px, 4.5vw, 68px);
+      bottom: clamp(24px, 5vh, 52px);
+      z-index: 6;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      will-change: transform, opacity;
+    }
+    .years-num {
+      font-family: var(--font-serif);
+      font-size: clamp(44px, 4.8vw, 72px);
+      font-weight: 500;
+      line-height: 0.85;
+      color: var(--brass-bright);
+    }
+    .years-label {
+      font-family: var(--font-sans);
+      font-size: clamp(9px, 0.85vw, 11.5px);
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      line-height: 1.45;
+      text-transform: uppercase;
+      color: rgba(248, 236, 222, 0.88);
+    }
+
+    /* ==========================================================================
+       SCENE 2B: THE RITUAL — PINNED 64-FRAME 4K WEBP 3D METRE POUR
+       ========================================================================== */
+    .ritual-section {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(90deg, #8B471D 0%, #A35728 46%, #B46732 100%);
+    }
+
+    #ritual-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 1;
+    }
+
+    /* Ambient rising steam particle canvas over the brass cup */
+    #steam-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .ritual-left-ui {
+      position: relative;
+      z-index: 5;
+      width: min(520px, 46vw);
+      height: 100%;
+      margin-left: clamp(24px, 5vw, 76px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      pointer-events: auto;
+    }
+
+    .ritual-stages-stack {
+      position: relative;
+      min-height: 230px;
+      margin-bottom: 28px;
+    }
+
+    .ritual-stage-card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 380ms cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+    }
+    .ritual-stage-card.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .ritual-heading {
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: clamp(38px, 4.4vw, 66px);
+      line-height: 1.04;
+      color: #FAF0E4;
+      margin-bottom: 18px;
+    }
+    .ritual-heading em {
+      display: block;
+      font-style: italic;
+      font-weight: 400;
+      color: #F3D5A0;
+    }
+
+    .ritual-desc {
+      font-family: var(--font-sans);
+      font-size: clamp(13px, 1.05vw, 15.5px);
+      line-height: 1.62;
+      color: rgba(250, 240, 228, 0.84);
+      max-width: 390px;
+    }
+
+    /* Interactive Progress Track with 3D Coffee Bean Thumb */
+    .ritual-scrubber-wrap {
+      width: 100%;
+      max-width: 420px;
+      padding-top: 8px;
+    }
+
+    .ritual-track-outer {
+      position: relative;
+      width: 100%;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .ritual-track-bg {
+      position: relative;
+      width: 100%;
+      height: 7px;
+      background: rgba(28, 12, 5, 0.72);
+      border-radius: 999px;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.65);
+      overflow: hidden;
+    }
+
+    .ritual-track-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 8%;
+      background: linear-gradient(90deg, #C88A4B 0%, #F1C97F 100%);
+      border-radius: 999px;
+    }
+
+    .ritual-tick-dot {
+      position: absolute;
+      top: 50%;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(250, 236, 216, 0.45);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .ritual-bean-thumb {
+      position: absolute;
+      top: 50%;
+      left: 4%;
+      width: 34px;
+      height: 26px;
+      transform: translate(-50%, -50%);
+      filter: drop-shadow(0 4px 10px rgba(20, 8, 2, 0.65));
+      transition: transform 0.15s ease;
+      pointer-events: none;
+    }
+    .ritual-track-outer:hover .ritual-bean-thumb {
+      transform: translate(-50%, -50%) scale(1.12);
+    }
+
+    .ritual-stops-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      padding: 0 2px;
+    }
+
+    .ritual-stop-btn {
+      background: none;
+      border: none;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(250, 240, 228, 0.48);
+      cursor: pointer;
+      padding: 4px 6px;
+      transition: color 0.25s ease;
+    }
+    .ritual-stop-btn:hover,
+    .ritual-stop-btn.active {
+      color: #FFF6E8;
+    }
+
+    .ritual-counter {
+      margin-top: 22px;
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 600;
+      color: #FAF0E4;
+      letter-spacing: 0.06em;
+    }
+    .ritual-counter span {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(250, 240, 228, 0.55);
+    }
+
+    /* ==========================================================================
+       SCENE 3: THE PACK — "Take the ritual home." + 3D FALLING COFFEE BEANS
+       ========================================================================== */
+    .pack-section {
+      position: relative;
+      width: 100%;
+      min-height: 105vh;
+      background: var(--ivory-pack);
+      color: #26140C;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: clamp(88px, 11vh, 128px) 24px clamp(64px, 8vh, 96px);
+    }
+
+    /* 60fps 3D Falling & Interactive Roasted Coffee Beans Canvas */
+    #beans-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .pack-header {
+      position: relative;
+      z-index: 6;
+      text-align: center;
+      margin-bottom: clamp(24px, 4vh, 44px);
+    }
+
+    .pack-title {
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: clamp(42px, 5vw, 74px);
+      line-height: 1.05;
+      color: #24120A;
+      margin-bottom: 20px;
+    }
+    .pack-title em {
+      font-style: italic;
+      font-weight: 400;
+      color: #4A2816;
+    }
+
+    .buy-now-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #2B170E;
+      color: #FAF4EC;
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 14px 34px;
+      border-radius: 999px;
+      border: 1px solid rgba(216, 169, 91, 0.35);
+      cursor: pointer;
+      box-shadow: 0 12px 28px rgba(43, 23, 14, 0.22);
+      transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .buy-now-btn:hover {
+      background: #3D2114;
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 18px 36px rgba(43, 23, 14, 0.32);
+    }
+
+    .pack-stage-grid {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      max-width: 1280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: clamp(390px, 54vh, 560px);
+    }
+
+    /* Left Callouts (RICH AROMA / BOLD TASTE / TRADITIONAL BLEND) */
+    .pack-callouts-left {
+      position: absolute;
+      left: clamp(24px, 11vw, 190px);
+      top: 38%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 26px;
+      z-index: 6;
+      pointer-events: none;
+    }
+
+    .pack-callout-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(43, 23, 14, 0.68);
+      opacity: 0;
+      transform: translateX(-18px);
+      transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .pack-callout-item.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .pack-callout-item::after {
+      content: "";
+      width: clamp(32px, 4vw, 58px);
+      height: 1px;
+      background: rgba(43, 23, 14, 0.22);
+    }
+
+    /* Center 500g Stand-Up Pouch with 3D Perspective Tilt */
+    .pouch-3d-wrapper {
+      position: relative;
+      z-index: 6;
+      width: clamp(260px, 26vw, 390px);
+      perspective: 1200px;
+      cursor: pointer;
+    }
+
+    .pouch-3d-card {
+      position: relative;
+      width: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.18s ease-out;
+      filter: drop-shadow(0 26px 38px rgba(36, 18, 10, 0.26));
+    }
+
+    .pouch-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 14px;
+      mix-blend-mode: multiply;
+    }
+
+    .pouch-glare {
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 30%, rgba(255, 238, 210, 0.22), transparent 60%);
+      mix-blend-mode: screen;
+    }
+
+    /* Settled Left & Right Coffee Bean Mounds at Base of Pack Section */
+    .beans-mound-left,
+    .beans-mound-right {
+      position: absolute;
+      bottom: -8px;
+      z-index: 4;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+      will-change: transform, opacity;
+    }
+    .beans-mound-left {
+      left: 0;
+      width: clamp(260px, 34vw, 520px);
+    }
+    .beans-mound-right {
+      right: 0;
+      width: clamp(280px, 38vw, 580px);
+    }
+
+    /* ==========================================================================
+       SCENE 4: THE ESTATE — "From the hills of Coorg." ARCH -> FULLSCREEN
+       ========================================================================== */
+    .estate-section {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      background: #170C08;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .estate-intro-header {
+      position: absolute;
+      top: clamp(86px, 12vh, 132px);
+      left: 0;
+      width: 100%;
+      text-align: center;
+      z-index: 4;
+      pointer-events: none;
+      will-change: transform, opacity;
+    }
+
+    .estate-main-title {
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: clamp(40px, 5vw, 72px);
+      line-height: 1.06;
+      color: #FAF0E4;
+      margin-bottom: 14px;
+    }
+    .estate-main-title em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--brass-bright);
+    }
+
+    .estate-sub-coords {
+      font-family: var(--font-sans);
+      font-size: clamp(9.5px, 0.9vw, 12px);
+      font-weight: 500;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: rgba(246, 236, 224, 0.66);
+    }
+
+    /* Roman Arch Portal Container that expands to 100vw x 100vh on scroll */
+    .estate-arch-portal {
+      position: relative;
+      width: min(470px, 84vw);
+      height: 62vh;
+      border-radius: 999px 999px 0 0;
+      overflow: hidden;
+      z-index: 5;
+      will-change: width, height, border-radius;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.75);
+    }
+
+    .estate-bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      transform: scale(1.06);
+      will-change: transform;
+    }
+
+    .estate-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg,
+        rgba(18, 9, 5, 0.28) 0%,
+        rgba(18, 9, 5, 0.08) 45%,
+        rgba(18, 9, 5, 0.72) 100%);
+      z-index: 2;
+    }
+
+    /* 3-Beat Left Narrative Overlay inside Expanded Estate Portal */
+    .estate-chapters-wrap {
+      position: absolute;
+      left: clamp(24px, 5vw, 76px);
+      bottom: clamp(42px, 8vh, 88px);
+      z-index: 6;
+      width: min(440px, 86vw);
+      min-height: 190px;
+      pointer-events: none;
+    }
+
+    .estate-beat {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .estate-beat.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .estate-beat-title {
+      font-family: var(--font-serif);
+      font-weight: 600;
+      font-size: clamp(38px, 4.3vw, 64px);
+      line-height: 1.02;
+      color: #FFFDF9;
+      margin-bottom: 14px;
+      text-shadow: 0 6px 24px rgba(0, 0, 0, 0.65);
+    }
+    .estate-beat-title em {
+      display: block;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--brass-bright);
+    }
+
+    .estate-beat-desc {
+      font-family: var(--font-sans);
+      font-size: clamp(13px, 1.05vw, 15px);
+      line-height: 1.6;
+      color: rgba(255, 248, 240, 0.9);
+      max-width: 360px;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Rising Sunlit Coorg Shade Card in Center (Beat 2: Grown in the shade.) */
+    .estate-sunlit-card-wrap {
+      position: absolute;
+      left: 54%;
+      bottom: clamp(28px, 5vh, 54px);
+      transform: translate(-50%, 120%) rotate(-1.5deg);
+      width: clamp(210px, 21vw, 310px);
+      aspect-ratio: 384 / 546;
+      border-radius: 18px;
+      overflow: hidden;
+      z-index: 6;
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(244, 210, 140, 0.32);
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+    .estate-sunlit-card-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Rotating Circular Coorg Estate Heritage Seal at Bottom-Right */
+    .estate-rotating-seal {
+      position: absolute;
+      right: clamp(28px, 5.5vw, 84px);
+      bottom: clamp(36px, 7vh, 76px);
+      width: clamp(148px, 14.5vw, 206px);
+      height: clamp(148px, 14.5vw, 206px);
+      border-radius: 50%;
+      background: rgba(28, 14, 8, 0.88);
+      border: 1.5px solid rgba(216, 169, 91, 0.55);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+      z-index: 7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.84);
+      will-change: transform, opacity;
+    }
+
+    .seal-ring-svg {
+      position: absolute;
+      inset: 4px;
+      width: calc(100% - 8px);
+      height: calc(100% - 8px);
+      will-change: transform;
+    }
+
+    .seal-inner-photo {
+      width: 62%;
+      height: 62%;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1.5px solid rgba(244, 210, 140, 0.6);
+      position: relative;
+      z-index: 2;
+    }
+    .seal-inner-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ==========================================================================
+       SCENE 5: DEEP ESPRESSO HERITAGE FOOTER (EXACT MATCH TO 00:15.2)
+       ========================================================================== */
+    .site-footer {
+      position: relative;
+      width: 100%;
+      background: #1B0E09;
+      border-top: 1px solid rgba(216, 169, 91, 0.16);
+      padding: clamp(56px, 8vh, 88px) clamp(24px, 5vw, 84px) clamp(36px, 5vh, 56px);
+      color: var(--text-cream);
+      z-index: 10;
+    }
+
+    .footer-grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: clamp(32px, 5vw, 72px);
+      align-items: start;
+    }
+
+    .footer-brand-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .footer-logo-lockup {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 4px;
+    }
+    .footer-logo-lockup svg {
+      width: 64px;
+      height: 64px;
+    }
+    .footer-logo-word {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      line-height: 1;
+      color: #FFFDF9;
+    }
+    .footer-logo-sub {
+      font-family: var(--font-sans);
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--brass-gold);
+    }
+
+    .footer-tagline {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: rgba(246, 236, 224, 0.66);
+      margin-top: 6px;
+    }
+
+    .footer-col-label {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(216, 169, 91, 0.72);
+      margin-bottom: 18px;
+    }
+
+    .footer-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-list a,
+    .footer-list span {
+      font-family: var(--font-serif);
+      font-size: 21px;
+      color: rgba(250, 240, 228, 0.88);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .footer-list a:hover {
+      color: var(--brass-bright);
+    }
+    .footer-list.pack-specs span {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: rgba(250, 240, 228, 0.76);
+    }
+
+    .footer-bottom-bar {
+      max-width: 1280px;
+      margin: 48px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid rgba(246, 236, 224, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(246, 236, 224, 0.48);
+    }
+
+    .back-to-top-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      color: rgba(246, 236, 224, 0.78);
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+    .back-to-top-btn:hover {
+      color: var(--brass-bright);
+      transform: translateY(-2px);
+    }
+
+    /* ==========================================================================
+       ASURA VAULT SYNTHESIS: TACTILE THERMAL ORDER RECEIPT MODAL (XEVRION LAB)
+       ========================================================================== */
+    .order-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(14, 6, 3, 0.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.32s ease;
+    }
+    .order-modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .order-modal-card {
+      width: 100%;
+      max-width: 520px;
+      background: linear-gradient(165deg, #28140C 0%, #190C07 100%);
+      border: 1px solid rgba(216, 169, 91, 0.35);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.75);
+      color: var(--text-cream);
+      position: relative;
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .order-modal-backdrop.open .order-modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(244, 210, 140, 0.25);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .blend-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 16px 0 22px;
+    }
+    .blend-pill {
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(216, 169, 91, 0.3);
+      background: rgba(255, 255, 255, 0.03);
+      color: rgba(246, 236, 224, 0.82);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .blend-pill.active {
+      background: var(--brass-gold);
+      color: #180C07;
+      font-weight: 600;
+      border-color: var(--brass-bright);
+    }
+
+    /* Thermal Receipt Slot (Xevrion Lab) */
+    .thermal-slot {
+      margin-top: 20px;
+      background: #0D0603;
+      border-radius: 10px;
+      padding: 8px 14px 0;
+      border: 1px solid rgba(216, 169, 91, 0.22);
+      overflow: hidden;
+    }
+    .thermal-paper {
+      background: #F7F2E7;
+      color: #221209;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      line-height: 1.55;
+      padding: 18px 16px;
+      border-radius: 4px 4px 0 0;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.75s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+      border-bottom: 2px dashed #8B6E58;
+    }
+    .thermal-paper.printed {
+      max-height: 280px;
+      opacity: 1;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE DESIGN (MOBILE & TABLET)
+       ========================================================================== */
+    @media (max-width: 900px) {
+      .filter-coffee-stage {
+        flex-direction: column;
+        gap: 6px;
+      }
+      .filter-word-left, .filter-word-right {
+        margin: 0;
+        font-size: clamp(46px, 12vw, 76px);
+      }
+      .ritual-left-ui {
+        width: calc(100% - 48px);
+        justify-content: flex-end;
+        padding-bottom: 44px;
+        background: linear-gradient(180deg, transparent 45%, rgba(68, 30, 10, 0.86) 80%);
+        margin-left: 0;
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+      .pack-callouts-left {
+        position: static;
+        transform: none;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 18px;
+      }
+      .pack-stage-grid {
+        flex-direction: column;
+      }
+      .estate-sunlit-card-wrap {
+        left: 72%;
+        bottom: 170px;
+        width: 150px;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       PERSISTENT TOP NAVIGATION BAR (GLASS-TO-SOLID STATE MACHINE)
+       ======================================================================== -->
+  <header class="site-header header-intro-hidden" id="site-header">
+    <a href="#top" class="brand-lockup" id="nav-brand-link" aria-label="Bruva Filter Coffee Home">
+      <svg viewBox="0 0 64 64" width="38" height="38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="brassGradNav" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#FCE4A6"/>
+            <stop offset="50%" stop-color="#D7A14B"/>
+            <stop offset="100%" stop-color="#8C5919"/>
+          </linearGradient>
+        </defs>
+        <!-- Steam Ribbons -->
+        <path d="M32 6C36 12 25 16 30 23C34 17 42 13 32 6Z" fill="url(#brassGradNav)"/>
+        <path d="M38 10C43 16 34 20 37 25C42 20 47 15 38 10Z" fill="url(#brassGradNav)" opacity="0.85"/>
+        <!-- Coffee Leaves Left -->
+        <path d="M12 40C12 33 19 31 24 37C19 41 14 42 12 40Z" fill="url(#brassGradNav)"/>
+        <!-- Tumbler -->
+        <path d="M23 27H43L40 45H26L23 27Z" fill="url(#brassGradNav)"/>
+        <ellipse cx="33" cy="27" rx="10.5" ry="3.2" fill="#FFF2CE" stroke="url(#brassGradNav)" stroke-width="1.2"/>
+        <!-- Dabara Bowl -->
+        <path d="M19 43H47L44 53C41 56 25 56 22 53L19 43Z" fill="url(#brassGradNav)"/>
+        <ellipse cx="33" cy="43" rx="14.5" ry="3.4" fill="none" stroke="#FCE4A6" stroke-width="1.4"/>
+      </svg>
+      <span class="brand-wordmark">BRUVA</span>
+      <span class="brand-sub">FILTER COFFEE</span>
+    </a>
+
+    <nav aria-label="Primary Navigation">
+      <ul class="nav-links">
+        <li><a href="#the-ritual" class="nav-pill active" data-nav="ritual">THE RITUAL</a></li>
+        <li><a href="#the-pack" class="nav-pill" data-nav="pack">THE PACK</a></li>
+        <li><a href="#the-estate" class="nav-pill" data-nav="estate">THE ESTATE</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ========================================================================
+       SCENE 1 + 2A: COORG DRONE FLY-THROUGH & MELTED ESPRESSO DRIP WIPE HERO
+       ======================================================================== -->
+  <section class="hero-master-pin" id="top">
+    <!-- 4K Dual-Tier WebP Canvas: Coorg Plantation Drone Fly-Through -->
+    <canvas id="drone-canvas"></canvas>
+
+    <!-- Centered Intro Lockup (00:00 - 00:01.4) -->
+    <div class="intro-center-lockup" id="intro-lockup">
+      <div class="intro-overline">FROM THE HILLS OF COORG</div>
+
+      <!-- Bespoke High-Detail 3D Gold/Brass Steaming Tumbler & Dabara Emblem -->
+      <div class="intro-emblem-wrap">
+        <svg viewBox="0 0 180 180" width="160" height="160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="goldRim" x1="20" y1="20" x2="155" y2="160" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#FFF2C6"/>
+              <stop offset="35%" stop-color="#E5B664"/>
+              <stop offset="70%" stop-color="#B67A2A"/>
+              <stop offset="100%" stop-color="#6E4110"/>
+            </linearGradient>
+            <linearGradient id="goldBody" x1="55" y1="80" x2="130" y2="150" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#8C5418"/>
+              <stop offset="28%" stop-color="#FCE5A8"/>
+              <stop offset="55%" stop-color="#C98E38"/>
+              <stop offset="82%" stop-color="#FFF0C2"/>
+              <stop offset="100%" stop-color="#744210"/>
+            </linearGradient>
+            <linearGradient id="leafGrad" x1="25" y1="90" x2="75" y2="145" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#DFB86C"/>
+              <stop offset="100%" stop-color="#7B5620"/>
+            </linearGradient>
+          </defs>
+          <!-- Flowing Golden Steam S-Ribbons -->
+          <path d="M98 14C108 34 72 44 82 68C90 50 124 40 98 14Z" fill="url(#goldRim)"/>
+          <path d="M112 24C122 44 90 52 96 72C108 56 134 46 112 24Z" fill="url(#goldRim)" opacity="0.9"/>
+          <!-- Outer Golden Swirl Arc -->
+          <path d="M88 68C128 62 146 96 124 134C138 102 122 74 88 68Z" fill="url(#goldRim)" opacity="0.88"/>
+          <!-- Coffee Leaves on Left -->
+          <path d="M36 102C38 82 58 80 68 104C52 114 38 112 36 102Z" fill="url(#leafGrad)" stroke="#FCE4A6" stroke-width="1"/>
+          <path d="M24 124C32 108 52 110 62 126C46 134 28 132 24 124Z" fill="url(#leafGrad)" stroke="#FCE4A6" stroke-width="1"/>
+          <!-- Roasted Coffee Beans at Base Left -->
+          <ellipse cx="60" cy="134" rx="9" ry="6" transform="rotate(-22 60 134)" fill="#7A4419" stroke="#E5B664" stroke-width="1.2"/>
+          <ellipse cx="71" cy="140" rx="8.5" ry="5.5" transform="rotate(14 71 140)" fill="#633410" stroke="#E5B664" stroke-width="1.2"/>
+          <!-- Brass Dabara Saucer Base -->
+          <path d="M56 118H130L123 145C114 156 72 156 63 145L56 118Z" fill="url(#goldBody)"/>
+          <ellipse cx="93" cy="118" rx="38" ry="9" fill="#5E340E" stroke="url(#goldRim)" stroke-width="2.4"/>
+          <!-- Brass Tumbler Inside Dabara -->
+          <path d="M66 80H120L114 124C106 130 80 130 72 124L66 80Z" fill="url(#goldBody)"/>
+          <!-- Frothy Golden Crema Top -->
+          <ellipse cx="93" cy="80" rx="27.5" ry="8.5" fill="#F6C976" stroke="#FFF3CF" stroke-width="2"/>
+          <circle cx="84" cy="79" r="1.8" fill="#B57426" opacity="0.7"/>
+          <circle cx="95" cy="77" r="2.2" fill="#B57426" opacity="0.6"/>
+          <circle cx="104" cy="81" r="1.6" fill="#B57426" opacity="0.7"/>
+        </svg>
+      </div>
+
+      <h1 class="intro-title">BRUVA</h1>
+      <div class="intro-subline">FILTER COFFEE</div>
+      <p class="intro-tagline">Twenty-five years of the same pour.</p>
+    </div>
+
+    <button class="skip-intro-btn" id="skip-intro-btn" type="button">SKIP INTRO</button>
+
+    <!-- Layer 2: Melted Espresso Drip Wipe & "Filter Coffee" Hero Lockup (00:01.4 - 00:03.2) -->
+    <div class="drip-hero-layer" id="drip-hero-layer">
+      <!-- Viscous Dark Espresso Drip Wave SVG with Falling Coffee Droplets -->
+      <div class="drip-curtain-wrap" id="drip-curtain-wrap">
+        <svg class="drip-curtain-svg" viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="espressoGlow" cx="50%" cy="38%" r="48%">
+              <stop offset="0%" stop-color="#4A2515"/>
+              <stop offset="55%" stop-color="#26120A"/>
+              <stop offset="100%" stop-color="#190B06"/>
+            </radialGradient>
+          </defs>
+          <!-- Viscous Melted Espresso Finger Drips Path Matching screen_03_2_0s.jpg -->
+          <path id="drip-wave-path" fill="url(#espressoGlow)" d="
+            M0,0 L1440,0 L1440,520
+            C1410,520 1395,430 1355,430
+            C1315,430 1308,650 1265,650
+            C1222,650 1218,455 1175,455
+            C1132,455 1126,615 1085,615
+            C1044,615 1038,440 998,440
+            C958,440 952,555 918,555
+            C884,555 878,445 840,445
+            C802,445 796,675 752,675
+            C708,675 695,420 550,420
+            C435,420 426,635 384,635
+            C342,635 336,425 298,425
+            C260,425 254,530 224,530
+            C194,530 188,430 152,430
+            C116,430 110,618 72,618
+            C34,618 28,435 0,435 Z
+          " />
+          <!-- 4 Specular Falling Coffee Teardrops -->
+          <g id="falling-drops">
+            <path d="M72,640 C72,640 62,662 62,670 C62,676 66.5,680 72,680 C77.5,680 82,676 82,670 C82,662 72,640 72,640 Z" fill="#1E0D07"/>
+            <ellipse cx="69" cy="669" rx="2" ry="4.5" fill="#D89B6C" opacity="0.65"/>
+
+            <path d="M384,658 C384,658 375,678 375,685 C375,691 379,695 384,695 C389,695 393,691 393,685 C393,678 384,658 384,658 Z" fill="#1E0D07"/>
+            <ellipse cx="381" cy="684" rx="1.8" ry="4" fill="#D89B6C" opacity="0.65"/>
+
+            <path d="M752,696 C752,696 741,720 741,728 C741,735 746,740 752,740 C758,740 763,735 763,728 C763,720 752,696 752,696 Z" fill="#1E0D07"/>
+            <ellipse cx="749" cy="726" rx="2.2" ry="5" fill="#D89B6C" opacity="0.65"/>
+
+            <path d="M1085,636 C1085,636 1076,656 1076,663 C1076,669 1080,673 1085,673 C1090,673 1094,669 1094,663 C1094,656 1085,636 1085,636 Z" fill="#1E0D07"/>
+            <ellipse cx="1082" cy="662" rx="1.8" ry="4" fill="#D89B6C" opacity="0.65"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Center Lockup: Filter [3D Brass Tumbler & Dabara] Coffee -->
+      <div class="filter-coffee-stage" id="filter-coffee-stage">
+        <span class="filter-word-left" id="word-filter">Filter</span>
+        <div class="hero-brass-cup-card" id="hero-brass-cup">
+          <img
+            src="/projects/filter-coffee/frames/assets/hero-cup.webp"
+            alt="Traditional South Indian Brass Tumbler and Dabara with Frothed Filter Coffee"
+            class="hero-brass-cup-img"
+            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=900&q=85';"
+          />
+        </div>
+        <span class="filter-word-right" id="word-coffee">Coffee</span>
+      </div>
+
+      <!-- Bottom-Left & Bottom-Right Captions -->
+      <div class="drip-hero-footer-left" id="drip-footer-left">
+        Slow-dripped decoction, frothed by hand<br />
+        and served in brass. The same cup,<br />
+        poured the same way, since 2001.
+      </div>
+
+      <div class="drip-hero-footer-right" id="drip-footer-right">
+        <div class="years-num">25</div>
+        <div class="years-label">
+          YEARS OF THE<br />
+          SAME POUR
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SCENE 2B: THE RITUAL — PINNED 64-FRAME 4K WEBP 3D METRE POUR
+       ======================================================================== -->
+  <section class="ritual-section" id="the-ritual">
+    <!-- 4K Dual-Tier WebP Canvas: 3D Brass Tumbler & Dabara Metre Pour -->
+    <canvas id="ritual-canvas"></canvas>
+    <!-- Volumetric Golden Steam Particle Canvas -->
+    <canvas id="steam-canvas"></canvas>
+
+    <!-- Left Synchronized 4-Stage Controller -->
+    <div class="ritual-left-ui">
+      <div class="ritual-stages-stack">
+        <!-- Stage 01: LIFT -->
+        <article class="ritual-stage-card active" data-stage="0">
+          <h2 class="ritual-heading">
+            Served in brass,
+            <em>as it always was.</em>
+          </h2>
+          <p class="ritual-desc">
+            Tumbler and dabara, too hot to hold. It is how filter coffee has always been served, and how we have served it for twenty-five years.
+          </p>
+        </article>
+
+        <!-- Stage 02: TILT -->
+        <article class="ritual-stage-card" data-stage="1">
+          <h2 class="ritual-heading">
+            First,
+            <em>a slow tilt.</em>
+          </h2>
+          <p class="ritual-desc">
+            The tumbler is raised high above the dabara. The height is the craft: the longer the fall, the finer the froth.
+          </p>
+        </article>
+
+        <!-- Stage 03: POUR -->
+        <article class="ritual-stage-card" data-stage="2">
+          <h2 class="ritual-heading">
+            Then the
+            <em>metre pour.</em>
+          </h2>
+          <p class="ritual-desc">
+            One unbroken ribbon from tumbler to dabara. It cools the cup, marries milk and decoction, and wakes the aroma.
+          </p>
+        </article>
+
+        <!-- Stage 04: FROTH -->
+        <article class="ritual-stage-card" data-stage="3">
+          <h2 class="ritual-heading">
+            Froth,
+            <em>and then silence.</em>
+          </h2>
+          <p class="ritual-desc">
+            A thick, bubbled crown settles on top. No machine and no steam wand. Only gravity, brass, and practice.
+          </p>
+        </article>
+      </div>
+
+      <!-- Interactive Progress Track with 3D Roasted Coffee Bean Thumb -->
+      <div class="ritual-scrubber-wrap">
+        <div class="ritual-track-outer" id="ritual-track-outer" role="slider" aria-label="Filter Coffee Ritual Stage" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" tabindex="0">
+          <div class="ritual-track-bg">
+            <div class="ritual-track-fill" id="ritual-track-fill"></div>
+          </div>
+          <span class="ritual-tick-dot" style="left: 4%;"></span>
+          <span class="ritual-tick-dot" style="left: 34%;"></span>
+          <span class="ritual-tick-dot" style="left: 66%;"></span>
+          <span class="ritual-tick-dot" style="left: 96%;"></span>
+
+          <!-- 3D Roasted Coffee Bean Slider Thumb SVG -->
+          <div class="ritual-bean-thumb" id="ritual-bean-thumb">
+            <svg viewBox="0 0 36 28" width="34" height="26" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="beanGrad" cx="35%" cy="30%" r="70%">
+                  <stop offset="0%" stop-color="#C98A63"/>
+                  <stop offset="45%" stop-color="#7A3E20"/>
+                  <stop offset="100%" stop-color="#381809"/>
+                </radialGradient>
+              </defs>
+              <ellipse cx="18" cy="14" rx="15" ry="10.5" transform="rotate(-18 18 14)" fill="url(#beanGrad)" stroke="#E3A87B" stroke-width="0.8"/>
+              <path d="M6 18C13 11 23 17 30 10" stroke="#220C04" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M7 17C13 10.5 23 16.5 29 9.5" stroke="#DDA378" stroke-width="0.7" stroke-linecap="round" opacity="0.7"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="ritual-stops-row">
+          <button type="button" class="ritual-stop-btn active" data-target-progress="0.04">LIFT</button>
+          <button type="button" class="ritual-stop-btn" data-target-progress="0.35">TILT</button>
+          <button type="button" class="ritual-stop-btn" data-target-progress="0.68">POUR</button>
+          <button type="button" class="ritual-stop-btn" data-target-progress="0.96">FROTH</button>
+        </div>
+
+        <div class="ritual-counter" id="ritual-counter">
+          01 <span>/ 04</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SCENE 3: THE PACK — "Take the ritual home." + 3D FALLING COFFEE BEANS
+       ======================================================================== -->
+  <section class="pack-section" id="the-pack">
+    <!-- 60fps 3D Falling & Interactive Roasted Coffee Beans Canvas -->
+    <canvas id="beans-canvas"></canvas>
+
+    <div class="pack-header">
+      <h2 class="pack-title">Take the ritual <em>home.</em></h2>
+      <button type="button" class="buy-now-btn" id="open-order-modal-btn">
+        <span>BUY NOW</span>
+      </button>
+    </div>
+
+    <div class="pack-stage-grid">
+      <!-- Left Spec Callout Lines -->
+      <div class="pack-callouts-left" id="pack-callouts">
+        <div class="pack-callout-item">RICH AROMA</div>
+        <div class="pack-callout-item">BOLD TASTE</div>
+        <div class="pack-callout-item">TRADITIONAL BLEND</div>
+      </div>
+
+      <!-- Center 3D Perspective Stand-Up 500g Coffee Pouch -->
+      <div class="pouch-3d-wrapper" id="pouch-3d-wrapper">
+        <div class="pouch-3d-card" id="pouch-3d-card">
+          <img
+            src="/projects/filter-coffee/frames/assets/bruva-pouch.webp"
+            alt="Bruva Filter Coffee South Indian Blend 500g Stand-Up Pouch"
+            class="pouch-img"
+            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=900&q=85';"
+          />
+          <div class="pouch-glare" id="pouch-glare"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settled Coffee Bean Mounds Flanking the Pouch -->
+    <img
+      src="/projects/filter-coffee/frames/assets/beans-left.webp"
+      alt="Roasted Coorg Coffee Beans Left Mound"
+      class="beans-mound-left"
+      id="beans-mound-left"
+      onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=85';"
+    />
+    <img
+      src="/projects/filter-coffee/frames/assets/beans-right.webp"
+      alt="Roasted Coorg Coffee Beans Right Mound"
+      class="beans-mound-right"
+      id="beans-mound-right"
+      onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=85';"
+    />
+  </section>
+
+  <!-- ========================================================================
+       SCENE 4: THE ESTATE — "From the hills of Coorg." ARCH -> FULLSCREEN
+       ======================================================================== -->
+  <section class="estate-section" id="the-estate">
+    <div class="estate-intro-header" id="estate-intro-header">
+      <h2 class="estate-main-title">From the hills of <em>Coorg.</em></h2>
+      <p class="estate-sub-coords">KARNATAKA &nbsp;&middot;&nbsp; WESTERN GHATS &nbsp;&middot;&nbsp; INDIA</p>
+    </div>
+
+    <!-- Expanding Roman Arch Window Portal -->
+    <div class="estate-arch-portal" id="estate-arch-portal">
+      <img
+        src="/projects/filter-coffee/frames/assets/estate-harvest-4k.webp"
+        alt="Hand-picking ripe red coffee cherries on our Coorg estate in the Western Ghats"
+        class="estate-bg-img"
+        id="estate-bg-img"
+        onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=2000&q=85';"
+      />
+      <div class="estate-scrim"></div>
+
+      <!-- 3-Beat Left Narrative Chapters -->
+      <div class="estate-chapters-wrap">
+        <article class="estate-beat active" data-estate-beat="0">
+          <h3 class="estate-beat-title">
+            Rooted
+            <em>in Coorg.</em>
+          </h3>
+          <p class="estate-beat-desc">
+            High in the Western Ghats, where morning mist lingers over red earth and ancestral estates.
+          </p>
+        </article>
+
+        <article class="estate-beat" data-estate-beat="1">
+          <h3 class="estate-beat-title">
+            Grown
+            <em>in the shade.</em>
+          </h3>
+          <p class="estate-beat-desc">
+            The coffee grows slowly under a canopy of tall trees. The shade keeps the fruit cool and gives it time to sweeten.
+          </p>
+        </article>
+
+        <article class="estate-beat" data-estate-beat="2">
+          <h3 class="estate-beat-title">
+            Picked
+            <em>by hand.</em>
+          </h3>
+          <p class="estate-beat-desc">
+            Only the ripe red cherries are taken, one branch at a time, and carried out in woven baskets.
+          </p>
+        </article>
+      </div>
+
+      <!-- Rising Sunlit Coorg Shade Card in Center (Beat 2) -->
+      <div class="estate-sunlit-card-wrap" id="estate-sunlit-card">
+        <img
+          src="/projects/filter-coffee/frames/assets/estate-sunlit-card.webp"
+          alt="Golden morning sunlight streaming through Coorg shade canopy"
+          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=85';"
+        />
+      </div>
+
+      <!-- Bottom-Right Rotating Circular Heritage Seal -->
+      <div class="estate-rotating-seal" id="estate-rotating-seal">
+        <svg class="seal-ring-svg" id="seal-ring-svg" viewBox="0 0 200 200" width="192" height="192" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <path id="sealTextPath" d="M 100, 100 m -78, 0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0" />
+          </defs>
+          <text fill="#F3D5A0" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.3" font-weight="600" letter-spacing="3.15">
+            <textPath href="#sealTextPath" startOffset="0%">
+              COORG ESTATE &bull; AUTHENTIC SOUTH INDIAN BLEND &bull; GROWN IN THE WESTERN GHATS &bull;
+            </textPath>
+          </text>
+        </svg>
+        <div class="seal-inner-photo">
+          <img
+            src="/projects/filter-coffee/frames/assets/estate-sunlit-card.webp"
+            alt="Coorg Estate Seal"
+            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=400&q=85';"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SCENE 5: DEEP ESPRESSO HERITAGE FOOTER (00:15.2)
+       ======================================================================== -->
+  <footer class="site-footer" id="footer">
+    <div class="footer-grid">
+      <div class="footer-brand-col">
+        <div class="footer-logo-lockup">
+          <svg viewBox="0 0 64 64" width="60" height="60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M32 6C36 12 25 16 30 23C34 17 42 13 32 6Z" fill="url(#brassGradNav)"/>
+            <path d="M38 10C43 16 34 20 37 25C42 20 47 15 38 10Z" fill="url(#brassGradNav)" opacity="0.85"/>
+            <path d="M12 40C12 33 19 31 24 37C19 41 14 42 12 40Z" fill="url(#brassGradNav)"/>
+            <path d="M23 27H43L40 45H26L23 27Z" fill="url(#brassGradNav)"/>
+            <ellipse cx="33" cy="27" rx="10.5" ry="3.2" fill="#FFF2CE" stroke="url(#brassGradNav)" stroke-width="1.2"/>
+            <path d="M19 43H47L44 53C41 56 25 56 22 53L19 43Z" fill="url(#brassGradNav)"/>
+            <ellipse cx="33" cy="43" rx="14.5" ry="3.4" fill="none" stroke="#FCE4A6" stroke-width="1.4"/>
+          </svg>
+          <div class="footer-logo-word">BRUVA</div>
+          <div class="footer-logo-sub">&mdash; FILTER COFFEE &mdash;</div>
+        </div>
+        <p class="footer-tagline">Grown on our estate in Coorg, Karnataka.</p>
+      </div>
+
+      <div>
+        <div class="footer-col-label">EXPLORE</div>
+        <ul class="footer-list">
+          <li><a href="#the-ritual" data-scroll-to="#the-ritual">The Ritual</a></li>
+          <li><a href="#the-pack" data-scroll-to="#the-pack">The Pack</a></li>
+          <li><a href="#the-estate" data-scroll-to="#the-estate">The Estate</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-label">THE PACK</div>
+        <ul class="footer-list pack-specs">
+          <li><span>Filter Coffee</span></li>
+          <li><span>South Indian Blend</span></li>
+          <li><span>Coorg estate grown</span></li>
+          <li><span>500 g</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom-bar">
+      <span>&copy; 2026 BRUVA FILTER COFFEE &middot; COORG, KARNATAKA</span>
+      <button type="button" class="back-to-top-btn" id="back-to-top-btn">
+        <span>BACK TO TOP</span>
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M8 13V3M8 3L3.5 7.5M8 3L12.5 7.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       INTERACTIVE ORDER & THERMAL DISPATCH RECEIPT MODAL (ASURA VAULT)
+       ======================================================================== -->
+  <div class="order-modal-backdrop" id="order-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="order-modal-card">
+      <button type="button" class="modal-close-btn" id="close-order-modal-btn" aria-label="Close Order Modal">
+        <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M5 5L15 15M15 5L5 15" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div style="font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:var(--brass-gold); margin-bottom:6px;">
+        ESTATE DIRECT DISPATCH &middot; COORG
+      </div>
+      <h3 id="modal-title" style="font-family:var(--font-serif); font-size:34px; font-weight:500; margin-bottom:6px;">
+        Bruva South Indian Blend (500 g)
+      </h3>
+      <p style="font-size:13.5px; color:var( --text-muted); line-height:1.5;">
+        Slow-roasted in small batches on our Coorg estate and ground fine for traditional brass filter percolation.
+      </p>
+
+      <div class="blend-pills" id="blend-pills">
+        <button type="button" class="blend-pill active" data-blend="80:20 Heritage Blend" data-price="₹640">80:20 Heritage Blend &middot; ₹640</button>
+        <button type="button" class="blend-pill" data-blend="85:15 Estate Reserve" data-price="₹720">85:15 Estate Reserve &middot; ₹720</button>
+        <button type="button" class="blend-pill" data-blend="500g Pack + Brass Dabara Set" data-price="₹1,890">Pack + Brass Dabara Set &middot; ₹1,890</button>
+      </div>
+
+      <button type="button" class="buy-now-btn" id="print-receipt-btn" style="width:100%; background:var(--brass-gold); color:#180C07;">
+        <span>CONFIRM &amp; PRINT ESTATE DISPATCH RECEIPT</span>
+      </button>
+
+      <div class="thermal-slot">
+        <div class="thermal-paper" id="thermal-paper">
+          <div style="text-align:center; font-weight:700; margin-bottom:6px;">BRUVA ESTATE ROASTERY &middot; COORG</div>
+          <div style="text-align:center; font-size:10px; margin-bottom:10px;">MADIKERI TALUK &middot; WESTERN GHATS &middot; KA</div>
+          <div>----------------------------------------</div>
+          <div>BATCH: #BRV-2026-COORG-04</div>
+          <div id="receipt-item-line">ITEM : 80:20 Heritage Blend (500 g)</div>
+          <div>ROAST: Medium-Dark Brass Percolation</div>
+          <div id="receipt-price-line">TOTAL: ₹640.00 (Incl. Estate Packaging)</div>
+          <div>----------------------------------------</div>
+          <div style="text-align:center; margin-top:6px;">POURED THE SAME WAY SINCE 2001</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       ASURA 4K DUAL-TIER WEBP SCROLL ENGINE & PHYSICS CHOREOGRAPHY
+       ======================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // 1. Initialize Lenis Smooth Momentum Scroll synchronized with GSAP Ticker
+      const lenis = new Lenis({
+        duration: 1.15,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        wheelMultiplier: 0.95,
+        touchMultiplier: 1.5
+      });
+
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+      gsap.ticker.lagSmoothing(0);
+
+      // 2. Reusable True 4K Dual-Tier WebP Sequence Renderer ([-10, +20] RAF Sliding Window + ImageBitmap GPU Warming)
+      class Asura4KSequenceEngine {
+        constructor(options) {
+          this.canvas = document.getElementById(options.canvasId);
+          this.ctx = this.canvas.getContext('2d', { alpha: false, desynchronized: true });
+          this.basePath = options.basePath;
+          this.totalFrames = options.totalFrames;
+          this.isMobile = window.innerWidth < 768;
+          this.effectiveFrames = this.isMobile ? Math.ceil(this.totalFrames / 2) : this.totalFrames;
+
+          this.currentFrame = 0;
+          this.targetFrame = 0;
+          this.lerpFactor = options.lerpFactor || 0.14;
+          this.fillBg = options.fillBg || '#180C07';
+
+          this.lowCache = new Map();
+          this.hiCache = new Map();
+          this.hiBitmapCache = new Map();
+          this.loadingSet = new Set();
+
+          this.dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+          this.logicalW = window.innerWidth;
+          this.logicalH = window.innerHeight;
+          this.needsRedraw = true;
+          this.lastDrawnIndex = -1;
+          this.lastDrawnTier = '';
+
+          this.syncCanvasDPR();
+          window.addEventListener('resize', () => {
+            this.isMobile = window.innerWidth < 768;
+            this.syncCanvasDPR();
+            this.needsRedraw = true;
+          });
+
+          // Preload first 10 low-res frames immediately for instant 0ms startup
+          this.preloadInitialLowFrames();
+          this.startRAFLoop();
+        }
+
+        syncCanvasDPR() {
+          this.dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+          const rect = this.canvas.getBoundingClientRect();
+          this.logicalW = rect.width || window.innerWidth;
+          this.logicalH = rect.height || window.innerHeight;
+          this.canvas.width = Math.round(this.logicalW * this.dpr);
+          this.canvas.height = Math.round(this.logicalH * this.dpr);
+          this.canvas.style.width = this.logicalW + 'px';
+          this.canvas.style.height = this.logicalH + 'px';
+          this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+          this.ctx.scale(this.dpr, this.dpr);
+          this.ctx.imageSmoothingEnabled = true;
+          this.ctx.imageSmoothingQuality = 'high';
+        }
+
+        frameUrl(index, tier) {
+          const num = String(index + 1).padStart(4, '0');
+          if (tier === 'low') {
+            return `${this.basePath}/low/frame_${num}.webp`;
+          }
+          if (this.isMobile) {
+            const mobIdx = Math.min(Math.floor(index / 2) + 1, Math.ceil(this.totalFrames / 2));
+            const mobNum = String(mobIdx).padStart(4, '0');
+            return `${this.basePath}/mob/frame_${mobNum}.webp`;
+          }
+          return `${this.basePath}/hi/frame_${num}.webp`;
+        }
+
+        preloadInitialLowFrames() {
+          const count = Math.min(10, this.totalFrames);
+          for (let i = 0; i < count; i++) {
+            this.loadLowFrame(i);
+          }
+          for (let i = 0; i < Math.min(6, this.totalFrames); i++) {
+            this.loadHiFrame(i);
+          }
+        }
+
+        loadLowFrame(index) {
+          if (index < 0 || index >= this.totalFrames || this.lowCache.has(index)) return;
+          const key = `low_${index}`;
+          if (this.loadingSet.has(key)) return;
+          this.loadingSet.add(key);
+
+          const img = new Image();
+          img.decoding = 'async';
+          img.src = this.frameUrl(index, 'low');
+          img.onload = () => {
+            this.lowCache.set(index, img);
+            this.loadingSet.delete(key);
+            if (Math.abs(index - Math.floor(this.currentFrame + 0.0001)) <= 1) {
+              this.needsRedraw = true;
+            }
+          };
+          img.onerror = () => this.loadingSet.delete(key);
+        }
+
+        loadHiFrame(index) {
+          if (index < 0 || index >= this.totalFrames) return;
+          if (this.hiBitmapCache.has(index) || this.hiCache.has(index)) return;
+          const key = `hi_${index}`;
+          if (this.loadingSet.has(key)) return;
+          this.loadingSet.add(key);
+
+          const img = new Image();
+          img.decoding = 'async';
+          img.src = this.frameUrl(index, 'hi');
+          img.onload = async () => {
+            try {
+              if (img.decode) await img.decode();
+              if (window.createImageBitmap) {
+                const bmp = await createImageBitmap(img);
+                this.hiBitmapCache.set(index, bmp);
+              } else {
+                this.hiCache.set(index, img);
+              }
+            } catch (e) {
+              this.hiCache.set(index, img);
+            }
+            this.loadingSet.delete(key);
+            if (Math.abs(index - Math.floor(this.currentFrame + 0.0001)) <= 1) {
+              this.needsRedraw = true;
+            }
+          };
+          img.onerror = () => this.loadingSet.delete(key);
+        }
+
+        manageSlidingWindow(centerIndex) {
+          const ahead = 20;
+          const behind = 10;
+          const minKeep = Math.max(0, centerIndex - behind);
+          const maxKeep = Math.min(this.totalFrames - 1, centerIndex + ahead);
+
+          // Queue next 20 frames ahead (prioritizing closest 5 frames for immediate GPU warming)
+          for (let offset = 0; offset <= ahead; offset++) {
+            const idx = centerIndex + offset;
+            if (idx < this.totalFrames) {
+              if (offset <= 6) this.loadLowFrame(idx);
+              this.loadHiFrame(idx);
+            }
+          }
+
+          // Unload hi frames outside [-10, +28] window to keep VRAM lean
+          for (const [idx, bmp] of this.hiBitmapCache.entries()) {
+            if (idx < minKeep - 2 || idx > maxKeep + 8) {
+              if (bmp && typeof bmp.close === 'function') bmp.close();
+              this.hiBitmapCache.delete(idx);
+            }
+          }
+          for (const idx of this.hiCache.keys()) {
+            if (idx < minKeep - 2 || idx > maxKeep + 8) {
+              this.hiCache.delete(idx);
+            }
+          }
+        }
+
+        setProgress(progress01) {
+          const clamped = Math.max(0, Math.min(1, progress01));
+          this.targetFrame = clamped * (this.totalFrames - 1);
+        }
+
+        drawCover(source, srcW, srcH) {
+          const cw = this.logicalW;
+          const ch = this.logicalH;
+          const scale = Math.max(cw / srcW, ch / srcH);
+          const drawW = srcW * scale;
+          const drawH = srcH * scale;
+          const dx = (cw - drawW) * 0.5;
+          const dy = (ch - drawH) * 0.5;
+          this.ctx.drawImage(source, dx, dy, drawW, drawH);
+        }
+
+        startRAFLoop() {
+          const tick = () => {
+            const diff = this.targetFrame - this.currentFrame;
+            if (Math.abs(diff) > 0.001) {
+              this.currentFrame += diff * this.lerpFactor;
+              this.needsRedraw = true;
+            } else {
+              this.currentFrame = this.targetFrame;
+            }
+
+            const frameIdx = Math.min(
+              this.totalFrames - 1,
+              Math.max(0, Math.floor(this.currentFrame + 0.0001))
+            );
+
+            this.manageSlidingWindow(frameIdx);
+
+            let source = this.hiBitmapCache.get(frameIdx) || this.hiCache.get(frameIdx);
+            let tier = 'hi';
+            if (!source) {
+              source = this.lowCache.get(frameIdx);
+              tier = 'low';
+            }
+            // Fallback to nearest loaded frame if neither tier is ready yet
+            if (!source) {
+              for (let d = 1; d < this.totalFrames; d++) {
+                source = this.hiBitmapCache.get(frameIdx - d) ||
+                         this.hiBitmapCache.get(frameIdx + d) ||
+                         this.lowCache.get(frameIdx - d) ||
+                         this.lowCache.get(frameIdx + d);
+                if (source) {
+                  tier = 'fallback';
+                  break;
+                }
+              }
+            }
+
+            if (source && (this.needsRedraw || frameIdx !== this.lastDrawnIndex || (tier === 'hi' && this.lastDrawnTier !== 'hi'))) {
+              const sw = source.width || source.naturalWidth || 2560;
+              const sh = source.height || source.naturalHeight || 1440;
+              this.drawCover(source, sw, sh);
+              this.lastDrawnIndex = frameIdx;
+              this.lastDrawnTier = tier;
+              this.needsRedraw = false;
+            }
+
+            requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }
+      }
+
+      // 3. Instantiate the Two 4K Dual-Tier WebP Sequence Engines
+      const droneEngine = new Asura4KSequenceEngine({
+        canvasId: 'drone-canvas',
+        basePath: '/projects/filter-coffee/frames/drone',
+        totalFrames: 40,
+        lerpFactor: 0.16
+      });
+
+      const ritualEngine = new Asura4KSequenceEngine({
+        canvasId: 'ritual-canvas',
+        basePath: '/projects/filter-coffee/frames/ritual',
+        totalFrames: 64,
+        lerpFactor: 0.15
+      });
+
+      // 4. Volumetric Golden Steam Canvas over THE RITUAL Brass Cup
+      const steamCanvas = document.getElementById('steam-canvas');
+      const steamCtx = steamCanvas.getContext('2d');
+      let steamW = window.innerWidth;
+      let steamH = window.innerHeight;
+      let steamIntensity = 1.0;
+
+      function resizeSteam() {
+        steamW = window.innerWidth;
+        steamH = window.innerHeight;
+        steamCanvas.width = steamW;
+        steamCanvas.height = steamH;
+      }
+      resizeSteam();
+      window.addEventListener('resize', resizeSteam);
+
+      const steamWisps = Array.from({ length: 18 }, (_, i) => ({
+        x: 0.64 + (Math.random() - 0.5) * 0.12,
+        y: 0.32 + Math.random() * 0.35,
+        vy: 0.0008 + Math.random() * 0.0009,
+        rad: 26 + Math.random() * 44,
+        phase: Math.random() * Math.PI * 2,
+        alpha: 0.05 + Math.random() * 0.08
+      }));
+
+      function renderSteam(time) {
+        steamCtx.clearRect(0, 0, steamW, steamH);
+        if (steamIntensity > 0.02) {
+          for (const w of steamWisps) {
+            w.y -= w.vy;
+            if (w.y < 0.08) {
+              w.y = 0.52;
+              w.x = 0.64 + (Math.random() - 0.5) * 0.12;
+            }
+            const sway = Math.sin(time * 0.0015 + w.phase) * 18;
+            const px = w.x * steamW + sway;
+            const py = w.y * steamH;
+            const fade = Math.sin(Math.max(0, Math.min(1, (0.55 - w.y) / 0.45)) * Math.PI);
+            const grad = steamCtx.createRadialGradient(px, py, 2, px, py, w.rad);
+            grad.addColorStop(0, `rgba(255, 232, 185, ${(w.alpha * fade * steamIntensity).toFixed(3)})`);
+            grad.addColorStop(1, 'rgba(255, 232, 185, 0)');
+            steamCtx.fillStyle = grad;
+            steamCtx.beginPath();
+            steamCtx.arc(px, py, w.rad, 0, Math.PI * 2);
+            steamCtx.fill();
+          }
+        }
+        requestAnimationFrame(renderSteam);
+      }
+      requestAnimationFrame(renderSteam);
+
+      // 5. Navigation Bar State Machine & Active Section Pills
+      const siteHeader = document.getElementById('site-header');
+      const navPills = document.querySelectorAll('.nav-pill');
+
+      function setActiveNav(id) {
+        navPills.forEach((pill) => {
+          pill.classList.toggle('active', pill.dataset.nav === id);
+        });
+      }
+
+      // 6. SCENE 1 + 2A: Pinned Master Hero Timeline (Coorg Drone Fly-Through -> Melted Espresso Drip Wipe -> Retract into Ritual)
+      const introLockup = document.getElementById('intro-lockup');
+      const skipIntroBtn = document.getElementById('skip-intro-btn');
+      const dripHeroLayer = document.getElementById('drip-hero-layer');
+      const dripCurtainWrap = document.getElementById('drip-curtain-wrap');
+      const wordFilter = document.getElementById('word-filter');
+      const wordCoffee = document.getElementById('word-coffee');
+      const heroBrassCup = document.getElementById('hero-brass-cup');
+      const dripFooterLeft = document.getElementById('drip-footer-left');
+      const dripFooterRight = document.getElementById('drip-footer-right');
+
+      const heroPinST = ScrollTrigger.create({
+        trigger: '#top',
+        start: 'top top',
+        end: () => '+=' + Math.round(window.innerHeight * 2.2),
+        pin: true,
+        scrub: 0.4,
+        onUpdate: (self) => {
+          const p = self.progress;
+
+          // Phase 1 (0.00 -> 0.44): Coorg Canopy Drone Fly-Through
+          const droneProg = Math.min(1, p / 0.44);
+          droneEngine.setProgress(droneProg);
+
+          // Intro lockup zooms smoothly and fades as we dive into the Coorg coffee leaves
+          const introScale = 1 + droneProg * 0.22;
+          const introOpacity = p < 0.30 ? 1 : Math.max(0, 1 - (p - 0.30) / 0.14);
+          introLockup.style.transform = `scale(${introScale.toFixed(3)})`;
+          introLockup.style.opacity = introOpacity.toFixed(3);
+          skipIntroBtn.style.opacity = introOpacity.toFixed(3);
+          skipIntroBtn.style.pointerEvents = introOpacity > 0.2 ? 'auto' : 'none';
+
+          // Header visibility: hidden during initial Coorg plantation shot, appears as drip hero wipes in
+          if (p < 0.34) {
+            siteHeader.classList.add('header-intro-hidden');
+            siteHeader.classList.remove('is-solid');
+          } else {
+            siteHeader.classList.remove('header-intro-hidden');
+            setActiveNav('ritual');
+          }
+
+          // Phase 2 (0.34 -> 0.72): Melted Espresso Drip Hero Wipe ("Filter Coffee" + 25 Years)
+          if (p < 0.32) {
+            dripHeroLayer.style.opacity = '0';
+            dripHeroLayer.style.pointerEvents = 'none';
+          } else {
+            const wipeIn = Math.min(1, (p - 0.32) / 0.14);
+            dripHeroLayer.style.opacity = wipeIn.toFixed(3);
+            dripHeroLayer.style.pointerEvents = 'auto';
+
+            // Phase 3 (0.72 -> 1.00): Espresso Drips Retract Upward & Cup glides toward right ritual position
+            const retractProg = p > 0.72 ? Math.min(1, (p - 0.72) / 0.28) : 0;
+            const dripY = -retractProg * 95;
+            dripCurtainWrap.style.transform = `translate3d(0, ${dripY.toFixed(2)}%, 0)`;
+
+            const textFade = 1 - retractProg * 1.25;
+            const clampedTextFade = Math.max(0, Math.min(1, textFade));
+            wordFilter.style.opacity = clampedTextFade.toFixed(3);
+            wordFilter.style.transform = `translate3d(${(-retractProg * 60).toFixed(1)}px, 0, 0)`;
+            wordCoffee.style.opacity = clampedTextFade.toFixed(3);
+            wordCoffee.style.transform = `translate3d(${(retractProg * 60).toFixed(1)}px, 0, 0)`;
+            dripFooterLeft.style.opacity = clampedTextFade.toFixed(3);
+            dripFooterRight.style.opacity = clampedTextFade.toFixed(3);
+
+            // Cup shifts right to align with THE RITUAL 3D canvas cup at p -> 1
+            const cupShiftX = retractProg * (window.innerWidth * 0.16);
+            const cupScale = 1 + retractProg * 0.08;
+            heroBrassCup.style.transform = `translate3d(${cupShiftX.toFixed(1)}px, 0, 0) scale(${cupScale.toFixed(3)})`;
+          }
+        }
+      });
+
+      skipIntroBtn.addEventListener('click', () => {
+        const targetScroll = heroPinST.start + (heroPinST.end - heroPinST.start) * 0.56;
+        lenis.scrollTo(targetScroll, { duration: 1.2 });
+      });
+
+      // 7. SCENE 2B: THE RITUAL — Pinned 4-Stage 3D Brass Tumbler & Dabara "Metre Pour"
+      const stageCards = document.querySelectorAll('.ritual-stage-card');
+      const stopBtns = document.querySelectorAll('.ritual-stop-btn');
+      const trackFill = document.getElementById('ritual-track-fill');
+      const beanThumb = document.getElementById('ritual-bean-thumb');
+      const ritualCounter = document.getElementById('ritual-counter');
+      const trackOuter = document.getElementById('ritual-track-outer');
+
+      function updateRitualUI(p) {
+        ritualEngine.setProgress(p);
+
+        // Determine active stage 0..3 (01 LIFT, 02 TILT, 03 POUR, 04 FROTH)
+        let stageIdx = 0;
+        if (p >= 0.76) stageIdx = 3;
+        else if (p >= 0.46) stageIdx = 2;
+        else if (p >= 0.20) stageIdx = 1;
+
+        stageCards.forEach((card, i) => {
+          card.classList.toggle('active', i === stageIdx);
+        });
+        stopBtns.forEach((btn, i) => {
+          btn.classList.toggle('active', i === stageIdx);
+        });
+
+        const pct = 4 + p * 92;
+        trackFill.style.width = pct.toFixed(2) + '%';
+        beanThumb.style.left = pct.toFixed(2) + '%';
+        trackOuter.setAttribute('aria-valuenow', String(stageIdx + 1));
+        ritualCounter.innerHTML = `0${stageIdx + 1} <span>/ 04</span>`;
+
+        // Steam is strongest on Stage 01 (LIFT) and Stage 04 (FROTH)
+        steamIntensity = stageIdx === 0 ? 1.0 : (stageIdx === 3 ? 0.75 : 0.35);
+      }
+
+      const ritualPinST = ScrollTrigger.create({
+        trigger: '#the-ritual',
+        start: 'top top',
+        end: () => '+=' + Math.round(window.innerHeight * 2.6),
+        pin: true,
+        scrub: 0.35,
+        onEnter: () => {
+          siteHeader.classList.remove('header-intro-hidden', 'theme-light');
+          siteHeader.classList.add('is-solid');
+          setActiveNav('ritual');
+        },
+        onEnterBack: () => {
+          siteHeader.classList.remove('theme-light');
+          siteHeader.classList.add('is-solid');
+          setActiveNav('ritual');
+        },
+        onUpdate: (self) => {
+          updateRitualUI(self.progress);
+        }
+      });
+
+      // Interactive clicking & dragging on the Coffee Bean Slider
+      stopBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const targetP = parseFloat(btn.dataset.targetProgress || '0');
+          const scrollPos = ritualPinST.start + (ritualPinST.end - ritualPinST.start) * targetP;
+          lenis.scrollTo(scrollPos, { duration: 1.0 });
+        });
+      });
+
+      trackOuter.addEventListener('click', (e) => {
+        const rect = trackOuter.getBoundingClientRect();
+        const clickP = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        const scrollPos = ritualPinST.start + (ritualPinST.end - ritualPinST.start) * clickP;
+        lenis.scrollTo(scrollPos, { duration: 0.9 });
+      });
+
+      // 8. SCENE 3: THE PACK — 60fps 3D Falling & Settling Roasted Coffee Beans + 3D Pouch Tilt
+      const beansCanvas = document.getElementById('beans-canvas');
+      const beansCtx = beansCanvas.getContext('2d');
+      let beansW = window.innerWidth;
+      let beansH = window.innerHeight;
+      let packRainProgress = 0;
+      let mouseBeanX = -9999;
+      let mouseBeanY = -9999;
+
+      function resizeBeansCanvas() {
+        beansW = beansCanvas.parentElement.clientWidth || window.innerWidth;
+        beansH = beansCanvas.parentElement.clientHeight || window.innerHeight;
+        beansCanvas.width = beansW;
+        beansCanvas.height = beansH;
+      }
+      resizeBeansCanvas();
+      window.addEventListener('resize', resizeBeansCanvas);
+
+      // Generate 42 photorealistic 3D procedural roasted coffee beans that rain from the top and settle into the left & right mounds
+      const fallingBeans = Array.from({ length: 42 }, (_, i) => {
+        const isLeft = i % 2 === 0;
+        const targetXNorm = isLeft
+          ? 0.05 + (i / 42) * 0.26
+          : 0.66 + ((i - 1) / 42) * 0.28;
+        const targetYNorm = 0.72 + (Math.sin(i * 1.7) * 0.5 + 0.5) * 0.16;
+        return {
+          startXNorm: targetXNorm + (Math.sin(i * 3.1) * 0.12),
+          startYNorm: -0.15 - (i % 9) * 0.09,
+          targetXNorm,
+          targetYNorm,
+          delay: (i % 14) * 0.032,
+          rx: 13 + (i % 5) * 2.4,
+          ry: 9 + (i % 4) * 1.6,
+          rotStart: (i * 47) % 360,
+          rotEnd: ((i * 47) % 360) + (isLeft ? 140 : -140),
+          dx: 0,
+          dy: 0
+        };
+      });
+
+      function drawRealisticCoffeeBean(ctx, x, y, rx, ry, angleDeg) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate((angleDeg * Math.PI) / 180);
+
+        // Soft floor shadow
+        ctx.fillStyle = 'rgba(36, 16, 6, 0.18)';
+        ctx.beginPath();
+        ctx.ellipse(2, 5, rx * 1.02, ry * 0.95, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Roasted bean body gradient
+        const g = ctx.createRadialGradient(-rx * 0.3, -ry * 0.3, 1, 0, 0, rx * 1.1);
+        g.addColorStop(0, '#B87650');
+        g.addColorStop(0.45, '#6E3619');
+        g.addColorStop(1, '#2D1206');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Center roasted crease S-curve
+        ctx.strokeStyle = '#1B0902';
+        ctx.lineWidth = 2.1;
+        ctx.beginPath();
+        ctx.moveTo(-rx * 0.78, ry * 0.12);
+        ctx.bezierCurveTo(-rx * 0.25, -ry * 0.35, rx * 0.25, ry * 0.35, rx * 0.78, -ry * 0.12);
+        ctx.stroke();
+
+        // Specular crease highlight
+        ctx.strokeStyle = 'rgba(232, 178, 134, 0.55)';
+        ctx.lineWidth = 0.8;
+        ctx.beginPath();
+        ctx.moveTo(-rx * 0.72, ry * 0.04);
+        ctx.bezierCurveTo(-rx * 0.22, -ry * 0.42, rx * 0.22, ry * 0.28, rx * 0.72, -ry * 0.18);
+        ctx.stroke();
+
+        ctx.restore();
+      }
+
+      function renderPackBeans() {
+        beansCtx.clearRect(0, 0, beansW, beansH);
+        for (const b of fallingBeans) {
+          const localP = Math.max(0, Math.min(1, (packRainProgress - b.delay) / (1 - b.delay)));
+          // Smooth bounce ease-out
+          const ease = 1 - Math.pow(1 - localP, 3);
+          const bx = (b.startXNorm + (b.targetXNorm - b.startXNorm) * ease) * beansW + b.dx;
+          const by = (b.startYNorm + (b.targetYNorm - b.startYNorm) * ease) * beansH + b.dy;
+          const rot = b.rotStart + (b.rotEnd - b.rotStart) * ease;
+
+          // Subtle cursor repulsion
+          const dist = Math.hypot(bx - mouseBeanX, by - mouseBeanY);
+          if (dist < 110 && dist > 1) {
+            const push = ((110 - dist) / 110) * 4.5;
+            b.dx += ((bx - mouseBeanX) / dist) * push;
+            b.dy += ((by - mouseBeanY) / dist) * push;
+          }
+          b.dx *= 0.9;
+          b.dy *= 0.9;
+
+          drawRealisticCoffeeBean(beansCtx, bx, by, b.rx, b.ry, rot);
+        }
+        requestAnimationFrame(renderPackBeans);
+      }
+      requestAnimationFrame(renderPackBeans);
+
+      const packSection = document.getElementById('the-pack');
+      const calloutItems = document.querySelectorAll('.pack-callout-item');
+      const moundLeft = document.getElementById('beans-mound-left');
+      const moundRight = document.getElementById('beans-mound-right');
+
+      packSection.addEventListener('mousemove', (e) => {
+        const rect = packSection.getBoundingClientRect();
+        mouseBeanX = e.clientX - rect.left;
+        mouseBeanY = e.clientY - rect.top;
+      });
+
+      ScrollTrigger.create({
+        trigger: '#the-pack',
+        start: 'top 75%',
+        end: 'bottom 25%',
+        scrub: 0.5,
+        onEnter: () => {
+          siteHeader.classList.add('theme-light');
+          setActiveNav('pack');
+        },
+        onEnterBack: () => {
+          siteHeader.classList.add('theme-light');
+          setActiveNav('pack');
+        },
+        onLeave: () => {
+          siteHeader.classList.remove('theme-light');
+        },
+        onLeaveBack: () => {
+          siteHeader.classList.remove('theme-light');
+          setActiveNav('ritual');
+        },
+        onUpdate: (self) => {
+          packRainProgress = Math.min(1, self.progress * 1.45);
+          const moundVis = Math.max(0, Math.min(1, (packRainProgress - 0.15) / 0.65));
+          moundLeft.style.opacity = moundVis.toFixed(3);
+          moundLeft.style.transform = `translate3d(0, ${((1 - moundVis) * 38).toFixed(1)}px, 0)`;
+          moundRight.style.opacity = moundVis.toFixed(3);
+          moundRight.style.transform = `translate3d(0, ${((1 - moundVis) * 38).toFixed(1)}px, 0)`;
+
+          calloutItems.forEach((item, idx) => {
+            item.classList.toggle('visible', packRainProgress > 0.38 + idx * 0.12);
+          });
+        }
+      });
+
+      // 3D Perspective Tilt on the 500g Bruva Pouch
+      const pouchWrapper = document.getElementById('pouch-3d-wrapper');
+      const pouchCard = document.getElementById('pouch-3d-card');
+      const pouchGlare = document.getElementById('pouch-glare');
+
+      pouchWrapper.addEventListener('mousemove', (e) => {
+        const r = pouchWrapper.getBoundingClientRect();
+        const nx = (e.clientX - r.left) / r.width - 0.5;
+        const ny = (e.clientY - r.top) / r.height - 0.5;
+        const rotY = nx * 18;
+        const rotX = -ny * 14;
+        pouchCard.style.transform = `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateZ(12px)`;
+        pouchGlare.style.background = `radial-gradient(circle at ${((nx + 0.5) * 100).toFixed(1)}% ${((ny + 0.5) * 100).toFixed(1)}%, rgba(255, 240, 215, 0.34), transparent 62%)`;
+      });
+      pouchWrapper.addEventListener('mouseleave', () => {
+        pouchCard.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0px)';
+      });
+
+      // 9. SCENE 4: THE ESTATE — Roman Arch Window Expansion -> 3-Beat Narrative + Rising Sunlit Card + Rotating Seal
+      const estateIntroHeader = document.getElementById('estate-intro-header');
+      const estateArchPortal = document.getElementById('estate-arch-portal');
+      const estateBgImg = document.getElementById('estate-bg-img');
+      const estateBeats = document.querySelectorAll('.estate-beat');
+      const estateSunlitCard = document.getElementById('estate-sunlit-card');
+      const estateRotatingSeal = document.getElementById('estate-rotating-seal');
+      const sealRingSvg = document.getElementById('seal-ring-svg');
+
+      ScrollTrigger.create({
+        trigger: '#the-estate',
+        start: 'top top',
+        end: () => '+=' + Math.round(window.innerHeight * 2.7),
+        pin: true,
+        scrub: 0.4,
+        onEnter: () => {
+          siteHeader.classList.remove('theme-light');
+          siteHeader.classList.add('is-solid');
+          setActiveNav('estate');
+        },
+        onEnterBack: () => {
+          siteHeader.classList.remove('theme-light');
+          siteHeader.classList.add('is-solid');
+          setActiveNav('estate');
+        },
+        onUpdate: (self) => {
+          const p = self.progress;
+
+          // Phase A (0.00 -> 0.30): Roman Arch Window expands to 100vw x 100vh Fullscreen
+          const archP = Math.min(1, p / 0.30);
+          const easeArch = 1 - Math.pow(1 - archP, 2.4);
+
+          const startW = Math.min(470, window.innerWidth * 0.84);
+          const startH = window.innerHeight * 0.62;
+          const curW = startW + (window.innerWidth - startW) * easeArch;
+          const curH = startH + (window.innerHeight - startH) * easeArch;
+          const curRad = (1 - easeArch) * 500;
+
+          estateArchPortal.style.width = curW.toFixed(1) + 'px';
+          estateArchPortal.style.height = curH.toFixed(1) + 'px';
+          estateArchPortal.style.borderRadius = `${curRad.toFixed(1)}px ${curRad.toFixed(1)}px 0 0`;
+
+          // Fade out "From the hills of Coorg." header as arch fills viewport
+          estateIntroHeader.style.opacity = Math.max(0, 1 - archP * 1.4).toFixed(3);
+          estateIntroHeader.style.transform = `translate3d(0, ${(-archP * 40).toFixed(1)}px, 0)`;
+
+          // Subtle scale on estate background panorama
+          const bgScale = 1.08 - p * 0.08;
+          estateBgImg.style.transform = `scale(${bgScale.toFixed(3)})`;
+
+          // Phase B (0.28 -> 1.00): 3 Narrative Beats + Rotating Seal + Rising Sunlit Card
+          const storyP = Math.max(0, (p - 0.26) / 0.74);
+
+          // Seal visibility and continuous rotation
+          const sealVis = Math.min(1, storyP * 3.2);
+          estateRotatingSeal.style.opacity = sealVis.toFixed(3);
+          estateRotatingSeal.style.transform = `scale(${(0.84 + 0.16 * sealVis).toFixed(3)})`;
+          sealRingSvg.style.transform = `rotate(${(p * 260).toFixed(1)}deg)`;
+
+          // Determine active estate beat:
+          // Beat 0: Rooted in Coorg (storyP 0.00..0.34)
+          // Beat 1: Grown in the shade (storyP 0.34..0.70) + Rising Sunlit Card
+          // Beat 2: Picked by hand (storyP 0.70..1.00)
+          let beatIdx = 0;
+          if (storyP >= 0.68) beatIdx = 2;
+          else if (storyP >= 0.33) beatIdx = 1;
+
+          estateBeats.forEach((b, idx) => {
+            b.classList.toggle('active', archP > 0.85 && idx === beatIdx);
+          });
+
+          // Sunlit Coorg Shade Card rises during Beat 1 (Grown in the shade) and recedes in Beat 2
+          let cardVis = 0;
+          if (storyP >= 0.30 && storyP <= 0.74) {
+            if (storyP < 0.42) cardVis = (storyP - 0.30) / 0.12;
+            else if (storyP > 0.62) cardVis = 1 - (storyP - 0.62) / 0.12;
+            else cardVis = 1;
+          }
+          cardVis = Math.max(0, Math.min(1, cardVis));
+          const cardY = (1 - cardVis) * 110;
+          estateSunlitCard.style.opacity = cardVis.toFixed(3);
+          estateSunlitCard.style.transform = `translate(-50%, ${cardY.toFixed(1)}%) rotate(${(-1.5 + cardVis * 1.5).toFixed(2)}deg)`;
+        }
+      });
+
+      // 10. Smooth Scroll Navigation Links & Back to Top
+      document.querySelectorAll('a[href^="#"], [data-scroll-to]').forEach((el) => {
+        el.addEventListener('click', (e) => {
+          const targetSel = el.getAttribute('data-scroll-to') || el.getAttribute('href');
+          if (targetSel && targetSel.startsWith('#')) {
+            e.preventDefault();
+            const targetEl = document.querySelector(targetSel);
+            if (targetEl) {
+              lenis.scrollTo(targetEl, { duration: 1.25 });
+            }
+          }
+        });
+      });
+
+      document.getElementById('back-to-top-btn').addEventListener('click', () => {
+        lenis.scrollTo(0, { duration: 1.5 });
+      });
+
+      // 11. Interactive Order & Thermal Receipt Modal (Asura Reference Vault Synthesis)
+      const orderModal = document.getElementById('order-modal');
+      const openModalBtn = document.getElementById('open-order-modal-btn');
+      const closeModalBtn = document.getElementById('close-order-modal-btn');
+      const blendPills = document.querySelectorAll('.blend-pill');
+      const printReceiptBtn = document.getElementById('print-receipt-btn');
+      const thermalPaper = document.getElementById('thermal-paper');
+      const receiptItemLine = document.getElementById('receipt-item-line');
+      const receiptPriceLine = document.getElementById('receipt-price-line');
+
+      openModalBtn.addEventListener('click', () => {
+        orderModal.classList.add('open');
+      });
+      pouchWrapper.addEventListener('click', () => {
+        orderModal.classList.add('open');
+      });
+      closeModalBtn.addEventListener('click', () => {
+        orderModal.classList.remove('open');
+      });
+      orderModal.addEventListener('click', (e) => {
+        if (e.target === orderModal) orderModal.classList.remove('open');
+      });
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') orderModal.classList.remove('open');
+      });
+
+      blendPills.forEach((pill) => {
+        pill.addEventListener('click', () => {
+          blendPills.forEach((p) => p.classList.remove('active'));
+          pill.classList.add('active');
+          receiptItemLine.textContent = 'ITEM : ' + pill.dataset.blend;
+          receiptPriceLine.textContent = 'TOTAL: ' + pill.dataset.price + '.00 (Incl. Estate Packaging)';
+          thermalPaper.classList.remove('printed');
+        });
+      });
+
+      printReceiptBtn.addEventListener('click', () => {
+        thermalPaper.classList.add('printed');
+      });
+    })();
+  </script>
+</body>
+</html>
