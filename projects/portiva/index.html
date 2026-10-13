@@ -32,8 +32,10 @@
     html, body {
       font-family: 'Inter', sans-serif;
       overflow-x: hidden;
-      background-color: #0b0c10;
+      margin: 0;
+      padding: 0;
       color: #ffffff;
+      background-color: transparent;
     }
 
     /* Word Reveal Stagger Animation Styles */
@@ -63,45 +65,58 @@
       transform: translateY(0);
     }
 
-    /* Video Background Styling */
-    .bg-video-container {
+    /* Background Video Fullscreen Layering */
+    .bg-video-wrapper {
       position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       overflow: hidden;
-      z-index: -10;
+      z-index: 0;
       pointer-events: none;
     }
 
-    .bg-video {
+    .bg-video-element {
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: center;
+      display: block;
     }
 
-    /* Video Contrast Protection Scrim */
-    .video-scrim {
+    /* Left-weighted vignette for text readability while leaving the 3D cube visual luminous */
+    .bg-video-scrim {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 25% 50%, rgba(0,0,0,0.48) 0%, rgba(0,0,0,0.32) 60%, rgba(0,0,0,0.52) 100%);
+      background: linear-gradient(90deg, rgba(7, 18, 28, 0.68) 0%, rgba(7, 18, 28, 0.38) 45%, rgba(7, 18, 28, 0.15) 100%);
       pointer-events: none;
     }
   </style>
 </head>
 <body class="min-h-full flex flex-col justify-between selection:bg-white selection:text-black antialiased relative">
 
-  <!-- Background Video Element -->
-  <div class="bg-video-container" aria-hidden="true">
-    <video class="bg-video" autoplay loop muted playsinline>
+  <!-- Background Video Element (Fixed behind all content, z-index 0) -->
+  <div class="bg-video-wrapper" aria-hidden="true">
+    <video
+      id="bg-video"
+      class="bg-video-element"
+      autoplay
+      loop
+      muted
+      playsinline
+      webkit-playsinline
+      x5-playsinline
+      poster="https://asura-system.vercel.app/projects/portiva/assets/poster.jpg"
+      preload="auto"
+    >
       <source src="https://cdn.sceneai.art/Hero%20section%20video%20file%20(2)/13c2a27f-30ac-44f1-866d-94fca9c614d7.mp4" type="video/mp4">
     </video>
-    <div class="video-scrim"></div>
+    <div class="bg-video-scrim"></div>
   </div>
 
-  <!-- Header / Navigation -->
-  <header id="site-header" class="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-7 flex items-center justify-between z-20 fade-stagger">
+  <!-- Header / Navigation (z-index 10) -->
+  <header id="site-header" class="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-7 flex items-center justify-between fade-stagger">
     <!-- Logo (Left): Solid white, medium weight, 2xl size, NO icons -->
     <a href="#" class="text-white text-2xl font-medium tracking-tight hover:opacity-90 transition-opacity select-none" aria-label="Portiva Home">
       Portiva
@@ -123,8 +138,8 @@
     </div>
   </header>
 
-  <!-- Hero Section (Left-Aligned Content & Vertically Centered) -->
-  <main class="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex-1 flex flex-col justify-center py-10 md:py-16 z-10">
+  <!-- Hero Section (Left-Aligned Content & Vertically Centered, z-index 10) -->
+  <main class="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex-1 flex flex-col justify-center py-10 md:py-16">
     <div class="max-w-3xl flex flex-col items-start">
       
       <!-- Top Label: Small white text reading "| Creative Agency" -->
@@ -205,31 +220,58 @@
   </main>
 
   <!-- Empty Footer Spacer for Vertical Balance -->
-  <footer class="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6 select-none opacity-0 pointer-events-none" aria-hidden="true">
+  <footer class="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6 select-none opacity-0 pointer-events-none" aria-hidden="true">
     <div class="h-4"></div>
   </footer>
 
-  <!-- Vanilla JavaScript Load & Word-by-Word Reveal Sequence -->
+  <!-- Vanilla JavaScript Load & Word-by-Word Reveal Sequence + Guaranteed Autoplay -->
   <script>
-    (function initAnimations() {
-      // Execute when DOM is interactive
+    (function initLandingPage() {
+      // 1. Guaranteed Cross-Browser Autoplay Engine
+      const video = document.getElementById('bg-video');
+      if (video) {
+        video.muted = true;
+        video.defaultMuted = true;
+        
+        const attemptPlay = () => {
+          const promise = video.play();
+          if (promise !== undefined) {
+            promise.catch(() => {
+              // Browser policy restricted un-interacted play, unlock on first passive gesture
+              const unlock = () => {
+                video.play();
+                ['click', 'touchstart', 'scroll', 'mousemove'].forEach(evt => window.removeEventListener(evt, unlock));
+              };
+              ['click', 'touchstart', 'scroll', 'mousemove'].forEach(evt => window.addEventListener(evt, unlock, { once: true, passive: true }));
+            });
+          }
+        };
+
+        if (video.readyState >= 2) {
+          attemptPlay();
+        } else {
+          video.addEventListener('loadeddata', attemptPlay, { once: true });
+        }
+        // Immediate call
+        attemptPlay();
+      }
+
+      // 2. Word-by-word Reveal Sequence
       function startSequence() {
-        // 1. Elements selection
         const topLabel = document.getElementById('top-label');
         const siteHeader = document.getElementById('site-header');
         const words = document.querySelectorAll('.heading-word');
         const socialProof = document.getElementById('social-proof');
         const ctaButtons = document.getElementById('cta-buttons');
 
-        // Initial delay before sequence starts
         const startDelay = 80;
 
-        // 2. Reveal Top Label slightly first
+        // Reveal Top Label slightly first
         setTimeout(() => {
           if (topLabel) topLabel.classList.add('is-visible');
         }, startDelay);
 
-        // 3. Stagger reveal main heading words (120ms delay between words)
+        // Stagger reveal main heading words (120ms delay between words)
         const wordDelay = 120;
         const headingStart = startDelay + 100;
 
@@ -239,18 +281,18 @@
           }, headingStart + (index * wordDelay));
         });
 
-        // 4. Fade in Header slightly after the text animation begins
+        // Fade in Header slightly after the text animation begins
         setTimeout(() => {
           if (siteHeader) siteHeader.classList.add('is-visible');
         }, headingStart + 160);
 
-        // 5. Fade in Review Stars / Social proof after words have progressed
+        // Fade in Review Stars / Social proof after words have progressed
         const totalWordTime = headingStart + (words.length * wordDelay);
         setTimeout(() => {
           if (socialProof) socialProof.classList.add('is-visible');
         }, totalWordTime + 60);
 
-        // 6. Fade in CTA Buttons right after social proof
+        // Fade in CTA Buttons right after social proof
         setTimeout(() => {
           if (ctaButtons) ctaButtons.classList.add('is-visible');
         }, totalWordTime + 220);
