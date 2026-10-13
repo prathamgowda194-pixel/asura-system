@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portiva | Creative Agency</title>
+  
+  <!-- Inter Font from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brandStar: '#c25e2e'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Global Typography & Reset */
+    html, body {
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      background-color: #0b0c10;
+      color: #ffffff;
+    }
+
+    /* Word Reveal Stagger Animation Styles */
+    .heading-word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, opacity;
+    }
+
+    .heading-word.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Smooth Element Transitions */
+    .fade-stagger {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, opacity;
+    }
+
+    .fade-stagger.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Video Background Styling */
+    .bg-video-container {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -10;
+      pointer-events: none;
+    }
+
+    .bg-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Video Contrast Protection Scrim */
+    .video-scrim {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 25% 50%, rgba(0,0,0,0.48) 0%, rgba(0,0,0,0.32) 60%, rgba(0,0,0,0.52) 100%);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col justify-between selection:bg-white selection:text-black antialiased relative">
+
+  <!-- Background Video Element -->
+  <div class="bg-video-container" aria-hidden="true">
+    <video class="bg-video" autoplay loop muted playsinline>
+      <source src="https://cdn.sceneai.art/Hero%20section%20video%20file%20(2)/13c2a27f-30ac-44f1-866d-94fca9c614d7.mp4" type="video/mp4">
+    </video>
+    <div class="video-scrim"></div>
+  </div>
+
+  <!-- Header / Navigation -->
+  <header id="site-header" class="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-7 flex items-center justify-between z-20 fade-stagger">
+    <!-- Logo (Left): Solid white, medium weight, 2xl size, NO icons -->
+    <a href="#" class="text-white text-2xl font-medium tracking-tight hover:opacity-90 transition-opacity select-none" aria-label="Portiva Home">
+      Portiva
+    </a>
+
+    <!-- Nav Links (Center): About, Brands, Careers, Partners in solid white -->
+    <nav class="hidden md:flex items-center gap-8 lg:gap-11" aria-label="Main Navigation">
+      <a href="#about" class="text-white text-sm font-medium hover:text-white/80 transition-colors">About</a>
+      <a href="#brands" class="text-white text-sm font-medium hover:text-white/80 transition-colors">Brands</a>
+      <a href="#careers" class="text-white text-sm font-medium hover:text-white/80 transition-colors">Careers</a>
+      <a href="#partners" class="text-white text-sm font-medium hover:text-white/80 transition-colors">Partners</a>
+    </nav>
+
+    <!-- Action (Right): Pill-shaped "Chat with us" button (solid white bg, black text) -->
+    <div class="flex items-center">
+      <a href="#chat" class="inline-flex items-center justify-center bg-white text-black text-sm font-medium px-5 py-2.5 rounded-full hover:bg-neutral-100 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-sm">
+        Chat with us
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section (Left-Aligned Content & Vertically Centered) -->
+  <main class="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex-1 flex flex-col justify-center py-10 md:py-16 z-10">
+    <div class="max-w-3xl flex flex-col items-start">
+      
+      <!-- Top Label: Small white text reading "| Creative Agency" -->
+      <div id="top-label" class="mb-5 md:mb-6 fade-stagger">
+        <span class="text-white text-xs sm:text-sm font-medium tracking-wide">
+          | Creative Agency
+        </span>
+      </div>
+
+      <!-- Main Heading: Exactly 62px on desktop, solid white, formatted into 3 distinct lines -->
+      <h1 id="hero-heading" class="text-[38px] sm:text-[48px] md:text-[62px] leading-[1.08] font-bold text-white tracking-tight mb-7 sm:mb-8" aria-label="Less complexity, more impact in every project.">
+        <!-- Line 1: "Less complexity," -->
+        <span class="block overflow-hidden pb-1" data-line="1">
+          <span class="heading-word">Less</span>
+          <span class="heading-word">complexity,</span>
+        </span>
+        <!-- Line 2: "more impact in" -->
+        <span class="block overflow-hidden pb-1" data-line="2">
+          <span class="heading-word">more</span>
+          <span class="heading-word">impact</span>
+          <span class="heading-word">in</span>
+        </span>
+        <!-- Line 3: "every project." -->
+        <span class="block overflow-hidden pb-1" data-line="3">
+          <span class="heading-word">every</span>
+          <span class="heading-word">project.</span>
+        </span>
+      </h1>
+
+      <!-- Social Proof: Five star icons (#c25e2e) next to "3000+ Customers" in solid white -->
+      <div id="social-proof" class="flex items-center gap-3 mb-8 sm:mb-9 fade-stagger">
+        <div class="flex items-center gap-1" aria-label="5 star rating">
+          <!-- Star 1 -->
+          <svg class="w-4 h-4 fill-[#c25e2e]" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+          </svg>
+          <!-- Star 2 -->
+          <svg class="w-4 h-4 fill-[#c25e2e]" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+          </svg>
+          <!-- Star 3 -->
+          <svg class="w-4 h-4 fill-[#c25e2e]" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+          </svg>
+          <!-- Star 4 -->
+          <svg class="w-4 h-4 fill-[#c25e2e]" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+          </svg>
+          <!-- Star 5 -->
+          <svg class="w-4 h-4 fill-[#c25e2e]" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+          </svg>
+        </div>
+        <span class="text-white text-xs sm:text-sm font-medium tracking-wide">
+          3000+ Customers
+        </span>
+      </div>
+
+      <!-- Call to Action Buttons (Small size, horizontal row) -->
+      <div id="cta-buttons" class="flex flex-row items-center gap-3.5 fade-stagger">
+        <!-- Button 1: "Chat With Us" (solid white bg, black text, pill-shaped, with black circle right-pointing arrow) -->
+        <a href="#chat" class="inline-flex items-center gap-2.5 bg-white text-black text-xs sm:text-sm font-semibold pl-5 pr-2 py-2 rounded-full hover:bg-neutral-100 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md group">
+          <span>Chat With Us</span>
+          <span class="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center transition-transform group-hover:translate-x-0.5">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </span>
+        </a>
+
+        <!-- Button 2: "Our Works" (glassmorphism/transparent style with light white/gray border and solid white text) -->
+        <a href="#works" class="inline-flex items-center text-xs sm:text-sm font-medium px-5 py-2.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 hover:border-white/30 hover:scale-[1.02] active:scale-[0.98] transition-all">
+          <span>Our Works</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Empty Footer Spacer for Vertical Balance -->
+  <footer class="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6 select-none opacity-0 pointer-events-none" aria-hidden="true">
+    <div class="h-4"></div>
+  </footer>
+
+  <!-- Vanilla JavaScript Load & Word-by-Word Reveal Sequence -->
+  <script>
+    (function initAnimations() {
+      // Execute when DOM is interactive
+      function startSequence() {
+        // 1. Elements selection
+        const topLabel = document.getElementById('top-label');
+        const siteHeader = document.getElementById('site-header');
+        const words = document.querySelectorAll('.heading-word');
+        const socialProof = document.getElementById('social-proof');
+        const ctaButtons = document.getElementById('cta-buttons');
+
+        // Initial delay before sequence starts
+        const startDelay = 80;
+
+        // 2. Reveal Top Label slightly first
+        setTimeout(() => {
+          if (topLabel) topLabel.classList.add('is-visible');
+        }, startDelay);
+
+        // 3. Stagger reveal main heading words (120ms delay between words)
+        const wordDelay = 120;
+        const headingStart = startDelay + 100;
+
+        words.forEach((word, index) => {
+          setTimeout(() => {
+            word.classList.add('is-visible');
+          }, headingStart + (index * wordDelay));
+        });
+
+        // 4. Fade in Header slightly after the text animation begins
+        setTimeout(() => {
+          if (siteHeader) siteHeader.classList.add('is-visible');
+        }, headingStart + 160);
+
+        // 5. Fade in Review Stars / Social proof after words have progressed
+        const totalWordTime = headingStart + (words.length * wordDelay);
+        setTimeout(() => {
+          if (socialProof) socialProof.classList.add('is-visible');
+        }, totalWordTime + 60);
+
+        // 6. Fade in CTA Buttons right after social proof
+        setTimeout(() => {
+          if (ctaButtons) ctaButtons.classList.add('is-visible');
+        }, totalWordTime + 220);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', startSequence);
+      } else {
+        startSequence();
+      }
+    })();
+  </script>
+</body>
+</html>
