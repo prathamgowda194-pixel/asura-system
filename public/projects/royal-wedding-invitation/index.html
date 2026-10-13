@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Abhishek &amp; Kanika — Royal Madurai Meenakshi 3D Scroll Wedding Celebration</title>
+  
+  <!-- Google Fonts: Royal Indian Aesthetic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Cinzel Decorative"', 'Georgia', 'serif'],
+            editorial: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            gold: {
+              300: '#FFE89E',
+              400: '#F3C65F',
+              500: '#D4A33B',
+              600: '#B88628',
+              800: '#7A5412'
+            },
+            crimson: {
+              800: '#6E1022',
+              900: '#3D0711',
+              950: '#1C0408'
+            },
+            temple: {
+              obsidian: '#120507',
+              sandstone: '#2A140E'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Reset & Typography */
+    html, body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: transparent;
+      color: #FFF9EC;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: auto;
+    }
+
+    /* Fixed Full-Viewport Background Video (Portiva Strategy) */
+    .bg-video-wrapper {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+      background-color: #120507;
+    }
+
+    .bg-video-element {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      will-change: transform;
+    }
+
+    /* Royal Sunset Gradient Scrim for Contrast & Architectural Clarity */
+    .bg-video-scrim {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 32% 48%, rgba(18, 5, 7, 0.40) 0%, rgba(18, 5, 7, 0.68) 55%, rgba(18, 5, 7, 0.88) 100%);
+      pointer-events: none;
+    }
+
+    /* Gold Metallic Typography */
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #FFF0BE 0%, #F3C65F 50%, #B88628 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gold-border-glow {
+      border: 1px solid rgba(243, 198, 95, 0.35);
+      box-shadow: 0 0 25px rgba(243, 198, 95, 0.12), inset 0 0 15px rgba(243, 198, 95, 0.05);
+    }
+
+    /* 3D Glassmorphism Cards */
+    .royal-glass-card {
+      background: rgba(26, 7, 11, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(243, 198, 95, 0.28);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 240, 190, 0.15);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+
+    .royal-glass-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(243, 198, 95, 0.5);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(243, 198, 95, 0.2);
+    }
+
+    /* Scatter Flower Petals Container */
+    #scatter-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+      overflow: hidden;
+    }
+
+    .scatter-petal {
+      position: absolute;
+      pointer-events: none;
+      transition: transform 1.2s cubic-bezier(0.1, 0.8, 0.2, 1), opacity 1.2s ease;
+      will-change: transform, opacity;
+    }
+
+    /* Smooth Progress Bar */
+    #scroll-progress-line {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #F3C65F, #FFF0BE, #B88628);
+      z-index: 100;
+      width: 0%;
+      box-shadow: 0 0 10px rgba(243, 198, 95, 0.8);
+      transition: width 0.1s ease-out;
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col justify-between selection:bg-gold-400 selection:text-black antialiased relative">
+
+  <!-- Scroll Progress Indicator -->
+  <div id="scroll-progress-line"></div>
+
+  <!-- Background 4K Hardware-Accelerated Video Layer (Zero-Blur Portiva Strategy) -->
+  <div class="bg-video-wrapper" aria-hidden="true">
+    <video
+      id="wedding-bg-video"
+      class="bg-video-element"
+      playsinline
+      webkit-playsinline
+      x5-playsinline
+      muted
+      preload="auto"
+      poster="/projects/royal-wedding-invitation/assets/wedding_poster.jpg"
+    >
+      <source src="/projects/royal-wedding-invitation/assets/wedding_journey_4k.mp4" type="video/mp4" />
+    </video>
+    <div class="bg-video-scrim"></div>
+  </div>
+
+  <!-- Particle / Scatter Petals Layer -->
+  <div id="scatter-canvas" aria-hidden="true"></div>
+
+  <!-- Fixed Luxury Navigation Bar -->
+  <header class="fixed top-0 left-0 right-0 z-40 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-5 flex items-center justify-between transition-all duration-300 backdrop-blur-md bg-black/20 border-b border-gold-400/10">
+    <!-- Royal Monogram Brand -->
+    <a href="#" class="flex items-center gap-3 group select-none">
+      <div class="w-10 h-10 rounded-full border border-gold-400/40 flex items-center justify-center bg-gold-400/10 group-hover:border-gold-400 transition-colors shadow-sm">
+        <svg class="w-5 h-5 text-gold-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z"></path>
+        </svg>
+      </div>
+      <div>
+        <span class="font-display text-base sm:text-lg tracking-wider text-white group-hover:text-gold-300 transition-colors">A &amp; K</span>
+        <span class="block text-[10px] uppercase tracking-widest text-gold-400/80 -mt-1 font-sans">Madurai</span>
+      </div>
+    </a>
+
+    <!-- Center Navigation Links -->
+    <nav class="hidden md:flex items-center gap-8 lg:gap-10 text-xs uppercase tracking-widest font-medium" aria-label="Wedding Chapters">
+      <a href="#gopuram" class="text-white/80 hover:text-gold-300 transition-colors">The Journey</a>
+      <a href="#vows" class="text-white/80 hover:text-gold-300 transition-colors">The Vows</a>
+      <a href="#festivities" class="text-white/80 hover:text-gold-300 transition-colors">Celebrations</a>
+      <a href="#rsvp" class="text-white/80 hover:text-gold-300 transition-colors">RSVP</a>
+    </nav>
+
+    <!-- Right Controls: Audio + Auto Tour -->
+    <div class="flex items-center gap-3">
+      <!-- Ambient Music Toggle Button -->
+      <button id="audio-toggle-btn" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white flex items-center justify-center transition-all" title="Toggle Shehnai Ambient Sound">
+        <svg id="audio-icon-off" class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+        </svg>
+        <svg id="audio-icon-on" class="w-4 h-4 text-gold-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+        </svg>
+      </button>
+
+      <!-- Auto Tour Pill -->
+      <button id="auto-tour-btn" class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-gold-500 to-gold-400 text-black text-xs uppercase tracking-wider font-bold px-4 py-2.5 rounded-full hover:scale-105 active:scale-95 transition-all shadow-md">
+        <span>Play Cinema</span>
+        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- CHAPTER 1: THE DIVINE ENTRANCE (GOPURAM) -->
+  <section id="gopuram" class="relative z-10 min-h-screen flex flex-col justify-center px-6 sm:px-12 lg:px-20 pt-28 pb-16">
+    <div class="max-w-3xl flex flex-col items-start">
+      
+      <!-- Inscription Header -->
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold-400/10 border border-gold-400/30 text-gold-300 text-xs uppercase tracking-widest font-semibold mb-6">
+        <svg class="w-3.5 h-3.5 text-gold-400" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+        </svg>
+        <span>|| Shree Ganeshaaya Namaha ||</span>
+      </div>
+
+      <!-- Main Royal Heading -->
+      <h1 class="font-display text-4xl sm:text-6xl lg:text-[72px] leading-[1.08] text-white tracking-tight mb-5">
+        <span class="block gold-gradient-text">Abhishek</span>
+        <span class="block font-editorial italic text-3xl sm:text-4xl lg:text-5xl text-white/90 font-light">&amp;</span>
+        <span class="block gold-gradient-text">Kanika</span>
+      </h1>
+
+      <!-- Sacred Inscription -->
+      <p class="font-editorial text-xl sm:text-2xl lg:text-3xl text-gold-300/90 italic font-normal max-w-xl mb-8 leading-relaxed">
+        “With the eternal grace of Goddess Meenakshi &amp; Lord Sundareswarar, we step together into the sacred ritual of marriage.”
+      </p>
+
+      <!-- Key Telemetry Badges -->
+      <div class="flex flex-wrap items-center gap-4 text-xs sm:text-sm uppercase tracking-wider text-white/90 mb-10 font-medium">
+        <div class="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full border border-white/15">
+          <svg class="w-4 h-4 text-gold-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <span>December 11 – 13, 2026</span>
+        </div>
+        <div class="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full border border-white/15">
+          <svg class="w-4 h-4 text-gold-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <span>Madurai, Tamil Nadu</span>
+        </div>
+      </div>
+
+      <!-- Action Callouts -->
+      <div class="flex items-center gap-4">
+        <a href="#vows" class="inline-flex items-center gap-3 bg-white text-black text-sm uppercase tracking-wider font-bold pl-6 pr-3 py-3 rounded-full hover:bg-gold-300 hover:scale-105 transition-all shadow-lg">
+          <span>Enter The Temple</span>
+          <span class="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+        <button id="hero-scatter-btn" class="inline-flex items-center gap-2 bg-white/10 border border-gold-400/30 text-gold-300 text-sm uppercase tracking-wider font-semibold px-5 py-3 rounded-full hover:bg-gold-400/20 hover:border-gold-400 transition-all">
+          <svg class="w-4 h-4 fill-current text-gold-400" viewBox="0 0 24 24"><path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6.4-4.8-6.4 4.8 2.4-7.2-6-4.8h7.6z"/></svg>
+          <span>Scatter Petals</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CHAPTER 2: THE SACRED MANDAP & MUHURTHAM -->
+  <section id="vows" class="relative z-10 min-h-screen flex flex-col justify-center px-6 sm:px-12 lg:px-20 py-24">
+    <div class="max-w-4xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      
+      <!-- Narrative Left Column -->
+      <div>
+        <span class="text-gold-400 uppercase tracking-widest text-xs font-semibold block mb-3">Chapter II — The Sanctum</span>
+        <h2 class="font-display text-3xl sm:text-5xl text-white mb-6 leading-tight">
+          The Sacred <span class="gold-gradient-text">Muhurtham</span>
+        </h2>
+        <p class="font-editorial text-xl sm:text-2xl text-white/90 italic mb-6 leading-relaxed">
+          Under the consecrated floral canopy of the Peacock Mandap, surrounded by sacred Vedic mantras and the fragrance of jasmine, our seven sacred vows will be solemnized.
+        </p>
+        <div class="border-l-2 border-gold-400/60 pl-4 py-1 text-sm text-gold-300/80 font-sans">
+          <p class="font-semibold text-white">Shree Sundaram &amp; Kanakadhara Families</p>
+          <p>cordially request the honor of your presence and blessings.</p>
+        </div>
+      </div>
+
+      <!-- Right Proportional Royal Card -->
+      <div class="royal-glass-card p-8 rounded-3xl relative overflow-hidden">
+        <div class="absolute -top-10 -right-10 w-32 h-32 bg-gold-400/10 rounded-full blur-2xl"></div>
+        
+        <div class="flex items-center justify-between pb-6 border-b border-gold-400/20 mb-6">
+          <div>
+            <span class="text-xs uppercase tracking-widest text-gold-400 font-semibold">Auspicious Time</span>
+            <h3 class="font-display text-2xl text-white mt-1">Muhurtham</h3>
+          </div>
+          <div class="w-12 h-12 rounded-2xl bg-gold-400/10 border border-gold-400/30 flex items-center justify-center">
+            <svg class="w-6 h-6 text-gold-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="space-y-4 text-sm">
+          <div class="flex items-start gap-3">
+            <span class="text-gold-400 font-bold mt-0.5">✦</span>
+            <div>
+              <strong class="text-white block font-medium">Date &amp; Auspicious Hours</strong>
+              <span class="text-white/80">Saturday, December 12, 2026</span><br>
+              <span class="text-gold-300 font-mono text-xs">09:15 AM – 10:45 AM (Dhanur Lagnam)</span>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <span class="text-gold-400 font-bold mt-0.5">✦</span>
+            <div>
+              <strong class="text-white block font-medium">Ceremony Hall</strong>
+              <span class="text-white/80">Raja Muthiah Mandapam, Temple Road</span><br>
+              <span class="text-white/60 text-xs">Opposite Meenakshi Amman East Tower, Madurai</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-gold-400/20 flex items-center justify-between">
+          <span class="text-xs text-gold-400 uppercase tracking-widest font-semibold">Dress Code</span>
+          <span class="text-xs text-white/90 bg-white/10 px-3 py-1 rounded-full border border-white/15">Traditional South Indian Royal</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CHAPTER 3: THE CELEBRATIONS & SCATTER EFFECT -->
+  <section id="festivities" class="relative z-10 min-h-screen flex flex-col justify-center px-6 sm:px-12 lg:px-20 py-24">
+    <div class="max-w-6xl mx-auto w-full">
+      
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <span class="text-gold-400 uppercase tracking-widest text-xs font-semibold block mb-2">Chapter III — Three Days of Joy</span>
+        <h2 class="font-display text-3xl sm:text-5xl text-white mb-4">
+          Wedding <span class="gold-gradient-text">Festivities</span>
+        </h2>
+        <p class="font-editorial text-xl text-white/80 italic">
+          Every ceremony is an offering of music, tradition, and shared celebrations.
+        </p>
+      </div>
+
+      <!-- Event Cards Grid -->
+      <div id="event-cards-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        
+        <!-- Event 1: Mehendi -->
+        <div class="royal-glass-card p-7 rounded-2xl flex flex-col justify-between event-scatter-card">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-mono uppercase tracking-wider text-gold-400 bg-gold-400/10 px-2.5 py-1 rounded-md border border-gold-400/20">Day 1 · Evening</span>
+              <span class="text-xs text-white/60">Dec 11</span>
+            </div>
+            <h3 class="font-display text-xl text-white mb-2">Mehendi &amp; Henna</h3>
+            <p class="font-editorial text-base text-white/80 italic mb-4">
+              Fragrant henna motifs, traditional folk melodies, and sweet confectionaries under the evening sky.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-gold-400/15 text-xs text-gold-300/80 flex items-center justify-between">
+            <span>Vrindavan Lawns</span>
+            <span class="font-mono">04:30 PM</span>
+          </div>
+        </div>
+
+        <!-- Event 2: Sangeet Night -->
+        <div class="royal-glass-card p-7 rounded-2xl flex flex-col justify-between event-scatter-card border-gold-400/40">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-mono uppercase tracking-wider text-gold-400 bg-gold-400/20 px-2.5 py-1 rounded-md border border-gold-400/30">Day 1 · Night</span>
+              <span class="text-xs text-white/60">Dec 11</span>
+            </div>
+            <h3 class="font-display text-xl gold-gradient-text mb-2">The Royal Sangeet</h3>
+            <p class="font-editorial text-base text-white/80 italic mb-4">
+              An unforgettable night of classical dance, celebratory performances, and royal dining.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-gold-400/15 text-xs text-gold-300/80 flex items-center justify-between">
+            <span>Grand Courtyard</span>
+            <span class="font-mono">07:30 PM</span>
+          </div>
+        </div>
+
+        <!-- Event 3: Reception -->
+        <div class="royal-glass-card p-7 rounded-2xl flex flex-col justify-between event-scatter-card">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-mono uppercase tracking-wider text-gold-400 bg-gold-400/10 px-2.5 py-1 rounded-md border border-gold-400/20">Day 3 · Night</span>
+              <span class="text-xs text-white/60">Dec 13</span>
+            </div>
+            <h3 class="font-display text-xl text-white mb-2">Grand Reception</h3>
+            <p class="font-editorial text-base text-white/80 italic mb-4">
+              The grand feast of blessings, felicitations, and eternal memories in royal banquet splendor.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-gold-400/15 text-xs text-gold-300/80 flex items-center justify-between">
+            <span>Royal Palace Hall</span>
+            <span class="font-mono">07:00 PM</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Scatter Magic Trigger -->
+      <div class="flex justify-center">
+        <button id="scatter-all-btn" class="inline-flex items-center gap-3 bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 text-black font-bold uppercase tracking-widest text-xs px-8 py-4 rounded-full shadow-xl hover:scale-105 active:scale-95 transition-all">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6.4-4.8-6.4 4.8 2.4-7.2-6-4.8h7.6z"/></svg>
+          <span>Shower Petals &amp; Scatter Cards</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CHAPTER 4: THE SANCTUARY FINALE & RSVP -->
+  <section id="rsvp" class="relative z-10 min-h-screen flex flex-col justify-center px-6 sm:px-12 lg:px-20 py-24">
+    <div class="max-w-xl mx-auto w-full">
+      
+      <!-- Finale Header -->
+      <div class="text-center mb-8">
+        <span class="text-gold-400 uppercase tracking-widest text-xs font-semibold block mb-2">Chapter IV — The Finale</span>
+        <h2 class="font-display text-3xl sm:text-5xl text-white mb-3">
+          Grace Us With Your <span class="gold-gradient-text">Presence</span>
+        </h2>
+        <p class="font-editorial text-lg sm:text-xl text-white/80 italic">
+          Kindly confirm your attendance by November 20, 2026 to help us prepare your reception.
+        </p>
+      </div>
+
+      <!-- Sleek Proportional RSVP Form Card -->
+      <div class="royal-glass-card p-8 sm:p-10 rounded-3xl relative">
+        <form id="rsvp-form" class="space-y-5">
+          
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-gold-300 font-semibold mb-2" for="guest-name">Full Name(s)</label>
+            <input type="text" id="guest-name" required placeholder="e.g. Ramesh &amp; Priya Sundaram" class="w-full bg-black/40 border border-gold-400/30 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-400 transition-colors" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs uppercase tracking-wider text-gold-300 font-semibold mb-2" for="guest-count">Number of Guests</label>
+              <select id="guest-count" class="w-full bg-black/40 border border-gold-400/30 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-400 transition-colors">
+                <option value="1">1 Guest</option>
+                <option value="2" selected>2 Guests</option>
+                <option value="3">3 Guests</option>
+                <option value="4+">4+ Family Members</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs uppercase tracking-wider text-gold-300 font-semibold mb-2" for="attendance">Attendance</label>
+              <select id="attendance" class="w-full bg-black/40 border border-gold-400/30 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-400 transition-colors">
+                <option value="yes" selected>Joyfully Attending</option>
+                <option value="regret">Regretfully Declining</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs uppercase tracking-wider text-gold-300 font-semibold mb-2" for="blessing-note">Blessing or Message for the Couple</label>
+            <textarea id="blessing-note" rows="3" placeholder="Write your heartfelt wishes..." class="w-full bg-black/40 border border-gold-400/30 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-400 transition-colors"></textarea>
+          </div>
+
+          <button type="submit" class="w-full bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 text-black text-sm uppercase tracking-wider font-bold py-4 rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg flex items-center justify-center gap-2">
+            <span>Send RSVP &amp; Blessings</span>
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          </button>
+
+          <div id="rsvp-status" class="hidden text-center text-sm text-gold-300 font-medium py-2">
+            ✓ Your blessings and RSVP have been received with immense gratitude!
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Clean Royal Footer -->
+  <footer class="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-12 py-12 border-t border-gold-400/20 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-white/70">
+    <div class="flex items-center gap-3">
+      <span class="font-display text-gold-400 text-sm">Abhishek &amp; Kanika</span>
+      <span>•</span>
+      <span>December 2026</span>
+    </div>
+    <div class="flex items-center gap-6">
+      <a href="#gopuram" class="hover:text-gold-300 transition-colors">The Journey</a>
+      <a href="#vows" class="hover:text-gold-300 transition-colors">Muhurtham</a>
+      <a href="#festivities" class="hover:text-gold-300 transition-colors">Events</a>
+      <a href="#rsvp" class="hover:text-gold-300 transition-colors">RSVP</a>
+      <a href="#gopuram" class="text-gold-400 font-semibold hover:text-gold-300 transition-colors">Back to Top ↑</a>
+    </div>
+  </footer>
+
+  <!-- Background Ambient Audio Element -->
+  <audio id="wedding-audio" loop preload="none">
+    <source src="https://cdn.pixabay.com/download/audio/2022/05/16/audio_c9769396d1.mp3?filename=indian-flute-meditation-111867.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- Video-to-Scroll & 3D Interaction Script -->
+  <script>
+    (function initWeddingExperience() {
+      const video = document.getElementById('wedding-bg-video');
+      const progressLine = document.getElementById('scroll-progress-line');
+      let targetTime = 0;
+      let currentTime = 0;
+      let isAutoTour = false;
+      let autoTourInterval = null;
+
+      // 1. Guaranteed Autoplay / Ready Kick-off
+      if (video) {
+        video.muted = true;
+        video.playsInline = true;
+        const prepareVideo = () => {
+          video.currentTime = 0.01;
+        };
+        if (video.readyState >= 2) {
+          prepareVideo();
+        } else {
+          video.addEventListener('loadedmetadata', prepareVideo, { once: true });
+        }
+      }
+
+      // 2. Hardware-Accelerated Scroll Scrubbing Engine
+      function handleScroll() {
+        if (isAutoTour) return;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        if (maxScroll <= 0) return;
+        
+        const scrollFraction = Math.max(0, Math.min(1, window.scrollY / maxScroll));
+        if (progressLine) {
+          progressLine.style.width = (scrollFraction * 100) + '%';
+        }
+
+        const duration = (video && video.duration && !isNaN(video.duration)) ? video.duration : 16.6;
+        targetTime = scrollFraction * duration;
+      }
+
+      window.addEventListener('scroll', handleScroll, { passive: true });
+
+      // Smooth RAF Lerp loop
+      function renderLoop() {
+        if (!isAutoTour && video && video.duration) {
+          currentTime += (targetTime - currentTime) * 0.15;
+          if (Math.abs(video.currentTime - currentTime) > 0.02) {
+            video.currentTime = currentTime;
+          }
+        }
+        requestAnimationFrame(renderLoop);
+      }
+      requestAnimationFrame(renderLoop);
+
+      // 3. Ambient Audio Toggle
+      const audioBtn = document.getElementById('audio-toggle-btn');
+      const audio = document.getElementById('wedding-audio');
+      const iconOff = document.getElementById('audio-icon-off');
+      const iconOn = document.getElementById('audio-icon-on');
+
+      if (audioBtn && audio) {
+        audioBtn.addEventListener('click', () => {
+          if (audio.paused) {
+            audio.play().then(() => {
+              iconOff.classList.add('hidden');
+              iconOn.classList.remove('hidden');
+              audioBtn.classList.add('border-gold-400');
+            }).catch(() => {});
+          } else {
+            audio.pause();
+            iconOff.classList.remove('hidden');
+            iconOn.classList.add('hidden');
+            audioBtn.classList.remove('border-gold-400');
+          }
+        });
+      }
+
+      // 4. Play Cinema / Auto Tour Controller
+      const autoTourBtn = document.getElementById('auto-tour-btn');
+      if (autoTourBtn && video) {
+        autoTourBtn.addEventListener('click', () => {
+          isAutoTour = !isAutoTour;
+          if (isAutoTour) {
+            autoTourBtn.innerHTML = '<span>Pause Tour</span><svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+            video.play();
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+
+            autoTourInterval = setInterval(() => {
+              if (!isAutoTour || video.paused || video.ended) {
+                clearInterval(autoTourInterval);
+                isAutoTour = false;
+                autoTourBtn.innerHTML = '<span>Play Cinema</span><svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+                return;
+              }
+              const progress = video.currentTime / video.duration;
+              window.scrollTo(0, progress * maxScroll);
+              if (progressLine) progressLine.style.width = (progress * 100) + '%';
+            }, 50);
+          } else {
+            video.pause();
+            clearInterval(autoTourInterval);
+            autoTourBtn.innerHTML = '<span>Play Cinema</span><svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+          }
+        });
+      }
+
+      // 5. Flower Petal Scatter Effect Physics (Requested by user)
+      const scatterCanvas = document.getElementById('scatter-canvas');
+      function spawnPetalExplosion(originX, originY, count = 28) {
+        if (!scatterCanvas) return;
+        const colors = ['#F3C65F', '#FFE89E', '#E63946', '#FFB703', '#FFF0BE'];
+        for (let i = 0; i < count; i++) {
+          const petal = document.createElement('div');
+          petal.className = 'scatter-petal';
+          const size = Math.random() * 18 + 10;
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          petal.style.width = size + 'px';
+          petal.style.height = size + 'px';
+          petal.style.backgroundColor = color;
+          petal.style.borderRadius = (Math.random() > 0.5 ? '50% 0 50% 0' : '0 50% 0 50%');
+          petal.style.left = (originX || window.innerWidth / 2) + 'px';
+          petal.style.top = (originY || window.innerHeight / 2) + 'px';
+          petal.style.opacity = '1';
+          petal.style.boxShadow = '0 0 10px ' + color;
+
+          scatterCanvas.appendChild(petal);
+
+          const angle = Math.random() * Math.PI * 2;
+          const velocity = Math.random() * 320 + 100;
+          const targetX = Math.cos(angle) * velocity;
+          const targetY = Math.sin(angle) * velocity + Math.random() * 150;
+          const rotation = Math.random() * 720 - 360;
+
+          requestAnimationFrame(() => {
+            petal.style.transform = 'translate(' + targetX + 'px, ' + targetY + 'px) rotate(' + rotation + 'deg) scale(0.6)';
+            petal.style.opacity = '0';
+          });
+
+          setTimeout(() => {
+            if (petal.parentNode) petal.parentNode.removeChild(petal);
+          }, 1400);
+        }
+      }
+
+      const heroScatterBtn = document.getElementById('hero-scatter-btn');
+      if (heroScatterBtn) {
+        heroScatterBtn.addEventListener('click', () => {
+          const rect = heroScatterBtn.getBoundingClientRect();
+          spawnPetalExplosion(rect.left + rect.width / 2, rect.top + rect.height / 2, 35);
+        });
+      }
+
+      // 6. Interactive Card Scatter & Reassemble Effect
+      const scatterAllBtn = document.getElementById('scatter-all-btn');
+      const cards = document.querySelectorAll('.event-scatter-card');
+      let isCardsScattered = false;
+
+      if (scatterAllBtn) {
+        scatterAllBtn.addEventListener('click', () => {
+          const rect = scatterAllBtn.getBoundingClientRect();
+          spawnPetalExplosion(rect.left + rect.width / 2, rect.top + rect.height / 2, 45);
+
+          isCardsScattered = !isCardsScattered;
+          cards.forEach((card, idx) => {
+            if (isCardsScattered) {
+              const scatterAngles = [-15, 18, -22];
+              const scatterX = [-40, 0, 40];
+              const scatterY = [30, -35, 25];
+              card.style.transform = 'translate(' + scatterX[idx % 3] + 'px, ' + scatterY[idx % 3] + 'px) rotate(' + scatterAngles[idx % 3] + 'deg) scale(0.96)';
+              card.style.borderColor = '#F3C65F';
+              card.style.boxShadow = '0 30px 60px rgba(243, 198, 95, 0.25)';
+            } else {
+              card.style.transform = 'translate(0px, 0px) rotate(0deg) scale(1)';
+              card.style.borderColor = '';
+              card.style.boxShadow = '';
+            }
+          });
+
+          scatterAllBtn.innerHTML = isCardsScattered 
+            ? '<span>✨ Reassemble Cards &amp; Petals</span>'
+            : '<span>✨ Shower Petals &amp; Scatter Cards</span>';
+        });
+      }
+
+      // 7. RSVP Submission Handler
+      const rsvpForm = document.getElementById('rsvp-form');
+      const rsvpStatus = document.getElementById('rsvp-status');
+      if (rsvpForm) {
+        rsvpForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const btn = rsvpForm.querySelector('button[type="submit"]');
+          if (btn) btn.disabled = true;
+          if (rsvpStatus) {
+            rsvpStatus.classList.remove('hidden');
+            rsvpStatus.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+          const rect = rsvpForm.getBoundingClientRect();
+          spawnPetalExplosion(rect.left + rect.width / 2, rect.top + rect.height / 2, 50);
+        });
+      }
+
+    })();
+  </script>
+</body>
+</html>
