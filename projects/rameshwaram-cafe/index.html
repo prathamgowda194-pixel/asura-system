@@ -420,9 +420,8 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      border-radius: 50%;
-      mask-image: radial-gradient(ellipse 48% 48% at 50% 50%, #000 66%, rgba(0,0,0,0.6) 84%, transparent 100%);
-      -webkit-mask-image: radial-gradient(ellipse 48% 48% at 50% 50%, #000 66%, rgba(0,0,0,0.6) 84%, transparent 100%);
+      display: block;
+      filter: drop-shadow(0 24px 38px rgba(0, 0, 0, 0.5));
     }
 
     /* Bottom-Left Caption & Bottom-Right 25 Years Counter in Drip Hero */
@@ -803,17 +802,15 @@
       width: 100%;
       height: auto;
       display: block;
-      border-radius: 14px;
-      mix-blend-mode: multiply;
+      filter: drop-shadow(0 28px 42px rgba(36, 18, 10, 0.35));
     }
 
     .pouch-glare {
       position: absolute;
       inset: 0;
-      border-radius: 14px;
+      border-radius: 18px;
       pointer-events: none;
-      background: radial-gradient(circle at 50% 30%, rgba(255, 238, 210, 0.22), transparent 60%);
-      mix-blend-mode: screen;
+      background: radial-gradient(circle at 50% 30%, rgba(255, 238, 210, 0.18), transparent 60%);
     }
 
     /* Settled Left & Right Coffee Bean Mounds at Base of Pack Section */
@@ -989,6 +986,9 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 230, 180, 0.4);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55);
     }
 
     /* Rotating Circular Coorg Estate Heritage Seal at Bottom-Right */
@@ -1475,7 +1475,7 @@
         <span class="filter-word-left" id="word-filter">Filter</span>
         <div class="hero-brass-cup-card" id="hero-brass-cup">
           <img
-            src="/projects/filter-coffee/assets/hero-cup.webp"
+            src="/projects/filter-coffee/assets/hero-cup.png"
             alt="Traditional South Indian Brass Tumbler and Dabara with Frothed Filter Coffee"
             class="hero-brass-cup-img"
             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=900&q=85';"
@@ -1627,7 +1627,7 @@
       <div class="pouch-3d-wrapper" id="pouch-3d-wrapper">
         <div class="pouch-3d-card" id="pouch-3d-card">
           <img
-            src="/projects/filter-coffee/assets/bruva-pouch.webp"
+            src="/projects/filter-coffee/assets/bruva-pouch.png"
             alt="Bruva Filter Coffee South Indian Blend 500g Stand-Up Pouch"
             class="pouch-img"
             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=900&q=85';"
@@ -1637,21 +1637,7 @@
       </div>
     </div>
 
-    <!-- Settled Coffee Bean Mounds Flanking the Pouch -->
-    <img
-      src="/projects/filter-coffee/assets/beans-left.webp"
-      alt="Roasted Coorg Coffee Beans Left Mound"
-      class="beans-mound-left"
-      id="beans-mound-left"
-      onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=85';"
-    />
-    <img
-      src="/projects/filter-coffee/assets/beans-right.webp"
-      alt="Roasted Coorg Coffee Beans Right Mound"
-      class="beans-mound-right"
-      id="beans-mound-right"
-      onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=85';"
-    />
+    <!-- 60fps 3D falling beans canvas settles naturally across the pack section without rectangular cutouts -->
   </section>
 
   <!-- ========================================================================
@@ -1712,7 +1698,7 @@
       <!-- Rising Sunlit Coorg Shade Card in Center (Beat 2) -->
       <div class="estate-sunlit-card-wrap" id="estate-sunlit-card">
         <img
-          src="/projects/filter-coffee/assets/estate-sunlit-card.webp"
+          src="/projects/filter-coffee/assets/estate-sunlit-card.jpg"
           alt="Golden morning sunlight streaming through Coorg shade canopy"
           onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=85';"
         />
@@ -1732,7 +1718,7 @@
         </svg>
         <div class="seal-inner-photo">
           <img
-            src="/projects/filter-coffee/assets/estate-sunlit-card.webp"
+            src="/projects/filter-coffee/assets/estate-sunlit-card.jpg"
             alt="Coorg Estate Seal"
             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=400&q=85';"
           />
@@ -2295,10 +2281,10 @@
         onUpdate: (self) => {
           packRainProgress = Math.min(1, self.progress * 1.45);
           const moundVis = Math.max(0, Math.min(1, (packRainProgress - 0.15) / 0.65));
-          moundLeft.style.opacity = moundVis.toFixed(3);
-          moundLeft.style.transform = `translate3d(0, ${((1 - moundVis) * 38).toFixed(1)}px, 0)`;
-          moundRight.style.opacity = moundVis.toFixed(3);
-          moundRight.style.transform = `translate3d(0, ${((1 - moundVis) * 38).toFixed(1)}px, 0)`;
+          if (moundLeft) moundLeft.style.opacity = moundVis.toFixed(3);
+          if (moundLeft) moundLeft.style.transform = `translate3d(0, ${((1 - moundVis) * 38).toFixed(1)}px, 0)`;
+          if (moundRight) moundRight.style.opacity = moundVis.toFixed(3);
+          if (moundRight) moundRight.style.transform = `translate3d(0, ${((1 - moundVis) * 38).toFixed(1)}px, 0)`;
 
           calloutItems.forEach((item, idx) => {
             item.classList.toggle('visible', packRainProgress > 0.38 + idx * 0.12);
