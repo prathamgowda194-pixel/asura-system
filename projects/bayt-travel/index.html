@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Bayt Travel — Luxury Qatar Accommodations &amp; Arabian Adventures</title>
-  <meta name="description" content="Bayt Travel — Premium luxury villas, apartments, and curated Arabian adventures in Doha, Qatar. Explore places to stay, where to go, and authentic cultural escapes." />
+  <meta name="description" content="Bayt Travel — Qatar's premier luxury travel booking platform. Explore Qatar's finest private villas, penthouses, desert retreats, and curated Arabian adventures." />
   
   <!-- Modern Google Display & UI Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -52,17 +52,18 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: clamp(12px, 2.5vw, 40px);
+      padding: clamp(0px, 2.5vw, 40px);
       background: radial-gradient(circle at 50% 20%, #FBEFE7 0%, #DEC2B1 100%);
+      transition: padding 0.3s ease;
     }
 
     .browser-canvas-window {
       position: relative;
       width: 100%;
-      max-width: 1380px;
+      max-width: 1400px;
       min-height: 94vh;
       background: #FAF5F0;
-      border-radius: clamp(24px, 3.2vw, 44px);
+      border-radius: clamp(0px, 3.2vw, 44px);
       box-shadow: 0 35px 80px -15px rgba(60, 30, 15, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.6);
       overflow: hidden;
       display: flex;
@@ -74,16 +75,42 @@
        ========================================================================== */
     .site-header {
       position: fixed;
-      top: clamp(12px, 2.5vw, 40px);
+      top: clamp(0px, 2.5vw, 40px);
       width: 100%;
-      max-width: 1380px;
+      max-width: 1400px;
       z-index: 100;
-      padding: clamp(16px, 2.2vw, 24px) clamp(24px, 4vw, 56px);
+      padding: clamp(14px, 2.2vw, 24px) clamp(16px, 4vw, 56px);
       display: flex;
       align-items: center;
       justify-content: space-between;
       pointer-events: auto;
-      transition: background 0.3s ease, backdrop-filter 0.3s ease;
+      transition: background 0.3s ease, backdrop-filter 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .site-header.docked {
+      background: rgba(250, 245, 240, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .site-header.docked .brand-logo,
+    .site-header.docked .visitors-dropdown-btn,
+    .site-header.docked .nav-link,
+    .site-header.docked .become-host-link {
+      color: var(--espresso);
+      text-shadow: none;
+    }
+    .site-header.docked .nav-divider {
+      background: rgba(0, 0, 0, 0.15);
+    }
+    .site-header.docked .user-menu-btn {
+      background: #FFFFFF;
+      border-color: rgba(0, 0, 0, 0.12);
+      color: var(--espresso);
+    }
+    .site-header.docked .hamburger-btn span {
+      background: var(--espresso);
     }
 
     .nav-left {
@@ -94,18 +121,20 @@
 
     .brand-logo {
       font-family: var(--font-sans);
-      font-size: clamp(18px, 1.8vw, 22px);
-      font-weight: 600;
+      font-size: clamp(19px, 1.8vw, 23px);
+      font-weight: 700;
       color: var(--text-white);
       text-decoration: none;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.02em;
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+      transition: color 0.3s ease;
     }
 
     .nav-divider {
       width: 1px;
       height: 20px;
       background: rgba(255, 255, 255, 0.45);
+      transition: background 0.3s ease;
     }
 
     .visitors-dropdown-btn {
@@ -114,16 +143,13 @@
       gap: 6px;
       background: transparent;
       border: none;
-      color: rgba(255, 255, 255, 0.88);
+      color: rgba(255, 255, 255, 0.9);
       font-family: var(--font-sans);
       font-size: 13.5px;
       font-weight: 500;
       cursor: pointer;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
-      transition: color 0.2s;
-    }
-    .visitors-dropdown-btn:hover {
-      color: #FFFFFF;
+      transition: color 0.3s ease;
     }
 
     .nav-center {
@@ -134,768 +160,989 @@
     }
 
     .nav-link {
-      color: rgba(255, 255, 255, 0.88);
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.2s, opacity 0.2s;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+      position: relative;
+    }
+    .nav-link:hover {
+      color: #FFFFFF;
+      opacity: 1;
+    }
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--sand-gold);
+      border-radius: 2px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: clamp(12px, 1.8vw, 24px);
+    }
+
+    .become-host-link {
+      color: rgba(255, 255, 255, 0.9);
       font-size: 13.5px;
       font-weight: 500;
       text-decoration: none;
       transition: color 0.2s;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
     }
-    .nav-link:hover {
+    .become-host-link:hover {
       color: #FFFFFF;
     }
 
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .become-host-link {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 13px;
-      font-weight: 500;
-      text-decoration: none;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
-    }
-
-    .icon-btn {
-      background: transparent;
-      border: none;
-      color: #FFFFFF;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .user-pill-btn {
-      display: flex;
+    .user-menu-btn {
+      display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 14px 6px 12px;
+      background: rgba(255, 255, 255, 0.25);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      padding: 6px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
       border-radius: 999px;
       color: #FFFFFF;
       cursor: pointer;
       transition: all 0.2s ease;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      min-height: 42px;
     }
-    .user-pill-btn:hover {
-      background: rgba(255, 255, 255, 0.35);
+    .user-menu-btn:hover {
+      background: rgba(255, 255, 255, 0.4);
       transform: translateY(-1px);
     }
 
+    .user-avatar-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #E5C8B5 0%, #D69F58 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* Mobile Hamburger Trigger */
+    .hamburger-btn {
+      display: none;
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 12px;
+      cursor: pointer;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 0;
+      transition: all 0.2s ease;
+    }
+    .hamburger-btn span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: #FFFFFF;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* Mobile Drawer */
+    .mobile-nav-drawer {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: min(320px, 85vw);
+      height: 100vh;
+      background: rgba(250, 245, 240, 0.98);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      z-index: 200;
+      box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
+      padding: 30px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .mobile-nav-drawer.open {
+      right: 0;
+    }
+    .mobile-nav-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 199;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .mobile-nav-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .mobile-nav-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    .mobile-nav-close {
+      width: 40px;
+      height: 40px;
+      background: #F0E6DD;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--espresso);
+    }
+    .mobile-nav-links {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .mobile-nav-links a {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--espresso);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
     /* ==========================================================================
-       HERO 3D SCROLL SECTION (PINNED 3-STAGE DISCOVERY)
+       HERO PINNED SCROLLTRACK & VIDEO ENGINE
        ========================================================================== */
-    .hero-master-pin {
+    .hero-pinned-viewport {
       position: relative;
       width: 100%;
       height: 100vh;
-      min-height: 720px;
       overflow: hidden;
     }
 
-    /* 1080p Lanczos-3 Hardware Accelerated Background Video Layer */
     .hero-video-bg {
       position: absolute;
-      inset: 0;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
       pointer-events: none;
       z-index: 1;
+      transform: scale(1.02);
+      transition: filter 0.5s ease;
     }
 
-    /* Gradient overlay for soft editorial readability */
-    .hero-scrim-layer {
+    .hero-ambient-vignette {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(26, 18, 14, 0.38) 0%, rgba(26, 18, 14, 0.05) 45%, rgba(245, 234, 225, 0.95) 92%, #F5EAE1 100%);
       z-index: 2;
       pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, rgba(26, 20, 18, 0.05) 0%, rgba(26, 20, 18, 0.45) 80%, rgba(26, 20, 18, 0.7) 100%);
     }
 
-    /* Giant Atmospheric Watermark Typography */
-    .ambient-watermark-wrap {
+    /* Scene Titles Container */
+    .hero-scene-stage {
       position: absolute;
-      top: 14%;
-      left: 0;
-      width: 100%;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      z-index: 3;
+      padding: clamp(20px, 4vw, 60px);
       pointer-events: none;
-      user-select: none;
     }
 
-    .ambient-watermark-text {
-      font-family: var(--font-sans);
-      font-size: clamp(48px, 7.8vw, 118px);
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.38);
-      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
-      transition: opacity 0.5s ease, transform 0.5s ease;
+    .scene-frame {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(35px) scale(0.96);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 100%;
+      max-width: 900px;
+    }
+    .scene-frame.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .scene-crest-badge {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 12px;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: clamp(14px, 2vw, 24px);
     }
 
-    .falcon-crest-svg {
-      width: clamp(34px, 4.8vw, 76px);
-      height: auto;
-      fill: currentColor;
+    .scene-main-headline {
+      font-family: var(--font-serif);
+      font-size: clamp(34px, 6.2vw, 76px);
+      font-weight: 500;
+      line-height: 1.05;
+      color: #FFFFFF;
+      letter-spacing: -0.02em;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.55);
+      margin-bottom: clamp(12px, 1.8vw, 22px);
+      max-width: 820px;
+    }
+
+    .scene-sub-caption {
+      font-family: var(--font-sans);
+      font-size: clamp(14px, 1.6vw, 19px);
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 580px;
+      line-height: 1.5;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
     }
 
     /* ==========================================================================
-       CONCENTRIC RADAR ORBITAL DIAL CONTROLLER (RIGHT HERO)
+       CONCENTRIC RADAR ORBITAL DIAL CONTROLLER (Desktop)
        ========================================================================== */
     .radar-orbit-container {
       position: absolute;
-      top: 26%;
-      right: clamp(24px, 6vw, 96px);
-      width: clamp(280px, 32vw, 420px);
-      height: clamp(280px, 32vw, 420px);
-      z-index: 10;
+      right: clamp(24px, 5vw, 70px);
+      bottom: clamp(100px, 16vh, 160px);
+      width: 220px;
+      height: 220px;
+      z-index: 20;
       pointer-events: auto;
+      user-select: none;
     }
 
-    /* SVG Concentric Radar Ripple Waves */
-    .radar-svg-canvas {
+    .radar-svg-disc {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      pointer-events: none;
+      transform-origin: center center;
     }
 
-    /* Dynamic SVG Connector Line from Active Dial to Callout Box */
-    .connector-line-path {
-      stroke: rgba(255, 255, 255, 0.85);
-      stroke-width: 2;
-      stroke-dasharray: 4, 4;
-      fill: none;
-      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
-      transition: all 0.4s ease;
-    }
-
-    /* 3 Circular Orbital Node Thumbnails */
-    .orbit-node {
+    .dial-satellite-node {
       position: absolute;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       overflow: hidden;
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
-      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s, box-shadow 0.35s;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
     }
-    .orbit-node img {
+    .dial-satellite-node img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
-      transition: transform 0.4s ease;
+      opacity: 0.6;
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
-    .orbit-node:hover img {
-      transform: scale(1.12);
+    .dial-satellite-node:hover img {
+      opacity: 0.85;
+      transform: scale(1.08);
     }
-
-    .orbit-node.active {
-      border: 3.5px solid #FFFFFF;
-      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3), 0 14px 34px rgba(0, 0, 0, 0.45);
-      transform: scale(1.12);
+    .dial-satellite-node.active {
+      transform: scale(1.15);
+      border-color: #FFFFFF;
+      box-shadow: 0 0 25px rgba(214, 159, 88, 0.7), 0 8px 25px rgba(0, 0, 0, 0.35);
     }
-
-    /* Node Positions along the concentric orbit */
-    .orbit-node-1 { /* Places to go (Safari) */
-      top: 8%;
-      right: 14%;
-      width: clamp(48px, 5.2vw, 68px);
-      height: clamp(48px, 5.2vw, 68px);
-    }
-    .orbit-node-2 { /* Places to stay (Majlis) */
-      top: 36%;
-      right: 18%;
-      width: clamp(56px, 6.2vw, 82px);
-      height: clamp(56px, 6.2vw, 82px);
-    }
-    .orbit-node-3 { /* Discover Qatar (Dhow Boat) */
-      bottom: 12%;
-      right: 10%;
-      width: clamp(74px, 8.4vw, 110px);
-      height: clamp(74px, 8.4vw, 110px);
+    .dial-satellite-node.active img {
+      opacity: 1;
     }
 
-    /* Contextual Callout Floating Card */
-    .radar-callout-card {
-      position: absolute;
-      left: -240px;
-      top: 42%;
-      transform: translateY(-50%);
-      width: clamp(210px, 22vw, 290px);
-      background: rgba(255, 255, 255, 0.16);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      border-radius: 18px;
-      padding: 16px 20px;
-      color: #FFFFFF;
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
-      transition: opacity 0.35s ease, transform 0.35s ease;
-      pointer-events: none;
-    }
-
-    .callout-title {
-      font-family: var(--font-sans);
-      font-size: clamp(16px, 1.6vw, 20px);
+    .dial-number-tag {
+      position: relative;
+      z-index: 3;
+      font-family: var(--font-mono);
+      font-size: 13px;
       font-weight: 700;
       color: #FFFFFF;
-      margin-bottom: 6px;
-      letter-spacing: -0.01em;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
     }
 
-    .callout-desc {
-      font-size: 11.5px;
-      line-height: 1.45;
-      color: rgba(255, 255, 255, 0.9);
-      text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    /* Positions for 3 dials orbiting center */
+    .dial-node-1 { top: 0; left: 80px; }
+    .dial-node-2 { bottom: 20px; left: 10px; }
+    .dial-node-3 { bottom: 20px; right: 10px; }
+
+    /* Active Callout Tooltip */
+    .radar-active-callout {
+      position: absolute;
+      right: 235px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(26, 20, 18, 0.85);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 14px;
+      padding: 10px 18px;
+      white-space: nowrap;
+      pointer-events: none;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      transition: all 0.3s ease;
+    }
+    .callout-category {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--sand-gold);
+      font-family: var(--font-mono);
+    }
+    .callout-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    /* Mobile Chapter Tracker Bar */
+    .mobile-chapter-dock {
+      display: none;
+      position: absolute;
+      bottom: 24px;
+      left: 16px;
+      right: 16px;
+      z-index: 25;
+      background: rgba(26, 20, 18, 0.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 999px;
+      padding: 6px;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    .mobile-chapter-pill {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+    .mobile-chapter-pill.active {
+      background: #FFFFFF;
+      color: var(--espresso);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     }
 
     /* ==========================================================================
-       FLOATING ISLAND SEARCH CONTROLLER
+       FLOATING ISLAND SEARCH BAR
        ========================================================================== */
     .search-island-wrapper {
       position: absolute;
-      bottom: 18%;
+      bottom: clamp(24px, 4.5vh, 48px);
       left: 50%;
       transform: translateX(-50%);
-      z-index: 25;
-      width: clamp(320px, 84vw, 980px);
-      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      z-index: 30;
+      width: calc(100% - clamp(32px, 8vw, 96px));
+      max-width: 960px;
+      pointer-events: auto;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .search-island-card {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 999px;
+      padding: 8px 10px 8px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #FFFFFF;
-      border-radius: 999px;
-      padding: 10px 14px 10px 24px;
-      box-shadow: 0 20px 48px -8px rgba(45, 25, 15, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25), 0 4px 16px rgba(0, 0, 0, 0.08);
+      gap: 12px;
     }
 
     .search-field-segment {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 3px;
-      padding: 6px 18px;
-      border-right: 1px solid rgba(0, 0, 0, 0.07);
-      flex: 1;
+      gap: 2px;
+      padding: 6px 14px;
+      border-right: 1px solid rgba(0, 0, 0, 0.08);
       cursor: pointer;
-      transition: background 0.2s;
-      border-radius: 12px;
-    }
-    .search-field-segment:hover {
-      background: rgba(0, 0, 0, 0.02);
+      transition: opacity 0.2s;
     }
     .search-field-segment:last-of-type {
       border-right: none;
     }
-
-    .search-label-row {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 13.5px;
-      font-weight: 700;
-      color: var(--espresso);
+    .search-field-segment:hover {
+      opacity: 0.85;
     }
 
-    .search-icon-svg {
-      width: 15px;
-      height: 15px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-    }
-
-    .search-subtext {
+    .field-caption {
       font-size: 11px;
-      color: var(--espresso-muted);
-      margin-left: 22px;
-    }
-
-    .search-submit-btn {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: var(--espresso);
-      border: none;
-      color: #FFFFFF;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.24s cubic-bezier(0.22, 1, 0.36, 1);
-      box-shadow: 0 8px 20px rgba(26, 20, 18, 0.35);
-      flex-shrink: 0;
-    }
-    .search-submit-btn:hover {
-      background: #2E1F1A;
-      transform: scale(1.06);
-    }
-
-    /* ==========================================================================
-       RECOMMENDED PLACES TO STAY (CATALOG SECTION)
-       ========================================================================== */
-    .catalog-section {
-      position: relative;
-      z-index: 20;
-      width: 100%;
-      background: #FAF5F0;
-      padding: clamp(32px, 5vw, 68px) clamp(24px, 4vw, 56px);
-    }
-
-    .catalog-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: clamp(24px, 3.5vw, 42px);
-    }
-
-    .catalog-title {
-      font-family: var(--font-serif);
-      font-size: clamp(26px, 3vw, 40px);
-      font-weight: 500;
-      color: var(--espresso);
-      letter-spacing: -0.01em;
-    }
-
-    .see-all-btn {
-      padding: 9px 24px;
-      border-radius: 999px;
-      border: 1px solid rgba(26, 20, 18, 0.25);
-      background: transparent;
-      color: var(--espresso);
-      font-size: 12.5px;
       font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--espresso-muted);
     }
-    .see-all-btn:hover {
-      background: var(--espresso);
-      color: #FFFFFF;
-      border-color: var(--espresso);
-    }
-
-    /* 8-Card Grid */
-    .properties-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: clamp(16px, 2vw, 26px);
-    }
-
-    .property-card {
-      position: relative;
-      background: #FFFFFF;
-      border-radius: 20px;
-      overflow: hidden;
-      cursor: pointer;
-      box-shadow: 0 12px 28px rgba(45, 25, 15, 0.08);
-      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
-      transform-style: preserve-3d;
-    }
-    .property-card:hover {
-      transform: translateY(-6px) scale(1.015);
-      box-shadow: 0 24px 44px rgba(45, 25, 15, 0.16);
-    }
-
-    .property-image-box {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 1 / 0.88;
-      overflow: hidden;
-    }
-    .property-image-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .property-card:hover .property-image-box img {
-      transform: scale(1.08);
-    }
-
-    /* Price Badge */
-    .price-badge {
-      position: absolute;
-      top: 14px;
-      left: 14px;
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(8px);
-      padding: 5px 12px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 700;
+    .field-input-value {
+      font-size: 13.5px;
+      font-weight: 600;
       color: var(--espresso);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    /* Wishlist Heart Toggle */
-    .wishlist-heart-btn {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(8px);
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      transition: transform 0.2s, background 0.2s;
-    }
-    .wishlist-heart-btn:hover {
-      transform: scale(1.15);
-    }
-    .wishlist-heart-btn.liked svg {
-      fill: #E63946;
-      stroke: #E63946;
-    }
-
-    .property-info-box {
-      padding: 16px 18px 20px;
-    }
-
-    .property-title {
-      font-family: var(--font-sans);
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--espresso);
-      margin-bottom: 4px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .property-location {
-      display: flex;
+    .search-submit-btn {
+      display: inline-flex;
       align-items: center;
-      gap: 5px;
-      font-size: 12px;
-      color: var(--espresso-muted);
-      margin-bottom: 10px;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #1A1412 0%, #352A24 100%);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 999px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      white-space: nowrap;
+      min-height: 48px;
     }
-
-    .property-rating-row {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11.5px;
-      font-weight: 700;
-      color: var(--espresso);
-    }
-    .star-icon {
-      color: #E7A93C;
+    .search-submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(26, 20, 18, 0.35);
     }
 
     /* ==========================================================================
-       PALM CITY VILLA PROPERTY SHOWCASE MODAL
+       CATALOG: RECOMMENDED PLACES TO STAY
+       ========================================================================== */
+    .catalog-section {
+      position: relative;
+      background: #FAF5F0;
+      padding: clamp(60px, 8vw, 110px) clamp(20px, 4.5vw, 64px);
+      z-index: 15;
+    }
+
+    .catalog-header-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: clamp(32px, 4vw, 56px);
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .catalog-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--sand-gold);
+      margin-bottom: 8px;
+    }
+
+    .catalog-title {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 600;
+      color: var(--espresso);
+      letter-spacing: -0.02em;
+    }
+
+    .catalog-filter-tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #EFE6DE;
+      padding: 4px;
+      border-radius: 999px;
+      overflow-x: auto;
+      max-width: 100%;
+    }
+
+    .filter-tab-btn {
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: var(--espresso-muted);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .filter-tab-btn.active {
+      background: #FFFFFF;
+      color: var(--espresso);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    /* 8-Card Responsive Grid */
+    .properties-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(16px, 2.2vw, 28px);
+    }
+
+    .property-card {
+      background: #FFFFFF;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(50, 30, 20, 0.06);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      cursor: pointer;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .property-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 45px rgba(50, 30, 20, 0.14);
+    }
+
+    .card-media-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #E8DCD2;
+    }
+    .card-media-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .property-card:hover .card-media-wrapper img {
+      transform: scale(1.06);
+    }
+
+    .card-like-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--espresso);
+      transition: transform 0.2s, background 0.2s;
+    }
+    .card-like-btn:hover {
+      transform: scale(1.1);
+      background: #FFFFFF;
+    }
+
+    .card-badge-tag {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: rgba(26, 20, 18, 0.75);
+      backdrop-filter: blur(6px);
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .card-content {
+      padding: 18px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .property-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--espresso);
+      line-height: 1.3;
+    }
+    .property-rating {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--espresso);
+    }
+    .property-rating svg {
+      fill: #F5A623;
+    }
+
+    .property-location {
+      font-size: 13px;
+      color: var(--espresso-muted);
+    }
+
+    .card-footer-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .property-price {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--espresso);
+    }
+    .price-unit {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--espresso-muted);
+    }
+    .property-dates {
+      font-size: 12px;
+      color: var(--espresso-muted);
+    }
+
+    /* ==========================================================================
+       FULL-SCREEN PALM CITY VILLA SHOWCASE MODAL
        ========================================================================== */
     .villa-modal-overlay {
       position: fixed;
       inset: 0;
       z-index: 1000;
-      background: rgba(18, 12, 10, 0.65);
+      background: rgba(26, 20, 18, 0.65);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
-      padding: 24px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      padding: clamp(0px, 2.5vw, 40px);
+      overflow-y: auto;
     }
-
     .villa-modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
+      display: flex;
     }
 
-    .villa-modal-card {
+    .villa-modal-sheet {
       position: relative;
       width: 100%;
-      max-width: 1180px;
-      max-height: 90vh;
-      overflow-y: auto;
+      max-width: 1200px;
+      max-height: 92vh;
       background: #FFFFFF;
-      border-radius: 28px;
-      padding: clamp(24px, 3.5vw, 44px);
-      box-shadow: 0 40px 90px rgba(0, 0, 0, 0.35);
-      transform: translateY(30px) scale(0.97);
-      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      border-radius: clamp(16px, 2.5vw, 32px);
+      overflow-y: auto;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+      padding: clamp(20px, 3.5vw, 48px);
+      animation: modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-
-    .villa-modal-overlay.active .villa-modal-card {
-      transform: translateY(0) scale(1);
+    @keyframes modalSlideUp {
+      from { opacity: 0; transform: translateY(40px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .modal-close-btn {
-      position: absolute;
-      top: 24px;
-      right: 24px;
-      width: 40px;
-      height: 40px;
+      position: sticky;
+      top: 0;
+      float: right;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      background: rgba(0, 0, 0, 0.06);
-      border: none;
+      background: #FAF5F0;
+      border: 1px solid rgba(0, 0, 0, 0.08);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 18px;
       color: var(--espresso);
-      transition: background 0.2s;
-      z-index: 20;
+      transition: background 0.2s, transform 0.2s;
+      z-index: 50;
+      margin-left: auto;
     }
     .modal-close-btn:hover {
-      background: rgba(0, 0, 0, 0.12);
+      background: #EFE6DE;
+      transform: scale(1.05);
     }
 
-    /* Breadcrumbs */
-    .modal-breadcrumbs {
-      font-size: 12px;
+    .modal-header-meta {
+      margin-bottom: 24px;
+    }
+    .modal-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--sand-gold);
+      margin-bottom: 6px;
+    }
+    .modal-title {
+      font-family: var(--font-serif);
+      font-size: clamp(26px, 3.5vw, 40px);
+      font-weight: 600;
+      color: var(--espresso);
+      margin-bottom: 8px;
+    }
+    .modal-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 14px;
       color: var(--espresso-muted);
-      margin-bottom: 20px;
+    }
+    .modal-rating-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--espresso);
+      font-weight: 700;
+    }
+    .modal-rating-badge svg {
+      fill: #F5A623;
     }
 
-    /* Two-column layout */
-    .villa-showcase-grid {
+    /* Gallery Grid */
+    .modal-gallery-grid {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: clamp(24px, 3.5vw, 44px);
-      margin-bottom: 40px;
-    }
-
-    /* Gallery */
-    .gallery-hero-img {
-      width: 100%;
-      aspect-ratio: 1 / 0.65;
-      border-radius: 20px;
-      object-fit: cover;
-      display: block;
-      margin-bottom: 14px;
-    }
-
-    .gallery-thumbnails-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: repeat(2, 180px);
       gap: 12px;
-    }
-
-    .thumb-box {
-      position: relative;
-      border-radius: 14px;
+      border-radius: 20px;
       overflow: hidden;
-      aspect-ratio: 1 / 0.75;
+      margin-bottom: 36px;
     }
-    .thumb-box img {
+    .gallery-hero-tile {
+      grid-column: 1 / 2;
+      grid-row: 1 / 3;
+      position: relative;
+    }
+    .gallery-hero-tile img,
+    .gallery-sub-tile img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
+      transition: transform 0.4s ease;
     }
-    .more-photos-badge {
+    .gallery-hero-tile:hover img,
+    .gallery-sub-tile:hover img {
+      transform: scale(1.04);
+    }
+    .gallery-sub-tile {
+      position: relative;
+      overflow: hidden;
+    }
+    .more-photos-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.52);
+      background: rgba(26, 20, 18, 0.7);
+      backdrop-filter: blur(4px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .more-photos-overlay:hover {
+      background: rgba(26, 20, 18, 0.85);
+    }
+
+    /* Modal 2-Col Layout */
+    .villa-showcase-grid {
+      display: grid;
+      grid-template-columns: 1.8fr 1.2fr;
+      gap: 48px;
+    }
+
+    .villa-left-details {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .host-info-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    .host-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1A1412 0%, #D69F58 100%);
       color: #FFFFFF;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
       font-weight: 700;
+      font-size: 18px;
     }
-
-    /* Right Details */
-    .modal-property-title {
-      font-family: var(--font-serif);
-      font-size: clamp(28px, 3vw, 38px);
+    .host-name {
+      font-size: 16px;
       font-weight: 600;
       color: var(--espresso);
-      margin-bottom: 4px;
     }
-
-    .modal-host-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .host-meta {
       font-size: 13px;
       color: var(--espresso-muted);
-      margin-bottom: 18px;
     }
 
-    .modal-section-heading {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--espresso);
-      margin-bottom: 6px;
-    }
-
-    .modal-about-desc {
-      font-size: 12.5px;
-      line-height: 1.6;
-      color: var(--espresso-muted);
-      margin-bottom: 20px;
-    }
-
-    /* Booking Card */
-    .modal-booking-box {
-      background: #FDF9F5;
-      border: 1px solid rgba(214, 159, 88, 0.25);
-      border-radius: 20px;
-      padding: 20px;
-      margin-bottom: 24px;
-    }
-
-    .booking-price-row {
-      font-family: var(--font-sans);
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--espresso);
-      margin-bottom: 14px;
-    }
-    .booking-price-row span {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--espresso-muted);
-    }
-
-    .booking-inputs-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .booking-input-tile {
-      background: #FFFFFF;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      border-radius: 12px;
-      padding: 8px 12px;
-    }
-    .input-label {
-      font-size: 10px;
+    .amenities-section h4 {
+      font-size: 18px;
       font-weight: 600;
-      color: var(--espresso-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      margin-bottom: 16px;
     }
-    .input-value {
-      font-size: 12.5px;
-      font-weight: 700;
-      color: var(--espresso);
-    }
-
-    .guests-tile {
-      grid-column: span 2;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #FFFFFF;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      border-radius: 12px;
-      padding: 10px 14px;
-      margin-bottom: 14px;
-    }
-
-    .book-now-cta-btn {
-      width: 100%;
-      background: #E8833A;
-      color: #FFFFFF;
-      font-family: var(--font-sans);
-      font-size: 13.5px;
-      font-weight: 700;
-      padding: 14px;
-      border-radius: 14px;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 8px 24px rgba(232, 131, 58, 0.35);
-      transition: background 0.2s, transform 0.2s;
-    }
-    .book-now-cta-btn:hover {
-      background: #D47128;
-      transform: translateY(-1px);
-    }
-
-    /* Amenities Grid */
-    .amenities-heading {
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: var(--espresso);
-    }
-
     .amenities-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .amenity-item {
+      display: flex;
+      align-items: center;
       gap: 12px;
-      margin-bottom: 24px;
+      font-size: 14px;
+      color: var(--espresso);
+    }
+    .amenity-item svg {
+      width: 20px;
+      height: 20px;
+      color: var(--sand-gold);
     }
 
-    .amenity-tile {
+    /* Sticky Booking Widget */
+    .booking-sticky-widget {
+      background: #FAF5F0;
+      border-radius: 24px;
+      padding: 28px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 16px 40px rgba(50, 30, 20, 0.08);
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      background: #FAF6F2;
-      border-radius: 12px;
-      padding: 12px 8px;
-      font-size: 11.5px;
-      font-weight: 600;
-      color: var(--espresso);
-      text-align: center;
+      gap: 20px;
+      height: fit-content;
     }
-    .amenity-svg {
-      width: 22px;
-      height: 22px;
-      stroke: var(--espresso);
-      fill: none;
-      stroke-width: 1.8;
-    }
-
-    /* Reviews Bar */
-    .reviews-bar-box {
+    .booking-price-header {
       display: flex;
-      align-items: center;
+      align-items: baseline;
       justify-content: space-between;
-      padding: 12px 16px;
-      background: #FAF6F2;
-      border-radius: 14px;
     }
-    .rate-now-btn {
-      padding: 6px 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(26, 20, 18, 0.2);
+    .booking-price-val {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--espresso);
+    }
+    .booking-inputs-box {
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 14px;
       background: #FFFFFF;
-      font-size: 11.5px;
+      overflow: hidden;
+    }
+    .booking-input-row {
+      display: flex;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    .booking-input-field {
+      flex: 1;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .booking-input-field:first-child {
+      border-right: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    .booking-reserve-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #1A1412 0%, #352A24 100%);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 14px;
+      font-size: 15px;
       font-weight: 600;
       cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .booking-reserve-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(26, 20, 18, 0.35);
     }
 
-    /* Mobile Responsive */
+    /* ==========================================================================
+       RESPONSIVE BREAKPOINTS (Mobile & Tablet)
+       ========================================================================== */
     @media (max-width: 1024px) {
       .properties-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -903,32 +1150,76 @@
       .villa-showcase-grid {
         grid-template-columns: 1fr;
       }
-    }
-    @media (max-width: 768px) {
-      .nav-center, .become-host-link {
+      .radar-orbit-container {
         display: none;
+      }
+      .mobile-chapter-dock {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .outer-presentation-frame {
+        padding: 0 !important;
+      }
+      .browser-canvas-window {
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        min-height: 100vh;
+      }
+      .site-header {
+        top: 0 !important;
+        padding: 12px 16px !important;
+        border-radius: 0;
+      }
+      .nav-center, .become-host-link, .visitors-dropdown-btn, .nav-divider {
+        display: none !important;
+      }
+      .hamburger-btn {
+        display: flex !important;
       }
       .properties-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
       }
-      .radar-orbit-container {
-        display: none;
+      .modal-gallery-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: 240px repeat(2, 120px);
+      }
+      .gallery-hero-tile {
+        grid-column: 1 / -1;
+        grid-row: 1 / 2;
+      }
+      .search-island-wrapper {
+        bottom: 75px;
+        width: calc(100% - 24px);
       }
       .search-island-card {
         flex-direction: column;
         border-radius: 20px;
-        padding: 14px;
+        padding: 12px;
+        gap: 8px;
       }
       .search-field-segment {
         width: 100%;
         border-right: none;
-        border-bottom: 1px solid rgba(0,0,0,0.06);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
         padding: 8px 10px;
       }
       .search-submit-btn {
         width: 100%;
         border-radius: 12px;
-        margin-top: 8px;
+        margin-top: 4px;
+        min-height: 44px;
+      }
+      .villa-modal-overlay {
+        padding: 0;
+        align-items: flex-end;
+      }
+      .villa-modal-sheet {
+        max-height: 94vh;
+        border-radius: 24px 24px 0 0;
+        padding: 20px 16px;
       }
     }
   </style>
@@ -952,295 +1243,359 @@
         </div>
 
         <ul class="nav-center">
-          <li><a href="#catalog-section" class="nav-link">Apartments</a></li>
-          <li><a href="#hero-section" class="nav-link">Where to go</a></li>
-          <li><a href="#contact" class="nav-link">Contact Us</a></li>
+          <li><a href="#places-to-stay" class="nav-link active">Places to stay</a></li>
+          <li><a href="#experiences" class="nav-link">Experiences</a></li>
+          <li><a href="#about-qatar" class="nav-link">About Qatar</a></li>
         </ul>
 
         <div class="nav-right">
-          <a href="#host" class="become-host-link">Become a host</a>
-          <button class="icon-btn" aria-label="Language selector">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <a href="#become-a-host" class="become-host-link">Become a Host</a>
+          <button class="user-menu-btn" id="user-menu-trigger" type="button" aria-label="User Account">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            <div class="user-avatar-circle">B</div>
           </button>
-          <button class="user-pill-btn" aria-label="User profile">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <!-- Mobile Hamburger -->
+          <button class="hamburger-btn" id="hamburger-btn" type="button" aria-label="Open Navigation">
+            <span></span>
+            <span></span>
+            <span></span>
           </button>
         </div>
       </header>
 
-      <!-- ======================================================================
-           HERO 3D SCROLL SECTION (PINNED 3-STAGE DISCOVERY)
-           ====================================================================== -->
-      <section class="hero-master-pin" id="hero-section">
-        <!-- 1080p Lanczos-3 Hardware Accelerated Background Video -->
-        <video id="hero-bg-video" src="/projects/bayt-travel/assets/bayt_travel_1080p.mp4" class="hero-video-bg" muted playsinline preload="auto"></video>
-        <div class="hero-scrim-layer"></div>
+      <!-- Mobile Navigation Drawer -->
+      <div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
+      <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+        <div>
+          <div class="mobile-nav-header">
+            <span class="brand-logo" style="color: var(--espresso);">Bayt Travel</span>
+            <button class="mobile-nav-close" id="mobile-nav-close" type="button">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="mobile-nav-links">
+            <a href="#places-to-stay" class="mobile-link">Places to stay <span>&rarr;</span></a>
+            <a href="#experiences" class="mobile-link">Experiences <span>&rarr;</span></a>
+            <a href="#about-qatar" class="mobile-link">About Qatar <span>&rarr;</span></a>
+            <a href="#become-a-host" class="mobile-link">Become a Host <span>&rarr;</span></a>
+          </div>
+        </div>
+        <div style="font-size: 12px; color: var(--espresso-muted); padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.06);">
+          &copy; 2026 Bayt Travel Qatar. All rights reserved.
+        </div>
+      </div>
 
-        <!-- Giant Watermark Typography (Dynamic per scene) -->
-        <div class="ambient-watermark-wrap">
-          <div class="ambient-watermark-text" id="watermark-text">
-            <span>WELCOME TO QATAR</span>
+      <!-- ======================================================================
+           HERO SECTION: 1080P VIDEO SCRUB + RADAR DIAL
+           ====================================================================== -->
+      <section class="hero-pinned-viewport" id="hero-scroll-track">
+        <!-- 1080p Master Video -->
+        <video id="hero-bg-video" src="/projects/bayt-travel/assets/bayt_travel_1080p.mp4" class="hero-video-bg" muted playsinline preload="auto"></video>
+        <div class="hero-ambient-vignette"></div>
+
+        <!-- 3 Continuous Scrollytelling Stages -->
+        <div class="hero-scene-stage">
+          <!-- Scene 1: Welcome to Qatar -->
+          <div class="scene-frame active" id="scene-frame-1">
+            <div class="scene-crest-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              Discover the Peninsula
+            </div>
+            <h1 class="scene-main-headline">WELCOME TO QATAR</h1>
+            <p class="scene-sub-caption">Where timeless Arabian heritage merges with futuristic architectural wonders on the turquoise waters of the Persian Gulf.</p>
+          </div>
+
+          <!-- Scene 2: Find Place to Stay -->
+          <div class="scene-frame" id="scene-frame-2">
+            <div class="scene-crest-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              Private Arabian Sanctuaries
+            </div>
+            <h2 class="scene-main-headline">FIND PLACE TO STAY</h2>
+            <p class="scene-sub-caption">Immerse yourself in hand-crafted Majlis estates, waterfront Pearl villas, and private desert retreats built for royalty.</p>
+          </div>
+
+          <!-- Scene 3: Explore Qatar -->
+          <div class="scene-frame" id="scene-frame-3">
+            <div class="scene-crest-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+              Endless Horizon
+            </div>
+            <h2 class="scene-main-headline">EXPLORE QATAR</h2>
+            <p class="scene-sub-caption">From Katara Cultural Village arches to the singing sand dunes of the Inland Sea, embark on unforgettable Arabian journeys.</p>
           </div>
         </div>
 
-        <!-- Concentric Radar Orbital Dial Controller -->
-        <div class="radar-orbit-container" id="radar-orbit">
-          <svg class="radar-svg-canvas" viewBox="0 0 420 420">
-            <!-- Concentric animated radar waves -->
-            <circle cx="280" cy="210" r="70" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.2"/>
-            <circle cx="280" cy="210" r="130" fill="none" stroke="rgba(255,255,255,0.14)" stroke-width="1.2"/>
-            <circle cx="280" cy="210" r="190" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.2"/>
-            <path id="connector-line" class="connector-line-path" d="M120,180 L280,260"/>
+        <!-- Concentric Radar Orbital Dial (Desktop) -->
+        <div class="radar-orbit-container" id="radar-dial-box">
+          <svg class="radar-svg-disc" viewBox="0 0 220 220">
+            <circle cx="110" cy="110" r="100" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.2" stroke-dasharray="4 4"/>
+            <circle cx="110" cy="110" r="68" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+            <circle cx="110" cy="110" r="36" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+            <line x1="110" y1="10" x2="110" y2="210" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+            <line x1="10" y1="110" x2="210" y2="110" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
           </svg>
 
-          <!-- Contextual Floating Callout Box -->
-          <div class="radar-callout-card" id="radar-callout">
-            <h3 class="callout-title" id="callout-title">Discover Qatar</h3>
-            <p class="callout-desc" id="callout-desc">Discover Qatar's best places to stay and visit. Find suitable ones for you and your family.</p>
+          <!-- 3 Dial Nodes with Clean HD Assets -->
+          <div class="dial-satellite-node dial-node-1" id="dial-node-1" data-scene="3" title="Places to go">
+            <img src="/projects/bayt-travel/assets/dial_safari.jpg" alt="Desert Safari" onerror="this.src='https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=400&q=85';" />
+            <span class="dial-number-tag">01</span>
+          </div>
+          <div class="dial-satellite-node dial-node-2" id="dial-node-2" data-scene="2" title="Places to stay">
+            <img src="/projects/bayt-travel/assets/dial_majlis.jpg" alt="Majlis Villa" onerror="this.src='https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=400&q=85';" />
+            <span class="dial-number-tag">02</span>
+          </div>
+          <div class="dial-satellite-node dial-node-3 active" id="dial-node-3" data-scene="1" title="Discover Qatar">
+            <img src="/projects/bayt-travel/assets/dial_dhow.jpg" alt="Doha Dhow" onerror="this.src='https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=400&q=85';" />
+            <span class="dial-number-tag">03</span>
           </div>
 
-          <!-- 3 Interactive Orbital Nodes -->
-          <div class="orbit-node orbit-node-1" data-node="1" title="Places to go — Arabian Desert Adventures">
-            <img src="/projects/bayt-travel/assets/scene3_end_safari.jpg" alt="Desert Safari 4x4" onerror="this.src='https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=300&q=80';"/>
+          <div class="radar-active-callout" id="radar-callout-pill">
+            <span class="callout-category">Chapter 03</span>
+            <span class="callout-title">Discover Qatar</span>
           </div>
-          <div class="orbit-node orbit-node-2" data-node="2" title="Places to stay — Royal Majlis &amp; Villas">
-            <img src="/projects/bayt-travel/assets/scene2_start_majlis.jpg" alt="Arabian Majlis Villa" onerror="this.src='https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=300&q=80';"/>
-          </div>
-          <div class="orbit-node orbit-node-3 active" data-node="3" title="Discover Qatar — Dhow Cruise">
-            <img src="/projects/bayt-travel/assets/scene1_end_dhow.jpg" alt="Doha Dhow Cruise" onerror="this.src='https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=300&q=80';"/>
-          </div>
+        </div>
+
+        <!-- Mobile Chapter Dock -->
+        <div class="mobile-chapter-dock" id="mobile-chapter-dock">
+          <button class="mobile-chapter-pill active" id="mob-pill-1" type="button" data-scene="1">03 Discover Qatar</button>
+          <button class="mobile-chapter-pill" id="mob-pill-2" type="button" data-scene="2">02 Places to stay</button>
+          <button class="mobile-chapter-pill" id="mob-pill-3" type="button" data-scene="3">01 Places to go</button>
         </div>
 
         <!-- Floating Island Search Bar -->
-        <div class="search-island-wrapper" id="search-island">
+        <div class="search-island-wrapper" id="search-island-dock">
           <div class="search-island-card">
-            <!-- Segment 1: Destination -->
             <div class="search-field-segment">
-              <div class="search-label-row">
-                <svg class="search-icon-svg" viewBox="0 0 24 24"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
-                <span>Qatar</span>
-              </div>
-              <span class="search-subtext">Choose the destination</span>
+              <span class="field-caption">Where to go</span>
+              <span class="field-input-value">Doha, Qatar</span>
             </div>
-
-            <!-- Segment 2: Check in -->
             <div class="search-field-segment">
-              <div class="search-label-row">
-                <svg class="search-icon-svg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                <span>Check in</span>
-              </div>
-              <span class="search-subtext">Add date</span>
+              <span class="field-caption">Check-in / Check-out</span>
+              <span class="field-input-value">Oct 24 — Nov 02</span>
             </div>
-
-            <!-- Segment 3: Check out -->
             <div class="search-field-segment">
-              <div class="search-label-row">
-                <svg class="search-icon-svg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                <span>Check out</span>
-              </div>
-              <span class="search-subtext">Add date</span>
+              <span class="field-caption">Guests</span>
+              <span class="field-input-value">4 Guests, 2 Suites</span>
             </div>
-
-            <!-- Segment 4: Visitors -->
-            <div class="search-field-segment">
-              <div class="search-label-row">
-                <svg class="search-icon-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                <span>Visitors</span>
-              </div>
-              <span class="search-subtext">Add guests</span>
-            </div>
-
-            <!-- Search Action Button -->
-            <button class="search-submit-btn" id="search-submit-btn" type="button" aria-label="Search stays">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <button class="search-submit-btn" id="search-explore-btn" type="button">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <span>Explore Stays</span>
             </button>
           </div>
         </div>
       </section>
 
       <!-- ======================================================================
-           RECOMMENDED PLACES TO STAY (CATALOG SECTION)
+           CATALOG: 8 RECOMMENDED PLACES TO STAY (ALL REDESIGNED PRISTINE ASSETS)
            ====================================================================== -->
-      <section class="catalog-section" id="catalog-section">
-        <div class="catalog-header">
-          <h2 class="catalog-title">Recommended Places to Stay</h2>
-          <button class="see-all-btn" type="button">See All</button>
+      <section class="catalog-section" id="places-to-stay">
+        <div class="catalog-header-row">
+          <div>
+            <span class="catalog-badge">Exclusive Qatar Collection</span>
+            <h2 class="catalog-title">Recommended Places to Stay</h2>
+          </div>
+          <div class="catalog-filter-tabs">
+            <button class="filter-tab-btn active" type="button">All Stays</button>
+            <button class="filter-tab-btn" type="button">Private Villas</button>
+            <button class="filter-tab-btn" type="button">Penthouse Suites</button>
+            <button class="filter-tab-btn" type="button">Desert Sanctuaries</button>
+          </div>
         </div>
 
-        <div class="properties-grid" id="properties-grid">
-          <!-- Card 1: Luxurious Pearl Villa -->
-          <article class="property-card" data-slug="pearl-villa">
-            <div class="property-image-box">
-              <img src="/projects/bayt-travel/assets/scene4_places_grid.jpg" alt="Luxurious Pearl Villa" onerror="this.src='https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=80';"/>
-              <div class="price-badge">$1,300 /night</div>
-              <button class="wishlist-heart-btn" aria-label="Add to wishlist" type="button">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <div class="properties-grid">
+          <!-- Property 1: Luxurious Pearl Villa -->
+          <article class="property-card" data-villa="pearl-villa">
+            <div class="card-media-wrapper">
+              <img src="/projects/bayt-travel/assets/prop_pearl_villa.jpg" alt="Luxurious Pearl Villa" onerror="this.src='https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=85';" />
+              <button class="card-like-btn" type="button" aria-label="Save stay">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               </button>
+              <span class="card-badge-tag">Superhost</span>
             </div>
-            <div class="property-info-box">
-              <h3 class="property-title">Luxurious Pearl Villa</h3>
-              <div class="property-location">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
-                <span>The Pearl, Doha</span>
+            <div class="card-content">
+              <div class="card-header-row">
+                <h3 class="property-name">Luxurious Pearl Villa</h3>
+                <span class="property-rating">
+                  <svg width="14" height="14" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  4.95
+                </span>
               </div>
-              <div class="property-rating-row">
-                <span class="star-icon">★</span>
-                <span>4.8</span>
+              <p class="property-location">The Pearl-Qatar &bull; Waterfront &bull; Private Dock</p>
+              <div class="card-footer-row">
+                <span class="property-price">$1,450 <span class="price-unit">/ night</span></span>
+                <span class="property-dates">Oct 24 - 29</span>
               </div>
             </div>
           </article>
 
-          <!-- Card 2: Palm City Villa (Featured Showcase Trigger) -->
-          <article class="property-card" data-slug="palm-city-villa" id="card-palm-city">
-            <div class="property-image-box">
-              <img src="/projects/bayt-travel/assets/scene5_villa_showcase.jpg" alt="Palm City Villa" onerror="this.src='https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80';"/>
-              <div class="price-badge">$1,200 /night</div>
-              <button class="wishlist-heart-btn" aria-label="Add to wishlist" type="button">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <!-- Property 2: Palm City Villa (Interactive Showcase Trigger) -->
+          <article class="property-card" id="palm-city-card" data-villa="palm-city">
+            <div class="card-media-wrapper">
+              <img src="/projects/bayt-travel/assets/prop_palm_city_villa.jpg" alt="Palm City Villa" onerror="this.src='https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=85';" />
+              <button class="card-like-btn" type="button" aria-label="Save stay">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               </button>
+              <span class="card-badge-tag" style="background: var(--sand-gold); color: #FFFFFF;">Featured Pick</span>
             </div>
-            <div class="property-info-box">
-              <h3 class="property-title">Palm City Villa</h3>
-              <div class="property-location">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
-                <span>West bay, Doha</span>
+            <div class="card-content">
+              <div class="card-header-row">
+                <h3 class="property-name">Palm City Villa</h3>
+                <span class="property-rating">
+                  <svg width="14" height="14" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  4.82
+                </span>
               </div>
-              <div class="property-rating-row">
-                <span class="star-icon">★</span>
-                <span>4.8</span>
+              <p class="property-location">West Bay Lagoon &bull; Private Beach &bull; Pool</p>
+              <div class="card-footer-row">
+                <span class="property-price">$1,200 <span class="price-unit">/ night</span></span>
+                <span class="property-dates">Available Today</span>
               </div>
             </div>
           </article>
 
-          <!-- Card 3: Viva Bahriya Apartment -->
-          <article class="property-card" data-slug="viva-bahriya">
-            <div class="property-image-box">
-              <img src="/projects/bayt-travel/assets/scene1_start_doha.jpg" alt="Viva Bahriya Apartment" onerror="this.src='https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80';"/>
-              <div class="price-badge">$170 /night</div>
-              <button class="wishlist-heart-btn" aria-label="Add to wishlist" type="button">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <!-- Property 3: Viva Bahriya Luxury Suite -->
+          <article class="property-card" data-villa="viva-bahriya">
+            <div class="card-media-wrapper">
+              <img src="/projects/bayt-travel/assets/prop_viva_bahriya.jpg" alt="Viva Bahriya Luxury Suite" onerror="this.src='https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=85';" />
+              <button class="card-like-btn" type="button" aria-label="Save stay">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               </button>
             </div>
-            <div class="property-info-box">
-              <h3 class="property-title">Viva Bahriya Apartment</h3>
-              <div class="property-location">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
-                <span>Al-Dafna, Doha</span>
+            <div class="card-content">
+              <div class="card-header-row">
+                <h3 class="property-name">Viva Bahriya Sky Penthouse</h3>
+                <span class="property-rating">
+                  <svg width="14" height="14" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  4.89
+                </span>
               </div>
-              <div class="property-rating-row">
-                <span class="star-icon">★</span>
-                <span>4.8</span>
+              <p class="property-location">The Pearl Marina &bull; Sea View Penthouse</p>
+              <div class="card-footer-row">
+                <span class="property-price">$880 <span class="price-unit">/ night</span></span>
+                <span class="property-dates">Oct 26 - 31</span>
               </div>
             </div>
           </article>
 
-          <!-- Card 4: Qanat Quartier Suite -->
-          <article class="property-card" data-slug="qanat-quartier">
-            <div class="property-image-box">
-              <img src="/projects/bayt-travel/assets/scene2_end_majlis.jpg" alt="Qanat Quartier" onerror="this.src='https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80';"/>
-              <div class="price-badge">$120 /night</div>
-              <button class="wishlist-heart-btn" aria-label="Add to wishlist" type="button">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <!-- Property 4: Qanat Quartier Venetian Townhouse -->
+          <article class="property-card" data-villa="qanat-quartier">
+            <div class="card-media-wrapper">
+              <img src="/projects/bayt-travel/assets/prop_qanat_quartier.jpg" alt="Qanat Quartier Townhouse" onerror="this.src='https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=85';" />
+              <button class="card-like-btn" type="button" aria-label="Save stay">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               </button>
             </div>
-            <div class="property-info-box">
-              <h3 class="property-title">Qanat Quartier</h3>
-              <div class="property-location">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
-                <span>Doha, Qatar</span>
+            <div class="card-content">
+              <div class="card-header-row">
+                <h3 class="property-name">Qanat Quartier Townhouse</h3>
+                <span class="property-rating">
+                  <svg width="14" height="14" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  4.78
+                </span>
               </div>
-              <div class="property-rating-row">
-                <span class="star-icon">★</span>
-                <span>4.8</span>
+              <p class="property-location">Canal Front &bull; Venetian Bridges &bull; Balcony</p>
+              <div class="card-footer-row">
+                <span class="property-price">$620 <span class="price-unit">/ night</span></span>
+                <span class="property-dates">Nov 01 - 06</span>
               </div>
             </div>
           </article>
 
-          <!-- Card 5: Souq Waqif Heritage Courtyard -->
-          <article class="property-card" data-slug="souq-heritage">
-            <div class="property-image-box">
-              <img src="/projects/bayt-travel/assets/scene3_start_katara.jpg" alt="Souq Waqif Heritage" onerror="this.src='https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=800&q=80';"/>
-              <div class="price-badge">$70 /night</div>
-              <button class="wishlist-heart-btn" aria-label="Add to wishlist" type="button">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <!-- Property 5: Katara Hills Luxury Pavilion -->
+          <article class="property-card" data-villa="katara-hills">
+            <div class="card-media-wrapper">
+              <img src="/projects/bayt-travel/assets/prop_katara_hills.jpg" alt="Katara Hills Luxury Pavilion" onerror="this.src='https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1200&q=85';" />
+              <button class="card-like-btn" type="button" aria-label="Save stay">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               </button>
+              <span class="card-badge-tag">Cultural Oasis</span>
             </div>
-            <div class="property-info-box">
-              <h3 class="property-title">Souq Waqif Courtyard</h3>
-              <div class="property-location">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
-                <span>Old Town, Doha</span>
+            <div class="card-content">
+              <div class="card-header-row">
+                <h3 class="property-name">Katara Hills Luxury Pavilion</h3>
+                <span class="property-rating">
+                  <svg width="14" height="14" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  4.92
+                </span>
               </div>
-              <div class="property-rating-row">
-                <span class="star-icon">★</span>
-                <span>4.9</span>
+              <p class="property-location">Katara Hills &bull; Private Plunge Pool &bull; Spa</p>
+              <div class="card-footer-row">
+                <span class="property-price">$1,850 <span class="price-unit">/ night</span></span>
+                <span class="property-dates">Oct 28 - Nov 03</span>
               </div>
             </div>
           </article>
 
-          <!-- Card 6: Lusail Marina Yacht Suite -->
-          <article class="property-card" data-slug="lusail-marina">
-            <div class="property-image-box">
-              <img src="/projects/bayt-travel/assets/scene1_end_dhow.jpg" alt="Lusail Marina Yacht Suite" onerror="this.src='https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80';"/>
-              <div class="price-badge">$105 /night</div>
-              <button class="wishlist-heart-btn" aria-label="Add to wishlist" type="button">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <!-- Property 6: Lusail Marina Sky Penthouse -->
+          <article class="property-card" data-villa="lusail-marina">
+            <div class="card-media-wrapper">
+              <img src="/projects/bayt-travel/assets/prop_lusail_marina.jpg" alt="Lusail Marina Sky Penthouse" onerror="this.src='https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=85';" />
+              <button class="card-like-btn" type="button" aria-label="Save stay">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               </button>
             </div>
-            <div class="property-info-box">
-              <h3 class="property-title">Lusail Marina Suite</h3>
-              <div class="property-location">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
-                <span>Lusail City, Doha</span>
+            <div class="card-content">
+              <div class="card-header-row">
+                <h3 class="property-name">Lusail Marina Sky Penthouse</h3>
+                <span class="property-rating">
+                  <svg width="14" height="14" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  4.87
+                </span>
               </div>
-              <div class="property-rating-row">
-                <span class="star-icon">★</span>
-                <span>4.8</span>
+              <p class="property-location">Lusail City &bull; Marina Tower &bull; Infinity Spa</p>
+              <div class="card-footer-row">
+                <span class="property-price">$1,100 <span class="price-unit">/ night</span></span>
+                <span class="property-dates">Nov 02 - 08</span>
               </div>
             </div>
           </article>
 
-          <!-- Card 7: Al Zubarah Fortress Resort -->
-          <article class="property-card" data-slug="zubarah-resort">
-            <div class="property-image-box">
-              <img src="/projects/bayt-travel/assets/scene3_end_safari.jpg" alt="Al Zubarah Fortress Resort" onerror="this.src='https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80';"/>
-              <div class="price-badge">$1,300 /night</div>
-              <button class="wishlist-heart-btn" aria-label="Add to wishlist" type="button">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <!-- Property 7: Al Zubarah Heritage Desert Estate -->
+          <article class="property-card" data-villa="al-zubarah">
+            <div class="card-media-wrapper">
+              <img src="/projects/bayt-travel/assets/prop_al_zubarah.jpg" alt="Al Zubarah Desert Estate" onerror="this.src='https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=85';" />
+              <button class="card-like-btn" type="button" aria-label="Save stay">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               </button>
+              <span class="card-badge-tag">Desert Sanctuary</span>
             </div>
-            <div class="property-info-box">
-              <h3 class="property-title">Al Zubarah Fortress</h3>
-              <div class="property-location">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
-                <span>Northern Coast, Qatar</span>
+            <div class="card-content">
+              <div class="card-header-row">
+                <h3 class="property-name">Al Zubarah Desert Sanctuary</h3>
+                <span class="property-rating">
+                  <svg width="14" height="14" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  4.98
+                </span>
               </div>
-              <div class="property-rating-row">
-                <span class="star-icon">★</span>
-                <span>5.0</span>
+              <p class="property-location">Al Zubarah &bull; Private Dunes &bull; Star Lounge</p>
+              <div class="card-footer-row">
+                <span class="property-price">$1,350 <span class="price-unit">/ night</span></span>
+                <span class="property-dates">Oct 30 - Nov 05</span>
               </div>
             </div>
           </article>
 
-          <!-- Card 8: Banana Island Overwater Villa -->
-          <article class="property-card" data-slug="banana-island">
-            <div class="property-image-box">
-              <img src="/projects/bayt-travel/assets/scene2_start_majlis.jpg" alt="Banana Island Overwater Villa" onerror="this.src='https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80';"/>
-              <div class="price-badge">$1,200 /night</div>
-              <button class="wishlist-heart-btn" aria-label="Add to wishlist" type="button">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <!-- Property 8: Banana Island Overwater Villa -->
+          <article class="property-card" data-villa="banana-island">
+            <div class="card-media-wrapper">
+              <img src="/projects/bayt-travel/assets/prop_banana_island.jpg" alt="Banana Island Overwater Villa" onerror="this.src='https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=85';" />
+              <button class="card-like-btn" type="button" aria-label="Save stay">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               </button>
             </div>
-            <div class="property-info-box">
-              <h3 class="property-title">Banana Island Villa</h3>
-              <div class="property-location">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
-                <span>Banana Island, Doha</span>
+            <div class="card-content">
+              <div class="card-header-row">
+                <h3 class="property-name">Banana Island Overwater Villa</h3>
+                <span class="property-rating">
+                  <svg width="14" height="14" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  4.94
+                </span>
               </div>
-              <div class="property-rating-row">
-                <span class="star-icon">★</span>
-                <span>4.9</span>
+              <p class="property-location">Banana Island &bull; Overwater Hammock &bull; Reef</p>
+              <div class="card-footer-row">
+                <span class="property-price">$1,600 <span class="price-unit">/ night</span></span>
+                <span class="property-dates">Nov 04 - 10</span>
               </div>
             </div>
           </article>
@@ -1248,106 +1603,142 @@
       </section>
 
       <!-- ======================================================================
-           PALM CITY VILLA SHOWCASE MODAL
+           PALM CITY VILLA SHOWCASE MODAL (FULL INTERACTIVE SUITE)
            ====================================================================== -->
-      <div class="villa-modal-overlay" id="villa-modal">
-        <div class="villa-modal-card">
-          <button class="modal-close-btn" id="modal-close-btn" type="button" aria-label="Close modal">✕</button>
+      <div class="villa-modal-overlay" id="villa-modal-overlay" role="dialog" aria-modal="true">
+        <div class="villa-modal-sheet">
+          <button class="modal-close-btn" id="modal-close-btn" type="button" aria-label="Close modal">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
 
-          <div class="modal-breadcrumbs">
-            Home &nbsp;&gt;&nbsp; Type of places to stay &nbsp;&gt;&nbsp; Villas &nbsp;&gt;&nbsp; Spectacular views of Al Asmakh Co.
+          <div class="modal-header-meta">
+            <span class="modal-badge">Exclusive Qatar Sanctuary</span>
+            <h2 class="modal-title">Palm City Villa</h2>
+            <div class="modal-meta-row">
+              <span class="modal-rating-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                4.82 (124 reviews)
+              </span>
+              <span>&bull;</span>
+              <span>West Bay Lagoon, Doha</span>
+              <span>&bull;</span>
+              <span>10 Guests &bull; 5 Bedrooms &bull; 6 Baths &bull; Private Beach</span>
+            </div>
           </div>
 
+          <!-- Pristine 5-Photo Architectural Gallery -->
+          <div class="modal-gallery-grid">
+            <div class="gallery-hero-tile">
+              <img src="/projects/bayt-travel/assets/villa_modal_facade.jpg" alt="Palm City Villa Facade" onerror="this.src='https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1600&q=90';" />
+            </div>
+            <div class="gallery-sub-tile">
+              <img src="/projects/bayt-travel/assets/villa_modal_living.jpg" alt="Living Room" onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85';" />
+            </div>
+            <div class="gallery-sub-tile">
+              <img src="/projects/bayt-travel/assets/villa_modal_dining.jpg" alt="Dining Room" onerror="this.src='https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=85';" />
+            </div>
+            <div class="gallery-sub-tile">
+              <img src="/projects/bayt-travel/assets/villa_modal_bedroom.jpg" alt="Master Suite" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=85';" />
+            </div>
+            <div class="gallery-sub-tile">
+              <img src="/projects/bayt-travel/assets/villa_modal_terrace.jpg" alt="Outdoor Terrace" onerror="this.src='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=85';" />
+              <div class="more-photos-overlay" id="view-all-photos-btn">
+                <span>+9 Photos</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal 2-Col Details Grid -->
           <div class="villa-showcase-grid">
-            <!-- Left Gallery Column -->
-            <div class="modal-gallery-col">
-              <img src="/projects/bayt-travel/assets/scene5_villa_showcase.jpg" alt="Palm City Villa Facade" class="gallery-hero-img" onerror="this.src='https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=85';"/>
-              <div class="gallery-thumbnails-row">
-                <div class="thumb-box">
-                  <img src="/projects/bayt-travel/assets/scene2_start_majlis.jpg" alt="Living Room" onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=500&q=80';"/>
+            <div class="villa-left-details">
+              <div class="host-info-card">
+                <div class="host-avatar">Q</div>
+                <div>
+                  <h4 class="host-name">Hosted by Qatari Luxury Hospitality Group</h4>
+                  <p class="host-meta">Superhost &bull; Dedicated 24/7 Majlis Concierge &bull; Private Chef on Call</p>
                 </div>
-                <div class="thumb-box">
-                  <img src="/projects/bayt-travel/assets/scene2_end_majlis.jpg" alt="Foyer" onerror="this.src='https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=500&q=80';"/>
-                </div>
-                <div class="thumb-box">
-                  <img src="/projects/bayt-travel/assets/scene4_places_grid.jpg" alt="Kitchen Island" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=500&q=80';"/>
-                  <div class="more-photos-badge">+9</div>
+              </div>
+
+              <div>
+                <h4 style="font-size: 18px; font-weight: 600; margin-bottom: 12px;">About the Villa</h4>
+                <p style="font-size: 15px; color: var(--espresso-muted); line-height: 1.65;">
+                  Nestled in the prestigious gated community of West Bay Lagoon, Palm City Villa is an architectural triumph marrying minimalist Scandinavian luxury with opulent Arabian Majlis heritage. Enjoy private beach access, a 25-meter temperature-controlled infinity pool overlooking the skyline, sunken conversation fire pits, and curated bespoke interiors.
+                </p>
+              </div>
+
+              <div class="amenities-section">
+                <h4>What this place offers</h4>
+                <div class="amenities-grid">
+                  <div class="amenity-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20M2 16h20M2 8h20M7 4v16M17 4v16"/></svg>
+                    Private Beachfront Access
+                  </div>
+                  <div class="amenity-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h20M4 4h16v16H4z"/></svg>
+                    25m Heated Infinity Pool
+                  </div>
+                  <div class="amenity-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg>
+                    High-Speed Fiber Wi-Fi
+                  </div>
+                  <div class="amenity-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    Private Majlis &amp; Dining Hall
+                  </div>
+                  <div class="amenity-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    24/7 Dedicated Butler Service
+                  </div>
+                  <div class="amenity-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Free Gated Parking (4 Cars)
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- Right Details Column -->
-            <div class="modal-details-col">
-              <h2 class="modal-property-title">Palm City Villa</h2>
-              <div class="modal-host-row">
-                <span>Hosted by <strong>Abbas Abdallah</strong></span>
-                <span>&bull;</span>
-                <span style="color:#D69F58; font-weight:700;">★ Superhost</span>
+            <!-- Sticky Booking Box -->
+            <div class="booking-sticky-widget">
+              <div class="booking-price-header">
+                <span class="booking-price-val">$1,200 <span style="font-size: 14px; font-weight: 400; color: var(--espresso-muted);">/ night</span></span>
+                <span class="modal-rating-badge">
+                  <svg width="14" height="14" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  4.82
+                </span>
               </div>
 
-              <h4 class="modal-section-heading">About Palm City Villa</h4>
-              <p class="modal-about-desc">
-                Located in the area called West Bay which is surrounded by popular areas such as the Corniche that involves a good spot to walk at with a good view of the water, other areas around are The Pearl, the night market and many more filled with activities.
-              </p>
-
-              <!-- Reservation Booking Box -->
-              <div class="modal-booking-box">
-                <div class="booking-price-row">$1,200 <span>/night</span></div>
-                <div class="booking-inputs-grid">
-                  <div class="booking-input-tile">
-                    <div class="input-label">Check-in</div>
-                    <div class="input-value">July 22, 2026</div>
+              <div class="booking-inputs-box">
+                <div class="booking-input-row">
+                  <div class="booking-input-field">
+                    <span class="field-caption">CHECK-IN</span>
+                    <span style="font-size: 13px; font-weight: 600;">10/24/2026</span>
                   </div>
-                  <div class="booking-input-tile">
-                    <div class="input-label">Check-out</div>
-                    <div class="input-value">July 27, 2026</div>
+                  <div class="booking-input-field">
+                    <span class="field-caption">CHECKOUT</span>
+                    <span style="font-size: 13px; font-weight: 600;">11/02/2026</span>
                   </div>
                 </div>
-                <div class="guests-tile">
-                  <div>
-                    <div class="input-label">Guests</div>
-                    <div class="input-value">2 guests</div>
-                  </div>
-                  <svg width="12" height="8" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5"/></svg>
+                <div class="booking-input-field">
+                  <span class="field-caption">GUESTS</span>
+                  <span style="font-size: 13px; font-weight: 600;">4 Guests (Entire Villa)</span>
                 </div>
-                <button class="book-now-cta-btn" id="book-now-btn" type="button">Book Now</button>
               </div>
 
-              <!-- Reviews Drawer -->
-              <div class="reviews-bar-box">
-                <div>
-                  <strong>4.8</strong> &nbsp;<span style="color:#E7A93C;">★★★★★</span> &nbsp;<span style="font-size:12px; color:var(--espresso-muted);">(128 reviews)</span>
-                </div>
-                <button class="rate-now-btn" type="button">Rate Now</button>
-              </div>
+              <button class="booking-reserve-btn" type="button" onclick="alert('Reservation Confirmed for Palm City Villa! Our Majlis Concierge will contact you shortly.')">
+                Reserve Palm City Villa
+              </button>
 
-              <!-- Amenities Grid -->
-              <h4 class="amenities-heading" style="margin-top:20px;">Amenities</h4>
-              <div class="amenities-grid">
-                <div class="amenity-tile">
-                  <svg class="amenity-svg" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg>
-                  <span>Wi-Fi</span>
-                </div>
-                <div class="amenity-tile">
-                  <svg class="amenity-svg" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-                  <span>Personal Bar</span>
-                </div>
-                <div class="amenity-tile">
-                  <svg class="amenity-svg" viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg>
-                  <span>Personal Pier</span>
-                </div>
-                <div class="amenity-tile">
-                  <svg class="amenity-svg" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
-                  <span>Superhost</span>
-                </div>
-                <div class="amenity-tile">
-                  <svg class="amenity-svg" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
-                  <span>Own Cinema</span>
-                </div>
-                <div class="amenity-tile">
-                  <svg class="amenity-svg" viewBox="0 0 24 24"><path d="M2 19h20M4 19a8 8 0 0 1 16 0M12 4v7"/></svg>
-                  <span>Room Service</span>
-                </div>
+              <div style="display: flex; justify-content: space-between; font-size: 14px; color: var(--espresso-muted); padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.06);">
+                <span>$1,200 &times; 9 nights</span>
+                <span style="font-weight: 600; color: var(--espresso);">$10,800</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 14px; color: var(--espresso-muted);">
+                <span>Luxury Hospitality &amp; Service Fee</span>
+                <span style="font-weight: 600; color: var(--espresso);">$750</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 17px; font-weight: 700; color: var(--espresso); padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.1);">
+                <span>Total</span>
+                <span>$11,550</span>
               </div>
             </div>
           </div>
@@ -1357,251 +1748,267 @@
     </div>
   </div>
 
-  <!-- ========================================================================
-       MASTER JAVASCRIPT: LENIS + GSAP 3D RADAR & VIDEO SCRUB ENGINE
-       ======================================================================== -->
+  <!-- ==========================================================================
+       CLIENT SCRIPTS: LENIS, GSAP VIDEO SCRUB, RADAR CONTROLLER, MODAL ENGINE
+       ========================================================================== -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // 1. Initialize Lenis Momentum Smooth Scroll
+    (function () {
+      'use strict';
+
+      // 1. Initialize Lenis Smooth Momentum Inertia
       const lenis = new Lenis({
         duration: 1.25,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
         smoothWheel: true,
-        wheelMultiplier: 0.95
+        touchMultiplier: 1.8
       });
 
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add((time) => {
-        lenis.raf(time * 1000);
-      });
-      gsap.ticker.lagSmoothing(0);
-
-      // 2. Hardware-Accelerated 1080p Video Scrub Engine
-      class Asura4KVideoScrubEngine {
-        constructor(options) {
-          this.video = document.getElementById(options.videoId);
-          this.lerpFactor = options.lerpFactor || 0.16;
-          this.targetTime = 0;
-          this.currentTime = 0;
-          this.duration = 0;
-          this.isReady = false;
-
-          if (this.video) {
-            this.video.muted = true;
-            this.video.playsInline = true;
-            this.video.preload = 'auto';
-
-            const onMeta = () => {
-              if (this.video.duration && !isNaN(this.video.duration) && this.video.duration > 0) {
-                this.duration = this.video.duration;
-                this.isReady = true;
-                if (this.pendingProgress !== undefined) {
-                  this.setProgress(this.pendingProgress);
-                }
-              }
-            };
-
-            this.video.addEventListener('loadedmetadata', onMeta);
-            this.video.addEventListener('canplay', onMeta);
-            this.video.addEventListener('loadeddata', onMeta);
-            if (this.video.readyState >= 1) onMeta();
-
-            this.video.pause();
-          }
-
-          this.startRAFLoop();
-        }
-
-        setProgress(progress01) {
-          const clamped = Math.max(0, Math.min(1, progress01));
-          this.pendingProgress = clamped;
-          if (this.duration > 0) {
-            this.targetTime = clamped * this.duration;
-          } else if (this.video && this.video.duration) {
-            this.duration = this.video.duration;
-            this.targetTime = clamped * this.duration;
-          }
-        }
-
-        startRAFLoop() {
-          const tick = () => {
-            if (this.video && this.duration > 0) {
-              const diff = this.targetTime - this.currentTime;
-              if (Math.abs(diff) > 0.001) {
-                this.currentTime += diff * this.lerpFactor;
-                if (Math.abs(this.video.currentTime - this.currentTime) > 0.02 && !this.video.seeking) {
-                  if ('fastSeek' in this.video) {
-                    this.video.fastSeek(this.currentTime);
-                  } else {
-                    this.video.currentTime = this.currentTime;
-                  }
-                }
-              }
-            }
-            requestAnimationFrame(tick);
-          };
-          requestAnimationFrame(tick);
-        }
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
       }
+      requestAnimationFrame(raf);
 
-      const heroEngine = new Asura4KVideoScrubEngine({
-        videoId: 'hero-bg-video',
-        lerpFactor: 0.18
-      });
+      gsap.registerPlugin(ScrollTrigger);
 
-      // 3. Concentric Radar Dial Controller State Machine
-      const watermarkText = document.getElementById('watermark-text');
-      const calloutTitle = document.getElementById('callout-title');
-      const calloutDesc = document.getElementById('callout-desc');
-      const connectorLine = document.getElementById('connector-line');
-      const orbitNodes = document.querySelectorAll('.orbit-node');
+      // 2. Persistent Navigation Header State Machine
+      const siteHeader = document.getElementById('site-header');
+      const searchIsland = document.getElementById('search-island-dock');
 
-      const sceneData = {
-        3: {
-          watermark: 'WELCOME TO QATAR',
-          title: 'Discover Qatar',
-          desc: 'Discover Qatar\'s best places to stay and visit. Find suitable ones for you and your family.',
-          linePath: 'M-30,130 L280,260',
-          progress: 0.12
-        },
-        2: {
-          watermark: 'FIND PLACE TO STAY',
-          title: 'Places to stay',
-          desc: 'Enjoy some of Doha\'s finest accommodations from a range of Qatar\'s best locations.',
-          linePath: 'M-30,120 L240,160',
-          progress: 0.32
-        },
-        1: {
-          watermark: 'EXPLORE QATAR',
-          hasFalcon: true,
-          title: 'Places to go',
-          desc: 'Explore through the eyes of Qatar\'s best Arabian Adventures.',
-          linePath: 'M-30,110 L250,70',
-          progress: 0.52
-        }
-      };
-
-      function setActiveScene(nodeId) {
-        const data = sceneData[nodeId];
-        if (!data) return;
-
-        // Update active class on nodes
-        orbitNodes.forEach((n) => {
-          n.classList.toggle('active', n.dataset.node === String(nodeId));
-        });
-
-        // Update Watermark
-        if (data.hasFalcon) {
-          watermarkText.innerHTML = `EXPLORE <svg class="falcon-crest-svg" viewBox="0 0 24 24"><path d="M12 2C8 6 3 10 3 14c0 4 4 8 9 8s9-4 9-8c0-4-5-8-9-12zm0 4c2.5 3 5 6 5 8a5 5 0 0 1-10 0c0-2 2.5-5 5-8z"/></svg> QATAR`;
+      window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY > 250;
+        if (scrolled) {
+          siteHeader.classList.add('docked');
         } else {
-          watermarkText.innerHTML = `<span>${data.watermark}</span>`;
+          siteHeader.classList.remove('docked');
         }
+      }, { passive: true });
 
-        // Update Callout
-        calloutTitle.textContent = data.title;
-        calloutDesc.textContent = data.desc;
+      // 3. Mobile Navigation Drawer Controls
+      const hamburgerBtn = document.getElementById('hamburger-btn');
+      const mobileDrawer = document.getElementById('mobile-nav-drawer');
+      const mobileBackdrop = document.getElementById('mobile-nav-backdrop');
+      const mobileClose = document.getElementById('mobile-nav-close');
+      const mobileLinks = document.querySelectorAll('.mobile-link');
 
-        if (connectorLine) {
-          connectorLine.setAttribute('d', data.linePath);
-        }
-      }
-
-      // Interactive Click on Orbit Nodes
-      orbitNodes.forEach((node) => {
-        node.addEventListener('click', () => {
-          const id = parseInt(node.dataset.node, 10);
-          setActiveScene(id);
-          const targetP = sceneData[id].progress;
-          const scrollPos = heroPinST.start + (heroPinST.end - heroPinST.start) * targetP;
-          lenis.scrollTo(scrollPos, { duration: 1.1 });
-        });
-      });
-
-      // 4. GSAP Pinned Hero Scrollytelling Timeline
-      const heroPinST = ScrollTrigger.create({
-        trigger: '#hero-section',
-        start: 'top top',
-        end: () => '+=' + Math.round(window.innerHeight * 2.8),
-        pin: true,
-        scrub: 0.35,
-        onUpdate: (self) => {
-          const p = self.progress;
-          heroEngine.setProgress(p * 0.75);
-
-          // Scene 1: 0.00 -> 0.33
-          if (p < 0.28) {
-            setActiveScene(3);
-          }
-          // Scene 2: 0.28 -> 0.62
-          else if (p < 0.58) {
-            setActiveScene(2);
-          }
-          // Scene 3: 0.58 -> 1.00
-          else {
-            setActiveScene(1);
-          }
-        }
-      });
-
-      // 5. Wishlist Heart Toggle Micro-Animation
-      const heartBtns = document.querySelectorAll('.wishlist-heart-btn');
-      heartBtns.forEach((btn) => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          btn.classList.toggle('liked');
-        });
-      });
-
-      // 6. 3D Property Card Mouse Perspective Tilt
-      const cards = document.querySelectorAll('.property-card');
-      cards.forEach((card) => {
-        card.addEventListener('mousemove', (e) => {
-          const r = card.getBoundingClientRect();
-          const x = (e.clientX - r.left) / r.width - 0.5;
-          const y = (e.clientY - r.top) / r.height - 0.5;
-          card.style.transform = `perspective(1000px) rotateX(${(-y * 8).toFixed(2)}deg) rotateY(${(x * 8).toFixed(2)}deg) translateY(-6px)`;
-        });
-        card.addEventListener('mouseleave', () => {
-          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
-        });
-      });
-
-      // 7. Interactive Property Showcase Modal
-      const modal = document.getElementById('villa-modal');
-      const modalClose = document.getElementById('modal-close-btn');
-      const bookNowBtn = document.getElementById('book-now-btn');
-
-      function openModal() {
-        modal.classList.add('active');
+      function openDrawer() {
+        mobileDrawer.classList.add('open');
+        mobileBackdrop.classList.add('open');
         document.body.style.overflow = 'hidden';
       }
-
-      function closeModal() {
-        modal.classList.remove('active');
+      function closeDrawer() {
+        mobileDrawer.classList.remove('open');
+        mobileBackdrop.classList.remove('open');
         document.body.style.overflow = '';
       }
 
-      cards.forEach((card) => {
-        card.addEventListener('click', () => openModal());
+      if (hamburgerBtn) hamburgerBtn.addEventListener('click', openDrawer);
+      if (mobileClose) mobileClose.addEventListener('click', closeDrawer);
+      if (mobileBackdrop) mobileBackdrop.addEventListener('click', closeDrawer);
+      mobileLinks.forEach(link => link.addEventListener('click', closeDrawer));
+
+      // 4. Video Scrollytelling & Interpolation Engine
+      const video = document.getElementById('hero-bg-video');
+      const heroTrack = document.getElementById('hero-scroll-track');
+      const frames = [
+        document.getElementById('scene-frame-1'),
+        document.getElementById('scene-frame-2'),
+        document.getElementById('scene-frame-3')
+      ];
+
+      const dialNodes = [
+        document.getElementById('dial-node-1'),
+        document.getElementById('dial-node-2'),
+        document.getElementById('dial-node-3')
+      ];
+
+      const mobPills = [
+        document.getElementById('mob-pill-1'),
+        document.getElementById('mob-pill-2'),
+        document.getElementById('mob-pill-3')
+      ];
+
+      const callout = document.getElementById('radar-callout-pill');
+      const calloutTitle = callout ? callout.querySelector('.callout-title') : null;
+      const calloutCat = callout ? callout.querySelector('.callout-category') : null;
+
+      const chapters = [
+        { num: '03', cat: 'Discover Qatar', title: 'Doha Dhow Cruise & Skyline' },
+        { num: '02', cat: 'Places to stay', title: 'Royal Majlis & Private Villas' },
+        { num: '01', cat: 'Places to go', title: 'Katara Arches & Desert Dunes' }
+      ];
+
+      let targetVideoProgress = 0;
+      let currentVideoProgress = 0;
+      let videoDuration = 21.4;
+
+      video.addEventListener('loadedmetadata', () => {
+        if (video.duration && !isNaN(video.duration)) {
+          videoDuration = video.duration;
+        }
       });
 
-      modalClose.addEventListener('click', closeModal);
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+      // Pin Hero Section for 3D Video Scrubbing
+      ScrollTrigger.create({
+        trigger: heroTrack,
+        start: 'top top',
+        end: '+=2800',
+        pin: true,
+        scrub: 1,
+        onUpdate: (self) => {
+          targetVideoProgress = self.progress;
+
+          // State Machine: Scene Headline & Active Dial
+          let activeIndex = 0;
+          if (self.progress < 0.35) {
+            activeIndex = 0; // Scene 1
+          } else if (self.progress < 0.70) {
+            activeIndex = 1; // Scene 2
+          } else {
+            activeIndex = 2; // Scene 3
+          }
+
+          frames.forEach((f, idx) => {
+            if (idx === activeIndex) {
+              f.classList.add('active');
+            } else {
+              f.classList.remove('active');
+            }
+          });
+
+          // Sync Dial 1, 2, 3
+          // In reference video: Scene 1 has Dial 3 active, Scene 2 has Dial 2 active, Scene 3 has Dial 1 active
+          const dialActiveMapping = [2, 1, 0];
+          const currentActiveDial = dialActiveMapping[activeIndex];
+
+          dialNodes.forEach((node, idx) => {
+            if (node) {
+              if (idx === currentActiveDial) {
+                node.classList.add('active');
+              } else {
+                node.classList.remove('active');
+              }
+            }
+          });
+
+          mobPills.forEach((pill, idx) => {
+            if (pill) {
+              if (idx === activeIndex) {
+                pill.classList.add('active');
+              } else {
+                pill.classList.remove('active');
+              }
+            }
+          });
+
+          if (calloutTitle && calloutCat) {
+            calloutCat.textContent = 'Chapter ' + chapters[activeIndex].num;
+            calloutTitle.textContent = chapters[activeIndex].title;
+          }
+
+          // Search Island Docking Transform
+          if (searchIsland) {
+            if (self.progress > 0.88) {
+              searchIsland.style.opacity = '0';
+              searchIsland.style.transform = 'translate(-50%, 40px)';
+              searchIsland.style.pointerEvents = 'none';
+            } else {
+              searchIsland.style.opacity = '1';
+              searchIsland.style.transform = 'translate(-50%, 0)';
+              searchIsland.style.pointerEvents = 'auto';
+            }
+          }
+        }
       });
 
-      bookNowBtn.addEventListener('click', () => {
-        bookNowBtn.textContent = 'Reservation Confirmed ✓';
-        bookNowBtn.style.background = '#2E7D32';
-        setTimeout(() => {
-          bookNowBtn.textContent = 'Book Now';
-          bookNowBtn.style.background = '#E8833A';
-        }, 3000);
+      // Lerp Smooth Video Time Scrub
+      function scrubLoop() {
+        currentVideoProgress += (targetVideoProgress - currentVideoProgress) * 0.14;
+        if (video.readyState >= 2 && videoDuration > 0) {
+          const targetTime = currentVideoProgress * videoDuration;
+          if (Math.abs(video.currentTime - targetTime) > 0.02) {
+            video.currentTime = targetTime;
+          }
+        }
+        requestAnimationFrame(scrubLoop);
+      }
+      requestAnimationFrame(scrubLoop);
+
+      // Interactive Click on Radar Dials & Mobile Pills
+      dialNodes.forEach((node) => {
+        if (!node) return;
+        node.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const targetScene = parseInt(node.getAttribute('data-scene') || '1', 10);
+          const scrollTargets = { 1: 0, 2: 1400, 3: 2600 };
+          lenis.scrollTo(scrollTargets[targetScene] || 0, { duration: 1.4 });
+        });
       });
-    });
+
+      mobPills.forEach((pill) => {
+        if (!pill) return;
+        pill.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const targetScene = parseInt(pill.getAttribute('data-scene') || '1', 10);
+          const scrollTargets = { 1: 0, 2: 1400, 3: 2600 };
+          lenis.scrollTo(scrollTargets[targetScene] || 0, { duration: 1.4 });
+        });
+      });
+
+      // 5. Palm City Villa Modal Showcase Trigger & Handlers
+      const modalOverlay = document.getElementById('villa-modal-overlay');
+      const modalClose = document.getElementById('modal-close-btn');
+      const palmCityCard = document.getElementById('palm-city-card');
+      const allCards = document.querySelectorAll('.property-card');
+
+      function openModal() {
+        if (modalOverlay) {
+          modalOverlay.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      }
+
+      function closeModal() {
+        if (modalOverlay) {
+          modalOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      }
+
+      if (palmCityCard) palmCityCard.addEventListener('click', openModal);
+      allCards.forEach(c => c.addEventListener('click', openModal));
+
+      if (modalClose) modalClose.addEventListener('click', closeModal);
+      if (modalOverlay) {
+        modalOverlay.addEventListener('click', (e) => {
+          if (e.target === modalOverlay) closeModal();
+        });
+      }
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeModal();
+          closeDrawer();
+        }
+      });
+
+      // 3D Perspective Card Tilt on Mousemove
+      allCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+          const tiltX = (y / rect.height) * -8;
+          const tiltY = (x / rect.width) * 8;
+          card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-6px)`;
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'none';
+        });
+      });
+
+    })();
   </script>
 </body>
 </html>
