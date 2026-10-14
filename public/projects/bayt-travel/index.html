@@ -372,86 +372,49 @@
     }
 
     /* ==========================================================================
-       PHOTOREALISTIC VOLUMETRIC CLOUDS & COASTAL FOG (SCENE 1 ONLY)
+       AUTHENTIC LOWER-LEFT COASTAL MIST (EXACT REFERENCE POSITION & SHAPE)
+       Strictly anchored to the lower-left base of the Doha skyline in Scene 1
        ========================================================================== */
     .hero-clouds-atmospheric-layer {
       position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
+      left: -2%;
+      bottom: clamp(60px, 12vh, 160px);
+      width: clamp(420px, 48vw, 760px);
+      height: clamp(220px, 28vh, 380px);
       z-index: 3;
       pointer-events: none;
       overflow: hidden;
-      opacity: 0.82;
+      opacity: 0.62;
+      mix-blend-mode: screen;
       transition: opacity 0.4s ease, visibility 0.4s ease;
-      mask-image: radial-gradient(ellipse 95% 75% at 50% 55%, black 45%, transparent 88%);
-      -webkit-mask-image: radial-gradient(ellipse 95% 75% at 50% 55%, black 45%, transparent 88%);
+      mask-image: radial-gradient(ellipse 90% 80% at 30% 65%, black 25%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse 90% 80% at 30% 65%, black 25%, transparent 75%);
     }
 
     .cloud-sprite-wrap {
       position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
-      mix-blend-mode: screen;
       will-change: transform;
-      filter: drop-shadow(0 15px 35px rgba(26, 20, 18, 0.08));
+      animation: coastalMistDrift 38s ease-in-out infinite alternate;
     }
     .cloud-sprite-wrap img {
       width: 100%;
       height: 100%;
       object-fit: contain;
+      object-position: bottom left;
       pointer-events: none;
       display: block;
     }
 
-    /* Cloud 1: Broad feathered morning mist along the horizon */
-    .cloud-sprite-1 {
-      bottom: clamp(140px, 22vh, 260px);
-      left: -8%;
-      width: clamp(520px, 55vw, 920px);
-      opacity: 0.7;
-      animation: driftCloudGentle1 44s ease-in-out infinite alternate;
-    }
-
-    /* Cloud 2: Volumetric cumulus puff rising near the left towers */
-    .cloud-sprite-2 {
-      bottom: clamp(180px, 28vh, 340px);
-      left: 10%;
-      width: clamp(380px, 38vw, 640px);
-      opacity: 0.58;
-      animation: driftCloudGentle2 38s ease-in-out infinite alternate;
-    }
-
-    /* Cloud 3: Panoramic cloud bank drifting through mid-right */
-    .cloud-sprite-3 {
-      bottom: clamp(110px, 17vh, 220px);
-      right: -10%;
-      width: clamp(680px, 68vw, 1150px);
-      opacity: 0.48;
-      animation: driftCloudGentle3 56s ease-in-out infinite alternate;
-    }
-
-    /* Cloud 4: Soft billow hovering in lower center above search bar */
-    .cloud-sprite-4 {
-      bottom: clamp(130px, 20vh, 240px);
-      left: 40%;
-      width: clamp(350px, 34vw, 560px);
-      opacity: 0.42;
-      animation: driftCloudGentle1 50s ease-in-out infinite alternate-reverse;
-    }
-
-    @keyframes driftCloudGentle1 {
+    @keyframes coastalMistDrift {
       0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(40px, -14px, 0) scale(1.05); }
-      100% { transform: translate3d(-30px, 8px, 0) scale(0.97); }
+      50% { transform: translate3d(24px, -10px, 0) scale(1.04); }
+      100% { transform: translate3d(-18px, 6px, 0) scale(0.98); }
     }
-    @keyframes driftCloudGentle2 {
-      0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(-35px, 12px, 0) scale(1.04); }
-      100% { transform: translate3d(30px, -15px, 0) scale(0.98); }
-    }
-    @keyframes driftCloudGentle3 {
-      0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(-45px, -16px, 0) scale(1.03); }
+50% { transform: translate3d(-45px, -16px, 0) scale(1.03); }
       100% { transform: translate3d(35px, 12px, 0) scale(0.97); }
     }
 
@@ -1547,17 +1510,8 @@
 
       <!-- Photorealistic Atmospheric Morning Clouds & Coastal Fog (Scene 1 Exclusive) -->
       <div class="hero-clouds-atmospheric-layer" id="hero-clouds-layer">
-        <div class="cloud-sprite-wrap cloud-sprite-1">
-          <img src="/projects/bayt-travel/assets/cloud_billow_2.png" alt="Atmospheric Coastal Fog" onerror="this.src='https://pngimg.com/d/cloud_PNG13.png';" />
-        </div>
-        <div class="cloud-sprite-wrap cloud-sprite-2">
-          <img src="/projects/bayt-travel/assets/cloud_billow_1.png" alt="Cumulus Cloud Billow" onerror="this.src='https://pngimg.com/d/cloud_PNG27.png';" />
-        </div>
-        <div class="cloud-sprite-wrap cloud-sprite-3">
-          <img src="/projects/bayt-travel/assets/cloud_billow_3.png" alt="Panoramic Horizon Cloud Bank" onerror="this.src='https://pngimg.com/d/cloud_PNG11.png';" />
-        </div>
-        <div class="cloud-sprite-wrap cloud-sprite-4">
-          <img src="/projects/bayt-travel/assets/cloud_billow_1.png" alt="Soft Cumulus Drift" onerror="this.src='https://pngimg.com/d/cloud_PNG27.png';" />
+        <div class="cloud-sprite-wrap">
+          <img src="/projects/bayt-travel/assets/cloud_billow_2.png" alt="Doha Lower-Left Horizon Coastal Mist" onerror="this.src='https://pngimg.com/d/cloud_PNG13.png';" />
         </div>
       </div>
 
