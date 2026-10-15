@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <base href="/projects/saree-3d-website/" />
-  <title>VĀRĀṆASĪ // Haute Couture Silk Saree 3D Experience</title>
-  <meta name="description" content="A masterwork of 3D spatial design showcasing handcrafted Banarasi & Kanjivaram silk sarees, 24k gold zari weaving, and haute Indian couture." />
+  <title>DRIFT // Draped In Stories — Luxury Silk Sarees</title>
+  <meta name="description" content="DRIFT — Draped In Stories. Timeless handwoven silk sarees, bridal couture, and modern heritage weaves." />
 
-  <!-- Preconnect & Google Fonts -->
+  <!-- Google Fonts: Editorial & Luxury Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Alex+Brush&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -19,24 +19,26 @@
       theme: {
         extend: {
           colors: {
-            zari: {
+            wine: {
+              800: '#5A0D1A',
+              900: '#3D060F',
+              950: '#230308'
+            },
+            gold: {
               300: '#F5E296',
-              400: '#E8CA65',
+              400: '#E6C65D',
               500: '#D4AF37',
-              600: '#B8860B',
-              700: '#8C6500'
+              600: '#B58D20'
             },
-            vermilion: {
-              900: '#30080E',
-              950: '#1A0407'
-            },
-            obsidian: '#09060A'
+            obsidian: '#0A0709',
+            cream: '#FAF6EE'
           },
           fontFamily: {
-            cinzel: ['Cinzel', 'serif'],
             serif: ['Playfair Display', 'serif'],
+            cinzel: ['Cinzel', 'serif'],
             sans: ['Plus Jakarta Sans', 'sans-serif'],
-            mono: ['Space Mono', 'monospace']
+            script: ['Alex Brush', 'cursive'],
+            display: ['Space Grotesk', 'sans-serif']
           }
         }
       }
@@ -49,778 +51,952 @@
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 
   <style>
-    /* Custom Scrollbar & Luxury Visual Styles */
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #09060A;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #D4AF37;
-      border-radius: 3px;
-    }
-    ::selection {
-      background: #D4AF37;
-      color: #09060A;
-    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0A0709; }
+    ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 3px; }
+    ::selection { background: #D4AF37; color: #0A0709; }
 
     body {
-      background-color: #09060A;
-      color: #F8F5EE;
+      background-color: #FAF6EE;
+      color: #1A1418;
       overflow-x: hidden;
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
-    /* Ambient backlight glow layers */
-    .ambient-glow-crimson {
-      background: radial-gradient(circle at 50% 50%, rgba(184, 25, 45, 0.28) 0%, rgba(9, 6, 10, 0) 70%);
-      filter: blur(60px);
+    /* Arched Doorway Geometry for SIX MOODS & AW26 */
+    .arched-portal {
+      border-radius: 140px 140px 16px 16px;
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
     }
-    .ambient-glow-gold {
-      background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.22) 0%, rgba(9, 6, 10, 0) 70%);
-      filter: blur(70px);
-    }
-    .ambient-glow-emerald {
-      background: radial-gradient(circle at 50% 50%, rgba(16, 94, 60, 0.25) 0%, rgba(9, 6, 10, 0) 70%);
-      filter: blur(60px);
+    .arched-portal:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px -15px rgba(90, 13, 26, 0.3);
     }
 
     /* 3D Perspective Card Physics */
     .perspective-stage {
-      perspective: 1400px;
+      perspective: 1200px;
       transform-style: preserve-3d;
     }
-    .tilt-card {
-      transition: transform 0.15s ease-out, box-shadow 0.3s ease;
+    .tilt-3d {
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       transform-style: preserve-3d;
       will-change: transform;
     }
-    .tilt-card:hover {
-      box-shadow: 0 25px 60px -15px rgba(212, 175, 55, 0.22);
+
+    /* 3D Angled Stack (Latest Trends) */
+    .stack-angled-1 {
+      transform: rotateY(-16deg) rotateX(6deg) translateZ(40px);
+      box-shadow: -20px 25px 50px rgba(0,0,0,0.25);
+    }
+    .stack-angled-2 {
+      transform: rotateY(-16deg) rotateX(6deg) translateZ(-40px) translateX(60px);
+      box-shadow: -15px 20px 40px rgba(0,0,0,0.18);
     }
 
-    /* Specular glare shine */
-    .card-glare {
-      pointer-events: none;
-      background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 70%);
-      mix-blend-mode: overlay;
+    /* Infinite Marquee Animation */
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: flex;
+      width: 200%;
+      animation: marquee 28s linear infinite;
+    }
+    .animate-marquee:hover {
+      animation-play-state: paused;
     }
 
-    /* Gold Gradient Text */
+    /* Gold Gradient text */
     .text-gold-gradient {
-      background: linear-gradient(135deg, #FFF0B8 0%, #D4AF37 50%, #996515 100%);
+      background: linear-gradient(135deg, #D4AF37 0%, #B58D20 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-
-    /* Monospace telemetry tag */
-    .telemetry-badge {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(212, 175, 55, 0.25);
-      backdrop-filter: blur(8px);
-    }
-
-    /* Audio visualizer bar animations */
-    @keyframes barPulse {
-      0%, 100% { height: 4px; }
-      50% { height: 16px; }
-    }
-    .audio-bar-1 { animation: barPulse 0.9s ease-in-out infinite; }
-    .audio-bar-2 { animation: barPulse 0.7s ease-in-out infinite 0.15s; }
-    .audio-bar-3 { animation: barPulse 1.1s ease-in-out infinite 0.3s; }
   </style>
 </head>
 
-<body class="relative min-h-screen bg-[#09060A] text-[#F8F5EE] antialiased selection:bg-zari-500 selection:text-black">
+<body class="relative min-h-screen antialiased selection:bg-gold-500 selection:text-black">
 
-  <!-- Dynamic Ambient Backlight Wash (Transitions on slide switch) -->
-  <div id="ambientBacklight" class="pointer-events-none fixed inset-0 z-0 opacity-40 transition-all duration-1000 ambient-glow-crimson"></div>
-
-  <!-- Subtle Film Grain Texture Overlay -->
-  <div class="pointer-events-none fixed inset-0 z-1 opacity-20 mix-blend-overlay" style="background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px); background-size: 24px 24px;"></div>
-
-  <!-- NAVIGATION HEADER: Glass-to-Solid State Machine -->
-  <header id="mainNav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent backdrop-blur-md border-b border-white/5 py-4 px-6 md:px-12 flex items-center justify-between">
-    <div class="flex items-center gap-4">
-      <a href="#" class="group flex items-center gap-3">
-        <!-- Royal Lotus / Temple Crest SVG -->
-        <div class="w-9 h-9 rounded-full border border-zari-500/40 flex items-center justify-center bg-zari-500/10 transition-transform group-hover:scale-105">
-          <svg class="w-5 h-5 text-zari-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 3c1.5 3 4 5 7 5-2 3-3 7-7 13-4-6-5-10-7-13 3 0 5.5-2 7-5z"/>
-            <path d="M12 9c1.5 2 3 3.5 5 4-1.5 2-2 4.5-5 8-3-3.5-3.5-6-5-8 2-.5 3.5-2 5-4z"/>
-          </svg>
-        </div>
-        <div class="flex flex-col">
-          <span class="font-cinzel text-lg tracking-[0.25em] font-semibold text-white group-hover:text-zari-400 transition-colors">VĀRĀṆASĪ</span>
-          <span class="font-mono text-[9px] tracking-[0.2em] text-zari-400/80 uppercase">Atelier 1888 • Royal Jacquard</span>
-        </div>
-      </a>
+  <!-- ========================================================================= -->
+  <!-- TOP ANNOUNCEMENT TICKER (As seen in the original reel)                    -->
+  <!-- ========================================================================= -->
+  <div class="bg-[#5A0D1A] text-white py-2 px-4 border-b border-[#7A1526] text-[11px] font-medium tracking-widest uppercase flex items-center justify-between z-50 relative">
+    <div class="hidden md:flex items-center gap-3 text-gold-300">
+      <span>✦ NEW DROP</span>
+      <span>•</span>
+      <span class="bg-[#D4AF37] text-black px-2 py-0.5 rounded text-[10px] font-bold">UP TO 40% OFF</span>
+      <span>•</span>
+      <span>FREE SHIPPING ALL OVER INDIA ✦</span>
     </div>
 
-    <!-- Center Navigation Links -->
-    <nav class="hidden md:flex items-center gap-8 text-xs uppercase tracking-[0.2em] font-medium text-white/70">
-      <a href="#heroStage" class="hover:text-zari-400 transition-colors">01. The Drape</a>
-      <a href="#craftAnatomy" class="hover:text-zari-400 transition-colors">02. Four Pillars</a>
-      <a href="#heirloomGallery" class="hover:text-zari-400 transition-colors">03. Heirlooms</a>
-      <a href="#silhouetteLab" class="hover:text-zari-400 transition-colors">04. Silhouettes</a>
-      <a href="#atelierBooking" class="hover:text-zari-400 transition-colors">05. Atelier</a>
-    </nav>
-
-    <!-- Right Controls: Audio Drone Toggle + Concierge Button -->
-    <div class="flex items-center gap-4">
-      <!-- Ambient Tanpura Drone Synthesizer Button -->
-      <button id="audioToggleBtn" title="Toggle Tanpura Drone Audio" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:border-zari-500/40 transition-all text-xs text-white/80">
-        <div id="audioVisualizer" class="flex items-end gap-1 h-4">
-          <span class="w-0.5 bg-zari-400 audio-bar-1"></span>
-          <span class="w-0.5 bg-zari-400 audio-bar-2"></span>
-          <span class="w-0.5 bg-zari-400 audio-bar-3"></span>
-        </div>
-        <span id="audioStatusText" class="font-mono text-[10px] tracking-wider uppercase">Ambience: OFF</span>
-      </button>
-
-      <!-- Reserve Viewing Drawer Trigger -->
-      <a href="#atelierBooking" class="relative group overflow-hidden px-5 py-2 rounded-full border border-zari-500/50 bg-gradient-to-r from-zari-500/20 to-zari-600/10 hover:from-zari-500 hover:to-zari-600 text-zari-300 hover:text-black font-cinzel text-xs uppercase tracking-[0.18em] font-semibold transition-all duration-300 shadow-lg shadow-zari-500/10">
-        <span class="relative z-10 flex items-center gap-2">
-          <span>Private Viewing</span>
-          <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </span>
-      </a>
-    </div>
-  </header>
-
-  <!-- ========================================================================= -->
-  <!-- SECTION 1: 3D HERO STAGE & CANVAS SCROLL SCRUBBING                        -->
-  <!-- ========================================================================= -->
-  <section id="heroStage" class="relative w-full h-[260vh] bg-[#09060A]">
-    <!-- Sticky Pinned Viewport Container -->
-    <div id="pinnedHeroViewport" class="sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center justify-center">
-      
-      <!-- Interactive HTML5 Canvas (Apple-style frame scrubbing + smooth cross-fade) -->
-      <canvas id="sareeCanvas" class="absolute inset-0 w-full h-full object-contain pointer-events-none z-10"></canvas>
-
-      <!-- Top Overlay Vignette -->
-      <div class="absolute inset-0 pointer-events-none z-15 bg-gradient-to-b from-[#09060A]/80 via-transparent to-[#09060A] opacity-90"></div>
-      
-      <!-- Radial Ambient Aura behind floating saree -->
-      <div class="absolute w-[50vw] h-[50vw] max-w-[650px] max-h-[650px] rounded-full ambient-glow-crimson pointer-events-none z-5 transform -translate-y-6"></div>
-
-      <!-- Hero Typography Layer (Synchronized GSAP Scroll Sequence) -->
-      <div class="relative z-20 w-full max-w-7xl mx-auto px-6 md:px-12 h-full flex flex-col justify-between py-24 pointer-events-none">
-        
-        <!-- Top Telemetry & Chapter State -->
-        <div class="flex items-center justify-between border-t border-white/10 pt-4">
-          <div class="flex items-center gap-3">
-            <span class="w-2 h-2 rounded-full bg-zari-400 animate-ping"></span>
-            <span id="heroTelemetryLabel" class="telemetry-badge px-3 py-1 rounded text-zari-300">
-              FRAME // 01 • ZERO-GRAVITY BANARASI
-            </span>
-          </div>
-          <div class="hidden sm:flex items-center gap-6 font-mono text-[11px] text-white/50 tracking-wider">
-            <span>WARP: 100% MULBERRY SILK</span>
-            <span>•</span>
-            <span>WEFT: 24K SUBNIL ZARI</span>
-            <span>•</span>
-            <span>LOOM: JAQUARD PIT</span>
-          </div>
-        </div>
-
-        <!-- Center Kinetic Titles (Transforms on scroll) -->
-        <div id="heroTextStage" class="text-center my-auto transition-transform duration-300">
-          <p id="heroSubtitle" class="font-cinzel text-xs md:text-sm tracking-[0.4em] text-zari-400 uppercase mb-3">
-            The Imperial Weave Collection
-          </p>
-          <h1 id="heroTitle" class="font-serif text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-normal tracking-tight text-white leading-none">
-            SCULPTED <span class="italic text-gold-gradient font-playfair">SILK</span>
-          </h1>
-          <p id="heroDesc" class="max-w-xl mx-auto font-sans text-xs sm:text-sm md:text-base text-white/70 font-light mt-6 leading-relaxed tracking-wide">
-            An unbroken six-yard continuum of hand-spun mulberry silk and 24-karat gold zari, floating suspended in morning light.
-          </p>
-        </div>
-
-        <!-- Bottom Dynamic Telemetry Cards & Scroll Prompt -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end border-b border-white/10 pb-6 pointer-events-auto">
-          <div class="hidden md:flex flex-col gap-1">
-            <span class="font-mono text-[10px] text-white/40 tracking-widest uppercase">PROVENANCE</span>
-            <span class="font-cinzel text-sm text-white/90">Ghats of Varanasi, Uttar Pradesh</span>
-          </div>
-
-          <!-- Central Interactive Scroll Scrub Indicator -->
-          <div class="flex flex-col items-center justify-center text-center">
-            <span class="font-mono text-[10px] text-zari-400 tracking-[0.25em] uppercase mb-2">SCROLL TO INSPECT WEAVE</span>
-            <div class="w-5 h-9 rounded-full border border-zari-500/50 flex items-start justify-center p-1.5 bg-white/5">
-              <div class="w-1.5 h-2 rounded-full bg-zari-400 animate-bounce"></div>
-            </div>
-          </div>
-
-          <div class="hidden md:flex flex-col items-end gap-1">
-            <span class="font-mono text-[10px] text-white/40 tracking-widest uppercase">WEAVE DENSITY</span>
-            <span class="font-mono text-sm text-zari-300">14,400 PICKS / SQ.M</span>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ========================================================================= -->
-  <!-- SECTION 2: THE 4 PILLARS OF CRAFTSMANSHIP (TACTILE 3D BENTO GRID)         -->
-  <!-- ========================================================================= -->
-  <section id="craftAnatomy" class="relative z-20 py-32 px-6 md:px-12 max-w-7xl mx-auto">
-    
-    <!-- Section Header -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-      <div>
-        <div class="flex items-center gap-2 mb-3">
-          <span class="w-8 h-[1px] bg-zari-500"></span>
-          <span class="font-mono text-xs tracking-[0.25em] text-zari-400 uppercase">ANATOMY OF A MASTERWORK</span>
-        </div>
-        <h2 class="font-cinzel text-3xl sm:text-4xl md:text-5xl text-white font-normal">
-          The Four Pillars of the <span class="italic font-serif text-gold-gradient">Handloom</span>
-        </h2>
-      </div>
-      <p class="font-sans text-xs sm:text-sm text-white/60 max-w-md font-light leading-relaxed">
-        Every heirloom requires over 600 artisan hours on traditional wooden drawlooms. Explore the anatomical elements of pure Indian silk craftsmanship.
-      </p>
+    <div class="w-full md:w-auto text-center font-display tracking-wider text-white/90">
+      FESTIVE & BRIDAL COUTURE 2026 // HANDWOVEN HEIRLOOMS
     </div>
 
-    <!-- 4 Tactile Cards with 3D Perspective Tilt & Glare -->
-    <div class="perspective-stage grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-      <!-- Card 1: Warp & Weft (Tantu) -->
-      <div class="tilt-card group relative rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/10 p-6 flex flex-col justify-between overflow-hidden cursor-pointer" data-tilt>
-        <div class="card-glare absolute inset-0"></div>
-        <div class="relative z-10">
-          <div class="w-full h-48 rounded-xl overflow-hidden mb-6 relative">
-            <img src="assets/craft_warp_weft.jpg" alt="Mulberry Silk Warp and Weft" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1606259458027-54d2a728b6ab?auto=format&fit=crop&w=600&q=80';" />
-            <div class="absolute inset-0 bg-gradient-to-t from-[#09060A] via-transparent to-transparent"></div>
-            <span class="absolute top-3 left-3 telemetry-badge px-2.5 py-0.5 rounded text-white/90">01 // TANTU</span>
-          </div>
-          <h3 class="font-cinzel text-lg text-white font-semibold mb-2 group-hover:text-zari-400 transition-colors">Warp & Weft Synergy</h3>
-          <p class="font-sans text-xs text-white/60 leading-relaxed font-light">
-            Continuous interlacing of high-twist 20/22 denier mulberry silk yarns yielding unmatched tensile strength and liquid drape.
-          </p>
-        </div>
-        <div class="relative z-10 pt-6 mt-6 border-t border-white/5 flex items-center justify-between font-mono text-[10px] text-zari-400">
-          <span>YARN COUNT: 2/120s</span>
-          <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-      </div>
-
-      <!-- Card 2: 24k Pure Zari (Suvarna) -->
-      <div class="tilt-card group relative rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/10 p-6 flex flex-col justify-between overflow-hidden cursor-pointer" data-tilt>
-        <div class="card-glare absolute inset-0"></div>
-        <div class="relative z-10">
-          <div class="w-full h-48 rounded-xl overflow-hidden mb-6 relative">
-            <img src="assets/craft_gold_zari.jpg" alt="24k Pure Gold Zari Weaving" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80';" />
-            <div class="absolute inset-0 bg-gradient-to-t from-[#09060A] via-transparent to-transparent"></div>
-            <span class="absolute top-3 left-3 telemetry-badge px-2.5 py-0.5 rounded text-zari-300">02 // SUVARNA</span>
-          </div>
-          <h3 class="font-cinzel text-lg text-white font-semibold mb-2 group-hover:text-zari-400 transition-colors">24k Gold Zari Leaf</h3>
-          <p class="font-sans text-xs text-white/60 leading-relaxed font-light">
-            Genuine silver ribbon flattened and electroplated with 24-karat gold, wound around pure silk filament for eternal lustre.
-          </p>
-        </div>
-        <div class="relative z-10 pt-6 mt-6 border-t border-white/5 flex items-center justify-between font-mono text-[10px] text-zari-400">
-          <span>PURITY: 98.5% SILVER-GOLD</span>
-          <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-      </div>
-
-      <!-- Card 3: Pallu Architecture (Aanchal) -->
-      <div class="tilt-card group relative rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/10 p-6 flex flex-col justify-between overflow-hidden cursor-pointer" data-tilt>
-        <div class="card-glare absolute inset-0"></div>
-        <div class="relative z-10">
-          <div class="w-full h-48 rounded-xl overflow-hidden mb-6 relative">
-            <img src="assets/craft_pallu_brocade.jpg" alt="Pallu Brocade Paisley Architecture" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=600&q=80';" />
-            <div class="absolute inset-0 bg-gradient-to-t from-[#09060A] via-transparent to-transparent"></div>
-            <span class="absolute top-3 left-3 telemetry-badge px-2.5 py-0.5 rounded text-white/90">03 // AANCHAL</span>
-          </div>
-          <h3 class="font-cinzel text-lg text-white font-semibold mb-2 group-hover:text-zari-400 transition-colors">Aanchal Architecture</h3>
-          <p class="font-sans text-xs text-white/60 leading-relaxed font-light">
-            The grand end-piece spanning 18 to 24 inches of uninterrupted kadhwa brocade, showcasing antique kalga and temple motifs.
-          </p>
-        </div>
-        <div class="relative z-10 pt-6 mt-6 border-t border-white/5 flex items-center justify-between font-mono text-[10px] text-zari-400">
-          <span>TECHNIQUE: KADHWA BROCADE</span>
-          <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-      </div>
-
-      <!-- Card 4: Sculptural Pleats (Patli) -->
-      <div class="tilt-card group relative rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/10 p-6 flex flex-col justify-between overflow-hidden cursor-pointer" data-tilt>
-        <div class="card-glare absolute inset-0"></div>
-        <div class="relative z-10">
-          <div class="w-full h-48 rounded-xl overflow-hidden mb-6 relative">
-            <img src="assets/craft_pleats_drape.jpg" alt="Sculptural Pleats and Draping" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1753981031189-27bb7bd1c079?auto=format&fit=crop&w=600&q=80';" />
-            <div class="absolute inset-0 bg-gradient-to-t from-[#09060A] via-transparent to-transparent"></div>
-            <span class="absolute top-3 left-3 telemetry-badge px-2.5 py-0.5 rounded text-white/90">04 // PATLI</span>
-          </div>
-          <h3 class="font-cinzel text-lg text-white font-semibold mb-2 group-hover:text-zari-400 transition-colors">Sculptural Pleats</h3>
-          <p class="font-sans text-xs text-white/60 leading-relaxed font-light">
-            Mathematically engineered drape weight ensuring cascading fan pleats retain razor-sharp poise through hours of royal movement.
-          </p>
-        </div>
-        <div class="relative z-10 pt-6 mt-6 border-t border-white/5 flex items-center justify-between font-mono text-[10px] text-zari-400">
-          <span>WEIGHT: 840 GRAMS</span>
-          <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- ========================================================================= -->
-  <!-- SECTION 3: SIGNATURE HEIRLOOM SHOWCASE (3D STAGE & DYNAMIC BACKLIGHT)     -->
-  <!-- ========================================================================= -->
-  <section id="heirloomGallery" class="relative z-20 py-32 bg-[#09060A]/80 border-t border-b border-white/5">
-    <div class="max-w-7xl mx-auto px-6 md:px-12">
-
-      <div class="text-center max-w-2xl mx-auto mb-16">
-        <span class="telemetry-badge px-3 py-1 rounded text-zari-400 mb-3 inline-block">EDITION 2026 // COUTURE VAULT</span>
-        <h2 class="font-cinzel text-3xl sm:text-4xl md:text-5xl text-white font-normal mt-2">
-          The Four Royal <span class="italic font-serif text-gold-gradient">Heirlooms</span>
-        </h2>
-        <p class="font-sans text-xs sm:text-sm text-white/60 font-light mt-4">
-          Select any masterpiece below to command the spatial lighting, architectural view, and provenance dossier.
-        </p>
-
-        <!-- Interactive Swatch Selector Pills -->
-        <div class="flex items-center justify-center flex-wrap gap-3 mt-8">
-          <button onclick="switchHeirloom(0)" class="heirloom-pill active px-4 py-2 rounded-full border border-zari-500/60 bg-zari-500/20 text-zari-300 font-cinzel text-xs tracking-wider transition-all" data-index="0">
-            01. Royal Vermilion
-          </button>
-          <button onclick="switchHeirloom(1)" class="heirloom-pill px-4 py-2 rounded-full border border-white/10 bg-white/5 text-white/70 hover:border-emerald-500/50 hover:text-emerald-300 font-cinzel text-xs tracking-wider transition-all" data-index="1">
-            02. Marakata Emerald
-          </button>
-          <button onclick="switchHeirloom(2)" class="heirloom-pill px-4 py-2 rounded-full border border-white/10 bg-white/5 text-white/70 hover:border-rose-500/50 hover:text-rose-300 font-cinzel text-xs tracking-wider transition-all" data-index="2">
-            03. Chandramukhi Rose
-          </button>
-          <button onclick="switchHeirloom(3)" class="heirloom-pill px-4 py-2 rounded-full border border-white/10 bg-white/5 text-white/70 hover:border-purple-500/50 hover:text-purple-300 font-cinzel text-xs tracking-wider transition-all" data-index="3">
-            04. Imperial Purple
-          </button>
-        </div>
-      </div>
-
-      <!-- Main Interactive 3D Showcase Stage -->
-      <div id="showcaseStage" class="perspective-stage grid grid-cols-1 lg:grid-cols-12 gap-12 items-center rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-black/40 p-8 md:p-12 relative overflow-hidden">
-        
-        <!-- Background Glow customized per heirloom -->
-        <div id="showcaseGlow" class="absolute -top-24 -left-24 w-96 h-96 rounded-full ambient-glow-crimson pointer-events-none transition-all duration-700"></div>
-
-        <!-- Left Column: Heirloom Full-Length Editorial Portrait -->
-        <div class="lg:col-span-6 relative flex items-center justify-center">
-          <div class="tilt-card relative w-full max-w-md h-[560px] rounded-2xl overflow-hidden border border-white/15 shadow-2xl shadow-black/80" data-tilt>
-            <div class="card-glare absolute inset-0"></div>
-            <img id="heirloomImage" src="assets/saree_royal_vermilion.jpg" alt="Royal Vermilion Banarasi Saree" class="w-full h-full object-cover object-top transition-all duration-700" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80';" />
-            
-            <!-- Corner Floating Monospace Badges -->
-            <div class="absolute top-4 left-4 telemetry-badge px-3 py-1 rounded text-white/90">
-              <span id="heirloomBadge">BANARASI JANGALA</span>
-            </div>
-            <div class="absolute bottom-4 right-4 telemetry-badge px-3 py-1 rounded text-zari-400">
-              <span id="heirloomPrice">₹68,000 // $850</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Curated Specifications Dossier -->
-        <div class="lg:col-span-6 flex flex-col justify-between h-full">
-          <div>
-            <div class="flex items-center gap-3 mb-2 font-mono text-xs text-zari-400">
-              <span id="heirloomNum">VAULT ITEM // 001</span>
-              <span>•</span>
-              <span id="heirloomOrigin">VARANASI ATELIER</span>
-            </div>
-            
-            <h3 id="heirloomTitle" class="font-serif text-3xl sm:text-5xl text-white font-normal mb-4">
-              Royal Vermilion <span class="italic font-serif text-gold-gradient">Kadhwa</span>
-            </h3>
-
-            <p id="heirloomDescription" class="font-sans text-sm text-white/70 leading-relaxed font-light mb-8">
-              Woven with hand-spun crimson mulberry silk and dense floral jaal in antique gold zari. The monumental pallu depicts sacred floral vine motifs inspired by 17th-century Mughal royal courts.
-            </p>
-
-            <!-- Technical Specification Bento Grid -->
-            <div class="grid grid-cols-2 gap-4 mb-8">
-              <div class="p-4 rounded-xl border border-white/10 bg-white/5">
-                <span class="font-mono text-[10px] text-white/40 uppercase block mb-1">Silk Composition</span>
-                <span id="specSilk" class="font-cinzel text-sm text-white font-semibold">100% Katan Mulberry</span>
-              </div>
-              <div class="p-4 rounded-xl border border-white/10 bg-white/5">
-                <span class="font-mono text-[10px] text-white/40 uppercase block mb-1">Zari Metallics</span>
-                <span id="specZari" class="font-cinzel text-sm text-zari-300 font-semibold">24K Gold Electroplate</span>
-              </div>
-              <div class="p-4 rounded-xl border border-white/10 bg-white/5">
-                <span class="font-mono text-[10px] text-white/40 uppercase block mb-1">Weaving Duration</span>
-                <span id="specTime" class="font-cinzel text-sm text-white font-semibold">48 Handloom Days</span>
-              </div>
-              <div class="p-4 rounded-xl border border-white/10 bg-white/5">
-                <span class="font-mono text-[10px] text-white/40 uppercase block mb-1">Artisan Guild</span>
-                <span id="specGuild" class="font-cinzel text-sm text-white font-semibold">Ansari Heritage, Varanasi</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Action Buttons -->
-          <div class="flex items-center gap-4 flex-wrap">
-            <button onclick="openInquiryModal()" class="px-6 py-3 rounded-full bg-gradient-to-r from-zari-500 to-zari-600 text-black font-cinzel text-xs uppercase tracking-widest font-bold hover:shadow-lg hover:shadow-zari-500/30 transition-all flex items-center gap-2">
-              <span>Acquire Heirloom</span>
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </button>
-            <button onclick="viewMacroInspection()" class="px-6 py-3 rounded-full border border-white/20 bg-white/5 text-white/80 hover:text-white hover:border-zari-400 font-cinzel text-xs uppercase tracking-widest transition-all">
-              Macro Weave Inspection
-            </button>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ========================================================================= -->
-  <!-- SECTION 4: INTERACTIVE SILHOUETTE DRAPE EXPLORER                          -->
-  <!-- ========================================================================= -->
-  <section id="silhouetteLab" class="relative z-20 py-32 px-6 md:px-12 max-w-7xl mx-auto">
-    <div class="text-center max-w-2xl mx-auto mb-16">
-      <span class="telemetry-badge px-3 py-1 rounded text-zari-400 mb-3 inline-block">CHOREOGRAPHY OF FORM</span>
-      <h2 class="font-cinzel text-3xl sm:text-4xl md:text-5xl text-white font-normal mt-2">
-        Sacred Drape <span class="italic font-serif text-gold-gradient">Silhouettes</span>
-      </h2>
-      <p class="font-sans text-xs sm:text-sm text-white/60 font-light mt-4">
-        Six yards of uncut fabric transformed through ancient geometric folding traditions into timeless haute couture.
-      </p>
-    </div>
-
-    <!-- Interactive Drape Silhouette Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-      <!-- Drape 1 -->
-      <div class="group relative rounded-2xl bg-white/[0.03] border border-white/10 p-6 hover:border-zari-500/40 transition-all cursor-pointer">
-        <div class="flex items-center justify-between mb-4">
-          <span class="font-mono text-[10px] text-zari-400">01 // NIVI DRAPE</span>
-          <span class="w-2 h-2 rounded-full bg-zari-500/60"></span>
-        </div>
-        <h4 class="font-cinzel text-xl text-white mb-2">Classic Royal Court</h4>
-        <p class="font-sans text-xs text-white/60 font-light leading-relaxed mb-4">
-          The sovereign drape of Andhra royalty featuring 7 to 9 knife pleats tucked at the navel and the pallu thrown over the left shoulder.
-        </p>
-        <div class="font-mono text-[10px] text-white/40 border-t border-white/5 pt-3">
-          ORIGIN: DECCAN REGION • OCCASION: CORONATION & GALA
-        </div>
-      </div>
-
-      <!-- Drape 2 -->
-      <div class="group relative rounded-2xl bg-white/[0.03] border border-white/10 p-6 hover:border-zari-500/40 transition-all cursor-pointer">
-        <div class="flex items-center justify-between mb-4">
-          <span class="font-mono text-[10px] text-zari-400">02 // SEEDHA PALLA</span>
-          <span class="w-2 h-2 rounded-full bg-zari-500/60"></span>
-        </div>
-        <h4 class="font-cinzel text-xl text-white mb-2">Gujarati Front Pallu</h4>
-        <p class="font-sans text-xs text-white/60 font-light leading-relaxed mb-4">
-          Brings the monumental gold zari pallu over the right shoulder to drape across the chest, fully accentuating the intricate brocade jaal.
-        </p>
-        <div class="font-mono text-[10px] text-white/40 border-t border-white/5 pt-3">
-          ORIGIN: GUJARAT & RAJASTHAN • OCCASION: BRIDAL ENTRANCE
-        </div>
-      </div>
-
-      <!-- Drape 3 -->
-      <div class="group relative rounded-2xl bg-white/[0.03] border border-white/10 p-6 hover:border-zari-500/40 transition-all cursor-pointer">
-        <div class="flex items-center justify-between mb-4">
-          <span class="font-mono text-[10px] text-zari-400">03 // ATPOURE</span>
-          <span class="w-2 h-2 rounded-full bg-zari-500/60"></span>
-        </div>
-        <h4 class="font-cinzel text-xl text-white mb-2">Bengali Box Pleat</h4>
-        <p class="font-sans text-xs text-white/60 font-light leading-relaxed mb-4">
-          Unpleated skirt silhouette with wide box pleats in front and an antique bunch of heirloom brass keys tied to the cascading pallu.
-        </p>
-        <div class="font-mono text-[10px] text-white/40 border-t border-white/5 pt-3">
-          ORIGIN: BENGAL ATELIERS • OCCASION: DURGA PUJA FESTIVITY
-        </div>
-      </div>
-
-      <!-- Drape 4 -->
-      <div class="group relative rounded-2xl bg-white/[0.03] border border-white/10 p-6 hover:border-zari-500/40 transition-all cursor-pointer">
-        <div class="flex items-center justify-between mb-4">
-          <span class="font-mono text-[10px] text-zari-400">04 // AVANT-GARDE</span>
-          <span class="w-2 h-2 rounded-full bg-zari-500/60"></span>
-        </div>
-        <h4 class="font-cinzel text-xl text-white mb-2">Architectural Belted</h4>
-        <p class="font-sans text-xs text-white/60 font-light leading-relaxed mb-4">
-          Modern red-carpet adaptation anchored by a hand-carved 24k gold kamarbandh belt, creating crisp, gravity-defying shoulder wings.
-        </p>
-        <div class="font-mono text-[10px] text-white/40 border-t border-white/5 pt-3">
-          ORIGIN: VĀRĀṆASĪ RUNWAY • OCCASION: MET GALA & RED CARPET
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ========================================================================= -->
-  <!-- SECTION 5: BESPOKE ATELIER BOOKING & CONCIERGE DRAWER                     -->
-  <!-- ========================================================================= -->
-  <section id="atelierBooking" class="relative z-20 py-32 bg-gradient-to-b from-[#09060A] via-[#150A10] to-[#09060A] border-t border-white/10">
-    <div class="max-w-5xl mx-auto px-6 md:px-12">
-
-      <div class="rounded-3xl border border-zari-500/30 bg-black/60 backdrop-blur-xl p-8 sm:p-12 md:p-16 relative overflow-hidden shadow-2xl shadow-zari-500/5">
-        
-        <!-- Ambient Gold Glow inside container -->
-        <div class="absolute -bottom-24 -right-24 w-80 h-80 rounded-full ambient-glow-gold pointer-events-none"></div>
-
-        <div class="relative z-10 text-center max-w-2xl mx-auto mb-12">
-          <span class="telemetry-badge px-3 py-1 rounded text-zari-400 mb-3 inline-block">PRIVATE CONCIERGE</span>
-          <h2 class="font-cinzel text-3xl sm:text-4xl md:text-5xl text-white font-normal">
-            Commission a Bespoke <span class="italic font-serif text-gold-gradient">Masterpiece</span>
-          </h2>
-          <p class="font-sans text-xs sm:text-sm text-white/60 font-light mt-4">
-            Private viewing appointments at our exclusive suites in Bengaluru, Mumbai, and Delhi, or via personal encrypted digital salon.
-          </p>
-        </div>
-
-        <!-- Booking Form -->
-        <form id="bookingForm" onsubmit="handleBookingSubmit(event)" class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-          <div>
-            <label for="patronName" class="block font-mono text-[10px] uppercase text-white/50 tracking-wider mb-2">Patron Name</label>
-            <input id="patronName" name="patronName" type="text" required placeholder="e.g. Maharani Gayatri" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/15 focus:border-zari-500 focus:outline-none text-white text-sm placeholder-white/20 transition-colors" />
-          </div>
-
-          <div>
-            <label for="patronEmail" class="block font-mono text-[10px] uppercase text-white/50 tracking-wider mb-2">Direct Contact / VIP Concierge</label>
-            <input id="patronEmail" name="patronEmail" type="email" required placeholder="patron@royalestate.com" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/15 focus:border-zari-500 focus:outline-none text-white text-sm placeholder-white/20 transition-colors" />
-          </div>
-
-          <div>
-            <label for="atelierLocation" class="block font-mono text-[10px] uppercase text-white/50 tracking-wider mb-2">Preferred Atelier Location</label>
-            <select id="atelierLocation" name="atelierLocation" class="w-full px-4 py-3 rounded-xl bg-[#140D15] border border-white/15 focus:border-zari-500 focus:outline-none text-white text-sm transition-colors">
-              <option value="bengaluru">Bengaluru Flagship — 100 Feet Rd, Indiranagar</option>
-              <option value="mumbai">Mumbai Private Salon — Kala Ghoda Arts Precinct</option>
-              <option value="delhi">Delhi Heritage Suite — Mehrauli Courtyard</option>
-              <option value="digital">Private High-Definition Digital Consultation</option>
-            </select>
-          </div>
-
-          <div>
-            <label for="heirloomInterest" class="block font-mono text-[10px] uppercase text-white/50 tracking-wider mb-2">Heirloom of Interest</label>
-            <select id="heirloomInterest" name="heirloomInterest" class="w-full px-4 py-3 rounded-xl bg-[#140D15] border border-white/15 focus:border-zari-500 focus:outline-none text-white text-sm transition-colors">
-              <option value="vermilion">Royal Vermilion Kadhwa Banarasi (₹68,000)</option>
-              <option value="emerald">Marakata Emerald Kanjivaram (₹73,500)</option>
-              <option value="rose">Chandramukhi Rose-Gold Tissue (₹59,000)</option>
-              <option value="purple">Rajkanya Imperial Purple-Gold (₹49,500)</option>
-              <option value="custom">Custom 24K Heritage Commission (₹1,50,000+)</option>
-            </select>
-          </div>
-
-          <div class="md:col-span-2">
-            <label for="specialInstructions" class="block font-mono text-[10px] uppercase text-white/50 tracking-wider mb-2">Special Weaving Instructions or Date</label>
-            <textarea id="specialInstructions" name="specialInstructions" rows="3" placeholder="Specify wedding dates, custom family crest monogram, or bespoke zari motifs..." class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/15 focus:border-zari-500 focus:outline-none text-white text-sm placeholder-white/20 transition-colors"></textarea>
-          </div>
-
-          <div class="md:col-span-2 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/10">
-            <span class="font-mono text-[11px] text-white/40">
-              * ALL PRIVATE VIEWINGS INCLUDE ARTISAN WEAVING DOSSIER & CERTIFIED HALLMARK
-            </span>
-            <button type="submit" class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-r from-zari-500 via-zari-400 to-zari-600 text-black font-cinzel text-xs uppercase tracking-[0.2em] font-bold hover:shadow-xl hover:shadow-zari-500/30 transition-all">
-              Confirm Appointment
-            </button>
-          </div>
-
-        </form>
-
-        <!-- Booking Success Confirmation (Hidden initially) -->
-        <div id="bookingSuccessMessage" class="hidden relative z-10 text-center py-12">
-          <div class="w-16 h-16 rounded-full bg-zari-500/20 border border-zari-500 flex items-center justify-center mx-auto mb-6">
-            <svg class="w-8 h-8 text-zari-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-          </div>
-          <span class="telemetry-badge px-3 py-1 rounded text-zari-400 mb-2 inline-block">APPOINTMENT RESERVED</span>
-          <h3 class="font-cinzel text-2xl text-white font-semibold mb-2">Private Salon Confirmed</h3>
-          <p class="font-sans text-xs text-white/70 max-w-md mx-auto">
-            Your personal royal concierge will contact you within 2 business hours with confidential access codes and salon credentials.
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ========================================================================= -->
-  <!-- FOOTER: EDITORIAL ARCHIVE & TELEMETRY                                     -->
-  <!-- ========================================================================= -->
-  <footer class="relative z-20 py-16 px-6 md:px-12 border-t border-white/10 bg-[#09060A] text-white/60">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-      
-      <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-full border border-zari-500/40 flex items-center justify-center bg-zari-500/10">
-          <svg class="w-4 h-4 text-zari-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-            <path d="M12 3c1.5 3 4 5 7 5-2 3-3 7-7 13-4-6-5-10-7-13 3 0 5.5-2 7-5z"/>
-          </svg>
-        </div>
-        <div class="flex flex-col">
-          <span class="font-cinzel text-sm text-white tracking-widest font-semibold">VĀRĀṆASĪ // ATELIER</span>
-          <span class="font-mono text-[9px] text-white/40">HERITAGE SILK GUILD EST. 1888</span>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-6 font-mono text-[10px] text-white/50 tracking-widest uppercase">
-        <span>HANDLOOM MARK REGISTERED</span>
-        <span>•</span>
-        <span>SILK MARK CERTIFIED</span>
-        <span>•</span>
-        <span>24K ZARI CERTIFIED</span>
-      </div>
-
-      <div class="font-mono text-[10px] text-white/40">
-        © 2026 VĀRĀṆASĪ COUTURE. ALL RIGHTS RESERVED.
-      </div>
-
-    </div>
-  </footer>
-
-  <!-- ========================================================================= -->
-  <!-- MODAL: MACRO WEAVE HIGH DEFINITION INSPECTION                             -->
-  <!-- ========================================================================= -->
-  <div id="macroModal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-2xl flex items-center justify-center p-4">
-    <div class="relative w-full max-w-4xl rounded-3xl border border-zari-500/40 bg-[#0C080E] p-6 md:p-8 overflow-hidden shadow-2xl">
-      <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
-        <div>
-          <span class="telemetry-badge px-2.5 py-0.5 rounded text-zari-400">MICROSCOPIC TEXTILE SCAN</span>
-          <h4 class="font-cinzel text-xl text-white font-semibold mt-1">24K Gold Zari Micro-Structure</h4>
-        </div>
-        <button onclick="closeMacroModal()" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white hover:text-zari-400 hover:border-zari-400 transition-colors">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-      </div>
-
-      <div class="relative w-full h-[450px] rounded-2xl overflow-hidden border border-white/15">
-        <img src="assets/saree_3d_scroll_end_frame.jpg" alt="Macro Zari Weave" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='assets/saree_royal_vermilion.jpg';" />
-        <div class="absolute bottom-4 left-4 telemetry-badge px-3 py-1.5 rounded text-zari-300">
-          OPTICAL MAGNIFICATION: 40X • THREAD DENSITY: 14,400 PICKS/M
-        </div>
-      </div>
+    <div class="hidden sm:flex items-center gap-4 text-[10px] text-white/80">
+      <button class="hover:text-gold-300 transition-colors">INR ₹ (India) ▾</button>
+      <button class="hover:text-gold-300 transition-colors">EN ▾</button>
     </div>
   </div>
 
   <!-- ========================================================================= -->
-  <!-- JAVASCRIPT MASTER CHOREOGRAPHY SCRIPT                                     -->
+  <!-- MAIN NAVIGATION HEADER                                                    -->
+  <!-- ========================================================================= -->
+  <header id="mainNav" class="sticky top-0 left-0 right-0 z-40 bg-[#FAF6EE]/95 backdrop-blur-md border-b border-[#E6DFC8] py-4 px-6 md:px-12 flex items-center justify-between transition-all duration-300">
+    
+    <!-- Brand Logo: DRIFT (Draped in Stories) -->
+    <a href="#" class="flex flex-col">
+      <div class="flex items-center gap-2">
+        <span class="font-serif text-2xl md:text-3xl font-bold tracking-tight text-[#3D060F]">DRIFT<span class="text-gold-500 font-sans text-xl">®</span></span>
+      </div>
+      <span class="font-display text-[9px] tracking-[0.25em] text-[#5A0D1A] uppercase font-semibold">DRAPED IN STORIES</span>
+    </a>
+
+    <!-- Center Navigation Links -->
+    <nav class="hidden lg:flex items-center gap-8 text-xs font-semibold tracking-wider uppercase text-[#3D060F]/80">
+      <a href="#heroShowroom" class="hover:text-[#5A0D1A] transition-colors">Home</a>
+      <a href="#sixMoods" class="hover:text-[#5A0D1A] transition-colors">Sarees</a>
+      <a href="#newArrivals" class="hover:text-[#5A0D1A] transition-colors">Collections</a>
+      <a href="#bridalCollection" class="hover:text-[#5A0D1A] transition-colors">Bridal</a>
+      <a href="#autumnWinter" class="hover:text-[#5A0D1A] transition-colors">Occasion</a>
+      <a href="#latestTrends" class="hover:text-[#5A0D1A] transition-colors">Stories</a>
+    </nav>
+
+    <!-- Right Controls: Search, Wishlist, User, Cart -->
+    <div class="flex items-center gap-4">
+      <!-- Search Input Pill -->
+      <div class="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#D5CCA8] bg-white text-xs text-[#5A0D1A]">
+        <svg class="w-3.5 h-3.5 text-[#5A0D1A]/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" placeholder="Search sarees, fabrics, stories..." class="bg-transparent border-none outline-none text-xs w-40 md:w-52 placeholder-[#5A0D1A]/40" />
+      </div>
+
+      <!-- Wishlist Heart -->
+      <button onclick="toggleWishlistModal()" class="w-9 h-9 rounded-full border border-[#D5CCA8] flex items-center justify-center text-[#3D060F] hover:bg-[#5A0D1A] hover:text-white transition-colors" title="Wishlist">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+      </button>
+
+      <!-- Cart Trigger with Counter -->
+      <button onclick="toggleCartDrawer()" class="relative flex items-center gap-2 px-4 py-2 rounded-full bg-[#5A0D1A] hover:bg-[#3D060F] text-white font-display text-xs font-semibold tracking-wider transition-all shadow-md">
+        <svg class="w-4 h-4 text-gold-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span class="hidden sm:inline">Bag</span>
+        <span id="cartCountBadge" class="w-4 h-4 rounded-full bg-[#D4AF37] text-black text-[10px] font-bold flex items-center justify-center">0</span>
+      </button>
+    </div>
+
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION 1: 3D SCROLL VIDEO HERO STAGE (Macro Paisley -> Grand Showroom)   -->
+  <!-- ========================================================================= -->
+  <section id="heroShowroom" class="relative w-full h-[240vh] bg-[#0A0709]">
+    
+    <!-- Pinned Viewport Container -->
+    <div id="pinnedHeroContainer" class="sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center justify-center">
+      
+      <!-- HTML5 Canvas for Apple-style 3D Frame Scrubbing between Start & End Frame -->
+      <canvas id="heroScrubCanvas" class="absolute inset-0 w-full h-full object-cover pointer-events-none z-10"></canvas>
+
+      <!-- Overlay Vignette -->
+      <div class="absolute inset-0 pointer-events-none z-15 bg-gradient-to-t from-black/80 via-transparent to-black/40"></div>
+
+      <!-- Hero Typography & CTAs (Exact Replica from Reel Frame 4s) -->
+      <div id="heroContentLayer" class="relative z-20 w-full max-w-7xl mx-auto px-6 md:px-12 h-full flex flex-col justify-between py-24 pointer-events-none">
+        
+        <!-- Top Provenance Tag -->
+        <div class="flex items-center justify-between">
+          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-gold-300 font-display text-[10px] tracking-[0.2em] uppercase">
+            <span class="w-1.5 h-1.5 rounded-full bg-gold-400 animate-ping"></span>
+            TRADITION MEETS TOMORROW
+          </span>
+          <span class="font-display text-[10px] text-white/70 tracking-widest uppercase hidden sm:inline">
+            AUTUMN / WINTER 2026 EDITION
+          </span>
+        </div>
+
+        <!-- Center Stage Headline & Description -->
+        <div class="max-w-2xl my-auto">
+          <p class="font-serif italic text-gold-300 text-sm md:text-base tracking-widest uppercase mb-2">
+            A STORY YOU WEAR
+          </p>
+          <h1 class="font-serif text-5xl sm:text-7xl md:text-8xl text-white font-normal leading-[1.05] tracking-tight">
+            More Than a <span class="italic font-serif text-gold-400">Saree</span>
+          </h1>
+          <p class="font-sans text-sm sm:text-base text-white/80 font-light mt-4 leading-relaxed max-w-xl">
+            Timeless weaves. Modern expressions. Crafted for you in every moment, from royal Banarasi silk to architectural temple borders.
+          </p>
+
+          <!-- Dual Call to Action Buttons -->
+          <div class="flex items-center gap-4 mt-8 pointer-events-auto flex-wrap">
+            <a href="#newArrivals" class="px-7 py-3 rounded-full bg-[#E6C65D] hover:bg-[#D4AF37] text-black font-display text-xs uppercase tracking-[0.18em] font-bold transition-all shadow-lg shadow-gold-500/20 flex items-center gap-2">
+              <span>EXPLORE COLLECTION</span>
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <button onclick="playShowroomTour()" class="px-7 py-3 rounded-full border border-white/40 hover:border-gold-400 hover:text-gold-300 text-white font-display text-xs uppercase tracking-[0.18em] font-semibold transition-all backdrop-blur-sm flex items-center gap-2">
+              <svg class="w-4 h-4 text-gold-400" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              <span>WATCH OUR STORY</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Bottom Feature Badges (Exact from Frame 4s) -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-white/15 font-display text-xs text-white/90">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-gold-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>100% Authentic Weaves</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-gold-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+            <span>Free Shipping Across India</span>
+          </div>
+          <div class="flex items-center gap-2 sm:justify-end">
+            <svg class="w-4 h-4 text-gold-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+            <span>Easy Returns Within 7 Days</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- CONTINUOUS MARQUEE TICKER (Frame 8s)                                      -->
+  <!-- ========================================================================= -->
+  <div class="bg-[#5A0D1A] text-gold-300 py-3 overflow-hidden border-t border-b border-[#7A1526] select-none">
+    <div class="animate-marquee font-display text-xs md:text-sm tracking-[0.2em] uppercase font-semibold flex items-center gap-8">
+      <span>✦ Pure zari, tested and certified</span>
+      <span>•</span>
+      <span>New festive edit</span>
+      <span>•</span>
+      <span>Made-to-drape blouse stitching</span>
+      <span>•</span>
+      <span>Easy 7-day returns</span>
+      <span>•</span>
+      <span>Handwoven mulberry silk</span>
+      <span>•</span>
+      <span>Free shipping across India</span>
+      <span>✦ Pure zari, tested and certified</span>
+      <span>•</span>
+      <span>New festive edit</span>
+      <span>•</span>
+      <span>Made-to-drape blouse stitching</span>
+      <span>•</span>
+      <span>Easy 7-day returns</span>
+      <span>•</span>
+      <span>Handwoven mulberry silk</span>
+      <span>•</span>
+      <span>Free shipping across India</span>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION 2: "SIX MOODS." (The 6 Arched Doorways - Frame 8s)                -->
+  <!-- ========================================================================= -->
+  <section id="sixMoods" class="py-28 px-6 md:px-12 max-w-7xl mx-auto bg-[#FAF6EE]">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
+      <div>
+        <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl text-[#3D060F] font-bold tracking-tight">
+          SIX MOODS.
+        </h2>
+        <p class="font-display text-xs uppercase tracking-[0.25em] text-[#5A0D1A] mt-2 font-semibold">
+          CURATED DRAPES FOR EVERY CELEBRATION
+        </p>
+      </div>
+      <p class="font-script text-3xl sm:text-4xl text-[#B58D20] transform -rotate-1">
+        Woven to Be Remembered
+      </p>
+    </div>
+
+    <!-- The 6 Arched Portal Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+      
+      <!-- Card 1: Heritage Morning -->
+      <div class="arched-portal group cursor-pointer bg-[#F0EBE1] border border-[#E3DCB8] flex flex-col justify-end h-80 md:h-96 p-4">
+        <img src="assets/craft_warp_weft.jpg" alt="Heritage Morning Silk" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80';" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+        <div class="relative z-10 text-white text-center">
+          <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">01 // MORNING</span>
+          <h3 class="font-serif text-sm font-semibold text-white group-hover:text-gold-300 transition-colors">Temple Cyan</h3>
+        </div>
+      </div>
+
+      <!-- Card 2: Festive Haldi -->
+      <div class="arched-portal group cursor-pointer bg-[#F0EBE1] border border-[#E3DCB8] flex flex-col justify-end h-80 md:h-96 p-4">
+        <img src="assets/craft_gold_zari.jpg" alt="Festive Haldi Silk" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=600&q=80';" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+        <div class="relative z-10 text-white text-center">
+          <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">02 // HALDI</span>
+          <h3 class="font-serif text-sm font-semibold text-white group-hover:text-gold-300 transition-colors">Golden Saffron</h3>
+        </div>
+      </div>
+
+      <!-- Card 3: Sangeet Sunset -->
+      <div class="arched-portal group cursor-pointer bg-[#F0EBE1] border border-[#E3DCB8] flex flex-col justify-end h-80 md:h-96 p-4">
+        <img src="assets/saree_chandramukhi_ivory.jpg" alt="Sangeet Sunset Silk" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80';" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+        <div class="relative z-10 text-white text-center">
+          <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">03 // SANGEET</span>
+          <h3 class="font-serif text-sm font-semibold text-white group-hover:text-gold-300 transition-colors">Tangerine Twilight</h3>
+        </div>
+      </div>
+
+      <!-- Card 4: Mehendi Blossom -->
+      <div class="arched-portal group cursor-pointer bg-[#F0EBE1] border border-[#E3DCB8] flex flex-col justify-end h-80 md:h-96 p-4">
+        <img src="assets/saree_gulabi_organza.jpg" alt="Mehendi Blossom Silk" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1606259458027-54d2a728b6ab?auto=format&fit=crop&w=600&q=80';" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+        <div class="relative z-10 text-white text-center">
+          <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">04 // MEHENDI</span>
+          <h3 class="font-serif text-sm font-semibold text-white group-hover:text-gold-300 transition-colors">Imperial Violet</h3>
+        </div>
+      </div>
+
+      <!-- Card 5: Royal Reception -->
+      <div class="arched-portal group cursor-pointer bg-[#F0EBE1] border border-[#E3DCB8] flex flex-col justify-end h-80 md:h-96 p-4">
+        <img src="assets/saree_marakata_emerald.jpg" alt="Royal Reception Silk" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1753981031189-27bb7bd1c079?auto=format&fit=crop&w=600&q=80';" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+        <div class="relative z-10 text-white text-center">
+          <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">05 // RECEPTION</span>
+          <h3 class="font-serif text-sm font-semibold text-white group-hover:text-gold-300 transition-colors">Marakata Emerald</h3>
+        </div>
+      </div>
+
+      <!-- Card 6: Grand Muhurtham -->
+      <div class="arched-portal group cursor-pointer bg-[#F0EBE1] border border-[#E3DCB8] flex flex-col justify-end h-80 md:h-96 p-4">
+        <img src="assets/saree_royal_vermilion.jpg" alt="Grand Muhurtham Silk" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80';" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+        <div class="relative z-10 text-white text-center">
+          <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">06 // MUHURTHAM</span>
+          <h3 class="font-serif text-sm font-semibold text-white group-hover:text-gold-300 transition-colors">Royal Vermilion</h3>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION 3: "New Arrivals" (Frame 13s)                                     -->
+  <!-- ========================================================================= -->
+  <section id="newArrivals" class="py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-[#E6DFC8]">
+    
+    <!-- Top Arched Curved Ribbon (Exact from Frame 13s) -->
+    <div class="bg-[#3D060F] text-white py-3 px-6 rounded-2xl flex items-center justify-between overflow-x-auto text-xs font-display tracking-widest uppercase mb-12 shadow-lg gap-6">
+      <span class="text-gold-300 font-bold whitespace-nowrap">✦ Ruhani Temple Silk</span>
+      <span class="text-white/40">•</span>
+      <span class="whitespace-nowrap hover:text-gold-300 cursor-pointer">Saanjh Maroon Banarasi</span>
+      <span class="text-white/40">•</span>
+      <span class="whitespace-nowrap hover:text-gold-300 cursor-pointer">Prerna Festive Silk</span>
+      <span class="text-white/40">•</span>
+      <span class="whitespace-nowrap hover:text-gold-300 cursor-pointer">Tara Peacock Paithani</span>
+      <span class="text-white/40">•</span>
+      <span class="whitespace-nowrap hover:text-gold-300 cursor-pointer">Ananya Emerald Kanjivaram</span>
+    </div>
+
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
+      <div>
+        <span class="font-display text-[11px] uppercase tracking-[0.25em] text-[#5A0D1A] font-semibold block mb-1">
+          FRESH FROM THE LOOM
+        </span>
+        <h2 class="font-serif text-4xl sm:text-5xl text-[#3D060F] font-normal">
+          New Arrivals
+        </h2>
+      </div>
+      <a href="#sixMoods" class="font-display text-xs uppercase tracking-widest text-[#5A0D1A] font-bold hover:text-[#B58D20] transition-colors mt-4 sm:mt-0 flex items-center gap-1">
+        <span>VIEW ALL PIECES</span>
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- Product Card Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <!-- Item 1 -->
+      <div class="group bg-white rounded-2xl border border-[#E8E2D0] p-4 flex flex-col justify-between hover:shadow-xl transition-all">
+        <div class="relative w-full h-80 rounded-xl overflow-hidden mb-4 bg-[#F2EDE1]">
+          <img src="assets/saree_royal_vermilion.jpg" alt="Reva Temple Red Silk" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          <span class="absolute top-3 left-3 bg-[#5A0D1A] text-white text-[9px] font-bold px-2.5 py-0.5 rounded uppercase tracking-wider">NEW</span>
+          <button onclick="addToBag('Reva Temple Red Silk', 21200)" class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-[#5A0D1A] hover:bg-[#5A0D1A] hover:text-white transition-colors" title="Quick Add">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="font-serif text-base font-semibold text-[#3D060F]">Reva Temple Red Silk</h3>
+            <span class="text-xs text-amber-500">★★★★★</span>
+          </div>
+          <p class="font-display text-xs text-[#5A0D1A]/70 mb-3 font-medium">Banarasi Katan • Pure Zari</p>
+          <div class="flex items-center justify-between border-t border-[#EFE9D9] pt-3">
+            <span class="font-serif text-lg font-bold text-[#3D060F]">₹21,200</span>
+            <button onclick="addToBag('Reva Temple Red Silk', 21200)" class="text-xs font-display uppercase tracking-wider text-[#5A0D1A] font-bold hover:text-[#B58D20]">ADD TO BAG</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="group bg-white rounded-2xl border border-[#E8E2D0] p-4 flex flex-col justify-between hover:shadow-xl transition-all">
+        <div class="relative w-full h-80 rounded-xl overflow-hidden mb-4 bg-[#F2EDE1]">
+          <img src="assets/saree_marakata_emerald.jpg" alt="Nayana Coral Kanjivaram" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          <span class="absolute top-3 left-3 bg-[#0D3823] text-white text-[9px] font-bold px-2.5 py-0.5 rounded uppercase tracking-wider">HERITAGE</span>
+          <button onclick="addToBag('Nayana Coral Kanjivaram', 25600)" class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-[#5A0D1A] hover:bg-[#5A0D1A] hover:text-white transition-colors" title="Quick Add">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="font-serif text-base font-semibold text-[#3D060F]">Nayana Coral Kanjivaram</h3>
+            <span class="text-xs text-amber-500">★★★★★</span>
+          </div>
+          <p class="font-display text-xs text-[#5A0D1A]/70 mb-3 font-medium">3-Ply Pure Pattu • Gold Korvai</p>
+          <div class="flex items-center justify-between border-t border-[#EFE9D9] pt-3">
+            <span class="font-serif text-lg font-bold text-[#3D060F]">₹25,600</span>
+            <button onclick="addToBag('Nayana Coral Kanjivaram', 25600)" class="text-xs font-display uppercase tracking-wider text-[#5A0D1A] font-bold hover:text-[#B58D20]">ADD TO BAG</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="group bg-white rounded-2xl border border-[#E8E2D0] p-4 flex flex-col justify-between hover:shadow-xl transition-all">
+        <div class="relative w-full h-80 rounded-xl overflow-hidden mb-4 bg-[#F2EDE1]">
+          <img src="assets/saree_chandramukhi_ivory.jpg" alt="Suhana Ceremony Edit" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          <span class="absolute top-3 left-3 bg-[#B58D20] text-white text-[9px] font-bold px-2.5 py-0.5 rounded uppercase tracking-wider">EXCLUSIVE</span>
+          <button onclick="addToBag('Suhana Ceremony Edit', 29500)" class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-[#5A0D1A] hover:bg-[#5A0D1A] hover:text-white transition-colors" title="Quick Add">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="font-serif text-base font-semibold text-[#3D060F]">Suhana Ceremony Edit</h3>
+            <span class="text-xs text-amber-500">★★★★★</span>
+          </div>
+          <p class="font-display text-xs text-[#5A0D1A]/70 mb-3 font-medium">Tissue Organza • Rose Gold Zari</p>
+          <div class="flex items-center justify-between border-t border-[#EFE9D9] pt-3">
+            <span class="font-serif text-lg font-bold text-[#3D060F]">₹29,500</span>
+            <button onclick="addToBag('Suhana Ceremony Edit', 29500)" class="text-xs font-display uppercase tracking-wider text-[#5A0D1A] font-bold hover:text-[#B58D20]">ADD TO BAG</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="group bg-white rounded-2xl border border-[#E8E2D0] p-4 flex flex-col justify-between hover:shadow-xl transition-all">
+        <div class="relative w-full h-80 rounded-xl overflow-hidden mb-4 bg-[#F2EDE1]">
+          <img src="assets/saree_gulabi_organza.jpg" alt="Devasena Wedding Silk" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          <span class="absolute top-3 left-3 bg-[#471249] text-white text-[9px] font-bold px-2.5 py-0.5 rounded uppercase tracking-wider">ROYAL</span>
+          <button onclick="addToBag('Devasena Wedding Silk', 28500)" class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-[#5A0D1A] hover:bg-[#5A0D1A] hover:text-white transition-colors" title="Quick Add">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="font-serif text-base font-semibold text-[#3D060F]">Devasena Wedding Silk</h3>
+            <span class="text-xs text-amber-500">★★★★★</span>
+          </div>
+          <p class="font-display text-xs text-[#5A0D1A]/70 mb-3 font-medium">Paithani Brocade • Peacock Pallu</p>
+          <div class="flex items-center justify-between border-t border-[#EFE9D9] pt-3">
+            <span class="font-serif text-lg font-bold text-[#3D060F]">₹28,500</span>
+            <button onclick="addToBag('Devasena Wedding Silk', 28500)" class="text-xs font-display uppercase tracking-wider text-[#5A0D1A] font-bold hover:text-[#B58D20]">ADD TO BAG</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION 4: "The Bridal Collection" (Dark Velvet Stage - Frame 19s)       -->
+  <!-- ========================================================================= -->
+  <section id="bridalCollection" class="py-28 px-6 md:px-12 bg-[#0C0608] text-white relative overflow-hidden">
+    <!-- Ambient Red Velvet Glow -->
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-[#5A0D1A]/20 filter blur-[100px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Left Column: Monumental Bridal Portrait with Red Velvet Drape -->
+      <div class="lg:col-span-5 relative">
+        <div class="relative w-full h-[620px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+          <img src="assets/saree_royal_vermilion.jpg" alt="VĀRĀṆASĪ Royal Bride" class="w-full h-full object-cover object-top" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-6 left-6 right-6">
+            <span class="font-display text-[10px] text-gold-400 uppercase tracking-widest block mb-1">HAUTE COUTURE EDIT</span>
+            <h3 class="font-serif text-2xl font-semibold text-white">The Royal Muhurtham Drape</h3>
+            <p class="font-sans text-xs text-white/70 mt-1">Certified 24k tested gold zari on pure Katan mulberry silk.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Bridal Carousel & Cards -->
+      <div class="lg:col-span-7 flex flex-col justify-between">
+        <div class="mb-8">
+          <span class="font-display text-xs uppercase tracking-[0.25em] text-gold-400 font-semibold block mb-2">
+            SACRED CELEBRATIONS
+          </span>
+          <h2 class="font-serif text-4xl sm:text-5xl text-white font-normal">
+            The Bridal Collection
+          </h2>
+          <p class="font-sans text-sm text-white/70 font-light mt-3 leading-relaxed max-w-xl">
+            Exclusively hand-commissioned bridal silks woven over 45 to 60 days by master artisan families in Varanasi and Kanchipuram.
+          </p>
+        </div>
+
+        <!-- Horizontal Bridal Product Cards (Exact replica from 19s) -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+
+          <!-- Bridal Card 1 -->
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-3 flex flex-col justify-between hover:border-gold-500/50 transition-all">
+            <div class="h-64 rounded-xl overflow-hidden mb-3 relative">
+              <img src="assets/craft_pleats_drape.jpg" alt="Festive Weave" class="w-full h-full object-cover" />
+            </div>
+            <div>
+              <h4 class="font-serif text-sm font-semibold text-white">Festive Weave</h4>
+              <p class="font-serif text-base text-gold-300 font-bold mt-1">₹25,600</p>
+              <button onclick="addToBag('Festive Weave', 25600)" class="w-full mt-3 py-2 rounded-xl bg-[#E67E22] hover:bg-[#D35400] text-black font-display text-[11px] font-bold uppercase tracking-wider transition-colors shadow">
+                ADD TO CART
+              </button>
+            </div>
+          </div>
+
+          <!-- Bridal Card 2 -->
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-3 flex flex-col justify-between hover:border-gold-500/50 transition-all">
+            <div class="h-64 rounded-xl overflow-hidden mb-3 relative">
+              <img src="assets/saree_marakata_emerald.jpg" alt="Anvika Muhurtham Silk" class="w-full h-full object-cover" />
+            </div>
+            <div>
+              <h4 class="font-serif text-sm font-semibold text-white">Anvika Muhurtham</h4>
+              <p class="font-serif text-base text-gold-300 font-bold mt-1">₹25,600</p>
+              <button onclick="addToBag('Anvika Muhurtham', 25600)" class="w-full mt-3 py-2 rounded-xl bg-[#E67E22] hover:bg-[#D35400] text-black font-display text-[11px] font-bold uppercase tracking-wider transition-colors shadow">
+                ADD TO CART
+              </button>
+            </div>
+          </div>
+
+          <!-- Bridal Card 3 -->
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-3 flex flex-col justify-between hover:border-gold-500/50 transition-all">
+            <div class="h-64 rounded-xl overflow-hidden mb-3 relative">
+              <img src="assets/saree_chandramukhi_ivory.jpg" alt="Vidhya Violet Silk" class="w-full h-full object-cover" />
+            </div>
+            <div>
+              <h4 class="font-serif text-sm font-semibold text-white">Vidhya Violet Silk</h4>
+              <p class="font-serif text-base text-gold-300 font-bold mt-1">₹19,800</p>
+              <button onclick="addToBag('Vidhya Violet Silk', 19800)" class="w-full mt-3 py-2 rounded-xl bg-[#E67E22] hover:bg-[#D35400] text-black font-display text-[11px] font-bold uppercase tracking-wider transition-colors shadow">
+                ADD TO CART
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION 5: "Autumn–Winter 2026" (Three Arched Windows - Frame 25s)       -->
+  <!-- ========================================================================= -->
+  <section id="autumnWinter" class="py-28 px-6 md:px-12 max-w-7xl mx-auto bg-[#FAF6EE]">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+      <div>
+        <div class="flex items-center gap-2 mb-2 font-display text-[11px] uppercase tracking-widest text-[#5A0D1A] font-semibold">
+          <svg class="w-3.5 h-3.5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span>SEASON FORECAST</span>
+        </div>
+        <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl text-[#3D060F] font-normal">
+          Autumn–Winter <span class="italic font-serif text-gold-600">2026</span>
+        </h2>
+        <p class="font-sans text-xs sm:text-sm text-[#3D060F]/70 max-w-lg mt-3 leading-relaxed">
+          Three readings on how the house is draping the season — chosen from the atelier floor, not a mood board.
+        </p>
+      </div>
+      <a href="#newArrivals" class="px-6 py-3 rounded-full border border-[#5A0D1A] text-[#5A0D1A] hover:bg-[#5A0D1A] hover:text-white font-display text-xs uppercase tracking-widest font-bold transition-all inline-flex items-center gap-2">
+        <span>EXPLORE THE FORECAST</span>
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </a>
+    </div>
+
+    <!-- The 3 Arched Portals (Exact from Frame 25s) -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+      
+      <!-- Window 1: Festive Palace Edit -->
+      <div class="arched-portal group h-[440px] bg-white border border-[#E3DCB8] flex flex-col justify-end p-6">
+        <img src="assets/saree_gulabi_organza.jpg" alt="Festive Palace Courtyard" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+        <div class="relative z-10 text-white">
+          <span class="font-display text-[10px] text-gold-300 uppercase tracking-widest block mb-1">READING 01</span>
+          <h3 class="font-serif text-xl font-semibold text-white">Royal Courtyard Drapes</h3>
+          <p class="font-sans text-xs text-white/80 mt-1">Rich magenta & indigo brocades for twilight palace soirees.</p>
+        </div>
+      </div>
+
+      <!-- Window 2: Garden Bridesmaids Edit -->
+      <div class="arched-portal group h-[440px] bg-white border border-[#E3DCB8] flex flex-col justify-end p-6">
+        <img src="assets/saree_chandramukhi_ivory.jpg" alt="Garden Path Silks" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+        <div class="relative z-10 text-white">
+          <span class="font-display text-[10px] text-gold-300 uppercase tracking-widest block mb-1">READING 02</span>
+          <h3 class="font-serif text-xl font-semibold text-white">The Haldi Promenade</h3>
+          <p class="font-sans text-xs text-white/80 mt-1">Pastel silks & gold tissue engineered for celebratory movement.</p>
+        </div>
+      </div>
+
+      <!-- Window 3: Sovereign Vermilion Edit -->
+      <div class="arched-portal group h-[440px] bg-white border border-[#E3DCB8] flex flex-col justify-end p-6">
+        <img src="assets/saree_royal_vermilion.jpg" alt="Royal Vermilion Salon" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+        <div class="relative z-10 text-white">
+          <span class="font-display text-[10px] text-gold-300 uppercase tracking-widest block mb-1">READING 03</span>
+          <h3 class="font-serif text-xl font-semibold text-white">The Crimson Throne</h3>
+          <p class="font-sans text-xs text-white/80 mt-1">24k pure gold zari hand-loomed into generational heirlooms.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Product Detail Callout: IVORY ORGANZA (Frame 25s) -->
+    <div class="bg-white rounded-3xl border border-[#E5DECA] p-8 flex flex-col md:flex-row items-center justify-between gap-8 shadow-sm">
+      <div class="flex items-center gap-6">
+        <div class="w-24 h-24 rounded-2xl overflow-hidden border border-[#E5DECA]">
+          <img src="assets/craft_warp_weft.jpg" alt="Ivory Organza Texture" class="w-full h-full object-cover" />
+        </div>
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-amber-500 text-xs">★★★★★</span>
+            <span class="font-display text-[11px] text-[#5A0D1A]/70">4.8 (212 REVIEWS)</span>
+          </div>
+          <h3 class="font-serif text-2xl font-bold text-[#3D060F]">IVORY ORGANZA BROCADE</h3>
+          <p class="font-sans text-xs text-[#5A0D1A]/80 mt-1">Featherlight silk organza with scalloped antique silver-gold border.</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <span class="font-serif text-2xl font-bold text-[#3D060F]">₹18,400</span>
+        <button onclick="addToBag('Ivory Organza Brocade', 18400)" class="px-6 py-3 rounded-full bg-[#5A0D1A] hover:bg-[#3D060F] text-white font-display text-xs uppercase tracking-widest font-bold transition-all shadow-md">
+          ADD TO BAG
+        </button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION 6: INTERACTIVE DRAPING SALON & CUSTOMIZER (Frame 31s)             -->
+  <!-- ========================================================================= -->
+  <section id="customizerSalon" class="py-24 px-6 md:px-12 max-w-7xl mx-auto bg-white rounded-3xl border border-[#E8E2D0] my-12 shadow-sm">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Left: Mannequin Close-up Drape & Watch Lookbook Capsule (Frame 31s) -->
+      <div class="lg:col-span-6 relative flex flex-col items-center">
+        <div class="relative w-full max-w-md h-[500px] rounded-2xl overflow-hidden border border-[#E8E2D0] bg-[#FAF6EE]">
+          <img id="customizerImage" src="assets/saree_chandramukhi_ivory.jpg" alt="Drape Silhouette" class="w-full h-full object-cover object-top transition-all duration-500" />
+          
+          <!-- Floating "Watch Lookbook" Pill -->
+          <div class="absolute bottom-6 left-6 right-6 p-2 rounded-full bg-white/90 backdrop-blur-md border border-[#E8E2D0] flex items-center justify-between shadow-lg">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-[#5A0D1A] text-white flex items-center justify-center">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              </div>
+              <span class="font-display text-xs font-bold text-[#3D060F] uppercase tracking-wider">Watch Lookbook Film</span>
+            </div>
+            <span class="font-display text-[10px] text-[#5A0D1A] pr-3 uppercase">01:45 MIN</span>
+          </div>
+
+          <!-- Hand-drawn Note: New Drop 2026 -->
+          <div class="absolute top-4 left-4 font-script text-2xl text-[#B58D20] transform -rotate-6">
+            New Drop 2026
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Interactive Blouse Size, Swatches & Big "ADDED TO CART" Button -->
+      <div class="lg:col-span-6">
+        <span class="font-display text-[11px] uppercase tracking-[0.25em] text-[#5A0D1A] font-semibold block mb-2">
+          CURATED BY THE HOUSE
+        </span>
+        <h2 class="font-serif text-3xl sm:text-4xl text-[#3D060F] font-bold mb-4">
+          Gulabi Rosewater Organza
+        </h2>
+        <p class="font-sans text-sm text-[#3D060F]/70 leading-relaxed mb-6 font-light">
+          Sculpted with delicate resham floral vines and antique electroplated gold borders. Complete with a tailored unstitched blouse piece in matching pure silk.
+        </p>
+
+        <!-- Blouse Size Selector Pills -->
+        <div class="mb-6">
+          <label class="block font-display text-[10px] uppercase text-[#5A0D1A] tracking-widest font-bold mb-2">
+            SELECT BLOUSE SIZE
+          </label>
+          <div class="flex items-center gap-2">
+            <button onclick="selectSize(this)" class="size-pill active px-4 py-2 rounded-lg border border-[#5A0D1A] bg-[#5A0D1A] text-white font-display text-xs font-bold">XS</button>
+            <button onclick="selectSize(this)" class="size-pill px-4 py-2 rounded-lg border border-[#E0D8C0] bg-white text-[#3D060F] font-display text-xs font-bold hover:border-[#5A0D1A]">S</button>
+            <button onclick="selectSize(this)" class="size-pill px-4 py-2 rounded-lg border border-[#E0D8C0] bg-white text-[#3D060F] font-display text-xs font-bold hover:border-[#5A0D1A]">M</button>
+            <button onclick="selectSize(this)" class="size-pill px-4 py-2 rounded-lg border border-[#E0D8C0] bg-white text-[#3D060F] font-display text-xs font-bold hover:border-[#5A0D1A]">L</button>
+            <button onclick="selectSize(this)" class="size-pill px-4 py-2 rounded-lg border border-[#E0D8C0] bg-white text-[#3D060F] font-display text-xs font-bold hover:border-[#5A0D1A]">XL</button>
+          </div>
+        </div>
+
+        <!-- Color Swatch Selector -->
+        <div class="mb-8">
+          <label class="block font-display text-[10px] uppercase text-[#5A0D1A] tracking-widest font-bold mb-2">
+            SELECT COLOUR: <span id="selectedColorName" class="text-[#3D060F]">ROSEWATER</span>
+          </label>
+          <div class="flex items-center gap-3">
+            <button onclick="selectColor('ROSEWATER', 'assets/saree_chandramukhi_ivory.jpg')" class="w-8 h-8 rounded-full bg-[#E8A598] border-2 border-[#5A0D1A] shadow" title="Rosewater"></button>
+            <button onclick="selectColor('CHAMPAGNE GOLD', 'assets/craft_gold_zari.jpg')" class="w-8 h-8 rounded-full bg-[#E5C672] border-2 border-transparent hover:border-[#5A0D1A] shadow" title="Champagne Gold"></button>
+            <button onclick="selectColor('ROYAL VERMILION', 'assets/saree_royal_vermilion.jpg')" class="w-8 h-8 rounded-full bg-[#9E1B32] border-2 border-transparent hover:border-[#5A0D1A] shadow" title="Royal Vermilion"></button>
+            <button onclick="selectColor('TEMPLE EMERALD', 'assets/saree_marakata_emerald.jpg')" class="w-8 h-8 rounded-full bg-[#1B5E3C] border-2 border-transparent hover:border-[#5A0D1A] shadow" title="Temple Emerald"></button>
+          </div>
+        </div>
+
+        <!-- Action Row: Quantity & Big Crimson Capsule "ADDED TO CART" Button -->
+        <div class="flex items-center gap-4 flex-wrap">
+          <!-- Quantity Stepper -->
+          <div class="flex items-center border border-[#D5CCA8] rounded-full px-3 py-2 bg-[#FAF6EE]">
+            <button onclick="changeQty(-1)" class="w-6 h-6 flex items-center justify-center font-bold text-[#5A0D1A] hover:text-black">-</button>
+            <span id="qtyDisplay" class="w-8 text-center font-display text-xs font-bold">1</span>
+            <button onclick="changeQty(1)" class="w-6 h-6 flex items-center justify-center font-bold text-[#5A0D1A] hover:text-black">+</button>
+          </div>
+
+          <!-- Master Capsule Button (Exact from Frame 31s) -->
+          <button id="addToCartMasterBtn" onclick="handleMasterAddToCart()" class="flex-1 px-8 py-3.5 rounded-full bg-[#5A0D1A] hover:bg-[#3D060F] text-white font-display text-xs uppercase tracking-[0.2em] font-bold transition-all shadow-xl shadow-[#5A0D1A]/20 flex items-center justify-between">
+            <span id="masterBtnText">ADD TO CART</span>
+            <div class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
+              <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION 7: FULLSCREEN 3D FILMSTRIP SCRUBBER (Frame 37s - Temple Stone)   -->
+  <!-- ========================================================================= -->
+  <section id="filmstripScrubberSection" class="relative h-screen bg-[#0C0608] text-white overflow-hidden flex flex-col justify-between p-6 md:p-12 select-none">
+    
+    <!-- Dynamic Full-Screen Background Image (Transitions on thumbnail hover/scrub) -->
+    <img id="filmstripBg" src="assets/saree_exact_end_frame.jpg" alt="Temple Stone Background" class="absolute inset-0 w-full h-full object-cover opacity-40 transition-opacity duration-700 pointer-events-none" />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/80 pointer-events-none"></div>
+
+    <!-- Top Telemetry Header -->
+    <div class="relative z-10 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="w-2.5 h-2.5 rounded-full bg-gold-400 animate-pulse"></span>
+        <span id="filmstripTitle" class="font-serif text-2xl md:text-3xl font-semibold text-white">Temple Stone Edition</span>
+      </div>
+      <button onclick="addToBag('Temple Stone Silk', 31500)" class="px-5 py-2 rounded-full border border-white/20 hover:border-gold-400 bg-white/5 font-display text-[10px] uppercase tracking-widest text-white hover:text-gold-300 transition-all">
+        ADD TO CART
+      </button>
+    </div>
+
+    <!-- Center Scrubbing Filmstrip (Frame 37s) -->
+    <div class="relative z-10 my-auto py-8">
+      <div id="filmstripTrack" class="flex items-center justify-center gap-4 overflow-x-auto py-4 px-2">
+        
+        <!-- Filmstrip Item 1 -->
+        <div onmouseenter="scrubFilmstrip(0, 'assets/saree_exact_start_frame.jpg', '01 // Kadhwa Paisley Weave')" class="filmstrip-card active w-36 h-48 md:w-44 md:h-60 rounded-2xl overflow-hidden border-2 border-gold-400 cursor-pointer flex-shrink-0 transition-transform duration-300 hover:scale-105 shadow-2xl">
+          <img src="assets/saree_exact_start_frame.jpg" alt="Paisley Weave" class="w-full h-full object-cover" />
+        </div>
+
+        <!-- Filmstrip Item 2 -->
+        <div onmouseenter="scrubFilmstrip(1, 'assets/saree_exact_end_frame.jpg', '02 // Royal Boutique Showroom')" class="filmstrip-card w-36 h-48 md:w-44 md:h-60 rounded-2xl overflow-hidden border border-white/20 cursor-pointer flex-shrink-0 transition-transform duration-300 hover:scale-105 shadow-2xl">
+          <img src="assets/saree_exact_end_frame.jpg" alt="Royal Showroom" class="w-full h-full object-cover" />
+        </div>
+
+        <!-- Filmstrip Item 3 -->
+        <div onmouseenter="scrubFilmstrip(2, 'assets/saree_royal_vermilion.jpg', '03 // Vermilion Bridal Banarasi')" class="filmstrip-card w-36 h-48 md:w-44 md:h-60 rounded-2xl overflow-hidden border border-white/20 cursor-pointer flex-shrink-0 transition-transform duration-300 hover:scale-105 shadow-2xl">
+          <img src="assets/saree_royal_vermilion.jpg" alt="Vermilion Silk" class="w-full h-full object-cover" />
+        </div>
+
+        <!-- Filmstrip Item 4 -->
+        <div onmouseenter="scrubFilmstrip(3, 'assets/saree_marakata_emerald.jpg', '04 // Marakata Emerald Kanjivaram')" class="filmstrip-card w-36 h-48 md:w-44 md:h-60 rounded-2xl overflow-hidden border border-white/20 cursor-pointer flex-shrink-0 transition-transform duration-300 hover:scale-105 shadow-2xl">
+          <img src="assets/saree_marakata_emerald.jpg" alt="Emerald Silk" class="w-full h-full object-cover" />
+        </div>
+
+        <!-- Filmstrip Item 5 -->
+        <div onmouseenter="scrubFilmstrip(4, 'assets/saree_chandramukhi_ivory.jpg', '05 // Rose Gold Tissue')" class="filmstrip-card w-36 h-48 md:w-44 md:h-60 rounded-2xl overflow-hidden border border-white/20 cursor-pointer flex-shrink-0 transition-transform duration-300 hover:scale-105 shadow-2xl">
+          <img src="assets/saree_chandramukhi_ivory.jpg" alt="Rose Gold Tissue" class="w-full h-full object-cover" />
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bottom Counter & Drag Prompt -->
+    <div class="relative z-10 flex items-center justify-between font-display text-[11px] text-white/60 tracking-widest uppercase border-t border-white/10 pt-4">
+      <div id="filmstripCounter" class="text-gold-400 font-bold">01 / 05</div>
+      <div>DRAG, SCROLL, OR HOVER OVER THUMBNAILS TO EXPLORE</div>
+    </div>
+
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION 8: "LATEST TRENDS" (3D Angled Perspective Stack - Frame 40s)      -->
+  <!-- ========================================================================= -->
+  <section id="latestTrends" class="py-28 px-6 md:px-12 max-w-7xl mx-auto bg-[#FAF6EE]">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Left Column: Editorial Headline & Copy -->
+      <div class="lg:col-span-5">
+        <span class="inline-block px-3 py-1 rounded-full border border-[#5A0D1A]/30 text-[#5A0D1A] font-display text-[10px] uppercase tracking-widest font-semibold mb-4">
+          EXPLORE COLLECTION
+        </span>
+        <h2 class="font-serif text-5xl sm:text-6xl md:text-7xl text-[#3D060F] font-bold tracking-tight leading-none mb-6">
+          LATEST<br />TRENDS
+        </h2>
+        <button onclick="lenis ? lenis.scrollTo('#newArrivals') : window.location.hash='#newArrivals'" class="px-8 py-3.5 rounded-full bg-[#5A0D1A] hover:bg-[#3D060F] text-white font-display text-xs uppercase tracking-[0.2em] font-bold transition-all shadow-lg mb-8">
+          DISCOVER NOW
+        </button>
+
+        <div class="border-t border-[#E0D8C0] pt-6">
+          <h4 class="font-serif text-lg font-semibold text-[#3D060F] mb-1">Stories Behind The Drape</h4>
+          <p class="font-sans text-xs text-[#3D060F]/70 leading-relaxed font-light">
+            Every saree carries a story woven into its silk, inspired by the loom, shaped by the hands that finish its border.
+          </p>
+        </div>
+      </div>
+
+      <!-- Right Column: 3D Angled Perspective Stack (Exact from Frame 40s) -->
+      <div class="lg:col-span-7 perspective-stage relative flex items-center justify-center min-h-[500px]">
+        
+        <!-- Background Layered Card (Angle 2) -->
+        <div id="stackCardBack" class="stack-angled-2 absolute w-72 sm:w-80 h-[420px] rounded-2xl overflow-hidden border border-[#D5CCA8] bg-white transition-all duration-500">
+          <img src="assets/saree_chandramukhi_ivory.jpg" alt="Trend Background Card" class="w-full h-full object-cover" />
+          <div class="absolute bottom-4 left-4 font-display text-[10px] uppercase tracking-widest text-white bg-black/60 px-3 py-1 rounded">
+            FESTIVE RANGE
+          </div>
+        </div>
+
+        <!-- Foreground Primary Card (Angle 1) -->
+        <div id="stackCardFront" class="stack-angled-1 relative w-72 sm:w-80 h-[420px] rounded-2xl overflow-hidden border border-[#5A0D1A]/40 bg-white cursor-pointer transition-all duration-500 hover:scale-105">
+          <img src="assets/saree_marakata_emerald.jpg" alt="Trend Foreground Card" class="w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-6 left-6 right-6 text-white">
+            <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">EDITION 01</span>
+            <h3 class="font-serif text-xl font-bold">Marakata & Violet Pair</h3>
+            <p class="font-sans text-xs text-white/80 mt-1">Dual-tone contrasting borders.</p>
+          </div>
+        </div>
+
+        <!-- Pagination Controls (< 1 / 3 >) -->
+        <div class="absolute -bottom-8 flex items-center gap-4 bg-white px-5 py-2 rounded-full border border-[#E0D8C0] shadow-sm font-display text-xs">
+          <button onclick="cycleTrends(-1)" class="font-bold text-[#5A0D1A] hover:text-black">‹</button>
+          <span id="trendsCounter" class="font-semibold text-[#3D060F]">1 / 3</span>
+          <button onclick="cycleTrends(1)" class="font-bold text-[#5A0D1A] hover:text-black">›</button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SLIDING SHOPPING CART DRAWER                                              -->
+  <!-- ========================================================================= -->
+  <div id="cartDrawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white shadow-2xl border-l border-[#E5DECA] transform translate-x-full transition-transform duration-300 flex flex-col justify-between">
+    <div class="p-6 border-b border-[#E5DECA] flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <svg class="w-5 h-5 text-[#5A0D1A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+        <h3 class="font-serif text-lg font-bold text-[#3D060F]">Your Shopping Bag</h3>
+      </div>
+      <button onclick="toggleCartDrawer()" class="w-8 h-8 rounded-full border border-[#E5DECA] flex items-center justify-center text-[#5A0D1A] hover:bg-[#5A0D1A] hover:text-white transition-colors">✕</button>
+    </div>
+
+    <!-- Cart Items List -->
+    <div id="cartItemsList" class="flex-1 overflow-y-auto p-6 space-y-4">
+      <div id="cartEmptyState" class="text-center py-16 text-[#5A0D1A]/60">
+        <p class="font-serif text-lg mb-2">Your bag is currently empty.</p>
+        <p class="font-sans text-xs">Explore our royal collections to add handwoven heirlooms.</p>
+      </div>
+    </div>
+
+    <!-- Cart Footer & Checkout -->
+    <div class="p-6 border-t border-[#E5DECA] bg-[#FAF6EE]">
+      <div class="flex items-center justify-between mb-4">
+        <span class="font-display text-xs uppercase tracking-wider text-[#5A0D1A]">Subtotal</span>
+        <span id="cartSubtotal" class="font-serif text-xl font-bold text-[#3D060F]">₹0</span>
+      </div>
+      <button onclick="alert('Proceeding to Encrypted Heritage Checkout...')" class="w-full py-3.5 rounded-full bg-[#5A0D1A] hover:bg-[#3D060F] text-white font-display text-xs uppercase tracking-[0.2em] font-bold transition-all shadow-lg">
+        PROCEED TO SECURE CHECKOUT
+      </button>
+    </div>
+  </div>
+
+  <!-- Cart Backdrop -->
+  <div id="cartBackdrop" onclick="toggleCartDrawer()" class="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm hidden"></div>
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER                                                                    -->
+  <!-- ========================================================================= -->
+  <footer class="bg-[#3D060F] text-white py-16 px-6 md:px-12 border-t border-[#5A0D1A]">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+      <div>
+        <span class="font-serif text-2xl font-bold tracking-tight text-white">DRIFT<span class="text-gold-400 font-sans text-xl">®</span></span>
+        <p class="font-display text-[9px] tracking-[0.25em] text-gold-300 uppercase mt-1">DRAPED IN STORIES // ESTD. 1888</p>
+      </div>
+      <div class="flex items-center gap-6 font-display text-[10px] text-white/70 tracking-widest uppercase flex-wrap">
+        <span>Handloom Mark</span>
+        <span>•</span>
+        <span>Silk Mark Certified</span>
+        <span>•</span>
+        <span>Pure Tested Zari</span>
+        <span>•</span>
+        <span>Varanasi • Kanchi • Bengal</span>
+      </div>
+      <div class="font-display text-[10px] text-white/50">
+        © 2026 DRIFT. ALL RIGHTS RESERVED.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT MASTER CHOREOGRAPHY & CANVAS FRAME SCRUBBING                   -->
   <!-- ========================================================================= -->
   <script>
-    // 1. Heirloom Data Contracts
-    const heirlooms = [
-      {
-        num: "VAULT ITEM // 001",
-        title: "Royal Vermilion Kadhwa",
-        origin: "VARANASI ATELIER",
-        badge: "BANARASI JANGALA",
-        price: "₹68,000 // $850",
-        image: "assets/saree_royal_vermilion.jpg",
-        desc: "Woven with hand-spun crimson mulberry silk and dense floral jaal in antique gold zari. The monumental pallu depicts sacred floral vine motifs inspired by 17th-century Mughal royal courts.",
-        silk: "100% Katan Mulberry",
-        zari: "24K Gold Electroplate",
-        time: "48 Handloom Days",
-        guild: "Ansari Heritage, Varanasi",
-        glowClass: "ambient-glow-crimson"
-      },
-      {
-        num: "VAULT ITEM // 002",
-        title: "Marakata Temple Emerald",
-        origin: "KANCHIPURAM GUILD",
-        badge: "KANCHI KORVAI",
-        price: "₹73,500 // $920",
-        image: "assets/saree_marakata_emerald.jpg",
-        desc: "Deep sacred temple green adorned with solid gold temple spires (Kopuram) and interlocking korvai borders. Hand-woven on pit looms with heavy 3-ply mulberry warp.",
-        silk: "Pure Heavy Mulberry Pattu",
-        zari: "Certified Silver & Gold Leaf",
-        time: "56 Handloom Days",
-        guild: "Pachaiyappa Loom Guild, Kanchi",
-        glowClass: "ambient-glow-emerald"
-      },
-      {
-        num: "VAULT ITEM // 003",
-        title: "Chandramukhi Rose-Gold Tissue",
-        origin: "CHANDERI COURTS",
-        badge: "TISSUE ZARI BROCADE",
-        price: "₹59,000 // $740",
-        image: "assets/saree_chandramukhi_ivory.jpg",
-        desc: "Ethereal translucent gossamer silk woven with alternating silver and blush-rose gold metallic threads, catching incandescent ambient highlights.",
-        silk: "Gossamer Organza Tissue",
-        zari: "Rose Gold Micro-Filament",
-        time: "38 Handloom Days",
-        guild: "Scindia Royal Weavers, Chanderi",
-        glowClass: "ambient-glow-crimson"
-      },
-      {
-        num: "VAULT ITEM // 004",
-        title: "Rajkanya Imperial Purple",
-        origin: "PAITHAN ATELIER",
-        badge: "ROYAL PAITHANI ASAVALI",
-        price: "₹49,500 // $620",
-        image: "assets/saree_gulabi_organza.jpg",
-        desc: "Regal midnight violet silk featuring iridescent kaleidoscopic sheen and tapestry-woven golden borders with sacred peacock and muniya motifs.",
-        silk: "Twilled Tussar & Mulberry",
-        zari: "Solid 24k Tested Zari",
-        time: "42 Handloom Days",
-        guild: "Maratha Weaving Guild, Paithan",
-        glowClass: "ambient-glow-crimson"
-      }
-    ];
-
-    // 2. Initialize Lenis Momentum Inertia
+    // 1. Initialize Lenis Momentum Smooth Scrolling
     let lenis = null;
     if (typeof Lenis !== 'undefined') {
       lenis = new Lenis({
         duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
-        wheelMultiplier: 0.9
+        wheelMultiplier: 0.95
       });
-
       lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add((time) => {
-        lenis.raf(time * 1000);
-      });
+      gsap.ticker.add((time) => lenis.raf(time * 1000));
       gsap.ticker.lagSmoothing(0);
     }
 
-    // 3. Canvas 3D Frame Scrubbing
-    const canvas = document.getElementById('sareeCanvas');
+    // 2. Apple-Style 3D Frame Scrubbing Canvas (Paisley Fabric -> Luxury Boutique Showroom)
+    const canvas = document.getElementById('heroScrubCanvas');
     const ctx = canvas.getContext('2d');
 
     const startImg = new Image();
-    startImg.src = 'assets/saree_3d_scroll_start_frame.jpg';
+    startImg.src = 'assets/saree_exact_start_frame.jpg'; // Paisley Red & Gold Weave
     const endImg = new Image();
-    endImg.src = 'assets/saree_3d_scroll_end_frame.jpg';
+    endImg.src = 'assets/saree_exact_end_frame.jpg';     // Luxury Showroom Boutique
 
-    let imagesLoaded = 0;
-    function checkLoaded() {
-      imagesLoaded++;
-      if (imagesLoaded >= 1) {
+    let loaded = 0;
+    function imgReady() {
+      loaded++;
+      if (loaded >= 1) {
         resizeCanvas();
-        renderFrame(0);
+        drawHero(0);
       }
     }
-    startImg.onload = checkLoaded;
-    endImg.onload = checkLoaded;
+    startImg.onload = imgReady;
+    endImg.onload = imgReady;
 
-    // Handle high-DPI canvas resizing
     function resizeCanvas() {
       const dpr = window.devicePixelRatio || 1;
       canvas.width = window.innerWidth * dpr;
@@ -829,265 +1005,227 @@
     }
     window.addEventListener('resize', () => {
       resizeCanvas();
-      renderFrame(window.currentScrubProgress || 0);
+      drawHero(window.heroProgress || 0);
     });
 
-    // Render Scrub Frame with smooth interpolating zoom and perspective
-    function renderFrame(progress) {
-      window.currentScrubProgress = progress;
+    function drawHero(p) {
+      window.heroProgress = p;
       const w = window.innerWidth;
       const h = window.innerHeight;
       ctx.clearRect(0, 0, w, h);
 
-      if (!startImg.complete) return;
-
-      // Calculate smooth aspect-ratio preservation
-      const imgW = startImg.naturalWidth || 1376;
-      const imgH = startImg.naturalHeight || 768;
-      const aspect = imgW / imgH;
-
-      let drawW, drawH, drawX, drawY;
-      if (w / h > aspect) {
-        drawW = w;
-        drawH = w / aspect;
-        drawX = 0;
-        drawY = (h - drawH) / 2;
-      } else {
-        drawH = h;
-        drawW = h * aspect;
-        drawX = (w - drawW) / 2;
-        drawY = 0;
-      }
-
-      // Smooth zoom scaling based on scrub progress
-      const scale = 1 + progress * 0.25;
-      const zoomedW = drawW * scale;
-      const zoomedH = drawH * scale;
-      const zoomedX = drawX - (zoomedW - drawW) * 0.5;
-      const zoomedY = drawY - (zoomedH - drawH) * 0.5;
-
-      // Draw primary start frame
-      ctx.save();
-      ctx.globalAlpha = Math.max(0, 1 - progress * 1.4);
-      ctx.drawImage(startImg, zoomedX, zoomedY, zoomedW, zoomedH);
-      ctx.restore();
-
-      // Cross-fade in the macro gold zari end frame as user reaches bottom of hero
-      if (endImg.complete && progress > 0.3) {
-        const endAlpha = Math.min(1, (progress - 0.3) * 1.5);
+      // Draw Start Frame (Red & Gold Paisley Weave) zooming out in 3D
+      if (startImg.complete && p < 0.75) {
+        const startAlpha = Math.max(0, 1 - p * 1.5);
         ctx.save();
-        ctx.globalAlpha = endAlpha;
-        // Position macro zari on right side
-        const endW = Math.min(w * 0.7, 650);
-        const endH = endW * 1.25;
-        const endX = w - endW - 40;
-        const endY = (h - endH) / 2;
-        ctx.drawImage(endImg, endX, endY, endW, endH);
+        ctx.globalAlpha = startAlpha;
+        const scale = 1.3 - p * 0.4;
+        const dw = w * scale;
+        const dh = h * scale;
+        const dx = (w - dw) / 2;
+        const dy = (h - dh) / 2;
+        ctx.drawImage(startImg, dx, dy, dw, dh);
         ctx.restore();
       }
 
-      // Draw subtle ambient gold dust particle sparkles on canvas
-      drawSparkles(progress, w, h);
+      // Draw End Frame (Luxury Showroom with Mannequins) emerging into view
+      if (endImg.complete && p > 0.15) {
+        const endAlpha = Math.min(1, (p - 0.15) * 1.6);
+        ctx.save();
+        ctx.globalAlpha = endAlpha;
+        const zoom = 1.08 - (1 - p) * 0.08;
+        const dw = w * zoom;
+        const dh = h * zoom;
+        const dx = (w - dw) / 2;
+        const dy = (h - dh) / 2;
+        ctx.drawImage(endImg, dx, dy, dw, dh);
+        ctx.restore();
+      }
     }
 
-    // Sparkle particles
-    const particles = Array.from({ length: 30 }, () => ({
-      x: Math.random(),
-      y: Math.random(),
-      size: Math.random() * 2 + 1,
-      speed: Math.random() * 0.4 + 0.2,
-      opacity: Math.random() * 0.7 + 0.3
-    }));
-
-    function drawSparkles(progress, w, h) {
-      ctx.fillStyle = '#D4AF37';
-      particles.forEach(p => {
-        p.y -= p.speed * 0.002;
-        if (p.y < 0) p.y = 1;
-        ctx.globalAlpha = p.opacity * (1 - progress * 0.5);
-        ctx.beginPath();
-        ctx.arc(p.x * w, p.y * h, p.size, 0, Math.PI * 2);
-        ctx.fill();
-      });
-      ctx.globalAlpha = 1;
-    }
-
-    // 4. GSAP ScrollTrigger Sequence for Hero
+    // GSAP ScrollTrigger timeline for Hero
     gsap.registerPlugin(ScrollTrigger);
 
     ScrollTrigger.create({
-      trigger: '#heroStage',
+      trigger: '#heroShowroom',
       start: 'top top',
       end: 'bottom bottom',
       scrub: 0.6,
       onUpdate: (self) => {
         const p = self.progress;
-        renderFrame(p);
+        drawHero(p);
 
-        // Transform kinetic titles
-        const textStage = document.getElementById('heroTextStage');
-        const telemetryLabel = document.getElementById('heroTelemetryLabel');
-
-        if (textStage) {
-          textStage.style.transform = `translateY(${p * -80}px) scale(${1 - p * 0.15})`;
-          textStage.style.opacity = Math.max(0, 1 - p * 1.6);
-        }
-
-        if (telemetryLabel) {
-          if (p < 0.33) {
-            telemetryLabel.innerText = "FRAME // 01 • ZERO-GRAVITY BANARASI";
-          } else if (p < 0.66) {
-            telemetryLabel.innerText = "FRAME // 02 • WEAVE INTERLACING & TENSION";
-          } else {
-            telemetryLabel.innerText = "FRAME // 03 • 24K GOLD ZARI MACRO SCAN";
-          }
+        const content = document.getElementById('heroContentLayer');
+        if (content) {
+          // Floating titles rise and lock into place
+          content.style.transform = `translateY(${p * -40}px)`;
         }
       }
     });
 
-    // 5. 3D Card Perspective Mouse Tilt Physics
-    const tiltCards = document.querySelectorAll('[data-tilt]');
-    tiltCards.forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        const rotateX = ((y - centerY) / centerY) * -10;
-        const rotateY = ((x - centerX) / centerX) * 10;
-
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-
-        // Specular glare tracking
-        card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
-        card.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
-      });
-
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-      });
-    });
-
-    // 6. Interactive Heirloom Switcher
-    function switchHeirloom(idx) {
-      const item = heirlooms[idx];
-      if (!item) return;
-
-      // Update active pill button
-      document.querySelectorAll('.heirloom-pill').forEach((btn, i) => {
+    // 3. Filmstrip Scrubber Interactive Background Sync (Frame 37s)
+    function scrubFilmstrip(idx, bgSrc, titleText) {
+      document.querySelectorAll('.filmstrip-card').forEach((card, i) => {
         if (i === idx) {
-          btn.className = "heirloom-pill active px-4 py-2 rounded-full border border-zari-500/60 bg-zari-500/20 text-zari-300 font-cinzel text-xs tracking-wider transition-all";
+          card.classList.add('border-gold-400');
+          card.classList.remove('border-white/20');
         } else {
-          btn.className = "heirloom-pill px-4 py-2 rounded-full border border-white/10 bg-white/5 text-white/70 font-cinzel text-xs tracking-wider transition-all";
+          card.classList.remove('border-gold-400');
+          card.classList.add('border-white/20');
         }
       });
 
-      // Update text fields with GSAP fade
-      gsap.to(['#heirloomTitle', '#heirloomDescription', '#heirloomImage', '#heirloomBadge', '#heirloomPrice'], {
-        opacity: 0,
+      const bg = document.getElementById('filmstripBg');
+      const title = document.getElementById('filmstripTitle');
+      const counter = document.getElementById('filmstripCounter');
+
+      bg.style.opacity = '0';
+      setTimeout(() => {
+        bg.src = bgSrc;
+        bg.style.opacity = '0.45';
+      }, 200);
+
+      if (title) title.innerText = titleText;
+      if (counter) counter.innerText = `0${idx + 1} / 05`;
+    }
+
+    // 4. Trends Perspective Card Stack Cycler (Frame 40s)
+    const trendCards = [
+      { front: 'assets/saree_marakata_emerald.jpg', back: 'assets/saree_chandramukhi_ivory.jpg', title: 'Marakata & Violet Pair', edition: '01' },
+      { front: 'assets/saree_royal_vermilion.jpg', back: 'assets/saree_gulabi_organza.jpg', title: 'Royal Vermilion Banarasi', edition: '02' },
+      { front: 'assets/saree_chandramukhi_ivory.jpg', back: 'assets/saree_marakata_emerald.jpg', title: 'Rosewater Gossamer Tissue', edition: '03' }
+    ];
+    let trendIdx = 0;
+
+    function cycleTrends(direction) {
+      trendIdx = (trendIdx + direction + trendCards.length) % trendCards.length;
+      const data = trendCards[trendIdx];
+
+      const front = document.getElementById('stackCardFront');
+      const back = document.getElementById('stackCardBack');
+      const counter = document.getElementById('trendsCounter');
+
+      gsap.to([front, back], {
+        scale: 0.95,
         duration: 0.2,
         onComplete: () => {
-          document.getElementById('heirloomNum').innerText = item.num;
-          document.getElementById('heirloomOrigin').innerText = item.origin;
-          document.getElementById('heirloomBadge').innerText = item.badge;
-          document.getElementById('heirloomPrice').innerText = item.price;
-          document.getElementById('heirloomImage').src = item.image;
-          document.getElementById('heirloomTitle').innerHTML = `${item.title.split(' ')[0]} <span class="italic font-serif text-gold-gradient">${item.title.split(' ').slice(1).join(' ')}</span>`;
-          document.getElementById('heirloomDescription').innerText = item.desc;
-          document.getElementById('specSilk').innerText = item.silk;
-          document.getElementById('specZari').innerText = item.zari;
-          document.getElementById('specTime').innerText = item.time;
-          document.getElementById('specGuild').innerText = item.guild;
+          front.querySelector('img').src = data.front;
+          back.querySelector('img').src = data.back;
+          front.querySelector('h3').innerText = data.title;
+          front.querySelector('span').innerText = `EDITION ${data.edition}`;
+          counter.innerText = `${trendIdx + 1} / 3`;
 
-          // Transition ambient glow class
-          const backlight = document.getElementById('ambientBacklight');
-          backlight.className = `pointer-events-none fixed inset-0 z-0 opacity-40 transition-all duration-1000 ${item.glowClass}`;
-
-          gsap.to(['#heirloomTitle', '#heirloomDescription', '#heirloomImage', '#heirloomBadge', '#heirloomPrice'], {
-            opacity: 1,
-            duration: 0.35
-          });
+          gsap.to([front, back], { scale: 1, duration: 0.3 });
         }
       });
     }
 
-    // 7. Web Audio API Tanpura Drone Synthesizer (Zero asset dependency)
-    let audioCtx = null;
-    let isAudioPlaying = false;
-    let oscillators = [];
+    // 5. Customizer Controls (Frame 31s)
+    let currentQty = 1;
+    function changeQty(delta) {
+      currentQty = Math.max(1, currentQty + delta);
+      document.getElementById('qtyDisplay').innerText = currentQty;
+    }
 
-    const audioToggleBtn = document.getElementById('audioToggleBtn');
-    const audioStatusText = document.getElementById('audioStatusText');
-    const audioVisualizer = document.getElementById('audioVisualizer');
+    function selectSize(btn) {
+      document.querySelectorAll('.size-pill').forEach(b => {
+        b.className = 'size-pill px-4 py-2 rounded-lg border border-[#E0D8C0] bg-white text-[#3D060F] font-display text-xs font-bold hover:border-[#5A0D1A]';
+      });
+      btn.className = 'size-pill active px-4 py-2 rounded-lg border border-[#5A0D1A] bg-[#5A0D1A] text-white font-display text-xs font-bold';
+    }
 
-    function toggleTanpuraDrone() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
+    function selectColor(name, imgSrc) {
+      document.getElementById('selectedColorName').innerText = name;
+      document.getElementById('customizerImage').src = imgSrc;
+    }
 
-      if (!isAudioPlaying) {
-        audioCtx.resume();
-        // Indian Classical Tanpura fundamental frequencies (Sa - Pa - Sa in C# / 138.6 Hz)
-        const baseFreq = 138.59;
-        const freqs = [baseFreq * 0.75, baseFreq, baseFreq * 1.5, baseFreq * 2];
+    function handleMasterAddToCart() {
+      const btn = document.getElementById('addToCartMasterBtn');
+      const txt = document.getElementById('masterBtnText');
+      txt.innerText = 'ADDED TO CART ✓';
+      btn.classList.add('bg-[#27AE60]');
+      btn.classList.remove('bg-[#5A0D1A]');
 
-        oscillators = freqs.map((f, i) => {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.type = i % 2 === 0 ? 'sine' : 'triangle';
-          osc.frequency.setValueAtTime(f, audioCtx.currentTime);
+      addToBag('Gulabi Rosewater Organza', 24800);
 
-          // Gentle ambient volume
-          gain.gain.setValueAtTime(0.015 / (i + 1), audioCtx.currentTime);
+      setTimeout(() => {
+        txt.innerText = 'ADD TO CART';
+        btn.classList.remove('bg-[#27AE60]');
+        btn.classList.add('bg-[#5A0D1A]');
+      }, 2000);
+    }
 
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-          osc.start();
-          return { osc, gain };
-        });
+    // 6. Interactive Bag / Cart Drawer
+    let cart = [];
 
-        isAudioPlaying = true;
-        audioStatusText.innerText = "Ambience: ON";
-        audioVisualizer.classList.remove('opacity-40');
+    function toggleCartDrawer() {
+      const drawer = document.getElementById('cartDrawer');
+      const backdrop = document.getElementById('cartBackdrop');
+      const isOpen = !drawer.classList.contains('translate-x-full');
+
+      if (isOpen) {
+        drawer.classList.add('translate-x-full');
+        backdrop.classList.add('hidden');
       } else {
-        oscillators.forEach(o => {
-          o.gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.5);
-          setTimeout(() => o.osc.stop(), 500);
-        });
-        oscillators = [];
-        isAudioPlaying = false;
-        audioStatusText.innerText = "Ambience: OFF";
-        audioVisualizer.classList.add('opacity-40');
-      }
-    }
-    audioToggleBtn.addEventListener('click', toggleTanpuraDrone);
-
-    // 8. Concierge Booking Form Handler
-    function handleBookingSubmit(e) {
-      e.preventDefault();
-      document.getElementById('bookingForm').classList.add('hidden');
-      document.getElementById('bookingSuccessMessage').classList.remove('hidden');
-    }
-
-    function openInquiryModal() {
-      const atelierSection = document.getElementById('atelierBooking');
-      if (atelierSection) {
-        if (lenis) {
-          lenis.scrollTo(atelierSection, { offset: -40 });
-        } else {
-          atelierSection.scrollIntoView({ behavior: 'smooth' });
-        }
+        drawer.classList.remove('translate-x-full');
+        backdrop.classList.remove('hidden');
       }
     }
 
-    function viewMacroInspection() {
-      document.getElementById('macroModal').classList.remove('hidden');
+    function addToBag(title, price) {
+      cart.push({ title, price, id: Date.now() });
+      updateCartUI();
+      toggleCartDrawer();
     }
 
-    function closeMacroModal() {
-      document.getElementById('macroModal').classList.add('hidden');
+    function removeCartItem(id) {
+      cart = cart.filter(item => item.id !== id);
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const badge = document.getElementById('cartCountBadge');
+      const list = document.getElementById('cartItemsList');
+      const empty = document.getElementById('cartEmptyState');
+      const subtotal = document.getElementById('cartSubtotal');
+
+      badge.innerText = cart.length;
+
+      if (cart.length === 0) {
+        empty.classList.remove('hidden');
+        list.innerHTML = '';
+        list.appendChild(empty);
+        subtotal.innerText = '₹0';
+        return;
+      }
+
+      empty.classList.add('hidden');
+      list.innerHTML = '';
+
+      let total = 0;
+      cart.forEach(item => {
+        total += item.price;
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between p-3 rounded-xl border border-[#E5DECA] bg-[#FAF6EE]';
+        row.innerHTML = `
+          <div>
+            <h4 class="font-serif text-sm font-semibold text-[#3D060F]">${item.title}</h4>
+            <span class="font-serif text-xs text-[#5A0D1A] font-bold">₹${item.price.toLocaleString('en-IN')}</span>
+          </div>
+          <button onclick="removeCartItem(${item.id})" class="text-xs text-red-600 hover:text-red-800 font-bold">Remove</button>
+        `;
+        list.appendChild(row);
+      });
+
+      subtotal.innerText = `₹${total.toLocaleString('en-IN')}`;
+    }
+
+    function playShowroomTour() {
+      if (lenis) {
+        lenis.scrollTo('#filmstripScrubberSection', { offset: 0 });
+      } else {
+        document.getElementById('filmstripScrubberSection').scrollIntoView({ behavior: 'smooth' });
+      }
     }
   </script>
 
