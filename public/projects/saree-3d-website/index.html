@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <base href="/projects/saree-3d-website/" />
   <title>DRIFT // Draped In Stories — Luxury Silk Sarees</title>
-  <meta name="description" content="DRIFT — Draped In Stories. Timeless handwoven silk sarees, bridal couture, and modern heritage weaves." />
+  <meta name="description" content="DRIFT — Draped In Stories. Timeless handwoven silk sarees, bridal couture, 3D spatial showcases, and modern heritage weaves." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>" />
 
   <!-- Google Fonts: Editorial & Luxury Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -59,45 +60,93 @@
 
     body {
       background-color: #FAF6EE;
-      color: #1A1418;
+      color: #1A050A;
       overflow-x: hidden;
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
-    /* Arched Doorway Geometry for SIX MOODS & AW26 */
+    /* 3D Perspective Stage */
+    .perspective-stage {
+      perspective: 1400px;
+      transform-style: preserve-3d;
+    }
+
+    /* 3D Cylindrical Ring Carousel (Image 1) */
+    .cylinder-container {
+      perspective: 1400px;
+      transform-style: preserve-3d;
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .cylinder-card {
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+    .cylinder-card:hover {
+      transform: translateZ(50px) scale(1.05) !important;
+      box-shadow: 0 30px 60px -15px rgba(61, 6, 15, 0.35);
+      z-index: 30;
+    }
+
+    /* Arched Portal Geometry */
     .arched-portal {
-      border-radius: 140px 140px 16px 16px;
+      border-radius: 9999px 9999px 24px 24px;
       overflow: hidden;
       position: relative;
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
-    }
-    .arched-portal:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px -15px rgba(90, 13, 26, 0.3);
     }
 
-    /* 3D Perspective Card Physics */
-    .perspective-stage {
-      perspective: 1200px;
-      transform-style: preserve-3d;
+    /* Accordion Slit Curtain (Image 5) */
+    .slit-strip {
+      flex: 1;
+      height: 480px;
+      transition: flex 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
     }
-    .tilt-3d {
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      transform-style: preserve-3d;
-      will-change: transform;
+    .slit-strip img {
+      filter: grayscale(100%) brightness(0.8);
+      transition: filter 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .slit-strip:hover {
+      flex: 3.5;
+    }
+    .slit-strip:hover img {
+      filter: grayscale(0%) brightness(1);
+      transform: scale(1.04);
+    }
+    .slit-strip .strip-badge {
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .slit-strip:hover .strip-badge {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    .slit-strip .expanded-caption {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s;
+    }
+    .slit-strip:hover .expanded-caption {
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    /* 3D Angled Stack (Latest Trends) */
-    .stack-angled-1 {
-      transform: rotateY(-16deg) rotateX(6deg) translateZ(40px);
-      box-shadow: -20px 25px 50px rgba(0,0,0,0.25);
+    /* 3D Angled Perspective Cards (Image 6 / Latest Trends) */
+    .tilt-card-front {
+      transform: rotateY(-14deg) rotateX(4deg) translateZ(30px);
+      box-shadow: -20px 30px 60px -10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .stack-angled-2 {
-      transform: rotateY(-16deg) rotateX(6deg) translateZ(-40px) translateX(60px);
-      box-shadow: -15px 20px 40px rgba(0,0,0,0.18);
+    .tilt-card-back {
+      transform: rotateY(-14deg) rotateX(4deg) translateZ(-40px) translateX(60px) translateY(-15px);
+      box-shadow: -15px 25px 45px -10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .tilt-card-front:hover {
+      transform: rotateY(-6deg) rotateX(0deg) translateZ(50px);
     }
 
-    /* Infinite Marquee Animation */
+    /* Infinite Ribbon Keyframes */
     @keyframes marquee {
       0% { transform: translateX(0%); }
       100% { transform: translateX(-50%); }
@@ -105,53 +154,45 @@
     .animate-marquee {
       display: flex;
       width: 200%;
-      animation: marquee 28s linear infinite;
+      animation: marquee 24s linear infinite;
     }
     .animate-marquee:hover {
       animation-play-state: paused;
     }
 
-    /* Gold Gradient text */
-    .text-gold-gradient {
-      background: linear-gradient(135deg, #D4AF37 0%, #B58D20 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    /* Wavy Scalloped SVG Dividers */
+    .wavy-top {
+      mask-image: radial-gradient(circle at 50% 100%, black 70%, transparent 100%);
     }
   </style>
 </head>
-
-<body class="relative min-h-screen antialiased selection:bg-gold-500 selection:text-black">
+<body class="antialiased selection:bg-[#D4AF37] selection:text-[#0A0709]">
 
   <!-- ========================================================================= -->
-  <!-- TOP ANNOUNCEMENT TICKER (As seen in the original reel)                    -->
+  <!-- TOP ANNOUNCEMENT BANNER (Image 1 top header)                               -->
   <!-- ========================================================================= -->
-  <div class="bg-[#5A0D1A] text-white py-2 px-4 border-b border-[#7A1526] text-[11px] font-medium tracking-widest uppercase flex items-center justify-between z-50 relative">
-    <div class="hidden md:flex items-center gap-3 text-gold-300">
-      <span>✦ NEW DROP</span>
-      <span>•</span>
-      <span class="bg-[#D4AF37] text-black px-2 py-0.5 rounded text-[10px] font-bold">UP TO 40% OFF</span>
-      <span>•</span>
-      <span>FREE SHIPPING ALL OVER INDIA ✦</span>
+  <div class="bg-[#3D060F] text-gold-300 py-2.5 px-4 text-center font-display text-[10px] md:text-xs tracking-[0.2em] uppercase font-bold flex items-center justify-between border-b border-[#5A0D1A] select-none">
+    <div class="hidden md:flex items-center gap-3">
+      <span class="text-white/60">FESTIVE & BRIDAL COUTURE 2026 // HANDWOVEN HEIRLOOMS</span>
     </div>
-
-    <div class="w-full md:w-auto text-center font-display tracking-wider text-white/90">
-      FESTIVE & BRIDAL COUTURE 2026 // HANDWOVEN HEIRLOOMS
+    <div class="flex-1 text-center">
+      <span>✦ NEW DROP • UP TO 40% OFF • FREE SHIPPING ALL OVER INDIA ✦</span>
     </div>
-
-    <div class="hidden sm:flex items-center gap-4 text-[10px] text-white/80">
-      <button class="hover:text-gold-300 transition-colors">INR ₹ (India) ▾</button>
-      <button class="hover:text-gold-300 transition-colors">EN ▾</button>
+    <div class="hidden md:flex items-center gap-4 text-white/70 text-[10px]">
+      <span class="cursor-pointer hover:text-gold-300">INR ₹ (INDIA) ▾</span>
+      <span>•</span>
+      <span class="cursor-pointer hover:text-gold-300">EN ▾</span>
     </div>
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MAIN NAVIGATION HEADER                                                    -->
+  <!-- LUXURY EDITORIAL NAVBAR: DRIFT (DRAPED IN STORIES)                        -->
   <!-- ========================================================================= -->
-  <header id="mainNav" class="sticky top-0 left-0 right-0 z-40 bg-[#FAF6EE]/95 backdrop-blur-md border-b border-[#E6DFC8] py-4 px-6 md:px-12 flex items-center justify-between transition-all duration-300">
+  <header id="mainNav" class="sticky top-0 left-0 right-0 z-40 bg-[#FAF6EE]/95 backdrop-blur-md border-b border-[#E6DFC8] py-3.5 px-6 md:px-12 flex items-center justify-between transition-all duration-300">
     
     <!-- Brand Logo: DRIFT (Draped in Stories) -->
-    <a href="#" class="flex flex-col">
-      <div class="flex items-center gap-2">
+    <a href="#heroShowroom" class="flex flex-col">
+      <div class="flex items-center gap-1.5">
         <span class="font-serif text-2xl md:text-3xl font-bold tracking-tight text-[#3D060F]">DRIFT<span class="text-gold-500 font-sans text-xl">®</span></span>
       </div>
       <span class="font-display text-[9px] tracking-[0.25em] text-[#5A0D1A] uppercase font-semibold">DRAPED IN STORIES</span>
@@ -160,22 +201,22 @@
     <!-- Center Navigation Links -->
     <nav class="hidden lg:flex items-center gap-8 text-xs font-semibold tracking-wider uppercase text-[#3D060F]/80">
       <a href="#heroShowroom" class="hover:text-[#5A0D1A] transition-colors">Home</a>
-      <a href="#sixMoods" class="hover:text-[#5A0D1A] transition-colors">Sarees</a>
-      <a href="#newArrivals" class="hover:text-[#5A0D1A] transition-colors">Collections</a>
+      <a href="#driftSignatures" class="hover:text-[#5A0D1A] transition-colors">Signatures</a>
+      <a href="#trendsSection" class="hover:text-[#5A0D1A] transition-colors">Trends</a>
+      <a href="#lookbookCustomizer" class="hover:text-[#5A0D1A] transition-colors">Customizer</a>
       <a href="#bridalCollection" class="hover:text-[#5A0D1A] transition-colors">Bridal</a>
-      <a href="#autumnWinter" class="hover:text-[#5A0D1A] transition-colors">Occasion</a>
-      <a href="#latestTrends" class="hover:text-[#5A0D1A] transition-colors">Stories</a>
+      <a href="#worthAttention" class="hover:text-[#5A0D1A] transition-colors">Lookbook</a>
     </nav>
 
-    <!-- Right Controls: Search, Wishlist, User, Cart -->
-    <div class="flex items-center gap-4">
+    <!-- Right Controls: Search, Wishlist, Bag -->
+    <div class="flex items-center gap-3">
       <!-- Search Input Pill -->
       <div class="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#D5CCA8] bg-white text-xs text-[#5A0D1A]">
         <svg class="w-3.5 h-3.5 text-[#5A0D1A]/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" placeholder="Search sarees, fabrics, stories..." class="bg-transparent border-none outline-none text-xs w-40 md:w-52 placeholder-[#5A0D1A]/40" />
+        <input type="text" placeholder="Search sarees, fabrics, stories..." class="bg-transparent border-none outline-none text-xs w-36 md:w-48 placeholder-[#5A0D1A]/40" />
       </div>
 
       <!-- Wishlist Heart -->
@@ -200,23 +241,22 @@
   </header>
 
   <!-- ========================================================================= -->
-  <!-- SECTION 1: 3D SCROLL VIDEO HERO STAGE (Macro Paisley -> Grand Showroom)   -->
+  <!-- HERO SHOWROOM: 3D PINNED CANVAS SCRUB (Macro Paisley -> Boutique Showroom) -->
   <!-- ========================================================================= -->
-  <section id="heroShowroom" class="relative w-full h-[240vh] bg-[#0A0709]">
+  <section id="heroShowroom" class="relative w-full h-[220vh] bg-[#0A0709]">
     
-    <!-- Pinned Viewport Container -->
     <div id="pinnedHeroContainer" class="sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center justify-center">
       
-      <!-- HTML5 Canvas for Apple-style 3D Frame Scrubbing between Start & End Frame -->
+      <!-- Apple-Style Frame Scrub Canvas -->
       <canvas id="heroScrubCanvas" class="absolute inset-0 w-full h-full object-cover pointer-events-none z-10"></canvas>
 
-      <!-- Overlay Vignette -->
-      <div class="absolute inset-0 pointer-events-none z-15 bg-gradient-to-t from-black/80 via-transparent to-black/40"></div>
+      <!-- Ambient Lighting & Vignette Overlay -->
+      <div class="absolute inset-0 pointer-events-none z-15 bg-gradient-to-t from-black/85 via-black/20 to-black/50"></div>
 
-      <!-- Hero Typography & CTAs (Exact Replica from Reel Frame 4s) -->
+      <!-- Hero Typography & Direct CTAs -->
       <div id="heroContentLayer" class="relative z-20 w-full max-w-7xl mx-auto px-6 md:px-12 h-full flex flex-col justify-between py-24 pointer-events-none">
         
-        <!-- Top Provenance Tag -->
+        <!-- Top Status Pill -->
         <div class="flex items-center justify-between">
           <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-gold-300 font-display text-[10px] tracking-[0.2em] uppercase">
             <span class="w-1.5 h-1.5 rounded-full bg-gold-400 animate-ping"></span>
@@ -227,10 +267,10 @@
           </span>
         </div>
 
-        <!-- Center Stage Headline & Description -->
+        <!-- Center Stage Headline -->
         <div class="max-w-2xl my-auto">
-          <p class="font-serif italic text-gold-300 text-sm md:text-base tracking-widest uppercase mb-2">
-            A STORY YOU WEAR
+          <p class="font-script text-3xl md:text-4xl text-gold-300 tracking-wide mb-1">
+            A Story You Wear
           </p>
           <h1 class="font-serif text-5xl sm:text-7xl md:text-8xl text-white font-normal leading-[1.05] tracking-tight">
             More Than a <span class="italic font-serif text-gold-400">Saree</span>
@@ -239,31 +279,31 @@
             Timeless weaves. Modern expressions. Crafted for you in every moment, from royal Banarasi silk to architectural temple borders.
           </p>
 
-          <!-- Dual Call to Action Buttons -->
+          <!-- Action Buttons -->
           <div class="flex items-center gap-4 mt-8 pointer-events-auto flex-wrap">
-            <a href="#newArrivals" class="px-7 py-3 rounded-full bg-[#E6C65D] hover:bg-[#D4AF37] text-black font-display text-xs uppercase tracking-[0.18em] font-bold transition-all shadow-lg shadow-gold-500/20 flex items-center gap-2">
+            <a href="#driftSignatures" class="px-7 py-3 rounded-full bg-[#E6C65D] hover:bg-[#D4AF37] text-black font-display text-xs uppercase tracking-[0.18em] font-bold transition-all shadow-lg shadow-gold-500/20 flex items-center gap-2">
               <span>EXPLORE COLLECTION</span>
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
-            <button onclick="playShowroomTour()" class="px-7 py-3 rounded-full border border-white/40 hover:border-gold-400 hover:text-gold-300 text-white font-display text-xs uppercase tracking-[0.18em] font-semibold transition-all backdrop-blur-sm flex items-center gap-2">
+            <button onclick="openVideoPlayer()" class="px-7 py-3 rounded-full border border-white/40 hover:border-gold-400 hover:text-gold-300 text-white font-display text-xs uppercase tracking-[0.18em] font-semibold transition-all backdrop-blur-sm flex items-center gap-2">
               <svg class="w-4 h-4 text-gold-400" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-              <span>WATCH OUR STORY</span>
+              <span>WATCH 1080P SHOWCASE</span>
             </button>
           </div>
         </div>
 
-        <!-- Bottom Feature Badges (Exact from Frame 4s) -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-white/15 font-display text-xs text-white/90">
+        <!-- Bottom Trust Badges -->
+        <div class="flex items-center gap-8 text-white/70 text-xs font-display tracking-wider uppercase flex-wrap">
           <div class="flex items-center gap-2">
-            <svg class="w-4 h-4 text-gold-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <svg class="w-4 h-4 text-gold-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
             <span>100% Authentic Weaves</span>
           </div>
           <div class="flex items-center gap-2">
             <svg class="w-4 h-4 text-gold-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
             <span>Free Shipping Across India</span>
           </div>
-          <div class="flex items-center gap-2 sm:justify-end">
-            <svg class="w-4 h-4 text-gold-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-gold-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
             <span>Easy Returns Within 7 Days</span>
           </div>
         </div>
@@ -274,7 +314,7 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- CONTINUOUS MARQUEE TICKER (Frame 8s)                                      -->
+  <!-- CONTINUOUS RUNNING GOLD MARQUEE RIBBON                                    -->
   <!-- ========================================================================= -->
   <div class="bg-[#5A0D1A] text-gold-300 py-3 overflow-hidden border-t border-b border-[#7A1526] select-none">
     <div class="animate-marquee font-display text-xs md:text-sm tracking-[0.2em] uppercase font-semibold flex items-center gap-8">
@@ -304,475 +344,518 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- SECTION 2: "SIX MOODS." (The 6 Arched Doorways - Frame 8s)                -->
+  <!-- SECTION 1 (IMAGE 1): "THE DRIFT SIGNATURES // Woven to Be Remembered"    -->
+  <!-- Authentic 3D Cylindrical Arc Carousel with Mouse Tracking Physics         -->
   <!-- ========================================================================= -->
-  <section id="sixMoods" class="py-28 px-6 md:px-12 max-w-7xl mx-auto bg-[#FAF6EE]">
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
-      <div>
-        <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl text-[#3D060F] font-bold tracking-tight">
-          SIX MOODS.
-        </h2>
-        <p class="font-display text-xs uppercase tracking-[0.25em] text-[#5A0D1A] mt-2 font-semibold">
-          CURATED DRAPES FOR EVERY CELEBRATION
-        </p>
-      </div>
-      <p class="font-script text-3xl sm:text-4xl text-[#B58D20] transform -rotate-1">
-        Woven to Be Remembered
-      </p>
-    </div>
-
-    <!-- The 6 Arched Portal Cards -->
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
-      
-      <!-- Card 1: Heritage Morning -->
-      <div class="arched-portal group cursor-pointer bg-[#F0EBE1] border border-[#E3DCB8] flex flex-col justify-end h-80 md:h-96 p-4">
-        <img src="assets/craft_warp_weft.jpg" alt="Heritage Morning Silk" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80';" />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
-        <div class="relative z-10 text-white text-center">
-          <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">01 // MORNING</span>
-          <h3 class="font-serif text-sm font-semibold text-white group-hover:text-gold-300 transition-colors">Temple Cyan</h3>
-        </div>
-      </div>
-
-      <!-- Card 2: Festive Haldi -->
-      <div class="arched-portal group cursor-pointer bg-[#F0EBE1] border border-[#E3DCB8] flex flex-col justify-end h-80 md:h-96 p-4">
-        <img src="assets/craft_gold_zari.jpg" alt="Festive Haldi Silk" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=600&q=80';" />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
-        <div class="relative z-10 text-white text-center">
-          <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">02 // HALDI</span>
-          <h3 class="font-serif text-sm font-semibold text-white group-hover:text-gold-300 transition-colors">Golden Saffron</h3>
-        </div>
-      </div>
-
-      <!-- Card 3: Sangeet Sunset -->
-      <div class="arched-portal group cursor-pointer bg-[#F0EBE1] border border-[#E3DCB8] flex flex-col justify-end h-80 md:h-96 p-4">
-        <img src="assets/saree_chandramukhi_ivory.jpg" alt="Sangeet Sunset Silk" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80';" />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
-        <div class="relative z-10 text-white text-center">
-          <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">03 // SANGEET</span>
-          <h3 class="font-serif text-sm font-semibold text-white group-hover:text-gold-300 transition-colors">Tangerine Twilight</h3>
-        </div>
-      </div>
-
-      <!-- Card 4: Mehendi Blossom -->
-      <div class="arched-portal group cursor-pointer bg-[#F0EBE1] border border-[#E3DCB8] flex flex-col justify-end h-80 md:h-96 p-4">
-        <img src="assets/saree_gulabi_organza.jpg" alt="Mehendi Blossom Silk" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1606259458027-54d2a728b6ab?auto=format&fit=crop&w=600&q=80';" />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
-        <div class="relative z-10 text-white text-center">
-          <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">04 // MEHENDI</span>
-          <h3 class="font-serif text-sm font-semibold text-white group-hover:text-gold-300 transition-colors">Imperial Violet</h3>
-        </div>
-      </div>
-
-      <!-- Card 5: Royal Reception -->
-      <div class="arched-portal group cursor-pointer bg-[#F0EBE1] border border-[#E3DCB8] flex flex-col justify-end h-80 md:h-96 p-4">
-        <img src="assets/saree_marakata_emerald.jpg" alt="Royal Reception Silk" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1753981031189-27bb7bd1c079?auto=format&fit=crop&w=600&q=80';" />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
-        <div class="relative z-10 text-white text-center">
-          <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">05 // RECEPTION</span>
-          <h3 class="font-serif text-sm font-semibold text-white group-hover:text-gold-300 transition-colors">Marakata Emerald</h3>
-        </div>
-      </div>
-
-      <!-- Card 6: Grand Muhurtham -->
-      <div class="arched-portal group cursor-pointer bg-[#F0EBE1] border border-[#E3DCB8] flex flex-col justify-end h-80 md:h-96 p-4">
-        <img src="assets/saree_royal_vermilion.jpg" alt="Grand Muhurtham Silk" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80';" />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
-        <div class="relative z-10 text-white text-center">
-          <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">06 // MUHURTHAM</span>
-          <h3 class="font-serif text-sm font-semibold text-white group-hover:text-gold-300 transition-colors">Royal Vermilion</h3>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ========================================================================= -->
-  <!-- SECTION 3: "New Arrivals" (Frame 13s)                                     -->
-  <!-- ========================================================================= -->
-  <section id="newArrivals" class="py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-[#E6DFC8]">
+  <section id="driftSignatures" class="py-24 px-6 md:px-12 max-w-7xl mx-auto overflow-hidden">
     
-    <!-- Top Arched Curved Ribbon (Exact from Frame 13s) -->
-    <div class="bg-[#3D060F] text-white py-3 px-6 rounded-2xl flex items-center justify-between overflow-x-auto text-xs font-display tracking-widest uppercase mb-12 shadow-lg gap-6">
-      <span class="text-gold-300 font-bold whitespace-nowrap">✦ Ruhani Temple Silk</span>
-      <span class="text-white/40">•</span>
-      <span class="whitespace-nowrap hover:text-gold-300 cursor-pointer">Saanjh Maroon Banarasi</span>
-      <span class="text-white/40">•</span>
-      <span class="whitespace-nowrap hover:text-gold-300 cursor-pointer">Prerna Festive Silk</span>
-      <span class="text-white/40">•</span>
-      <span class="whitespace-nowrap hover:text-gold-300 cursor-pointer">Tara Peacock Paithani</span>
-      <span class="text-white/40">•</span>
-      <span class="whitespace-nowrap hover:text-gold-300 cursor-pointer">Ananya Emerald Kanjivaram</span>
+    <!-- Top Category Bar (Exact from Image 1) -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-10">
+      <button onclick="filterSignature('WEDDING EDIT')" class="sig-tag px-3 py-2 rounded-xl border border-[#D5CCA8] bg-white hover:border-[#5A0D1A] text-[#3D060F] font-display text-[11px] font-bold tracking-wider uppercase transition-all shadow-sm">
+        WEDDING EDIT
+      </button>
+      <button onclick="filterSignature('KANCHEEPURAM STORIES')" class="sig-tag px-3 py-2 rounded-xl border border-[#D5CCA8] bg-white hover:border-[#5A0D1A] text-[#3D060F] font-display text-[11px] font-bold tracking-wider uppercase transition-all shadow-sm">
+        KANCHEEPURAM STORIES
+      </button>
+      <button onclick="filterSignature('BANARASI HEIRLOOMS')" class="sig-tag px-3 py-2 rounded-xl border border-[#D5CCA8] bg-white hover:border-[#5A0D1A] text-[#3D060F] font-display text-[11px] font-bold tracking-wider uppercase transition-all shadow-sm">
+        BANARASI HEIRLOOMS
+      </button>
+      <button onclick="filterSignature('FESTIVE RADIANCE')" class="sig-tag px-3 py-2 rounded-xl border border-[#D5CCA8] bg-white hover:border-[#5A0D1A] text-[#3D060F] font-display text-[11px] font-bold tracking-wider uppercase transition-all shadow-sm">
+        FESTIVE RADIANCE
+      </button>
+      <button onclick="filterSignature('THE SIGNATURES')" class="sig-tag active px-3 py-2 rounded-xl border border-[#5A0D1A] bg-[#5A0D1A] text-white font-display text-[11px] font-bold tracking-wider uppercase transition-all shadow-sm">
+        THE SIGNATURES
+      </button>
+      <button onclick="filterSignature('BRIDAL EDIT')" class="sig-tag px-3 py-2 rounded-xl border border-[#D5CCA8] bg-white hover:border-[#5A0D1A] text-[#3D060F] font-display text-[11px] font-bold tracking-wider uppercase transition-all shadow-sm">
+        BRIDAL EDIT
+      </button>
     </div>
 
-    <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
+    <!-- Section Heading: Woven to Be Remembered -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
       <div>
-        <span class="font-display text-[11px] uppercase tracking-[0.25em] text-[#5A0D1A] font-semibold block mb-1">
-          FRESH FROM THE LOOM
+        <span class="font-display text-[11px] uppercase tracking-[0.25em] text-[#5A0D1A] font-bold block mb-1">
+          THE DRIFT SIGNATURES
         </span>
-        <h2 class="font-serif text-4xl sm:text-5xl text-[#3D060F] font-normal">
-          New Arrivals
+        <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl text-[#3D060F] font-normal tracking-tight">
+          Woven to Be <span class="font-script text-5xl sm:text-6xl text-[#B58D20] ml-1">Remembered</span>
         </h2>
       </div>
-      <a href="#sixMoods" class="font-display text-xs uppercase tracking-widest text-[#5A0D1A] font-bold hover:text-[#B58D20] transition-colors mt-4 sm:mt-0 flex items-center gap-1">
-        <span>VIEW ALL PIECES</span>
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <a href="#trendsSection" class="font-display text-xs uppercase tracking-[0.2em] text-[#5A0D1A] font-bold hover:text-[#B58D20] transition-colors flex items-center gap-1.5">
+        <span>EXPLORE THE EDIT</span>
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     </div>
 
-    <!-- Product Card Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
-      <!-- Item 1 -->
-      <div class="group bg-white rounded-2xl border border-[#E8E2D0] p-4 flex flex-col justify-between hover:shadow-xl transition-all">
-        <div class="relative w-full h-80 rounded-xl overflow-hidden mb-4 bg-[#F2EDE1]">
-          <img src="assets/saree_royal_vermilion.jpg" alt="Reva Temple Red Silk" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-          <span class="absolute top-3 left-3 bg-[#5A0D1A] text-white text-[9px] font-bold px-2.5 py-0.5 rounded uppercase tracking-wider">NEW</span>
-          <button onclick="addToBag('Reva Temple Red Silk', 21200)" class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-[#5A0D1A] hover:bg-[#5A0D1A] hover:text-white transition-colors" title="Quick Add">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-          </button>
-        </div>
-        <div>
-          <div class="flex items-center justify-between mb-1">
-            <h3 class="font-serif text-base font-semibold text-[#3D060F]">Reva Temple Red Silk</h3>
-            <span class="text-xs text-amber-500">★★★★★</span>
-          </div>
-          <p class="font-display text-xs text-[#5A0D1A]/70 mb-3 font-medium">Banarasi Katan • Pure Zari</p>
-          <div class="flex items-center justify-between border-t border-[#EFE9D9] pt-3">
-            <span class="font-serif text-lg font-bold text-[#3D060F]">₹21,200</span>
-            <button onclick="addToBag('Reva Temple Red Silk', 21200)" class="text-xs font-display uppercase tracking-wider text-[#5A0D1A] font-bold hover:text-[#B58D20]">ADD TO BAG</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Item 2 -->
-      <div class="group bg-white rounded-2xl border border-[#E8E2D0] p-4 flex flex-col justify-between hover:shadow-xl transition-all">
-        <div class="relative w-full h-80 rounded-xl overflow-hidden mb-4 bg-[#F2EDE1]">
-          <img src="assets/saree_marakata_emerald.jpg" alt="Nayana Coral Kanjivaram" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-          <span class="absolute top-3 left-3 bg-[#0D3823] text-white text-[9px] font-bold px-2.5 py-0.5 rounded uppercase tracking-wider">HERITAGE</span>
-          <button onclick="addToBag('Nayana Coral Kanjivaram', 25600)" class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-[#5A0D1A] hover:bg-[#5A0D1A] hover:text-white transition-colors" title="Quick Add">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-          </button>
-        </div>
-        <div>
-          <div class="flex items-center justify-between mb-1">
-            <h3 class="font-serif text-base font-semibold text-[#3D060F]">Nayana Coral Kanjivaram</h3>
-            <span class="text-xs text-amber-500">★★★★★</span>
-          </div>
-          <p class="font-display text-xs text-[#5A0D1A]/70 mb-3 font-medium">3-Ply Pure Pattu • Gold Korvai</p>
-          <div class="flex items-center justify-between border-t border-[#EFE9D9] pt-3">
-            <span class="font-serif text-lg font-bold text-[#3D060F]">₹25,600</span>
-            <button onclick="addToBag('Nayana Coral Kanjivaram', 25600)" class="text-xs font-display uppercase tracking-wider text-[#5A0D1A] font-bold hover:text-[#B58D20]">ADD TO BAG</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Item 3 -->
-      <div class="group bg-white rounded-2xl border border-[#E8E2D0] p-4 flex flex-col justify-between hover:shadow-xl transition-all">
-        <div class="relative w-full h-80 rounded-xl overflow-hidden mb-4 bg-[#F2EDE1]">
-          <img src="assets/saree_chandramukhi_ivory.jpg" alt="Suhana Ceremony Edit" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-          <span class="absolute top-3 left-3 bg-[#B58D20] text-white text-[9px] font-bold px-2.5 py-0.5 rounded uppercase tracking-wider">EXCLUSIVE</span>
-          <button onclick="addToBag('Suhana Ceremony Edit', 29500)" class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-[#5A0D1A] hover:bg-[#5A0D1A] hover:text-white transition-colors" title="Quick Add">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-          </button>
-        </div>
-        <div>
-          <div class="flex items-center justify-between mb-1">
-            <h3 class="font-serif text-base font-semibold text-[#3D060F]">Suhana Ceremony Edit</h3>
-            <span class="text-xs text-amber-500">★★★★★</span>
-          </div>
-          <p class="font-display text-xs text-[#5A0D1A]/70 mb-3 font-medium">Tissue Organza • Rose Gold Zari</p>
-          <div class="flex items-center justify-between border-t border-[#EFE9D9] pt-3">
-            <span class="font-serif text-lg font-bold text-[#3D060F]">₹29,500</span>
-            <button onclick="addToBag('Suhana Ceremony Edit', 29500)" class="text-xs font-display uppercase tracking-wider text-[#5A0D1A] font-bold hover:text-[#B58D20]">ADD TO BAG</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Item 4 -->
-      <div class="group bg-white rounded-2xl border border-[#E8E2D0] p-4 flex flex-col justify-between hover:shadow-xl transition-all">
-        <div class="relative w-full h-80 rounded-xl overflow-hidden mb-4 bg-[#F2EDE1]">
-          <img src="assets/saree_gulabi_organza.jpg" alt="Devasena Wedding Silk" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-          <span class="absolute top-3 left-3 bg-[#471249] text-white text-[9px] font-bold px-2.5 py-0.5 rounded uppercase tracking-wider">ROYAL</span>
-          <button onclick="addToBag('Devasena Wedding Silk', 28500)" class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-[#5A0D1A] hover:bg-[#5A0D1A] hover:text-white transition-colors" title="Quick Add">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-          </button>
-        </div>
-        <div>
-          <div class="flex items-center justify-between mb-1">
-            <h3 class="font-serif text-base font-semibold text-[#3D060F]">Devasena Wedding Silk</h3>
-            <span class="text-xs text-amber-500">★★★★★</span>
-          </div>
-          <p class="font-display text-xs text-[#5A0D1A]/70 mb-3 font-medium">Paithani Brocade • Peacock Pallu</p>
-          <div class="flex items-center justify-between border-t border-[#EFE9D9] pt-3">
-            <span class="font-serif text-lg font-bold text-[#3D060F]">₹28,500</span>
-            <button onclick="addToBag('Devasena Wedding Silk', 28500)" class="text-xs font-display uppercase tracking-wider text-[#5A0D1A] font-bold hover:text-[#B58D20]">ADD TO BAG</button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ========================================================================= -->
-  <!-- SECTION 4: "The Bridal Collection" (Dark Velvet Stage - Frame 19s)       -->
-  <!-- ========================================================================= -->
-  <section id="bridalCollection" class="py-28 px-6 md:px-12 bg-[#0C0608] text-white relative overflow-hidden">
-    <!-- Ambient Red Velvet Glow -->
-    <div class="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-[#5A0D1A]/20 filter blur-[100px] pointer-events-none"></div>
-
-    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+    <!-- 3D Curved Cylindrical Carousel Stage (Exact from Image 1) -->
+    <div id="cylinderStage" class="relative py-8 overflow-hidden select-none" onmousemove="handleCylinderMouse(event)" onmouseleave="resetCylinder()">
       
-      <!-- Left Column: Monumental Bridal Portrait with Red Velvet Drape -->
-      <div class="lg:col-span-5 relative">
-        <div class="relative w-full h-[620px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
-          <img src="assets/saree_royal_vermilion.jpg" alt="VĀRĀṆASĪ Royal Bride" class="w-full h-full object-cover object-top" />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-          <div class="absolute bottom-6 left-6 right-6">
-            <span class="font-display text-[10px] text-gold-400 uppercase tracking-widest block mb-1">HAUTE COUTURE EDIT</span>
-            <h3 class="font-serif text-2xl font-semibold text-white">The Royal Muhurtham Drape</h3>
-            <p class="font-sans text-xs text-white/70 mt-1">Certified 24k tested gold zari on pure Katan mulberry silk.</p>
+      <div id="cylinderTrack" class="cylinder-container flex items-center justify-center gap-4 md:gap-6 py-6" style="transform: perspective(1400px) rotateY(0deg);">
+        
+        <!-- Card 1: Aarunya Emerald Kanjivaram -->
+        <div class="cylinder-card w-44 sm:w-52 md:w-60 h-[380px] md:h-[430px] rounded-2xl overflow-hidden bg-[#1A050A] border border-[#E3DCB8] relative flex flex-col justify-end p-5 cursor-pointer shadow-xl flex-shrink-0" style="transform: rotateY(-20deg) translateZ(20px);" onclick="addToBag('Aarunya Emerald Kanjivaram', 18500)">
+          <img src="assets/saree_marakata_emerald.jpg" alt="Aarunya Emerald Kanjivaram" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent"></div>
+          <div class="relative z-10 text-white">
+            <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">01 // KANJIVARAM</span>
+            <h3 class="font-serif text-base font-bold text-white leading-tight">Aarunya Emerald Kanjivaram</h3>
+            <p class="font-serif text-sm text-gold-400 font-bold mt-1">₹18,500</p>
           </div>
         </div>
-      </div>
 
-      <!-- Right Column: Bridal Carousel & Cards -->
-      <div class="lg:col-span-7 flex flex-col justify-between">
-        <div class="mb-8">
-          <span class="font-display text-xs uppercase tracking-[0.25em] text-gold-400 font-semibold block mb-2">
-            SACRED CELEBRATIONS
-          </span>
-          <h2 class="font-serif text-4xl sm:text-5xl text-white font-normal">
-            The Bridal Collection
-          </h2>
-          <p class="font-sans text-sm text-white/70 font-light mt-3 leading-relaxed max-w-xl">
-            Exclusively hand-commissioned bridal silks woven over 45 to 60 days by master artisan families in Varanasi and Kanchipuram.
-          </p>
-        </div>
-
-        <!-- Horizontal Bridal Product Cards (Exact replica from 19s) -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
-
-          <!-- Bridal Card 1 -->
-          <div class="bg-white/5 border border-white/10 rounded-2xl p-3 flex flex-col justify-between hover:border-gold-500/50 transition-all">
-            <div class="h-64 rounded-xl overflow-hidden mb-3 relative">
-              <img src="assets/craft_pleats_drape.jpg" alt="Festive Weave" class="w-full h-full object-cover" />
-            </div>
-            <div>
-              <h4 class="font-serif text-sm font-semibold text-white">Festive Weave</h4>
-              <p class="font-serif text-base text-gold-300 font-bold mt-1">₹25,600</p>
-              <button onclick="addToBag('Festive Weave', 25600)" class="w-full mt-3 py-2 rounded-xl bg-[#E67E22] hover:bg-[#D35400] text-black font-display text-[11px] font-bold uppercase tracking-wider transition-colors shadow">
-                ADD TO CART
-              </button>
-            </div>
+        <!-- Card 2: Kalyani Temple Silk -->
+        <div class="cylinder-card w-44 sm:w-52 md:w-60 h-[380px] md:h-[430px] rounded-2xl overflow-hidden bg-[#1A050A] border border-[#E3DCB8] relative flex flex-col justify-end p-5 cursor-pointer shadow-xl flex-shrink-0" style="transform: rotateY(-10deg) translateZ(50px);" onclick="addToBag('Kalyani Temple Silk', 21200)">
+          <img src="assets/craft_warp_weft.jpg" alt="Kalyani Temple Silk" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent"></div>
+          <div class="relative z-10 text-white">
+            <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">02 // TEMPLE WEAVE</span>
+            <h3 class="font-serif text-base font-bold text-white leading-tight">Kalyani Temple Silk</h3>
+            <p class="font-serif text-sm text-gold-400 font-bold mt-1">₹21,200</p>
           </div>
+        </div>
 
-          <!-- Bridal Card 2 -->
-          <div class="bg-white/5 border border-white/10 rounded-2xl p-3 flex flex-col justify-between hover:border-gold-500/50 transition-all">
-            <div class="h-64 rounded-xl overflow-hidden mb-3 relative">
-              <img src="assets/saree_marakata_emerald.jpg" alt="Anvika Muhurtham Silk" class="w-full h-full object-cover" />
-            </div>
-            <div>
-              <h4 class="font-serif text-sm font-semibold text-white">Anvika Muhurtham</h4>
-              <p class="font-serif text-base text-gold-300 font-bold mt-1">₹25,600</p>
-              <button onclick="addToBag('Anvika Muhurtham', 25600)" class="w-full mt-3 py-2 rounded-xl bg-[#E67E22] hover:bg-[#D35400] text-black font-display text-[11px] font-bold uppercase tracking-wider transition-colors shadow">
-                ADD TO CART
-              </button>
-            </div>
+        <!-- Card 3: Saanjh Maroon Banarasi (Center Card) -->
+        <div class="cylinder-card w-44 sm:w-52 md:w-60 h-[380px] md:h-[430px] rounded-2xl overflow-hidden bg-[#1A050A] border-2 border-gold-400 relative flex flex-col justify-end p-5 cursor-pointer shadow-2xl flex-shrink-0" style="transform: rotateY(0deg) translateZ(80px);" onclick="addToBag('Saanjh Maroon Banarasi', 24500)">
+          <img src="assets/saree_royal_vermilion.jpg" alt="Saanjh Maroon Banarasi" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent"></div>
+          <div class="relative z-10 text-white">
+            <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">03 // BANARASI HEIRLOOM</span>
+            <h3 class="font-serif text-base font-bold text-white leading-tight">Saanjh Maroon Banarasi</h3>
+            <p class="font-serif text-sm text-gold-400 font-bold mt-1">₹24,500</p>
           </div>
+        </div>
 
-          <!-- Bridal Card 3 -->
-          <div class="bg-white/5 border border-white/10 rounded-2xl p-3 flex flex-col justify-between hover:border-gold-500/50 transition-all">
-            <div class="h-64 rounded-xl overflow-hidden mb-3 relative">
-              <img src="assets/saree_chandramukhi_ivory.jpg" alt="Vidhya Violet Silk" class="w-full h-full object-cover" />
-            </div>
-            <div>
-              <h4 class="font-serif text-sm font-semibold text-white">Vidhya Violet Silk</h4>
-              <p class="font-serif text-base text-gold-300 font-bold mt-1">₹19,800</p>
-              <button onclick="addToBag('Vidhya Violet Silk', 19800)" class="w-full mt-3 py-2 rounded-xl bg-[#E67E22] hover:bg-[#D35400] text-black font-display text-[11px] font-bold uppercase tracking-wider transition-colors shadow">
-                ADD TO CART
-              </button>
-            </div>
+        <!-- Card 4: Prerna Festive Silk -->
+        <div class="cylinder-card w-44 sm:w-52 md:w-60 h-[380px] md:h-[430px] rounded-2xl overflow-hidden bg-[#1A050A] border border-[#E3DCB8] relative flex flex-col justify-end p-5 cursor-pointer shadow-xl flex-shrink-0" style="transform: rotateY(10deg) translateZ(50px);" onclick="addToBag('Prerna Festive Silk', 19800)">
+          <img src="assets/saree_gulabi_organza.jpg" alt="Prerna Festive Silk" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent"></div>
+          <div class="relative z-10 text-white">
+            <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">04 // FESTIVE WEAVE</span>
+            <h3 class="font-serif text-base font-bold text-white leading-tight">Prerna Festive Silk</h3>
+            <p class="font-serif text-sm text-gold-400 font-bold mt-1">₹19,800</p>
           </div>
-
         </div>
 
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ========================================================================= -->
-  <!-- SECTION 5: "Autumn–Winter 2026" (Three Arched Windows - Frame 25s)       -->
-  <!-- ========================================================================= -->
-  <section id="autumnWinter" class="py-28 px-6 md:px-12 max-w-7xl mx-auto bg-[#FAF6EE]">
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-      <div>
-        <div class="flex items-center gap-2 mb-2 font-display text-[11px] uppercase tracking-widest text-[#5A0D1A] font-semibold">
-          <svg class="w-3.5 h-3.5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-          <span>SEASON FORECAST</span>
-        </div>
-        <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl text-[#3D060F] font-normal">
-          Autumn–Winter <span class="italic font-serif text-gold-600">2026</span>
-        </h2>
-        <p class="font-sans text-xs sm:text-sm text-[#3D060F]/70 max-w-lg mt-3 leading-relaxed">
-          Three readings on how the house is draping the season — chosen from the atelier floor, not a mood board.
-        </p>
-      </div>
-      <a href="#newArrivals" class="px-6 py-3 rounded-full border border-[#5A0D1A] text-[#5A0D1A] hover:bg-[#5A0D1A] hover:text-white font-display text-xs uppercase tracking-widest font-bold transition-all inline-flex items-center gap-2">
-        <span>EXPLORE THE FORECAST</span>
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-      </a>
-    </div>
-
-    <!-- The 3 Arched Portals (Exact from Frame 25s) -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-      
-      <!-- Window 1: Festive Palace Edit -->
-      <div class="arched-portal group h-[440px] bg-white border border-[#E3DCB8] flex flex-col justify-end p-6">
-        <img src="assets/saree_gulabi_organza.jpg" alt="Festive Palace Courtyard" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-        <div class="relative z-10 text-white">
-          <span class="font-display text-[10px] text-gold-300 uppercase tracking-widest block mb-1">READING 01</span>
-          <h3 class="font-serif text-xl font-semibold text-white">Royal Courtyard Drapes</h3>
-          <p class="font-sans text-xs text-white/80 mt-1">Rich magenta & indigo brocades for twilight palace soirees.</p>
-        </div>
-      </div>
-
-      <!-- Window 2: Garden Bridesmaids Edit -->
-      <div class="arched-portal group h-[440px] bg-white border border-[#E3DCB8] flex flex-col justify-end p-6">
-        <img src="assets/saree_chandramukhi_ivory.jpg" alt="Garden Path Silks" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-        <div class="relative z-10 text-white">
-          <span class="font-display text-[10px] text-gold-300 uppercase tracking-widest block mb-1">READING 02</span>
-          <h3 class="font-serif text-xl font-semibold text-white">The Haldi Promenade</h3>
-          <p class="font-sans text-xs text-white/80 mt-1">Pastel silks & gold tissue engineered for celebratory movement.</p>
-        </div>
-      </div>
-
-      <!-- Window 3: Sovereign Vermilion Edit -->
-      <div class="arched-portal group h-[440px] bg-white border border-[#E3DCB8] flex flex-col justify-end p-6">
-        <img src="assets/saree_royal_vermilion.jpg" alt="Royal Vermilion Salon" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-        <div class="relative z-10 text-white">
-          <span class="font-display text-[10px] text-gold-300 uppercase tracking-widest block mb-1">READING 03</span>
-          <h3 class="font-serif text-xl font-semibold text-white">The Crimson Throne</h3>
-          <p class="font-sans text-xs text-white/80 mt-1">24k pure gold zari hand-loomed into generational heirlooms.</p>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Product Detail Callout: IVORY ORGANZA (Frame 25s) -->
-    <div class="bg-white rounded-3xl border border-[#E5DECA] p-8 flex flex-col md:flex-row items-center justify-between gap-8 shadow-sm">
-      <div class="flex items-center gap-6">
-        <div class="w-24 h-24 rounded-2xl overflow-hidden border border-[#E5DECA]">
-          <img src="assets/craft_warp_weft.jpg" alt="Ivory Organza Texture" class="w-full h-full object-cover" />
-        </div>
-        <div>
-          <div class="flex items-center gap-2 mb-1">
-            <span class="text-amber-500 text-xs">★★★★★</span>
-            <span class="font-display text-[11px] text-[#5A0D1A]/70">4.8 (212 REVIEWS)</span>
+        <!-- Card 5: Leela Courtyard Silk -->
+        <div class="cylinder-card w-44 sm:w-52 md:w-60 h-[380px] md:h-[430px] rounded-2xl overflow-hidden bg-[#1A050A] border border-[#E3DCB8] relative flex flex-col justify-end p-5 cursor-pointer shadow-xl flex-shrink-0" style="transform: rotateY(20deg) translateZ(20px);" onclick="addToBag('Leela Courtyard Silk', 18600)">
+          <img src="assets/saree_chandramukhi_ivory.jpg" alt="Leela Courtyard Silk" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent"></div>
+          <div class="relative z-10 text-white">
+            <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">05 // COURTYARD DRAPE</span>
+            <h3 class="font-serif text-base font-bold text-white leading-tight">Leela Courtyard Silk</h3>
+            <p class="font-serif text-sm text-gold-400 font-bold mt-1">₹18,600</p>
           </div>
-          <h3 class="font-serif text-2xl font-bold text-[#3D060F]">IVORY ORGANZA BROCADE</h3>
-          <p class="font-sans text-xs text-[#5A0D1A]/80 mt-1">Featherlight silk organza with scalloped antique silver-gold border.</p>
         </div>
+
+        <!-- Card 6: Tara Peacock Paithani -->
+        <div class="cylinder-card w-44 sm:w-52 md:w-60 h-[380px] md:h-[430px] rounded-2xl overflow-hidden bg-[#1A050A] border border-[#E3DCB8] relative flex flex-col justify-end p-5 cursor-pointer shadow-xl flex-shrink-0" style="transform: rotateY(28deg) translateZ(-10px);" onclick="addToBag('Tara Peacock Paithani', 26800)">
+          <img src="assets/craft_pleats_drape.jpg" alt="Tara Peacock Paithani" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent"></div>
+          <div class="relative z-10 text-white">
+            <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">06 // PAITHANI</span>
+            <h3 class="font-serif text-base font-bold text-white leading-tight">Tara Peacock Paithani</h3>
+            <p class="font-serif text-sm text-gold-400 font-bold mt-1">₹26,800</p>
+          </div>
+        </div>
+
       </div>
 
-      <div class="flex items-center gap-4">
-        <span class="font-serif text-2xl font-bold text-[#3D060F]">₹18,400</span>
-        <button onclick="addToBag('Ivory Organza Brocade', 18400)" class="px-6 py-3 rounded-full bg-[#5A0D1A] hover:bg-[#3D060F] text-white font-display text-xs uppercase tracking-widest font-bold transition-all shadow-md">
-          ADD TO BAG
+      <!-- Bottom Audio / Mute Indicator Pill (Image 1 Bottom-Left) -->
+      <div class="flex items-center justify-between pt-4">
+        <button onclick="toggleAudio()" id="audioToggleBtn" class="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#D5CCA8] bg-white text-[#5A0D1A] font-display text-[10px] tracking-widest uppercase hover:bg-[#5A0D1A] hover:text-white transition-all shadow-sm">
+          <span class="text-sm">♪</span>
+          <span id="audioStatusText">SOUND: ATELIER AMBIENCE</span>
         </button>
+        <span class="font-display text-[10px] text-[#5A0D1A]/70 uppercase tracking-widest hidden sm:inline">
+          MOVE CURSOR OR SWIPE HORIZONTALLY TO ROTATE 3D CYLINDER
+        </span>
       </div>
+
     </div>
 
   </section>
 
   <!-- ========================================================================= -->
-  <!-- SECTION 6: INTERACTIVE DRAPING SALON & CUSTOMIZER (Frame 31s)             -->
+  <!-- SECTION 2 (IMAGE 2): "Trend of the Day" & "Seasonal Special"              -->
+  <!-- With Organic Decorative Wave Divider & Horizontal Product Bento Cards     -->
   <!-- ========================================================================= -->
-  <section id="customizerSalon" class="py-24 px-6 md:px-12 max-w-7xl mx-auto bg-white rounded-3xl border border-[#E8E2D0] my-12 shadow-sm">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+  <div class="w-full overflow-hidden leading-none text-[#F4EFE3]">
+    <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="relative block w-full h-12 text-[#FAF6EE] fill-current">
+      <path d="M0,0 C150,90 350,-40 500,60 C650,160 900,10 1200,40 L1200,120 L0,120 Z" fill="#F4EFE3"></path>
+    </svg>
+  </div>
+
+  <section id="trendsSection" class="py-20 px-6 md:px-12 bg-[#F4EFE3] border-t border-b border-[#E8E0CE]">
+    <div class="max-w-7xl mx-auto">
       
-      <!-- Left: Mannequin Close-up Drape & Watch Lookbook Capsule (Frame 31s) -->
-      <div class="lg:col-span-6 relative flex flex-col items-center">
-        <div class="relative w-full max-w-md h-[500px] rounded-2xl overflow-hidden border border-[#E8E2D0] bg-[#FAF6EE]">
-          <img id="customizerImage" src="assets/saree_chandramukhi_ivory.jpg" alt="Drape Silhouette" class="w-full h-full object-cover object-top transition-all duration-500" />
+      <!-- Row 1: Trend of the Day -->
+      <div class="mb-14">
+        <div class="flex items-center gap-3 mb-8">
+          <span class="w-1.5 h-6 bg-[#B58D20] rounded-full"></span>
+          <h3 class="font-serif text-2xl md:text-3xl text-[#3D060F] font-bold">Trend of the Day</h3>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           
-          <!-- Floating "Watch Lookbook" Pill -->
-          <div class="absolute bottom-6 left-6 right-6 p-2 rounded-full bg-white/90 backdrop-blur-md border border-[#E8E2D0] flex items-center justify-between shadow-lg">
+          <!-- Product Bento 1 -->
+          <div class="bg-white rounded-2xl border border-[#E5DECA] p-3 flex gap-3 items-center hover:shadow-xl hover:-translate-y-1 transition-all group">
+            <div class="w-24 h-28 rounded-xl overflow-hidden relative flex-shrink-0 bg-[#EFE9D9]">
+              <img src="assets/saree_marakata_emerald.jpg" alt="Aarunya Emerald Kanjivaram" class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+              <span class="absolute bottom-1 left-1 bg-black/70 text-gold-300 text-[8px] font-bold px-1.5 py-0.5 rounded">★ 4.9</span>
+            </div>
+            <div class="flex-1 flex flex-col justify-between h-28 py-0.5">
+              <div>
+                <h4 class="font-serif text-xs font-bold text-[#3D060F] leading-snug">Aarunya Emerald Kanjivaram</h4>
+                <p class="font-display text-[10px] text-[#5A0D1A]/70 mt-0.5">Pure Silk • Temple Border</p>
+                <!-- Size Pills -->
+                <div class="flex items-center gap-1 mt-2">
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#5A0D1A] bg-[#5A0D1A] text-white font-bold cursor-pointer">S</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#D5CCA8] text-[#3D060F] cursor-pointer hover:border-[#5A0D1A]">M</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#D5CCA8] text-[#3D060F] cursor-pointer hover:border-[#5A0D1A]">L</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between mt-1">
+                <span class="font-serif text-sm font-bold text-[#3D060F]">₹18,500</span>
+                <button onclick="addToBag('Aarunya Emerald Kanjivaram', 18500)" class="w-7 h-7 rounded-full bg-[#D4AF37] hover:bg-[#B58D20] text-black flex items-center justify-center font-bold text-base shadow" title="Quick Add">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Bento 2 -->
+          <div class="bg-white rounded-2xl border border-[#E5DECA] p-3 flex gap-3 items-center hover:shadow-xl hover:-translate-y-1 transition-all group">
+            <div class="w-24 h-28 rounded-xl overflow-hidden relative flex-shrink-0 bg-[#EFE9D9]">
+              <img src="assets/saree_royal_vermilion.jpg" alt="Saanjh Maroon Banarasi" class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+              <span class="absolute bottom-1 left-1 bg-black/70 text-gold-300 text-[8px] font-bold px-1.5 py-0.5 rounded">★ 4.9</span>
+            </div>
+            <div class="flex-1 flex flex-col justify-between h-28 py-0.5">
+              <div>
+                <h4 class="font-serif text-xs font-bold text-[#3D060F] leading-snug">Saanjh Maroon Banarasi</h4>
+                <p class="font-display text-[10px] text-[#5A0D1A]/70 mt-0.5">Katan Silk • Tested Zari</p>
+                <div class="flex items-center gap-1 mt-2">
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#D5CCA8] text-[#3D060F] cursor-pointer hover:border-[#5A0D1A]">S</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#5A0D1A] bg-[#5A0D1A] text-white font-bold cursor-pointer">M</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#D5CCA8] text-[#3D060F] cursor-pointer hover:border-[#5A0D1A]">L</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between mt-1">
+                <span class="font-serif text-sm font-bold text-[#3D060F]">₹24,500</span>
+                <button onclick="addToBag('Saanjh Maroon Banarasi', 24500)" class="w-7 h-7 rounded-full bg-[#D4AF37] hover:bg-[#B58D20] text-black flex items-center justify-center font-bold text-base shadow" title="Quick Add">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Bento 3 -->
+          <div class="bg-white rounded-2xl border border-[#E5DECA] p-3 flex gap-3 items-center hover:shadow-xl hover:-translate-y-1 transition-all group">
+            <div class="w-24 h-28 rounded-xl overflow-hidden relative flex-shrink-0 bg-[#EFE9D9]">
+              <img src="assets/craft_pleats_drape.jpg" alt="Padma Wedding Silk" class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+              <span class="absolute bottom-1 left-1 bg-black/70 text-gold-300 text-[8px] font-bold px-1.5 py-0.5 rounded">★ 5.0</span>
+            </div>
+            <div class="flex-1 flex flex-col justify-between h-28 py-0.5">
+              <div>
+                <h4 class="font-serif text-xs font-bold text-[#3D060F] leading-snug">Padma Wedding Silk</h4>
+                <p class="font-display text-[10px] text-[#5A0D1A]/70 mt-0.5">Bridal Brocade • Gold Jaal</p>
+                <div class="flex items-center gap-1 mt-2">
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#D5CCA8] text-[#3D060F] cursor-pointer hover:border-[#5A0D1A]">S</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#5A0D1A] bg-[#5A0D1A] text-white font-bold cursor-pointer">M</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#D5CCA8] text-[#3D060F] cursor-pointer hover:border-[#5A0D1A]">XL</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between mt-1">
+                <span class="font-serif text-sm font-bold text-[#3D060F]">₹26,800</span>
+                <button onclick="addToBag('Padma Wedding Silk', 26800)" class="w-7 h-7 rounded-full bg-[#D4AF37] hover:bg-[#B58D20] text-black flex items-center justify-center font-bold text-base shadow" title="Quick Add">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Bento 4 -->
+          <div class="bg-white rounded-2xl border border-[#E5DECA] p-3 flex gap-3 items-center hover:shadow-xl hover:-translate-y-1 transition-all group">
+            <div class="w-24 h-28 rounded-xl overflow-hidden relative flex-shrink-0 bg-[#EFE9D9]">
+              <img src="assets/saree_chandramukhi_ivory.jpg" alt="Meera Pastel Tissue" class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+              <span class="absolute bottom-1 left-1 bg-black/70 text-gold-300 text-[8px] font-bold px-1.5 py-0.5 rounded">★ 4.8</span>
+            </div>
+            <div class="flex-1 flex flex-col justify-between h-28 py-0.5">
+              <div>
+                <h4 class="font-serif text-xs font-bold text-[#3D060F] leading-snug">Meera Pastel Tissue</h4>
+                <p class="font-display text-[10px] text-[#5A0D1A]/70 mt-0.5">Tissue Organza • Zari Vines</p>
+                <div class="flex items-center gap-1 mt-2">
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#5A0D1A] bg-[#5A0D1A] text-white font-bold cursor-pointer">S</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#D5CCA8] text-[#3D060F] cursor-pointer hover:border-[#5A0D1A]">M</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#D5CCA8] text-[#3D060F] cursor-pointer hover:border-[#5A0D1A]">L</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between mt-1">
+                <span class="font-serif text-sm font-bold text-[#3D060F]">₹22,400</span>
+                <button onclick="addToBag('Meera Pastel Tissue', 22400)" class="w-7 h-7 rounded-full bg-[#D4AF37] hover:bg-[#B58D20] text-black flex items-center justify-center font-bold text-base shadow" title="Quick Add">+</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Row 2: Seasonal Special -->
+      <div>
+        <div class="flex items-center gap-3 mb-8">
+          <span class="w-1.5 h-6 bg-[#B58D20] rounded-full"></span>
+          <h3 class="font-serif text-2xl md:text-3xl text-[#3D060F] font-bold">Seasonal Special</h3>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <!-- Product Bento 5 -->
+          <div class="bg-white rounded-2xl border border-[#E5DECA] p-3 flex gap-3 items-center hover:shadow-xl hover:-translate-y-1 transition-all group">
+            <div class="w-24 h-28 rounded-xl overflow-hidden relative flex-shrink-0 bg-[#EFE9D9]">
+              <img src="assets/craft_warp_weft.jpg" alt="Ruhani Temple Silk" class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+              <span class="absolute bottom-1 left-1 bg-black/70 text-gold-300 text-[8px] font-bold px-1.5 py-0.5 rounded">★ 4.8</span>
+            </div>
+            <div class="flex-1 flex flex-col justify-between h-28 py-0.5">
+              <div>
+                <h4 class="font-serif text-xs font-bold text-[#3D060F] leading-snug">Ruhani Temple Silk</h4>
+                <p class="font-display text-[10px] text-[#5A0D1A]/70 mt-0.5">Handloom Katan • Temple Pallu</p>
+                <div class="flex items-center gap-1 mt-2">
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#5A0D1A] bg-[#5A0D1A] text-white font-bold cursor-pointer">S</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#D5CCA8] text-[#3D060F] cursor-pointer hover:border-[#5A0D1A]">M</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#D5CCA8] text-[#3D060F] cursor-pointer hover:border-[#5A0D1A]">L</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between mt-1">
+                <span class="font-serif text-sm font-bold text-[#3D060F]">₹16,400</span>
+                <button onclick="addToBag('Ruhani Temple Silk', 16400)" class="w-7 h-7 rounded-full bg-[#D4AF37] hover:bg-[#B58D20] text-black flex items-center justify-center font-bold text-base shadow" title="Quick Add">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Bento 6 -->
+          <div class="bg-white rounded-2xl border border-[#E5DECA] p-3 flex gap-3 items-center hover:shadow-xl hover:-translate-y-1 transition-all group">
+            <div class="w-24 h-28 rounded-xl overflow-hidden relative flex-shrink-0 bg-[#EFE9D9]">
+              <img src="assets/saree_gulabi_organza.jpg" alt="Leela Courtyard Silk" class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+              <span class="absolute bottom-1 left-1 bg-black/70 text-gold-300 text-[8px] font-bold px-1.5 py-0.5 rounded">★ 4.9</span>
+            </div>
+            <div class="flex-1 flex flex-col justify-between h-28 py-0.5">
+              <div>
+                <h4 class="font-serif text-xs font-bold text-[#3D060F] leading-snug">Leela Courtyard Silk</h4>
+                <p class="font-display text-[10px] text-[#5A0D1A]/70 mt-0.5">Blush Pink • Silver Border</p>
+                <div class="flex items-center gap-1 mt-2">
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#D5CCA8] text-[#3D060F] cursor-pointer hover:border-[#5A0D1A]">S</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#5A0D1A] bg-[#5A0D1A] text-white font-bold cursor-pointer">M</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#D5CCA8] text-[#3D060F] cursor-pointer hover:border-[#5A0D1A]">XL</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between mt-1">
+                <span class="font-serif text-sm font-bold text-[#3D060F]">₹18,600</span>
+                <button onclick="addToBag('Leela Courtyard Silk', 18600)" class="w-7 h-7 rounded-full bg-[#D4AF37] hover:bg-[#B58D20] text-black flex items-center justify-center font-bold text-base shadow" title="Quick Add">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Bento 7 -->
+          <div class="bg-white rounded-2xl border border-[#E5DECA] p-3 flex gap-3 items-center hover:shadow-xl hover:-translate-y-1 transition-all group">
+            <div class="w-24 h-28 rounded-xl overflow-hidden relative flex-shrink-0 bg-[#EFE9D9]">
+              <img src="assets/saree_royal_vermilion.jpg" alt="Kaveri Crimson Drape" class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+              <span class="absolute bottom-1 left-1 bg-black/70 text-gold-300 text-[8px] font-bold px-1.5 py-0.5 rounded">★ 4.9</span>
+            </div>
+            <div class="flex-1 flex flex-col justify-between h-28 py-0.5">
+              <div>
+                <h4 class="font-serif text-xs font-bold text-[#3D060F] leading-snug">Kaveri Crimson Drape</h4>
+                <p class="font-display text-[10px] text-[#5A0D1A]/70 mt-0.5">Kanjivaram Korvai • Heavy Pallu</p>
+                <div class="flex items-center gap-1 mt-2">
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#5A0D1A] bg-[#5A0D1A] text-white font-bold cursor-pointer">S</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#D5CCA8] text-[#3D060F] cursor-pointer hover:border-[#5A0D1A]">M</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#D5CCA8] text-[#3D060F] cursor-pointer hover:border-[#5A0D1A]">L</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between mt-1">
+                <span class="font-serif text-sm font-bold text-[#3D060F]">₹21,200</span>
+                <button onclick="addToBag('Kaveri Crimson Drape', 21200)" class="w-7 h-7 rounded-full bg-[#D4AF37] hover:bg-[#B58D20] text-black flex items-center justify-center font-bold text-base shadow" title="Quick Add">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Bento 8 -->
+          <div class="bg-white rounded-2xl border border-[#E5DECA] p-3 flex gap-3 items-center hover:shadow-xl hover:-translate-y-1 transition-all group">
+            <div class="w-24 h-28 rounded-xl overflow-hidden relative flex-shrink-0 bg-[#EFE9D9]">
+              <img src="assets/craft_gold_zari.jpg" alt="Nayantara Festive Silk" class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+              <span class="absolute bottom-1 left-1 bg-black/70 text-gold-300 text-[8px] font-bold px-1.5 py-0.5 rounded">★ 4.7</span>
+            </div>
+            <div class="flex-1 flex flex-col justify-between h-28 py-0.5">
+              <div>
+                <h4 class="font-serif text-xs font-bold text-[#3D060F] leading-snug">Nayantara Festive Silk</h4>
+                <p class="font-display text-[10px] text-[#5A0D1A]/70 mt-0.5">Golden Zari • Mulberry Weave</p>
+                <div class="flex items-center gap-1 mt-2">
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#D5CCA8] text-[#3D060F] cursor-pointer hover:border-[#5A0D1A]">S</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#5A0D1A] bg-[#5A0D1A] text-white font-bold cursor-pointer">M</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded border border-[#D5CCA8] text-[#3D060F] cursor-pointer hover:border-[#5A0D1A]">L</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between mt-1">
+                <span class="font-serif text-sm font-bold text-[#3D060F]">₹19,500</span>
+                <button onclick="addToBag('Nayantara Festive Silk', 19500)" class="w-7 h-7 rounded-full bg-[#D4AF37] hover:bg-[#B58D20] text-black flex items-center justify-center font-bold text-base shadow" title="Quick Add">+</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION 3 (IMAGE 3): INTERACTIVE LOOKBOOK CUSTOMIZER                      -->
+  <!-- "Change look" Thumbnails + Lady Character in Ivory Organza + Add to Cart  -->
+  <!-- ========================================================================= -->
+  <section id="lookbookCustomizer" class="py-24 px-6 md:px-12 max-w-7xl mx-auto bg-white rounded-3xl border border-[#E8E2D0] my-14 shadow-sm">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      
+      <!-- Left Column: "Change look" & 3 Stacked Thumbnails (Exact from Image 3) -->
+      <div class="lg:col-span-2 flex flex-col items-center lg:items-start gap-4">
+        
+        <div class="flex items-center gap-2 mb-2">
+          <span class="font-script text-2xl text-[#B58D20] transform -rotate-6">Change look</span>
+          <svg class="w-6 h-6 text-[#B58D20] transform rotate-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"></path>
+          </svg>
+        </div>
+
+        <!-- 3 Interactive Look Thumbnails -->
+        <div class="flex lg:flex-col gap-3">
+          
+          <!-- Look 1: Ivory Organza Bloom (Active by default) -->
+          <div onclick="switchLook(0)" id="lookThumb0" class="look-thumb active w-20 h-28 rounded-xl overflow-hidden border-2 border-[#5A0D1A] cursor-pointer relative shadow hover:scale-105 transition-all">
+            <img src="assets/saree_chandramukhi_ivory.jpg" alt="Look 1: Ivory" class="w-full h-full object-cover object-top" />
+            <span class="absolute bottom-1 inset-x-1 text-center bg-black/70 text-white text-[8px] font-bold rounded py-0.5">IVORY</span>
+          </div>
+
+          <!-- Look 2: Rosewater Peach Bloom -->
+          <div onclick="switchLook(1)" id="lookThumb1" class="look-thumb w-20 h-28 rounded-xl overflow-hidden border-2 border-transparent hover:border-[#5A0D1A] cursor-pointer relative shadow hover:scale-105 transition-all">
+            <img src="assets/saree_gulabi_organza.jpg" alt="Look 2: Rosewater" class="w-full h-full object-cover object-top" />
+            <span class="absolute bottom-1 inset-x-1 text-center bg-black/70 text-white text-[8px] font-bold rounded py-0.5">PEACH</span>
+          </div>
+
+          <!-- Look 3: Ruby Vermilion Bloom -->
+          <div onclick="switchLook(2)" id="lookThumb2" class="look-thumb w-20 h-28 rounded-xl overflow-hidden border-2 border-transparent hover:border-[#5A0D1A] cursor-pointer relative shadow hover:scale-105 transition-all">
+            <img src="assets/saree_royal_vermilion.jpg" alt="Look 3: Ruby" class="w-full h-full object-cover object-top" />
+            <span class="absolute bottom-1 inset-x-1 text-center bg-black/70 text-white text-[8px] font-bold rounded py-0.5">RUBY</span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Center Column: The Beautiful Lady Character in Ivory Organza (Exact from Image 3) -->
+      <div class="lg:col-span-5 relative flex flex-col items-center">
+        <div class="relative w-full max-w-sm sm:max-w-md h-[540px] md:h-[580px] rounded-3xl overflow-hidden border border-[#E8E2D0] bg-[#FAF6EE] shadow-lg group">
+          
+          <!-- Character Model Image -->
+          <img id="mainLookbookModel" src="assets/saree_chandramukhi_ivory.jpg" alt="Ivory Organza Model" class="w-full h-full object-cover object-top transition-all duration-700 ease-out" />
+          
+          <!-- Floating "New Drop 2026" Script Badge on Bottom-Left -->
+          <div class="absolute top-5 left-5 font-script text-3xl text-[#B58D20] transform -rotate-6 drop-shadow-sm pointer-events-none">
+            New Drop 2026
+          </div>
+
+          <!-- Floating "Watch Lookbook" Capsule Pill (Exact from Image 3) -->
+          <div onclick="openVideoPlayer()" class="absolute bottom-5 inset-x-6 py-2.5 px-4 rounded-full bg-white/95 backdrop-blur-md border border-[#E8E2D0] flex items-center justify-between shadow-xl cursor-pointer hover:bg-white transition-all">
             <div class="flex items-center gap-3">
-              <div class="w-8 h-8 rounded-full bg-[#5A0D1A] text-white flex items-center justify-center">
+              <div class="w-8 h-8 rounded-full bg-[#5A0D1A] text-white flex items-center justify-center shadow">
                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
               </div>
               <span class="font-display text-xs font-bold text-[#3D060F] uppercase tracking-wider">Watch Lookbook Film</span>
             </div>
-            <span class="font-display text-[10px] text-[#5A0D1A] pr-3 uppercase">01:45 MIN</span>
+            <div class="flex items-center gap-2">
+              <span class="font-display text-[10px] text-[#5A0D1A] font-bold">01:45 MIN</span>
+              <div class="flex -space-x-1.5">
+                <span class="w-4 h-4 rounded-full bg-[#E5C672] border border-white"></span>
+                <span class="w-4 h-4 rounded-full bg-[#9E1B32] border border-white"></span>
+              </div>
+            </div>
           </div>
 
-          <!-- Hand-drawn Note: New Drop 2026 -->
-          <div class="absolute top-4 left-4 font-script text-2xl text-[#B58D20] transform -rotate-6">
-            New Drop 2026
-          </div>
         </div>
       </div>
 
-      <!-- Right: Interactive Blouse Size, Swatches & Big "ADDED TO CART" Button -->
-      <div class="lg:col-span-6">
-        <span class="font-display text-[11px] uppercase tracking-[0.25em] text-[#5A0D1A] font-semibold block mb-2">
-          CURATED BY THE HOUSE
-        </span>
-        <h2 class="font-serif text-3xl sm:text-4xl text-[#3D060F] font-bold mb-4">
-          Gulabi Rosewater Organza
+      <!-- Right Column: Saree Details, Sizes, Swatches & Big "ADD TO CART" Pill (Exact from Image 3) -->
+      <div class="lg:col-span-5">
+        
+        <!-- Star Rating -->
+        <div class="flex items-center gap-2 mb-2">
+          <span class="text-amber-500 text-sm">★★★★★</span>
+          <span class="font-display text-[11px] text-[#5A0D1A]/70 font-semibold tracking-wider">4.8 (179 REVIEWS)</span>
+        </div>
+
+        <!-- Product Title & Price -->
+        <h2 id="lookbookTitle" class="font-serif text-3xl sm:text-4xl text-[#3D060F] font-bold mb-1">
+          IVORY ORGANZA BLOOM
         </h2>
-        <p class="font-sans text-sm text-[#3D060F]/70 leading-relaxed mb-6 font-light">
-          Sculpted with delicate resham floral vines and antique electroplated gold borders. Complete with a tailored unstitched blouse piece in matching pure silk.
+        <div id="lookbookPrice" class="font-serif text-2xl font-bold text-[#3D060F] mb-4">
+          ₹18,400
+        </div>
+
+        <p id="lookbookDesc" class="font-sans text-xs sm:text-sm text-[#3D060F]/70 leading-relaxed mb-6 font-light">
+          Featherlight pure mulberry silk organza adorned with delicate hand-embroidered cut-dana floral vines and a scalloped antique silver-gold zari border. Engineered for celebrations.
         </p>
 
-        <!-- Blouse Size Selector Pills -->
+        <!-- 3 Feature Chips -->
+        <div class="flex items-center gap-4 text-[10px] font-display uppercase tracking-wider text-[#5A0D1A] font-bold mb-6 border-t border-b border-[#EFE8D5] py-3 flex-wrap">
+          <div class="flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-gold-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Pure Mulberry Silk</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-gold-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Handloom Zari</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-gold-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Unstitched Blouse</span>
+          </div>
+        </div>
+
+        <!-- Blouse Size Selector -->
         <div class="mb-6">
           <label class="block font-display text-[10px] uppercase text-[#5A0D1A] tracking-widest font-bold mb-2">
             SELECT BLOUSE SIZE
           </label>
           <div class="flex items-center gap-2">
-            <button onclick="selectSize(this)" class="size-pill active px-4 py-2 rounded-lg border border-[#5A0D1A] bg-[#5A0D1A] text-white font-display text-xs font-bold">XS</button>
-            <button onclick="selectSize(this)" class="size-pill px-4 py-2 rounded-lg border border-[#E0D8C0] bg-white text-[#3D060F] font-display text-xs font-bold hover:border-[#5A0D1A]">S</button>
-            <button onclick="selectSize(this)" class="size-pill px-4 py-2 rounded-lg border border-[#E0D8C0] bg-white text-[#3D060F] font-display text-xs font-bold hover:border-[#5A0D1A]">M</button>
-            <button onclick="selectSize(this)" class="size-pill px-4 py-2 rounded-lg border border-[#E0D8C0] bg-white text-[#3D060F] font-display text-xs font-bold hover:border-[#5A0D1A]">L</button>
-            <button onclick="selectSize(this)" class="size-pill px-4 py-2 rounded-lg border border-[#E0D8C0] bg-white text-[#3D060F] font-display text-xs font-bold hover:border-[#5A0D1A]">XL</button>
+            <button onclick="selectBlouseSize(this)" class="blouse-size-btn px-3.5 py-1.5 rounded-lg border border-[#D5CCA8] text-xs font-bold text-[#3D060F] hover:border-[#5A0D1A]">S</button>
+            <button onclick="selectBlouseSize(this)" class="blouse-size-btn active px-3.5 py-1.5 rounded-lg border border-[#5A0D1A] bg-[#5A0D1A] text-white text-xs font-bold">M</button>
+            <button onclick="selectBlouseSize(this)" class="blouse-size-btn px-3.5 py-1.5 rounded-lg border border-[#D5CCA8] text-xs font-bold text-[#3D060F] hover:border-[#5A0D1A]">L</button>
+            <button onclick="selectBlouseSize(this)" class="blouse-size-btn px-3.5 py-1.5 rounded-lg border border-[#D5CCA8] text-xs font-bold text-[#3D060F] hover:border-[#5A0D1A]">XL</button>
+            <button onclick="selectBlouseSize(this)" class="blouse-size-btn px-3.5 py-1.5 rounded-lg border border-[#D5CCA8] text-xs font-bold text-[#3D060F] hover:border-[#5A0D1A]">2XL</button>
           </div>
         </div>
 
         <!-- Color Swatch Selector -->
         <div class="mb-8">
           <label class="block font-display text-[10px] uppercase text-[#5A0D1A] tracking-widest font-bold mb-2">
-            SELECT COLOUR: <span id="selectedColorName" class="text-[#3D060F]">ROSEWATER</span>
+            SELECT COLOUR: <span id="lookbookColorName" class="text-[#3D060F]">IVORY</span>
           </label>
           <div class="flex items-center gap-3">
-            <button onclick="selectColor('ROSEWATER', 'assets/saree_chandramukhi_ivory.jpg')" class="w-8 h-8 rounded-full bg-[#E8A598] border-2 border-[#5A0D1A] shadow" title="Rosewater"></button>
-            <button onclick="selectColor('CHAMPAGNE GOLD', 'assets/craft_gold_zari.jpg')" class="w-8 h-8 rounded-full bg-[#E5C672] border-2 border-transparent hover:border-[#5A0D1A] shadow" title="Champagne Gold"></button>
-            <button onclick="selectColor('ROYAL VERMILION', 'assets/saree_royal_vermilion.jpg')" class="w-8 h-8 rounded-full bg-[#9E1B32] border-2 border-transparent hover:border-[#5A0D1A] shadow" title="Royal Vermilion"></button>
-            <button onclick="selectColor('TEMPLE EMERALD', 'assets/saree_marakata_emerald.jpg')" class="w-8 h-8 rounded-full bg-[#1B5E3C] border-2 border-transparent hover:border-[#5A0D1A] shadow" title="Temple Emerald"></button>
+            <button onclick="selectLookbookColor('IVORY', '#F5EEDB', 0)" class="w-8 h-8 rounded-full bg-[#F5EEDB] border-2 border-[#5A0D1A] shadow" title="Ivory"></button>
+            <button onclick="selectLookbookColor('ROSEWATER', '#F4C2C2', 1)" class="w-8 h-8 rounded-full bg-[#F4C2C2] border-2 border-transparent hover:border-[#5A0D1A] shadow" title="Rosewater"></button>
+            <button onclick="selectLookbookColor('CRIMSON RUBY', '#9B111E', 2)" class="w-8 h-8 rounded-full bg-[#9B111E] border-2 border-transparent hover:border-[#5A0D1A] shadow" title="Crimson Ruby"></button>
+            <button onclick="selectLookbookColor('TEMPLE EMERALD', '#1B4D3E', 0)" class="w-8 h-8 rounded-full bg-[#1B4D3E] border-2 border-transparent hover:border-[#5A0D1A] shadow" title="Temple Emerald"></button>
           </div>
         </div>
 
-        <!-- Action Row: Quantity & Big Crimson Capsule "ADDED TO CART" Button -->
+        <!-- Action Row: Stepper & Big Deep Maroon "ADD TO CART" Capsule (Image 3) -->
         <div class="flex items-center gap-4 flex-wrap">
-          <!-- Quantity Stepper -->
+          
+          <!-- Stepper -->
           <div class="flex items-center border border-[#D5CCA8] rounded-full px-3 py-2 bg-[#FAF6EE]">
-            <button onclick="changeQty(-1)" class="w-6 h-6 flex items-center justify-center font-bold text-[#5A0D1A] hover:text-black">-</button>
-            <span id="qtyDisplay" class="w-8 text-center font-display text-xs font-bold">1</span>
-            <button onclick="changeQty(1)" class="w-6 h-6 flex items-center justify-center font-bold text-[#5A0D1A] hover:text-black">+</button>
+            <button onclick="adjustLookbookQty(-1)" class="w-6 h-6 flex items-center justify-center font-bold text-[#5A0D1A] hover:text-black">-</button>
+            <span id="lookbookQty" class="w-8 text-center font-display text-xs font-bold">1</span>
+            <button onclick="adjustLookbookQty(1)" class="w-6 h-6 flex items-center justify-center font-bold text-[#5A0D1A] hover:text-black">+</button>
           </div>
 
-          <!-- Master Capsule Button (Exact from Frame 31s) -->
-          <button id="addToCartMasterBtn" onclick="handleMasterAddToCart()" class="flex-1 px-8 py-3.5 rounded-full bg-[#5A0D1A] hover:bg-[#3D060F] text-white font-display text-xs uppercase tracking-[0.2em] font-bold transition-all shadow-xl shadow-[#5A0D1A]/20 flex items-center justify-between">
-            <span id="masterBtnText">ADD TO CART</span>
-            <div class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
+          <!-- Master Capsule Button (Exact from Image 3: Curved pill with right arrow circle) -->
+          <button id="lookbookAddBtn" onclick="handleLookbookAddToCart()" class="flex-1 px-8 py-3.5 rounded-full bg-gradient-to-r from-[#5A0D1A] to-[#3D060F] hover:from-[#3D060F] hover:to-[#230308] text-white font-display text-xs uppercase tracking-[0.2em] font-bold transition-all shadow-xl shadow-[#5A0D1A]/30 flex items-center justify-between">
+            <span id="lookbookBtnLabel">ADD TO CART</span>
+            <div class="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center shadow-inner">
               <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </div>
           </button>
+
         </div>
 
       </div>
@@ -781,453 +864,681 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- SECTION 7: FULLSCREEN 3D FILMSTRIP SCRUBBER (Frame 37s - Temple Stone)   -->
+  <!-- SECTION 4 (IMAGE 4): "The Bridal Collection" (Dark Velvet Scalloped Stage) -->
   <!-- ========================================================================= -->
-  <section id="filmstripScrubberSection" class="relative h-screen bg-[#0C0608] text-white overflow-hidden flex flex-col justify-between p-6 md:p-12 select-none">
+  <section id="bridalCollection" class="py-24 px-6 md:px-12 bg-[#0C0608] text-white relative overflow-hidden">
     
-    <!-- Dynamic Full-Screen Background Image (Transitions on thumbnail hover/scrub) -->
-    <img id="filmstripBg" src="assets/saree_exact_end_frame.jpg" alt="Temple Stone Background" class="absolute inset-0 w-full h-full object-cover opacity-40 transition-opacity duration-700 pointer-events-none" />
-    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/80 pointer-events-none"></div>
-
-    <!-- Top Telemetry Header -->
-    <div class="relative z-10 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <span class="w-2.5 h-2.5 rounded-full bg-gold-400 animate-pulse"></span>
-        <span id="filmstripTitle" class="font-serif text-2xl md:text-3xl font-semibold text-white">Temple Stone Edition</span>
-      </div>
-      <button onclick="addToBag('Temple Stone Silk', 31500)" class="px-5 py-2 rounded-full border border-white/20 hover:border-gold-400 bg-white/5 font-display text-[10px] uppercase tracking-widest text-white hover:text-gold-300 transition-all">
-        ADD TO CART
-      </button>
+    <!-- Top & Bottom Scalloped Waves -->
+    <div class="w-full overflow-hidden leading-none absolute top-0 left-0 right-0">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="relative block w-full h-8 text-[#FAF6EE] fill-current">
+        <path d="M0,0 C200,80 400,-30 600,50 C800,130 1000,10 1200,40 L1200,0 L0,0 Z" fill="#FAF6EE"></path>
+      </svg>
     </div>
 
-    <!-- Center Scrubbing Filmstrip (Frame 37s) -->
-    <div class="relative z-10 my-auto py-8">
-      <div id="filmstripTrack" class="flex items-center justify-center gap-4 overflow-x-auto py-4 px-2">
+    <div class="max-w-7xl mx-auto pt-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
         
-        <!-- Filmstrip Item 1 -->
-        <div onmouseenter="scrubFilmstrip(0, 'assets/saree_exact_start_frame.jpg', '01 // Kadhwa Paisley Weave')" class="filmstrip-card active w-36 h-48 md:w-44 md:h-60 rounded-2xl overflow-hidden border-2 border-gold-400 cursor-pointer flex-shrink-0 transition-transform duration-300 hover:scale-105 shadow-2xl">
-          <img src="assets/saree_exact_start_frame.jpg" alt="Paisley Weave" class="w-full h-full object-cover" />
+        <!-- Left Column: Monumental Red Bridal Card with "View the collection" (Image 4) -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative w-full h-[540px] md:h-[600px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl group cursor-pointer" onclick="addToBag('The Royal Muhurtham Drape', 34500)">
+            <img src="assets/saree_royal_vermilion.jpg" alt="Bridal Crimson Silk" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+            
+            <div class="absolute bottom-6 left-6 right-6 flex items-end justify-between">
+              <div>
+                <span class="font-display text-[9px] text-gold-400 uppercase tracking-widest block mb-1">HAUTE COUTURE EDIT</span>
+                <h3 class="font-serif text-2xl font-semibold text-white">The Royal Muhurtham Drape</h3>
+                <p class="font-sans text-xs text-white/70 mt-1">Certified 24k tested gold zari on pure Katan silk.</p>
+              </div>
+              <div class="px-4 py-2 rounded-full bg-white/20 backdrop-blur-md text-white font-display text-[10px] uppercase tracking-wider font-bold hover:bg-gold-400 hover:text-black transition-colors whitespace-nowrap">
+                View the collection
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Filmstrip Item 2 -->
-        <div onmouseenter="scrubFilmstrip(1, 'assets/saree_exact_end_frame.jpg', '02 // Royal Boutique Showroom')" class="filmstrip-card w-36 h-48 md:w-44 md:h-60 rounded-2xl overflow-hidden border border-white/20 cursor-pointer flex-shrink-0 transition-transform duration-300 hover:scale-105 shadow-2xl">
-          <img src="assets/saree_exact_end_frame.jpg" alt="Royal Showroom" class="w-full h-full object-cover" />
-        </div>
+        <!-- Right Column: Bridal Carousel & Cards (Image 4) -->
+        <div class="lg:col-span-7 flex flex-col justify-between">
+          <div class="mb-8">
+            <span class="font-display text-xs uppercase tracking-[0.25em] text-gold-400 font-semibold block mb-2">
+              SACRED CELEBRATIONS
+            </span>
+            <h2 class="font-serif text-4xl sm:text-5xl text-white font-normal">
+              The Bridal Collection
+            </h2>
+            <p class="font-sans text-sm text-white/70 font-light mt-3 leading-relaxed max-w-xl">
+              Exclusively hand-commissioned bridal silks woven over 45 to 60 days by master artisan families in Varanasi and Kanchipuram.
+            </p>
+          </div>
 
-        <!-- Filmstrip Item 3 -->
-        <div onmouseenter="scrubFilmstrip(2, 'assets/saree_royal_vermilion.jpg', '03 // Vermilion Bridal Banarasi')" class="filmstrip-card w-36 h-48 md:w-44 md:h-60 rounded-2xl overflow-hidden border border-white/20 cursor-pointer flex-shrink-0 transition-transform duration-300 hover:scale-105 shadow-2xl">
-          <img src="assets/saree_royal_vermilion.jpg" alt="Vermilion Silk" class="w-full h-full object-cover" />
-        </div>
+          <!-- Horizontal Bridal Product Cards with Orange "ADD TO CART" Buttons (Image 4) -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
 
-        <!-- Filmstrip Item 4 -->
-        <div onmouseenter="scrubFilmstrip(3, 'assets/saree_marakata_emerald.jpg', '04 // Marakata Emerald Kanjivaram')" class="filmstrip-card w-36 h-48 md:w-44 md:h-60 rounded-2xl overflow-hidden border border-white/20 cursor-pointer flex-shrink-0 transition-transform duration-300 hover:scale-105 shadow-2xl">
-          <img src="assets/saree_marakata_emerald.jpg" alt="Emerald Silk" class="w-full h-full object-cover" />
-        </div>
+            <!-- Bridal Card 1 -->
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-3 flex flex-col justify-between hover:border-gold-500/50 transition-all">
+              <div class="h-60 rounded-xl overflow-hidden mb-3 relative bg-black/40">
+                <img src="assets/craft_warp_weft.jpg" alt="Temple Weave" class="w-full h-full object-cover" />
+              </div>
+              <div>
+                <h4 class="font-serif text-sm font-semibold text-white">Temple Weave</h4>
+                <p class="font-serif text-base text-gold-300 font-bold mt-1">₹21,200</p>
+                <button onclick="addToBag('Temple Weave', 21200)" class="w-full mt-3 py-2.5 rounded-xl bg-[#E67E22] hover:bg-[#D35400] text-black font-display text-[11px] font-bold uppercase tracking-wider transition-colors shadow">
+                  ADD TO CART
+                </button>
+              </div>
+            </div>
 
-        <!-- Filmstrip Item 5 -->
-        <div onmouseenter="scrubFilmstrip(4, 'assets/saree_chandramukhi_ivory.jpg', '05 // Rose Gold Tissue')" class="filmstrip-card w-36 h-48 md:w-44 md:h-60 rounded-2xl overflow-hidden border border-white/20 cursor-pointer flex-shrink-0 transition-transform duration-300 hover:scale-105 shadow-2xl">
-          <img src="assets/saree_chandramukhi_ivory.jpg" alt="Rose Gold Tissue" class="w-full h-full object-cover" />
+            <!-- Bridal Card 2 -->
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-3 flex flex-col justify-between hover:border-gold-500/50 transition-all">
+              <div class="h-60 rounded-xl overflow-hidden mb-3 relative bg-black/40">
+                <img src="assets/saree_marakata_emerald.jpg" alt="Anvika Muhurtham Silk" class="w-full h-full object-cover" />
+              </div>
+              <div>
+                <h4 class="font-serif text-sm font-semibold text-white">Anvika Muhurtham</h4>
+                <p class="font-serif text-base text-gold-300 font-bold mt-1">₹25,600</p>
+                <button onclick="addToBag('Anvika Muhurtham', 25600)" class="w-full mt-3 py-2.5 rounded-xl bg-[#E67E22] hover:bg-[#D35400] text-black font-display text-[11px] font-bold uppercase tracking-wider transition-colors shadow">
+                  ADD TO CART
+                </button>
+              </div>
+            </div>
+
+            <!-- Bridal Card 3 -->
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-3 flex flex-col justify-between hover:border-gold-500/50 transition-all">
+              <div class="h-60 rounded-xl overflow-hidden mb-3 relative bg-black/40">
+                <img src="assets/saree_chandramukhi_ivory.jpg" alt="Vidhya Violet Silk" class="w-full h-full object-cover" />
+              </div>
+              <div>
+                <h4 class="font-serif text-sm font-semibold text-white">Vidhya Violet Silk</h4>
+                <p class="font-serif text-base text-gold-300 font-bold mt-1">₹19,800</p>
+                <button onclick="addToBag('Vidhya Violet Silk', 19800)" class="w-full mt-3 py-2.5 rounded-xl bg-[#E67E22] hover:bg-[#D35400] text-black font-display text-[11px] font-bold uppercase tracking-wider transition-colors shadow">
+                  ADD TO CART
+                </button>
+              </div>
+            </div>
+
+          </div>
+
         </div>
 
       </div>
-    </div>
-
-    <!-- Bottom Counter & Drag Prompt -->
-    <div class="relative z-10 flex items-center justify-between font-display text-[11px] text-white/60 tracking-widest uppercase border-t border-white/10 pt-4">
-      <div id="filmstripCounter" class="text-gold-400 font-bold">01 / 05</div>
-      <div>DRAG, SCROLL, OR HOVER OVER THUMBNAILS TO EXPLORE</div>
     </div>
 
   </section>
 
   <!-- ========================================================================= -->
-  <!-- SECTION 8: "LATEST TRENDS" (3D Angled Perspective Stack - Frame 40s)      -->
+  <!-- SECTION 5 (IMAGE 5): "Worth your attention" (Accordion Slit Curtain)      -->
+  <!-- Monochrome-to-Full-Color Width Expansion on Hover Physics                -->
   <!-- ========================================================================= -->
-  <section id="latestTrends" class="py-28 px-6 md:px-12 max-w-7xl mx-auto bg-[#FAF6EE]">
+  <section id="worthAttention" class="py-28 px-6 md:px-12 max-w-7xl mx-auto bg-[#FAF6EE]">
+    <div class="mb-12">
+      <span class="font-display text-[11px] uppercase tracking-[0.25em] text-[#5A0D1A] font-bold block mb-1">
+        EDITORIAL ARCHIVE
+      </span>
+      <h2 class="font-serif text-4xl sm:text-5xl text-[#3D060F] font-normal">
+        Worth your attention
+      </h2>
+    </div>
+
+    <!-- Slit Curtain Accordion Container (Exact from Image 5) -->
+    <div class="flex flex-col md:flex-row gap-3 w-full rounded-3xl overflow-hidden border border-[#E3DCB8] bg-[#0A0709] p-3 shadow-xl">
+      
+      <!-- Strip 1 -->
+      <div class="slit-strip rounded-2xl" onclick="addToBag('Vedic Crimson Heritage', 24800)">
+        <img src="assets/saree_royal_vermilion.jpg" alt="Vedic Heritage" class="w-full h-full object-cover object-center" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30 pointer-events-none"></div>
+        <div class="strip-badge absolute bottom-6 inset-x-0 text-center font-display text-[9px] text-gold-300 tracking-[0.25em] uppercase font-bold rotate-180 [writing-mode:vertical-rl]">
+          CURRENT OFFER
+        </div>
+        <div class="expanded-caption absolute bottom-6 left-6 right-6 text-white pointer-events-none">
+          <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">EDITION 01</span>
+          <h4 class="font-serif text-xl font-bold text-white">Vedic Crimson Heritage</h4>
+          <p class="font-sans text-xs text-white/80 mt-1">24k tested gold zari jaal across pure mulberry silk.</p>
+        </div>
+      </div>
+
+      <!-- Strip 2 -->
+      <div class="slit-strip rounded-2xl" onclick="addToBag('Emerald Palace Korvai', 22500)">
+        <img src="assets/saree_marakata_emerald.jpg" alt="Emerald Korvai" class="w-full h-full object-cover object-center" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30 pointer-events-none"></div>
+        <div class="strip-badge absolute bottom-6 inset-x-0 text-center font-display text-[9px] text-gold-300 tracking-[0.25em] uppercase font-bold rotate-180 [writing-mode:vertical-rl]">
+          CURRENT OFFER
+        </div>
+        <div class="expanded-caption absolute bottom-6 left-6 right-6 text-white pointer-events-none">
+          <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">EDITION 02</span>
+          <h4 class="font-serif text-xl font-bold text-white">Emerald Palace Korvai</h4>
+          <p class="font-sans text-xs text-white/80 mt-1">Contrast peacock temple border woven in Kanchipuram.</p>
+        </div>
+      </div>
+
+      <!-- Strip 3 (Active by default on desktop) -->
+      <div class="slit-strip rounded-2xl" onclick="addToBag('Champagne Organza Bloom', 18400)">
+        <img src="assets/saree_chandramukhi_ivory.jpg" alt="Champagne Organza" class="w-full h-full object-cover object-center" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30 pointer-events-none"></div>
+        <div class="strip-badge absolute bottom-6 inset-x-0 text-center font-display text-[9px] text-gold-300 tracking-[0.25em] uppercase font-bold rotate-180 [writing-mode:vertical-rl]">
+          CURRENT OFFER
+        </div>
+        <div class="expanded-caption absolute bottom-6 left-6 right-6 text-white pointer-events-none">
+          <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">EDITION 03</span>
+          <h4 class="font-serif text-xl font-bold text-white">Champagne Organza Bloom</h4>
+          <p class="font-sans text-xs text-white/80 mt-1">Gossamer sheer silk with antique silver-gold scalloping.</p>
+        </div>
+      </div>
+
+      <!-- Strip 4 -->
+      <div class="slit-strip rounded-2xl" onclick="addToBag('Gulabi Rosewater Drape', 19800)">
+        <img src="assets/saree_gulabi_organza.jpg" alt="Gulabi Rosewater" class="w-full h-full object-cover object-center" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30 pointer-events-none"></div>
+        <div class="strip-badge absolute bottom-6 inset-x-0 text-center font-display text-[9px] text-gold-300 tracking-[0.25em] uppercase font-bold rotate-180 [writing-mode:vertical-rl]">
+          CURRENT OFFER
+        </div>
+        <div class="expanded-caption absolute bottom-6 left-6 right-6 text-white pointer-events-none">
+          <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">EDITION 04</span>
+          <h4 class="font-serif text-xl font-bold text-white">Gulabi Rosewater Drape</h4>
+          <p class="font-sans text-xs text-white/80 mt-1">Pastel rose silk engineered for daytime celebration grace.</p>
+        </div>
+      </div>
+
+      <!-- Strip 5 -->
+      <div class="slit-strip rounded-2xl" onclick="addToBag('Royal Showroom Archive', 31000)">
+        <img src="assets/saree_exact_end_frame.jpg" alt="Royal Showroom Archive" class="w-full h-full object-cover object-center" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30 pointer-events-none"></div>
+        <div class="strip-badge absolute bottom-6 inset-x-0 text-center font-display text-[9px] text-gold-300 tracking-[0.25em] uppercase font-bold rotate-180 [writing-mode:vertical-rl]">
+          CURRENT OFFER
+        </div>
+        <div class="expanded-caption absolute bottom-6 left-6 right-6 text-white pointer-events-none">
+          <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">EDITION 05</span>
+          <h4 class="font-serif text-xl font-bold text-white">Royal Showroom Archive</h4>
+          <p class="font-sans text-xs text-white/80 mt-1">Curated showroom bridal showcase drapes.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION 6: "LATEST TRENDS" (3D Angled Perspective Stack)                 -->
+  <!-- ========================================================================= -->
+  <section id="latestTrends" class="py-28 px-6 md:px-12 max-w-7xl mx-auto bg-[#FAF6EE] border-t border-[#E6DFC8]">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
       
       <!-- Left Column: Editorial Headline & Copy -->
       <div class="lg:col-span-5">
-        <span class="inline-block px-3 py-1 rounded-full border border-[#5A0D1A]/30 text-[#5A0D1A] font-display text-[10px] uppercase tracking-widest font-semibold mb-4">
+        <span class="inline-block px-4 py-1.5 rounded-full border border-[#D5CCA8] text-[#5A0D1A] font-display text-[10px] uppercase tracking-[0.2em] font-bold mb-4 bg-white">
           EXPLORE COLLECTION
         </span>
-        <h2 class="font-serif text-5xl sm:text-6xl md:text-7xl text-[#3D060F] font-bold tracking-tight leading-none mb-6">
+        <h2 class="font-serif text-5xl sm:text-6xl text-[#3D060F] font-bold tracking-tight mb-6 leading-[1.1]">
           LATEST<br />TRENDS
         </h2>
-        <button onclick="lenis ? lenis.scrollTo('#newArrivals') : window.location.hash='#newArrivals'" class="px-8 py-3.5 rounded-full bg-[#5A0D1A] hover:bg-[#3D060F] text-white font-display text-xs uppercase tracking-[0.2em] font-bold transition-all shadow-lg mb-8">
+        <a href="#trendsSection" class="inline-block px-8 py-3.5 rounded-full bg-[#5A0D1A] hover:bg-[#3D060F] text-white font-display text-xs uppercase tracking-[0.2em] font-bold transition-all shadow-lg shadow-[#5A0D1A]/20">
           DISCOVER NOW
-        </button>
+        </a>
 
-        <div class="border-t border-[#E0D8C0] pt-6">
-          <h4 class="font-serif text-lg font-semibold text-[#3D060F] mb-1">Stories Behind The Drape</h4>
-          <p class="font-sans text-xs text-[#3D060F]/70 leading-relaxed font-light">
-            Every saree carries a story woven into its silk, inspired by the loom, shaped by the hands that finish its border.
+        <div class="mt-12 pt-8 border-t border-[#E5DECA]">
+          <h4 class="font-serif text-lg font-bold text-[#3D060F] mb-1">Stories Behind The Drape</h4>
+          <p class="font-sans text-xs text-[#5A0D1A]/70 leading-relaxed">
+            Every weave is a living archive of generations: each thread spun by master artisans, imbued with royal ceremonial heritage.
           </p>
         </div>
       </div>
 
-      <!-- Right Column: 3D Angled Perspective Stack (Exact from Frame 40s) -->
-      <div class="lg:col-span-7 perspective-stage relative flex items-center justify-center min-h-[500px]">
-        
-        <!-- Background Layered Card (Angle 2) -->
-        <div id="stackCardBack" class="stack-angled-2 absolute w-72 sm:w-80 h-[420px] rounded-2xl overflow-hidden border border-[#D5CCA8] bg-white transition-all duration-500">
-          <img src="assets/saree_chandramukhi_ivory.jpg" alt="Trend Background Card" class="w-full h-full object-cover" />
-          <div class="absolute bottom-4 left-4 font-display text-[10px] uppercase tracking-widest text-white bg-black/60 px-3 py-1 rounded">
-            FESTIVE RANGE
+      <!-- Right Column: 3D Angled Perspective Stack -->
+      <div class="lg:col-span-7 flex justify-center perspective-stage">
+        <div class="relative w-full max-w-lg h-[460px] md:h-[520px]">
+          
+          <!-- Back Tilt Card -->
+          <div class="tilt-card-back absolute top-0 right-0 w-72 md:w-80 h-[400px] md:h-[460px] rounded-3xl overflow-hidden border border-[#D5CCA8] bg-[#F2EDE1] cursor-pointer">
+            <img src="assets/saree_chandramukhi_ivory.jpg" alt="Edition 02" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+            <div class="absolute bottom-5 left-5 right-5 text-white">
+              <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">EDITION 02</span>
+              <h4 class="font-serif text-base font-bold text-white">Ivory Zari Organza</h4>
+            </div>
           </div>
-        </div>
 
-        <!-- Foreground Primary Card (Angle 1) -->
-        <div id="stackCardFront" class="stack-angled-1 relative w-72 sm:w-80 h-[420px] rounded-2xl overflow-hidden border border-[#5A0D1A]/40 bg-white cursor-pointer transition-all duration-500 hover:scale-105">
-          <img src="assets/saree_marakata_emerald.jpg" alt="Trend Foreground Card" class="w-full h-full object-cover" />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-          <div class="absolute bottom-6 left-6 right-6 text-white">
-            <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">EDITION 01</span>
-            <h3 class="font-serif text-xl font-bold">Marakata & Violet Pair</h3>
-            <p class="font-sans text-xs text-white/80 mt-1">Dual-tone contrasting borders.</p>
+          <!-- Front Tilt Card -->
+          <div class="tilt-card-front absolute top-6 left-6 w-72 md:w-80 h-[400px] md:h-[460px] rounded-3xl overflow-hidden border-2 border-gold-400 bg-[#FAF6EE] cursor-pointer z-10" onclick="addToBag('Marakata & Violet Pair', 29500)">
+            <img src="assets/saree_marakata_emerald.jpg" alt="Edition 01" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent"></div>
+            <div class="absolute bottom-6 left-6 right-6 text-white">
+              <span class="font-display text-[9px] text-gold-300 uppercase tracking-widest block mb-1">EDITION 01</span>
+              <h4 class="font-serif text-xl font-bold text-white">Marakata & Violet Pair</h4>
+              <div class="flex items-center justify-between mt-2 pt-2 border-t border-white/20">
+                <span class="font-serif text-base text-gold-300 font-bold">₹29,500</span>
+                <span class="font-display text-[10px] text-white/90 uppercase tracking-wider font-semibold">VIEW DRAPE →</span>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <!-- Pagination Controls (< 1 / 3 >) -->
-        <div class="absolute -bottom-8 flex items-center gap-4 bg-white px-5 py-2 rounded-full border border-[#E0D8C0] shadow-sm font-display text-xs">
-          <button onclick="cycleTrends(-1)" class="font-bold text-[#5A0D1A] hover:text-black">‹</button>
-          <span id="trendsCounter" class="font-semibold text-[#3D060F]">1 / 3</span>
-          <button onclick="cycleTrends(1)" class="font-bold text-[#5A0D1A] hover:text-black">›</button>
         </div>
-
       </div>
 
     </div>
   </section>
 
   <!-- ========================================================================= -->
-  <!-- SLIDING SHOPPING CART DRAWER                                              -->
+  <!-- FOOTER: DRIFT (DRAPED IN STORIES)                                         -->
   <!-- ========================================================================= -->
-  <div id="cartDrawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white shadow-2xl border-l border-[#E5DECA] transform translate-x-full transition-transform duration-300 flex flex-col justify-between">
-    <div class="p-6 border-b border-[#E5DECA] flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <svg class="w-5 h-5 text-[#5A0D1A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
-        <h3 class="font-serif text-lg font-bold text-[#3D060F]">Your Shopping Bag</h3>
-      </div>
-      <button onclick="toggleCartDrawer()" class="w-8 h-8 rounded-full border border-[#E5DECA] flex items-center justify-center text-[#5A0D1A] hover:bg-[#5A0D1A] hover:text-white transition-colors">✕</button>
-    </div>
-
-    <!-- Cart Items List -->
-    <div id="cartItemsList" class="flex-1 overflow-y-auto p-6 space-y-4">
-      <div id="cartEmptyState" class="text-center py-16 text-[#5A0D1A]/60">
-        <p class="font-serif text-lg mb-2">Your bag is currently empty.</p>
-        <p class="font-sans text-xs">Explore our royal collections to add handwoven heirlooms.</p>
-      </div>
-    </div>
-
-    <!-- Cart Footer & Checkout -->
-    <div class="p-6 border-t border-[#E5DECA] bg-[#FAF6EE]">
-      <div class="flex items-center justify-between mb-4">
-        <span class="font-display text-xs uppercase tracking-wider text-[#5A0D1A]">Subtotal</span>
-        <span id="cartSubtotal" class="font-serif text-xl font-bold text-[#3D060F]">₹0</span>
-      </div>
-      <button onclick="alert('Proceeding to Encrypted Heritage Checkout...')" class="w-full py-3.5 rounded-full bg-[#5A0D1A] hover:bg-[#3D060F] text-white font-display text-xs uppercase tracking-[0.2em] font-bold transition-all shadow-lg">
-        PROCEED TO SECURE CHECKOUT
-      </button>
-    </div>
-  </div>
-
-  <!-- Cart Backdrop -->
-  <div id="cartBackdrop" onclick="toggleCartDrawer()" class="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm hidden"></div>
-
-  <!-- ========================================================================= -->
-  <!-- FOOTER                                                                    -->
-  <!-- ========================================================================= -->
-  <footer class="bg-[#3D060F] text-white py-16 px-6 md:px-12 border-t border-[#5A0D1A]">
+  <footer class="bg-[#0A0709] text-white/70 py-16 px-6 md:px-12 border-t border-white/10">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
       <div>
-        <span class="font-serif text-2xl font-bold tracking-tight text-white">DRIFT<span class="text-gold-400 font-sans text-xl">®</span></span>
-        <p class="font-display text-[9px] tracking-[0.25em] text-gold-300 uppercase mt-1">DRAPED IN STORIES // ESTD. 1888</p>
+        <span class="font-serif text-3xl font-bold tracking-tight text-white">DRIFT<span class="text-gold-500 font-sans text-xl">®</span></span>
+        <span class="block font-display text-[9px] tracking-[0.25em] text-gold-400 uppercase font-semibold mt-1">DRAPED IN STORIES</span>
       </div>
-      <div class="flex items-center gap-6 font-display text-[10px] text-white/70 tracking-widest uppercase flex-wrap">
-        <span>Handloom Mark</span>
-        <span>•</span>
-        <span>Silk Mark Certified</span>
-        <span>•</span>
-        <span>Pure Tested Zari</span>
-        <span>•</span>
-        <span>Varanasi • Kanchi • Bengal</span>
+      <div class="flex items-center gap-6 text-xs font-display tracking-widest uppercase text-white/50">
+        <a href="#heroShowroom" class="hover:text-gold-300 transition-colors">Home</a>
+        <a href="#driftSignatures" class="hover:text-gold-300 transition-colors">Signatures</a>
+        <a href="#trendsSection" class="hover:text-gold-300 transition-colors">Trends</a>
+        <a href="#lookbookCustomizer" class="hover:text-gold-300 transition-colors">Customizer</a>
+        <a href="#bridalCollection" class="hover:text-gold-300 transition-colors">Bridal</a>
       </div>
-      <div class="font-display text-[10px] text-white/50">
-        © 2026 DRIFT. ALL RIGHTS RESERVED.
-      </div>
+      <p class="font-sans text-xs text-white/40">
+        © 2026 DRIFT Couture Pvt Ltd. All rights reserved.
+      </p>
     </div>
   </footer>
 
   <!-- ========================================================================= -->
-  <!-- JAVASCRIPT MASTER CHOREOGRAPHY & CANVAS FRAME SCRUBBING                   -->
+  <!-- SLIDE-OVER SHOPPING BAG DRAWER                                            -->
+  <!-- ========================================================================= -->
+  <div id="cartDrawer" class="fixed inset-0 z-50 pointer-events-none transition-all duration-500">
+    <!-- Backdrop Overlay -->
+    <div id="cartBackdrop" onclick="toggleCartDrawer()" class="absolute inset-0 bg-black/60 opacity-0 transition-opacity duration-500"></div>
+
+    <!-- Drawer Panel -->
+    <div id="cartPanel" class="absolute top-0 right-0 bottom-0 w-full max-w-md bg-[#FAF6EE] text-[#3D060F] shadow-2xl p-6 md:p-8 flex flex-col justify-between translate-x-full transition-transform duration-500 ease-out border-l border-[#E5DECA]">
+      
+      <!-- Drawer Header -->
+      <div class="flex items-center justify-between border-b border-[#E5DECA] pb-4">
+        <div>
+          <span class="font-display text-[10px] uppercase tracking-widest text-[#5A0D1A] font-bold block">YOUR SELECTIONS</span>
+          <h3 class="font-serif text-2xl font-bold">Shopping Bag (<span id="cartCountHeader">0</span>)</h3>
+        </div>
+        <button onclick="toggleCartDrawer()" class="w-9 h-9 rounded-full border border-[#D5CCA8] flex items-center justify-center text-[#5A0D1A] hover:bg-[#5A0D1A] hover:text-white transition-colors">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Item List Container -->
+      <div id="cartItemList" class="my-auto py-6 overflow-y-auto space-y-4 max-h-[50vh]">
+        <div id="emptyCartMessage" class="text-center py-12 text-[#5A0D1A]/60 font-sans text-sm">
+          <p>Your bag is currently empty.</p>
+          <p class="text-xs mt-2 text-[#5A0D1A]/40">Explore our signature weaves to begin your heirloom journey.</p>
+        </div>
+      </div>
+
+      <!-- Drawer Footer -->
+      <div class="border-t border-[#E5DECA] pt-4">
+        <div class="flex items-center justify-between mb-2">
+          <span class="font-display text-xs text-[#5A0D1A]/70 uppercase tracking-wider">Subtotal</span>
+          <span id="cartSubtotal" class="font-serif text-xl font-bold text-[#3D060F]">₹0</span>
+        </div>
+        <p class="font-sans text-[11px] text-[#5A0D1A]/60 mb-4">Includes taxes & complimentary insured doorstep courier across India.</p>
+        
+        <button onclick="simulateCheckout()" class="w-full py-4 rounded-full bg-[#5A0D1A] hover:bg-[#3D060F] text-white font-display text-xs uppercase tracking-[0.2em] font-bold transition-all shadow-lg shadow-[#5A0D1A]/20 flex items-center justify-center gap-2">
+          <span>PROCEED TO CHECKOUT</span>
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 1080P SHOWCASE VIDEO MODAL PLAYER                                         -->
+  <!-- ========================================================================= -->
+  <div id="videoModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-lg hidden items-center justify-center p-4">
+    <div class="relative w-full max-w-4xl bg-black rounded-3xl overflow-hidden border border-white/20 shadow-2xl">
+      <div class="flex items-center justify-between p-4 border-b border-white/10 bg-[#0A0709]">
+        <span class="font-display text-xs text-gold-300 tracking-widest uppercase font-bold">DRIFT // 1080P CINEMATIC SHOWCASE</span>
+        <button onclick="closeVideoPlayer()" class="text-white hover:text-gold-300 text-sm font-display font-bold">CLOSE ✕</button>
+      </div>
+      <div class="relative w-full aspect-video bg-black flex items-center justify-center">
+        <video id="modalVideoPlayer" class="w-full h-full object-cover" controls playsinline>
+          <source src="assets/saree_showcase.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 px-5 py-3 rounded-2xl bg-[#3D060F] text-white border border-gold-400 font-display text-xs tracking-wider uppercase font-semibold shadow-2xl opacity-0 pointer-events-none transition-all duration-300">
+    <span id="toastMessage">Added to Bag</span>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT: LENIS, GSAP SCROLL CANVAS SCRUB, 3D CYLINDER & CUSTOMIZER     -->
   <!-- ========================================================================= -->
   <script>
-    // 1. Initialize Lenis Momentum Smooth Scrolling
-    let lenis = null;
-    if (typeof Lenis !== 'undefined') {
-      lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        wheelMultiplier: 0.95
-      });
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add((time) => lenis.raf(time * 1000));
-      gsap.ticker.lagSmoothing(0);
-    }
+    // --- 1. LENIS MOMENTUM SMOOTH SCROLLING ---
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 0.9
+    });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
 
-    // 2. Apple-Style 3D Frame Scrubbing Canvas (Paisley Fabric -> Luxury Boutique Showroom)
+    // --- 2. APPLE-STYLE 60FPS CANVAS FRAME SCRUBBING ---
     const canvas = document.getElementById('heroScrubCanvas');
     const ctx = canvas.getContext('2d');
-
+    
     const startImg = new Image();
-    startImg.src = 'assets/saree_exact_start_frame.jpg'; // Paisley Red & Gold Weave
     const endImg = new Image();
-    endImg.src = 'assets/saree_exact_end_frame.jpg';     // Luxury Showroom Boutique
+    startImg.src = 'assets/saree_exact_start_frame.jpg';
+    endImg.src = 'assets/saree_exact_end_frame.jpg';
 
-    let loaded = 0;
-    function imgReady() {
-      loaded++;
-      if (loaded >= 1) {
-        resizeCanvas();
-        drawHero(0);
-      }
-    }
-    startImg.onload = imgReady;
-    endImg.onload = imgReady;
+    let scrubProgress = 0;
 
     function resizeCanvas() {
       const dpr = window.devicePixelRatio || 1;
       canvas.width = window.innerWidth * dpr;
       canvas.height = window.innerHeight * dpr;
       ctx.scale(dpr, dpr);
+      renderScrubFrame(scrubProgress);
     }
-    window.addEventListener('resize', () => {
-      resizeCanvas();
-      drawHero(window.heroProgress || 0);
-    });
+    window.addEventListener('resize', resizeCanvas);
 
-    function drawHero(p) {
-      window.heroProgress = p;
+    function renderScrubFrame(progress) {
+      if (!ctx) return;
       const w = window.innerWidth;
       const h = window.innerHeight;
       ctx.clearRect(0, 0, w, h);
 
-      // Draw Start Frame (Red & Gold Paisley Weave) zooming out in 3D
-      if (startImg.complete && p < 0.75) {
-        const startAlpha = Math.max(0, 1 - p * 1.5);
-        ctx.save();
-        ctx.globalAlpha = startAlpha;
-        const scale = 1.3 - p * 0.4;
-        const dw = w * scale;
-        const dh = h * scale;
-        const dx = (w - dw) / 2;
-        const dy = (h - dh) / 2;
-        ctx.drawImage(startImg, dx, dy, dw, dh);
-        ctx.restore();
+      // Smooth Cross-fade with contrast balance
+      if (startImg.complete && startImg.naturalWidth > 0) {
+        ctx.globalAlpha = Math.max(0, 1 - progress * 1.1);
+        drawImageCover(ctx, startImg, w, h);
       }
-
-      // Draw End Frame (Luxury Showroom with Mannequins) emerging into view
-      if (endImg.complete && p > 0.15) {
-        const endAlpha = Math.min(1, (p - 0.15) * 1.6);
-        ctx.save();
-        ctx.globalAlpha = endAlpha;
-        const zoom = 1.08 - (1 - p) * 0.08;
-        const dw = w * zoom;
-        const dh = h * zoom;
-        const dx = (w - dw) / 2;
-        const dy = (h - dh) / 2;
-        ctx.drawImage(endImg, dx, dy, dw, dh);
-        ctx.restore();
+      if (endImg.complete && endImg.naturalWidth > 0) {
+        ctx.globalAlpha = Math.min(1, progress * 1.15);
+        drawImageCover(ctx, endImg, w, h);
       }
     }
 
-    // GSAP ScrollTrigger timeline for Hero
-    gsap.registerPlugin(ScrollTrigger);
+    function drawImageCover(ctx, img, w, h) {
+      const imgRatio = img.naturalWidth / img.naturalHeight;
+      const screenRatio = w / h;
+      let sw, sh, sx, sy;
 
+      if (screenRatio > imgRatio) {
+        sw = img.naturalWidth;
+        sh = img.naturalWidth / screenRatio;
+        sx = 0;
+        sy = (img.naturalHeight - sh) / 2;
+      } else {
+        sh = img.naturalHeight;
+        sw = img.naturalHeight * screenRatio;
+        sx = (img.naturalWidth - sw) / 2;
+        sy = 0;
+      }
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
+    }
+
+    Promise.all([
+      new Promise((res) => { startImg.onload = res; startImg.onerror = res; }),
+      new Promise((res) => { endImg.onload = res; endImg.onerror = res; })
+    ]).then(() => {
+      resizeCanvas();
+    });
+
+    // Pinned ScrollTrigger for Hero Scrubbing
     ScrollTrigger.create({
       trigger: '#heroShowroom',
       start: 'top top',
       end: 'bottom bottom',
       scrub: 0.6,
       onUpdate: (self) => {
-        const p = self.progress;
-        drawHero(p);
+        scrubProgress = self.progress;
+        renderScrubFrame(scrubProgress);
 
-        const content = document.getElementById('heroContentLayer');
-        if (content) {
-          // Floating titles rise and lock into place
-          content.style.transform = `translateY(${p * -40}px)`;
-        }
+        // Subtle parallax on text
+        gsap.to('#heroContentLayer', {
+          y: -self.progress * 120,
+          opacity: 1 - self.progress * 0.85,
+          duration: 0.1,
+          overwrite: 'auto'
+        });
       }
     });
 
-    // 3. Filmstrip Scrubber Interactive Background Sync (Frame 37s)
-    function scrubFilmstrip(idx, bgSrc, titleText) {
-      document.querySelectorAll('.filmstrip-card').forEach((card, i) => {
-        if (i === idx) {
-          card.classList.add('border-gold-400');
-          card.classList.remove('border-white/20');
-        } else {
-          card.classList.remove('border-gold-400');
-          card.classList.add('border-white/20');
-        }
-      });
-
-      const bg = document.getElementById('filmstripBg');
-      const title = document.getElementById('filmstripTitle');
-      const counter = document.getElementById('filmstripCounter');
-
-      bg.style.opacity = '0';
-      setTimeout(() => {
-        bg.src = bgSrc;
-        bg.style.opacity = '0.45';
-      }, 200);
-
-      if (title) title.innerText = titleText;
-      if (counter) counter.innerText = `0${idx + 1} / 05`;
+    // --- 3. 3D CYLINDRICAL CAROUSEL MOUSE PHYSICS (Image 1) ---
+    const cylinderTrack = document.getElementById('cylinderTrack');
+    function handleCylinderMouse(e) {
+      const stage = document.getElementById('cylinderStage');
+      const rect = stage.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const pct = (mouseX / rect.width) - 0.5; // -0.5 to 0.5
+      const rotY = pct * 24; // -12deg to +12deg
+      if (cylinderTrack) {
+        cylinderTrack.style.transform = `perspective(1400px) rotateY(${rotY}deg)`;
+      }
     }
-
-    // 4. Trends Perspective Card Stack Cycler (Frame 40s)
-    const trendCards = [
-      { front: 'assets/saree_marakata_emerald.jpg', back: 'assets/saree_chandramukhi_ivory.jpg', title: 'Marakata & Violet Pair', edition: '01' },
-      { front: 'assets/saree_royal_vermilion.jpg', back: 'assets/saree_gulabi_organza.jpg', title: 'Royal Vermilion Banarasi', edition: '02' },
-      { front: 'assets/saree_chandramukhi_ivory.jpg', back: 'assets/saree_marakata_emerald.jpg', title: 'Rosewater Gossamer Tissue', edition: '03' }
-    ];
-    let trendIdx = 0;
-
-    function cycleTrends(direction) {
-      trendIdx = (trendIdx + direction + trendCards.length) % trendCards.length;
-      const data = trendCards[trendIdx];
-
-      const front = document.getElementById('stackCardFront');
-      const back = document.getElementById('stackCardBack');
-      const counter = document.getElementById('trendsCounter');
-
-      gsap.to([front, back], {
-        scale: 0.95,
-        duration: 0.2,
-        onComplete: () => {
-          front.querySelector('img').src = data.front;
-          back.querySelector('img').src = data.back;
-          front.querySelector('h3').innerText = data.title;
-          front.querySelector('span').innerText = `EDITION ${data.edition}`;
-          counter.innerText = `${trendIdx + 1} / 3`;
-
-          gsap.to([front, back], { scale: 1, duration: 0.3 });
-        }
-      });
-    }
-
-    // 5. Customizer Controls (Frame 31s)
-    let currentQty = 1;
-    function changeQty(delta) {
-      currentQty = Math.max(1, currentQty + delta);
-      document.getElementById('qtyDisplay').innerText = currentQty;
-    }
-
-    function selectSize(btn) {
-      document.querySelectorAll('.size-pill').forEach(b => {
-        b.className = 'size-pill px-4 py-2 rounded-lg border border-[#E0D8C0] bg-white text-[#3D060F] font-display text-xs font-bold hover:border-[#5A0D1A]';
-      });
-      btn.className = 'size-pill active px-4 py-2 rounded-lg border border-[#5A0D1A] bg-[#5A0D1A] text-white font-display text-xs font-bold';
-    }
-
-    function selectColor(name, imgSrc) {
-      document.getElementById('selectedColorName').innerText = name;
-      document.getElementById('customizerImage').src = imgSrc;
-    }
-
-    function handleMasterAddToCart() {
-      const btn = document.getElementById('addToCartMasterBtn');
-      const txt = document.getElementById('masterBtnText');
-      txt.innerText = 'ADDED TO CART ✓';
-      btn.classList.add('bg-[#27AE60]');
-      btn.classList.remove('bg-[#5A0D1A]');
-
-      addToBag('Gulabi Rosewater Organza', 24800);
-
-      setTimeout(() => {
-        txt.innerText = 'ADD TO CART';
-        btn.classList.remove('bg-[#27AE60]');
-        btn.classList.add('bg-[#5A0D1A]');
-      }, 2000);
-    }
-
-    // 6. Interactive Bag / Cart Drawer
-    let cart = [];
-
-    function toggleCartDrawer() {
-      const drawer = document.getElementById('cartDrawer');
-      const backdrop = document.getElementById('cartBackdrop');
-      const isOpen = !drawer.classList.contains('translate-x-full');
-
-      if (isOpen) {
-        drawer.classList.add('translate-x-full');
-        backdrop.classList.add('hidden');
-      } else {
-        drawer.classList.remove('translate-x-full');
-        backdrop.classList.remove('hidden');
+    function resetCylinder() {
+      if (cylinderTrack) {
+        cylinderTrack.style.transform = `perspective(1400px) rotateY(0deg)`;
       }
     }
 
-    function addToBag(title, price) {
-      cart.push({ title, price, id: Date.now() });
-      updateCartUI();
-      toggleCartDrawer();
+    function filterSignature(tag) {
+      document.querySelectorAll('.sig-tag').forEach(b => {
+        b.classList.remove('active', 'border-[#5A0D1A]', 'bg-[#5A0D1A]', 'text-white');
+        b.classList.add('border-[#D5CCA8]', 'bg-white', 'text-[#3D060F]');
+      });
+      event.target.classList.add('active', 'border-[#5A0D1A]', 'bg-[#5A0D1A]', 'text-white');
+      showToast('Loaded ' + tag);
     }
 
-    function removeCartItem(id) {
-      cart = cart.filter(item => item.id !== id);
+    let isAudioPlaying = false;
+    function toggleAudio() {
+      isAudioPlaying = !isAudioPlaying;
+      const status = document.getElementById('audioStatusText');
+      if (status) {
+        status.innerText = isAudioPlaying ? 'SOUND: PLAYING (LOOM RHYTHMS)' : 'SOUND: ATELIER AMBIENCE';
+      }
+      showToast(isAudioPlaying ? 'Ambient Loom Audio Activated' : 'Audio Muted');
+    }
+
+    // --- 4. INTERACTIVE LOOKBOOK CUSTOMIZER STATE MACHINE (Image 3) ---
+    const lookbookData = [
+      {
+        title: 'IVORY ORGANZA BLOOM',
+        price: '₹18,400',
+        color: 'IVORY',
+        img: 'assets/saree_chandramukhi_ivory.jpg',
+        desc: 'Featherlight pure mulberry silk organza adorned with delicate hand-embroidered cut-dana floral vines and a scalloped antique silver-gold zari border.'
+      },
+      {
+        title: 'ROSEWATER PEACH BLOOM',
+        price: '₹19,800',
+        color: 'ROSEWATER',
+        img: 'assets/saree_gulabi_organza.jpg',
+        desc: 'Pastel shimmer organza with hand-cut French bullion knotwork and fluid gossamer pleats capturing golden morning light.'
+      },
+      {
+        title: 'RUBY VERMILION BLOOM',
+        price: '₹24,500',
+        color: 'CRIMSON RUBY',
+        img: 'assets/saree_royal_vermilion.jpg',
+        desc: 'Sovereign Banarasi tissue silk with dense 24k electroplated gold zari jaal and a dramatic regal pallu drape.'
+      }
+    ];
+
+    let currentLookIdx = 0;
+    let lookbookQtyCount = 1;
+
+    function switchLook(idx) {
+      currentLookIdx = idx;
+      const data = lookbookData[idx];
+
+      // Update thumbnails active border
+      document.querySelectorAll('.look-thumb').forEach((t, i) => {
+        if (i === idx) {
+          t.classList.add('border-[#5A0D1A]');
+          t.classList.remove('border-transparent');
+        } else {
+          t.classList.remove('border-[#5A0D1A]');
+          t.classList.add('border-transparent');
+        }
+      });
+
+      // Cross-fade main image
+      const model = document.getElementById('mainLookbookModel');
+      if (model) {
+        model.style.opacity = '0';
+        setTimeout(() => {
+          model.src = data.img;
+          model.style.opacity = '1';
+        }, 200);
+      }
+
+      document.getElementById('lookbookTitle').innerText = data.title;
+      document.getElementById('lookbookPrice').innerText = data.price;
+      document.getElementById('lookbookColorName').innerText = data.color;
+      document.getElementById('lookbookDesc').innerText = data.desc;
+    }
+
+    function selectLookbookColor(colorName, hex, lookIdx) {
+      switchLook(lookIdx);
+      document.getElementById('lookbookColorName').innerText = colorName;
+    }
+
+    function selectBlouseSize(btn) {
+      document.querySelectorAll('.blouse-size-btn').forEach(b => {
+        b.classList.remove('active', 'border-[#5A0D1A]', 'bg-[#5A0D1A]', 'text-white');
+        b.classList.add('border-[#D5CCA8]', 'text-[#3D060F]');
+      });
+      btn.classList.add('active', 'border-[#5A0D1A]', 'bg-[#5A0D1A]', 'text-white');
+    }
+
+    function adjustLookbookQty(delta) {
+      lookbookQtyCount = Math.max(1, lookbookQtyCount + delta);
+      document.getElementById('lookbookQty').innerText = lookbookQtyCount;
+    }
+
+    function handleLookbookAddToCart() {
+      const data = lookbookData[currentLookIdx];
+      const numericPrice = parseInt(data.price.replace(/[^\d]/g, ''), 10);
+      addToBag(data.title, numericPrice, lookbookQtyCount);
+    }
+
+    // --- 5. SHOPPING BAG & CART STATE ---
+    let cartItems = [];
+
+    function addToBag(title, price, qty = 1) {
+      const existing = cartItems.find(i => i.title === title);
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        cartItems.push({ title, price, qty });
+      }
+      updateCartUI();
+      showToast(`Added ${title} to Bag`);
+    }
+
+    function removeFromBag(title) {
+      cartItems = cartItems.filter(i => i.title !== title);
       updateCartUI();
     }
 
     function updateCartUI() {
-      const badge = document.getElementById('cartCountBadge');
-      const list = document.getElementById('cartItemsList');
-      const empty = document.getElementById('cartEmptyState');
-      const subtotal = document.getElementById('cartSubtotal');
+      const totalCount = cartItems.reduce((acc, i) => acc + i.qty, 0);
+      const subtotal = cartItems.reduce((acc, i) => acc + (i.price * i.qty), 0);
 
-      badge.innerText = cart.length;
+      document.getElementById('cartCountBadge').innerText = totalCount;
+      document.getElementById('cartCountHeader').innerText = totalCount;
+      document.getElementById('cartSubtotal').innerText = '₹' + subtotal.toLocaleString('en-IN');
 
-      if (cart.length === 0) {
-        empty.classList.remove('hidden');
-        list.innerHTML = '';
-        list.appendChild(empty);
-        subtotal.innerText = '₹0';
+      const list = document.getElementById('cartItemList');
+      if (!list) return;
+
+      if (cartItems.length === 0) {
+        list.innerHTML = `
+          <div id="emptyCartMessage" class="text-center py-12 text-[#5A0D1A]/60 font-sans text-sm">
+            <p>Your bag is currently empty.</p>
+            <p class="text-xs mt-2 text-[#5A0D1A]/40">Explore our signature weaves to begin your heirloom journey.</p>
+          </div>
+        `;
+      } else {
+        list.innerHTML = cartItems.map(item => `
+          <div class="flex items-center justify-between p-3 rounded-2xl bg-white border border-[#E5DECA]">
+            <div>
+              <h5 class="font-serif text-xs font-bold text-[#3D060F]">${item.title}</h5>
+              <span class="text-[10px] text-[#5A0D1A]/70">Qty: ${item.qty} × ₹${item.price.toLocaleString('en-IN')}</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="font-serif text-sm font-bold text-[#3D060F]">₹${(item.price * item.qty).toLocaleString('en-IN')}</span>
+              <button onclick="removeFromBag('${item.title}')" class="text-xs text-red-700 hover:text-black">✕</button>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function toggleCartDrawer() {
+      const drawer = document.getElementById('cartDrawer');
+      const backdrop = document.getElementById('cartBackdrop');
+      const panel = document.getElementById('cartPanel');
+
+      if (panel.classList.contains('translate-x-full')) {
+        drawer.classList.remove('pointer-events-none');
+        backdrop.classList.remove('opacity-0');
+        backdrop.classList.add('opacity-100');
+        panel.classList.remove('translate-x-full');
+      } else {
+        backdrop.classList.remove('opacity-100');
+        backdrop.classList.add('opacity-0');
+        panel.classList.add('translate-x-full');
+        setTimeout(() => drawer.classList.add('pointer-events-none'), 500);
+      }
+    }
+
+    function simulateCheckout() {
+      if (cartItems.length === 0) {
+        showToast('Your bag is empty.');
         return;
       }
-
-      empty.classList.add('hidden');
-      list.innerHTML = '';
-
-      let total = 0;
-      cart.forEach(item => {
-        total += item.price;
-        const row = document.createElement('div');
-        row.className = 'flex items-center justify-between p-3 rounded-xl border border-[#E5DECA] bg-[#FAF6EE]';
-        row.innerHTML = `
-          <div>
-            <h4 class="font-serif text-sm font-semibold text-[#3D060F]">${item.title}</h4>
-            <span class="font-serif text-xs text-[#5A0D1A] font-bold">₹${item.price.toLocaleString('en-IN')}</span>
-          </div>
-          <button onclick="removeCartItem(${item.id})" class="text-xs text-red-600 hover:text-red-800 font-bold">Remove</button>
-        `;
-        list.appendChild(row);
-      });
-
-      subtotal.innerText = `₹${total.toLocaleString('en-IN')}`;
+      showToast('Redirecting to Secure Atelier Checkout...');
     }
 
-    function playShowroomTour() {
-      if (lenis) {
-        lenis.scrollTo('#filmstripScrubberSection', { offset: 0 });
-      } else {
-        document.getElementById('filmstripScrubberSection').scrollIntoView({ behavior: 'smooth' });
-      }
+    function toggleWishlistModal() {
+      showToast('Wishlist updated with current selection.');
     }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastNotification');
+      const label = document.getElementById('toastMessage');
+      if (!toast || !label) return;
+      label.innerText = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2500);
+    }
+
+    // --- 6. VIDEO MODAL PLAYER ---
+    function openVideoPlayer() {
+      const modal = document.getElementById('videoModal');
+      const video = document.getElementById('modalVideoPlayer');
+      if (modal) modal.classList.remove('hidden');
+      if (modal) modal.classList.add('flex');
+      if (video) video.play();
+    }
+    function closeVideoPlayer() {
+      const modal = document.getElementById('videoModal');
+      const video = document.getElementById('modalVideoPlayer');
+      if (modal) modal.classList.add('hidden');
+      if (modal) modal.classList.remove('flex');
+      if (video) video.pause();
+    }
+
   </script>
-
 </body>
 </html>
