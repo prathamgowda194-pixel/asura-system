@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AARADHYA · The Art of the Drape | Devotional Saree Brand</title>
+  
+  <!-- SEO & Social Meta -->
+  <meta name="description" content="Aaradhya — A devotional luxury saree brand inspired by the divine power, strength, and grace of Goddess Durga. Woven in divinity.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23D49D42'><path d='M12 2C12 2 14.5 7 14.5 10C14.5 11.5 13.5 13 12 13C10.5 13 9.5 11.5 9.5 10C9.5 7 12 2 12 2Z'/><path d='M12 13C12 13 16 11 19 14C20.5 15.5 20.5 17.5 19 18.5C17.5 19.5 15.5 19 14 17.5C13 16.5 12 15 12 13Z'/><path d='M12 13C12 13 8 11 5 14C3.5 15.5 3.5 17.5 5 18.5C6.5 19.5 8.5 19 10 17.5C11 16.5 12 15 12 13Z'/></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Rozha+One&family=Tiro+Devanagari+Sanskrit:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              cream: '#FAF6EF',
+              ivory: '#F7F2E9',
+              maroon: '#4A0D15',
+              deepCrimson: '#4C0B14',
+              richWine: '#36060E',
+              gold: '#D49D42',
+              softGold: '#E6C687',
+              paleGold: '#F3E5C8',
+              tealDark: '#08171A',
+              peacockTeal: '#0E292E',
+              borderGold: 'rgba(212, 157, 66, 0.25)',
+            }
+          },
+          fontFamily: {
+            cinzel: ['Cinzel', 'serif'],
+            cormorant: ['"Cormorant Garamond"', 'serif'],
+            playfair: ['"Playfair Display"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            devanagari: ['"Tiro Devanagari Sanskrit"', '"Rozha One"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- External Animation Engines (GSAP, ScrollTrigger, Lenis) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.0.45/dist/lenis.min.js"></script>
+
+  <style>
+    /* Custom Utilities & Editorial Precision */
+    html {
+      background-color: #FAF6EF;
+      color: #1A050A;
+      overflow-x: hidden;
+    }
+    
+    /* Shimmer Gold Gradient Text */
+    .text-gold-shimmer {
+      background: linear-gradient(135deg, #F3E5C8 0%, #D49D42 50%, #B87C28 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .text-gold-foil {
+      background: linear-gradient(180deg, #F9ECCB 0%, #DFAB52 40%, #B77F2A 70%, #F4E2B8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Subtle Mandala Rotations */
+    @keyframes spinSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .animate-spin-slow {
+      animation: spinSlow 60s linear infinite;
+    }
+    .animate-spin-reverse-slow {
+      animation: spinSlow 90s linear infinite reverse;
+    }
+
+    /* Pulse Glow */
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.05); }
+    }
+    .animate-pulse-glow {
+      animation: pulseGlow 4s ease-in-out infinite;
+    }
+
+    /* Card 3D Perspective */
+    .perspective-1200 {
+      perspective: 1200px;
+    }
+    .preserve-3d {
+      transform-style: preserve-3d;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FAF6EF;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D49D42;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #4A0D15;
+    }
+
+    /* Canvas Flower Falling Layer */
+    #flowerCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body class="bg-brand-cream text-[#2D1B1E] selection:bg-brand-maroon selection:text-brand-softGold font-sans antialiased overflow-x-hidden">
+
+  <!-- Interactive Flower Petal Particle Canvas -->
+  <canvas id="flowerCanvas"></canvas>
+
+  <!-- ==========================================
+       SECTION 00: 3D OPENING & PRELOADER SCRUB
+       Diya to Maa Durga Sacred Transformation
+       ========================================== -->
+  <section id="openingSequence" class="relative w-full h-[180vh] bg-[#100305] text-white">
+    <div class="sticky top-0 w-full h-screen flex flex-col items-center justify-center overflow-hidden">
+      
+      <!-- Ambient Glow Behind Diya -->
+      <div class="absolute w-[500px] h-[500px] bg-[#E88C28]/20 rounded-full blur-[100px] pointer-events-none animate-pulse-glow"></div>
+      
+      <!-- Concentric Mandala Vectors -->
+      <svg class="absolute w-[700px] h-[700px] text-brand-gold/15 animate-spin-slow pointer-events-none" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="0.3" stroke-dasharray="1 2"/>
+        <circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="0.5"/>
+        <circle cx="50" cy="50" r="28" fill="none" stroke="currentColor" stroke-width="0.3" stroke-dasharray="2 2"/>
+        <circle cx="50" cy="50" r="18" fill="none" stroke="currentColor" stroke-width="0.4"/>
+      </svg>
+
+      <!-- Pinned Opening Scrub Stage -->
+      <div id="openingStage" class="relative z-10 flex flex-col items-center max-w-2xl text-center px-6 transition-all duration-700">
+        
+        <!-- Sacred Diya Container with Orbiting Lights -->
+        <div id="diyaContainer" class="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center mb-6">
+          
+          <!-- Orbiting Light Ring -->
+          <div class="absolute inset-0 rounded-full border border-brand-gold/40 animate-spin-slow">
+            <span class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-brand-gold shadow-[0_0_10px_#FFB74D]"></span>
+            <span class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 rounded-full bg-brand-gold shadow-[0_0_10px_#FFB74D]"></span>
+            <span class="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-brand-gold shadow-[0_0_10px_#FFB74D]"></span>
+            <span class="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-brand-gold shadow-[0_0_10px_#FFB74D]"></span>
+          </div>
+
+          <!-- Diya Image -->
+          <img 
+            id="diyaImg"
+            src="assets/aaradhya_3d_scroll_start_frame.jpg" 
+            alt="Sacred Brass Diya" 
+            class="w-52 h-52 md:w-64 md:h-64 object-contain rounded-full shadow-[0_0_50px_rgba(212,157,66,0.35)] transition-transform duration-700 hover:scale-105"
+            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?auto=format&fit=crop&w=800&q=80';"
+          />
+
+          <!-- Emerging Maa Durga Divine Reveal Overlay -->
+          <img 
+            id="durgaRevealImg"
+            src="assets/aaradhya_hero_durga.jpg" 
+            alt="Maa Durga Emerging" 
+            class="absolute inset-0 w-full h-full object-cover rounded-full opacity-0 scale-75 shadow-[0_0_70px_rgba(212,157,66,0.6)] transition-all duration-700 pointer-events-none"
+            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?auto=format&fit=crop&w=800&q=80';"
+          />
+        </div>
+
+        <!-- Sacred Title -->
+        <h1 class="font-cinzel text-2xl md:text-3xl tracking-[0.35em] text-gold-shimmer font-semibold uppercase mb-2">
+          AARADHYA
+        </h1>
+        
+        <p class="font-devanagari text-lg text-brand-softGold/90 tracking-widest mb-6">
+          जय माता दी · JAI MATA DI
+        </p>
+
+        <!-- Prompt to Scroll -->
+        <div class="flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-brand-softGold/70">
+          <span>Scroll to ignite the divine light</span>
+          <svg class="w-4 h-4 animate-bounce text-brand-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+          </svg>
+        </div>
+
+      </div>
+
+      <!-- Quick Skip to Experience Pill -->
+      <button 
+        id="skipOpeningBtn"
+        class="absolute bottom-8 z-20 px-5 py-2.5 rounded-full border border-brand-gold/30 bg-black/40 backdrop-blur-md text-xs tracking-[0.2em] text-brand-softGold hover:bg-brand-gold hover:text-black transition-all flex items-center gap-2"
+      >
+        <span>ENTER THE SANCTUARY</span>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 01: HERO SECTION
+       Maa Durga · The Mother. The Warrior. The Light.
+       ========================================== -->
+  <section id="heroSection" class="relative min-h-screen bg-brand-cream text-brand-maroon overflow-hidden flex flex-col justify-between pt-6 pb-8 px-4 md:px-12 border-b border-brand-maroon/10">
+    
+    <!-- Concentric Golden Mandala Background -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
+      <svg class="w-[850px] h-[850px] text-brand-gold/30 animate-spin-slow" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="0.3"/>
+        <circle cx="50" cy="50" r="42" fill="none" stroke="currentColor" stroke-width="0.4" stroke-dasharray="1 2"/>
+        <circle cx="50" cy="50" r="34" fill="none" stroke="currentColor" stroke-width="0.5"/>
+        <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="0.3" stroke-dasharray="2 3"/>
+        <circle cx="50" cy="50" r="18" fill="none" stroke="currentColor" stroke-width="0.5"/>
+      </svg>
+    </div>
+
+    <!-- Editorial Header Navigation -->
+    <header class="relative z-20 w-full flex items-center justify-between py-4 border-b border-brand-maroon/10">
+      
+      <!-- Brand Lockup -->
+      <a href="#heroSection" class="flex flex-col group">
+        <span class="font-cinzel text-xl md:text-2xl font-bold tracking-[0.25em] text-brand-maroon group-hover:text-brand-gold transition-colors">
+          AARADHYA
+        </span>
+        <span class="text-[9px] md:text-[10px] tracking-[0.3em] uppercase text-brand-maroon/70 font-medium">
+          THE ART OF THE DRAPE
+        </span>
+      </a>
+
+      <!-- Center Navigation Links -->
+      <nav class="hidden md:flex items-center gap-8 text-xs tracking-[0.18em] uppercase font-medium text-brand-maroon/80">
+        <a href="#storySection" class="hover:text-brand-gold transition-colors">The story</a>
+        <a href="#collectionsSection" class="hover:text-brand-gold transition-colors">Collections</a>
+        <a href="#showstopperSection" class="hover:text-brand-gold transition-colors">Our essence</a>
+      </nav>
+
+      <!-- Right CTAs: Sound & Explore -->
+      <div class="flex items-center gap-3">
+        <!-- Audio Ambient Bell Toggle -->
+        <button 
+          id="audioToggleBtn"
+          class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-brand-maroon/20 hover:border-brand-gold bg-white/60 backdrop-blur text-[11px] font-medium tracking-wider text-brand-maroon transition-all"
+          title="Toggle Temple Bell Acoustics"
+        >
+          <svg class="w-3.5 h-3.5 text-brand-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+          </svg>
+          <span id="audioStatusText">Chime</span>
+        </button>
+
+        <a 
+          href="#collectionsSection" 
+          class="px-4 py-1.5 rounded-full bg-brand-maroon text-brand-cream hover:bg-brand-gold hover:text-black transition-all text-xs tracking-[0.15em] uppercase font-semibold"
+        >
+          Explore
+        </a>
+      </div>
+    </header>
+
+    <!-- Subtitle Banner -->
+    <div class="relative z-10 w-full text-center mt-3 mb-1">
+      <span class="text-[10px] md:text-xs tracking-[0.35em] uppercase text-brand-maroon/70 font-semibold">
+        AARADHYA · A CELEBRATION OF SHAKTI
+      </span>
+    </div>
+
+    <!-- Main Hero Stage: Maa [Portrait] Durga -->
+    <div class="relative z-10 w-full max-w-6xl mx-auto flex-1 flex flex-col md:flex-row items-center justify-between my-auto py-4">
+      
+      <!-- Left Column: Giant "Maa" & Poetry -->
+      <div class="w-full md:w-1/3 text-center md:text-left flex flex-col items-center md:items-start order-2 md:order-1 mt-6 md:mt-0">
+        <h2 class="font-cormorant text-7xl md:text-8xl lg:text-9xl font-semibold text-brand-maroon leading-none">
+          Maa
+        </h2>
+        
+        <div class="mt-4 md:mt-6 space-y-1">
+          <p class="font-cormorant text-xl md:text-2xl text-brand-maroon/90 italic">The mother.</p>
+          <p class="font-cormorant text-xl md:text-2xl text-brand-maroon/90 italic">The warrior. The light.</p>
+        </div>
+      </div>
+
+      <!-- Center Column: Divine Goddess Durga Portrait with Interactive Flower Rig -->
+      <div class="relative w-full md:w-1/3 flex items-center justify-center order-1 md:order-2">
+        <div class="relative w-64 h-80 sm:w-72 sm:h-96 md:w-80 md:h-[430px] flex items-center justify-center">
+          
+          <!-- Radiating Gold Aura Halo -->
+          <div class="absolute w-[320px] h-[320px] md:w-[420px] md:h-[420px] rounded-full border border-brand-gold/40 animate-spin-slow pointer-events-none"></div>
+          <div class="absolute w-[280px] h-[280px] md:w-[380px] md:h-[380px] rounded-full border border-dashed border-brand-gold/30 animate-spin-reverse-slow pointer-events-none"></div>
+
+          <!-- Hero Image -->
+          <div class="relative w-full h-full rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(74,13,21,0.25)] border-2 border-brand-gold/40 group cursor-pointer" id="heroPortraitCard">
+            <img 
+              src="assets/aaradhya_hero_durga.jpg" 
+              alt="Maa Durga Divine Portrait" 
+              class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+              onerror="this.onerror=null; this.src='assets/section_01_hero.png';"
+            />
+            <!-- Subtle Radial Gradient Vignette -->
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-maroon/40 via-transparent to-transparent pointer-events-none"></div>
+          </div>
+
+          <!-- Floating "OFFER A FLOWER" Action Badge -->
+          <button 
+            id="offerFlowerBtn" 
+            class="absolute -right-4 md:-right-8 top-1/2 -translate-y-1/2 w-16 h-16 md:w-20 md:h-20 rounded-full bg-brand-maroon text-brand-cream border-2 border-brand-gold shadow-[0_0_20px_rgba(212,157,66,0.5)] flex flex-col items-center justify-center text-center p-1.5 transition-all duration-300 hover:scale-110 active:scale-95 z-30 group"
+          >
+            <span class="text-[9px] md:text-[10px] tracking-widest font-semibold uppercase group-hover:text-brand-gold">OFFER A</span>
+            <span class="text-[8px] md:text-[9px] tracking-widest uppercase font-medium">FLOWER</span>
+            <span class="text-[7px] text-brand-gold mt-0.5" id="offeringCount">0</span>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Right Column: Giant "Durga." & Subtitle -->
+      <div class="w-full md:w-1/3 text-center md:text-right flex flex-col items-center md:items-end order-3 mt-6 md:mt-0">
+        <h2 class="font-cormorant text-7xl md:text-8xl lg:text-9xl font-semibold italic text-brand-gold leading-none">
+          Durga.
+        </h2>
+        
+        <div class="mt-4 md:mt-6 space-y-1">
+          <p class="font-cormorant text-xl md:text-2xl text-brand-maroon/90 italic">Courage in her gaze.</p>
+          <p class="font-cormorant text-xl md:text-2xl text-brand-maroon/90 italic">Grace in every thread.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Center Bottom CTA & Telemetry Bar -->
+    <div class="relative z-10 w-full flex flex-col items-center gap-4 mt-4">
+      
+      <!-- Primary Pill CTA Button -->
+      <a 
+        href="#nightSection"
+        class="px-8 py-3 rounded-full border border-brand-maroon/30 bg-white/70 hover:bg-brand-maroon hover:text-brand-cream transition-all duration-300 text-xs tracking-[0.2em] font-semibold uppercase flex items-center gap-2 shadow-sm"
+      >
+        <span>Let the celebration unfold</span>
+        <svg class="w-4 h-4 text-brand-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
+      </a>
+
+      <!-- Telemetry Bar -->
+      <div class="w-full max-w-6xl flex items-center justify-between text-[10px] md:text-xs tracking-[0.15em] text-brand-maroon/60 pt-3 border-t border-brand-maroon/10">
+        <div class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-ping"></span>
+          <span>Click anywhere on screen to offer flowers</span>
+        </div>
+        <button id="replayOpeningBtn" class="hover:text-brand-maroon transition-colors flex items-center gap-1">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+          <span>Replay opening</span>
+        </button>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ==========================================
+       SECTION 02: NIGHT CELEBRATION
+       "In her light, we celebrate."
+       ========================================== -->
+  <section id="nightSection" class="relative min-h-screen bg-brand-tealDark text-white py-16 md:py-24 px-6 md:px-16 overflow-hidden flex flex-col justify-between">
+    
+    <!-- Deep Peacock Teal Ambient Wash & Starlight Particles -->
+    <div class="absolute inset-0 bg-gradient-to-b from-[#08171A] via-[#0E292E] to-[#08171A] opacity-90 pointer-events-none"></div>
+    <div class="absolute w-[600px] h-[600px] bg-brand-gold/10 rounded-full blur-[140px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+
+    <!-- Section Header Tag -->
+    <div class="relative z-10 w-full text-center">
+      <span class="text-[10px] md:text-xs tracking-[0.35em] uppercase text-brand-gold/80 font-semibold">
+        A CELEBRATION OF HER
+      </span>
+      <h3 class="font-cormorant text-4xl md:text-6xl lg:text-7xl font-light text-white mt-2">
+        In her light, <span class="italic text-gold-shimmer">we celebrate.</span>
+      </h3>
+    </div>
+
+    <!-- The Courtyard Stage: Left Dancer, Center Rangoli Diya, Right Dancer -->
+    <div class="relative z-10 w-full max-w-6xl mx-auto my-12 flex flex-col md:flex-row items-center justify-between gap-8">
+      
+      <!-- Left Dancer (Crimson Lehenga mid-twirl) -->
+      <div class="w-full md:w-1/3 flex flex-col items-center">
+        <div class="relative w-64 h-80 rounded-2xl overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.6)] border border-brand-gold/20 group">
+          <img 
+            src="assets/dancer_crimson.png" 
+            alt="Graceful Dancer in Crimson Lehenga" 
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            onerror="this.onerror=null; this.src='assets/section_02_night_celebration.png';"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4">
+            <span class="text-xs tracking-[0.2em] uppercase text-brand-softGold font-semibold">The Sacred Dance</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center Sacred Rangoli & Glowing Diya -->
+      <div class="w-full md:w-1/3 flex flex-col items-center text-center">
+        <div class="relative w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
+          <!-- Concentric Ring -->
+          <div class="absolute inset-0 rounded-full border border-brand-gold/30 animate-spin-slow"></div>
+          <img 
+            src="assets/rangoli_diya.png" 
+            alt="Floral Rangoli with Sacred Diya" 
+            class="w-40 h-40 md:w-52 md:h-52 object-contain rounded-full shadow-[0_0_40px_rgba(212,157,66,0.4)]"
+            onerror="this.onerror=null; this.src='assets/section_02_night_celebration.png';"
+          />
+        </div>
+        <p class="font-cormorant text-lg italic text-brand-softGold/90 mt-4 max-w-xs">
+          Where devotion meets the woven threads of royalty.
+        </p>
+      </div>
+
+      <!-- Right Dancer (Teal & Gold Pleated Saree Lehenga mid-twirl) -->
+      <div class="w-full md:w-1/3 flex flex-col items-center">
+        <div class="relative w-64 h-80 rounded-2xl overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.6)] border border-brand-gold/20 group">
+          <img 
+            src="assets/dancer_teal.png" 
+            alt="Graceful Dancer in Teal Pleated Saree Lehenga" 
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            onerror="this.onerror=null; this.src='assets/section_02_night_celebration.png';"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4">
+            <span class="text-xs tracking-[0.2em] uppercase text-brand-softGold font-semibold">The Rhythmic Pulse</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Pill CTA -->
+    <div class="relative z-10 w-full text-center">
+      <a 
+        href="#shloka1" 
+        class="inline-flex items-center gap-2 px-8 py-3 rounded-full border border-brand-gold/40 bg-brand-gold/10 hover:bg-brand-gold hover:text-black transition-all text-xs tracking-[0.2em] uppercase font-semibold text-brand-softGold"
+      >
+        <span>Enter the world of Aaradhya</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
+      </a>
+    </div>
+
+  </section>
+
+  <!-- ==========================================
+       SECTION 03: CINEMATIC MACRO TEXTILE & SHLOKA 01
+       Ya Devi Sarvabhuteshu Shakti-Rupena Samsthita
+       ========================================== -->
+  <section id="shloka1" class="relative w-full h-[65vh] md:h-[75vh] bg-[#2A1505] text-white flex items-center justify-center overflow-hidden">
+    
+    <!-- Macro Gold Brocade Fabric Background -->
+    <div class="absolute inset-0 overflow-hidden">
+      <img 
+        src="assets/fabric_brocade_gold.jpg" 
+        alt="Macro Golden Brocade Silk Texture" 
+        class="w-full h-full object-cover scale-105 transition-transform duration-1000 filter brightness-75"
+        onerror="this.onerror=null; this.src='assets/section_03_brocade_shloka1.png';"
+      />
+      <div class="absolute inset-0 bg-black/40"></div>
+    </div>
+
+    <!-- Sacred Sanskrit Shloka Box -->
+    <div class="relative z-10 max-w-3xl mx-auto text-center px-6 py-8 backdrop-blur-sm bg-black/30 rounded-3xl border border-brand-gold/30 shadow-2xl">
+      
+      <!-- Lotus Icon -->
+      <div class="w-10 h-10 mx-auto mb-4 text-brand-gold">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C12 2 14.5 7 14.5 10C14.5 11.5 13.5 13 12 13C10.5 13 9.5 11.5 9.5 10C9.5 7 12 2 12 2Z"/>
+          <path d="M12 13C12 13 16 11 19 14C20.5 15.5 20.5 17.5 19 18.5C17.5 19.5 15.5 19 14 17.5C13 16.5 12 15 12 13Z"/>
+          <path d="M12 13C12 13 8 11 5 14C3.5 15.5 3.5 17.5 5 18.5C6.5 19.5 8.5 19 10 17.5C11 16.5 12 15 12 13Z"/>
+        </svg>
+      </div>
+
+      <!-- Sanskrit Verse -->
+      <h4 class="font-devanagari text-2xl md:text-4xl text-brand-softGold font-medium tracking-wide mb-3 drop-shadow">
+        या देवी सर्वभूतेषु शक्तिरूपेण संस्थिता
+      </h4>
+
+      <!-- Transliteration -->
+      <p class="font-cinzel text-xs md:text-sm tracking-[0.25em] text-white/90 uppercase mb-2">
+        YA DEVI SARVABHUTESHU SHAKTI-RUPENA SAMSTHITA
+      </p>
+
+      <!-- English Translation -->
+      <p class="font-cormorant text-base md:text-xl italic text-brand-softGold/90">
+        To the Goddess who dwells in every being as strength.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- ==========================================
+       SECTION 04: EDITORIAL BEAUTY
+       "WOVEN IN DIVINITY."
+       ========================================== -->
+  <section id="storySection" class="relative min-h-[90vh] bg-brand-cream text-brand-maroon py-20 px-6 md:px-12 flex flex-col items-center justify-center overflow-hidden border-b border-brand-maroon/10">
+    
+    <!-- Concentric Mandala Background -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-25">
+      <svg class="w-[700px] h-[700px] text-brand-gold animate-spin-slow" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="0.4"/>
+        <circle cx="50" cy="50" r="32" fill="none" stroke="currentColor" stroke-width="0.3" stroke-dasharray="2 2"/>
+      </svg>
+    </div>
+
+    <!-- Massive Master Headline -->
+    <div class="relative z-10 w-full text-center mb-8">
+      <h2 class="font-cinzel text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-[0.15em] text-brand-maroon">
+        WOVEN IN DIVINITY.
+      </h2>
+      <p class="font-cormorant text-lg md:text-2xl italic text-brand-gold mt-2">
+        An ode to the timeless grace of the sacred feminine
+      </p>
+    </div>
+
+    <!-- Editorial Model Portrait with Matha Patti & Sunburst Radiance -->
+    <div class="relative z-10 w-full max-w-xl mx-auto flex items-center justify-center">
+      <div class="relative w-72 h-80 sm:w-80 sm:h-96 md:w-96 md:h-[440px] rounded-3xl overflow-hidden shadow-[0_25px_60px_rgba(74,13,21,0.2)] border-2 border-brand-gold/40 group">
+        <img 
+          src="assets/model_matha_patti.png" 
+          alt="Model with Antique Gold Matha Patti Headpiece" 
+          class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+          onerror="this.onerror=null; this.src='assets/section_04_woven_divinity.png';"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-maroon/50 via-transparent to-transparent flex items-end p-6">
+          <p class="text-xs tracking-[0.2em] uppercase text-brand-cream font-medium">
+            Antique Temple Jewelry · Pure Kanjeevaram Silk
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ==========================================
+       SECTION 05: THE SAREE COLLECTIONS RAIL
+       "02 / THE ART OF THE SAREE"
+       ========================================== -->
+  <section id="collectionsSection" class="relative min-h-screen bg-brand-cream text-brand-maroon py-16 overflow-hidden">
+    
+    <!-- Top Burgundy Header Band -->
+    <div class="w-full bg-brand-maroon text-brand-cream py-8 px-6 md:px-16 mb-12 shadow-md">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div>
+          <span class="text-[10px] tracking-[0.3em] uppercase text-brand-gold font-semibold">AARADHYA · THE ART OF THE DRAPE</span>
+          <p class="font-cormorant text-xl md:text-2xl text-brand-paleGold italic mt-1 max-w-2xl">
+            "A memory in the fold. A mother's grace in the drape. The quiet strength of generations, carried into a new beginning. Rooted. Fearless. Entirely her own."
+          </p>
+        </div>
+
+        <a 
+          href="#showstopperSection" 
+          class="inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase font-semibold text-brand-gold hover:text-white transition-colors"
+        >
+          <span>The spirit of Shakti</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Section Meta Telemetry -->
+    <div class="max-w-7xl mx-auto px-6 md:px-16 flex items-center justify-between text-xs tracking-[0.2em] uppercase text-brand-maroon/70 font-semibold mb-8">
+      <span>02 / THE ART OF THE SAREE</span>
+      <span>EVERY THREAD, A REMEMBRANCE</span>
+      <span class="hidden md:inline">IN PRAISE OF THE DETAILS</span>
+    </div>
+
+    <!-- Horizontal Saree Cards Showcase -->
+    <div class="max-w-7xl mx-auto px-6 md:px-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      <!-- Card 01: GRACE -->
+      <div class="group bg-white rounded-2xl overflow-hidden shadow-lg border border-brand-maroon/10 hover:shadow-2xl hover:border-brand-gold/60 transition-all duration-500 cursor-pointer flex flex-col">
+        <div class="relative h-80 overflow-hidden bg-[#EAE5D9]">
+          <img 
+            src="assets/card_grace.png" 
+            alt="Grace Emerald Silk Saree" 
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            onerror="this.onerror=null; this.src='assets/section_05_collections.png';"
+          />
+          <div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-brand-maroon/90 text-brand-gold text-[10px] tracking-widest font-semibold uppercase">
+            01 · SILK
+          </div>
+        </div>
+        <div class="p-6 flex flex-col justify-between flex-1">
+          <div>
+            <h3 class="font-cinzel text-2xl font-bold tracking-wider text-brand-maroon group-hover:text-brand-gold transition-colors">
+              GRACE
+            </h3>
+            <p class="font-cormorant text-lg text-brand-maroon/80 italic mt-1">
+              In every quiet gesture.
+            </p>
+            <p class="text-xs text-brand-maroon/70 mt-3 leading-relaxed">
+              Emerald green hand-spun Kanjeevaram with pure silver-gold zari pallu, reflecting sovereign poise.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-brand-maroon/10 flex items-center justify-between">
+            <span class="text-xs font-semibold tracking-wider text-brand-maroon">Explore Drape ↗</span>
+            <span class="text-xs text-brand-gold font-mono">100% MULBERRY</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 02: ENDURES -->
+      <div class="group bg-brand-maroon text-brand-cream rounded-2xl overflow-hidden shadow-lg border border-brand-gold/30 hover:shadow-2xl hover:border-brand-gold transition-all duration-500 cursor-pointer flex flex-col">
+        <div class="relative h-80 overflow-hidden bg-brand-richWine">
+          <img 
+            src="assets/card_endures.png" 
+            alt="Endures Heritage Gold Saree" 
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            onerror="this.onerror=null; this.src='assets/section_05_collections.png';"
+          />
+          <div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 text-brand-gold text-[10px] tracking-widest font-semibold uppercase">
+            02 · HERITAGE
+          </div>
+        </div>
+        <div class="p-6 flex flex-col justify-between flex-1">
+          <div>
+            <h3 class="font-cinzel text-2xl font-bold tracking-wider text-brand-gold">
+              ENDURES
+            </h3>
+            <p class="font-cormorant text-lg text-brand-softGold italic mt-1">
+              A connection that endures.
+            </p>
+            <p class="text-xs text-brand-cream/80 mt-3 leading-relaxed">
+              Deep crimson body with antique temple-gold motifs, woven for sacred occasions and timeless vows.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+            <span class="text-xs font-semibold tracking-wider text-brand-gold">Explore Drape ↗</span>
+            <span class="text-xs text-brand-softGold font-mono">TEMPLE ZARI</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 03: DISCOVER -->
+      <div class="group bg-white rounded-2xl overflow-hidden shadow-lg border border-brand-maroon/10 hover:shadow-2xl hover:border-brand-gold/60 transition-all duration-500 cursor-pointer flex flex-col sm:col-span-2 lg:col-span-1">
+        <div class="relative h-80 overflow-hidden bg-[#EAE5D9]">
+          <img 
+            src="assets/card_discover.png" 
+            alt="Discover Bridal Drape Saree" 
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            onerror="this.onerror=null; this.src='assets/section_05_collections.png';"
+          />
+          <div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-brand-maroon/90 text-brand-gold text-[10px] tracking-widest font-semibold uppercase">
+            03 · BRIDAL
+          </div>
+        </div>
+        <div class="p-6 flex flex-col justify-between flex-1">
+          <div>
+            <h3 class="font-cinzel text-2xl font-bold tracking-wider text-brand-maroon group-hover:text-brand-gold transition-colors">
+              DISCOVER
+            </h3>
+            <p class="font-cormorant text-lg text-brand-maroon/80 italic mt-1">
+              For the moment she becomes herself.
+            </p>
+            <p class="text-xs text-brand-maroon/70 mt-3 leading-relaxed">
+              Scarlet Banarasi bridal silk intricately embellished with real gold bullion and zardozi artistry.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-brand-maroon/10 flex items-center justify-between">
+            <span class="text-xs font-semibold tracking-wider text-brand-maroon">Explore Drape ↗</span>
+            <span class="text-xs text-brand-gold font-mono">HANDLOOM</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ==========================================
+       SECTION 06: CINEMATIC MACRO TEXTILE & SHLOKA 02
+       Namastasyai Namastasyai Namastasyai Namo Namah
+       ========================================== -->
+  <section id="shloka2" class="relative w-full h-[65vh] md:h-[75vh] bg-[#3B0710] text-white flex items-center justify-center overflow-hidden">
+    
+    <!-- Macro Scarlet Zardozi Silk Background -->
+    <div class="absolute inset-0 overflow-hidden">
+      <img 
+        src="assets/fabric_red_zardozi.jpg" 
+        alt="Macro Scarlet Red Zardozi Silk Embroidery" 
+        class="w-full h-full object-cover scale-105 filter brightness-75"
+        onerror="this.onerror=null; this.src='assets/section_06_red_zardozi_shloka2.png';"
+      />
+      <div class="absolute inset-0 bg-black/45"></div>
+    </div>
+
+    <!-- Sacred Sanskrit Shloka Box -->
+    <div class="relative z-10 max-w-3xl mx-auto text-center px-6 py-8 backdrop-blur-sm bg-black/35 rounded-3xl border border-brand-gold/30 shadow-2xl">
+      
+      <!-- Lotus Icon -->
+      <div class="w-10 h-10 mx-auto mb-4 text-brand-gold">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C12 2 14.5 7 14.5 10C14.5 11.5 13.5 13 12 13C10.5 13 9.5 11.5 9.5 10C9.5 7 12 2 12 2Z"/>
+          <path d="M12 13C12 13 16 11 19 14C20.5 15.5 20.5 17.5 19 18.5C17.5 19.5 15.5 19 14 17.5C13 16.5 12 15 12 13Z"/>
+          <path d="M12 13C12 13 8 11 5 14C3.5 15.5 3.5 17.5 5 18.5C6.5 19.5 8.5 19 10 17.5C11 16.5 12 15 12 13Z"/>
+        </svg>
+      </div>
+
+      <!-- Sanskrit Verse -->
+      <h4 class="font-devanagari text-2xl md:text-4xl text-brand-softGold font-medium tracking-wide mb-3 drop-shadow">
+        नमस्तस्यै नमस्तस्यै नमस्तस्यै नमो नमः
+      </h4>
+
+      <!-- Transliteration -->
+      <p class="font-cinzel text-xs md:text-sm tracking-[0.25em] text-white/90 uppercase mb-2">
+        NAMASTASYAI NAMASTASYAI NAMASTASYAI NAMO NAMAH
+      </p>
+
+      <!-- English Translation -->
+      <p class="font-cormorant text-base md:text-xl italic text-brand-softGold/90">
+        Salutations to her, salutations, again and again.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- ==========================================
+       SECTION 07: THE SHOWSTOPPER
+       "JAI MAA DURGA · The Feminine Spirit"
+       ========================================== -->
+  <section id="showstopperSection" class="relative min-h-screen bg-brand-deepCrimson text-white py-16 px-6 md:px-12 flex flex-col justify-between overflow-hidden">
+    
+    <!-- Concentric Golden Halo Mandala -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
+      <svg class="w-[850px] h-[850px] text-brand-gold animate-spin-slow" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="0.3"/>
+        <circle cx="50" cy="50" r="36" fill="none" stroke="currentColor" stroke-width="0.5" stroke-dasharray="2 2"/>
+        <circle cx="50" cy="50" r="24" fill="none" stroke="currentColor" stroke-width="0.4"/>
+      </svg>
+    </div>
+
+    <!-- Top Meta Telemetry -->
+    <div class="relative z-10 max-w-6xl mx-auto w-full flex items-center justify-between text-[10px] md:text-xs tracking-[0.25em] uppercase text-brand-softGold/70 font-semibold border-b border-white/10 pb-4">
+      <span>03 / THE FEMININE SPIRIT</span>
+      <div class="w-6 h-6 text-brand-gold">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C12 2 14.5 7 14.5 10C14.5 11.5 13.5 13 12 13C10.5 13 9.5 11.5 9.5 10C9.5 7 12 2 12 2Z"/>
+        </svg>
+      </div>
+      <span>STRENGTH. BEAUTY. GRACE.</span>
+    </div>
+
+    <!-- Center Stage: Giant Typographic Split "JAI M" [Durga on Lion] "URGA" -->
+    <div class="relative z-10 w-full max-w-6xl mx-auto my-auto flex flex-col md:flex-row items-center justify-center gap-2 md:gap-6 py-8">
+      
+      <!-- Left Giant Letters: "JAI M" -->
+      <div class="text-center md:text-right order-2 md:order-1 flex-1">
+        <h2 class="font-sans font-black text-6xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tight text-white leading-none">
+          JAI M
+        </h2>
+      </div>
+
+      <!-- Center Divine Visual: Goddess Durga on Royal Lion -->
+      <div class="relative w-64 h-80 sm:w-80 sm:h-96 md:w-96 md:h-[450px] flex items-center justify-center order-1 md:order-2 shrink-0">
+        <!-- Radiating Golden Ring -->
+        <div class="absolute w-[300px] h-[300px] md:w-[420px] md:h-[420px] rounded-full border border-brand-gold/40 animate-spin-slow pointer-events-none"></div>
+
+        <div class="relative w-full h-full rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.7)] border-2 border-brand-gold/50 group">
+          <img 
+            src="assets/aaradhya_showstopper_durga_lion.jpg" 
+            alt="Maa Durga on Royal Lion with 10 Divine Weapons" 
+            class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+            onerror="this.onerror=null; this.src='assets/section_07_showstopper_durga.png';"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+        </div>
+      </div>
+
+      <!-- Right Giant Letters: "URGA" -->
+      <div class="text-center md:text-left order-3 flex-1">
+        <h2 class="font-sans font-black text-6xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tight text-white leading-none">
+          URGA
+        </h2>
+      </div>
+
+    </div>
+
+    <!-- Subtitle & Reverence Footer -->
+    <div class="relative z-10 max-w-2xl mx-auto text-center">
+      <p class="font-cormorant text-base md:text-xl text-brand-paleGold italic leading-relaxed">
+        Maa Durga — a celebration of courage, compassion and protection. A moment of devotion to the divine feminine, and the strength that lives within her.
+      </p>
+      
+      <div class="mt-6 flex items-center justify-between text-[10px] md:text-xs tracking-[0.2em] uppercase text-brand-softGold/70 border-t border-white/10 pt-4">
+        <span>REVERENCE TO MAA DURGA</span>
+        <span>↓</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ==========================================
+       SECTION 08: CINEMATIC MACRO TEXTILE & SHLOKA 03
+       Sarva-Mangala-Mangalye Shive Sarvartha-Sadhike
+       ========================================== -->
+  <section id="shloka3" class="relative w-full h-[65vh] md:h-[75vh] bg-[#2E0B14] text-white flex items-center justify-center overflow-hidden">
+    
+    <!-- Macro Rose Tissue Silk Background -->
+    <div class="absolute inset-0 overflow-hidden">
+      <img 
+        src="assets/fabric_rose_tissue.jpg" 
+        alt="Macro Rose Tissue Silk with Gold Silver Zari" 
+        class="w-full h-full object-cover scale-105 filter brightness-75"
+        onerror="this.onerror=null; this.src='assets/section_08_rose_tissue_shloka3.png';"
+      />
+      <div class="absolute inset-0 bg-black/45"></div>
+    </div>
+
+    <!-- Sacred Sanskrit Shloka Box -->
+    <div class="relative z-10 max-w-3xl mx-auto text-center px-6 py-8 backdrop-blur-sm bg-black/35 rounded-3xl border border-brand-gold/30 shadow-2xl">
+      
+      <!-- Lotus Icon -->
+      <div class="w-10 h-10 mx-auto mb-4 text-brand-gold">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C12 2 14.5 7 14.5 10C14.5 11.5 13.5 13 12 13C10.5 13 9.5 11.5 9.5 10C9.5 7 12 2 12 2Z"/>
+          <path d="M12 13C12 13 16 11 19 14C20.5 15.5 20.5 17.5 19 18.5C17.5 19.5 15.5 19 14 17.5C13 16.5 12 15 12 13Z"/>
+          <path d="M12 13C12 13 8 11 5 14C3.5 15.5 3.5 17.5 5 18.5C6.5 19.5 8.5 19 10 17.5C11 16.5 12 15 12 13Z"/>
+        </svg>
+      </div>
+
+      <!-- Sanskrit Verse -->
+      <h4 class="font-devanagari text-2xl md:text-4xl text-brand-softGold font-medium tracking-wide mb-3 drop-shadow">
+        सर्वमङ्गलमाङ्गल्ये शिवे सर्वार्थसाधिके
+      </h4>
+
+      <!-- Transliteration -->
+      <p class="font-cinzel text-xs md:text-sm tracking-[0.25em] text-white/90 uppercase mb-2">
+        SARVA-MANGALA-MANGALYE SHIVE SARVARTHA-SADHIKE
+      </p>
+
+      <!-- English Translation -->
+      <p class="font-cormorant text-base md:text-xl italic text-brand-softGold/90">
+        Auspicious of all that is auspicious, who fulfils every purpose.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- ==========================================
+       SECTION 09: THE LEGACY
+       "Not just a drape. A legacy."
+       ========================================== -->
+  <section id="legacySection" class="relative min-h-[80vh] bg-brand-cream text-brand-maroon py-20 px-6 md:px-12 flex flex-col items-center justify-center text-center overflow-hidden border-b border-brand-maroon/10">
+    
+    <!-- Concentric Golden Mandala Background -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-30">
+      <svg class="w-[750px] h-[750px] text-brand-gold animate-spin-slow" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="0.3"/>
+        <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" stroke-width="0.5" stroke-dasharray="1 3"/>
+      </svg>
+    </div>
+
+    <div class="relative z-10 max-w-3xl mx-auto flex flex-col items-center">
+      
+      <!-- Small Durga Blessing Vignette -->
+      <div class="w-20 h-20 mb-4 rounded-full overflow-hidden border border-brand-gold/50 shadow-md">
+        <img 
+          src="assets/aaradhya_showstopper_durga_lion.jpg" 
+          alt="Blessing Vignette" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+
+      <span class="text-[10px] md:text-xs tracking-[0.3em] uppercase text-brand-gold font-bold mb-4">
+        WITH THE BLESSINGS OF MAA DURGA
+      </span>
+
+      <!-- Headline -->
+      <h2 class="font-cormorant text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-normal text-brand-maroon leading-tight">
+        Not just a drape.<br>
+        <span class="italic text-brand-maroon font-serif">A legacy.</span>
+      </h2>
+
+      <!-- Subtitle -->
+      <div class="mt-6 space-y-1 font-cormorant text-lg md:text-2xl text-brand-maroon/80 italic max-w-xl">
+        <p>For the woman who carries her roots with her.</p>
+        <p>Who honours the past, and makes the present her own.</p>
+        <p>Who does not wear a story. She becomes it.</p>
+      </div>
+
+      <!-- Action Button -->
+      <a 
+        href="#collectionsSection" 
+        class="mt-8 px-8 py-3 rounded-full border border-brand-maroon/30 bg-white/70 hover:bg-brand-maroon hover:text-brand-cream transition-all text-xs tracking-[0.2em] uppercase font-semibold flex items-center gap-2 shadow-sm"
+      >
+        <span>Find your expression</span>
+        <svg class="w-4 h-4 text-brand-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+        </svg>
+      </a>
+
+    </div>
+
+  </section>
+
+  <!-- ==========================================
+       SECTION 10: MASTER FOOTER
+       "May every thread you wear carry a blessing."
+       ========================================== -->
+  <footer id="footerSection" class="relative bg-brand-deepCrimson text-brand-cream pt-16 pb-8 px-6 md:px-16 overflow-hidden">
+    
+    <!-- Subtle Golden Lotus Watermark -->
+    <div class="absolute right-12 top-12 w-64 h-64 text-brand-gold/5 pointer-events-none">
+      <svg viewBox="0 0 100 100" fill="currentColor">
+        <circle cx="50" cy="50" r="45"/>
+      </svg>
+    </div>
+
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Top Quote & Lotus -->
+      <div class="text-center mb-16">
+        <div class="w-8 h-8 mx-auto mb-3 text-brand-gold">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C12 2 14.5 7 14.5 10C14.5 11.5 13.5 13 12 13C10.5 13 9.5 11.5 9.5 10C9.5 7 12 2 12 2Z"/>
+            <path d="M12 13C12 13 16 11 19 14C20.5 15.5 20.5 17.5 19 18.5C17.5 19.5 15.5 19 14 17.5C13 16.5 12 15 12 13Z"/>
+            <path d="M12 13C12 13 8 11 5 14C3.5 15.5 3.5 17.5 5 18.5C6.5 19.5 8.5 19 10 17.5C11 16.5 12 15 12 13Z"/>
+          </svg>
+        </div>
+        <p class="font-cormorant text-2xl md:text-3xl text-brand-softGold font-light">
+          May every thread you wear <span class="italic">carry a blessing.</span>
+        </p>
+      </div>
+
+      <!-- Navigation Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 pb-16 border-b border-white/10">
+        
+        <!-- Column 1: Brand Info -->
+        <div class="md:col-span-2">
+          <h3 class="font-cinzel text-2xl font-bold tracking-[0.2em] text-brand-gold">
+            AARADHYA
+          </h3>
+          <p class="text-[10px] tracking-[0.25em] uppercase text-brand-softGold/70 mt-1 mb-4">
+            WOVEN IN DIVINITY.
+          </p>
+          <p class="font-cormorant text-base text-brand-paleGold/80 italic max-w-md leading-relaxed">
+            An editorial love letter to the saree, to heritage, and to the quiet strength of the feminine spirit.
+          </p>
+        </div>
+
+        <!-- Column 2: Explore -->
+        <div>
+          <h4 class="text-xs tracking-[0.25em] uppercase text-brand-gold font-semibold mb-4">
+            EXPLORE
+          </h4>
+          <ul class="space-y-2.5 text-xs text-brand-cream/80 tracking-wider">
+            <li><a href="#heroSection" class="hover:text-brand-gold transition-colors">The story</a></li>
+            <li><a href="#collectionsSection" class="hover:text-brand-gold transition-colors">Collections</a></li>
+            <li><a href="#showstopperSection" class="hover:text-brand-gold transition-colors">Our essence</a></li>
+            <li><a href="#legacySection" class="hover:text-brand-gold transition-colors">The journal</a></li>
+            <li><a href="#storySection" class="hover:text-brand-gold transition-colors">Her story</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: The House & Rotating Back to Top Badge -->
+        <div class="flex flex-col justify-between">
+          <div>
+            <h4 class="text-xs tracking-[0.25em] uppercase text-brand-gold font-semibold mb-4">
+              THE HOUSE
+            </h4>
+            <ul class="space-y-2.5 text-xs text-brand-cream/80 tracking-wider">
+              <li><a href="#collectionsSection" class="hover:text-brand-gold transition-colors">The art of the saree</a></li>
+              <li><a href="#heroSection" class="hover:text-brand-gold transition-colors">Our philosophy</a></li>
+              <li><a href="mailto:sanctuary@aaradhya-drapes.com" class="hover:text-brand-gold transition-colors">Contact</a></li>
+              <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="hover:text-brand-gold transition-colors">Instagram ↗</a></li>
+            </ul>
+          </div>
+
+          <!-- Rotating Circular Back To Top Badge -->
+          <button 
+            id="backToTopBtn" 
+            class="relative w-20 h-20 rounded-full border border-brand-gold/40 flex items-center justify-center group mt-6 hover:scale-110 transition-transform"
+            title="Return to the Summit"
+          >
+            <!-- Orbiting Text Ring SVG -->
+            <svg class="absolute inset-0 w-full h-full animate-spin-slow text-[8px] tracking-[0.25em] text-brand-gold uppercase" viewBox="0 0 100 100">
+              <path id="textCircle" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="none"/>
+              <text>
+                <textPath href="#textCircle" fill="currentColor">
+                  • BACK TO TOP • JAI MATA DI
+                </textPath>
+              </text>
+            </svg>
+            <svg class="w-5 h-5 text-brand-gold group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Giant Full-Width Gold Foil Wordmark -->
+      <div class="w-full text-center py-10 overflow-hidden">
+        <h1 class="font-cinzel text-5xl sm:text-7xl md:text-9xl lg:text-[13rem] font-black tracking-[0.18em] text-gold-foil select-none">
+          AARADHYA
+        </h1>
+      </div>
+
+      <!-- Bottom Legal Telemetry -->
+      <div class="flex flex-col sm:flex-row items-center justify-between text-[10px] md:text-xs tracking-[0.18em] text-brand-cream/60 pt-6 border-t border-white/10 gap-4">
+        <span>© 2026 AARADHYA · A FASHION EDITORIAL CONCEPT</span>
+        <div class="flex items-center gap-6">
+          <a href="#" class="hover:text-brand-gold transition-colors">About & credits</a>
+          <a href="#" class="hover:text-brand-gold transition-colors">Privacy</a>
+          <span class="text-brand-gold font-semibold">MADE OF STORIES</span>
+        </div>
+      </div>
+
+    </div>
+
+  </footer>
+
+  <!-- ==========================================
+       INTERACTIVE LOGIC: Lenis, GSAP, Flower Particles, Web Audio
+       ========================================== -->
+  <script>
+    // 1. Initialize Lenis Momentum Smooth Scrolling
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    gsap.registerPlugin(ScrollTrigger);
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+
+    // 2. Opening Diya to Maa Durga Transformation Scrub
+    const diyaImg = document.getElementById('diyaImg');
+    const durgaRevealImg = document.getElementById('durgaRevealImg');
+    const openingStage = document.getElementById('openingStage');
+
+    gsap.to(durgaRevealImg, {
+      opacity: 1,
+      scale: 1,
+      scrollTrigger: {
+        trigger: '#openingSequence',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 1,
+      }
+    });
+
+    gsap.to(diyaImg, {
+      opacity: 0,
+      scale: 1.2,
+      scrollTrigger: {
+        trigger: '#openingSequence',
+        start: 'top top',
+        end: 'center center',
+        scrub: 1,
+      }
+    });
+
+    // Skip Opening Button
+    document.getElementById('skipOpeningBtn').addEventListener('click', () => {
+      lenis.scrollTo('#heroSection', { duration: 1.5 });
+    });
+
+    // Replay Opening Button
+    document.getElementById('replayOpeningBtn').addEventListener('click', () => {
+      lenis.scrollTo('#openingSequence', { duration: 1.5 });
+    });
+
+    // Back to Top Button
+    document.getElementById('backToTopBtn').addEventListener('click', () => {
+      lenis.scrollTo(0, { duration: 1.8 });
+    });
+
+    // 3. Web Audio API Temple Bell Chime Synthesizer
+    let audioCtx = null;
+    let isSoundMuted = false;
+
+    function playTempleBell() {
+      if (isSoundMuted) return;
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        const now = audioCtx.currentTime;
+        const fundamental = 432; // Sacred frequency A=432Hz
+        const harmonics = [1, 2.02, 3.01, 4.25, 5.4];
+        const gains = [0.4, 0.25, 0.15, 0.08, 0.04];
+
+        harmonics.forEach((h, i) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(fundamental * h, now);
+          
+          gain.gain.setValueAtTime(gains[i], now);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 3.5);
+          
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          
+          osc.start(now);
+          osc.stop(now + 3.6);
+        });
+      } catch (e) {
+        console.warn('Audio context blocked or unsupported', e);
+      }
+    }
+
+    const audioToggleBtn = document.getElementById('audioToggleBtn');
+    const audioStatusText = document.getElementById('audioStatusText');
+
+    audioToggleBtn.addEventListener('click', () => {
+      playTempleBell();
+      audioStatusText.textContent = 'Ringing...';
+      setTimeout(() => {
+        audioStatusText.textContent = 'Chime';
+      }, 1500);
+    });
+
+    // 4. Interactive 2D Flower Petal Canvas Physics System
+    const flowerCanvas = document.getElementById('flowerCanvas');
+    const ctx = flowerCanvas.getContext('2d');
+    let width = (flowerCanvas.width = window.innerWidth);
+    let height = (flowerCanvas.height = window.innerHeight);
+
+    window.addEventListener('resize', () => {
+      width = flowerCanvas.width = window.innerWidth;
+      height = flowerCanvas.height = window.innerHeight;
+    });
+
+    const petals = [];
+    const petalColors = [
+      '#C41E3A', // Crimson Rose Red
+      '#9B111E', // Ruby Velvet
+      '#D49D42', // Sacred Golden Yellow
+      '#FF9933', // Saffron Marigold
+      '#FFBF00', // Marigold Amber
+      '#E30B5C', // Temple Raktachandan
+    ];
+
+    class Petal {
+      constructor(x, y, burst = false) {
+        this.x = x || Math.random() * width;
+        this.y = y || (burst ? y : -20);
+        this.size = Math.random() * 12 + 8;
+        this.speedX = burst ? (Math.random() - 0.5) * 8 : (Math.random() - 0.5) * 2;
+        this.speedY = burst ? (Math.random() * -6) - 2 : Math.random() * 2 + 1.5;
+        this.gravity = 0.08;
+        this.rotation = Math.random() * Math.PI * 2;
+        this.rotationSpeed = (Math.random() - 0.5) * 0.05;
+        this.color = petalColors[Math.floor(Math.random() * petalColors.length)];
+        this.opacity = 1;
+        this.wobble = Math.random() * Math.PI * 2;
+        this.wobbleSpeed = Math.random() * 0.04 + 0.02;
+      }
+
+      update() {
+        this.speedY += this.gravity * 0.3;
+        this.wobble += this.wobbleSpeed;
+        this.x += this.speedX + Math.sin(this.wobble) * 1.5;
+        this.y += this.speedY;
+        this.rotation += this.rotationSpeed;
+        if (this.y > height - 100) {
+          this.opacity -= 0.02;
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.beginPath();
+        // Delicate teardrop petal shape
+        ctx.moveTo(0, 0);
+        ctx.bezierCurveTo(this.size / 2, -this.size / 2, this.size, -this.size / 4, this.size, 0);
+        ctx.bezierCurveTo(this.size, this.size / 2, this.size / 2, this.size, 0, this.size);
+        ctx.bezierCurveTo(-this.size / 2, this.size, -this.size, this.size / 2, -this.size, 0);
+        ctx.bezierCurveTo(-this.size, -this.size / 4, -this.size / 2, -this.size / 2, 0, 0);
+        
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = Math.max(0, this.opacity);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function spawnPetalBurst(x, y, count = 25) {
+      for (let i = 0; i < count; i++) {
+        petals.push(new Petal(x, y, true));
+      }
+      playTempleBell();
+    }
+
+    let offeringCounter = 0;
+    const offeringCountEl = document.getElementById('offeringCount');
+    const offerFlowerBtn = document.getElementById('offerFlowerBtn');
+
+    offerFlowerBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const rect = offerFlowerBtn.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      spawnPetalBurst(x, y, 35);
+      offeringCounter++;
+      offeringCountEl.textContent = offeringCounter;
+    });
+
+    // Click anywhere on Hero section to offer flowers
+    document.getElementById('heroSection').addEventListener('click', (e) => {
+      spawnPetalBurst(e.clientX, e.clientY, 20);
+      offeringCounter++;
+      offeringCountEl.textContent = offeringCounter;
+    });
+
+    // Continuous gentle ambient petal drift
+    setInterval(() => {
+      if (petals.length < 30) {
+        petals.push(new Petal(Math.random() * width, -20, false));
+      }
+    }, 400);
+
+    function animatePetals() {
+      ctx.clearRect(0, 0, width, height);
+      for (let i = petals.length - 1; i >= 0; i--) {
+        const p = petals[i];
+        p.update();
+        p.draw();
+        if (p.y > height + 20 || p.opacity <= 0) {
+          petals.splice(i, 1);
+        }
+      }
+      requestAnimationFrame(animatePetals);
+    }
+    animatePetals();
+
+    // 5. 3D Tilt Effect on Hero Portrait
+    const heroCard = document.getElementById('heroPortraitCard');
+    if (heroCard) {
+      heroCard.addEventListener('mousemove', (e) => {
+        const rect = heroCard.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const rotX = -(y / rect.height) * 15;
+        const rotY = (x / rect.width) * 15;
+        gsap.to(heroCard, {
+          rotateX: rotX,
+          rotateY: rotY,
+          duration: 0.4,
+          ease: 'power2.out',
+          transformPerspective: 1000
+        });
+      });
+
+      heroCard.addEventListener('mouseleave', () => {
+        gsap.to(heroCard, {
+          rotateX: 0,
+          rotateY: 0,
+          duration: 0.7,
+          ease: 'power2.out'
+        });
+      });
+    }
+  </script>
+</body>
+</html>
