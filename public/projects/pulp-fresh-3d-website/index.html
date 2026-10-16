@@ -4,6 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>Pulp Fresh · Cold-pressed at sunrise</title>
+  <base href="/projects/pulp-fresh-3d-website/" />
+  <script>
+    (function() {
+      if (window.location.pathname === '/projects/pulp-fresh-3d-website') {
+        window.history.replaceState(null, '', '/projects/pulp-fresh-3d-website/' + window.location.search + window.location.hash);
+      }
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Caveat:wght@600;700&family=Permanent+Marker&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
@@ -599,23 +607,36 @@
 
     .hero-prop-whole-orange {
       position: absolute;
-      bottom: 38px;
-      left: 38px;
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 32% 30%, #FFB03A 0%, #F07818 58%, #B84A08 100%);
-      box-shadow: 0 16px 28px rgba(30, 25, 22, 0.24);
+      bottom: 30px;
+      left: 36px;
+      width: 104px;
+      height: 104px;
+      object-fit: contain;
+      filter: drop-shadow(0 16px 28px rgba(30, 25, 22, 0.28));
       z-index: 4;
+      pointer-events: none;
     }
     .hero-prop-orange-slice {
       position: absolute;
-      bottom: 22px;
-      left: 122px;
-      width: 98px;
-      height: 98px;
+      bottom: 18px;
+      left: 124px;
+      width: 108px;
+      height: 108px;
+      object-fit: contain;
+      filter: drop-shadow(0 14px 22px rgba(30, 25, 22, 0.24));
       z-index: 4;
-      filter: drop-shadow(0 12px 20px rgba(30, 25, 22, 0.22));
+      pointer-events: none;
+    }
+    .hero-prop-leaves {
+      position: absolute;
+      top: 10px;
+      right: 32px;
+      width: 84px;
+      height: 84px;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 16px rgba(30, 25, 22, 0.18));
+      z-index: 4;
+      pointer-events: none;
     }
 
     /* DIAGONAL MARQUEE TICKER + LIQUID WAVE TRANSITION (sec_004.jpg) */
@@ -2186,33 +2207,23 @@
       <div class="lime-backdrop-card"></div>
       <div class="hero-bottles-rig" id="heroBottlesRig">
         <div class="hero-bottle-item hb-beet">
-          <img src="assets/bottle_beet.png" alt="Pulp Fresh Beet Bottle" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=400&q=80';" />
+          <img src="assets/bottle_beet.png" alt="Pulp Fresh Beet Bottle" />
         </div>
         <div class="hero-bottle-item hb-sunrise">
-          <img src="assets/bottle_sunrise.png" alt="Pulp Fresh Sunrise Bottle" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=400&q=80';" />
+          <img src="assets/bottle_sunrise.png" alt="Pulp Fresh Sunrise Bottle" />
         </div>
         <div class="hero-bottle-item hb-berry">
-          <img src="assets/bottle_berry.png" alt="Pulp Fresh Berry Bottle" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=400&q=80';" />
+          <img src="assets/bottle_berry.png" alt="Pulp Fresh Berry Bottle" />
         </div>
         <div class="hero-bottle-item hb-green">
-          <img src="assets/bottle_green.png" alt="Pulp Fresh Green Bottle" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=400&q=80';" />
+          <img src="assets/bottle_green.png" alt="Pulp Fresh Green Bottle" />
         </div>
         <div class="hero-bottle-item hb-gold">
-          <img src="assets/bottle_gold.png" alt="Pulp Fresh Gold Bottle" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=400&q=80';" />
+          <img src="assets/bottle_gold.png" alt="Pulp Fresh Gold Bottle" />
         </div>
-        <div class="hero-prop-whole-orange"></div>
-        <svg class="hero-prop-orange-slice" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="46" fill="#F27D16"/>
-          <circle cx="50" cy="50" r="41" fill="#FFF3DC"/>
-          <circle cx="50" cy="50" r="37" fill="#F8961E"/>
-          <g stroke="#FFF3DC" stroke-width="2.5">
-            <line x1="50" y1="13" x2="50" y2="87"/>
-            <line x1="13" y1="50" x2="87" y2="50"/>
-            <line x1="24" y1="24" x2="76" y2="76"/>
-            <line x1="76" y1="24" x2="24" y2="76"/>
-          </g>
-          <circle cx="50" cy="50" r="5" fill="#FFF3DC"/>
-        </svg>
+        <img class="hero-prop-whole-orange" src="assets/prop_whole_orange.png" alt="Fresh Navel Orange" />
+        <img class="hero-prop-orange-slice" src="assets/prop_orange_slice.png" alt="Juicy Orange Slice" />
+        <img class="hero-prop-leaves" src="assets/prop_leaves.png" alt="Fresh Citrus Mint Leaves" />
       </div>
     </div>
   </section>
@@ -2277,102 +2288,81 @@
             id="stageBottleImg"
             src="assets/bottle_sunrise.png"
             alt="Pulp Fresh 3D Bottle"
-            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=400&q=80';"
           />
         </div>
         <div class="showcase-splash-ring"></div>
 
         <div class="orbit-prop orbit-left" id="orbitPropLeft">
-          <svg viewBox="0 0 100 100" width="100%" height="100%">
-            <circle cx="50" cy="50" r="45" fill="#F27D16"/>
-            <circle cx="50" cy="50" r="40" fill="#FFF3DC"/>
-            <circle cx="50" cy="50" r="35" fill="#F8961E"/>
-            <g stroke="#FFF3DC" stroke-width="2.5">
-              <line x1="50" y1="15" x2="50" y2="85"/><line x1="15" y1="50" x2="85" y2="50"/>
-              <line x1="25" y1="25" x2="75" y2="75"/><line x1="75" y1="25" x2="25" y2="75"/>
-            </g>
-          </svg>
+          <img src="assets/prop_orange_slice.png" alt="Orange Slice" id="orbitSliceImg" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 10px 18px rgba(0,0,0,0.22));" />
         </div>
         <div class="orbit-prop orbit-right" id="orbitPropRight">
-          <svg viewBox="0 0 100 100" width="100%" height="100%">
-            <defs>
-              <radialGradient id="orbOrangeGrad" cx="35%" cy="30%" r="65%">
-                <stop offset="0%" stop-color="#FFB84D"/>
-                <stop offset="55%" stop-color="#F07818"/>
-                <stop offset="100%" stop-color="#A84205"/>
-              </radialGradient>
-            </defs>
-            <circle cx="50" cy="50" r="44" fill="url(#orbOrangeGrad)"/>
-          </svg>
+          <img src="assets/prop_whole_orange.png" alt="Whole Orange" id="orbitWholeImg" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 14px 22px rgba(0,0,0,0.26));" />
         </div>
         <div class="orbit-prop orbit-top" id="orbitPropTop">
-          <svg viewBox="0 0 100 100" width="100%" height="100%">
-            <path d="M18 78 C22 36 55 16 86 18 C78 52 56 76 18 78 Z" fill="#4C9A2A"/>
-            <path d="M18 78 L82 20" stroke="#8CE060" stroke-width="2.5"/>
-          </svg>
+          <img src="assets/prop_leaves.png" alt="Citrus Leaves" id="orbitLeavesImg" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 8px 16px rgba(0,0,0,0.18));" />
         </div>
       </div>
     </div>
 
     <!-- Bottom 4 Die-Cut Luggage-Tag Cards Strip (sec_013.jpg & sec_014.jpg) -->
     <div class="luggage-tags-grid">
-      <div class="luggage-tag-card" data-cursor="SHOP" onclick="addToCrate('BERRY BRIGHT', 169, '#C42030')">
+      <div class="luggage-tag-card" data-cursor="VIEW" onclick="setFlavourStage('glow')">
         <span class="luggage-tag-hole"></span>
         <div class="tag-info">
           <h4>BERRY<br />BRIGHT</h4>
           <div class="tag-meta">Glow · 300 ml</div>
           <div class="tag-bottom-row">
             <span class="tag-price">₹169</span>
-            <button class="tag-add-btn">+ ADD</button>
+            <button class="tag-add-btn" onclick="event.stopPropagation(); addToCrate('BERRY BRIGHT', 169, '#C42030');">+ ADD</button>
           </div>
         </div>
         <div class="tag-mini-bottle">
-          <img src="assets/bottle_berry.png" alt="Berry Bright" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=200&q=80';" />
+          <img src="assets/bottle_berry.png" alt="Berry Bright" />
         </div>
       </div>
 
-      <div class="luggage-tag-card" data-cursor="SHOP" onclick="addToCrate('MELON COOL', 139, '#E65C68')">
+      <div class="luggage-tag-card" data-cursor="VIEW" onclick="setFlavourStage('glow')">
         <span class="luggage-tag-hole"></span>
         <div class="tag-info">
           <h4>MELON<br />COOL</h4>
           <div class="tag-meta">Glow · 300 ml</div>
           <div class="tag-bottom-row">
             <span class="tag-price">₹139</span>
-            <button class="tag-add-btn">+ ADD</button>
+            <button class="tag-add-btn" onclick="event.stopPropagation(); addToCrate('MELON COOL', 139, '#E65C68');">+ ADD</button>
           </div>
         </div>
         <div class="tag-mini-bottle">
-          <img src="assets/bottle_melon.png" alt="Melon Cool" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=200&q=80';" />
+          <img src="assets/bottle_melon.png" alt="Melon Cool" />
         </div>
       </div>
 
-      <div class="luggage-tag-card" data-cursor="SHOP" onclick="addToCrate('GREEN GLOW', 159, '#74BA2B')">
+      <div class="luggage-tag-card" data-cursor="VIEW" onclick="setFlavourStage('detox')">
         <span class="luggage-tag-hole"></span>
         <div class="tag-info">
           <h4>GREEN<br />GLOW</h4>
           <div class="tag-meta">Detox · 300 ml</div>
           <div class="tag-bottom-row">
             <span class="tag-price">₹159</span>
-            <button class="tag-add-btn">+ ADD</button>
+            <button class="tag-add-btn" onclick="event.stopPropagation(); addToCrate('GREEN GLOW', 159, '#74BA2B');">+ ADD</button>
           </div>
         </div>
         <div class="tag-mini-bottle">
-          <img src="assets/bottle_green.png" alt="Green Glow" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=200&q=80';" />
+          <img src="assets/bottle_green.png" alt="Green Glow" />
         </div>
       </div>
 
-      <div class="luggage-tag-card" data-cursor="SHOP" onclick="addToCrate('SUNRISE ORANGE', 149, '#F28824')">
+      <div class="luggage-tag-card" data-cursor="VIEW" onclick="setFlavourStage('immunity')">
         <span class="luggage-tag-hole"></span>
         <div class="tag-info">
           <h4>SUNRISE<br />ORANGE</h4>
           <div class="tag-meta">Immunity · 300 ml</div>
           <div class="tag-bottom-row">
             <span class="tag-price">₹149</span>
-            <button class="tag-add-btn">+ ADD</button>
+            <button class="tag-add-btn" onclick="event.stopPropagation(); addToCrate('SUNRISE ORANGE', 149, '#F28824');">+ ADD</button>
           </div>
         </div>
         <div class="tag-mini-bottle">
-          <img src="assets/bottle_sunrise.png" alt="Sunrise Orange" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=200&q=80';" />
+          <img src="assets/bottle_sunrise.png" alt="Sunrise Orange" />
         </div>
       </div>
     </div>
@@ -2489,18 +2479,13 @@
               id="inspBottleImg"
               src="assets/bottle_sunrise.png"
               alt="Sunrise Orange Bottle"
-              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=400&q=80';"
             />
           </div>
           <div class="inspector-float-left">
-            <svg viewBox="0 0 100 100" width="100%" height="100%">
-              <circle cx="50" cy="50" r="44" fill="#F07818" id="inspPropLeftCircle"/>
-            </svg>
+            <img src="assets/prop_orange_slice.png" alt="Orange Slice" id="inspPropLeftImg" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 8px 16px rgba(0,0,0,0.22));" />
           </div>
           <div class="inspector-float-right">
-            <svg viewBox="0 0 100 100" width="100%" height="100%">
-              <path d="M30 68 C25 45 42 30 56 36 C70 25 78 48 66 64 C54 78 34 76 30 68 Z" fill="#D4A86A" id="inspPropRightPath"/>
-            </svg>
+            <img src="assets/prop_whole_orange.png" alt="Whole Orange" id="inspPropRightImg" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 12px 20px rgba(0,0,0,0.26));" />
           </div>
         </div>
 
@@ -2558,22 +2543,22 @@
             <div class="farm-big-step-label" id="farmBigLabel">WASH</div>
           </div>
           <div class="farm-schedule-list" id="farmScheduleList">
-            <div class="farm-step-row" data-step="01" data-label="FARM" data-img="https://images.unsplash.com/photo-1591206369811-4eeb2f03bc95?auto=format&fit=crop&w=900&q=85">
+            <div class="farm-step-row" data-step="01" data-label="FARM" data-img="assets/step_01_farm.jpg">
               <span class="farm-step-name">FARM</span>
               <span class="farm-step-time">5:00 am</span>
               <span class="farm-step-note">picked in Nagpur</span>
             </div>
-            <div class="farm-step-row active" data-step="02" data-label="WASH" data-img="https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=900&q=85">
+            <div class="farm-step-row active" data-step="02" data-label="WASH" data-img="assets/step_02_wash.jpg">
               <span class="farm-step-name">WASH</span>
               <span class="farm-step-time">6:10 am</span>
               <span class="farm-step-note">three cold rinses</span>
             </div>
-            <div class="farm-step-row" data-step="03" data-label="CUT" data-img="https://images.unsplash.com/photo-1582979512210-99b6a53386f9?auto=format&fit=crop&w=900&q=85">
+            <div class="farm-step-row" data-step="03" data-label="CUT" data-img="assets/step_03_cut.jpg">
               <span class="farm-step-name">CUT</span>
               <span class="farm-step-time">6:40 am</span>
               <span class="farm-step-note">by hand, skins on</span>
             </div>
-            <div class="farm-step-row" data-step="04" data-label="PRESS" data-img="https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=900&q=85">
+            <div class="farm-step-row" data-step="04" data-label="PRESS" data-img="assets/step_04_press.jpg">
               <span class="farm-step-name">PRESS</span>
               <span class="farm-step-time">7:00 am</span>
               <span class="farm-step-note">two tonnes, no heat</span>
@@ -2594,9 +2579,8 @@
           <img
             id="farmStepImage"
             class="farm-photo-img"
-            src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=900&q=85"
+            src="assets/step_02_wash.jpg"
             alt="Farm to bottle step"
-            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=900&q=85';"
           />
           <div class="farm-polaroid-stamp" id="farmPolaroidStamp">STEP 02 · WASH</div>
         </div>
@@ -2683,7 +2667,6 @@
         <img
           src="assets/cleanse_crate.jpg"
           alt="Pulp Fresh Wooden Crate"
-          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=900&q=85';"
         />
       </div>
 
@@ -2943,15 +2926,22 @@
       let currentFrame = 0;
       let targetFrame = 0;
 
+      // Immediate background & poster draw to eliminate any blank void
+      ctx.fillStyle = '#F4EFE6';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const poster = new Image();
+      poster.src = 'assets/pulp_fresh_3d_scroll_start_frame.jpg';
+      poster.onload = () => {
+        if (!frames[0] || !frames[0].complete || frames[0].naturalWidth === 0) {
+          ctx.drawImage(poster, 0, 0, canvas.width, canvas.height);
+        }
+      };
+
       for (let i = 1; i <= totalFrames; i++) {
         const img = new Image();
         const num = String(i).padStart(3, '0');
         img.src = `assets/wa_frames_1080p/frame_${num}.webp`;
-        img.onerror = function() {
-          // Fallback to 60-frame studio sequence if needed
-          const fallbackIdx = Math.min(60, Math.max(1, Math.round((i / totalFrames) * 60)));
-          this.src = `assets/frames/frame_${String(fallbackIdx).padStart(3, '0')}.webp`;
-        };
         img.onload = () => {
           if (i === 1) ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         };
@@ -2973,13 +2963,21 @@
         }
       });
 
+      let lastDrawnIdx = -1;
       gsap.ticker.add(() => {
-        currentFrame += (targetFrame - currentFrame) * 0.2;
+        currentFrame += (targetFrame - currentFrame) * 0.22;
         const idx = Math.max(0, Math.min(totalFrames - 1, Math.floor(currentFrame + 0.0001)));
         const frameImg = frames[idx];
         if (frameImg && frameImg.complete && frameImg.naturalWidth > 0) {
           ctx.drawImage(frameImg, 0, 0, canvas.width, canvas.height);
-          hud.textContent = `1080P ENHANCED 3D SCROLL · FRAME ${String(idx + 1).padStart(2, '0')} / ${totalFrames}`;
+          lastDrawnIdx = idx;
+          if (hud) hud.textContent = `1080P ENHANCED 3D SCROLL · FRAME ${String(idx + 1).padStart(2, '0')} / ${totalFrames}`;
+        } else if (lastDrawnIdx >= 0 && frames[lastDrawnIdx] && frames[lastDrawnIdx].complete) {
+          // Keep showing last valid frame while next frame decodes
+        } else if (frames[0] && frames[0].complete && frames[0].naturalWidth > 0) {
+          ctx.drawImage(frames[0], 0, 0, canvas.width, canvas.height);
+        } else if (poster.complete && poster.naturalWidth > 0) {
+          ctx.drawImage(poster, 0, 0, canvas.width, canvas.height);
         }
       });
     })();
