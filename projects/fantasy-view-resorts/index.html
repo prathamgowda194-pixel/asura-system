@@ -33,7 +33,7 @@
               border: '#E2E8F0',
               bgLight: '#FBFDFB',
               cardBg: '#FFFFFF',
-              glassWhite: 'rgba(255, 255, 255, 0.88)'
+              glassWhite: 'rgba(255, 255, 255, 0.92)'
             }
           },
           fontFamily: {
@@ -72,7 +72,7 @@
     .specular-glare {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle 350px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.4), transparent 75%);
+      background: radial-gradient(circle 350px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.45), transparent 75%);
       pointer-events: none;
       opacity: 0;
       transition: opacity 0.3s ease;
@@ -83,11 +83,11 @@
     }
     /* Clean Frosted White Glass Panel */
     .glass-card-light {
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(226, 232, 240, 0.8);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.9);
     }
     /* Circular Rotating Stamp */
     @keyframes spinSlow {
@@ -111,12 +111,22 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #84CC16;
     }
+    /* Animated Flight Radar Dash Line */
+    @keyframes dashTravel {
+      to {
+        stroke-dashoffset: -200;
+      }
+    }
+    .flight-path-pulse {
+      stroke-dasharray: 8, 8;
+      animation: dashTravel 4s linear infinite;
+    }
   </style>
 </head>
 <body class="selection:bg-brand-lime selection:text-black bg-white text-slate-900">
 
-  <!-- TOP NAVIGATION HEADER (Exact Replica: White Background + Clean Gray Links + Lime Button) -->
-  <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 px-6 lg:px-16 flex items-center justify-between bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
+  <!-- TOP NAVIGATION HEADER (Light Background + Clean Gray Links + Lime Pill CTA) -->
+  <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 px-6 lg:px-16 flex items-center justify-between bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm">
     <!-- Brand Crest -->
     <a href="./" class="flex items-center gap-2.5 group">
       <div class="w-8 h-8 rounded-lg bg-black text-brand-lime flex items-center justify-center font-bold text-base transition-transform group-hover:scale-105">
@@ -129,13 +139,15 @@
     </a>
 
     <!-- Navigation Links -->
-    <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+    <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600">
       <a href="#hero" class="hover:text-black transition-colors">Home</a>
       <a href="#escapes" class="hover:text-black transition-colors">Sanctuaries</a>
+      <a href="#popular-destinations" class="hover:text-black transition-colors">Popular</a>
+      <a href="#journey-stepper" class="hover:text-black transition-colors">Journey</a>
       <a href="#adventures" class="hover:text-black transition-colors">Adventures</a>
-      <a href="#telemetry" class="hover:text-black transition-colors">Villas</a>
+      <a href="#moments-masonry" class="hover:text-black transition-colors">Moments</a>
+      <a href="#flight-radar" class="hover:text-black transition-colors">Connected</a>
       <a href="#gallery" class="hover:text-black transition-colors">Gallery <span class="px-1.5 py-0.5 rounded-full text-[10px] font-mono bg-brand-limeLight text-brand-lime font-bold ml-0.5">24</span></a>
-      <a href="#testimonials" class="hover:text-black transition-colors">Reviews</a>
     </nav>
 
     <!-- Action Buttons -->
@@ -155,50 +167,49 @@
   </header>
 
   <!-- Mobile Drawer Menu -->
-  <div id="mobile-drawer" class="fixed inset-0 z-40 bg-white/95 backdrop-blur-2xl flex flex-col justify-center items-center gap-6 text-xl font-sans font-semibold text-slate-800 opacity-0 pointer-events-none transition-all duration-300 md:hidden">
+  <div id="mobile-drawer" class="fixed inset-0 z-40 bg-white/95 backdrop-blur-2xl flex flex-col justify-center items-center gap-5 text-xl font-sans font-semibold text-slate-800 opacity-0 pointer-events-none transition-all duration-300 md:hidden">
     <a href="#hero" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Home</a>
     <a href="#escapes" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Sanctuaries</a>
+    <a href="#popular-destinations" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Popular Destinations</a>
+    <a href="#journey-stepper" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Our Journey</a>
     <a href="#adventures" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Adventures</a>
-    <a href="#telemetry" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Villas</a>
+    <a href="#moments-masonry" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Moments Worth The Trip</a>
+    <a href="#flight-radar" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Connected Flight Radar</a>
     <a href="#gallery" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Photo Vault (24 Photos)</a>
     <a href="#testimonials" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Reviews</a>
     <button onclick="toggleMobileMenu(); openBookingModal();" class="mt-4 px-8 py-3 rounded-full bg-brand-lime text-black font-bold text-sm uppercase tracking-wider shadow-lg">Reserve Sanctuary</button>
   </div>
 
-  <!-- HERO SECTION: PINNED 60FPS 1080P CANVAS SCRUB + FLOATING LIGHT GLASS BOOKING ENGINE -->
-  <section id="hero" class="relative w-full h-[250vh] bg-slate-50">
+  <!-- HERO SECTION: PINNED 60FPS 1080P CANVAS SCRUB + 3D SHRINKING CINEMA WINDOW (ZERO WHITE OVERLAY) -->
+  <section id="hero" class="relative w-full h-[230vh] bg-slate-900">
     <div id="canvas-sticky" class="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center">
-      <!-- High-Resolution 1080p WebP Canvas Scrubbing Layer -->
-      <canvas id="hero-canvas" class="absolute inset-0 w-full h-full object-cover z-0"></canvas>
+      <!-- 3D Perspective Scaling Wrapper (Shrinks smoothly from full screen to rounded cinema window) -->
+      <div id="hero-frame-wrapper" class="relative w-full h-full transition-transform duration-100 ease-out flex items-center justify-center overflow-hidden">
+        <!-- High-Resolution 1080p Canvas (Zero Foggy Overlay, 100% Crisp) -->
+        <canvas id="hero-canvas" class="w-full h-full object-cover"></canvas>
+      </div>
 
-      <!-- Fallback High-Res Poster Layer -->
-      <img id="canvas-fallback" src="assets/fantasy_resort_start_frame_1080p.jpg" alt="Fantasy View Resort Fly-through" class="absolute inset-0 w-full h-full object-cover z-0 opacity-0 pointer-events-none transition-opacity duration-500">
-
-      <!-- Subtle Light Gradient Scrim (Light Luxury Aesthetic) -->
-      <div class="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent z-10 pointer-events-none"></div>
-      <div class="absolute inset-0 bg-gradient-to-b from-white/60 via-transparent to-white/70 z-10 pointer-events-none"></div>
-
-      <!-- STAGE 1: EDITORIAL TITLE OVERLAY (Fades smoothly on scrub) -->
-      <div id="hero-title-stage" class="absolute z-20 text-center px-6 max-w-4xl mx-auto flex flex-col items-center justify-center transition-all duration-300">
+      <!-- STAGE 1: EDITORIAL TITLE OVERLAY (Fades smoothly on scroll) -->
+      <div id="hero-title-stage" class="absolute z-20 text-center px-6 max-w-4xl mx-auto flex flex-col items-center justify-center transition-all duration-300 pointer-events-none">
         <!-- Pill Badge -->
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-sm text-slate-700 font-sans text-xs font-semibold uppercase tracking-wider mb-6">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-md text-slate-800 font-sans text-xs font-semibold uppercase tracking-wider mb-6 pointer-events-auto">
           <span class="w-2 h-2 rounded-full bg-brand-lime"></span>
           <span>Travel More, Worry Less</span>
         </div>
 
-        <!-- Main Headline -->
-        <h1 class="font-sans text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.08]">
+        <!-- Main Headline with Crisp Drop Shadow for Perfect Legibility -->
+        <h1 class="font-sans text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-6 leading-[1.08] drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)]">
           Explore the World, <br>
-          <span class="text-slate-800">One Journey at a Time.</span>
+          <span class="text-slate-100">One Journey at a Time.</span>
         </h1>
 
         <!-- Subtext -->
-        <p class="text-sm sm:text-base text-slate-600 font-normal max-w-2xl leading-relaxed mb-8">
+        <p class="text-sm sm:text-base text-slate-100 font-medium max-w-2xl leading-relaxed mb-8 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
           Our luxury eco-resort sanctuary offers personalized and hassle-free nature retreats, high-altitude Burma bridge skywalks, water zorbing, and private villa pavilions.
         </p>
 
         <!-- Scroll Indicator -->
-        <div class="flex items-center gap-2.5 text-xs font-mono uppercase tracking-widest text-slate-500 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-slate-200 shadow-sm">
+        <div class="flex items-center gap-2.5 text-xs font-mono uppercase tracking-widest text-slate-800 bg-white/95 backdrop-blur-md px-4 py-2 rounded-full border border-slate-200 shadow-lg pointer-events-auto">
           <span>Scroll down to fly through resort</span>
           <svg class="w-3.5 h-3.5 text-brand-lime animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M12 5v14M19 12l-7 7-7-7"/>
@@ -210,7 +221,7 @@
       <div id="hero-booking-stage" class="absolute bottom-6 sm:bottom-10 z-30 w-full max-w-5xl px-4 sm:px-6 mx-auto opacity-0 translate-y-8 transition-all duration-300">
         <div class="glass-card-light rounded-3xl p-6 lg:p-8">
           <!-- Top Row: Card Title & Segmented Pill Tabs -->
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-5 border-b border-slate-100">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5 pb-4 border-b border-slate-100">
             <div>
               <h2 class="font-sans text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2.5">
                 <span>Find the best place</span>
@@ -220,7 +231,7 @@
             </div>
 
             <!-- Segmented Tabs -->
-            <div class="inline-flex p-1 rounded-2xl bg-slate-100 border border-slate-200/80 self-start md:self-auto overflow-x-auto max-w-full">
+            <div class="inline-flex p-1 rounded-2xl bg-slate-100 border border-slate-200 self-start md:self-auto overflow-x-auto max-w-full">
               <button class="booking-tab active px-4 py-2 rounded-xl text-xs font-semibold text-white bg-slate-900 shadow-sm transition-all" onclick="selectBookingTab(this, 'all')">All Sanctuaries</button>
               <button class="booking-tab px-4 py-2 rounded-xl text-xs font-medium text-slate-600 hover:text-slate-900 transition-all" onclick="selectBookingTab(this, 'cottage')">Luxury Cottages</button>
               <button class="booking-tab px-4 py-2 rounded-xl text-xs font-medium text-slate-600 hover:text-slate-900 transition-all" onclick="selectBookingTab(this, 'villa')">Pool Villas</button>
@@ -263,7 +274,7 @@
               <input type="date" id="booking-checkout" value="2026-10-28" class="w-full bg-transparent text-sm font-semibold text-slate-900 focus:outline-none">
             </div>
 
-            <!-- 4. Participants / Guests -->
+            <!-- 4. Guests -->
             <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200 hover:border-slate-300 focus-within:border-brand-lime focus-within:bg-white transition-all">
               <label class="block text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-0.5 flex items-center gap-1.5">
                 <svg class="w-3.5 h-3.5 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -271,484 +282,902 @@
                 </svg>
                 Participants
               </label>
-              <select id="booking-guests" class="w-full bg-transparent text-sm font-semibold text-slate-900 focus:outline-none cursor-pointer">
-                <option value="2">2 Adults · 1 Suite</option>
-                <option value="4">4 Guests · Family Villa</option>
-                <option value="6">6+ Guests · Luxury Retreat</option>
-                <option value="1">1 Solo Explorer</option>
+              <select id="booking-guests" class="w-full bg-transparent text-sm font-semibold text-slate-900 focus:outline-none">
+                <option value="2 Adults, 1 Child">2 Guests (Couple)</option>
+                <option value="4 Adults (Family Suite)">4 Guests (Family Suite)</option>
+                <option value="6+ Group Retreat">6+ Group Retreat</option>
               </select>
             </div>
 
-            <!-- 5. Vibrant Lime Search Button -->
-            <div class="w-full h-full flex items-end">
-              <button type="submit" class="w-full py-3.5 px-6 rounded-2xl bg-brand-lime hover:bg-brand-limeHover text-black font-bold text-sm flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(132,204,22,0.35)] transition-all transform hover:scale-[1.02] active:scale-[0.98]">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-                </svg>
-                <span>Search Properties</span>
-              </button>
-            </div>
+            <!-- 5. Search Button -->
+            <button type="submit" class="w-full h-full py-4 rounded-2xl bg-brand-lime hover:bg-brand-limeHover text-black font-extrabold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_6px_20px_rgba(132,204,22,0.4)] transition-all transform hover:scale-[1.02]">
+              <svg class="w-4 h-4 stroke-[2.5]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              <span>Search</span>
+            </button>
           </form>
 
-          <!-- Sub-filters Pill Strip -->
-          <div class="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate-500">
-            <span class="font-mono text-[10px] uppercase text-slate-400">Popular Filters:</span>
-            <span class="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer">Valley Villa</span>
-            <span class="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer">Lagoon Gazebo Suite</span>
-            <span class="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer">Hydro Water Zorbing</span>
-            <span class="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer">Burma Bridge Skywalk</span>
+          <!-- Micro Sub-Filters Row (Keyframe 005) -->
+          <div class="flex items-center gap-2 mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500 overflow-x-auto">
+            <span class="font-mono text-[10px] uppercase text-slate-400 mr-2">Popular Filters:</span>
+            <button onclick="applySubFilter(this)" class="sub-filter px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition-all">Valley Villa</button>
+            <button onclick="applySubFilter(this)" class="sub-filter px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition-all">Lagoon Gazebo Suite</button>
+            <button onclick="applySubFilter(this)" class="sub-filter px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition-all">Hydro Water Zorbing</button>
+            <button onclick="applySubFilter(this)" class="sub-filter px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition-all">Burma Bridge Skywalk</button>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PAGE 2: 3D CONTAINER SCROLL CINEMA WINDOW (Keyframe 007 - Aceternity 3D Scroll Perspective) -->
-  <section class="relative z-20 py-16 px-6 lg:px-16 max-w-6xl mx-auto">
-    <div id="cinema-container-wrap" class="card-3d-wrap">
-      <div id="cinema-container" class="relative rounded-3xl overflow-hidden border border-slate-200 shadow-2xl bg-black transform perspective-1000 transition-transform duration-300">
-        <!-- 1080p Video Stream Scrub -->
-        <video id="cinema-video" src="assets/user_flythrough_1080p.mp4" playsinline muted loop autoplay class="w-full h-[480px] lg:h-[560px] object-cover"></video>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none"></div>
-
-        <!-- Cinema Overlay Info -->
-        <div class="absolute bottom-6 left-6 right-6 flex items-end justify-between text-white z-10">
-          <div>
-            <span class="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono text-brand-lime border border-brand-lime/30 uppercase tracking-wider block w-fit mb-2">Cinematic Sanctuary Route</span>
-            <h3 class="font-sans text-2xl sm:text-3xl font-extrabold">Flight Over Fantasy View Lagoon</h3>
-            <p class="text-xs text-slate-200 max-w-md mt-1">Gliding over the natural pebble stream, gazebo water pavilion, and tropical tree canopy.</p>
-          </div>
-          <button onclick="openBookingModal('Lagoon Flight Experience')" class="px-5 py-2.5 rounded-full bg-white text-black font-semibold text-xs uppercase tracking-wider hover:bg-brand-lime transition-colors shadow-lg">Experience In Person</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PAGE 3: "Find your next escape." ASYMMETRIC BENTO GRID (Exact Keyframe 009 Replica) -->
-  <section id="escapes" class="relative z-20 py-24 px-6 lg:px-16 max-w-7xl mx-auto bg-white">
-    <!-- Header with Rotating Badge Stamp -->
-    <div class="flex items-start justify-between mb-16">
-      <div>
-        <span class="text-[11px] font-mono uppercase tracking-[0.2em] text-slate-400 block mb-3 font-semibold">OUR SANCTUARIES</span>
-        <h2 class="font-serif text-4xl sm:text-6xl text-slate-900 leading-[1.05] tracking-tight">
-          Find your <br>
-          <span class="italic font-normal">next escape.</span>
-        </h2>
-      </div>
-
-      <!-- Circular Rotating Stamp (Exact Keyframe 009 Element) -->
-      <div class="relative w-24 h-24 hidden sm:flex items-center justify-center">
-        <svg class="w-full h-full spin-stamp text-slate-400" viewBox="0 0 100 100">
-          <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none"/>
-          <text font-size="9.5" font-family="'Space Grotesk', monospace" fill="currentColor" letter-spacing="2.5">
-            <textPath href="#circlePath">LIVE · EXPLORE · SANCTUARIES ·</textPath>
-          </text>
-        </svg>
-        <div class="absolute w-7 h-7 rounded-full bg-slate-900 text-white flex items-center justify-center">
-          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        </div>
-      </div>
-    </div>
-
-    <!-- Asymmetrical 4-Bento Grid Layout (Exact Replica of Keyframe 009) -->
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-      <!-- Card 1: Coastal Retreats & Streamlets (Left Column, Width 4) -->
-      <div class="md:col-span-4 flex flex-col justify-between">
-        <div class="mb-6">
-          <h3 class="font-serif text-2xl font-bold text-slate-900 mb-1">Coastal Retreats</h3>
-          <p class="text-xs text-slate-500 max-w-xs leading-relaxed">
-            Listen to the murmur of natural brook waters cascading over smooth riverbed stones beside wooden bridges.
-          </p>
-        </div>
-        <div class="card-3d-wrap group">
-          <div class="card-3d relative h-[300px] rounded-3xl overflow-hidden border border-slate-200 shadow-md">
-            <img src="assets/resort_17.jpg" alt="Pebble Brook Stream" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-            <div class="specular-glare"></div>
-            <div class="absolute bottom-4 left-4 text-white">
-              <span class="text-[10px] font-mono text-brand-lime uppercase tracking-wider">Natural Spring</span>
-              <p class="font-sans text-sm font-bold">Pebble Brook Footbridge</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 2: Water Adventures (Center Tall Vertical Card, Width 4) -->
-      <div class="md:col-span-4 card-3d-wrap group">
-        <div class="card-3d relative h-[420px] rounded-3xl overflow-hidden border border-slate-200 shadow-lg p-6 flex flex-col justify-between">
-          <img src="assets/resort_02.jpg" alt="Hydro Water Zorbing" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/50"></div>
-          <div class="specular-glare"></div>
-
-          <!-- Top Label Inside -->
-          <div class="relative z-10 text-white">
-            <h3 class="font-serif text-2xl font-bold">Water Adventures</h3>
-            <p class="text-xs text-slate-200 mt-1">Dive into crystal clear waters & roll in hydro zorb spheres.</p>
-          </div>
-
-          <!-- Bottom Action -->
-          <div class="relative z-10 flex items-center justify-between text-white pt-4 border-t border-white/20">
-            <span class="text-xs font-mono text-brand-lime">Lagoon Gazebo Pool</span>
-            <div class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:bg-brand-lime group-hover:text-black transition-colors">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right Column: 2 Stacked Cards (Cultural Journeys + Mountain Escapes, Width 4) -->
-      <div class="md:col-span-4 flex flex-col gap-6">
-        <!-- Card 3: Cultural Journeys (Top Right) -->
-        <div class="card-3d-wrap group">
-          <div class="card-3d relative h-[200px] rounded-3xl overflow-hidden border border-slate-200 shadow-md p-5 flex flex-col justify-between">
-            <img src="assets/resort_06.jpg" alt="Picnic Lawns" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/40"></div>
-            <div class="specular-glare"></div>
-
-            <div class="relative z-10 text-white">
-              <h3 class="font-serif text-xl font-bold">Cultural Journeys</h3>
-              <p class="text-[11px] text-slate-200">Discover stories, bonfires & open garden celebrations.</p>
-            </div>
-
-            <div class="relative z-10 flex justify-end">
-              <div class="w-7 h-7 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white group-hover:bg-brand-lime group-hover:text-black transition-colors">
-                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 4: Mountain Escapes (Bottom Right) -->
-        <div class="card-3d-wrap group">
-          <div class="card-3d relative h-[195px] rounded-3xl overflow-hidden border border-slate-200 shadow-md p-5 flex flex-col justify-between">
-            <img src="assets/resort_10.jpg" alt="Valley Viewpoint Swing" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/40"></div>
-            <div class="specular-glare"></div>
-
-            <div class="relative z-10 text-white">
-              <h3 class="font-serif text-xl font-bold">Mountain Escapes</h3>
-              <p class="text-[11px] text-slate-200">Breathe in the mountain valley mist on our sunset swings.</p>
-            </div>
-
-            <div class="relative z-10 flex justify-end">
-              <div class="w-7 h-7 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white group-hover:bg-brand-lime group-hover:text-black transition-colors">
-                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PAGE 4: "Adventures from Around the World" BENTO SHOWCASE (Exact Keyframe 016 Replica) -->
-  <section id="adventures" class="relative z-20 py-24 px-6 lg:px-16 max-w-7xl mx-auto bg-slate-50 border-t border-slate-100">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-      <!-- Left Column (Span 6): Title + 3 Cards + Wide Card -->
-      <div class="lg:col-span-6 flex flex-col gap-6">
+  <!-- SECTION 2: BENTO GRID ("Find your next escape." - Keyframe 008 / 009) -->
+  <section id="escapes" class="py-24 px-6 lg:px-16 bg-white relative">
+    <div class="max-w-7xl mx-auto">
+      <!-- Section Header with Circular Rotating Stamp -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
         <div>
-          <h2 class="font-sans text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
-            Adventures from Around the World
+          <span class="text-xs font-mono text-brand-lime uppercase tracking-widest font-bold block mb-2">Curated Escapes</span>
+          <h2 class="font-sans text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
+            Find your <br><span class="font-serif italic font-normal text-slate-800">next escape.</span>
           </h2>
         </div>
 
-        <!-- Row of 3 Vertical Cards -->
-        <div class="grid grid-cols-3 gap-3">
+        <!-- 3D Circular Rotating Stamp -->
+        <div class="relative w-28 h-28 flex items-center justify-center self-end md:self-auto">
+          <svg class="spin-stamp w-full h-full text-slate-300" viewBox="0 0 100 100">
+            <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="transparent" />
+            <text class="text-[9.5px] font-mono uppercase tracking-[2.5px] fill-slate-500 font-semibold">
+              <textPath href="#circlePath">LIVE · EXPLORE · SANCTUARIES ·</textPath>
+            </text>
+          </svg>
+          <div class="absolute inset-0 m-auto w-10 h-10 rounded-full bg-black text-brand-lime flex items-center justify-center shadow-md">
+            <svg class="w-4 h-4 fill-brand-lime" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Asymmetric Bento Grid (4 Cards with 3D Tilt Physics) -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+        <!-- Card 1: Coastal Retreats (Resort Water Zorbing Lagoon) -->
+        <div class="md:col-span-4 card-3d-wrap group">
+          <div class="card-3d relative h-[420px] rounded-3xl overflow-hidden border border-slate-200 bg-slate-100 shadow-sm hover:shadow-2xl transition-all cursor-pointer" onclick="openLightbox(2)">
+            <img src="assets/resort_02.jpg" alt="Water Zorbing Lagoon" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            <div class="specular-glare"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-7 flex flex-col justify-end text-white">
+              <span class="text-xs font-mono text-brand-lime uppercase tracking-widest font-semibold mb-1">Water Adventures</span>
+              <h3 class="font-sans text-2xl font-bold mb-2">Hydro Zorbing Lagoon</h3>
+              <p class="text-xs text-slate-300 line-clamp-2">Glide and roll across tranquil reflection waters inside the giant hydro cylinder with lagoon gazebo views.</p>
+              <div class="mt-4 flex items-center justify-between text-xs font-semibold pt-3 border-t border-white/20">
+                <span>Direct Access Pass</span>
+                <span class="text-brand-lime font-mono">Explore &rarr;</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Water Adventures (Crystalline Pebble Brook & Arched Bridge) -->
+        <div class="md:col-span-4 card-3d-wrap group">
+          <div class="card-3d relative h-[420px] rounded-3xl overflow-hidden border border-slate-200 bg-slate-100 shadow-sm hover:shadow-2xl transition-all cursor-pointer" onclick="openLightbox(17)">
+            <img src="assets/resort_17.jpg" alt="Pebble Brook Streamlet" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            <div class="specular-glare"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-7 flex flex-col justify-end text-white">
+              <span class="text-xs font-mono text-brand-lime uppercase tracking-widest font-semibold mb-1">Nature Waterfalls</span>
+              <h3 class="font-sans text-2xl font-bold mb-2">Crystalline Pebble Brook</h3>
+              <p class="text-xs text-slate-300 line-clamp-2">Listen to natural babbling brooks cascading over polished stones beneath the arched wooden footbridge.</p>
+              <div class="mt-4 flex items-center justify-between text-xs font-semibold pt-3 border-t border-white/20">
+                <span>Sanctuary Glade</span>
+                <span class="text-brand-lime font-mono">Explore &rarr;</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 & 4 Stack: Cultural Journeys + Mountain Escapes -->
+        <div class="md:col-span-4 flex flex-col gap-6">
+          <!-- Card 3: Cultural Journeys -->
+          <div class="card-3d-wrap group flex-1">
+            <div class="card-3d relative h-[200px] rounded-3xl overflow-hidden border border-slate-200 bg-slate-100 shadow-sm hover:shadow-2xl transition-all cursor-pointer" onclick="openLightbox(6)">
+              <img src="assets/resort_06.jpg" alt="Picnic Lawns & Palms" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+              <div class="specular-glare"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-5 flex flex-col justify-end text-white">
+                <span class="text-[10px] font-mono text-brand-lime uppercase tracking-widest font-semibold">Gatherings</span>
+                <h3 class="font-sans text-lg font-bold">Royal Palm Lawns</h3>
+                <span class="text-xs text-brand-lime font-mono mt-1">Discover Space &rarr;</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Mountain Escapes -->
+          <div class="card-3d-wrap group flex-1">
+            <div class="card-3d relative h-[200px] rounded-3xl overflow-hidden border border-slate-200 bg-slate-100 shadow-sm hover:shadow-2xl transition-all cursor-pointer" onclick="openLightbox(10)">
+              <img src="assets/resort_10.jpg" alt="Valley Viewpoint Swing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+              <div class="specular-glare"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-5 flex flex-col justify-end text-white">
+                <span class="text-[10px] font-mono text-brand-lime uppercase tracking-widest font-semibold">Valley Panoramas</span>
+                <h3 class="font-sans text-lg font-bold">Sunset Swing Viewpoint</h3>
+                <span class="text-xs text-brand-lime font-mono mt-1">Book Experience &rarr;</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: POPULAR DESTINATION CAROUSEL (Keyframe 010 / 011) -->
+  <section id="popular-destinations" class="py-20 px-6 lg:px-16 bg-slate-50 border-y border-slate-200/80">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex items-center justify-between mb-10">
+        <div>
+          <span class="text-xs font-mono text-brand-lime uppercase tracking-widest font-bold block mb-1">Top Experiences</span>
+          <h2 class="font-sans text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Popular destination</h2>
+        </div>
+        <!-- Carousel Navigation Controls -->
+        <div class="flex items-center gap-3">
+          <button onclick="prevPopularCard()" class="w-10 h-10 rounded-full border border-slate-300 bg-white hover:bg-slate-900 hover:text-white flex items-center justify-center transition-all shadow-sm" aria-label="Previous">
+            &larr;
+          </button>
+          <button onclick="nextPopularCard()" class="w-10 h-10 rounded-full border border-slate-300 bg-white hover:bg-slate-900 hover:text-white flex items-center justify-center transition-all shadow-sm" aria-label="Next">
+            &rarr;
+          </button>
+        </div>
+      </div>
+
+      <!-- 4 High-Clarity Popular Destination Cards -->
+      <div id="popular-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Item 1: Quad Biking -->
+        <div class="card-3d-wrap group">
+          <div class="card-3d bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all">
+            <div class="relative h-64 overflow-hidden">
+              <img src="assets/resort_01.jpg" alt="All-Terrain Quad Biking" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-3 right-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-xs font-bold text-slate-900 shadow-sm">From $120.00</span>
+            </div>
+            <div class="p-5">
+              <div class="text-[11px] font-mono text-slate-400 mb-1">Adventure Trail &bull; 2.5 Hours</div>
+              <h4 class="font-sans font-bold text-lg text-slate-900 mb-1">All-Terrain Quad Biking</h4>
+              <p class="text-xs text-slate-500 mb-4">High-torque 250cc ATV off-road climb through red mountain valleys.</p>
+              <button onclick="openBookingModal('All-Terrain Quad Biking')" class="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-slate-900 hover:text-white text-slate-900 font-bold text-xs uppercase tracking-wider transition-all">
+                Reserve Pass
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2: Burma Bridge -->
+        <div class="card-3d-wrap group">
+          <div class="card-3d bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all">
+            <div class="relative h-64 overflow-hidden">
+              <img src="assets/resort_21.jpg" alt="High-Wire Burma Bridge" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-3 right-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-xs font-bold text-slate-900 shadow-sm">From $95.00</span>
+            </div>
+            <div class="p-5">
+              <div class="text-[11px] font-mono text-slate-400 mb-1">Treetop Skywalk &bull; High Wire</div>
+              <h4 class="font-sans font-bold text-lg text-slate-900 mb-1">Burma Bridge Skywalk</h4>
+              <p class="text-xs text-slate-500 mb-4">Suspended canopy rope traverse over mountain hills with certified guide.</p>
+              <button onclick="openBookingModal('Burma Bridge Skywalk')" class="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-slate-900 hover:text-white text-slate-900 font-bold text-xs uppercase tracking-wider transition-all">
+                Reserve Pass
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3: Water Zorbing -->
+        <div class="card-3d-wrap group">
+          <div class="card-3d bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all">
+            <div class="relative h-64 overflow-hidden">
+              <img src="assets/resort_02.jpg" alt="Hydro Water Zorbing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-3 right-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-xs font-bold text-slate-900 shadow-sm">From $85.00</span>
+            </div>
+            <div class="p-5">
+              <div class="text-[11px] font-mono text-slate-400 mb-1">Aquatic Adventure &bull; Lagoon</div>
+              <h4 class="font-sans font-bold text-lg text-slate-900 mb-1">Hydro Water Zorbing</h4>
+              <p class="text-xs text-slate-500 mb-4">Floating roller obstacle across calm reflection waters with island gazebo view.</p>
+              <button onclick="openBookingModal('Hydro Water Zorbing')" class="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-slate-900 hover:text-white text-slate-900 font-bold text-xs uppercase tracking-wider transition-all">
+                Reserve Pass
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4: Lagoon Gazebo -->
+        <div class="card-3d-wrap group">
+          <div class="card-3d bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all">
+            <div class="relative h-64 overflow-hidden">
+              <img src="assets/resort_04.jpg" alt="Lagoon Gazebo Pool" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-3 right-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-xs font-bold text-slate-900 shadow-sm">From $180.00</span>
+            </div>
+            <div class="p-5">
+              <div class="text-[11px] font-mono text-slate-400 mb-1">Luxury Pavilion &bull; Full Day</div>
+              <h4 class="font-sans font-bold text-lg text-slate-900 mb-1">Lagoon Gazebo Suite</h4>
+              <p class="text-xs text-slate-500 mb-4">Elevated terracotta island pavilion with wooden ramp and private loungers.</p>
+              <button onclick="openBookingModal('Lagoon Gazebo Suite')" class="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-slate-900 hover:text-white text-slate-900 font-bold text-xs uppercase tracking-wider transition-all">
+                Reserve Pass
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: INTERACTIVE STEPPER ("Let's drive your journey" - Exact Replica of User Screenshot 4 / Keyframe 012-014) -->
+  <section id="journey-stepper" class="py-24 px-6 lg:px-16 bg-white">
+    <div class="max-w-7xl mx-auto">
+      <!-- Header Row with Lime Pill Button -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-14">
+        <div>
+          <span class="text-xs font-mono text-brand-lime uppercase tracking-widest font-bold block mb-1">Streamlined Experience</span>
+          <h2 class="font-sans text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">Let's drive your journey</h2>
+        </div>
+        <button onclick="openBookingModal()" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-lime hover:bg-brand-limeHover text-black font-bold text-xs uppercase tracking-wider shadow-md transition-all self-start sm:self-auto">
+          <span>See All Properties</span>
+          <span>&rarr;</span>
+        </button>
+      </div>
+
+      <!-- Two-Column Interactive Stepper Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <!-- Left Column: Active Step Visual Card -->
+        <div class="lg:col-span-5">
+          <div class="relative rounded-3xl overflow-hidden border border-slate-200 bg-slate-900 shadow-2xl h-[460px] group">
+            <img id="stepper-img" src="assets/resort_17.jpg" alt="Journey Step" class="w-full h-full object-cover transition-all duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent p-7 flex flex-col justify-between text-white">
+              <div class="flex items-center justify-between">
+                <span id="stepper-badge" class="px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-md text-[11px] font-mono uppercase tracking-wider font-semibold border border-white/20">Step 01 of 4</span>
+                <button onclick="openBookingModal()" class="w-8 h-8 rounded-full bg-white/90 text-black flex items-center justify-center font-bold text-sm hover:scale-110 transition-transform">
+                  +
+                </button>
+              </div>
+              <div>
+                <p id="stepper-desc" class="text-xs text-slate-200 leading-relaxed max-w-sm mb-3">
+                  Begin your retreat with a personal nature consultation where you customize villa preferences, dining options, and high-wire adventure itineraries.
+                </p>
+                <span class="text-xs font-mono text-brand-lime font-bold uppercase tracking-wider flex items-center gap-1.5">
+                  <span>Explore Sanctuary Routes</span>
+                  <span>&rarr;</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Interactive 4-Step Accordion -->
+        <div class="lg:col-span-7 flex flex-col gap-4">
+          <!-- Step 01 -->
+          <div onclick="selectJourneyStep(1)" id="step-row-1" class="step-accordion-row p-6 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-white cursor-pointer transition-all">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-4">
+                <span class="step-num-badge w-8 h-8 rounded-xl bg-slate-200 text-slate-800 font-mono font-bold text-xs flex items-center justify-center">01</span>
+                <h4 class="font-sans text-base sm:text-lg font-bold text-slate-900">Consultation &amp; Trip Planning</h4>
+              </div>
+              <span class="step-toggle-icon text-slate-400 font-mono text-lg">+</span>
+            </div>
+            <div class="step-content hidden mt-3 pt-3 border-t border-slate-100 text-xs text-slate-600 leading-relaxed">
+              Our travel specialists assist you with tailored sanctuary packages, customized family schedules, and priority adventure passes.
+            </div>
+          </div>
+
+          <!-- Step 02 -->
+          <div onclick="selectJourneyStep(2)" id="step-row-2" class="step-accordion-row p-6 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-white cursor-pointer transition-all">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-4">
+                <span class="step-num-badge w-8 h-8 rounded-xl bg-slate-200 text-slate-800 font-mono font-bold text-xs flex items-center justify-center">02</span>
+                <h4 class="font-sans text-base sm:text-lg font-bold text-slate-900">Customized Itinerary &amp; Booking</h4>
+              </div>
+              <span class="step-toggle-icon text-slate-400 font-mono text-lg">+</span>
+            </div>
+            <div class="step-content hidden mt-3 pt-3 border-t border-slate-100 text-xs text-slate-600 leading-relaxed">
+              Lock in your cottage or pool villa dates, arrange Burma bridge passes, ATV time slots, and lawn dining tables with instant confirmation.
+            </div>
+          </div>
+
+          <!-- Step 03 (Active by default matching screenshot) -->
+          <div onclick="selectJourneyStep(3)" id="step-row-3" class="step-accordion-row active p-6 rounded-2xl border border-brand-lime/50 bg-brand-limeLight/40 hover:bg-brand-limeLight/60 cursor-pointer transition-all shadow-sm">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-4">
+                <span class="step-num-badge w-8 h-8 rounded-xl bg-brand-lime text-black font-mono font-bold text-xs flex items-center justify-center shadow-sm">03</span>
+                <h4 class="font-sans text-base sm:text-lg font-extrabold text-slate-950">Seamless Payment &amp; Confirmation</h4>
+              </div>
+              <span class="step-toggle-icon text-slate-700 font-mono text-base font-bold">&times;</span>
+            </div>
+            <div class="step-content mt-3 pt-3 border-t border-brand-lime/20 text-xs text-slate-700 leading-relaxed">
+              Guaranteed lowest direct rates with zero hidden platform fees, instant reservation vouchers, QR entry passes, and flexible cancellation terms.
+            </div>
+          </div>
+
+          <!-- Step 04 -->
+          <div onclick="selectJourneyStep(4)" id="step-row-4" class="step-accordion-row p-6 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-white cursor-pointer transition-all">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-4">
+                <span class="step-num-badge w-8 h-8 rounded-xl bg-slate-200 text-slate-800 font-mono font-bold text-xs flex items-center justify-center">04</span>
+                <h4 class="font-sans text-base sm:text-lg font-bold text-slate-900">Journey Assistance &amp; Support</h4>
+              </div>
+              <span class="step-toggle-icon text-slate-400 font-mono text-lg">+</span>
+            </div>
+            <div class="step-content hidden mt-3 pt-3 border-t border-slate-100 text-xs text-slate-600 leading-relaxed">
+              24/7 on-site concierge team ready to welcome you, handle gear fittings for the high-wire skywalk, and organize midnight stargazing glades.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: ADVENTURES FROM AROUND THE WORLD (Keyframe 015 / 016) -->
+  <section id="adventures" class="py-24 px-6 lg:px-16 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <!-- Left Column: Adventure Grid Matrix -->
+        <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
           <!-- Card 1 -->
-          <div class="group relative h-48 rounded-2xl overflow-hidden border border-slate-200 shadow-sm cursor-pointer" onclick="openBookingModal('Hidden Oasis')">
-            <img src="assets/resort_04.jpg" alt="Hidden Oasis" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-2.5 flex flex-col justify-end text-white">
-              <span class="text-[9px] font-mono text-brand-lime block">OCT 24, 2026</span>
-              <p class="text-[11px] font-bold leading-tight">Hidden Oasis of Serenity</p>
+          <div class="card-3d-wrap group">
+            <div class="card-3d relative h-60 rounded-2xl overflow-hidden border border-slate-200 shadow-sm cursor-pointer" onclick="openLightbox(1)">
+              <img src="assets/resort_01.jpg" alt="All-Terrain Quad Biking" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-4 flex flex-col justify-end text-white">
+                <span class="text-[9px] font-mono text-brand-lime uppercase tracking-widest font-bold">250cc Trail</span>
+                <h4 class="font-sans text-sm font-bold">Quad Biking Run</h4>
+              </div>
             </div>
           </div>
 
           <!-- Card 2 -->
-          <div class="group relative h-48 rounded-2xl overflow-hidden border border-slate-200 shadow-sm cursor-pointer" onclick="openBookingModal('Nature Lap')">
-            <img src="assets/resort_20.jpg" alt="Nature Lap" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-2.5 flex flex-col justify-end text-white">
-              <span class="text-[9px] font-mono text-brand-lime block">OCT 25, 2026</span>
-              <p class="text-[11px] font-bold leading-tight">A Glimpse in Nature's Lap</p>
+          <div class="card-3d-wrap group">
+            <div class="card-3d relative h-60 rounded-2xl overflow-hidden border border-slate-200 shadow-sm cursor-pointer" onclick="openLightbox(13)">
+              <img src="assets/resort_13.jpg" alt="Rope Obstacle Circuit" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-4 flex flex-col justify-end text-white">
+                <span class="text-[9px] font-mono text-brand-lime uppercase tracking-widest font-bold">High Canopy</span>
+                <h4 class="font-sans text-sm font-bold">Rope Obstacles</h4>
+              </div>
             </div>
           </div>
 
           <!-- Card 3 -->
-          <div class="group relative h-48 rounded-2xl overflow-hidden border border-slate-200 shadow-sm cursor-pointer" onclick="openBookingModal('Mountain Trails')">
-            <img src="assets/resort_01.jpg" alt="Mountain Trails" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-2.5 flex flex-col justify-end text-white">
-              <span class="text-[9px] font-mono text-brand-lime block">OCT 26, 2026</span>
-              <p class="text-[11px] font-bold leading-tight">Mountain Trails Quad Ride</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Wide Card Below (Burma Bridge Skywalk) -->
-        <div class="group relative h-56 rounded-3xl overflow-hidden border border-slate-200 shadow-md cursor-pointer" onclick="openBookingModal('Burma Bridge Skywalk')">
-          <img src="assets/resort_21.jpg" alt="High-Wire Burma Bridge" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end text-white">
-            <span class="text-[10px] font-mono text-brand-lime uppercase tracking-wider block mb-1">High-Wire Challenge</span>
-            <h3 class="font-sans text-xl font-bold">Chasing Golden Hour Across the Horizon</h3>
-            <p class="text-xs text-slate-200 mt-1 max-w-md">Certified harnesses and guides across our 30ft treetop Burma bridge circuit.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right Column (Span 6): Window Dome + Water Cards + CTA -->
-      <div class="lg:col-span-6 flex flex-col gap-6">
-        <div class="grid grid-cols-2 gap-4">
-          <!-- Big Dome Card (Left) -->
-          <div class="relative h-[280px] rounded-3xl overflow-hidden border border-slate-200 shadow-md">
-            <img src="assets/resort_19.jpg" alt="Floral Terrace Promenade" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent p-4 flex flex-col justify-end text-white">
-              <p class="text-xs font-bold">Royal Floral Promenade</p>
-              <span class="text-[10px] font-mono text-brand-lime">Panoramic Mountain Overlook</span>
-            </div>
-          </div>
-
-          <!-- Stacked Right Cards -->
-          <div class="flex flex-col gap-4">
-            <!-- Swimming Pool -->
-            <div class="relative h-[132px] rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
-              <img src="assets/resort_08.jpg" alt="Azure Pool" class="w-full h-full object-cover">
-              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent p-3 flex flex-col justify-end text-white">
-                <p class="text-xs font-bold leading-tight">Azure Swimming Pool</p>
+          <div class="card-3d-wrap group">
+            <div class="card-3d relative h-60 rounded-2xl overflow-hidden border border-slate-200 shadow-sm cursor-pointer" onclick="openLightbox(14)">
+              <img src="assets/resort_14.jpg" alt="Aquatic Koi Pool" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-4 flex flex-col justify-end text-white">
+                <span class="text-[9px] font-mono text-brand-lime uppercase tracking-widest font-bold">Aquatic Arts</span>
+                <h4 class="font-sans text-sm font-bold">Koi Reflection</h4>
               </div>
             </div>
-            <!-- High Rope Obstacles -->
-            <div class="relative h-[132px] rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
-              <img src="assets/resort_13.jpg" alt="Rope Course" class="w-full h-full object-cover">
-              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent p-3 flex flex-col justify-end text-white">
-                <p class="text-xs font-bold leading-tight">Treetop Suspension Ladders</p>
+          </div>
+
+          <!-- Wide Horizontal Card Below: Burma Bridge High-Wire Skywalk -->
+          <div class="sm:col-span-3 card-3d-wrap group">
+            <div class="card-3d relative h-64 rounded-2xl overflow-hidden border border-slate-200 shadow-sm cursor-pointer" onclick="openLightbox(21)">
+              <img src="assets/resort_21.jpg" alt="High-Wire Burma Bridge Skywalk" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end text-white">
+                <span class="text-[10px] font-mono text-brand-lime uppercase tracking-widest font-bold">Signature High-Altitude Challenge</span>
+                <h3 class="font-sans text-xl font-bold mb-1">High-Wire Burma Bridge Skywalk</h3>
+                <p class="text-xs text-slate-300 max-w-lg">Safely traverse the aerial wire bridge suspended across the lush green valley tree canopy with full mountain panoramas.</p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Bottom Text & CTA (Exact Keyframe 016 Layout) -->
-        <div class="pt-2">
-          <h3 class="font-sans text-2xl font-bold text-slate-900 mb-2">
-            Plan Your Perfect Travel Escape Today
-          </h3>
-          <p class="text-xs text-slate-600 leading-relaxed mb-4 max-w-lg">
-            Whether navigating rugged ATV quad biking tracks, swimming beneath the gazebo pavilion, or relaxing on our mountain swings, Fantasy View curates the ultimate nature retreat.
+        <!-- Right Column: Editorial Copy & CTA Window -->
+        <div class="lg:col-span-5 flex flex-col justify-center">
+          <span class="text-xs font-mono text-brand-lime uppercase tracking-widest font-bold block mb-2">Adventure Collection</span>
+          <h2 class="font-sans text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+            Adventures from Around the World
+          </h2>
+          <p class="text-sm text-slate-600 leading-relaxed mb-6">
+            Immerse yourself in authentic thrills. From 250cc ATV mountain trails to suspended high-wire skywalks and calm lagoon zorbing, every activity is guided by certified professionals.
           </p>
-          <button onclick="openBookingModal()" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-slate-300 text-slate-800 text-xs font-semibold uppercase tracking-wider hover:bg-slate-900 hover:text-white transition-colors">
-            <span>Plan your trip</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
+
+          <!-- Plan Your Perfect Travel Escape Box (Keyframe 016) -->
+          <div class="p-6 rounded-3xl bg-white border border-slate-200 shadow-lg mb-6">
+            <h4 class="font-sans font-bold text-base text-slate-900 mb-1">Plan Your Perfect Travel Escape Today</h4>
+            <p class="text-xs text-slate-500 mb-4">Custom packages available for families, corporate retreats, and couples.</p>
+            <button onclick="openBookingModal('All Adventures Package')" class="w-full py-3 rounded-full bg-brand-lime hover:bg-brand-limeHover text-black font-bold text-xs uppercase tracking-wider transition-all">
+              Start Your Plan &rarr;
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PAGE 5: NUMERICAL TELEMETRY & POPULAR SANCTUARY RESIDENCES (Keyframe 020) -->
-  <section id="telemetry" class="relative z-20 py-20 px-6 lg:px-16 max-w-7xl mx-auto bg-white">
-    <!-- Telemetry Strip -->
-    <div class="grid grid-cols-3 gap-8 pb-12 mb-16 border-b border-slate-200 max-w-3xl">
-      <div>
-        <span class="font-sans text-4xl sm:text-5xl font-extrabold text-slate-900 block tracking-tight">12k</span>
-        <span class="text-xs font-mono uppercase tracking-wider text-slate-400 mt-1 block">Happy Travelers</span>
+  <!-- SECTION 6: CUSTOM 3D PARALLAX MULTI-COLUMN MASONRY ("Moments Worth The Trip" - User Screenshot 1 / Keyframe 017 / 018) -->
+  <section id="moments-masonry" class="py-24 px-6 lg:px-16 bg-white overflow-hidden">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="text-xs font-mono text-brand-lime uppercase tracking-widest font-bold block mb-2">Visual Odyssey</span>
+        <h2 class="font-sans text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">Moments Worth The Trip</h2>
+        <p class="text-sm text-slate-500 mt-2">Staggered vertical parallax columns showcasing adrenaline, nature, and tranquility.</p>
       </div>
-      <div>
-        <span class="font-sans text-4xl sm:text-5xl font-extrabold text-slate-900 block tracking-tight">10yrs</span>
-        <span class="text-xs font-mono uppercase tracking-wider text-slate-400 mt-1 block">Experience</span>
-      </div>
-      <div>
-        <span class="font-sans text-4xl sm:text-5xl font-extrabold text-slate-900 block tracking-tight">50+</span>
-        <span class="text-xs font-mono uppercase tracking-wider text-slate-400 mt-1 block">Luxury Sanctuaries</span>
-      </div>
-    </div>
 
-    <!-- Heading -->
-    <div class="mb-12">
-      <h2 class="font-sans text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-        Popular Tourist Spots & Sanctuary Villas
-      </h2>
-      <p class="text-xs sm:text-sm text-slate-500 mt-1">Select from our signature private accommodations nestled inside botanical palm groves.</p>
-    </div>
-
-    <!-- 4 Featured Villas Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <!-- Villa 1 -->
-      <div class="group rounded-3xl overflow-hidden border border-slate-200 p-4 bg-white shadow-sm hover:shadow-xl transition-all">
-        <div class="relative h-56 rounded-2xl overflow-hidden mb-4">
-          <img src="assets/resort_19.jpg" alt="Royal Valley Suite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-          <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-md text-[10px] font-mono text-slate-900 font-semibold shadow-sm">Terrace Suite</span>
+      <!-- 4 Staggered Parallax Columns -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 h-[720px] overflow-hidden relative">
+        <!-- Column 1 (Parallax Speed 0.7) -->
+        <div id="masonry-col-1" class="flex flex-col gap-6">
+          <div class="card-3d-wrap group">
+            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 cursor-pointer" onclick="openLightbox(2)">
+              <img src="assets/resort_02.jpg" alt="Lagoon Zorbing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+          </div>
+          <div class="card-3d-wrap group">
+            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 cursor-pointer" onclick="openLightbox(3)">
+              <img src="assets/resort_03.jpg" alt="Arched Footbridge" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+          </div>
+          <div class="card-3d-wrap group">
+            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 cursor-pointer" onclick="openLightbox(14)">
+              <img src="assets/resort_14.jpg" alt="Koi Stream" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+          </div>
         </div>
-        <h3 class="font-sans text-lg font-bold text-slate-900 mb-1">The Royal Valley Suite</h3>
-        <p class="text-xs text-slate-500 mb-4">Panoramic floral terrace overlooking mountain ridges with private balcony dining.</p>
-        <div class="flex items-center justify-between pt-3 border-t border-slate-100">
-          <span class="text-xs font-mono text-slate-900 font-bold">₹6,500 <span class="text-[10px] text-slate-400 font-normal">/ night</span></span>
-          <button onclick="openBookingModal('The Royal Valley Suite')" class="text-xs font-semibold text-brand-lime hover:underline">Book Now →</button>
+
+        <!-- Column 2 (Parallax Speed 1.3) -->
+        <div id="masonry-col-2" class="flex flex-col gap-6">
+          <div class="card-3d-wrap group">
+            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 cursor-pointer" onclick="openLightbox(1)">
+              <img src="assets/resort_01.jpg" alt="ATV Quad" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+          </div>
+          <div class="card-3d-wrap group">
+            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 cursor-pointer" onclick="openLightbox(22)">
+              <img src="assets/resort_22.jpg" alt="Skywalk Planks" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+          </div>
+          <div class="card-3d-wrap group">
+            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 cursor-pointer" onclick="openLightbox(15)">
+              <img src="assets/resort_15.jpg" alt="Climbing Tower" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 3 (Parallax Speed 0.9) -->
+        <div id="masonry-col-3" class="flex flex-col gap-6">
+          <div class="card-3d-wrap group">
+            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 cursor-pointer" onclick="openLightbox(21)">
+              <img src="assets/resort_21.jpg" alt="Burma Bridge" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+          </div>
+          <div class="card-3d-wrap group">
+            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 cursor-pointer" onclick="openLightbox(8)">
+              <img src="assets/resort_08.jpg" alt="Azure Pool" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+          </div>
+          <div class="card-3d-wrap group">
+            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 cursor-pointer" onclick="openLightbox(13)">
+              <img src="assets/resort_13.jpg" alt="Treetop Circuit" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 4 (Parallax Speed 1.4) -->
+        <div id="masonry-col-4" class="flex flex-col gap-6">
+          <div class="card-3d-wrap group">
+            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 cursor-pointer" onclick="openLightbox(10)">
+              <img src="assets/resort_10.jpg" alt="Valley Swing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+          </div>
+          <div class="card-3d-wrap group">
+            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 cursor-pointer" onclick="openLightbox(19)">
+              <img src="assets/resort_19.jpg" alt="Promenade Terrace" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+          </div>
+          <div class="card-3d-wrap group">
+            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 cursor-pointer" onclick="openLightbox(6)">
+              <img src="assets/resort_06.jpg" alt="Grand Lawns" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Villa 2 -->
-      <div class="group rounded-3xl overflow-hidden border border-slate-200 p-4 bg-white shadow-sm hover:shadow-xl transition-all">
-        <div class="relative h-56 rounded-2xl overflow-hidden mb-4">
-          <img src="assets/resort_04.jpg" alt="Lagoon Gazebo Suite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-          <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-md text-[10px] font-mono text-slate-900 font-semibold shadow-sm">Pool Villa</span>
-        </div>
-        <h3 class="font-sans text-lg font-bold text-slate-900 mb-1">Lagoon Gazebo Sanctuary</h3>
-        <p class="text-xs text-slate-500 mb-4">Direct private wooden ramp to the water pavilion with sunrise water reflections.</p>
-        <div class="flex items-center justify-between pt-3 border-t border-slate-100">
-          <span class="text-xs font-mono text-slate-900 font-bold">₹8,000 <span class="text-[10px] text-slate-400 font-normal">/ night</span></span>
-          <button onclick="openBookingModal('Lagoon Gazebo Sanctuary')" class="text-xs font-semibold text-brand-lime hover:underline">Book Now →</button>
-        </div>
-      </div>
-
-      <!-- Villa 3 -->
-      <div class="group rounded-3xl overflow-hidden border border-slate-200 p-4 bg-white shadow-sm hover:shadow-xl transition-all">
-        <div class="relative h-56 rounded-2xl overflow-hidden mb-4">
-          <img src="assets/resort_08.jpg" alt="Azure Pool Cottage" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-          <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-md text-[10px] font-mono text-slate-900 font-semibold shadow-sm">Pool Cottage</span>
-        </div>
-        <h3 class="font-sans text-lg font-bold text-slate-900 mb-1">The Azure Pool Cottage</h3>
-        <p class="text-xs text-slate-500 mb-4">Steps away from the full-sized crystal blue pool with stone paved sun deck.</p>
-        <div class="flex items-center justify-between pt-3 border-t border-slate-100">
-          <span class="text-xs font-mono text-slate-900 font-bold">₹7,200 <span class="text-[10px] text-slate-400 font-normal">/ night</span></span>
-          <button onclick="openBookingModal('The Azure Pool Cottage')" class="text-xs font-semibold text-brand-lime hover:underline">Book Now →</button>
-        </div>
-      </div>
-
-      <!-- Villa 4 -->
-      <div class="group rounded-3xl overflow-hidden border border-slate-200 p-4 bg-white shadow-sm hover:shadow-xl transition-all">
-        <div class="relative h-56 rounded-2xl overflow-hidden mb-4">
-          <img src="assets/resort_11.jpg" alt="Estate Dining Residence" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-          <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-md text-[10px] font-mono text-slate-900 font-semibold shadow-sm">Dining Residence</span>
-        </div>
-        <h3 class="font-sans text-lg font-bold text-slate-900 mb-1">Estate Dining Residence</h3>
-        <p class="text-xs text-slate-500 mb-4">Spacious cottage with teak furnishings, panoramic windows, and dining hall service.</p>
-        <div class="flex items-center justify-between pt-3 border-t border-slate-100">
-          <span class="text-xs font-mono text-slate-900 font-bold">₹9,500 <span class="text-[10px] text-slate-400 font-normal">/ night</span></span>
-          <button onclick="openBookingModal('Estate Dining Residence')" class="text-xs font-semibold text-brand-lime hover:underline">Book Now →</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PAGE 6: COMPLETE 24-PHOTO RESORT VAULT (Evenly Distributed Authentic Photography) -->
-  <section id="gallery" class="relative z-20 py-24 px-6 lg:px-16 max-w-7xl mx-auto bg-slate-50 border-t border-slate-100">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-      <div>
-        <span class="text-[11px] font-mono uppercase tracking-[0.2em] text-slate-400 block mb-2 font-semibold">AUTHENTIC RESORT GALLERY</span>
-        <h2 class="font-sans text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-          Every Corner of Fantasy View.
-        </h2>
-      </div>
-
-      <!-- Filter Tabs -->
-      <div class="flex flex-wrap items-center gap-2">
-        <button onclick="filterGallery('all', this)" class="gallery-filter-btn active px-4 py-2 rounded-full text-xs font-sans bg-slate-900 text-white font-semibold transition-all">All Photos (24)</button>
-        <button onclick="filterGallery('adventure', this)" class="gallery-filter-btn px-4 py-2 rounded-full text-xs font-sans bg-white border border-slate-200 text-slate-600 hover:text-slate-900 transition-all">Adventures & Ropes</button>
-        <button onclick="filterGallery('water', this)" class="gallery-filter-btn px-4 py-2 rounded-full text-xs font-sans bg-white border border-slate-200 text-slate-600 hover:text-slate-900 transition-all">Pool & Water</button>
-        <button onclick="filterGallery('gardens', this)" class="gallery-filter-btn px-4 py-2 rounded-full text-xs font-sans bg-white border border-slate-200 text-slate-600 hover:text-slate-900 transition-all">Gardens & Bridges</button>
-        <button onclick="filterGallery('dining', this)" class="gallery-filter-btn px-4 py-2 rounded-full text-xs font-sans bg-white border border-slate-200 text-slate-600 hover:text-slate-900 transition-all">Dining & Lawns</button>
-      </div>
-    </div>
-
-    <!-- 24-Photo Responsive Grid -->
-    <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"></div>
-  </section>
-
-  <!-- PAGE 7: TESTIMONIALS CONSTELLATION ORBIT (Exact Keyframe 024 Replica) -->
-  <section id="testimonials" class="relative z-20 py-24 px-6 lg:px-16 max-w-5xl mx-auto bg-white overflow-hidden">
-    <div class="text-center max-w-2xl mx-auto mb-14">
-      <h2 class="font-sans text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-2">Testimonials</h2>
-      <p class="text-xs sm:text-sm text-slate-500">Hover or click any guest node to read verified traveler stories.</p>
-    </div>
-
-    <!-- Radial Constellation Matrix -->
-    <div class="relative w-full max-w-xl h-[420px] mx-auto flex items-center justify-center">
-      <!-- Orbit Rings -->
-      <div class="absolute inset-0 rounded-full border border-dashed border-slate-200"></div>
-      <div class="absolute inset-16 rounded-full border border-slate-100"></div>
-
-      <!-- Center Glowing Lime Node -->
-      <div class="absolute z-10 w-16 h-16 rounded-full bg-brand-lime flex items-center justify-center text-slate-900 shadow-[0_0_35px_rgba(132,204,22,0.5)]">
-        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      </div>
-
-      <!-- 6 Orbiting Guest Nodes -->
-      <button onclick="selectGuest(0)" class="satellite-node absolute top-4 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full border-2 border-brand-lime p-0.5 bg-white hover:scale-125 transition-all z-20 shadow-md">
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80" alt="Ananya S." class="w-full h-full object-cover rounded-full">
-      </button>
-
-      <button onclick="selectGuest(1)" class="satellite-node absolute top-16 right-6 w-12 h-12 rounded-full border-2 border-slate-200 hover:border-brand-lime p-0.5 bg-white hover:scale-125 transition-all z-20 shadow-md">
-        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&h=120&q=80" alt="Karthik R." class="w-full h-full object-cover rounded-full">
-      </button>
-
-      <button onclick="selectGuest(2)" class="satellite-node absolute bottom-16 right-8 w-12 h-12 rounded-full border-2 border-slate-200 hover:border-brand-lime p-0.5 bg-white hover:scale-125 transition-all z-20 shadow-md">
-        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&h=120&q=80" alt="Pooja M." class="w-full h-full object-cover rounded-full">
-      </button>
-
-      <button onclick="selectGuest(3)" class="satellite-node absolute bottom-4 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full border-2 border-slate-200 hover:border-brand-lime p-0.5 bg-white hover:scale-125 transition-all z-20 shadow-md">
-        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&h=120&q=80" alt="Vikram T." class="w-full h-full object-cover rounded-full">
-      </button>
-
-      <button onclick="selectGuest(4)" class="satellite-node absolute bottom-16 left-8 w-12 h-12 rounded-full border-2 border-slate-200 hover:border-brand-lime p-0.5 bg-white hover:scale-125 transition-all z-20 shadow-md">
-        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&h=120&q=80" alt="Sneha K." class="w-full h-full object-cover rounded-full">
-      </button>
-
-      <button onclick="selectGuest(5)" class="satellite-node absolute top-16 left-6 w-12 h-12 rounded-full border-2 border-slate-200 hover:border-brand-lime p-0.5 bg-white hover:scale-125 transition-all z-20 shadow-md">
-        <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=120&h=120&q=80" alt="Rohan D." class="w-full h-full object-cover rounded-full">
-      </button>
-    </div>
-
-    <!-- Active Floating Testimonial Card Display (Exact Keyframe 024) -->
-    <div id="active-review-card" class="bg-white rounded-3xl p-8 text-center max-w-lg mx-auto border border-slate-200 shadow-xl -mt-6 relative z-30 transition-all duration-300">
-      <h4 id="review-name" class="font-sans text-lg font-bold text-slate-900 mb-1">Tahan Ahmed</h4>
-      <div class="flex items-center justify-center gap-1 text-brand-lime mb-3">
-        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      </div>
-      <p id="review-text" class="text-xs sm:text-sm text-slate-600 italic leading-relaxed mb-4">
-        "The Burma bridge skywalk and water zorbing made our retreat unforgettable! Waking up to misty mountain views from the pavilion terrace is pure peace."
-      </p>
-      <span id="review-role" class="text-xs font-mono text-slate-400">Bangalore · Stayed Oct 2026</span>
-    </div>
-  </section>
-
-  <!-- PAGE 8: LIGHT CLEAN FOOTER + BEAUTIFUL GREEN HILLS PANORAMA (Exact Keyframe 028 Replica) -->
-  <footer class="relative z-20 bg-slate-50 border-t border-slate-200 pt-16 overflow-hidden">
-    <!-- Top Dark Promo Banner (Exact Keyframe 028 Box) -->
-    <div class="max-w-7xl mx-auto px-6 lg:px-16 mb-16">
-      <div class="rounded-3xl bg-slate-900 text-white p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
-        <div>
-          <span class="text-[10px] font-mono text-brand-lime uppercase tracking-widest block mb-2">Reserve Directly</span>
-          <h3 class="font-sans text-2xl sm:text-3xl font-extrabold">Ready to Experience Fantasy View?</h3>
-          <p class="text-xs text-slate-300 mt-1 max-w-md">Book your luxury cottage now with guaranteed best rates & complimentary adventure access.</p>
-        </div>
-        <button onclick="openBookingModal()" class="px-8 py-3.5 rounded-full bg-brand-lime hover:bg-brand-limeHover text-black font-bold text-xs uppercase tracking-wider shadow-lg shadow-brand-lime/30 transition-all transform hover:-translate-y-0.5">
-          Reserve Your Stay
+      <!-- Bottom Book Now CTA (Keyframe 018) -->
+      <div class="text-center mt-12">
+        <p class="text-sm font-medium text-slate-700 mb-3">Book your travel destination right away</p>
+        <button onclick="openBookingModal()" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-brand-lime hover:bg-brand-limeHover text-black font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-brand-lime/30 transition-all transform hover:scale-105">
+          <span>Book Now</span>
+          <span>&rarr;</span>
         </button>
       </div>
     </div>
+  </section>
 
-    <!-- 5 Clean Columns (Exact Keyframe 028 Structure) -->
-    <div class="max-w-7xl mx-auto px-6 lg:px-16 pb-12">
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-8 text-xs text-slate-500">
-        <!-- Col 1: Brand -->
-        <div class="col-span-2 md:col-span-1">
-          <div class="flex items-center gap-2 mb-3">
-            <div class="w-6 h-6 rounded-md bg-slate-900 text-brand-lime flex items-center justify-center font-bold text-xs">
-              <svg class="w-3 h-3 fill-brand-lime" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+  <!-- SECTION 7: TELEMETRY & WHY TRAVELERS CHOOSE US (Keyframe 019 / 020) -->
+  <section id="telemetry" class="py-20 px-6 lg:px-16 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <!-- Telemetry Counters -->
+        <div class="lg:col-span-5">
+          <span class="text-xs font-mono text-brand-lime uppercase tracking-widest font-bold block mb-2">Proven Track Record</span>
+          <h2 class="font-sans text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-6">
+            Why Thousands of Travelers Choose Fantasy View for Their Next Adventure
+          </h2>
+          <div class="grid grid-cols-3 gap-6 pt-6 border-t border-slate-200">
+            <div>
+              <div class="font-mono text-3xl sm:text-4xl font-extrabold text-slate-900">12k</div>
+              <div class="text-xs text-slate-500 mt-1">Happy Guests</div>
             </div>
-            <span class="font-sans text-sm font-extrabold text-slate-900 uppercase">Fantasy View</span>
+            <div>
+              <div class="font-mono text-3xl sm:text-4xl font-extrabold text-slate-900">10yrs</div>
+              <div class="text-xs text-slate-500 mt-1">Hospitality</div>
+            </div>
+            <div>
+              <div class="font-mono text-3xl sm:text-4xl font-extrabold text-slate-900">50+</div>
+              <div class="text-xs text-slate-500 mt-1">Sanctuaries</div>
+            </div>
           </div>
-          <p class="text-xs text-slate-500 leading-relaxed mb-3">
-            Explore the world, one journey at a time. Luxury eco nature resort in Karnataka.
+        </div>
+
+        <!-- 3 Feature Advantage Cards -->
+        <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <!-- Card 1 -->
+          <div class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm">
+            <div class="w-10 h-10 rounded-2xl bg-brand-limeLight text-brand-lime flex items-center justify-center font-bold text-lg mb-4">
+              &check;
+            </div>
+            <h4 class="font-sans font-bold text-base text-slate-900 mb-2">Local Nature Expertise</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">Certified adventure guides and botanical experts native to the valley hillsides.</p>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm">
+            <div class="w-10 h-10 rounded-2xl bg-brand-limeLight text-brand-lime flex items-center justify-center font-bold text-lg mb-4">
+              &star;
+            </div>
+            <h4 class="font-sans font-bold text-base text-slate-900 mb-2">All-in-One Booking</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">Villas, high-wire passes, hydro zorbing, and dining buffets in a single reservation.</p>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm">
+            <div class="w-10 h-10 rounded-2xl bg-brand-limeLight text-brand-lime flex items-center justify-center font-bold text-lg mb-4">
+              &infin;
+            </div>
+            <h4 class="font-sans font-bold text-base text-slate-900 mb-2">24/7 Concierge Support</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">Dedicated personal hosts available day and night to ensure seamless relaxation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 8: POPULAR TOURIST SPOTS / LUXURY VILLAS (Keyframe 020 / 021) -->
+  <section id="villas" class="py-24 px-6 lg:px-16 bg-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14">
+        <div>
+          <span class="text-xs font-mono text-brand-lime uppercase tracking-widest font-bold block mb-1">Luxury Accommodations</span>
+          <h2 class="font-sans text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">Popular Tourist Spots</h2>
+        </div>
+        <button onclick="openBookingModal()" class="text-xs font-mono uppercase tracking-wider text-slate-500 hover:text-black font-semibold">
+          View All Sanctuaries &rarr;
+        </button>
+      </div>
+
+      <!-- 4 Resort Sanctuary Booking Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Villa 1 -->
+        <div class="card-3d-wrap group">
+          <div class="card-3d bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-2xl transition-all">
+            <div class="relative h-56 overflow-hidden">
+              <img src="assets/resort_04.jpg" alt="Lagoon Gazebo Pool Villa" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-md text-[10px] font-mono text-brand-lime font-bold">&star; 4.98</span>
+            </div>
+            <div class="p-5">
+              <h4 class="font-sans font-bold text-base text-slate-900 mb-1">Lagoon Gazebo Pool Villa</h4>
+              <p class="text-xs text-slate-500 mb-3">Private wooden ramp bridge, reflection pond, and gazebo terrace.</p>
+              <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+                <span class="font-mono text-sm font-bold text-slate-900">$240 <span class="text-xs font-normal text-slate-400">/ night</span></span>
+                <button onclick="openBookingModal('Lagoon Gazebo Pool Villa')" class="px-3.5 py-1.5 rounded-full bg-slate-900 hover:bg-brand-lime hover:text-black text-white text-xs font-semibold transition-all">
+                  Book
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Villa 2 -->
+        <div class="card-3d-wrap group">
+          <div class="card-3d bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-2xl transition-all">
+            <div class="relative h-56 overflow-hidden">
+              <img src="assets/resort_08.jpg" alt="Azure Horizons Villa" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-md text-[10px] font-mono text-brand-lime font-bold">&star; 4.95</span>
+            </div>
+            <div class="p-5">
+              <h4 class="font-sans font-bold text-base text-slate-900 mb-1">Azure Horizons Villa</h4>
+              <p class="text-xs text-slate-500 mb-3">Direct poolside terrace, sun lounger glade, and mountain horizon views.</p>
+              <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+                <span class="font-mono text-sm font-bold text-slate-900">$210 <span class="text-xs font-normal text-slate-400">/ night</span></span>
+                <button onclick="openBookingModal('Azure Horizons Villa')" class="px-3.5 py-1.5 rounded-full bg-slate-900 hover:bg-brand-lime hover:text-black text-white text-xs font-semibold transition-all">
+                  Book
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Villa 3 -->
+        <div class="card-3d-wrap group">
+          <div class="card-3d bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-2xl transition-all">
+            <div class="relative h-56 overflow-hidden">
+              <img src="assets/resort_11.jpg" alt="Grand Panorama Suite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-md text-[10px] font-mono text-brand-lime font-bold">&star; 4.92</span>
+            </div>
+            <div class="p-5">
+              <h4 class="font-sans font-bold text-base text-slate-900 mb-1">Grand Panorama Suite</h4>
+              <p class="text-xs text-slate-500 mb-3">Teak-finished living pavilion, wall-to-wall glass, and private breakfast deck.</p>
+              <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+                <span class="font-mono text-sm font-bold text-slate-900">$190 <span class="text-xs font-normal text-slate-400">/ night</span></span>
+                <button onclick="openBookingModal('Grand Panorama Suite')" class="px-3.5 py-1.5 rounded-full bg-slate-900 hover:bg-brand-lime hover:text-black text-white text-xs font-semibold transition-all">
+                  Book
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Villa 4 -->
+        <div class="card-3d-wrap group">
+          <div class="card-3d bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-2xl transition-all">
+            <div class="relative h-56 overflow-hidden">
+              <img src="assets/resort_19.jpg" alt="Floral Ridge Haven" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-md text-[10px] font-mono text-brand-lime font-bold">&star; 4.99</span>
+            </div>
+            <div class="p-5">
+              <h4 class="font-sans font-bold text-base text-slate-900 mb-1">Floral Ridge Haven</h4>
+              <p class="text-xs text-slate-500 mb-3">Paved terrace, floral climbing archways, and overlooking lush coconut valley.</p>
+              <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+                <span class="font-mono text-sm font-bold text-slate-900">$260 <span class="text-xs font-normal text-slate-400">/ night</span></span>
+                <button onclick="openBookingModal('Floral Ridge Haven')" class="px-3.5 py-1.5 rounded-full bg-slate-900 hover:bg-brand-lime hover:text-black text-white text-xs font-semibold transition-all">
+                  Book
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 9: 3D CONNECTED WORLD FLIGHT RADAR ("Every Trip, Connected" - Exact Replica of User Screenshot 2 / Keyframe 025 / 026) -->
+  <section id="flight-radar" class="py-24 px-6 lg:px-16 bg-white relative">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <span class="text-xs font-mono text-brand-lime uppercase tracking-widest font-bold block mb-2">Global Connectivity</span>
+        <h2 class="font-sans text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">Every Trip, Connected</h2>
+        <p class="text-sm text-slate-500 mt-2">Connecting international hubs directly to Fantasy View Resort's peaceful nature sanctuary.</p>
+      </div>
+
+      <!-- 3D Tilting Connected Flight Radar Container -->
+      <div id="radar-3d-wrap" class="card-3d-wrap max-w-5xl mx-auto">
+        <div id="radar-container" class="card-3d relative w-full h-[460px] sm:h-[520px] rounded-3xl overflow-hidden bg-[#0B0F17] border border-slate-800 shadow-2xl p-6 sm:p-10 flex items-center justify-center">
+          <!-- World Dot-Matrix Map SVG Background -->
+          <svg class="absolute inset-0 w-full h-full object-cover opacity-35 pointer-events-none" viewBox="0 0 1000 500" fill="none">
+            <!-- Grid Matrix Dots -->
+            <defs>
+              <pattern id="dotPattern" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+                <circle cx="2" cy="2" r="1" fill="#475569" opacity="0.6"/>
+              </pattern>
+            </defs>
+            <rect width="1000" height="500" fill="url(#dotPattern)"/>
+          </svg>
+
+          <!-- SVG Flight Paths & Curved Radar Arcs (Connecting the 7 Destination Hubs) -->
+          <svg class="absolute inset-0 w-full h-full z-10 pointer-events-none" viewBox="0 0 1000 500">
+            <!-- Arcs connecting hubs to Thailand / Fantasy View Sanctuary -->
+            <!-- 1. Chicago -> Dubrovnik -->
+            <path d="M 200 170 Q 330 90 440 160" fill="none" stroke="#84CC16" stroke-width="1.8" stroke-opacity="0.8" class="flight-path-pulse" />
+            <!-- 2. Dubrovnik -> Santorini -->
+            <path d="M 440 160 Q 455 180 460 210" fill="none" stroke="#84CC16" stroke-width="1.8" stroke-opacity="0.8" class="flight-path-pulse" />
+            <!-- 3. Santorini -> Thailand (Center Hub) -->
+            <path d="M 460 210 Q 550 140 640 260" fill="none" stroke="#84CC16" stroke-width="2.2" stroke-opacity="0.9" class="flight-path-pulse" />
+            <!-- 4. Dhaka -> Thailand -->
+            <path d="M 540 215 Q 580 230 640 260" fill="none" stroke="#84CC16" stroke-width="2" stroke-opacity="0.9" class="flight-path-pulse" />
+            <!-- 5. Cox's Bazar -> Thailand -->
+            <path d="M 680 220 Q 660 240 640 260" fill="none" stroke="#84CC16" stroke-width="1.8" stroke-opacity="0.8" class="flight-path-pulse" />
+            <!-- 6. Tokyo -> Thailand -->
+            <path d="M 760 170 Q 720 200 640 260" fill="none" stroke="#84CC16" stroke-width="2.2" stroke-opacity="0.9" class="flight-path-pulse" />
+          </svg>
+
+          <!-- Interactive Destination Beacon Nodes (Exact Positions matching Screenshot 2) -->
+          <!-- 1. Chicago -->
+          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 20%; top: 34%;" onclick="openBookingModal('Direct from Chicago')">
+            <span class="text-[11px] font-mono font-bold text-slate-300 group-hover:text-brand-lime transition-colors mb-1">Chicago</span>
+            <div class="relative w-3.5 h-3.5 flex items-center justify-center">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-lime opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-lime"></span>
+            </div>
+          </div>
+
+          <!-- 2. Dubrovnik -->
+          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 44%; top: 32%;" onclick="openBookingModal('Direct from Dubrovnik')">
+            <span class="text-[11px] font-mono font-bold text-slate-300 group-hover:text-brand-lime transition-colors mb-1">Dubrovnik</span>
+            <div class="relative w-3.5 h-3.5 flex items-center justify-center">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-lime opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-lime"></span>
+            </div>
+          </div>
+
+          <!-- 3. Santorini -->
+          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 45%; top: 43%;" onclick="openBookingModal('Direct from Santorini')">
+            <span class="text-[11px] font-mono font-bold text-slate-300 group-hover:text-brand-lime transition-colors mb-1">Santorini</span>
+            <div class="relative w-3.5 h-3.5 flex items-center justify-center">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-lime opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-lime"></span>
+            </div>
+          </div>
+
+          <!-- 4. Dhaka -->
+          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 54%; top: 44%;" onclick="openBookingModal('Direct from Dhaka')">
+            <span class="text-[11px] font-mono font-bold text-slate-300 group-hover:text-brand-lime transition-colors mb-1">Dhaka</span>
+            <div class="relative w-3.5 h-3.5 flex items-center justify-center">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-lime opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-lime"></span>
+            </div>
+          </div>
+
+          <!-- 5. Thailand / Fantasy View Sanctuary (Primary Hub) -->
+          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 64%; top: 52%;" onclick="openBookingModal('Fantasy View Sanctuary Retreat')">
+            <div class="px-2.5 py-0.5 rounded-full bg-brand-lime text-black text-[10px] font-mono font-extrabold uppercase tracking-wider mb-1 shadow-md">
+              Thailand &bull; Sanctuary
+            </div>
+            <div class="relative w-5 h-5 flex items-center justify-center">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-lime opacity-85"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-lime border-2 border-black"></span>
+            </div>
+          </div>
+
+          <!-- 6. Cox's Bazar -->
+          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 68%; top: 44%;" onclick="openBookingModal('Direct from Cox\'s Bazar')">
+            <span class="text-[11px] font-mono font-bold text-slate-300 group-hover:text-brand-lime transition-colors mb-1">Cox's Bazar</span>
+            <div class="relative w-3.5 h-3.5 flex items-center justify-center">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-lime opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-lime"></span>
+            </div>
+          </div>
+
+          <!-- 7. Tokyo -->
+          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 76%; top: 34%;" onclick="openBookingModal('Direct from Tokyo')">
+            <span class="text-[11px] font-mono font-bold text-slate-300 group-hover:text-brand-lime transition-colors mb-1">Tokyo</span>
+            <div class="relative w-3.5 h-3.5 flex items-center justify-center">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-lime opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-lime"></span>
+            </div>
+          </div>
+
+          <!-- Floating Telemetry HUD Tag -->
+          <div class="absolute bottom-6 left-6 z-20 px-4 py-2 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 text-[11px] font-mono text-slate-300 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-brand-lime animate-pulse"></span>
+            <span>Live Sanctuary Route Radar Active</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 10: RADIAL TESTIMONIALS CONSTELLATION (Keyframe 023 / 024) -->
+  <section id="testimonials" class="py-24 px-6 lg:px-16 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="text-xs font-mono text-brand-lime uppercase tracking-widest font-bold block mb-2">Guest Reflections</span>
+        <h2 class="font-sans text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">Testimonials</h2>
+        <p class="text-sm text-slate-500 mt-2">Hear directly from adventure seekers and retreat guests from across the world.</p>
+      </div>
+
+      <!-- Orbital Radial Constellation Stage -->
+      <div class="relative w-full max-w-3xl h-[420px] sm:h-[480px] mx-auto flex items-center justify-center">
+        <!-- Orbit Rings -->
+        <div class="absolute w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] rounded-full border border-slate-200 pointer-events-none"></div>
+        <div class="absolute w-[200px] sm:w-[280px] h-[200px] sm:h-[280px] rounded-full border border-slate-200/60 pointer-events-none"></div>
+
+        <!-- Central Glowing Lime Node -->
+        <div class="relative z-10 w-14 h-14 rounded-full bg-brand-lime text-black flex items-center justify-center shadow-[0_0_40px_rgba(132,204,22,0.6)] cursor-pointer group hover:scale-110 transition-transform">
+          <svg class="w-6 h-6 fill-black" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+
+        <!-- 6 Satellite Orbit Guest Avatars (Keyframe 024) -->
+        <!-- Avatar 1 (Top) -->
+        <div class="satellite-node absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300" style="top: 10%; left: 50%;" onclick="selectGuest(0)">
+          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-brand-lime shadow-lg hover:scale-125 transition-transform bg-white">
+            <img src="assets/resort_06.jpg" alt="Guest 1" class="w-full h-full object-cover">
+          </div>
+        </div>
+
+        <!-- Avatar 2 (Top-Right) -->
+        <div class="satellite-node absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300" style="top: 25%; left: 82%;" onclick="selectGuest(1)">
+          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-slate-200 shadow-lg hover:scale-125 transition-transform bg-white">
+            <img src="assets/resort_10.jpg" alt="Guest 2" class="w-full h-full object-cover">
+          </div>
+        </div>
+
+        <!-- Avatar 3 (Bottom-Right) -->
+        <div class="satellite-node absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300" style="top: 75%; left: 82%;" onclick="selectGuest(2)">
+          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-slate-200 shadow-lg hover:scale-125 transition-transform bg-white">
+            <img src="assets/resort_01.jpg" alt="Guest 3" class="w-full h-full object-cover">
+          </div>
+        </div>
+
+        <!-- Avatar 4 (Bottom) -->
+        <div class="satellite-node absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300" style="top: 90%; left: 50%;" onclick="selectGuest(3)">
+          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-slate-200 shadow-lg hover:scale-125 transition-transform bg-white">
+            <img src="assets/resort_03.jpg" alt="Guest 4" class="w-full h-full object-cover">
+          </div>
+        </div>
+
+        <!-- Avatar 5 (Bottom-Left) -->
+        <div class="satellite-node absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300" style="top: 75%; left: 18%;" onclick="selectGuest(4)">
+          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-slate-200 shadow-lg hover:scale-125 transition-transform bg-white">
+            <img src="assets/resort_21.jpg" alt="Guest 5" class="w-full h-full object-cover">
+          </div>
+        </div>
+
+        <!-- Avatar 6 (Top-Left) -->
+        <div class="satellite-node absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300" style="top: 25%; left: 18%;" onclick="selectGuest(5)">
+          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-slate-200 shadow-lg hover:scale-125 transition-transform bg-white">
+            <img src="assets/resort_04.jpg" alt="Guest 6" class="w-full h-full object-cover">
+          </div>
+        </div>
+
+        <!-- Floating Active Review Card -->
+        <div id="active-review-card" class="absolute z-20 max-w-sm p-6 rounded-3xl bg-white border border-slate-200 shadow-xl transition-all duration-300 text-center top-1/2 -translate-y-1/2">
+          <div class="flex justify-center gap-1 text-brand-lime text-xs mb-3">
+            <span>&starf;</span><span>&starf;</span><span>&starf;</span><span>&starf;</span><span>&starf;</span>
+          </div>
+          <p id="review-text" class="text-xs sm:text-sm text-slate-700 italic mb-4 leading-relaxed font-sans">
+            "The Burma bridge skywalk and water zorbing made our retreat unforgettable! Waking up to misty mountain views from the pavilion terrace is pure peace."
           </p>
-          <p class="text-[11px] font-mono text-slate-400">reservations@fantasyview.com</p>
+          <h4 id="review-name" class="font-sans font-bold text-sm text-slate-900">Tahan Ahmed</h4>
+          <span id="review-role" class="text-[10px] font-mono text-slate-400">Dubai &bull; Stayed Oct 2026</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 11: 24-PHOTO AUTHENTIC RESORT VAULT & FULL LIGHTBOX -->
+  <section id="gallery" class="py-24 px-6 lg:px-16 bg-white border-t border-slate-200">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <span class="text-xs font-mono text-brand-lime uppercase tracking-widest font-bold block mb-1">Authentic Visual Archive</span>
+          <h2 class="font-sans text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">The 24-Photo Photographic Vault</h2>
+          <p class="text-sm text-slate-500 mt-2">Every authentic photo from our sanctuary grounds, categorized and viewable in full resolution.</p>
+        </div>
+
+        <!-- Filter Pills -->
+        <div class="flex flex-wrap gap-2 text-xs font-medium">
+          <button class="gallery-filter-btn active px-4 py-2 rounded-full bg-slate-900 text-white font-semibold transition-all" onclick="filterGallery('all', this)">All (24)</button>
+          <button class="gallery-filter-btn px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-600 hover:text-black transition-all" onclick="filterGallery('adventure', this)">Adventures</button>
+          <button class="gallery-filter-btn px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-600 hover:text-black transition-all" onclick="filterGallery('water', this)">Pool &amp; Water</button>
+          <button class="gallery-filter-btn px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-600 hover:text-black transition-all" onclick="filterGallery('gardens', this)">Gardens &amp; Walks</button>
+          <button class="gallery-filter-btn px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-600 hover:text-black transition-all" onclick="filterGallery('dining', this)">Dining &amp; Hospitality</button>
+        </div>
+      </div>
+
+      <!-- Photo Grid Dynamic Container -->
+      <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <!-- Rendered via JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 12: LIGHT LUXURY FOOTER + 4K PANORAMIC GREEN HILLS LANDSCAPE (Keyframe 027 / 028) -->
+  <footer class="bg-white border-t border-slate-200 text-slate-600 text-sm">
+    <div class="max-w-7xl mx-auto px-6 lg:px-16 pt-16 pb-12">
+      <!-- 5-Column Navigation Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+        <!-- Col 1: Brand Info -->
+        <div class="col-span-2 md:col-span-1">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-7 h-7 rounded-lg bg-black text-brand-lime flex items-center justify-center font-bold text-sm">
+              <svg class="w-3.5 h-3.5 fill-brand-lime" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+            <span class="font-sans font-extrabold text-base text-slate-900 uppercase">Fantasy View</span>
+          </div>
+          <p class="text-xs text-slate-500 leading-relaxed mb-4">
+            Where mist-kissed mountain hills meet thrilling aerial adventures and serene pool sanctuaries.
+          </p>
         </div>
 
         <!-- Col 2: Company -->
         <div>
           <h4 class="font-sans font-bold text-slate-900 mb-3 uppercase tracking-wider text-[11px]">Company</h4>
-          <ul class="space-y-2">
+          <ul class="space-y-2 text-xs">
             <li><a href="#hero" class="hover:text-slate-900">About Us</a></li>
             <li><a href="#escapes" class="hover:text-slate-900">Careers</a></li>
             <li><a href="#telemetry" class="hover:text-slate-900">Press</a></li>
@@ -759,7 +1188,7 @@
         <!-- Col 3: Destinations -->
         <div>
           <h4 class="font-sans font-bold text-slate-900 mb-3 uppercase tracking-wider text-[11px]">Destinations</h4>
-          <ul class="space-y-2">
+          <ul class="space-y-2 text-xs">
             <li><a href="#adventures" class="hover:text-slate-900">Lagoon Pool</a></li>
             <li><a href="#adventures" class="hover:text-slate-900">Burma Bridge</a></li>
             <li><a href="#adventures" class="hover:text-slate-900">ATV Quad Trails</a></li>
@@ -770,7 +1199,7 @@
         <!-- Col 4: Support -->
         <div>
           <h4 class="font-sans font-bold text-slate-900 mb-3 uppercase tracking-wider text-[11px]">Support</h4>
-          <ul class="space-y-2">
+          <ul class="space-y-2 text-xs">
             <li><a href="#" class="hover:text-slate-900">Help Center</a></li>
             <li><a href="#" class="hover:text-slate-900">Terms of Service</a></li>
             <li><a href="#" class="hover:text-slate-900">Privacy Policy</a></li>
@@ -792,14 +1221,14 @@
       </div>
     </div>
 
-    <!-- THE EXACT VIVID GREEN HILLS PANORAMA WITH 4 TRAVELERS WALKING (Keyframe 028) -->
+    <!-- 4K HIGH-RESOLUTION PANORAMIC GREEN HILLS LANDSCAPE (Brand New 2560px 4K Asset with Hikers) -->
     <div class="relative w-full overflow-hidden border-t border-slate-200">
-      <img src="assets/footer_panoramic_landscape.jpg" alt="Travelers on Rolling Green Hills" class="w-full h-auto max-h-[380px] object-cover object-center brightness-105">
+      <img src="assets/footer_panoramic_landscape.jpg" alt="Travelers on Rolling Green Hills" class="w-full h-auto max-h-[420px] object-cover object-center brightness-105">
     </div>
 
     <!-- Sub-footer Bar -->
     <div class="bg-white py-6 border-t border-slate-100 text-center text-xs font-mono text-slate-400">
-      <p>© 2026 Fantasy View Resorts. All Rights Reserved. Built with Asura Sovereign 3D Automation.</p>
+      <p>&copy; 2026 Fantasy View Resorts. All Rights Reserved. Built with Asura Sovereign 3D Automation.</p>
     </div>
   </footer>
 
@@ -834,7 +1263,7 @@
 
       <span class="text-[10px] font-mono text-brand-lime uppercase tracking-widest block mb-1 font-bold">Guaranteed Direct Rates</span>
       <h3 class="font-sans text-2xl font-extrabold text-slate-900 mb-2">Reserve Your Sanctuary</h3>
-      <p class="text-xs text-slate-500 mb-6">Complete your reservation details below. Instant voucher & adventure pass issued.</p>
+      <p class="text-xs text-slate-500 mb-6">Complete your reservation details below. Instant voucher &amp; adventure pass issued.</p>
 
       <form onsubmit="confirmReservation(event)" class="space-y-4">
         <div>
@@ -871,7 +1300,7 @@
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-  <!-- JAVASCRIPT: LENIS + GSAP 3D CANVAS SCRUBBING + 24 RESORT PHOTO REPOSITORY -->
+  <!-- JAVASCRIPT: LENIS + GSAP 3D SCROLL & CANVAS ENGINE -->
   <script>
     // 1. DATA REPOSITORY: 24 AUTHENTIC RESORT PHOTOS
     const RESORT_PHOTOS = [
@@ -889,7 +1318,7 @@
       { id: 12, file: 'assets/resort_12.jpg', title: 'Terracotta Bridge Walkway', cat: 'gardens', desc: 'Stepping stone pathway crossing arched wooden bridge over clear waters.' },
       { id: 13, file: 'assets/resort_13.jpg', title: 'Treetop Rope Obstacle Circuit', cat: 'adventure', desc: 'Multi-level high rope skywalk against dramatic blue sky and cumulus clouds.' },
       { id: 14, file: 'assets/resort_14.jpg', title: 'Aquatic Koi Reflection Pool', cat: 'water', desc: 'Painted koi motifs on terracotta pavilion steps rising out of reflection pond.' },
-      { id: 15, file: 'assets/resort_15.jpg', title: 'Aerial Rope Obstacle Tower', cat: 'adventure', desc: 'Sturdy steel and timber climbing towers with suspended horizontal ladders.' },
+      { id: 15, file: 'assets/resort_15.jpg', title: 'Aerial Rope Obstacle Tower', cat: 'adventure', desc: 'Steel climbing towers with suspended horizontal ladders.' },
       { id: 16, file: 'assets/resort_16.jpg', title: 'Palm Promenade Pathway', cat: 'gardens', desc: 'Winding terracotta pathway through tropical manicured lawn & palms.' },
       { id: 17, file: 'assets/resort_17.jpg', title: 'Crystalline Pebble Brook', cat: 'gardens', desc: 'Clear natural freshwater brook reflecting the arched wooden garden bridge.' },
       { id: 18, file: 'assets/resort_18.jpg', title: 'Tropical Shaded Glade', cat: 'gardens', desc: 'Peaceful lawn glade with coconut palms, flower beds and decorative stones.' },
@@ -901,7 +1330,7 @@
       { id: 24, file: 'assets/resort_24.jpg', title: 'Canopy Tower Ascent', cat: 'adventure', desc: 'Climbing the vertical access ladder to begin the canopy rope circuit.' }
     ];
 
-    // 2. GUEST TESTIMONIALS DATA (Exact Keyframe 024)
+    // 2. GUEST TESTIMONIALS DATA
     const GUEST_REVIEWS = [
       { name: 'Tahan Ahmed', role: 'Dubai · Stayed Oct 2026', text: '"The Burma bridge skywalk and water zorbing made our retreat unforgettable! Waking up to misty mountain views from the pavilion terrace is pure peace."' },
       { name: 'Ananya Sharma', role: 'Bangalore · Stayed Oct 2026', text: '"Fantasy View is our absolute favorite family resort. The kids loved the skywalk and the swimming pool was sparkling clean."' },
@@ -927,11 +1356,13 @@
 
       document.querySelectorAll('.satellite-node').forEach((node, i) => {
         if (i === idx) {
-          node.classList.add('border-brand-lime', 'scale-125');
-          node.classList.remove('border-slate-200');
+          node.classList.add('scale-125');
+          node.firstElementChild.classList.add('border-brand-lime');
+          node.firstElementChild.classList.remove('border-slate-200');
         } else {
-          node.classList.remove('border-brand-lime', 'scale-125');
-          node.classList.add('border-slate-200');
+          node.classList.remove('scale-125');
+          node.firstElementChild.classList.remove('border-brand-lime');
+          node.firstElementChild.classList.add('border-slate-200');
         }
       });
     }
@@ -954,9 +1385,11 @@
     requestAnimationFrame(raf);
     gsap.registerPlugin(ScrollTrigger);
 
-    // 4. OPUS-55 60FPS 1080P CANVAS SCRUBBING ENGINE
+    // 4. OPUS-55 60FPS 1080P CANVAS SCRUBBING ENGINE WITH 3D SHRINKING CARD TRANSITION
     const canvas = document.getElementById('hero-canvas');
     const ctx = canvas.getContext('2d', { alpha: false });
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
     const TOTAL_FRAMES = 60;
     const frames = [];
     const frameObj = { current: 1 };
@@ -973,7 +1406,7 @@
     }
     window.addEventListener('resize', resizeCanvas);
 
-    // Preload 1080p WebP canvas sequence
+    // Preload enhanced 1080p WebP canvas sequence
     for (let i = 1; i <= TOTAL_FRAMES; i++) {
       const img = new Image();
       const numStr = String(i).padStart(3, '0');
@@ -997,12 +1430,12 @@
       ctx.drawImage(img, 0, 0, img.width, img.height, centerShiftX, centerShiftY, img.width * ratio, img.height * ratio);
     }
 
-    // ScrollTrigger Pinned Scrub Animation
+    // ScrollTrigger Pinned Scrub Animation + 3D Shrinking Window Transition (Keyframe 004 -> 006 -> 007)
     ScrollTrigger.create({
       trigger: '#hero',
       start: 'top top',
       end: 'bottom bottom',
-      scrub: 0.5,
+      scrub: 0.4,
       onUpdate: (self) => {
         const targetFrame = Math.max(1, Math.min(TOTAL_FRAMES, Math.floor(self.progress * (TOTAL_FRAMES - 1)) + 1));
         frameObj.current = targetFrame;
@@ -1021,33 +1454,37 @@
 
         // Stage 2 Fade (Floating White Glass Booking Widget)
         const stage2 = document.getElementById('hero-booking-stage');
-        if (self.progress > 0.35) {
-          const p = Math.min(1, (self.progress - 0.35) * 3);
+        if (self.progress > 0.28 && self.progress < 0.85) {
+          const p = Math.min(1, (self.progress - 0.28) * 3);
           stage2.style.opacity = String(p);
           stage2.style.transform = `translateY(${(1 - p) * 25}px)`;
           stage2.style.pointerEvents = 'auto';
+        } else if (self.progress >= 0.85) {
+          const pOut = 1 - (self.progress - 0.85) * 6;
+          stage2.style.opacity = String(Math.max(0, pOut));
+          stage2.style.pointerEvents = 'none';
         } else {
           stage2.style.opacity = '0';
           stage2.style.pointerEvents = 'none';
         }
-      }
-    });
 
-    // 3D Perspective Scroll on Cinema Window (Keyframe 007)
-    gsap.fromTo('#cinema-container', 
-      { rotateX: 20, scale: 0.92, transformOrigin: 'top center' },
-      { 
-        rotateX: 0, 
-        scale: 1, 
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '#cinema-container-wrap',
-          start: 'top 85%',
-          end: 'top 30%',
-          scrub: true
+        // 3D Window Shrink Transition (Keyframe 006 / 007: Fullscreen -> Rounded 3D Cinema Window)
+        const frameWrap = document.getElementById('hero-frame-wrapper');
+        if (self.progress > 0.6) {
+          const shrinkProg = (self.progress - 0.6) / 0.4;
+          const scale = 1 - shrinkProg * 0.12;
+          const radius = shrinkProg * 36;
+          const rotX = shrinkProg * 10;
+          frameWrap.style.transform = `scale(${scale}) perspective(1000px) rotateX(${rotX}deg)`;
+          frameWrap.style.borderRadius = `${radius}px`;
+          frameWrap.style.boxShadow = `0 ${shrinkProg * 40}px ${shrinkProg * 80}px rgba(0,0,0,0.5)`;
+        } else {
+          frameWrap.style.transform = 'scale(1) perspective(1000px) rotateX(0deg)';
+          frameWrap.style.borderRadius = '0px';
+          frameWrap.style.boxShadow = 'none';
         }
       }
-    );
+    });
 
     resizeCanvas();
 
@@ -1062,8 +1499,8 @@
         const y = e.clientY - rect.top;
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
-        const rotateX = ((y - centerY) / centerY) * -7;
-        const rotateY = ((x - centerX) / centerX) * 7;
+        const rotateX = ((y - centerY) / centerY) * -6;
+        const rotateY = ((x - centerX) / centerX) * 6;
 
         card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
         card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
@@ -1075,7 +1512,147 @@
       });
     });
 
-    // 6. POPULATE 24-PHOTO RESORT GALLERY
+    // 6. CUSTOM 3D SCROLL ANIMATION 1: STAGGERED PARALLAX MASONRY ("Moments Worth The Trip")
+    gsap.to('#masonry-col-1', {
+      y: 60,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#moments-masonry',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1
+      }
+    });
+    gsap.to('#masonry-col-2', {
+      y: -90,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#moments-masonry',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.4
+      }
+    });
+    gsap.to('#masonry-col-3', {
+      y: 75,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#moments-masonry',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 0.8
+      }
+    });
+    gsap.to('#masonry-col-4', {
+      y: -110,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#moments-masonry',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.6
+      }
+    });
+
+    // 7. CUSTOM 3D SCROLL ANIMATION 2: 3D PERSPECTIVE FLIGHT RADAR TILT ("Every Trip, Connected")
+    gsap.fromTo('#radar-container',
+      { rotateX: 20, scale: 0.92, transformOrigin: 'top center' },
+      {
+        rotateX: 0,
+        scale: 1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '#flight-radar',
+          start: 'top 85%',
+          end: 'top 35%',
+          scrub: true
+        }
+      }
+    );
+
+    // 8. INTERACTIVE STEPPER LOGIC ("Let's drive your journey")
+    const JOURNEY_STEPS = [
+      {
+        id: 1,
+        badge: 'Step 01 of 4',
+        title: 'Consultation & Trip Planning',
+        img: 'assets/resort_17.jpg',
+        desc: 'Begin your retreat with a personal nature consultation where you customize villa preferences, dining options, and high-wire adventure itineraries.'
+      },
+      {
+        id: 2,
+        badge: 'Step 02 of 4',
+        title: 'Customized Itinerary & Booking',
+        img: 'assets/resort_03.jpg',
+        desc: 'Lock in your cottage or pool villa dates, arrange Burma bridge passes, ATV time slots, and lawn dining tables with instant confirmation.'
+      },
+      {
+        id: 3,
+        badge: 'Step 03 of 4',
+        title: 'Seamless Payment & Confirmation',
+        img: 'assets/resort_04.jpg',
+        desc: 'Guaranteed lowest direct rates with zero hidden platform fees, instant reservation vouchers, QR entry passes, and flexible cancellation terms.'
+      },
+      {
+        id: 4,
+        badge: 'Step 04 of 4',
+        title: 'Journey Assistance & Support',
+        img: 'assets/resort_21.jpg',
+        desc: '24/7 on-site concierge team ready to welcome you, handle gear fittings for the high-wire skywalk, and organize midnight stargazing glades.'
+      }
+    ];
+
+    function selectJourneyStep(stepId) {
+      const step = JOURNEY_STEPS.find(s => s.id === stepId);
+      if (!step) return;
+
+      const imgEl = document.getElementById('stepper-img');
+      imgEl.style.opacity = '0.4';
+      imgEl.style.transform = 'scale(0.96)';
+
+      setTimeout(() => {
+        imgEl.src = step.img;
+        document.getElementById('stepper-badge').innerText = step.badge;
+        document.getElementById('stepper-desc').innerText = step.desc;
+        imgEl.style.opacity = '1';
+        imgEl.style.transform = 'scale(1)';
+      }, 200);
+
+      document.querySelectorAll('.step-accordion-row').forEach((row, i) => {
+        const id = i + 1;
+        const badge = row.querySelector('.step-num-badge');
+        const icon = row.querySelector('.step-toggle-icon');
+        const content = row.querySelector('.step-content');
+
+        if (id === stepId) {
+          row.classList.add('active', 'border-brand-lime/50', 'bg-brand-limeLight/40', 'shadow-sm');
+          row.classList.remove('border-slate-200', 'bg-slate-50');
+          badge.classList.add('bg-brand-lime', 'text-black');
+          badge.classList.remove('bg-slate-200', 'text-slate-800');
+          icon.innerHTML = '&times;';
+          content.classList.remove('hidden');
+        } else {
+          row.classList.remove('active', 'border-brand-lime/50', 'bg-brand-limeLight/40', 'shadow-sm');
+          row.classList.add('border-slate-200', 'bg-slate-50');
+          badge.classList.remove('bg-brand-lime', 'text-black');
+          badge.classList.add('bg-slate-200', 'text-slate-800');
+          icon.innerHTML = '+';
+          content.classList.add('hidden');
+        }
+      });
+    }
+
+    // 9. POPULAR CAROUSEL CONTROLS
+    function prevPopularCard() {
+      const container = document.getElementById('popular-cards-grid');
+      container.scrollBy({ left: -320, behavior: 'smooth' });
+    }
+    function nextPopularCard() {
+      const container = document.getElementById('popular-cards-grid');
+      container.scrollBy({ left: 320, behavior: 'smooth' });
+    }
+
+    // 10. POPULATE 24-PHOTO RESORT GALLERY
     function renderGalleryGrid(items) {
       const grid = document.getElementById('gallery-grid');
       grid.innerHTML = '';
@@ -1112,7 +1689,7 @@
       }
     }
 
-    // 7. LIGHTBOX CONTROLS
+    // 11. LIGHTBOX CONTROLS
     let currentLightboxId = 1;
     function openLightbox(id) {
       currentLightboxId = id;
@@ -1146,7 +1723,7 @@
       openLightbox(nextId);
     }
 
-    // 8. BOOKING & MODAL LOGIC
+    // 12. BOOKING & MODAL LOGIC
     function openBookingModal(villaName = 'The Royal Valley Suite') {
       document.getElementById('modal-villa-name').value = villaName;
       const modal = document.getElementById('booking-modal');
@@ -1170,12 +1747,17 @@
       showToast(`Filter applied: ${btn.innerText}`);
     }
 
+    function applySubFilter(btn) {
+      showToast(`Selected Category: ${btn.innerText}`);
+      openBookingModal(btn.innerText);
+    }
+
     function handleSearch(e) {
       e.preventDefault();
       const loc = document.getElementById('booking-location').value;
       const inDate = document.getElementById('booking-checkin').value;
       const outDate = document.getElementById('booking-checkout').value;
-      showToast(`🔍 Searching ${loc} for ${inDate} to ${outDate}...`);
+      showToast(`Searching ${loc} for ${inDate} to ${outDate}...`);
       setTimeout(() => {
         openBookingModal('Filtered Sanctuary Selection');
       }, 700);
@@ -1185,12 +1767,12 @@
       e.preventDefault();
       closeBookingModal();
       const bookingId = 'FVR-' + Math.floor(100000 + Math.random() * 900000);
-      showToast(`🎉 Reservation confirmed! Booking ID: ${bookingId}. Voucher sent.`);
+      showToast(`Reservation confirmed! Booking ID: ${bookingId}. Voucher sent.`);
     }
 
     function handleSubscribe(e) {
       e.preventDefault();
-      showToast('💌 Subscribed! Check your inbox for exclusive resort specials.');
+      showToast('Subscribed! Check your inbox for exclusive resort specials.');
       e.target.reset();
     }
 
