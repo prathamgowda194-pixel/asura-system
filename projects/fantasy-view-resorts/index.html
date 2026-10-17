@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fantasy View Resorts — Luxury Nature Sanctuary & Adventure Retreat</title>
+  <base href="/projects/fantasy-view-resorts/">
+  <script>
+    if (location.pathname === '/projects/fantasy-view-resorts') {
+      location.replace('/projects/fantasy-view-resorts/');
+    }
+  </script>
+
+  <!-- Google Fonts: Editorial Serif + Modern Clean Sans + Monospace Telemetry -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              lime: '#84CC16',
+              limeHover: '#65A30D',
+              dark: '#070C08',
+              emerald: '#0B1A10',
+              card: 'rgba(16, 28, 20, 0.65)',
+              glass: 'rgba(255, 255, 255, 0.08)',
+              border: 'rgba(255, 255, 255, 0.12)'
+            }
+          },
+          fontFamily: {
+            serif: ['Cinzel', 'serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['Space Grotesk', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- GSAP, ScrollTrigger, Lenis Smooth Scroll -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    body {
+      background-color: #070C08;
+      color: #E2E8F0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+    /* Ambient Backlight Glows */
+    .ambient-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(132, 204, 22, 0.12) 0%, rgba(11, 26, 16, 0) 70%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* 3D Perspective Card Physics */
+    .card-3d-wrap {
+      perspective: 1200px;
+      transform-style: preserve-3d;
+    }
+    .card-3d {
+      transition: transform 0.15s ease-out, box-shadow 0.25s ease-out;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    .specular-glare {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle 350px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.18), transparent 80%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: inherit;
+    }
+    .card-3d:hover .specular-glare {
+      opacity: 1;
+    }
+    /* Glassmorphic Panel Styles */
+    .glass-panel {
+      background: rgba(13, 24, 16, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    }
+    .glass-subtle {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #070C08;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1B3322;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #84CC16;
+    }
+    /* Testimonial Orbit Animation */
+    @keyframes orbitPulse {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+    .orbit-pulse {
+      animation: orbitPulse 4s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="selection:bg-brand-lime selection:text-black">
+
+  <!-- Ambient Light Backdrops -->
+  <div class="ambient-glow top-0 left-1/4 -translate-x-1/2"></div>
+  <div class="ambient-glow top-[140vh] right-10"></div>
+  <div class="ambient-glow top-[320vh] left-10"></div>
+  <div class="ambient-glow top-[520vh] right-1/4"></div>
+
+  <!-- NAVIGATION HEADER (Glass-to-Solid State Machine) -->
+  <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-5 px-6 lg:px-16 flex items-center justify-between border-b border-white/5 bg-transparent">
+    <!-- Brand Crest -->
+    <a href="./" class="flex items-center gap-3 group">
+      <div class="w-10 h-10 rounded-xl bg-brand-lime/10 border border-brand-lime/30 flex items-center justify-center text-brand-lime group-hover:scale-105 group-hover:border-brand-lime transition-transform">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m8 3 4 8 5-5 5 15H2L8 3z"/>
+        </svg>
+      </div>
+      <div>
+        <span class="font-serif tracking-widest text-lg lg:text-xl font-bold text-white uppercase block leading-tight">Fantasy View</span>
+        <span class="text-[10px] font-mono tracking-[0.25em] text-brand-lime uppercase block">Luxury Eco Sanctuary</span>
+      </div>
+    </a>
+
+    <!-- Navigation Links -->
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+      <a href="#hero" class="hover:text-brand-lime transition-colors">Home</a>
+      <a href="#escapes" class="hover:text-brand-lime transition-colors">Sanctuaries</a>
+      <a href="#adventures" class="hover:text-brand-lime transition-colors">Adventures</a>
+      <a href="#telemetry" class="hover:text-brand-lime transition-colors">Residences</a>
+      <a href="#gallery" class="hover:text-brand-lime transition-colors">Gallery <span class="px-1.5 py-0.5 rounded-full text-[10px] font-mono bg-brand-lime/20 text-brand-lime ml-1">24</span></a>
+      <a href="#testimonials" class="hover:text-brand-lime transition-colors">Reviews</a>
+    </nav>
+
+    <!-- Action Buttons -->
+    <div class="flex items-center gap-4">
+      <button onclick="openBookingModal()" class="relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider text-black bg-brand-lime hover:bg-brand-limeHover shadow-[0_0_25px_rgba(132,204,22,0.4)] transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>Reserve Villa</span>
+      </button>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-lg bg-white/5 border border-white/10 text-white hover:text-brand-lime" aria-label="Toggle Menu">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="4" x2="20" y1="12" y2="12"/>
+          <line x1="4" x2="20" y1="6" y2="6"/>
+          <line x1="4" x2="20" y1="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div id="mobile-drawer" class="fixed inset-0 z-40 bg-black/90 backdrop-blur-2xl flex flex-col justify-center items-center gap-6 text-xl font-serif text-white opacity-0 pointer-events-none transition-all duration-300 md:hidden">
+    <a href="#hero" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Home</a>
+    <a href="#escapes" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Sanctuaries</a>
+    <a href="#adventures" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Adventures</a>
+    <a href="#telemetry" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Residences</a>
+    <a href="#gallery" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Gallery (24 Photos)</a>
+    <a href="#testimonials" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Guest Reviews</a>
+    <button onclick="toggleMobileMenu(); openBookingModal();" class="mt-4 px-8 py-3 rounded-full bg-brand-lime text-black font-sans text-sm font-bold uppercase tracking-wider">Book Sanctuary</button>
+  </div>
+
+  <!-- HERO SECTION: PINNED 60FPS 3D CANVAS SCRUBBING -->
+  <section id="hero" class="relative w-full h-[240vh] bg-brand-dark">
+    <!-- Pinned Canvas Frame Viewport -->
+    <div id="canvas-sticky" class="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center">
+      <!-- 60FPS Apple-Style Canvas Sequence -->
+      <canvas id="hero-canvas" class="absolute inset-0 w-full h-full object-cover z-0"></canvas>
+      
+      <!-- Fallback Cinematic Image Layer (Edge Fail-Safe) -->
+      <img id="canvas-fallback" src="assets/fantasy_resort_start_frame_1080p.jpg" alt="Fantasy View Resort Fly-through" class="absolute inset-0 w-full h-full object-cover z-0 opacity-0 pointer-events-none transition-opacity duration-500" onerror="this.onerror=null; this.src='assets/resort_20.jpg';">
+
+      <!-- Radial Vignette Scrim & Lighting Gradient -->
+      <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/40 to-transparent z-10 pointer-events-none"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-brand-dark/70 via-transparent to-brand-dark z-10 pointer-events-none"></div>
+
+      <!-- STAGE 1: EDITORIAL TITLE OVERLAY (Fades on scrub) -->
+      <div id="hero-title-stage" class="absolute z-20 text-center px-6 max-w-4xl mx-auto flex flex-col items-center justify-center transition-all duration-300">
+        <!-- Telemetry Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-subtle border border-brand-lime/30 text-brand-lime font-mono text-xs uppercase tracking-widest mb-6">
+          <span class="w-2 h-2 rounded-full bg-brand-lime animate-ping"></span>
+          <span>Travel More, Worry Less</span>
+        </div>
+
+        <!-- Headline (Cinzel Display Serif) -->
+        <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-6 leading-[1.08]">
+          Explore the World, <br>
+          <span class="bg-gradient-to-r from-white via-slate-200 to-brand-lime bg-clip-text text-transparent">One Journey at a Time.</span>
+        </h1>
+
+        <!-- Subtext -->
+        <p class="text-base sm:text-lg text-slate-300 font-normal max-w-2xl leading-relaxed mb-8">
+          Our luxury eco-sanctuary offers personalized, hassle-free wilderness retreats, high-wire rope adventures, and private lagoon pool villas.
+        </p>
+
+        <!-- Scroll Indicator Pill -->
+        <div class="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-slate-400">
+          <span>Scroll to scrub 3D resort fly-through</span>
+          <svg class="w-4 h-4 text-brand-lime animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M19 12l-7 7-7-7"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- STAGE 2: FLOATING GLASSMORPHISM BOOKING ENGINE (Exact Replica from Reference Keyframe 005) -->
+      <div id="hero-booking-stage" class="absolute bottom-8 lg:bottom-12 z-30 w-full max-w-5xl px-4 sm:px-6 mx-auto opacity-0 translate-y-10 transition-all duration-300">
+        <div class="glass-panel rounded-3xl p-6 lg:p-8 shadow-[0_30px_70px_rgba(0,0,0,0.6)] border border-white/15">
+          <!-- Top Row: Card Title & Category Filter Tabs -->
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-6 border-b border-white/10">
+            <div>
+              <h2 class="font-serif text-xl sm:text-2xl font-bold text-white flex items-center gap-3">
+                <span>Find the best place</span>
+                <span class="text-xs font-mono font-normal text-brand-lime px-2.5 py-0.5 rounded-full bg-brand-lime/10 border border-brand-lime/20">Available Now</span>
+              </h2>
+              <p class="text-xs text-slate-400 mt-1">Book directly with guaranteed best rates & complimentary adventure pass.</p>
+            </div>
+
+            <!-- Segmented Tabs -->
+            <div class="inline-flex p-1 rounded-2xl bg-black/40 border border-white/10 self-start md:self-auto overflow-x-auto max-w-full">
+              <button class="booking-tab active px-4 py-2 rounded-xl text-xs font-semibold text-black bg-brand-lime transition-all" onclick="selectBookingTab(this, 'all')">All Residences</button>
+              <button class="booking-tab px-4 py-2 rounded-xl text-xs font-medium text-slate-300 hover:text-white transition-all" onclick="selectBookingTab(this, 'hotel')">Hotel & Suites</button>
+              <button class="booking-tab px-4 py-2 rounded-xl text-xs font-medium text-slate-300 hover:text-white transition-all" onclick="selectBookingTab(this, 'apartment')">Valley Apartments</button>
+              <button class="booking-tab px-4 py-2 rounded-xl text-xs font-medium text-slate-300 hover:text-white transition-all" onclick="selectBookingTab(this, 'villa')">Luxury Villas</button>
+            </div>
+          </div>
+
+          <!-- Bottom Row: 4 Data Inputs + Lime Search Button -->
+          <form onsubmit="handleSearch(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-center">
+            <!-- 1. Destination / Location -->
+            <div class="relative p-3.5 rounded-2xl bg-black/30 border border-white/10 hover:border-brand-lime/50 transition-colors">
+              <label class="block text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-brand-lime" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                Location
+              </label>
+              <input type="text" id="booking-location" value="Fantasy View Sanctuary" class="w-full bg-transparent text-sm font-semibold text-white focus:outline-none" placeholder="Type destination">
+            </div>
+
+            <!-- 2. Check-In Date -->
+            <div class="relative p-3.5 rounded-2xl bg-black/30 border border-white/10 hover:border-brand-lime/50 transition-colors">
+              <label class="block text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-brand-lime" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                  <line x1="16" x2="16" y1="2" y2="6"/>
+                  <line x1="8" x2="8" y1="2" y2="6"/>
+                  <line x1="3" x2="21" y1="10" y2="10"/>
+                </svg>
+                Check In
+              </label>
+              <input type="date" id="booking-checkin" value="2026-10-24" class="w-full bg-transparent text-sm font-semibold text-white focus:outline-none">
+            </div>
+
+            <!-- 3. Check-Out Date -->
+            <div class="relative p-3.5 rounded-2xl bg-black/30 border border-white/10 hover:border-brand-lime/50 transition-colors">
+              <label class="block text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-brand-lime" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                  <line x1="16" x2="16" y1="2" y2="6"/>
+                  <line x1="8" x2="8" y1="2" y2="6"/>
+                  <line x1="3" x2="21" y1="10" y2="10"/>
+                </svg>
+                Check Out
+              </label>
+              <input type="date" id="booking-checkout" value="2026-10-28" class="w-full bg-transparent text-sm font-semibold text-white focus:outline-none">
+            </div>
+
+            <!-- 4. Participants / Guests -->
+            <div class="relative p-3.5 rounded-2xl bg-black/30 border border-white/10 hover:border-brand-lime/50 transition-colors">
+              <label class="block text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-brand-lime" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                Participants
+              </label>
+              <select id="booking-guests" class="w-full bg-transparent text-sm font-semibold text-white focus:outline-none cursor-pointer">
+                <option value="2" class="bg-brand-dark text-white">2 Adults · 1 Suite</option>
+                <option value="4" class="bg-brand-dark text-white">4 Guests · Family Villa</option>
+                <option value="6" class="bg-brand-dark text-white">6+ Guests · Luxury Retreat</option>
+                <option value="1" class="bg-brand-dark text-white">1 Solo Explorer</option>
+              </select>
+            </div>
+
+            <!-- 5. Search Button -->
+            <div class="w-full h-full flex items-end">
+              <button type="submit" class="w-full py-4 px-6 rounded-2xl bg-brand-lime hover:bg-brand-limeHover text-black font-semibold text-sm flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(132,204,22,0.45)] transition-all transform hover:scale-[1.02] active:scale-[0.98]">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="m21 21-4.3-4.3"/>
+                </svg>
+                <span>Search Properties</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- Sub-filters Pill Strip -->
+          <div class="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate-400">
+            <span class="font-mono text-[10px] uppercase text-slate-500">Popular Filters:</span>
+            <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 hover:border-brand-lime/40 cursor-pointer">Poolside Gazebo</span>
+            <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 hover:border-brand-lime/40 cursor-pointer">Adventure Course Pass</span>
+            <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 hover:border-brand-lime/40 cursor-pointer">Valley View Balcony</span>
+            <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 hover:border-brand-lime/40 cursor-pointer">Water Zorbing Included</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: BENTO CATEGORY GRID ("Find your next escape." - Keyframes 007-009) -->
+  <section id="escapes" class="relative z-20 py-24 px-6 lg:px-16 max-w-7xl mx-auto">
+    <!-- Section Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-lime/10 border border-brand-lime/20 text-brand-lime font-mono text-xs uppercase tracking-wider mb-3">
+          <span>Curated Sanctuaries</span>
+        </div>
+        <h2 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight">
+          Find your next escape.
+        </h2>
+      </div>
+      <p class="text-sm sm:text-base text-slate-400 max-w-md">
+        Immerse yourself in authentic resort spaces crafted for restorative seclusion, family festivities, and adrenaline-charged trails.
+      </p>
+    </div>
+
+    <!-- Bento Grid (4 Cards with 3D Tilt & Specular Sheen) -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+      <!-- Card 1: Coastal Retreats & Streamlets (Wide Landscape) -->
+      <div class="md:col-span-8 card-3d-wrap group">
+        <div class="card-3d relative h-[420px] rounded-3xl overflow-hidden border border-white/10 bg-brand-card p-8 flex flex-col justify-between">
+          <img src="assets/resort_17.jpg" alt="Pebble Stream & Bridge" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out brightness-90" onerror="this.onerror=null; this.src='assets/resort_03.jpg';">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+          <div class="specular-glare"></div>
+
+          <!-- Top Badge -->
+          <div class="relative z-10 flex justify-between items-start">
+            <span class="px-3.5 py-1.5 rounded-full glass-subtle text-xs font-mono font-medium text-brand-lime border border-brand-lime/30">
+              Natural Waters & Pebble Brook
+            </span>
+            <span class="text-xs font-mono text-slate-300">01 / 04</span>
+          </div>
+
+          <!-- Bottom Text Content -->
+          <div class="relative z-10">
+            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-white mb-2">Coastal Retreats & Streamlets</h3>
+            <p class="text-xs sm:text-sm text-slate-300 max-w-lg mb-4">
+              Crystalline natural freshwater streams flowing gently past rustic arched wooden bridges, framed by lush tropical foliage and riverbed pebbles.
+            </p>
+            <div class="flex items-center gap-4 text-xs font-mono text-brand-lime">
+              <span class="flex items-center gap-1">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                From ₹4,500 / night
+              </span>
+              <span>·</span>
+              <span>Private Bridge Access</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Water Adventures & Zorbing (Tall Vertical Bento) -->
+      <div class="md:col-span-4 card-3d-wrap group">
+        <div class="card-3d relative h-[420px] rounded-3xl overflow-hidden border border-white/10 bg-brand-card p-8 flex flex-col justify-between">
+          <img src="assets/resort_02.jpg" alt="Water Zorbing at Lagoon Pool" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out brightness-90" onerror="this.onerror=null; this.src='assets/resort_04.jpg';">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+          <div class="specular-glare"></div>
+
+          <!-- Top Badge -->
+          <div class="relative z-10 flex justify-between items-start">
+            <span class="px-3.5 py-1.5 rounded-full glass-subtle text-xs font-mono font-medium text-brand-lime border border-brand-lime/30">
+              Lagoon Pool
+            </span>
+            <span class="text-xs font-mono text-slate-300">02 / 04</span>
+          </div>
+
+          <!-- Bottom Text Content -->
+          <div class="relative z-10">
+            <h3 class="font-serif text-2xl font-bold text-white mb-2">Water Adventures</h3>
+            <p class="text-xs text-slate-300 mb-4">
+              Roll across the surface in gigantic hydro-zorbing cylinders or lounge beneath our terracotta gazebo pavilion.
+            </p>
+            <span class="inline-flex items-center gap-2 text-xs font-mono text-brand-lime group-hover:translate-x-1 transition-transform">
+              Explore Activities →
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Cultural Journeys & Open Lawns -->
+      <div class="md:col-span-5 card-3d-wrap group">
+        <div class="card-3d relative h-[380px] rounded-3xl overflow-hidden border border-white/10 bg-brand-card p-8 flex flex-col justify-between">
+          <img src="assets/resort_06.jpg" alt="Resort Lawn Retreat" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out brightness-90" onerror="this.onerror=null; this.src='assets/resort_18.jpg';">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+          <div class="specular-glare"></div>
+
+          <!-- Top Badge -->
+          <div class="relative z-10 flex justify-between items-start">
+            <span class="px-3.5 py-1.5 rounded-full glass-subtle text-xs font-mono font-medium text-brand-lime border border-brand-lime/30">
+              Community Grounds
+            </span>
+            <span class="text-xs font-mono text-slate-300">03 / 04</span>
+          </div>
+
+          <!-- Bottom Text Content -->
+          <div class="relative z-10">
+            <h3 class="font-serif text-2xl font-bold text-white mb-2">Cultural & Group Escapes</h3>
+            <p class="text-xs text-slate-300 mb-4">
+              Expansive green lawns hosting school picnics, yoga retreats, and open-air family celebrations under the canopy.
+            </p>
+            <span class="inline-flex items-center gap-2 text-xs font-mono text-brand-lime group-hover:translate-x-1 transition-transform">
+              View Event Spaces →
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Mountain Escapes & Viewpoint Swing -->
+      <div class="md:col-span-7 card-3d-wrap group">
+        <div class="card-3d relative h-[380px] rounded-3xl overflow-hidden border border-white/10 bg-brand-card p-8 flex flex-col justify-between">
+          <img src="assets/resort_10.jpg" alt="Valley Viewpoint Swing" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out brightness-90" onerror="this.onerror=null; this.src='assets/resort_19.jpg';">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+          <div class="specular-glare"></div>
+
+          <!-- Top Badge -->
+          <div class="relative z-10 flex justify-between items-start">
+            <span class="px-3.5 py-1.5 rounded-full glass-subtle text-xs font-mono font-medium text-brand-lime border border-brand-lime/30">
+              Valley Overlook
+            </span>
+            <span class="text-xs font-mono text-slate-300">04 / 04</span>
+          </div>
+
+          <!-- Bottom Text Content -->
+          <div class="relative z-10">
+            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-white mb-2">Mountain Escapes & Sunsets</h3>
+            <p class="text-xs sm:text-sm text-slate-300 max-w-lg mb-4">
+              Sway gracefully over the mountain horizon on our panoramic swing benches, greeting mist-covered valley sunsets with fresh organic coffee.
+            </p>
+            <div class="flex items-center gap-4 text-xs font-mono text-brand-lime">
+              <span>Viewpoint Deck</span>
+              <span>·</span>
+              <span>Sunset Bonfire Lounge</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: ADVENTURE & EXPERIENCE SHOWCASE (Keyframes 015-017) -->
+  <section id="adventures" class="relative z-20 py-24 px-6 lg:px-16 max-w-7xl mx-auto border-t border-white/10">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-lime/10 border border-brand-lime/20 text-brand-lime font-mono text-xs uppercase tracking-wider mb-3">
+          <span>Adventures from Around the World</span>
+        </div>
+        <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white tracking-tight">
+          Plan Your Perfect Travel Escape Today.
+        </h2>
+      </div>
+      <button onclick="openBookingModal()" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 hover:bg-brand-lime hover:text-black border border-white/15 text-white font-mono text-xs uppercase tracking-wider transition-all self-start md:self-auto">
+        <span>Plan your trip</span>
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <!-- 6 Adventure Cards Matrix -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- 1. Burma Bridge Skywalk -->
+      <div class="card-3d-wrap group">
+        <div class="card-3d relative h-[360px] rounded-3xl overflow-hidden border border-white/10 bg-brand-card p-6 flex flex-col justify-end">
+          <img src="assets/resort_21.jpg" alt="Burma Bridge Skywalk" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-90" onerror="this.onerror=null; this.src='assets/resort_22.jpg';">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+          <div class="specular-glare"></div>
+
+          <div class="relative z-10">
+            <span class="text-[10px] font-mono text-brand-lime uppercase tracking-widest block mb-1">Aerial Thrill</span>
+            <h3 class="font-serif text-xl font-bold text-white mb-2">High-Wire Burma Bridge</h3>
+            <p class="text-xs text-slate-300">Certified harnesses & spotters guiding you along swinging planks 30ft in the air.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. All-Terrain Quad Biking -->
+      <div class="card-3d-wrap group">
+        <div class="card-3d relative h-[360px] rounded-3xl overflow-hidden border border-white/10 bg-brand-card p-6 flex flex-col justify-end">
+          <img src="assets/resort_01.jpg" alt="All-Terrain Quad Biking" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-90">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+          <div class="specular-glare"></div>
+
+          <div class="relative z-10">
+            <span class="text-[10px] font-mono text-brand-lime uppercase tracking-widest block mb-1">Off-Road Adrenaline</span>
+            <h3 class="font-serif text-xl font-bold text-white mb-2">ATV Quad Trail Exploration</h3>
+            <p class="text-xs text-slate-300">Navigate rugged red-earth mountain tracks on high-torque 250cc all-terrain vehicles.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Water Lagoon & Reflection Pavilion -->
+      <div class="card-3d-wrap group">
+        <div class="card-3d relative h-[360px] rounded-3xl overflow-hidden border border-white/10 bg-brand-card p-6 flex flex-col justify-end">
+          <img src="assets/resort_14.jpg" alt="Lagoon Pavilion" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-90" onerror="this.onerror=null; this.src='assets/resort_04.jpg';">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+          <div class="specular-glare"></div>
+
+          <div class="relative z-10">
+            <span class="text-[10px] font-mono text-brand-lime uppercase tracking-widest block mb-1">Water Serenity</span>
+            <h3 class="font-serif text-xl font-bold text-white mb-2">Lagoon Gazebo & Pool</h3>
+            <p class="text-xs text-slate-300">Terracotta-tiled pavilion centered on calm waters with shaded relaxation lounges.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Suspended Obstacle Course -->
+      <div class="card-3d-wrap group">
+        <div class="card-3d relative h-[360px] rounded-3xl overflow-hidden border border-white/10 bg-brand-card p-6 flex flex-col justify-end">
+          <img src="assets/resort_13.jpg" alt="Sky Obstacles" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-90" onerror="this.onerror=null; this.src='assets/resort_15.jpg';">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+          <div class="specular-glare"></div>
+
+          <div class="relative z-10">
+            <span class="text-[10px] font-mono text-brand-lime uppercase tracking-widest block mb-1">Team Building</span>
+            <h3 class="font-serif text-xl font-bold text-white mb-2">Multi-Level High Ropes</h3>
+            <p class="text-xs text-slate-300">Nine distinct challenge obstacles testing balance, agility, and grit high above the trees.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Sunlit Palm Promenade -->
+      <div class="card-3d-wrap group">
+        <div class="card-3d relative h-[360px] rounded-3xl overflow-hidden border border-white/10 bg-brand-card p-6 flex flex-col justify-end">
+          <img src="assets/resort_20.jpg" alt="Sunlit Palm Avenue" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-90" onerror="this.onerror=null; this.src='assets/resort_16.jpg';">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+          <div class="specular-glare"></div>
+
+          <div class="relative z-10">
+            <span class="text-[10px] font-mono text-brand-lime uppercase tracking-widest block mb-1">Botanical Grounds</span>
+            <h3 class="font-serif text-xl font-bold text-white mb-2">Terracotta Palm Promenade</h3>
+            <p class="text-xs text-slate-300">Stroll through tropical betel nut groves adorned with traditional Indian rangoli stone pillars.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Youth Adventure Trail -->
+      <div class="card-3d-wrap group">
+        <div class="card-3d relative h-[360px] rounded-3xl overflow-hidden border border-white/10 bg-brand-card p-6 flex flex-col justify-end">
+          <img src="assets/resort_23.jpg" alt="Youth Adventure" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-90" onerror="this.onerror=null; this.src='assets/resort_24.jpg';">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+          <div class="specular-glare"></div>
+
+          <div class="relative z-10">
+            <span class="text-[10px] font-mono text-brand-lime uppercase tracking-widest block mb-1">Family Friendly</span>
+            <h3 class="font-serif text-xl font-bold text-white mb-2">Junior Explorer Skyway</h3>
+            <p class="text-xs text-slate-300">Designed specifically for kids and teens with dual safety lines and certified instructors.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: TELEMETRY METRICS & SIGNATURE RESIDENCES (Keyframe 020) -->
+  <section id="telemetry" class="relative z-20 py-20 px-6 lg:px-16 max-w-7xl mx-auto">
+    <!-- Telemetry Counter Banner -->
+    <div class="glass-panel rounded-3xl p-8 lg:p-12 mb-20 border border-white/15">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-white/10">
+        <div class="pt-4 md:pt-0">
+          <span class="font-mono text-4xl sm:text-5xl font-extrabold text-brand-lime block mb-2">12k+</span>
+          <span class="text-xs font-mono uppercase tracking-widest text-slate-400">Happy Travelers</span>
+        </div>
+        <div class="pt-4 md:pt-0">
+          <span class="font-mono text-4xl sm:text-5xl font-extrabold text-white block mb-2">10+</span>
+          <span class="text-xs font-mono uppercase tracking-widest text-slate-400">Years Experience</span>
+        </div>
+        <div class="pt-4 md:pt-0">
+          <span class="font-mono text-4xl sm:text-5xl font-extrabold text-brand-lime block mb-2">50+</span>
+          <span class="text-xs font-mono uppercase tracking-widest text-slate-400">Luxury Residences</span>
+        </div>
+        <div class="pt-4 md:pt-0">
+          <span class="font-mono text-4xl sm:text-5xl font-extrabold text-white block mb-2">4.9★</span>
+          <span class="text-xs font-mono uppercase tracking-widest text-slate-400">Guest Review Rating</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section Heading -->
+    <div class="text-center max-w-3xl mx-auto mb-14">
+      <span class="text-xs font-mono text-brand-lime uppercase tracking-widest block mb-2">Signature Accommodations</span>
+      <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white tracking-tight">Popular Tourist Spots & Sanctuary Villas</h2>
+    </div>
+
+    <!-- 4 Featured Villas Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Residence 1: Grand Valley Terrace -->
+      <div class="glass-subtle rounded-3xl overflow-hidden border border-white/10 hover:border-brand-lime/40 transition-all p-4 group">
+        <div class="relative h-56 rounded-2xl overflow-hidden mb-4">
+          <img src="assets/resort_19.jpg" alt="Floral Terrace Promenade" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono text-brand-lime">Terrace Suite</span>
+        </div>
+        <h3 class="font-serif text-lg font-bold text-white mb-1">The Royal Valley Suite</h3>
+        <p class="text-xs text-slate-400 mb-4">Panoramic floral terrace overlooking mountain ridges with private balcony dining.</p>
+        <div class="flex items-center justify-between pt-3 border-t border-white/10">
+          <span class="text-xs font-mono text-white font-semibold">₹6,500 <span class="text-[10px] text-slate-400 font-normal">/ night</span></span>
+          <button onclick="openBookingModal('The Royal Valley Suite')" class="text-xs font-mono text-brand-lime hover:underline">Book Now →</button>
+        </div>
+      </div>
+
+      <!-- Residence 2: Lagoon Gazebo Sanctuary -->
+      <div class="glass-subtle rounded-3xl overflow-hidden border border-white/10 hover:border-brand-lime/40 transition-all p-4 group">
+        <div class="relative h-56 rounded-2xl overflow-hidden mb-4">
+          <img src="assets/resort_04.jpg" alt="Lagoon Gazebo Sanctuary" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono text-brand-lime">Pool Villa</span>
+        </div>
+        <h3 class="font-serif text-lg font-bold text-white mb-1">Lagoon Gazebo Sanctuary</h3>
+        <p class="text-xs text-slate-400 mb-4">Direct private ramp to the water pavilion with sunrise water reflections.</p>
+        <div class="flex items-center justify-between pt-3 border-t border-white/10">
+          <span class="text-xs font-mono text-white font-semibold">₹8,000 <span class="text-[10px] text-slate-400 font-normal">/ night</span></span>
+          <button onclick="openBookingModal('Lagoon Gazebo Sanctuary')" class="text-xs font-mono text-brand-lime hover:underline">Book Now →</button>
+        </div>
+      </div>
+
+      <!-- Residence 3: Rectangular Swimming Pool Villa -->
+      <div class="glass-subtle rounded-3xl overflow-hidden border border-white/10 hover:border-brand-lime/40 transition-all p-4 group">
+        <div class="relative h-56 rounded-2xl overflow-hidden mb-4">
+          <img src="assets/resort_08.jpg" alt="Azure Swimming Pool" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono text-brand-lime">Pool Club</span>
+        </div>
+        <h3 class="font-serif text-lg font-bold text-white mb-1">The Azure Pool Villa</h3>
+        <p class="text-xs text-slate-400 mb-4">Steps away from the full-sized crystal blue pool with sun lounger deck.</p>
+        <div class="flex items-center justify-between pt-3 border-t border-white/10">
+          <span class="text-xs font-mono text-white font-semibold">₹7,200 <span class="text-[10px] text-slate-400 font-normal">/ night</span></span>
+          <button onclick="openBookingModal('The Azure Pool Villa')" class="text-xs font-mono text-brand-lime hover:underline">Book Now →</button>
+        </div>
+      </div>
+
+      <!-- Residence 4: Panoramic Glass Banquet Villa -->
+      <div class="glass-subtle rounded-3xl overflow-hidden border border-white/10 hover:border-brand-lime/40 transition-all p-4 group">
+        <div class="relative h-56 rounded-2xl overflow-hidden mb-4">
+          <img src="assets/resort_11.jpg" alt="Glass Dining Hall" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono text-brand-lime">Banquet & Dining</span>
+        </div>
+        <h3 class="font-serif text-lg font-bold text-white mb-1">Estate Dining Residence</h3>
+        <p class="text-xs text-slate-400 mb-4">Spacious cottage with teak furnishings, panoramic windows, and dining service.</p>
+        <div class="flex items-center justify-between pt-3 border-t border-white/10">
+          <span class="text-xs font-mono text-white font-semibold">₹9,500 <span class="text-[10px] text-slate-400 font-normal">/ night</span></span>
+          <button onclick="openBookingModal('Estate Dining Residence')" class="text-xs font-mono text-brand-lime hover:underline">Book Now →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: FULL RESORT VAULT — ALL 24 PHOTOS WITH LIGHTBOX MODAL -->
+  <section id="gallery" class="relative z-20 py-24 px-6 lg:px-16 max-w-7xl mx-auto border-t border-white/10">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-lime/10 border border-brand-lime/20 text-brand-lime font-mono text-xs uppercase tracking-wider mb-3">
+          <span>Complete 24-Photo Photographic Vault</span>
+        </div>
+        <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white tracking-tight">
+          Every Corner of Fantasy View.
+        </h2>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="filterGallery('all', this)" class="gallery-filter-btn active px-4 py-2 rounded-full text-xs font-mono bg-brand-lime text-black font-semibold transition-all">All (24)</button>
+        <button onclick="filterGallery('adventure', this)" class="gallery-filter-btn px-4 py-2 rounded-full text-xs font-mono bg-white/5 border border-white/10 text-slate-300 hover:text-white transition-all">Adventures</button>
+        <button onclick="filterGallery('water', this)" class="gallery-filter-btn px-4 py-2 rounded-full text-xs font-mono bg-white/5 border border-white/10 text-slate-300 hover:text-white transition-all">Pool & Water</button>
+        <button onclick="filterGallery('gardens', this)" class="gallery-filter-btn px-4 py-2 rounded-full text-xs font-mono bg-white/5 border border-white/10 text-slate-300 hover:text-white transition-all">Gardens & Bridges</button>
+        <button onclick="filterGallery('dining', this)" class="gallery-filter-btn px-4 py-2 rounded-full text-xs font-mono bg-white/5 border border-white/10 text-slate-300 hover:text-white transition-all">Dining & Lawns</button>
+      </div>
+    </div>
+
+    <!-- 24-Photo Responsive Grid -->
+    <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      <!-- Photos will be dynamically rendered / verified with full captions -->
+    </div>
+  </section>
+
+  <!-- SECTION 6: RADIAL TESTIMONIALS CONSTELLATION ORBIT (Keyframe 024) -->
+  <section id="testimonials" class="relative z-20 py-28 px-6 lg:px-16 max-w-6xl mx-auto overflow-hidden">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <span class="text-xs font-mono text-brand-lime uppercase tracking-widest block mb-2">Guest Constellation</span>
+      <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white tracking-tight">Stories from Our Travelers</h2>
+      <p class="text-xs sm:text-sm text-slate-400 mt-3">Click or hover any guest avatar on the constellation to reveal their verified testimonial.</p>
+    </div>
+
+    <!-- Radial Constellation Matrix -->
+    <div class="relative w-full max-w-2xl h-[460px] mx-auto flex items-center justify-center">
+      <!-- Orbit Rings -->
+      <div class="absolute inset-0 rounded-full border border-dashed border-white/10 animate-[spin_60s_linear_infinite]"></div>
+      <div class="absolute inset-16 rounded-full border border-white/5"></div>
+
+      <!-- Central Glowing Node -->
+      <div class="absolute z-10 w-24 h-24 rounded-full bg-brand-lime/10 border-2 border-brand-lime flex flex-col items-center justify-center text-center p-2 shadow-[0_0_50px_rgba(132,204,22,0.35)] orbit-pulse">
+        <svg class="w-6 h-6 text-brand-lime mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+        <span class="text-[9px] font-mono text-brand-lime font-bold uppercase tracking-wider">Fantasy View</span>
+      </div>
+
+      <!-- Satellite Avatar Nodes (6 Interactive Guests) -->
+      <!-- Avatar 1 (Top) -->
+      <button onclick="selectGuest(0)" class="satellite-node absolute top-2 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full border-2 border-brand-lime/60 p-0.5 bg-brand-dark hover:scale-125 transition-all z-20 group">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80" alt="Ananya S." class="w-full h-full object-cover rounded-full">
+        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-slate-300 whitespace-nowrap bg-black/70 px-2 py-0.5 rounded-full">Ananya S.</span>
+      </button>
+
+      <!-- Avatar 2 (Top Right) -->
+      <button onclick="selectGuest(1)" class="satellite-node absolute top-20 right-6 w-14 h-14 rounded-full border-2 border-white/20 hover:border-brand-lime p-0.5 bg-brand-dark hover:scale-125 transition-all z-20 group">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&h=120&q=80" alt="Karthik R." class="w-full h-full object-cover rounded-full">
+        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-slate-300 whitespace-nowrap bg-black/70 px-2 py-0.5 rounded-full">Karthik R.</span>
+      </button>
+
+      <!-- Avatar 3 (Bottom Right) -->
+      <button onclick="selectGuest(2)" class="satellite-node absolute bottom-16 right-10 w-14 h-14 rounded-full border-2 border-white/20 hover:border-brand-lime p-0.5 bg-brand-dark hover:scale-125 transition-all z-20 group">
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&h=120&q=80" alt="Pooja M." class="w-full h-full object-cover rounded-full">
+        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-slate-300 whitespace-nowrap bg-black/70 px-2 py-0.5 rounded-full">Pooja M.</span>
+      </button>
+
+      <!-- Avatar 4 (Bottom) -->
+      <button onclick="selectGuest(3)" class="satellite-node absolute bottom-2 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full border-2 border-white/20 hover:border-brand-lime p-0.5 bg-brand-dark hover:scale-125 transition-all z-20 group">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&h=120&q=80" alt="Vikram T." class="w-full h-full object-cover rounded-full">
+        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-slate-300 whitespace-nowrap bg-black/70 px-2 py-0.5 rounded-full">Vikram T.</span>
+      </button>
+
+      <!-- Avatar 5 (Bottom Left) -->
+      <button onclick="selectGuest(4)" class="satellite-node absolute bottom-16 left-10 w-14 h-14 rounded-full border-2 border-white/20 hover:border-brand-lime p-0.5 bg-brand-dark hover:scale-125 transition-all z-20 group">
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&h=120&q=80" alt="Sneha K." class="w-full h-full object-cover rounded-full">
+        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-slate-300 whitespace-nowrap bg-black/70 px-2 py-0.5 rounded-full">Sneha K.</span>
+      </button>
+
+      <!-- Avatar 6 (Top Left) -->
+      <button onclick="selectGuest(5)" class="satellite-node absolute top-20 left-6 w-14 h-14 rounded-full border-2 border-white/20 hover:border-brand-lime p-0.5 bg-brand-dark hover:scale-125 transition-all z-20 group">
+        <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=120&h=120&q=80" alt="Rohan D." class="w-full h-full object-cover rounded-full">
+        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-slate-300 whitespace-nowrap bg-black/70 px-2 py-0.5 rounded-full">Rohan D.</span>
+      </button>
+    </div>
+
+    <!-- Active Testimonial Card Display -->
+    <div id="active-review-card" class="glass-panel max-w-xl mx-auto rounded-3xl p-8 text-center -mt-8 relative z-30 transition-all duration-300">
+      <div class="flex items-center justify-center gap-1 text-brand-lime mb-3">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <p id="review-text" class="text-sm sm:text-base text-slate-200 italic mb-6 leading-relaxed">
+        "The Burma bridge skywalk and water zorbing made our weekend unforgettable! Waking up to misty mountain views from the pavilion terrace is pure peace."
+      </p>
+      <div>
+        <h4 id="review-name" class="font-serif text-lg font-bold text-white">Ananya Sharma</h4>
+        <span id="review-role" class="text-xs font-mono text-brand-lime">Bangalore · Stayed Oct 2026</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: PANORAMIC VALLEY FOOTER (Keyframe 028) -->
+  <footer class="relative z-20 border-t border-white/10 bg-black pt-20 pb-12 overflow-hidden">
+    <!-- Scenic Backdrop Image -->
+    <img src="assets/resort_19.jpg" alt="Resort Vista" class="absolute inset-0 w-full h-full object-cover opacity-15 pointer-events-none filter blur-sm">
+    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/90 to-transparent"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-16">
+        <!-- Col 1: Brand Info -->
+        <div class="lg:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-brand-lime/10 border border-brand-lime/30 flex items-center justify-center text-brand-lime">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
+            </div>
+            <span class="font-serif tracking-widest text-xl font-bold text-white uppercase">Fantasy View Resorts</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-400 max-w-sm leading-relaxed mb-6">
+            A sanctuary carved into wilderness serenity. Experience high-altitude rope circuits, quad biking, natural pebble brooks, and authentic farm-to-table hospitality.
+          </p>
+          <div class="text-xs font-mono text-slate-400 space-y-1">
+            <p class="flex items-center gap-2"><span class="text-brand-lime">📍</span> Fantasy View Valley, Nature Hill Road</p>
+            <p class="flex items-center gap-2"><span class="text-brand-lime">📞</span> +91 98450 12345 / +91 94801 67890</p>
+            <p class="flex items-center gap-2"><span class="text-brand-lime">✉️</span> reservations@fantasyviewresorts.com</p>
+          </div>
+        </div>
+
+        <!-- Col 2: Destinations -->
+        <div>
+          <h4 class="font-serif text-sm font-bold text-white uppercase tracking-wider mb-4">Experiences</h4>
+          <ul class="text-xs font-mono text-slate-400 space-y-2.5">
+            <li><a href="#adventures" class="hover:text-brand-lime transition-colors">High-Rope Skywalk</a></li>
+            <li><a href="#adventures" class="hover:text-brand-lime transition-colors">ATV Quad Biking</a></li>
+            <li><a href="#adventures" class="hover:text-brand-lime transition-colors">Hydro Water Zorbing</a></li>
+            <li><a href="#escapes" class="hover:text-brand-lime transition-colors">Lagoon Gazebo Pool</a></li>
+            <li><a href="#escapes" class="hover:text-brand-lime transition-colors">Valley Viewpoint Swing</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Accommodations -->
+        <div>
+          <h4 class="font-serif text-sm font-bold text-white uppercase tracking-wider mb-4">Accommodations</h4>
+          <ul class="text-xs font-mono text-slate-400 space-y-2.5">
+            <li><a href="#telemetry" class="hover:text-brand-lime transition-colors">Royal Valley Suite</a></li>
+            <li><a href="#telemetry" class="hover:text-brand-lime transition-colors">Lagoon Pool Villa</a></li>
+            <li><a href="#telemetry" class="hover:text-brand-lime transition-colors">Azure Pool Cottage</a></li>
+            <li><a href="#telemetry" class="hover:text-brand-lime transition-colors">Open-Air Banquet Hall</a></li>
+            <li><a href="#escapes" class="hover:text-brand-lime transition-colors">Camping Dome Lawns</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Newsletter -->
+        <div>
+          <h4 class="font-serif text-sm font-bold text-white uppercase tracking-wider mb-4">Stay Updated</h4>
+          <p class="text-xs text-slate-400 mb-4">Subscribe for seasonal villa offers and weekend adventure schedules.</p>
+          <form onsubmit="handleSubscribe(event)" class="space-y-2">
+            <input type="email" required placeholder="Enter your email" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-lime">
+            <button type="submit" class="w-full py-2.5 rounded-xl bg-brand-lime hover:bg-brand-limeHover text-black font-semibold text-xs uppercase tracking-wider transition-all">
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-500">
+        <p>© 2026 Fantasy View Resorts. All Rights Reserved.</p>
+        <div class="flex items-center gap-4">
+          <span class="text-brand-lime/80">Built with Asura Sovereign 3D Automation</span>
+          <span>·</span>
+          <a href="#" class="hover:text-slate-300">Privacy</a>
+          <span>·</span>
+          <a href="#" class="hover:text-slate-300">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FULLSCREEN LIGHTBOX MODAL (For 24 Photos) -->
+  <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl opacity-0 pointer-events-none transition-all duration-300 flex items-center justify-center p-4">
+    <button onclick="closeLightbox()" class="absolute top-6 right-6 text-slate-400 hover:text-white p-2 rounded-full bg-white/10">
+      <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <button onclick="prevLightboxPhoto()" class="absolute left-6 text-slate-400 hover:text-white p-3 rounded-full bg-white/10 hidden sm:block">
+      <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+    <button onclick="nextLightboxPhoto()" class="absolute right-6 text-slate-400 hover:text-white p-3 rounded-full bg-white/10 hidden sm:block">
+      <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+
+    <div class="max-w-4xl max-h-[85vh] flex flex-col items-center">
+      <img id="lightbox-img" src="" alt="Resort View" class="max-h-[70vh] max-w-full object-contain rounded-2xl border border-white/10 shadow-2xl mb-4">
+      <div class="text-center">
+        <h3 id="lightbox-title" class="font-serif text-lg font-bold text-white mb-1"></h3>
+        <p id="lightbox-desc" class="text-xs text-slate-400 max-w-lg mx-auto"></p>
+        <span id="lightbox-counter" class="text-[10px] font-mono text-brand-lime block mt-2"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOKING MODAL -->
+  <div id="booking-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-300 flex items-center justify-center p-4">
+    <div class="glass-panel w-full max-w-lg rounded-3xl p-8 relative border border-white/20 shadow-2xl">
+      <button onclick="closeBookingModal()" class="absolute top-6 right-6 text-slate-400 hover:text-white">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+
+      <span class="text-[10px] font-mono text-brand-lime uppercase tracking-widest block mb-1">Guaranteed Best Rates</span>
+      <h3 class="font-serif text-2xl font-bold text-white mb-2">Reserve Your Sanctuary</h3>
+      <p class="text-xs text-slate-400 mb-6">Complete your reservation details below. Instant confirmation voucher issued.</p>
+
+      <form onsubmit="confirmReservation(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-mono text-slate-300 mb-1">Selected Sanctuary</label>
+          <input type="text" id="modal-villa-name" value="The Royal Valley Suite" class="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-lime">
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-mono text-slate-300 mb-1">Check In</label>
+            <input type="date" value="2026-10-24" class="w-full px-4 py-2 rounded-xl bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-brand-lime">
+          </div>
+          <div>
+            <label class="block text-xs font-mono text-slate-300 mb-1">Check Out</label>
+            <input type="date" value="2026-10-28" class="w-full px-4 py-2 rounded-xl bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-brand-lime">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-mono text-slate-300 mb-1">Guest Full Name</label>
+            <input type="text" required placeholder="John Doe" class="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-brand-lime">
+          </div>
+          <div>
+            <label class="block text-xs font-mono text-slate-300 mb-1">Phone Number</label>
+            <input type="tel" required placeholder="+91 98765 43210" class="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-brand-lime">
+          </div>
+        </div>
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-brand-lime hover:bg-brand-limeHover text-black font-semibold text-xs uppercase tracking-wider shadow-lg shadow-brand-lime/30 transition-all mt-4">
+          Confirm & Pay Deposit
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- JAVASCRIPT: LENIS + GSAP 3D CANVAS SCRUBBING + 24 PHOTO VAULT + INTERACTION ENGINE -->
+  <script>
+    // 1. DATA REPOSITORY: 24 AUTHENTIC RESORT PHOTOS
+    const RESORT_PHOTOS = [
+      { id: 1, file: 'assets/resort_01.jpg', title: 'All-Terrain Quad Biking', cat: 'adventure', desc: 'High-torque green 250cc ATV quad bike navigating red-earth off-road terrain.' },
+      { id: 2, file: 'assets/resort_02.jpg', title: 'Water Zorbing Lagoon', cat: 'water', desc: 'Giant hydro-zorb roller cylinder floating on pool with red-roofed pavilion.' },
+      { id: 3, file: 'assets/resort_03.jpg', title: 'Arched Bridge Streamlet', cat: 'gardens', desc: 'Rustic wooden footbridge spanning tranquil pebble stream in lush gardens.' },
+      { id: 4, file: 'assets/resort_04.jpg', title: 'Lagoon Gazebo Pool', cat: 'water', desc: 'Panoramic lagoon pool featuring elevated terracotta gazebo pavilion with ramp.' },
+      { id: 5, file: 'assets/resort_05.jpg', title: 'Canopy Lagoon View', cat: 'water', desc: 'Expansive natural swimming lagoon framed by tropical forest canopy.' },
+      { id: 6, file: 'assets/resort_06.jpg', title: 'Grand Picnic Lawns', cat: 'dining', desc: 'School picnic & corporate retreat groups relaxing under royal palm trees.' },
+      { id: 7, file: 'assets/resort_07.jpg', title: 'Garden Parasol Dining', cat: 'dining', desc: 'Private lawn dining table with umbrella, children climbing net & playhouse.' },
+      { id: 8, file: 'assets/resort_08.jpg', title: 'The Azure Swimming Pool', cat: 'water', desc: 'Crystal blue rectangular swimming pool with stone deck & mountain horizon.' },
+      { id: 9, file: 'assets/resort_09.jpg', title: 'Garden Café Pavilion', cat: 'dining', desc: 'Open-air dining villa with stepping stone path and glass panoramic panels.' },
+      { id: 10, file: 'assets/resort_10.jpg', title: 'Valley Viewpoint Swing', cat: 'gardens', desc: 'Suspended two-seater bench swing overlooking verdant mountain hillsides.' },
+      { id: 11, file: 'assets/resort_11.jpg', title: 'Panoramic Banquet Hall', cat: 'dining', desc: 'Teak dining tables, upholstered chairs & wall-to-wall glass windows.' },
+      { id: 12, file: 'assets/resort_12.jpg', title: 'Terracotta Bridge Walkway', cat: 'gardens', desc: 'Stepping stone pathway crossing arched wooden bridge over clear waters.' },
+      { id: 13, file: 'assets/resort_13.jpg', title: 'Treetop Rope Obstacle Circuit', cat: 'adventure', desc: 'Multi-level high rope skywalk against dramatic blue sky and cumulus clouds.' },
+      { id: 14, file: 'assets/resort_14.jpg', title: 'Aquatic Koi Reflection Pool', cat: 'water', desc: 'Painted koi motifs on terracotta pavilion steps rising out of reflection pond.' },
+      { id: 15, file: 'assets/resort_15.jpg', title: 'Aerial Rope Obstacle Tower', cat: 'adventure', desc: 'Sturdy steel and timber climbing towers with suspended horizontal ladders.' },
+      { id: 16, file: 'assets/resort_16.jpg', title: 'Palm Promenade Pathway', cat: 'gardens', desc: 'Winding terracotta pathway through tropical manicured lawn & palms.' },
+      { id: 17, file: 'assets/resort_17.jpg', title: 'Crystalline Pebble Brook', cat: 'gardens', desc: 'Clear natural freshwater brook reflecting the arched wooden garden bridge.' },
+      { id: 18, file: 'assets/resort_18.jpg', title: 'Tropical Shaded Glade', cat: 'gardens', desc: 'Peaceful lawn glade with coconut palms, flower beds and decorative stones.' },
+      { id: 19, file: 'assets/resort_19.jpg', title: 'Royal Floral Promenade', cat: 'gardens', desc: 'Paved terrace framed with floral climbing arches and scenic coconut valley.' },
+      { id: 20, file: 'assets/resort_20.jpg', title: 'Traditional Rangoli Avenue', cat: 'gardens', desc: 'Stone avenue flanked by traditional terracotta pillar with kolam art.' },
+      { id: 21, file: 'assets/resort_21.jpg', title: 'High-Wire Burma Bridge Challenge', cat: 'adventure', desc: 'Guest balancing safely on suspended high-wire cable with full harness.' },
+      { id: 22, file: 'assets/resort_22.jpg', title: 'Cloud-Level Skywalk Planks', cat: 'adventure', desc: 'Thrilling treetop plank walk against towering white clouds.' },
+      { id: 23, file: 'assets/resort_23.jpg', title: 'Junior Explorer Skyway', cat: 'adventure', desc: 'Young guest safely traversing the high-rope bridge over green tree crowns.' },
+      { id: 24, file: 'assets/resort_24.jpg', title: 'Canopy Tower Ascent', cat: 'adventure', desc: 'Climbing the vertical access ladder to begin the canopy rope circuit.' }
+    ];
+
+    // 2. GUEST TESTIMONIAL DATA
+    const GUEST_REVIEWS = [
+      { name: 'Ananya Sharma', role: 'Bangalore · Stayed Oct 2026', text: '"The Burma bridge skywalk and water zorbing made our weekend unforgettable! Waking up to misty mountain views from the pavilion terrace is pure peace."' },
+      { name: 'Karthik Rao', role: 'Hyderabad · Stayed Sep 2026', text: '"The ATV quad bike trail through the red hills was thrilling. Excellent food in the glass banquet hall and the pool was sparkling clean."' },
+      { name: 'Pooja Menon', role: 'Mysore · Stayed Oct 2026', text: '"We booked the entire lawn for our family reunion. The arched wooden bridge over the pebble brook provided the most gorgeous photo backdrops."' },
+      { name: 'Vikram Talwar', role: 'Chennai · Stayed Aug 2026', text: '"Top-notch hospitality. The certified instructors at the high-rope course made our teenage kids feel confident and totally safe."' },
+      { name: 'Sneha Kulkarni', role: 'Pune · Stayed Sep 2026', text: '"The view from the swing bench at sunset is mesmerizing. Authentic local meals and tranquil nights under star-filled mountain skies."' },
+      { name: 'Rohan Deshmukh', role: 'Mumbai · Stayed Oct 2026', text: '"Fantasy View is hands down the best nature resort in the region. Seamless booking, pristine villas, and the reflection lagoon is magic."' }
+    ];
+
+    let currentGuestIdx = 0;
+    function selectGuest(idx) {
+      currentGuestIdx = idx;
+      const card = document.getElementById('active-review-card');
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(10px)';
+      setTimeout(() => {
+        document.getElementById('review-text').innerText = GUEST_REVIEWS[idx].text;
+        document.getElementById('review-name').innerText = GUEST_REVIEWS[idx].name;
+        document.getElementById('review-role').innerText = GUEST_REVIEWS[idx].role;
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      }, 150);
+
+      document.querySelectorAll('.satellite-node').forEach((node, i) => {
+        if (i === idx) {
+          node.classList.add('border-brand-lime', 'scale-125');
+          node.classList.remove('border-white/20');
+        } else {
+          node.classList.remove('border-brand-lime', 'scale-125');
+          node.classList.add('border-white/20');
+        }
+      });
+    }
+
+    // 3. LENIS MOMENTUM SMOOTH SCROLL INITIALIZATION
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 2.0
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 4. OPUS-55 60FPS 3D CANVAS SCRUBBING ENGINE
+    const canvas = document.getElementById('hero-canvas');
+    const ctx = canvas.getContext('2d', { alpha: false });
+    const TOTAL_FRAMES = 60;
+    const frames = [];
+    const frameObj = { current: 1 };
+    let canvasWidth = 0, canvasHeight = 0;
+
+    function resizeCanvas() {
+      const dpr = window.devicePixelRatio || 1;
+      canvasWidth = window.innerWidth;
+      canvasHeight = window.innerHeight;
+      canvas.width = canvasWidth * dpr;
+      canvas.height = canvasHeight * dpr;
+      ctx.scale(dpr, dpr);
+      renderFrame(Math.floor(frameObj.current));
+    }
+    window.addEventListener('resize', resizeCanvas);
+
+    // Preload WebP canvas sequence with sliding window cache
+    for (let i = 1; i <= TOTAL_FRAMES; i++) {
+      const img = new Image();
+      const numStr = String(i).padStart(3, '0');
+      img.src = `hero_frames/frame_${numStr}.webp`;
+      img.onload = () => {
+        if (i === 1) renderFrame(1);
+      };
+      frames.push(img);
+    }
+
+    function renderFrame(index) {
+      const img = frames[Math.max(0, Math.min(TOTAL_FRAMES - 1, index - 1))];
+      if (!img || !img.complete || img.naturalWidth === 0) return;
+
+      // Draw cover scaled
+      const hRatio = canvasWidth / img.width;
+      const vRatio = canvasHeight / img.height;
+      const ratio = Math.max(hRatio, vRatio);
+      const centerShiftX = (canvasWidth - img.width * ratio) / 2;
+      const centerShiftY = (canvasHeight - img.height * ratio) / 2;
+
+      ctx.drawImage(img, 0, 0, img.width, img.height, centerShiftX, centerShiftY, img.width * ratio, img.height * ratio);
+    }
+
+    // ScrollTrigger Pinned Scrub Animation
+    ScrollTrigger.create({
+      trigger: '#hero',
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0.5,
+      onUpdate: (self) => {
+        // Scrub through 60 frames
+        const targetFrame = Math.max(1, Math.min(TOTAL_FRAMES, Math.floor(self.progress * (TOTAL_FRAMES - 1)) + 1));
+        frameObj.current = targetFrame;
+        renderFrame(targetFrame);
+
+        // Stage 1 Fade (Title)
+        const stage1 = document.getElementById('hero-title-stage');
+        if (self.progress < 0.35) {
+          stage1.style.opacity = String(1 - self.progress * 2.8);
+          stage1.style.transform = `translateY(-${self.progress * 80}px)`;
+          stage1.style.pointerEvents = 'auto';
+        } else {
+          stage1.style.opacity = '0';
+          stage1.style.pointerEvents = 'none';
+        }
+
+        // Stage 2 Fade (Floating Booking Widget)
+        const stage2 = document.getElementById('hero-booking-stage');
+        if (self.progress > 0.35) {
+          const p = Math.min(1, (self.progress - 0.35) * 3);
+          stage2.style.opacity = String(p);
+          stage2.style.transform = `translateY(${(1 - p) * 30}px)`;
+          stage2.style.pointerEvents = 'auto';
+        } else {
+          stage2.style.opacity = '0';
+          stage2.style.pointerEvents = 'none';
+        }
+
+        // Header glass-to-solid state machine
+        const header = document.getElementById('main-header');
+        if (self.progress > 0.08) {
+          header.classList.add('bg-brand-dark/90', 'backdrop-blur-md', 'py-3.5', 'border-white/10');
+          header.classList.remove('bg-transparent', 'py-5', 'border-white/5');
+        } else {
+          header.classList.remove('bg-brand-dark/90', 'backdrop-blur-md', 'py-3.5', 'border-white/10');
+          header.classList.add('bg-transparent', 'py-5', 'border-white/5');
+        }
+      }
+    });
+
+    resizeCanvas();
+
+    // 5. 3D CARD TILT & SPECULAR SHEEN PHYSICS (Cursor Tracking)
+    document.querySelectorAll('.card-3d-wrap').forEach(wrap => {
+      const card = wrap.querySelector('.card-3d');
+      if (!card) return;
+
+      wrap.addEventListener('mousemove', (e) => {
+        const rect = wrap.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -8;
+        const rotateY = ((x - centerX) / centerX) * 8;
+
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
+        card.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
+      });
+
+      wrap.addEventListener('mouseleave', () => {
+        card.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      });
+    });
+
+    // 6. POPULATE 24-PHOTO GALLERY
+    function renderGalleryGrid(items) {
+      const grid = document.getElementById('gallery-grid');
+      grid.innerHTML = '';
+      items.forEach((photo, idx) => {
+        const item = document.createElement('div');
+        item.className = 'group relative h-48 sm:h-64 rounded-2xl overflow-hidden border border-white/10 bg-black cursor-pointer';
+        item.onclick = () => openLightbox(photo.id);
+        item.innerHTML = `
+          <img src="${photo.file}" alt="${photo.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 brightness-90" onerror="this.onerror=null; this.src='assets/resort_19.jpg';">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end">
+            <span class="text-[10px] font-mono text-brand-lime uppercase tracking-widest">${photo.cat}</span>
+            <h4 class="font-serif text-sm font-bold text-white">${photo.title}</h4>
+          </div>
+          <span class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full bg-black/60 text-[10px] font-mono text-slate-300">#${photo.id}</span>
+        `;
+        grid.appendChild(item);
+      });
+    }
+    renderGalleryGrid(RESORT_PHOTOS);
+
+    function filterGallery(category, btn) {
+      document.querySelectorAll('.gallery-filter-btn').forEach(b => {
+        b.classList.remove('active', 'bg-brand-lime', 'text-black', 'font-semibold');
+        b.classList.add('bg-white/5', 'text-slate-300');
+      });
+      btn.classList.add('active', 'bg-brand-lime', 'text-black', 'font-semibold');
+      btn.classList.remove('bg-white/5', 'text-slate-300');
+
+      if (category === 'all') {
+        renderGalleryGrid(RESORT_PHOTOS);
+      } else {
+        const filtered = RESORT_PHOTOS.filter(p => p.cat === category);
+        renderGalleryGrid(filtered);
+      }
+    }
+
+    // 7. LIGHTBOX CONTROLS
+    let currentLightboxId = 1;
+    function openLightbox(id) {
+      currentLightboxId = id;
+      const photo = RESORT_PHOTOS.find(p => p.id === id);
+      if (!photo) return;
+      document.getElementById('lightbox-img').src = photo.file;
+      document.getElementById('lightbox-title').innerText = photo.title;
+      document.getElementById('lightbox-desc').innerText = photo.desc;
+      document.getElementById('lightbox-counter').innerText = `Photo ${photo.id} of 24 · Category: ${photo.cat.toUpperCase()}`;
+
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.classList.add('opacity-100', 'pointer-events-auto');
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      modal.classList.remove('opacity-100', 'pointer-events-auto');
+    }
+
+    function prevLightboxPhoto() {
+      let prevId = currentLightboxId - 1;
+      if (prevId < 1) prevId = 24;
+      openLightbox(prevId);
+    }
+
+    function nextLightboxPhoto() {
+      let nextId = currentLightboxId + 1;
+      if (nextId > 24) nextId = 1;
+      openLightbox(nextId);
+    }
+
+    // 8. BOOKING & MODAL LOGIC
+    function openBookingModal(villaName = 'The Royal Valley Suite') {
+      document.getElementById('modal-villa-name').value = villaName;
+      const modal = document.getElementById('booking-modal');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.classList.add('opacity-100', 'pointer-events-auto');
+    }
+
+    function closeBookingModal() {
+      const modal = document.getElementById('booking-modal');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      modal.classList.remove('opacity-100', 'pointer-events-auto');
+    }
+
+    function selectBookingTab(btn, tab) {
+      document.querySelectorAll('.booking-tab').forEach(t => {
+        t.classList.remove('active', 'bg-brand-lime', 'text-black', 'font-semibold');
+        t.classList.add('text-slate-300');
+      });
+      btn.classList.add('active', 'bg-brand-lime', 'text-black', 'font-semibold');
+      btn.classList.remove('text-slate-300');
+      showToast(`Filter applied: ${btn.innerText}`);
+    }
+
+    function handleSearch(e) {
+      e.preventDefault();
+      const loc = document.getElementById('booking-location').value;
+      const inDate = document.getElementById('booking-checkin').value;
+      const outDate = document.getElementById('booking-checkout').value;
+      showToast(`🔍 Searching ${loc} for ${inDate} to ${outDate}...`);
+      setTimeout(() => {
+        openBookingModal('Filtered Sanctuary Selection');
+      }, 700);
+    }
+
+    function confirmReservation(e) {
+      e.preventDefault();
+      closeBookingModal();
+      const bookingId = 'FVR-' + Math.floor(100000 + Math.random() * 900000);
+      showToast(`🎉 Reservation confirmed! Booking ID: ${bookingId}. Voucher sent.`);
+    }
+
+    function handleSubscribe(e) {
+      e.preventDefault();
+      showToast('💌 Subscribed! Check your inbox for exclusive resort specials.');
+      e.target.reset();
+    }
+
+    // Toast Notification System
+    function showToast(message) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'glass-panel px-5 py-3 rounded-2xl text-xs font-mono text-white border border-brand-lime/40 shadow-xl transition-all duration-300 transform translate-y-4 opacity-0 flex items-center gap-3';
+      toast.innerHTML = `<span class="w-2 h-2 rounded-full bg-brand-lime"></span><span>${message}</span>`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-4', 'opacity-0');
+      }, 10);
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    function toggleMobileMenu() {
+      const drawer = document.getElementById('mobile-drawer');
+      const isOpen = drawer.classList.contains('opacity-100');
+      if (isOpen) {
+        drawer.classList.remove('opacity-100', 'pointer-events-auto');
+        drawer.classList.add('opacity-0', 'pointer-events-none');
+      } else {
+        drawer.classList.add('opacity-100', 'pointer-events-auto');
+        drawer.classList.remove('opacity-0', 'pointer-events-none');
+      }
+    }
+  </script>
+</body>
+</html>
