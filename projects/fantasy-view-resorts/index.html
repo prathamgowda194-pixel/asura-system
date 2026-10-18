@@ -33,7 +33,7 @@
               border: '#E2E8F0',
               bgLight: '#FBFDFB',
               cardBg: '#FFFFFF',
-              glassWhite: 'rgba(255, 255, 255, 0.92)'
+              glassWhite: 'rgba(255, 255, 255, 0.94)'
             }
           },
           fontFamily: {
@@ -111,15 +111,32 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #84CC16;
     }
-    /* Animated Flight Radar Dash Line */
-    @keyframes dashTravel {
-      to {
-        stroke-dashoffset: -200;
-      }
+
+    /* High-Definition Canvas Contrast */
+    #hero-canvas {
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      filter: contrast(108%) saturate(115%) brightness(102%);
     }
-    .flight-path-pulse {
-      stroke-dasharray: 8, 8;
-      animation: dashTravel 4s linear infinite;
+
+    /* Radar Flight Beam Pulse */
+    @keyframes radarPulse {
+      0% { stroke-dashoffset: 240; }
+      100% { stroke-dashoffset: 0; }
+    }
+    .flight-beam {
+      stroke-dasharray: 12, 16;
+      animation: radarPulse 3.5s linear infinite;
+    }
+
+    /* Orbiting Plane Icon Pulse */
+    @keyframes beaconExpand {
+      0% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(2.2); opacity: 0; }
+      100% { transform: scale(1); opacity: 0; }
+    }
+    .radar-pulse-ring {
+      animation: beaconExpand 2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
     }
   </style>
 </head>
@@ -147,6 +164,7 @@
       <a href="#adventures" class="hover:text-black transition-colors">Adventures</a>
       <a href="#moments-masonry" class="hover:text-black transition-colors">Moments</a>
       <a href="#flight-radar" class="hover:text-black transition-colors">Connected</a>
+      <a href="#testimonials" class="hover:text-black transition-colors">Reviews</a>
       <a href="#gallery" class="hover:text-black transition-colors">Gallery <span class="px-1.5 py-0.5 rounded-full text-[10px] font-mono bg-brand-limeLight text-brand-lime font-bold ml-0.5">24</span></a>
     </nav>
 
@@ -175,21 +193,27 @@
     <a href="#adventures" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Adventures</a>
     <a href="#moments-masonry" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Moments Worth The Trip</a>
     <a href="#flight-radar" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Connected Flight Radar</a>
-    <a href="#gallery" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Photo Vault (24 Photos)</a>
     <a href="#testimonials" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Reviews</a>
+    <a href="#gallery" onclick="toggleMobileMenu()" class="hover:text-brand-lime">Photo Vault (24 Photos)</a>
     <button onclick="toggleMobileMenu(); openBookingModal();" class="mt-4 px-8 py-3 rounded-full bg-brand-lime text-black font-bold text-sm uppercase tracking-wider shadow-lg">Reserve Sanctuary</button>
   </div>
 
-  <!-- HERO SECTION: PINNED 60FPS 1080P CANVAS SCRUB + 3D SHRINKING CINEMA WINDOW (ZERO WHITE OVERLAY) -->
-  <section id="hero" class="relative w-full h-[230vh] bg-slate-900">
+  <!-- HERO SECTION: EXTENDED 400VH PINNED 60FPS 1080P CANVAS SCRUB + 3D SHRINKING CINEMA WINDOW (ZERO WHITE OVERLAY) -->
+  <section id="hero" class="relative w-full h-[400vh] bg-slate-950">
     <div id="canvas-sticky" class="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center">
-      <!-- 3D Perspective Scaling Wrapper (Shrinks smoothly from full screen to rounded cinema window) -->
-      <div id="hero-frame-wrapper" class="relative w-full h-full transition-transform duration-100 ease-out flex items-center justify-center overflow-hidden">
+      <!-- 3D Perspective Scaling Wrapper (Shrinks smoothly from full bleed into rounded 3D cinema window) -->
+      <div id="hero-frame-wrapper" class="relative w-full h-full transition-transform duration-75 ease-out flex items-center justify-center overflow-hidden">
         <!-- High-Resolution 1080p Canvas (Zero Foggy Overlay, 100% Crisp) -->
         <canvas id="hero-canvas" class="w-full h-full object-cover"></canvas>
       </div>
 
-      <!-- STAGE 1: EDITORIAL TITLE OVERLAY (Fades smoothly on scroll) -->
+      <!-- Live Scrubbing Telemetry HUD Pill (Frame indicator proving full 1..60 playback) -->
+      <div class="absolute bottom-6 left-6 z-40 bg-black/75 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/15 text-[10px] font-mono text-white shadow-xl flex items-center gap-2.5 pointer-events-none">
+        <span class="w-2 h-2 rounded-full bg-brand-lime animate-pulse"></span>
+        <span class="tracking-wider uppercase">60 FPS Flythrough &bull; Frame <span id="hero-frame-counter" class="text-brand-lime font-bold">01</span> / 60</span>
+      </div>
+
+      <!-- STAGE 1: EDITORIAL TITLE OVERLAY (Fades smoothly on scrub) -->
       <div id="hero-title-stage" class="absolute z-20 text-center px-6 max-w-4xl mx-auto flex flex-col items-center justify-center transition-all duration-300 pointer-events-none">
         <!-- Pill Badge -->
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-md text-slate-800 font-sans text-xs font-semibold uppercase tracking-wider mb-6 pointer-events-auto">
@@ -283,8 +307,8 @@
                 Participants
               </label>
               <select id="booking-guests" class="w-full bg-transparent text-sm font-semibold text-slate-900 focus:outline-none">
-                <option value="2 Adults, 1 Child">2 Guests (Couple)</option>
-                <option value="4 Adults (Family Suite)">4 Guests (Family Suite)</option>
+                <option value="2 Guests (Couple)">2 Guests (Couple)</option>
+                <option value="4 Guests (Family Suite)">4 Guests (Family Suite)</option>
                 <option value="6+ Group Retreat">6+ Group Retreat</option>
               </select>
             </div>
@@ -338,7 +362,7 @@
       </div>
 
       <!-- Asymmetric Bento Grid (4 Cards with 3D Tilt Physics) -->
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 bento-cards-container">
         <!-- Card 1: Coastal Retreats (Resort Water Zorbing Lagoon) -->
         <div class="md:col-span-4 card-3d-wrap group">
           <div class="card-3d relative h-[420px] rounded-3xl overflow-hidden border border-slate-200 bg-slate-100 shadow-sm hover:shadow-2xl transition-all cursor-pointer" onclick="openLightbox(2)">
@@ -679,89 +703,185 @@
     </div>
   </section>
 
-  <!-- SECTION 6: CUSTOM 3D PARALLAX MULTI-COLUMN MASONRY ("Moments Worth The Trip" - User Screenshot 1 / Keyframe 017 / 018) -->
-  <section id="moments-masonry" class="py-24 px-6 lg:px-16 bg-white overflow-hidden">
+  <!-- SECTION 6: AUTONOMOUS CONTINUOUS MOVING VERTICAL MASONRY ("Moments Worth The Trip" - Exact User Screenshot 1 / Keyframe 017 / 018) -->
+  <section id="moments-masonry" class="py-24 px-6 lg:px-16 bg-white overflow-hidden relative">
     <div class="max-w-7xl mx-auto">
       <div class="text-center max-w-2xl mx-auto mb-16">
-        <span class="text-xs font-mono text-brand-lime uppercase tracking-widest font-bold block mb-2">Visual Odyssey</span>
+        <span class="text-xs font-mono text-brand-lime uppercase tracking-widest font-bold block mb-2">Infinite Motion Gallery</span>
         <h2 class="font-sans text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">Moments Worth The Trip</h2>
-        <p class="text-sm text-slate-500 mt-2">Staggered vertical parallax columns showcasing adrenaline, nature, and tranquility.</p>
+        <p class="text-sm text-slate-500 mt-2">Continuous vertical streaming columns showcasing adrenaline, nature, and peaceful sanctuaries.</p>
       </div>
 
-      <!-- 4 Staggered Parallax Columns -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 h-[720px] overflow-hidden relative">
-        <!-- Column 1 (Parallax Speed 0.7) -->
-        <div id="masonry-col-1" class="flex flex-col gap-6">
-          <div class="card-3d-wrap group">
-            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 cursor-pointer" onclick="openLightbox(2)">
-              <img src="assets/resort_02.jpg" alt="Lagoon Zorbing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+      <!-- 4 Autonomous Continuously Moving Parallax Columns -->
+      <div id="masonry-viewport" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 h-[740px] overflow-hidden relative rounded-3xl border border-slate-100 bg-slate-50/50 p-4">
+        <!-- Column 1 (Auto-Moves Downward + Infinite Loop) -->
+        <div class="masonry-col flex flex-col overflow-hidden relative" onmouseenter="pauseMasonry(true)" onmouseleave="pauseMasonry(false)">
+          <div id="col-track-1" class="masonry-track flex flex-col gap-6">
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(2)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 relative">
+                <img src="assets/resort_02.jpg" alt="Lagoon Zorbing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
             </div>
-          </div>
-          <div class="card-3d-wrap group">
-            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 cursor-pointer" onclick="openLightbox(3)">
-              <img src="assets/resort_03.jpg" alt="Arched Footbridge" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(3)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 relative">
+                <img src="assets/resort_03.jpg" alt="Arched Footbridge" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
             </div>
-          </div>
-          <div class="card-3d-wrap group">
-            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 cursor-pointer" onclick="openLightbox(14)">
-              <img src="assets/resort_14.jpg" alt="Koi Stream" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(14)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 relative">
+                <img src="assets/resort_14.jpg" alt="Koi Stream" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
             </div>
-          </div>
-        </div>
-
-        <!-- Column 2 (Parallax Speed 1.3) -->
-        <div id="masonry-col-2" class="flex flex-col gap-6">
-          <div class="card-3d-wrap group">
-            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 cursor-pointer" onclick="openLightbox(1)">
-              <img src="assets/resort_01.jpg" alt="ATV Quad" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <!-- Duplicated Cards for Seamless Looping -->
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(2)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 relative">
+                <img src="assets/resort_02.jpg" alt="Lagoon Zorbing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
             </div>
-          </div>
-          <div class="card-3d-wrap group">
-            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 cursor-pointer" onclick="openLightbox(22)">
-              <img src="assets/resort_22.jpg" alt="Skywalk Planks" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(3)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 relative">
+                <img src="assets/resort_03.jpg" alt="Arched Footbridge" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
             </div>
-          </div>
-          <div class="card-3d-wrap group">
-            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 cursor-pointer" onclick="openLightbox(15)">
-              <img src="assets/resort_15.jpg" alt="Climbing Tower" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-            </div>
-          </div>
-        </div>
-
-        <!-- Column 3 (Parallax Speed 0.9) -->
-        <div id="masonry-col-3" class="flex flex-col gap-6">
-          <div class="card-3d-wrap group">
-            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 cursor-pointer" onclick="openLightbox(21)">
-              <img src="assets/resort_21.jpg" alt="Burma Bridge" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-            </div>
-          </div>
-          <div class="card-3d-wrap group">
-            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 cursor-pointer" onclick="openLightbox(8)">
-              <img src="assets/resort_08.jpg" alt="Azure Pool" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-            </div>
-          </div>
-          <div class="card-3d-wrap group">
-            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 cursor-pointer" onclick="openLightbox(13)">
-              <img src="assets/resort_13.jpg" alt="Treetop Circuit" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(14)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 relative">
+                <img src="assets/resort_14.jpg" alt="Koi Stream" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Column 4 (Parallax Speed 1.4) -->
-        <div id="masonry-col-4" class="flex flex-col gap-6">
-          <div class="card-3d-wrap group">
-            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 cursor-pointer" onclick="openLightbox(10)">
-              <img src="assets/resort_10.jpg" alt="Valley Swing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        <!-- Column 2 (Auto-Moves Upward + Infinite Loop) -->
+        <div class="masonry-col flex flex-col overflow-hidden relative" onmouseenter="pauseMasonry(true)" onmouseleave="pauseMasonry(false)">
+          <div id="col-track-2" class="masonry-track flex flex-col gap-6">
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(1)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 relative">
+                <img src="assets/resort_01.jpg" alt="ATV Quad" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
+            </div>
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(22)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 relative">
+                <img src="assets/resort_22.jpg" alt="Skywalk Planks" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
+            </div>
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(15)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 relative">
+                <img src="assets/resort_15.jpg" alt="Climbing Tower" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
+            </div>
+            <!-- Duplicated Cards for Seamless Looping -->
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(1)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 relative">
+                <img src="assets/resort_01.jpg" alt="ATV Quad" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
+            </div>
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(22)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 relative">
+                <img src="assets/resort_22.jpg" alt="Skywalk Planks" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
+            </div>
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(15)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 relative">
+                <img src="assets/resort_15.jpg" alt="Climbing Tower" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
             </div>
           </div>
-          <div class="card-3d-wrap group">
-            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 cursor-pointer" onclick="openLightbox(19)">
-              <img src="assets/resort_19.jpg" alt="Promenade Terrace" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        </div>
+
+        <!-- Column 3 (Auto-Moves Downward + Infinite Loop) -->
+        <div class="masonry-col flex flex-col overflow-hidden relative" onmouseenter="pauseMasonry(true)" onmouseleave="pauseMasonry(false)">
+          <div id="col-track-3" class="masonry-track flex flex-col gap-6">
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(21)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 relative">
+                <img src="assets/resort_21.jpg" alt="Burma Bridge" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
+            </div>
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(8)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 relative">
+                <img src="assets/resort_08.jpg" alt="Azure Pool" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
+            </div>
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(13)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 relative">
+                <img src="assets/resort_13.jpg" alt="Treetop Circuit" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
+            </div>
+            <!-- Duplicated Cards for Seamless Looping -->
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(21)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 relative">
+                <img src="assets/resort_21.jpg" alt="Burma Bridge" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
+            </div>
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(8)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 relative">
+                <img src="assets/resort_08.jpg" alt="Azure Pool" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
+            </div>
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(13)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 relative">
+                <img src="assets/resort_13.jpg" alt="Treetop Circuit" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
             </div>
           </div>
-          <div class="card-3d-wrap group">
-            <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 cursor-pointer" onclick="openLightbox(6)">
-              <img src="assets/resort_06.jpg" alt="Grand Lawns" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        </div>
+
+        <!-- Column 4 (Auto-Moves Upward + Infinite Loop) -->
+        <div class="masonry-col flex flex-col overflow-hidden relative" onmouseenter="pauseMasonry(true)" onmouseleave="pauseMasonry(false)">
+          <div id="col-track-4" class="masonry-track flex flex-col gap-6">
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(10)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 relative">
+                <img src="assets/resort_10.jpg" alt="Valley Swing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
+            </div>
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(19)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 relative">
+                <img src="assets/resort_19.jpg" alt="Promenade Terrace" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
+            </div>
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(6)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 relative">
+                <img src="assets/resort_06.jpg" alt="Grand Lawns" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
+            </div>
+            <!-- Duplicated Cards for Seamless Looping -->
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(10)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 relative">
+                <img src="assets/resort_10.jpg" alt="Valley Swing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
+            </div>
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(19)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-64 relative">
+                <img src="assets/resort_19.jpg" alt="Promenade Terrace" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
+            </div>
+            <div class="card-3d-wrap group cursor-pointer" onclick="openLightbox(6)">
+              <div class="card-3d rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-80 relative">
+                <img src="assets/resort_06.jpg" alt="Grand Lawns" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="specular-glare"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -790,16 +910,16 @@
           </h2>
           <div class="grid grid-cols-3 gap-6 pt-6 border-t border-slate-200">
             <div>
-              <div class="font-mono text-3xl sm:text-4xl font-extrabold text-slate-900">12k</div>
-              <div class="text-xs text-slate-500 mt-1">Happy Guests</div>
+              <div class="font-mono text-3xl sm:text-4xl font-extrabold text-slate-900 count-up" data-target="12">0</div>
+              <div class="text-xs text-slate-500 mt-1">Happy Guests (k)</div>
             </div>
             <div>
-              <div class="font-mono text-3xl sm:text-4xl font-extrabold text-slate-900">10yrs</div>
-              <div class="text-xs text-slate-500 mt-1">Hospitality</div>
+              <div class="font-mono text-3xl sm:text-4xl font-extrabold text-slate-900 count-up" data-target="10">0</div>
+              <div class="text-xs text-slate-500 mt-1">Years Hospitality</div>
             </div>
             <div>
-              <div class="font-mono text-3xl sm:text-4xl font-extrabold text-slate-900">50+</div>
-              <div class="text-xs text-slate-500 mt-1">Sanctuaries</div>
+              <div class="font-mono text-3xl sm:text-4xl font-extrabold text-slate-900 count-up" data-target="50">0</div>
+              <div class="text-xs text-slate-500 mt-1">Sanctuaries (+)</div>
             </div>
           </div>
         </div>
@@ -935,113 +1055,162 @@
     </div>
   </section>
 
-  <!-- SECTION 9: 3D CONNECTED WORLD FLIGHT RADAR ("Every Trip, Connected" - Exact Replica of User Screenshot 2 / Keyframe 025 / 026) -->
+  <!-- SECTION 9: 3D CONNECTED WORLD FLIGHT RADAR ("Every Trip, Connected" - Authentic Vector Map with Continuous Animated Beams) -->
   <section id="flight-radar" class="py-24 px-6 lg:px-16 bg-white relative">
     <div class="max-w-7xl mx-auto">
       <div class="text-center max-w-2xl mx-auto mb-14">
         <span class="text-xs font-mono text-brand-lime uppercase tracking-widest font-bold block mb-2">Global Connectivity</span>
         <h2 class="font-sans text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">Every Trip, Connected</h2>
-        <p class="text-sm text-slate-500 mt-2">Connecting international hubs directly to Fantasy View Resort's peaceful nature sanctuary.</p>
+        <p class="text-sm text-slate-500 mt-2">Coordination between direct flights to 84+ countries and regions. Non-stop routes into our sanctuary valley.</p>
       </div>
 
       <!-- 3D Tilting Connected Flight Radar Container -->
       <div id="radar-3d-wrap" class="card-3d-wrap max-w-5xl mx-auto">
-        <div id="radar-container" class="card-3d relative w-full h-[460px] sm:h-[520px] rounded-3xl overflow-hidden bg-[#0B0F17] border border-slate-800 shadow-2xl p-6 sm:p-10 flex items-center justify-center">
-          <!-- World Dot-Matrix Map SVG Background -->
-          <svg class="absolute inset-0 w-full h-full object-cover opacity-35 pointer-events-none" viewBox="0 0 1000 500" fill="none">
-            <!-- Grid Matrix Dots -->
+        <div id="radar-container" class="card-3d relative w-full h-[520px] sm:h-[580px] rounded-3xl overflow-hidden bg-[#0A0E18] border border-slate-800 shadow-[0_30px_90px_rgba(10,14,24,0.6)] p-6 sm:p-10 flex items-center justify-center">
+          
+          <!-- Authentic Vector World Map SVG (Accurate Continents + Dot Matrix Texture Overlay) -->
+          <svg class="absolute inset-0 w-full h-full object-cover pointer-events-none" viewBox="0 0 1000 500" fill="none">
+            <!-- Graticule Longitude & Latitude Lines -->
+            <line x1="0" y1="125" x2="1000" y2="125" stroke="rgba(255,255,255,0.04)" stroke-dasharray="2 4" />
+            <line x1="0" y1="250" x2="1000" y2="250" stroke="rgba(255,255,255,0.06)" stroke-dasharray="2 4" />
+            <line x1="0" y1="375" x2="1000" y2="375" stroke="rgba(255,255,255,0.04)" stroke-dasharray="2 4" />
+            <line x1="250" y1="0" x2="250" y2="500" stroke="rgba(255,255,255,0.04)" stroke-dasharray="2 4" />
+            <line x1="500" y1="0" x2="500" y2="500" stroke="rgba(255,255,255,0.06)" stroke-dasharray="2 4" />
+            <line x1="750" y1="0" x2="750" y2="500" stroke="rgba(255,255,255,0.04)" stroke-dasharray="2 4" />
+
+            <!-- Detailed Continental Landmass Paths (Accurate Geometries) -->
+            <g fill="#141E2F" stroke="#1E293B" stroke-width="0.8">
+              <!-- North America -->
+              <path d="M 90 90 C 130 50, 230 40, 280 60 C 310 80, 290 140, 270 160 C 250 180, 240 220, 210 240 C 190 260, 160 210, 130 180 C 100 160, 70 120, 90 90 Z M 160 60 L 190 40 L 220 50 L 180 80 Z" />
+              <!-- South America -->
+              <path d="M 230 250 C 270 260, 310 290, 300 340 C 290 380, 260 440, 230 460 C 220 440, 220 380, 210 330 C 200 290, 210 260, 230 250 Z" />
+              <!-- Europe & Scandinavia -->
+              <path d="M 450 70 C 470 50, 520 60, 530 100 C 510 120, 480 110, 460 140 C 450 160, 430 160, 440 180 C 460 180, 500 170, 520 180 C 530 160, 560 140, 550 120 C 530 100, 490 90, 450 70 Z M 430 100 L 445 110 L 435 130 L 420 115 Z" />
+              <!-- Africa -->
+              <path d="M 460 190 C 520 190, 560 220, 560 260 C 560 300, 530 360, 510 400 C 480 400, 460 350, 450 300 C 440 260, 430 220, 460 190 Z M 570 330 C 580 340, 580 370, 570 380 Z" />
+              <!-- Asia & Russia -->
+              <path d="M 540 80 C 650 50, 800 60, 890 90 C 890 120, 840 160, 800 170 C 780 190, 740 210, 710 220 C 680 230, 680 260, 720 280 C 740 290, 760 270, 780 250 C 810 240, 840 270, 820 300 C 780 320, 740 310, 710 290 C 660 260, 620 220, 600 180 C 570 170, 550 140, 540 80 Z M 850 140 C 865 150, 870 190, 855 200 C 845 190, 850 160, 850 140 Z" />
+              <!-- Australia & New Zealand -->
+              <path d="M 780 340 C 830 330, 870 350, 870 390 C 860 420, 820 440, 780 420 C 760 400, 760 360, 780 340 Z M 890 410 L 910 430 L 895 445 Z" />
+            </g>
+
+            <!-- Dot Matrix Overlay Over the Continents -->
             <defs>
-              <pattern id="dotPattern" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
-                <circle cx="2" cy="2" r="1" fill="#475569" opacity="0.6"/>
+              <pattern id="radarDots" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+                <circle cx="2" cy="2" r="1.2" fill="#38BDF8" opacity="0.25"/>
               </pattern>
             </defs>
-            <rect width="1000" height="500" fill="url(#dotPattern)"/>
-          </svg>
+            <rect width="1000" height="500" fill="url(#radarDots)"/>
 
-          <!-- SVG Flight Paths & Curved Radar Arcs (Connecting the 7 Destination Hubs) -->
-          <svg class="absolute inset-0 w-full h-full z-10 pointer-events-none" viewBox="0 0 1000 500">
-            <!-- Arcs connecting hubs to Thailand / Fantasy View Sanctuary -->
+            <!-- Glowing Expanding Concentric Radar Waves from Thailand Sanctuary Hub (x: 745, y: 260) -->
+            <circle cx="745" cy="260" r="45" stroke="#84CC16" stroke-width="1.2" opacity="0.35" class="radar-pulse-ring" />
+            <circle cx="745" cy="260" r="95" stroke="#84CC16" stroke-width="0.9" opacity="0.25" class="radar-pulse-ring" style="animation-delay: 0.7s;" />
+            <circle cx="745" cy="260" r="155" stroke="#84CC16" stroke-width="0.6" opacity="0.15" class="radar-pulse-ring" style="animation-delay: 1.4s;" />
+
+            <!-- Animated Parabolic Flight Path Curves with Glow Filter -->
+            <defs>
+              <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
             <!-- 1. Chicago -> Dubrovnik -->
-            <path d="M 200 170 Q 330 90 440 160" fill="none" stroke="#84CC16" stroke-width="1.8" stroke-opacity="0.8" class="flight-path-pulse" />
+            <path id="path-chicago-dubrovnik" d="M 210 165 C 310 80, 410 90, 505 165" fill="none" stroke="#84CC16" stroke-width="2" stroke-opacity="0.9" filter="url(#neonGlow)" class="flight-beam" />
             <!-- 2. Dubrovnik -> Santorini -->
-            <path d="M 440 160 Q 455 180 460 210" fill="none" stroke="#84CC16" stroke-width="1.8" stroke-opacity="0.8" class="flight-path-pulse" />
-            <!-- 3. Santorini -> Thailand (Center Hub) -->
-            <path d="M 460 210 Q 550 140 640 260" fill="none" stroke="#84CC16" stroke-width="2.2" stroke-opacity="0.9" class="flight-path-pulse" />
+            <path id="path-dubrovnik-santorini" d="M 505 165 Q 515 180, 525 195" fill="none" stroke="#84CC16" stroke-width="2" stroke-opacity="0.9" filter="url(#neonGlow)" class="flight-beam" />
+            <!-- 3. Santorini -> Thailand (Center Sanctuary Hub) -->
+            <path id="path-santorini-thailand" d="M 525 195 Q 620 140, 745 260" fill="none" stroke="#84CC16" stroke-width="2.4" stroke-opacity="0.95" filter="url(#neonGlow)" class="flight-beam" />
             <!-- 4. Dhaka -> Thailand -->
-            <path d="M 540 215 Q 580 230 640 260" fill="none" stroke="#84CC16" stroke-width="2" stroke-opacity="0.9" class="flight-path-pulse" />
+            <path id="path-dhaka-thailand" d="M 715 220 Q 730 235, 745 260" fill="none" stroke="#84CC16" stroke-width="2" stroke-opacity="0.9" filter="url(#neonGlow)" class="flight-beam" />
             <!-- 5. Cox's Bazar -> Thailand -->
-            <path d="M 680 220 Q 660 240 640 260" fill="none" stroke="#84CC16" stroke-width="1.8" stroke-opacity="0.8" class="flight-path-pulse" />
+            <path id="path-coxs-thailand" d="M 728 232 Q 735 245, 745 260" fill="none" stroke="#84CC16" stroke-width="2" stroke-opacity="0.9" filter="url(#neonGlow)" class="flight-beam" />
             <!-- 6. Tokyo -> Thailand -->
-            <path d="M 760 170 Q 720 200 640 260" fill="none" stroke="#84CC16" stroke-width="2.2" stroke-opacity="0.9" class="flight-path-pulse" />
+            <path id="path-tokyo-thailand" d="M 865 175 Q 820 195, 745 260" fill="none" stroke="#84CC16" stroke-width="2.4" stroke-opacity="0.95" filter="url(#neonGlow)" class="flight-beam" />
           </svg>
 
-          <!-- Interactive Destination Beacon Nodes (Exact Positions matching Screenshot 2) -->
+          <!-- Interactive Destination Beacon Nodes (Exact Positions matching Reference Screenshot 2) -->
           <!-- 1. Chicago -->
-          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 20%; top: 34%;" onclick="openBookingModal('Direct from Chicago')">
-            <span class="text-[11px] font-mono font-bold text-slate-300 group-hover:text-brand-lime transition-colors mb-1">Chicago</span>
-            <div class="relative w-3.5 h-3.5 flex items-center justify-center">
+          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 21%; top: 33%;" onclick="showRouteDetails('Chicago', 'Non-stop 14h 20m', 'Direct flight connection to Bangkok + Sanctuary luxury helicopter transfer.')">
+            <span class="text-[11px] font-mono font-bold text-white group-hover:text-brand-lime transition-colors mb-1 drop-shadow-md">Chicago</span>
+            <div class="relative w-4 h-4 flex items-center justify-center">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-lime opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-lime"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-lime shadow-[0_0_10px_#84CC16]"></span>
             </div>
           </div>
 
           <!-- 2. Dubrovnik -->
-          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 44%; top: 32%;" onclick="openBookingModal('Direct from Dubrovnik')">
-            <span class="text-[11px] font-mono font-bold text-slate-300 group-hover:text-brand-lime transition-colors mb-1">Dubrovnik</span>
-            <div class="relative w-3.5 h-3.5 flex items-center justify-center">
+          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 50.5%; top: 33%;" onclick="showRouteDetails('Dubrovnik', 'Direct 9h 40m', 'Mediterranean flight link with VIP expedited resort baggage handling.')">
+            <span class="text-[11px] font-mono font-bold text-white group-hover:text-brand-lime transition-colors mb-1 drop-shadow-md">Dubrovnik</span>
+            <div class="relative w-4 h-4 flex items-center justify-center">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-lime opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-lime"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-lime shadow-[0_0_10px_#84CC16]"></span>
             </div>
           </div>
 
           <!-- 3. Santorini -->
-          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 45%; top: 43%;" onclick="openBookingModal('Direct from Santorini')">
-            <span class="text-[11px] font-mono font-bold text-slate-300 group-hover:text-brand-lime transition-colors mb-1">Santorini</span>
-            <div class="relative w-3.5 h-3.5 flex items-center justify-center">
+          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 52.5%; top: 39%;" onclick="showRouteDetails('Santorini', 'Direct 9h 15m', 'Aegean express connection straight to Fantasy View valley gates.')">
+            <span class="text-[11px] font-mono font-bold text-white group-hover:text-brand-lime transition-colors mb-1 drop-shadow-md">Santorini</span>
+            <div class="relative w-4 h-4 flex items-center justify-center">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-lime opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-lime"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-lime shadow-[0_0_10px_#84CC16]"></span>
             </div>
           </div>
 
           <!-- 4. Dhaka -->
-          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 54%; top: 44%;" onclick="openBookingModal('Direct from Dhaka')">
-            <span class="text-[11px] font-mono font-bold text-slate-300 group-hover:text-brand-lime transition-colors mb-1">Dhaka</span>
-            <div class="relative w-3.5 h-3.5 flex items-center justify-center">
+          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 71.5%; top: 44%;" onclick="showRouteDetails('Dhaka', 'Non-stop 2h 30m', 'Fast direct regional flight with complimentary priority airport lounge.')">
+            <span class="text-[11px] font-mono font-bold text-white group-hover:text-brand-lime transition-colors mb-1 drop-shadow-md">Dhaka</span>
+            <div class="relative w-4 h-4 flex items-center justify-center">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-lime opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-lime"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-lime shadow-[0_0_10px_#84CC16]"></span>
             </div>
           </div>
 
           <!-- 5. Thailand / Fantasy View Sanctuary (Primary Hub) -->
-          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 64%; top: 52%;" onclick="openBookingModal('Fantasy View Sanctuary Retreat')">
-            <div class="px-2.5 py-0.5 rounded-full bg-brand-lime text-black text-[10px] font-mono font-extrabold uppercase tracking-wider mb-1 shadow-md">
+          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 74.5%; top: 52%;" onclick="showRouteDetails('Thailand · Sanctuary Hub', 'Arrival Gateway', 'Main luxury eco-adventure resort basecamp with private helipad & lake dock.')">
+            <div class="px-3 py-1 rounded-full bg-brand-lime text-black text-[10px] font-mono font-black uppercase tracking-wider mb-1.5 shadow-[0_0_20px_rgba(132,204,22,0.8)] border border-black/30">
               Thailand &bull; Sanctuary
             </div>
-            <div class="relative w-5 h-5 flex items-center justify-center">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-lime opacity-85"></span>
-              <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-lime border-2 border-black"></span>
+            <div class="relative w-6 h-6 flex items-center justify-center">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-lime opacity-90"></span>
+              <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-brand-lime border-2 border-black shadow-[0_0_16px_#84CC16]"></span>
             </div>
           </div>
 
           <!-- 6. Cox's Bazar -->
-          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 68%; top: 44%;" onclick="openBookingModal('Direct from Cox\'s Bazar')">
-            <span class="text-[11px] font-mono font-bold text-slate-300 group-hover:text-brand-lime transition-colors mb-1">Cox's Bazar</span>
-            <div class="relative w-3.5 h-3.5 flex items-center justify-center">
+          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 72.8%; top: 46.4%;" onclick="showRouteDetails('Cox\'s Bazar', 'Direct 2h 15m', 'Coastal connection to Fantasy View hillside villas.')">
+            <span class="text-[11px] font-mono font-bold text-white group-hover:text-brand-lime transition-colors mb-1 drop-shadow-md">Cox's Bazar</span>
+            <div class="relative w-4 h-4 flex items-center justify-center">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-lime opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-lime"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-lime shadow-[0_0_10px_#84CC16]"></span>
             </div>
           </div>
 
           <!-- 7. Tokyo -->
-          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 76%; top: 34%;" onclick="openBookingModal('Direct from Tokyo')">
-            <span class="text-[11px] font-mono font-bold text-slate-300 group-hover:text-brand-lime transition-colors mb-1">Tokyo</span>
-            <div class="relative w-3.5 h-3.5 flex items-center justify-center">
+          <div class="radar-node absolute z-20 flex flex-col items-center cursor-pointer group" style="left: 86.5%; top: 35%;" onclick="showRouteDetails('Tokyo', 'Direct 6h 30m', 'Haneda / Narita direct flights into Bangkok + VIP private limousine.')">
+            <span class="text-[11px] font-mono font-bold text-white group-hover:text-brand-lime transition-colors mb-1 drop-shadow-md">Tokyo</span>
+            <div class="relative w-4 h-4 flex items-center justify-center">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-lime opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-lime"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-lime shadow-[0_0_10px_#84CC16]"></span>
             </div>
           </div>
 
-          <!-- Floating Telemetry HUD Tag -->
+          <!-- Interactive Flight Route Telemetry Card (Pops up on City Click) -->
+          <div id="radar-telemetry-modal" class="absolute top-6 right-6 z-30 max-w-xs p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-white/20 shadow-2xl transition-all duration-300 opacity-0 pointer-events-none translate-y-2">
+            <div class="flex items-center justify-between mb-2">
+              <span id="route-hub-title" class="text-xs font-mono font-bold text-slate-900 uppercase">Route Details</span>
+              <span id="route-hub-time" class="text-[10px] font-mono text-brand-lime font-bold px-2 py-0.5 rounded-full bg-brand-limeLight border border-brand-lime/30">Direct</span>
+            </div>
+            <p id="route-hub-desc" class="text-xs text-slate-600 leading-relaxed mb-3">Click any destination node to review direct flight timings and transfer logistics.</p>
+            <button onclick="openBookingModal()" class="w-full py-2 rounded-xl bg-slate-900 hover:bg-brand-lime hover:text-black text-white font-bold text-[11px] uppercase tracking-wider transition-all">
+              Book Connected Retreat
+            </button>
+          </div>
+
+          <!-- Floating HUD Tag -->
           <div class="absolute bottom-6 left-6 z-20 px-4 py-2 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 text-[11px] font-mono text-slate-300 flex items-center gap-2">
             <span class="w-2 h-2 rounded-full bg-brand-lime animate-pulse"></span>
             <span>Live Sanctuary Route Radar Active</span>
@@ -1051,71 +1220,60 @@
     </div>
   </section>
 
-  <!-- SECTION 10: RADIAL TESTIMONIALS CONSTELLATION (Keyframe 023 / 024) -->
-  <section id="testimonials" class="py-24 px-6 lg:px-16 bg-slate-50 border-t border-slate-200">
+  <!-- SECTION 10: CONTINUOUS 3D ROTATING TESTIMONIALS CONSTELLATION (Keyframe 023 / 024) -->
+  <section id="testimonials" class="py-24 px-6 lg:px-16 bg-slate-50 border-t border-slate-200 overflow-hidden">
     <div class="max-w-7xl mx-auto">
       <div class="text-center max-w-2xl mx-auto mb-16">
         <span class="text-xs font-mono text-brand-lime uppercase tracking-widest font-bold block mb-2">Guest Reflections</span>
         <h2 class="font-sans text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">Testimonials</h2>
-        <p class="text-sm text-slate-500 mt-2">Hear directly from adventure seekers and retreat guests from across the world.</p>
+        <p class="text-sm text-slate-500 mt-2">Continuous rotating constellation of real guest stories from around the globe.</p>
       </div>
 
-      <!-- Orbital Radial Constellation Stage -->
-      <div class="relative w-full max-w-3xl h-[420px] sm:h-[480px] mx-auto flex items-center justify-center">
-        <!-- Orbit Rings -->
-        <div class="absolute w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] rounded-full border border-slate-200 pointer-events-none"></div>
-        <div class="absolute w-[200px] sm:w-[280px] h-[200px] sm:h-[280px] rounded-full border border-slate-200/60 pointer-events-none"></div>
+      <!-- Orbital Radial Constellation Stage (3D Continuous Elliptical Orbit) -->
+      <div id="orbit-stage" class="relative w-full max-w-3xl h-[460px] sm:h-[520px] mx-auto flex items-center justify-center" onmouseenter="pauseOrbit(true)" onmouseleave="pauseOrbit(false)">
+        <!-- Elliptical Orbit Guide Rings -->
+        <div class="absolute w-[360px] sm:w-[480px] h-[260px] sm:h-[340px] rounded-full border border-slate-200 pointer-events-none"></div>
+        <div class="absolute w-[260px] sm:w-[360px] h-[180px] sm:h-[240px] rounded-full border border-slate-200/60 pointer-events-none"></div>
 
-        <!-- Central Glowing Lime Node -->
-        <div class="relative z-10 w-14 h-14 rounded-full bg-brand-lime text-black flex items-center justify-center shadow-[0_0_40px_rgba(132,204,22,0.6)] cursor-pointer group hover:scale-110 transition-transform">
-          <svg class="w-6 h-6 fill-black" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        <!-- Central Glowing Lime Sanctuary Beacon with Volumetric Aura -->
+        <div class="relative z-10 w-16 h-16 rounded-full bg-brand-lime text-black flex items-center justify-center shadow-[0_0_50px_rgba(132,204,22,0.8)] cursor-pointer group hover:scale-110 transition-transform">
+          <svg class="w-7 h-7 fill-black" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         </div>
 
-        <!-- 6 Satellite Orbit Guest Avatars (Keyframe 024) -->
-        <!-- Avatar 1 (Top) -->
-        <div class="satellite-node absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300" style="top: 10%; left: 50%;" onclick="selectGuest(0)">
-          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-brand-lime shadow-lg hover:scale-125 transition-transform bg-white">
+        <!-- 6 Orbiting Guest Avatars (Positioned dynamically in requestAnimationFrame orbit loop) -->
+        <div class="orbit-avatar absolute cursor-pointer transition-all duration-300 z-20" onclick="selectGuest(0)">
+          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-brand-lime shadow-xl hover:scale-125 transition-transform bg-white">
             <img src="assets/resort_06.jpg" alt="Guest 1" class="w-full h-full object-cover">
           </div>
         </div>
-
-        <!-- Avatar 2 (Top-Right) -->
-        <div class="satellite-node absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300" style="top: 25%; left: 82%;" onclick="selectGuest(1)">
-          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-slate-200 shadow-lg hover:scale-125 transition-transform bg-white">
+        <div class="orbit-avatar absolute cursor-pointer transition-all duration-300 z-20" onclick="selectGuest(1)">
+          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-slate-200 shadow-xl hover:scale-125 transition-transform bg-white">
             <img src="assets/resort_10.jpg" alt="Guest 2" class="w-full h-full object-cover">
           </div>
         </div>
-
-        <!-- Avatar 3 (Bottom-Right) -->
-        <div class="satellite-node absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300" style="top: 75%; left: 82%;" onclick="selectGuest(2)">
-          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-slate-200 shadow-lg hover:scale-125 transition-transform bg-white">
+        <div class="orbit-avatar absolute cursor-pointer transition-all duration-300 z-20" onclick="selectGuest(2)">
+          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-slate-200 shadow-xl hover:scale-125 transition-transform bg-white">
             <img src="assets/resort_01.jpg" alt="Guest 3" class="w-full h-full object-cover">
           </div>
         </div>
-
-        <!-- Avatar 4 (Bottom) -->
-        <div class="satellite-node absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300" style="top: 90%; left: 50%;" onclick="selectGuest(3)">
-          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-slate-200 shadow-lg hover:scale-125 transition-transform bg-white">
+        <div class="orbit-avatar absolute cursor-pointer transition-all duration-300 z-20" onclick="selectGuest(3)">
+          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-slate-200 shadow-xl hover:scale-125 transition-transform bg-white">
             <img src="assets/resort_03.jpg" alt="Guest 4" class="w-full h-full object-cover">
           </div>
         </div>
-
-        <!-- Avatar 5 (Bottom-Left) -->
-        <div class="satellite-node absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300" style="top: 75%; left: 18%;" onclick="selectGuest(4)">
-          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-slate-200 shadow-lg hover:scale-125 transition-transform bg-white">
+        <div class="orbit-avatar absolute cursor-pointer transition-all duration-300 z-20" onclick="selectGuest(4)">
+          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-slate-200 shadow-xl hover:scale-125 transition-transform bg-white">
             <img src="assets/resort_21.jpg" alt="Guest 5" class="w-full h-full object-cover">
           </div>
         </div>
-
-        <!-- Avatar 6 (Top-Left) -->
-        <div class="satellite-node absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300" style="top: 25%; left: 18%;" onclick="selectGuest(5)">
-          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-slate-200 shadow-lg hover:scale-125 transition-transform bg-white">
+        <div class="orbit-avatar absolute cursor-pointer transition-all duration-300 z-20" onclick="selectGuest(5)">
+          <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-slate-200 shadow-xl hover:scale-125 transition-transform bg-white">
             <img src="assets/resort_04.jpg" alt="Guest 6" class="w-full h-full object-cover">
           </div>
         </div>
 
         <!-- Floating Active Review Card -->
-        <div id="active-review-card" class="absolute z-20 max-w-sm p-6 rounded-3xl bg-white border border-slate-200 shadow-xl transition-all duration-300 text-center top-1/2 -translate-y-1/2">
+        <div id="active-review-card" class="absolute z-30 max-w-sm p-6 rounded-3xl bg-white border border-slate-200 shadow-2xl transition-all duration-300 text-center top-1/2 -translate-y-1/2">
           <div class="flex justify-center gap-1 text-brand-lime text-xs mb-3">
             <span>&starf;</span><span>&starf;</span><span>&starf;</span><span>&starf;</span><span>&starf;</span>
           </div>
@@ -1340,41 +1498,14 @@
       { name: 'Sneha Kulkarni', role: 'Pune · Stayed Sep 2026', text: '"The view from the swing bench at sunset is mesmerizing. Authentic local meals and tranquil nights under star-filled mountain skies."' }
     ];
 
-    let currentGuestIdx = 0;
-    function selectGuest(idx) {
-      currentGuestIdx = idx;
-      const card = document.getElementById('active-review-card');
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(8px)';
-      setTimeout(() => {
-        document.getElementById('review-text').innerText = GUEST_REVIEWS[idx].text;
-        document.getElementById('review-name').innerText = GUEST_REVIEWS[idx].name;
-        document.getElementById('review-role').innerText = GUEST_REVIEWS[idx].role;
-        card.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
-      }, 150);
-
-      document.querySelectorAll('.satellite-node').forEach((node, i) => {
-        if (i === idx) {
-          node.classList.add('scale-125');
-          node.firstElementChild.classList.add('border-brand-lime');
-          node.firstElementChild.classList.remove('border-slate-200');
-        } else {
-          node.classList.remove('scale-125');
-          node.firstElementChild.classList.remove('border-brand-lime');
-          node.firstElementChild.classList.add('border-slate-200');
-        }
-      });
-    }
-
     // 3. LENIS MOMENTUM SMOOTH SCROLL INITIALIZATION
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.25,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.0,
+      wheelMultiplier: 1.05,
       touchMultiplier: 2.0
     });
 
@@ -1385,11 +1516,9 @@
     requestAnimationFrame(raf);
     gsap.registerPlugin(ScrollTrigger);
 
-    // 4. OPUS-55 60FPS 1080P CANVAS SCRUBBING ENGINE WITH 3D SHRINKING CARD TRANSITION
+    // 4. OPUS-55 60FPS 1080P CANVAS SCRUBBING ENGINE (FULL 1..60 PLAYTHROUGH GUARANTEE)
     const canvas = document.getElementById('hero-canvas');
     const ctx = canvas.getContext('2d', { alpha: false });
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
     const TOTAL_FRAMES = 60;
     const frames = [];
     const frameObj = { current: 1 };
@@ -1399,14 +1528,16 @@
       const dpr = window.devicePixelRatio || 1;
       canvasWidth = window.innerWidth;
       canvasHeight = window.innerHeight;
-      canvas.width = canvasWidth * dpr;
-      canvas.height = canvasHeight * dpr;
-      ctx.scale(dpr, dpr);
+      canvas.width = Math.round(canvasWidth * dpr);
+      canvas.height = Math.round(canvasHeight * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // Reset transform cleanly!
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
       renderFrame(Math.floor(frameObj.current));
     }
     window.addEventListener('resize', resizeCanvas);
 
-    // Preload enhanced 1080p WebP canvas sequence
+    // Preload enhanced 1080p WebP canvas sequence with completion tracking
     for (let i = 1; i <= TOTAL_FRAMES; i++) {
       const img = new Image();
       const numStr = String(i).padStart(3, '0');
@@ -1418,7 +1549,16 @@
     }
 
     function renderFrame(index) {
-      const img = frames[Math.max(0, Math.min(TOTAL_FRAMES - 1, index - 1))];
+      let img = frames[Math.max(0, Math.min(TOTAL_FRAMES - 1, index - 1))];
+      // Nearest loaded frame fallback to guarantee 0% blank frames
+      if (!img || !img.complete || img.naturalWidth === 0) {
+        for (let offset = 1; offset < TOTAL_FRAMES; offset++) {
+          const prev = frames[index - 1 - offset];
+          if (prev && prev.complete && prev.naturalWidth > 0) { img = prev; break; }
+          const next = frames[index - 1 + offset];
+          if (next && next.complete && next.naturalWidth > 0) { img = next; break; }
+        }
+      }
       if (!img || !img.complete || img.naturalWidth === 0) return;
 
       const hRatio = canvasWidth / img.width;
@@ -1430,22 +1570,34 @@
       ctx.drawImage(img, 0, 0, img.width, img.height, centerShiftX, centerShiftY, img.width * ratio, img.height * ratio);
     }
 
-    // ScrollTrigger Pinned Scrub Animation + 3D Shrinking Window Transition (Keyframe 004 -> 006 -> 007)
+    // ScrollTrigger Pinned Scrub Animation (Extended 400vh Track to Play ALL 60 Frames to the End)
     ScrollTrigger.create({
       trigger: '#hero',
       start: 'top top',
       end: 'bottom bottom',
-      scrub: 0.4,
+      scrub: 0.25,
       onUpdate: (self) => {
-        const targetFrame = Math.max(1, Math.min(TOTAL_FRAMES, Math.floor(self.progress * (TOTAL_FRAMES - 1)) + 1));
+        // Scrub frames 1 to 60 over 0.0 to 0.85 progress, then hold final frame 60
+        const p = Math.max(0, Math.min(1, self.progress));
+        let targetFrame;
+        if (p <= 0.85) {
+          targetFrame = Math.max(1, Math.min(TOTAL_FRAMES, Math.round((p / 0.85) * (TOTAL_FRAMES - 1)) + 1));
+        } else {
+          targetFrame = TOTAL_FRAMES;
+        }
+
         frameObj.current = targetFrame;
         renderFrame(targetFrame);
 
+        // Update Live Frame HUD Telemetry
+        const counterEl = document.getElementById('hero-frame-counter');
+        if (counterEl) counterEl.innerText = String(targetFrame).padStart(2, '0');
+
         // Stage 1 Fade (Title)
         const stage1 = document.getElementById('hero-title-stage');
-        if (self.progress < 0.35) {
-          stage1.style.opacity = String(1 - self.progress * 2.8);
-          stage1.style.transform = `translateY(-${self.progress * 70}px)`;
+        if (p < 0.25) {
+          stage1.style.opacity = String(1 - p * 4);
+          stage1.style.transform = `translateY(-${p * 80}px)`;
           stage1.style.pointerEvents = 'auto';
         } else {
           stage1.style.opacity = '0';
@@ -1454,13 +1606,13 @@
 
         // Stage 2 Fade (Floating White Glass Booking Widget)
         const stage2 = document.getElementById('hero-booking-stage');
-        if (self.progress > 0.28 && self.progress < 0.85) {
-          const p = Math.min(1, (self.progress - 0.28) * 3);
-          stage2.style.opacity = String(p);
-          stage2.style.transform = `translateY(${(1 - p) * 25}px)`;
+        if (p > 0.22 && p < 0.75) {
+          const pIn = Math.min(1, (p - 0.22) * 3.5);
+          stage2.style.opacity = String(pIn);
+          stage2.style.transform = `translateY(${(1 - pIn) * 20}px)`;
           stage2.style.pointerEvents = 'auto';
-        } else if (self.progress >= 0.85) {
-          const pOut = 1 - (self.progress - 0.85) * 6;
+        } else if (p >= 0.75) {
+          const pOut = 1 - (p - 0.75) * 5;
           stage2.style.opacity = String(Math.max(0, pOut));
           stage2.style.pointerEvents = 'none';
         } else {
@@ -1470,8 +1622,8 @@
 
         // 3D Window Shrink Transition (Keyframe 006 / 007: Fullscreen -> Rounded 3D Cinema Window)
         const frameWrap = document.getElementById('hero-frame-wrapper');
-        if (self.progress > 0.6) {
-          const shrinkProg = (self.progress - 0.6) / 0.4;
+        if (p > 0.7) {
+          const shrinkProg = (p - 0.7) / 0.3;
           const scale = 1 - shrinkProg * 0.12;
           const radius = shrinkProg * 36;
           const rotX = shrinkProg * 10;
@@ -1512,51 +1664,56 @@
       });
     });
 
-    // 6. CUSTOM 3D SCROLL ANIMATION 1: STAGGERED PARALLAX MASONRY ("Moments Worth The Trip")
-    gsap.to('#masonry-col-1', {
-      y: 60,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '#moments-masonry',
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1
+    // 6. CUSTOM 3D SCROLL ANIMATION 1: AUTONOMOUS CONTINUOUS MOVING VERTICAL MASONRY ("Moments Worth The Trip")
+    // Each column continuously auto-scrolls vertically, reacts to Lenis momentum, and infinitely loops!
+    let isMasonryPaused = false;
+    let colPos1 = 0, colPos2 = 0, colPos3 = 0, colPos4 = 0;
+    const track1 = document.getElementById('col-track-1');
+    const track2 = document.getElementById('col-track-2');
+    const track3 = document.getElementById('col-track-3');
+    const track4 = document.getElementById('col-track-4');
+
+    function pauseMasonry(paused) {
+      isMasonryPaused = paused;
+    }
+
+    function animateMasonryTicker() {
+      if (!isMasonryPaused && track1 && track2 && track3 && track4) {
+        // Dynamic velocity: Base speed + user scroll boost!
+        const scrollBoost = Math.abs(lenis.velocity || 0) * 0.15;
+
+        // Column 1 moves DOWN
+        colPos1 += 0.8 + scrollBoost;
+        // Column 2 moves UP
+        colPos2 += 1.15 + scrollBoost;
+        // Column 3 moves DOWN
+        colPos3 += 0.65 + scrollBoost;
+        // Column 4 moves UP
+        colPos4 += 1.35 + scrollBoost;
+
+        // Track height is half the duplicated content
+        const loopH1 = (track1.scrollHeight || 1800) / 2;
+        const loopH2 = (track2.scrollHeight || 1800) / 2;
+        const loopH3 = (track3.scrollHeight || 1800) / 2;
+        const loopH4 = (track4.scrollHeight || 1800) / 2;
+
+        if (colPos1 >= loopH1) colPos1 -= loopH1;
+        if (colPos2 >= loopH2) colPos2 -= loopH2;
+        if (colPos3 >= loopH3) colPos3 -= loopH3;
+        if (colPos4 >= loopH4) colPos4 -= loopH4;
+
+        track1.style.transform = `translate3d(0, ${-colPos1}px, 0)`;
+        track2.style.transform = `translate3d(0, ${-(loopH2 - colPos2)}px, 0)`;
+        track3.style.transform = `translate3d(0, ${-colPos3}px, 0)`;
+        track4.style.transform = `translate3d(0, ${-(loopH4 - colPos4)}px, 0)`;
       }
-    });
-    gsap.to('#masonry-col-2', {
-      y: -90,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '#moments-masonry',
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1.4
-      }
-    });
-    gsap.to('#masonry-col-3', {
-      y: 75,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '#moments-masonry',
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 0.8
-      }
-    });
-    gsap.to('#masonry-col-4', {
-      y: -110,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '#moments-masonry',
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1.6
-      }
-    });
+      requestAnimationFrame(animateMasonryTicker);
+    }
+    requestAnimationFrame(animateMasonryTicker);
 
     // 7. CUSTOM 3D SCROLL ANIMATION 2: 3D PERSPECTIVE FLIGHT RADAR TILT ("Every Trip, Connected")
     gsap.fromTo('#radar-container',
-      { rotateX: 20, scale: 0.92, transformOrigin: 'top center' },
+      { rotateX: 25, scale: 0.90, transformOrigin: 'top center' },
       {
         rotateX: 0,
         scale: 1,
@@ -1570,7 +1727,89 @@
       }
     );
 
-    // 8. INTERACTIVE STEPPER LOGIC ("Let's drive your journey")
+    // Radar Telemetry Click Interaction
+    function showRouteDetails(city, duration, logistics) {
+      const modal = document.getElementById('radar-telemetry-modal');
+      document.getElementById('route-hub-title').innerText = city;
+      document.getElementById('route-hub-time').innerText = duration;
+      document.getElementById('route-hub-desc').innerText = logistics;
+      modal.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2');
+      modal.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
+      showToast(`Radar Hub Selected: ${city}`);
+    }
+
+    // 8. CONTINUOUS 3D ROTATING TESTIMONIALS CONSTELLATION
+    let orbitAngle = 0;
+    let isOrbitPaused = false;
+    let currentGuestIdx = 0;
+    const orbitAvatars = document.querySelectorAll('.orbit-avatar');
+    
+    function pauseOrbit(paused) {
+      isOrbitPaused = paused;
+    }
+
+    function animateOrbitLoop() {
+      if (!isOrbitPaused && orbitAvatars.length > 0) {
+        orbitAngle += 0.0035; // Continuous smooth rotation!
+        const isMobile = window.innerWidth < 640;
+        const rx = isMobile ? 130 : 220;
+        const ry = isMobile ? 95 : 155;
+
+        orbitAvatars.forEach((avatar, idx) => {
+          const theta = orbitAngle + idx * ((2 * Math.PI) / orbitAvatars.length);
+          const x = Math.cos(theta) * rx;
+          const y = Math.sin(theta) * ry;
+          avatar.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+        });
+      }
+      requestAnimationFrame(animateOrbitLoop);
+    }
+    requestAnimationFrame(animateOrbitLoop);
+
+    // Automatic Testimonial Switcher (Every 3.8s)
+    let autoTestimonialTimer = setInterval(() => {
+      if (!isOrbitPaused) {
+        currentGuestIdx = (currentGuestIdx + 1) % GUEST_REVIEWS.length;
+        selectGuest(currentGuestIdx, false);
+      }
+    }, 3800);
+
+    function selectGuest(idx, userInitiated = true) {
+      currentGuestIdx = idx;
+      if (userInitiated) {
+        clearInterval(autoTestimonialTimer);
+        autoTestimonialTimer = setInterval(() => {
+          if (!isOrbitPaused) {
+            currentGuestIdx = (currentGuestIdx + 1) % GUEST_REVIEWS.length;
+            selectGuest(currentGuestIdx, false);
+          }
+        }, 3800);
+      }
+
+      const card = document.getElementById('active-review-card');
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(10px) scale(0.97)';
+      setTimeout(() => {
+        document.getElementById('review-text').innerText = GUEST_REVIEWS[idx].text;
+        document.getElementById('review-name').innerText = GUEST_REVIEWS[idx].name;
+        document.getElementById('review-role').innerText = GUEST_REVIEWS[idx].role;
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0) scale(1)';
+      }, 150);
+
+      orbitAvatars.forEach((node, i) => {
+        const borderEl = node.firstElementChild;
+        if (i === idx) {
+          borderEl.classList.add('border-brand-lime', 'ring-4', 'ring-brand-lime/30');
+          borderEl.classList.remove('border-slate-200');
+        } else {
+          borderEl.classList.remove('border-brand-lime', 'ring-4', 'ring-brand-lime/30');
+          borderEl.classList.add('border-slate-200');
+        }
+      });
+    }
+
+    // 9. INTERACTIVE STEPPER LOGIC ("Let's drive your journey")
     const JOURNEY_STEPS = [
       {
         id: 1,
@@ -1642,7 +1881,7 @@
       });
     }
 
-    // 9. POPULAR CAROUSEL CONTROLS
+    // 10. POPULAR CAROUSEL CONTROLS
     function prevPopularCard() {
       const container = document.getElementById('popular-cards-grid');
       container.scrollBy({ left: -320, behavior: 'smooth' });
@@ -1652,7 +1891,52 @@
       container.scrollBy({ left: 320, behavior: 'smooth' });
     }
 
-    // 10. POPULATE 24-PHOTO RESORT GALLERY
+    // 11. GSAP SCROLL-TRIGGERED ENTRANCE ANIMATIONS (Pixel by Pixel Card Reveals)
+    // Bento Grid Cards
+    gsap.from('.bento-cards-container .card-3d-wrap', {
+      scrollTrigger: {
+        trigger: '#escapes',
+        start: 'top 80%'
+      },
+      y: 50,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.12,
+      ease: 'power2.out'
+    });
+
+    // Popular Destinations Cards
+    gsap.from('#popular-cards-grid .card-3d-wrap', {
+      scrollTrigger: {
+        trigger: '#popular-destinations',
+        start: 'top 80%'
+      },
+      x: 40,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: 'power2.out'
+    });
+
+    // Telemetry Numbers Count-Up Animation
+    ScrollTrigger.create({
+      trigger: '#telemetry',
+      start: 'top 75%',
+      once: true,
+      onEnter: () => {
+        document.querySelectorAll('.count-up').forEach(el => {
+          const target = parseInt(el.getAttribute('data-target'), 10);
+          gsap.fromTo(el, { innerText: 0 }, {
+            innerText: target,
+            duration: 1.8,
+            snap: { innerText: 1 },
+            ease: 'power1.inOut'
+          });
+        });
+      }
+    });
+
+    // 12. POPULATE 24-PHOTO RESORT GALLERY
     function renderGalleryGrid(items) {
       const grid = document.getElementById('gallery-grid');
       grid.innerHTML = '';
@@ -1689,7 +1973,7 @@
       }
     }
 
-    // 11. LIGHTBOX CONTROLS
+    // 13. LIGHTBOX CONTROLS
     let currentLightboxId = 1;
     function openLightbox(id) {
       currentLightboxId = id;
@@ -1723,7 +2007,7 @@
       openLightbox(nextId);
     }
 
-    // 12. BOOKING & MODAL LOGIC
+    // 14. BOOKING & MODAL LOGIC
     function openBookingModal(villaName = 'The Royal Valley Suite') {
       document.getElementById('modal-villa-name').value = villaName;
       const modal = document.getElementById('booking-modal');
