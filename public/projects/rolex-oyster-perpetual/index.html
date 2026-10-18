@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased selection:bg-[#0D5938] selection:text-[#F4EFEA]">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROLEX — Oyster Perpetual Day-Date 40 | Superlative Chronometer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@700&family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <style>
+    :root {
+      --bg-alabaster: #F2EDE6;
+      --bg-alabaster-light: #FAF6F0;
+      --bg-alabaster-shadow: #E4DDD3;
+      --rolex-emerald: #135B3B;
+      --rolex-emerald-dark: #0B4F32;
+      --rolex-forest-deep: #0B3321;
+      --rolex-sage: #7FA392;
+      --rolex-silk: #12402C;
+      --gold-primary: #D4AF37;
+      --ink-dark: #161817;
+      --ink-muted: #767A78;
+      --font-display: 'Antonio', 'Bebas Neue', sans-serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      background-color: var(--rolex-silk);
+      color: var(--ink-dark);
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Warm Alabaster Studio Canvas with Diagonal Window-Blind Sunlight Caustics */
+    .alabaster-studio-bg {
+      background-color: var(--bg-alabaster);
+      background-image:
+        radial-gradient(ellipse 75% 65% at 52% 48%, rgba(252, 249, 244, 0.92) 0%, rgba(240, 234, 225, 0.45) 58%, rgba(224, 217, 206, 0.85) 100%),
+        repeating-linear-gradient(
+          -26deg,
+          rgba(255, 253, 249, 0.42) 0px,
+          rgba(255, 253, 249, 0.42) 68px,
+          rgba(222, 214, 202, 0.36) 68px,
+          rgba(222, 214, 202, 0.36) 136px
+        );
+    }
+
+    /* Monumental Distressed Condensed Display Typography */
+    .rolex-display-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 0.88;
+      letter-spacing: -0.015em;
+      filter: url(#rolex-distress);
+      user-select: none;
+    }
+
+    .rolex-display-clean {
+      font-family: var(--font-display);
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 0.88;
+      letter-spacing: -0.012em;
+      user-select: none;
+    }
+
+    /* Floating Oval Spec Pill Badges (Stages 1 & 2) */
+    .spec-pill-light {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 22px;
+      border-radius: 9999px;
+      background: rgba(247, 243, 237, 0.92);
+      border: 1px solid rgba(22, 24, 23, 0.36);
+      color: #161817;
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      box-shadow: 0 6px 18px rgba(15, 35, 24, 0.06);
+      white-space: nowrap;
+      backdrop-filter: blur(6px);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.25s ease;
+    }
+
+    /* Dark Glassmorphic Callout Pills (Stage 3 Macro Zoom) */
+    .callout-pill-dark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 24px;
+      border-radius: 9999px;
+      background: rgba(36, 37, 40, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: #FFFFFF;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.38);
+      white-space: nowrap;
+    }
+
+    /* Polaroid Studio Cards (Stage 1 & Stage 5) */
+    .polaroid-card {
+      background: #FFFFFF;
+      padding: 9px 9px 14px 9px;
+      box-shadow: 0 22px 48px rgba(12, 24, 18, 0.16), 0 4px 12px rgba(12, 24, 18, 0.08);
+      border-radius: 2px;
+      transform-style: preserve-3d;
+      will-change: transform, opacity;
+    }
+
+    /* Stage 2 Product Cards */
+    .model-product-card {
+      background: #FFFFFF;
+      padding: 5px 5px 14px 5px;
+      box-shadow: 0 14px 34px rgba(15, 30, 22, 0.07);
+      cursor: pointer;
+      transform-origin: center bottom;
+      transition: box-shadow 0.35s ease, border-color 0.35s ease;
+      border: 1.5px solid transparent;
+    }
+    .model-product-card:hover,
+    .model-product-card.active-card {
+      box-shadow: 0 20px 44px rgba(13, 89, 56, 0.15);
+      border-color: rgba(19, 91, 59, 0.35);
+    }
+
+    /* Dark Leather Weave Texture for Stage 3 Macro Zoom Background */
+    .dark-leather-macro-bg {
+      background-color: #1A1A1C;
+      background-image:
+        radial-gradient(circle at 50% 50%, rgba(44, 45, 48, 0.55) 0%, rgba(18, 18, 20, 0.96) 80%),
+        repeating-radial-gradient(circle at 20% 30%, rgba(255,255,255,0.025) 0px, rgba(0,0,0,0.06) 2px, transparent 4px);
+    }
+
+    /* Stage 5 Vertical Wipe Reveal Mask */
+    .wipe-line-inner {
+      display: inline-block;
+      will-change: clip-path, transform;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0D3121;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D4AF37;
+      border-radius: 3px;
+    }
+
+    /* 3D Perspective Tilt Helper */
+    .tilt-card-3d {
+      perspective: 1200px;
+      transform-style: preserve-3d;
+    }
+
+    /* Perforated COSC Receipt Edge */
+    .perforated-edge {
+      background-image: radial-gradient(circle at 8px 0px, transparent 5px, #FAF6F0 5.5px);
+      background-size: 16px 12px;
+      background-repeat: repeat-x;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Authentic SVG Distressed Letterpress Speckle Filter for OYSTERS PERPETUAL & Stage 5 Typography -->
+  <svg width="0" height="0" class="fixed pointer-events-none opacity-0" aria-hidden="true">
+    <defs>
+      <filter id="rolex-distress" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.68" numOctaves="4" seed="19" result="noise" />
+        <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 8.5 -4.15" in="noise" result="speckles" />
+        <feComposite operator="out" in="SourceGraphic" in2="speckles" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Navigation Drawer Overlay (Opens when clicking Menu) -->
+  <div id="rolex-menu-drawer" class="fixed inset-0 z-[120] pointer-events-none opacity-0 transition-opacity duration-500">
+    <div id="rolex-menu-backdrop" class="absolute inset-0 bg-[#071F14]/70 backdrop-blur-md"></div>
+    <div id="rolex-menu-panel" class="relative w-full max-w-md h-full bg-[#F2EDE6] text-[#161817] p-8 md:p-12 flex flex-col justify-between -translate-x-full transition-transform duration-500 border-r border-[#0D5938]/20 shadow-2xl">
+      <div>
+        <div class="flex items-center justify-between pb-6 border-b border-[#161817]/15">
+          <span class="font-mono text-xs uppercase tracking-[0.2em] text-[#0D5938] font-semibold">Rolex Geneva // Navigation</span>
+          <button id="rolex-menu-close" class="w-9 h-9 rounded-full bg-white flex items-center justify-center border border-black/10 hover:bg-[#0D5938] hover:text-white transition-colors" aria-label="Close Menu">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <p class="mt-4 text-xs text-[#767A78] font-mono uppercase tracking-widest">5-Stage Interactive Scroll Experience</p>
+        <nav class="mt-5 space-y-2.5">
+          <button data-jump-progress="0.02" class="stage-jump-btn w-full text-left py-2.5 px-4 rounded-xl hover:bg-[#0D5938] hover:text-white transition-all flex items-center justify-between group">
+            <span class="font-semibold text-base">01. Oysters Perpetual Hero</span>
+            <span class="font-mono text-xs opacity-60 group-hover:opacity-100">Stage 01</span>
+          </button>
+          <button data-jump-progress="0.14" class="stage-jump-btn w-full text-left py-2.5 px-4 rounded-xl hover:bg-[#0D5938] hover:text-white transition-all flex items-center justify-between group">
+            <span class="font-semibold text-base">01B. Fluted Bezel &amp; Calibre Polaroids</span>
+            <span class="font-mono text-xs opacity-60 group-hover:opacity-100">Stage 01B</span>
+          </button>
+          <button data-jump-progress="0.30" class="stage-jump-btn w-full text-left py-2.5 px-4 rounded-xl hover:bg-[#0D5938] hover:text-white transition-all flex items-center justify-between group">
+            <span class="font-semibold text-base">02. Pure Brilliance &amp; Cushion Switcher</span>
+            <span class="font-mono text-xs opacity-60 group-hover:opacity-100">Stage 02</span>
+          </button>
+          <button data-jump-progress="0.58" class="stage-jump-btn w-full text-left py-2.5 px-4 rounded-xl hover:bg-[#0D5938] hover:text-white transition-all flex items-center justify-between group">
+            <span class="font-semibold text-base">03. 2.6x Macro Dial &amp; 6 Callouts</span>
+            <span class="font-mono text-xs opacity-60 group-hover:opacity-100">Stage 03</span>
+          </button>
+          <button data-jump-progress="0.75" class="stage-jump-btn w-full text-left py-2.5 px-4 rounded-xl hover:bg-[#0D5938] hover:text-white transition-all flex items-center justify-between group">
+            <span class="font-semibold text-base">04. Rolex Green Box Presentation</span>
+            <span class="font-mono text-xs opacity-60 group-hover:opacity-100">Stage 04</span>
+          </button>
+          <button data-jump-progress="0.96" class="stage-jump-btn w-full text-left py-2.5 px-4 rounded-xl hover:bg-[#0D5938] hover:text-white transition-all flex items-center justify-between group">
+            <span class="font-semibold text-base">05. Promise For The Future Finale</span>
+            <span class="font-mono text-xs opacity-60 group-hover:opacity-100">Stage 05</span>
+          </button>
+        </nav>
+        <div class="mt-6 pt-5 border-t border-[#161817]/15">
+          <p class="text-xs text-[#767A78] font-mono uppercase tracking-widest mb-3">Extended Horology Engineering</p>
+          <div class="space-y-2">
+            <a href="#calibre-exploded-section" class="drawer-anchor-link block py-2 px-4 rounded-xl bg-white/70 hover:bg-[#0D5938] hover:text-white text-sm font-semibold transition-all">06. Calibre 3255 Exploded Architecture</a>
+            <a href="#coverflow-archive-section" class="drawer-anchor-link block py-2 px-4 rounded-xl bg-white/70 hover:bg-[#0D5938] hover:text-white text-sm font-semibold transition-all">07. 3D Coverflow Reference Archive</a>
+            <a href="#cosc-certificate-section" class="drawer-anchor-link block py-2 px-4 rounded-xl bg-white/70 hover:bg-[#0D5938] hover:text-white text-sm font-semibold transition-all">08. Geneva COSC Chronometer Certificate</a>
+          </div>
+        </div>
+      </div>
+      <div class="pt-4 border-t border-[#161817]/15 flex items-center justify-between text-xs text-[#767A78]">
+        <span>Ref. 228238 // 18ct Yellow Gold</span>
+        <span class="font-mono text-[#0D5938] font-semibold">28,800 BPH</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MASTER PINNED 5-STAGE 3D SCROLL EXPERIENCE (Exact 1:1 Replica of Reel DWgnTGgAq3b)
+       ========================================================================= -->
+  <section id="rolex-scroll-track" class="relative w-full h-[680vh]">
+    <div id="rolex-sticky-viewport" class="sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center justify-center p-0 md:p-[8px] bg-[#113E2B] transition-all duration-300">
+
+      <!-- Main Framed Website Screen Canvas (Matches the exact rounded studio frame inside the green silk backdrop) -->
+      <div id="rolex-screen-canvas" class="relative w-full h-full rounded-none md:rounded-[14px] overflow-hidden alabaster-studio-bg shadow-[0_30px_90px_rgba(0,0,0,0.45)]">
+
+        <!-- STAGE 3 DARK LEATHER MACRO BACKDROP LAYER (Fades in smoothly during Stage 3 2.6x zoom) -->
+        <div id="stage3-dark-backdrop" class="absolute inset-0 z-[5] dark-leather-macro-bg opacity-0 pointer-events-none">
+          <img
+            src="assets/macro_cushion_watch.jpg"
+            alt="Rolex Day-Date 40 Macro Cushion"
+            class="w-full h-full object-cover object-center opacity-35 mix-blend-luminosity"
+            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1600&q=85';"
+          />
+        </div>
+
+        <!-- ===================================================================
+             PERSISTENT TOP NAVBAR (Menu | 3D Gold Rolex Coronet | Search + Learn more)
+             =================================================================== -->
+        <header id="rolex-navbar" class="absolute top-0 left-0 right-0 z-[60] h-[68px] md:h-[76px] px-6 md:px-10 flex items-center justify-between border-b border-[#161817]/10 transition-colors duration-300">
+          <!-- Left: 3-bar Menu Trigger -->
+          <button id="rolex-menu-open" class="flex items-center gap-3 group focus:outline-none" aria-label="Open Menu">
+            <span class="flex flex-col justify-between w-[20px] h-[13px]">
+              <span class="nav-bar-line w-full h-[2px] bg-[#161817] transition-all duration-300 group-hover:w-3/4"></span>
+              <span class="nav-bar-line w-full h-[2px] bg-[#161817] transition-all duration-300"></span>
+              <span class="nav-bar-line w-full h-[2px] bg-[#161817] transition-all duration-300 group-hover:w-4/5"></span>
+            </span>
+            <span id="nav-menu-label" class="text-[14px] font-semibold tracking-[-0.01em] text-[#161817] transition-colors duration-300">Menu</span>
+          </button>
+
+          <!-- Center: Authentic 3D Metallic Gold 5-Pointed Rolex Coronet Emblem -->
+          <a href="#rolex-scroll-track" aria-label="Rolex Home" class="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 group">
+            <svg width="34" height="36" viewBox="0 0 64 68" fill="none" xmlns="http://www.w3.org/2000/svg" class="drop-shadow-[0_3px_5px_rgba(15,24,18,0.22)] transition-transform duration-300 group-hover:scale-105">
+              <defs>
+                <linearGradient id="rolexGoldGrad" x1="10" y1="4" x2="54" y2="64" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#FFF5C0" />
+                  <stop offset="28%" stop-color="#E5C158" />
+                  <stop offset="55%" stop-color="#C59B27" />
+                  <stop offset="80%" stop-color="#F2D57E" />
+                  <stop offset="100%" stop-color="#7E5B10" />
+                </linearGradient>
+                <linearGradient id="rolexGoldDark" x1="0" y1="0" x2="64" y2="68" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#B38728" />
+                  <stop offset="100%" stop-color="#5C4008" />
+                </linearGradient>
+              </defs>
+              <!-- 5 Coronet Spires -->
+              <path d="M32 10L27.5 42H36.5L32 10Z" fill="url(#rolexGoldGrad)" stroke="url(#rolexGoldDark)" stroke-width="1"/>
+              <path d="M19 15L22.5 43.5L29 42L19 15Z" fill="url(#rolexGoldGrad)" stroke="url(#rolexGoldDark)" stroke-width="1"/>
+              <path d="M45 15L35 42L41.5 43.5L45 15Z" fill="url(#rolexGoldGrad)" stroke="url(#rolexGoldDark)" stroke-width="1"/>
+              <path d="M8.5 24L18.5 46.5L24 43.5L8.5 24Z" fill="url(#rolexGoldGrad)" stroke="url(#rolexGoldDark)" stroke-width="1"/>
+              <path d="M55.5 24L40 43.5L45.5 46.5L55.5 24Z" fill="url(#rolexGoldGrad)" stroke="url(#rolexGoldDark)" stroke-width="1"/>
+              <!-- 5 Coronet Pearls -->
+              <circle cx="32" cy="7.5" r="3.4" fill="url(#rolexGoldGrad)" stroke="url(#rolexGoldDark)" stroke-width="0.9"/>
+              <circle cx="17.8" cy="12.5" r="3.2" fill="url(#rolexGoldGrad)" stroke="url(#rolexGoldDark)" stroke-width="0.9"/>
+              <circle cx="46.2" cy="12.5" r="3.2" fill="url(#rolexGoldGrad)" stroke="url(#rolexGoldDark)" stroke-width="0.9"/>
+              <circle cx="6.8" cy="21.5" r="3.1" fill="url(#rolexGoldGrad)" stroke="url(#rolexGoldDark)" stroke-width="0.9"/>
+              <circle cx="57.2" cy="21.5" r="3.1" fill="url(#rolexGoldGrad)" stroke="url(#rolexGoldDark)" stroke-width="0.9"/>
+              <!-- Base Crown Band & Elliptical Opening -->
+              <path d="M18.5 46.5C22.5 44 41.5 44 45.5 46.5L43 55.5C39 58.2 25 58.2 21 55.5L18.5 46.5Z" fill="url(#rolexGoldGrad)" stroke="url(#rolexGoldDark)" stroke-width="1.1"/>
+              <ellipse cx="32" cy="54.2" rx="11" ry="3.2" fill="#2A1D04" stroke="url(#rolexGoldGrad)" stroke-width="1.2"/>
+            </svg>
+          </a>
+
+          <!-- Right: Search Magnifier + Dark Green Pill Button "Learn more" -->
+          <div class="flex items-center gap-5">
+            <button id="nav-search-btn" class="p-1.5 text-[#161817] hover:opacity-70 transition-opacity focus:outline-none" aria-label="Search">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="7.5"></circle>
+                <line x1="20.5" y1="20.5" x2="16.4" y2="16.4"></line>
+              </svg>
+            </button>
+            <a href="#calibre-exploded-section" class="bg-[#0B4F32] hover:bg-[#093D26] text-white text-[13px] font-medium px-5 py-2 rounded-full transition-all shadow-sm">
+              Learn more
+            </a>
+          </div>
+        </header>
+
+        <!-- ===================================================================
+             STAGE 1 LAYER: "OYSTERS PERPETUAL", FLOATING POLAROIDS & BOTTOM BAR
+             (Frames z_001.jpg - z_008.jpg)
+             =================================================================== -->
+        <div id="stage1-layer" class="absolute inset-0 z-[15] pointer-events-none flex flex-col items-center justify-center">
+
+          <!-- Monumental Distressed Green Two-Line Title: OYSTERS / PERPETUAL -->
+          <div id="stage1-headline-wrap" class="relative flex flex-col items-center justify-center text-center select-none mt-4">
+            <h1 class="rolex-display-title text-[#145C3C] text-[20vw] sm:text-[18.5vw] md:text-[17.2vw] lg:text-[16.4vw] leading-[0.86] tracking-[-0.015em]">
+              <span class="block">OYSTERS</span>
+              <span class="block mt-[0.02em]">PERPETUAL</span>
+            </h1>
+
+            <!-- Stage 1B Floating Oval Pill Badges (z_006.jpg) -->
+            <div id="stage1-pill-left" class="spec-pill-light absolute -top-[4%] left-[12%] md:left-[15%] opacity-0" style="transform: rotate(3.5deg) scale(0.8);">
+              Exclusive innovations
+            </div>
+            <div id="stage1-pill-right" class="spec-pill-light absolute -top-[7%] right-[7%] md:right-[9%] opacity-0" style="transform: rotate(-5.5deg) scale(0.8);">
+              Day-Date 04
+            </div>
+          </div>
+
+          <!-- Stage 1B Left Polaroid: "Fluted Bezel / Closely guarded secret" (z_006.jpg) -->
+          <div id="stage1-polaroid-left" class="polaroid-card absolute left-[5%] sm:left-[9%] md:left-[12.5%] top-[23%] w-[155px] sm:w-[190px] md:w-[218px] opacity-0 pointer-events-auto">
+            <div class="w-full aspect-square overflow-hidden bg-[#141414]">
+              <img
+                src="assets/polaroid_bezel.jpg"
+                alt="Rolex 18ct Gold Fluted Bezel"
+                class="w-full h-full object-cover"
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=600&q=80';"
+              />
+            </div>
+            <div class="pt-2.5 px-1 text-left">
+              <p class="text-[13.5px] font-bold text-[#161817] leading-tight">Fluted Bezel</p>
+              <p class="text-[11px] text-[#767A78] mt-0.5 leading-tight">Closely guarded secret</p>
+            </div>
+          </div>
+
+          <!-- Stage 1B Right Polaroid: "Calibre 3255 / A state-of-the-art movement" (z_006.jpg) -->
+          <div id="stage1-polaroid-right" class="polaroid-card absolute right-[5%] sm:right-[8%] md:right-[10.5%] top-[44%] w-[155px] sm:w-[190px] md:w-[218px] opacity-0 pointer-events-auto">
+            <div class="w-full aspect-square overflow-hidden bg-[#141414]">
+              <img
+                src="assets/polaroid_calibre.jpg"
+                alt="Rolex Calibre 3255 Mechanical Movement"
+                class="w-full h-full object-cover"
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=600&q=80';"
+              />
+            </div>
+            <div class="pt-2.5 px-1 text-left">
+              <p class="text-[13.5px] font-bold text-[#161817] leading-tight">Calibre 3255</p>
+              <p class="text-[11px] text-[#767A78] mt-0.5 leading-tight">A state-of-the-art movement</p>
+            </div>
+          </div>
+
+          <!-- Stage 1 Bottom Attributes Row: Elegant. | Precious. | Prestigious. -->
+          <div id="stage1-bottom-attributes" class="absolute bottom-5 md:bottom-7 left-0 right-0 px-6 md:px-10 flex items-center justify-between text-[#161817] font-semibold text-[18px] md:text-[22px] tracking-[-0.02em]">
+            <div class="flex items-center gap-12 sm:gap-24 md:gap-36">
+              <span>Elegant.</span>
+              <span>Precious.</span>
+            </div>
+            <span>Prestigious.</span>
+          </div>
+        </div>
+
+        <!-- ===================================================================
+             STAGE 4 & 5 OPEN ROLEX GREEN PRESENTATION BOX LAYER
+             (Rises behind the watch cushion in Stage 4, then docks inline in Stage 5)
+             =================================================================== -->
+        <div id="rolex-box-actor" class="absolute left-1/2 top-[53%] z-[24] -translate-x-1/2 -translate-y-1/2 w-[380px] sm:w-[440px] md:w-[500px] opacity-0 pointer-events-none will-change-transform">
+          <img
+            src="assets/rolex_green_box.png"
+            alt="Rolex Green Presentation Box"
+            class="w-full h-auto block drop-shadow-[0_28px_55px_rgba(10,25,18,0.32)]"
+            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&w=800&q=80';"
+          />
+        </div>
+
+        <!-- ===================================================================
+             MASTER HERO WATCH & BLACK LEATHER CUSHION ACTOR
+             (Morphs seamlessly across Stage 1 -> Stage 2 -> Stage 3 -> Stage 4)
+             =================================================================== -->
+        <div id="master-watch-actor" class="absolute left-1/2 top-[53%] z-[30] -translate-x-1/2 -translate-y-1/2 w-[310px] sm:w-[390px] md:w-[475px] aspect-[840/920] pointer-events-none will-change-transform">
+
+          <!-- Black Pebble-Leather Cushion + Active Watch Composite (Fades in as watch glides to Stage 2) -->
+          <div id="actor-cushion-layer" class="absolute inset-0 opacity-0 transition-opacity duration-300">
+            <!-- Model 04: Emerald Green & 18ct Yellow Gold on Cushion (Default) -->
+            <img
+              id="cushion-img-green"
+              src="assets/cushion_watch_green.png"
+              alt="Rolex Day-Date 40 Emerald Green on Black Leather Cushion"
+              class="w-full h-full object-contain drop-shadow-[0_26px_48px_rgba(12,20,15,0.28)] transition-all duration-500"
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=80';"
+            />
+            <!-- Model 02: Chocolate Brown & Everose Leather on Cushion -->
+            <img
+              id="cushion-img-brown"
+              src="assets/cushion_watch_brown.png"
+              alt="Rolex Day-Date 36 Everose Gold Leather on Black Cushion"
+              class="absolute inset-0 w-full h-full object-contain drop-shadow-[0_26px_48px_rgba(12,20,15,0.28)] opacity-0 scale-95 transition-all duration-500"
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=900&q=80';"
+            />
+            <!-- Model 03: Yellow Gold & Black Diamond Dial on Cushion -->
+            <img
+              id="cushion-img-yellow-black"
+              src="assets/cushion_watch_yellow_black.png"
+              alt="Rolex Day-Date 40 Yellow Gold Black Dial on Cushion"
+              class="absolute inset-0 w-full h-full object-contain drop-shadow-[0_26px_48px_rgba(12,20,15,0.28)] opacity-0 scale-95 transition-all duration-500"
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&w=900&q=80';"
+            />
+            <!-- Model 01: White Gold & Oysters on Cushion -->
+            <img
+              id="cushion-img-white-gold"
+              src="assets/cushion_watch_white_gold.png"
+              alt="Rolex Day-Date 40 White Gold on Cushion"
+              class="absolute inset-0 w-full h-full object-contain drop-shadow-[0_26px_48px_rgba(12,20,15,0.28)] opacity-0 scale-95 transition-all duration-500"
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=900&q=80';"
+            />
+          </div>
+
+          <!-- Solo Isolated 18ct Yellow Gold & Emerald Watch (Visible in Stage 1 without black cushion) -->
+          <img
+            id="actor-solo-watch"
+            src="assets/watch_green_gold.png"
+            alt="Rolex Oyster Perpetual Day-Date 40 in 18ct Yellow Gold"
+            class="relative z-[2] w-full h-full object-contain drop-shadow-[16px_28px_30px_rgba(12,26,18,0.26)]"
+            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=80';"
+          />
+
+          <!-- Live Mechanical 28,800 BPH Sweeping Second Hand & Sapphire Specular Sheen Overlay -->
+          <div id="live-dial-sweep-overlay" class="absolute inset-0 z-[5] pointer-events-none flex items-center justify-center">
+            <svg viewBox="0 0 840 920" class="w-full h-full overflow-visible">
+              <defs>
+                <linearGradient id="goldSweepHand" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FFF6C4" />
+                  <stop offset="50%" stop-color="#E2BA48" />
+                  <stop offset="100%" stop-color="#9A7416" />
+                </linearGradient>
+                <radialGradient id="sapphireSheen" cx="35%" cy="30%" r="60%">
+                  <stop offset="0%" stop-color="rgba(255,255,255,0.16)" />
+                  <stop offset="50%" stop-color="rgba(255,255,255,0.03)" />
+                  <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+                </radialGradient>
+              </defs>
+              <!-- Subtle Sapphire Crystal Anti-Reflective Glint -->
+              <circle cx="414" cy="462" r="168" fill="url(#sapphireSheen)" />
+              <!-- Live Sweeping Chronometer Second Hand pivoted at (414, 462) -->
+              <g id="rolex-live-second-hand" style="transform-origin: 414px 462px;">
+                <line x1="414" y1="504" x2="414" y2="306" stroke="url(#goldSweepHand)" stroke-width="2.2" stroke-linecap="round" />
+                <circle cx="414" cy="462" r="5.5" fill="#E5C158" stroke="#7E5B10" stroke-width="1.2" />
+                <circle cx="414" cy="462" r="2" fill="#FFF8D6" />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <!-- ===================================================================
+             STAGE 2 LAYER: "Our models / PURE BRILLIANCE" & 4 ORBITING PILLS
+             (Frames z_010.jpg - z_026.jpg)
+             =================================================================== -->
+        <div id="stage2-layer" class="absolute inset-0 z-[35] pointer-events-none opacity-0">
+
+          <!-- 4 Orbiting Oval Pill Badges around the Left Watch Cushion (z_012 & z_019) -->
+          <div id="stage2-orbit-pills" class="absolute inset-y-0 left-0 w-full lg:w-[54%] pointer-events-none">
+            <div id="pill-tl" class="spec-pill-light absolute left-[6.5%] top-[14.5%]">Model-04</div>
+            <div id="pill-tr" class="spec-pill-light absolute left-[38.5%] top-[11%]">Day Date</div>
+            <div id="pill-bl" class="spec-pill-light absolute left-[9.5%] bottom-[5.5%]">Green Oysters</div>
+            <div id="pill-br" class="spec-pill-light absolute left-[36.5%] bottom-[8.5%]">Yellow Gold</div>
+          </div>
+
+          <!-- Right Column: "Our models / PURE BRILLIANCE" + Carousel Arrow + Product Cards -->
+          <div id="stage2-right-col" class="absolute top-[18%] bottom-[8%] right-0 w-full lg:w-[46%] px-6 md:px-10 flex flex-col justify-center pointer-events-auto">
+            <p class="text-[13.5px] font-semibold text-[#161817] tracking-[-0.01em] mb-1.5">Our models</p>
+
+            <div class="flex items-end justify-between gap-4 mb-5">
+              <h2 class="rolex-display-clean text-[11vw] sm:text-[8.5vw] lg:text-[5.8vw] leading-[0.86]">
+                <span class="block text-[#0D5938]">PURE</span>
+                <span class="block text-[#7FA392]">BRILLIANCE</span>
+              </h2>
+
+              <!-- Circular White Next Button (z_012 - z_025) -->
+              <button
+                id="stage2-next-btn"
+                type="button"
+                class="w-[46px] h-[46px] rounded-full bg-white hover:bg-[#0D5938] text-[#161817] hover:text-white flex items-center justify-center shadow-[0_8px_24px_rgba(15,35,24,0.10)] transition-all duration-300 shrink-0 mb-2 group focus:outline-none"
+                aria-label="Switch Watch Model"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform duration-300 group-hover:translate-x-0.5">
+                  <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Horizontal Product Cards Viewport -->
+            <div class="relative w-full overflow-hidden py-2">
+              <div id="stage2-cards-track" class="flex items-stretch gap-5 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]">
+
+                <!-- Card 01: Leather & Diamonds ($6999.00) -->
+                <article
+                  data-model-key="brown"
+                  class="model-product-card w-[210px] sm:w-[235px] md:w-[250px] shrink-0 transition-transform duration-500"
+                >
+                  <div class="w-full h-[230px] sm:h-[255px] bg-[#EFEBE4] flex items-center justify-center p-4 overflow-hidden relative">
+                    <img
+                      src="assets/card_watch_leather.png"
+                      alt="Leather & Diamonds Rolex Day-Date"
+                      class="h-[92%] w-auto object-contain drop-shadow-[14px_18px_20px_rgba(25,20,15,0.22)] transition-transform duration-500 hover:scale-105"
+                      onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=500&q=80';"
+                    />
+                  </div>
+                  <div class="pt-3 px-2 bg-white">
+                    <h3 class="text-[12.5px] font-semibold text-[#161817]">Leather &amp; Diamonds</h3>
+                    <p class="text-[11.5px] font-semibold text-[#161817]/80 mt-0.5">$6999.00</p>
+                  </div>
+                </article>
+
+                <!-- Card 02: Yellow Gold & Diamonds ($3449.00) -->
+                <article
+                  data-model-key="yellow_black"
+                  class="model-product-card w-[210px] sm:w-[235px] md:w-[250px] shrink-0 transition-transform duration-500"
+                >
+                  <div class="w-full h-[230px] sm:h-[255px] bg-[#EFEBE4] flex items-center justify-center p-4 overflow-hidden relative">
+                    <img
+                      src="assets/card_watch_yellow_black.png"
+                      alt="Yellow Gold & Diamonds Rolex Day-Date"
+                      class="h-[92%] w-auto object-contain drop-shadow-[14px_18px_20px_rgba(25,20,15,0.22)] transition-transform duration-500 hover:scale-105"
+                      onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&w=500&q=80';"
+                    />
+                  </div>
+                  <div class="pt-3 px-2 bg-white">
+                    <h3 class="text-[12.5px] font-semibold text-[#161817]">Yellow Gold &amp; Diamonds</h3>
+                    <p class="text-[11.5px] font-semibold text-[#161817]/80 mt-0.5">$3449.00</p>
+                  </div>
+                </article>
+
+                <!-- Card 03: White Gold & Oysters ($8977.00) -->
+                <article
+                  data-model-key="white_gold"
+                  class="model-product-card w-[210px] sm:w-[235px] md:w-[250px] shrink-0 transition-transform duration-500"
+                >
+                  <div class="w-full h-[230px] sm:h-[255px] bg-[#EFEBE4] flex items-center justify-center p-4 overflow-hidden relative">
+                    <img
+                      src="assets/card_watch_white_gold.png"
+                      alt="White Gold & Oysters Rolex Day-Date"
+                      class="h-[92%] w-auto object-contain drop-shadow-[14px_18px_20px_rgba(25,20,15,0.22)] transition-transform duration-500 hover:scale-105"
+                      onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=500&q=80';"
+                    />
+                  </div>
+                  <div class="pt-3 px-2 bg-white">
+                    <h3 class="text-[12.5px] font-semibold text-[#161817]">White Gold &amp; Oysters</h3>
+                    <p class="text-[11.5px] font-semibold text-[#161817]/80 mt-0.5">$8977.00</p>
+                  </div>
+                </article>
+
+                <!-- Card 04: Green Oysters & Gold ($7850.00) -->
+                <article
+                  data-model-key="green"
+                  class="model-product-card w-[210px] sm:w-[235px] md:w-[250px] shrink-0 transition-transform duration-500"
+                >
+                  <div class="w-full h-[230px] sm:h-[255px] bg-[#EFEBE4] flex items-center justify-center p-4 overflow-hidden relative">
+                    <img
+                      src="assets/watch_green_gold.png"
+                      alt="Green Oysters & Yellow Gold Rolex Day-Date"
+                      class="h-[92%] w-auto object-contain drop-shadow-[14px_18px_20px_rgba(25,20,15,0.22)] transition-transform duration-500 hover:scale-105"
+                      onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=500&q=80';"
+                    />
+                  </div>
+                  <div class="pt-3 px-2 bg-white">
+                    <h3 class="text-[12.5px] font-semibold text-[#161817]">Green Oysters &amp; Gold</h3>
+                    <p class="text-[11.5px] font-semibold text-[#161817]/80 mt-0.5">$7850.00</p>
+                  </div>
+                </article>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================================================================
+             STAGE 3 LAYER: 6 TECHNICAL SVG CALLOUT LINES & DARK GLASS PILLS
+             (Frames z_031.jpg - z_034.jpg)
+             =================================================================== -->
+        <div id="stage3-callouts-layer" class="absolute inset-0 z-[40] pointer-events-none opacity-0">
+          <!-- Precision SVG Leader Lines & Glowing Target Dots (Matched 1:1 to z_032.jpg) -->
+          <svg viewBox="0 0 1836 1206" preserveAspectRatio="xMidYMid slice" class="w-full h-full">
+            <!-- Left 1: Oysters -->
+            <g class="callout-svg-group">
+              <polyline points="425,350 585,350 676,438" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.8" />
+              <circle cx="676" cy="438" r="5" fill="#FFFFFF" />
+              <circle cx="676" cy="438" r="11" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" />
+            </g>
+            <!-- Left 2: Calibre 3255 -->
+            <g class="callout-svg-group">
+              <polyline points="370,602 560,602 638,524" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.8" />
+              <circle cx="638" cy="524" r="5" fill="#FFFFFF" />
+              <circle cx="638" cy="524" r="11" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" />
+            </g>
+            <!-- Left 3: Yellow gold dials -->
+            <g class="callout-svg-group">
+              <polyline points="435,824 535,824 578,778" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.8" />
+              <circle cx="578" cy="778" r="5" fill="#FFFFFF" />
+              <circle cx="578" cy="778" r="11" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" />
+            </g>
+            <!-- Right 1: The President bracelet -->
+            <g class="callout-svg-group">
+              <polyline points="1355,350 1245,350 1202,392" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.8" />
+              <circle cx="1202" cy="392" r="5" fill="#FFFFFF" />
+              <circle cx="1202" cy="392" r="11" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" />
+            </g>
+            <!-- Right 2: Live date -->
+            <g class="callout-svg-group">
+              <polyline points="1485,602 1305,602 1168,524" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.8" />
+              <circle cx="1168" cy="524" r="5" fill="#FFFFFF" />
+              <circle cx="1168" cy="524" r="11" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" />
+            </g>
+            <!-- Right 3: Brilliant like no other -->
+            <g class="callout-svg-group">
+              <polyline points="1365,824 1245,824 1198,768" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.8" />
+              <circle cx="1198" cy="768" r="5" fill="#FFFFFF" />
+              <circle cx="1198" cy="768" r="11" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" />
+            </g>
+          </svg>
+
+          <!-- 6 Dark Glassmorphic Pill Badges Positioned at the Outer Ends of the 6 SVG Leader Lines -->
+          <div id="callout-pill-1" class="callout-pill-dark absolute left-[12%] md:left-[16.5%] top-[29%] -translate-y-1/2">Oysters</div>
+          <div id="callout-pill-2" class="callout-pill-dark absolute left-[8%] md:left-[12%] top-[50%] -translate-y-1/2">Calibre 3255</div>
+          <div id="callout-pill-3" class="callout-pill-dark absolute left-[10%] md:left-[14.5%] top-[68.3%] -translate-y-1/2">Yellow gold dials</div>
+
+          <div id="callout-pill-4" class="callout-pill-dark absolute right-[9%] md:right-[13.5%] top-[29%] -translate-y-1/2">The President bracelet</div>
+          <div id="callout-pill-5" class="callout-pill-dark absolute right-[11%] md:right-[14.5%] top-[50%] -translate-y-1/2">Live date</div>
+          <div id="callout-pill-6" class="callout-pill-dark absolute right-[9%] md:right-[13.5%] top-[68.3%] -translate-y-1/2">Brilliant like no other</div>
+        </div>
+
+        <!-- ===================================================================
+             STAGE 5 LAYER: "TURNING EVERY DAY INTO A PROMISE FOR THE FUTURE."
+             + EMERALD POLAROID + ANGLED SILVER ROLEX WATCH
+             (Frames z_040.jpg - z_046.jpg)
+             =================================================================== -->
+        <div id="stage5-layer" class="absolute inset-0 z-[20] pointer-events-none opacity-0 flex flex-col items-center justify-center">
+
+          <!-- Subtle Micro-Labels Flanking the Inline Open Rolex Box ("State of the Art" | "Midnight miracle") -->
+          <div id="stage5-micro-labels" class="relative w-full max-w-[1380px] h-0 opacity-0">
+            <span class="absolute left-[27%] sm:left-[30%] -top-[14.5vw] lg:-top-[175px] text-[11px] sm:text-[12.5px] font-medium text-[#555957] tracking-[-0.01em]">
+              State of the Art
+            </span>
+            <span class="absolute right-[31%] sm:right-[34.5%] -top-[14.5vw] lg:-top-[175px] text-[11px] sm:text-[12.5px] font-medium text-[#555957] tracking-[-0.01em]">
+              Midnight miracle
+            </span>
+          </div>
+
+          <!-- 3-Row Distressed Deep Forest Green Typography Block -->
+          <div class="relative w-full max-w-[1520px] px-4 flex flex-col items-center justify-center text-center select-none mt-10">
+
+            <!-- ROW 1: TURNING [Inline Rolex Box Space] EVERY DAY -->
+            <div id="stage5-row1" class="wipe-line-inner flex items-center justify-center gap-[17vw] sm:gap-[15.5vw] md:gap-[14.5vw] rolex-display-title text-[#0B3321] text-[10.8vw] sm:text-[10.2vw] md:text-[9.4vw] leading-[0.92]">
+              <span>TURNING</span>
+              <span>EVERY DAY</span>
+            </div>
+
+            <!-- ROW 2: INTO A PROMISE FOR -->
+            <div id="stage5-row2" class="wipe-line-inner rolex-display-title text-[#0B3321] text-[10.8vw] sm:text-[10.2vw] md:text-[9.4vw] leading-[0.92] mt-[0.03em]">
+              <span>INTO A PROMISE FOR</span>
+            </div>
+
+            <!-- ROW 3: THE [Tilted Emerald Polaroid] FUTURE. -->
+            <div id="stage5-row3" class="wipe-line-inner relative flex items-center justify-center gap-[15vw] sm:gap-[14vw] md:gap-[13.5vw] rolex-display-title text-[#0B3321] text-[10.8vw] sm:text-[10.2vw] md:text-[9.4vw] leading-[0.92] mt-[0.03em]">
+              <span>THE</span>
+              <span>FUTURE.</span>
+            </div>
+
+            <!-- Tilted Emerald Diamond Halo Polaroid Card Docked Between "THE" and "FUTURE." (z_044 - z_046) -->
+            <div
+              id="stage5-emerald-polaroid"
+              class="polaroid-card absolute bottom-[1%] left-[41.8%] -translate-x-1/2 w-[92px] sm:w-[125px] md:w-[154px] p-[5px] pb-[8px] opacity-0 pointer-events-auto"
+              style="transform: translate(-50%, 0) rotate(-11.5deg) scale(0.5);"
+            >
+              <div class="w-full aspect-[600/540] overflow-hidden bg-[#180D10]">
+                <img
+                  src="assets/polaroid_emerald.jpg"
+                  alt="Emerald Diamond Halo Piece"
+                  class="w-full h-full object-cover"
+                  onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=500&q=80';"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom-Right Corner Giant Angled Silver Sunburst / White Gold Rolex Watch (z_043 - z_046) -->
+          <div
+            id="stage5-silver-watch"
+            class="absolute -right-[7%] sm:-right-[5%] -bottom-[18%] sm:-bottom-[22%] w-[300px] sm:w-[420px] md:w-[540px] z-[32] opacity-0 pointer-events-none will-change-transform"
+            style="transform: translate3d(160px, 200px, 0) rotate(-28deg);"
+          >
+            <img
+              src="assets/watch_silver_platinum.png"
+              alt="Rolex Day-Date 40 in 18ct White Gold Silver Sunburst"
+              class="w-full h-auto object-contain drop-shadow-[-18px_24px_38px_rgba(10,22,16,0.32)]"
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=800&q=80';"
+            />
+          </div>
+        </div>
+
+        <!-- ===================================================================
+             INTERACTIVE STAGE PROGRESS PILL DOCK (Bottom Center HUD)
+             Allows instant one-click jumping or scrubbing across all 5 stages
+             =================================================================== -->
+        <div id="rolex-stage-hud" class="absolute bottom-3 left-1/2 -translate-x-1/2 z-[65] hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#161817]/75 backdrop-blur-md border border-white/15 text-white/90 text-[11px] font-mono shadow-lg">
+          <button data-jump-progress="0.02" class="stage-jump-btn px-2.5 py-1 rounded-full hover:bg-white/15 transition-colors text-[#D4AF37] font-semibold">01 Hero</button>
+          <span class="opacity-30">·</span>
+          <button data-jump-progress="0.14" class="stage-jump-btn px-2.5 py-1 rounded-full hover:bg-white/15 transition-colors">01B Polaroids</button>
+          <span class="opacity-30">·</span>
+          <button data-jump-progress="0.30" class="stage-jump-btn px-2.5 py-1 rounded-full hover:bg-white/15 transition-colors">02 Models</button>
+          <span class="opacity-30">·</span>
+          <button data-jump-progress="0.58" class="stage-jump-btn px-2.5 py-1 rounded-full hover:bg-white/15 transition-colors">03 Macro</button>
+          <span class="opacity-30">·</span>
+          <button data-jump-progress="0.75" class="stage-jump-btn px-2.5 py-1 rounded-full hover:bg-white/15 transition-colors">04 Box</button>
+          <span class="opacity-30">·</span>
+          <button data-jump-progress="0.97" class="stage-jump-btn px-2.5 py-1 rounded-full hover:bg-white/15 transition-colors">05 Finale</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SECTION 6: CALIBRE 3255 EXPLODED HOROLOGY ARCHITECTURE & CROWN SIMULATOR
+       (Synthesized from Asura Vault: igloo.inc + spline.design Blueprint)
+       ========================================================================= -->
+  <section id="calibre-exploded-section" class="relative py-24 md:py-32 px-6 md:px-14 bg-[#0B291C] text-[#F2EDE6] overflow-hidden border-t border-[#D4AF37]/25">
+    <!-- Ambient Backlight -->
+    <div class="absolute -top-40 left-1/3 w-[520px] h-[520px] rounded-full bg-[#135B3B]/35 blur-[110px] pointer-events-none"></div>
+    <div class="absolute bottom-0 right-10 w-[420px] h-[420px] rounded-full bg-[#D4AF37]/10 blur-[100px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto relative z-10">
+      <!-- 4-Corner Monospace HUD Telemetry Header -->
+      <div class="flex flex-wrap items-center justify-between gap-4 pb-6 mb-12 border-b border-white/15 font-mono text-xs uppercase tracking-[0.2em] text-[#7FA392]">
+        <span>[SYS.HOROLOGY // CALIBRE 3255 MANUFACTURE]</span>
+        <span class="text-[#D4AF37]">PRECISION: -2/+2 SEC/DAY AFTER CASING</span>
+        <span>FREQUENCY: 28,800 BPH (4 HZ)</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Left 5 Cols: Interactive Crown Winding & Subsystem Controls -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-[#D4AF37] font-mono text-xs uppercase tracking-widest">
+            <span>Superlative Chronometer Engineering</span>
+          </div>
+          <h2 class="rolex-display-clean text-5xl sm:text-6xl md:text-7xl text-[#F2EDE6] leading-[0.9]">
+            CALIBRE 3255 <span class="text-[#D4AF37] block">PERPETUAL HEART.</span>
+          </h2>
+          <p class="text-[#F2EDE6]/80 text-base leading-relaxed">
+            Entirely developed and manufactured by Rolex, the Calibre 3255 self-winding mechanical movement led to the filing of 14 patents. Featuring the patented Chronergy escapement and paramagnetic blue Parachrom hairspring, it delivers fundamental gains in precision, 70-hour power reserve, and resistance to shocks and magnetic fields.
+          </p>
+
+          <!-- Interactive Crown Winding Power Reserve Simulator -->
+          <div class="p-6 rounded-2xl bg-[#071C13]/90 border border-[#D4AF37]/30 space-y-4 shadow-xl">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-xs uppercase tracking-widest text-[#7FA392]">Mainspring Barrel Reserve</span>
+              <span id="power-reserve-readout" class="font-mono text-lg font-bold text-[#D4AF37]">70 HOURS (100%)</span>
+            </div>
+            <div class="w-full h-3 rounded-full bg-white/10 overflow-hidden p-0.5">
+              <div id="power-reserve-bar" class="h-full rounded-full bg-gradient-to-r from-[#135B3B] via-[#D4AF37] to-[#FFF2B2] transition-all duration-300" style="width: 100%;"></div>
+            </div>
+            <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+              <button id="wind-crown-btn" type="button" class="px-5 py-2.5 rounded-full bg-[#D4AF37] hover:bg-[#e3be42] text-[#071C13] font-semibold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-md">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+                <span>Wind Twinlock Crown (+15h)</span>
+              </button>
+              <button id="toggle-explode-btn" type="button" class="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-mono text-xs uppercase tracking-wider border border-white/20 transition-all">
+                Toggle Exploded View
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 Subsystem Layer Selector Pills -->
+          <div class="grid grid-cols-2 gap-3 pt-2">
+            <button data-layer="0" class="calibre-layer-btn text-left p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-[#D4AF37]/40 transition-all">
+              <span class="font-mono text-[11px] text-[#D4AF37] block">01 // OSCILLATOR</span>
+              <span class="font-semibold text-sm text-white">Blue Parachrom</span>
+            </button>
+            <button data-layer="1" class="calibre-layer-btn text-left p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all">
+              <span class="font-mono text-[11px] text-[#7FA392] block">02 // ESCAPEMENT</span>
+              <span class="font-semibold text-sm text-white">Chronergy Nickel-Phos</span>
+            </button>
+            <button data-layer="2" class="calibre-layer-btn text-left p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all">
+              <span class="font-mono text-[11px] text-[#7FA392] block">03 // CALENDAR</span>
+              <span class="font-semibold text-sm text-white">Instantaneous Day-Date</span>
+            </button>
+            <button data-layer="3" class="calibre-layer-btn text-left p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all">
+              <span class="font-mono text-[11px] text-[#7FA392] block">04 // WINDING</span>
+              <span class="font-semibold text-sm text-white">Monobloc Perpetual Rotor</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right 7 Cols: Interactive 3D Exploded Horology Assembly Stage -->
+        <div class="lg:col-span-7">
+          <div id="exploded-stage-card" class="relative rounded-3xl bg-gradient-to-br from-[#103826] to-[#061810] border border-white/15 p-8 md:p-12 shadow-2xl overflow-hidden min-h-[520px] flex flex-col justify-between">
+            <!-- Technical Blueprint Grid Overlay -->
+            <div class="absolute inset-0 opacity-15 pointer-events-none" style="background-image: linear-gradient(to right, rgba(212,175,55,0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(212,175,55,0.2) 1px, transparent 1px); background-size: 36px 36px;"></div>
+
+            <div class="relative z-10 flex items-center justify-between text-xs font-mono text-[#7FA392]">
+              <span>DIAMETER: 28.50 MM // JEWELS: 31 RUBIES</span>
+              <span id="active-layer-badge" class="px-3 py-1 rounded-full bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/40">STATE: ASSEMBLED CHRONOMETER</span>
+            </div>
+
+            <!-- Interactive 3-Layer 3D Exploded Stack -->
+            <div id="exploded-stack" class="relative z-10 my-8 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8">
+              <!-- Layer A: Fluted Bezel & Oyster Case -->
+              <div class="exploded-node tilt-card-3d w-44 h-44 rounded-2xl bg-[#0B2418]/90 border border-[#D4AF37]/35 p-3 flex flex-col items-center justify-between shadow-xl transition-transform duration-700">
+                <img src="assets/polaroid_bezel.jpg" alt="18ct Gold Fluted Bezel" class="w-28 h-28 object-cover rounded-xl" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=400&q=80';" />
+                <span class="font-mono text-[11px] uppercase tracking-wider text-[#D4AF37]">01. Fluted Bezel Ring</span>
+              </div>
+
+              <!-- Layer B: Ombré Emerald Sunray Dial & 18ct Gold Hands -->
+              <div class="exploded-node tilt-card-3d w-52 h-52 rounded-2xl bg-[#0B2418]/90 border border-[#D4AF37]/50 p-3 flex flex-col items-center justify-between shadow-2xl transition-transform duration-700">
+                <img src="assets/watch_green_gold.png" alt="Emerald Sunray Dial" class="w-36 h-36 object-contain" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=400&q=80';" />
+                <span class="font-mono text-[11px] uppercase tracking-wider text-white">02. Day-Date 40 Case</span>
+              </div>
+
+              <!-- Layer C: Calibre 3255 Perpetual Movement -->
+              <div class="exploded-node tilt-card-3d w-44 h-44 rounded-2xl bg-[#0B2418]/90 border border-[#D4AF37]/35 p-3 flex flex-col items-center justify-between shadow-xl transition-transform duration-700">
+                <img src="assets/polaroid_calibre.jpg" alt="Calibre 3255 Movement" class="w-28 h-28 object-cover rounded-xl" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=400&q=80';" />
+                <span class="font-mono text-[11px] uppercase tracking-wider text-[#D4AF37]">03. Calibre 3255 Core</span>
+              </div>
+            </div>
+
+            <div id="calibre-spec-detail" class="relative z-10 p-4 rounded-xl bg-black/35 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <p id="calibre-detail-title" class="text-sm font-bold text-[#D4AF37]">Paramagnetic Blue Parachrom Hairspring</p>
+                <p id="calibre-detail-desc" class="text-xs text-[#F2EDE6]/75 mt-0.5">Manufactured from a paramagnetic niobium-zirconium alloy, up to 10 times more precise than a traditional hairspring in case of shocks.</p>
+              </div>
+              <span class="font-mono text-xs text-[#7FA392] shrink-0">PATENT CH-709214</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SECTION 7: 3D PERSPECTIVE COVERFLOW ARCHIVE & HOROLOGY BENTO
+       (Synthesized from Asura Vault: inkwell.tech + ovo-campione Blueprint)
+       ========================================================================= -->
+  <section id="coverflow-archive-section" class="relative py-24 md:py-32 px-6 md:px-14 alabaster-studio-bg text-[#161817] border-t border-[#161817]/10">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+        <div>
+          <p class="font-mono text-xs uppercase tracking-[0.2em] text-[#0D5938] font-semibold mb-2">Geneva Reference Vault // Day-Date Collection</p>
+          <h2 class="rolex-display-clean text-5xl sm:text-6xl md:text-7xl text-[#0B3321]">
+            PRESTIGE <span class="text-[#7FA392]">REFERENCES.</span>
+          </h2>
+        </div>
+        <div class="flex items-center gap-3">
+          <button id="coverflow-prev" type="button" class="w-11 h-11 rounded-full bg-white border border-black/15 hover:bg-[#0D5938] hover:text-white flex items-center justify-center transition-all shadow-sm" aria-label="Previous Reference">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button id="coverflow-next" type="button" class="w-11 h-11 rounded-full bg-white border border-black/15 hover:bg-[#0D5938] hover:text-white flex items-center justify-center transition-all shadow-sm" aria-label="Next Reference">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- 4-Card 3D Perspective Horology Showcase Grid -->
+      <div id="reference-bento-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Reference 1 -->
+        <div class="ref-tilt-card group bg-white rounded-2xl p-6 border border-black/10 shadow-[0_18px_40px_rgba(12,28,18,0.06)] hover:shadow-[0_26px_60px_rgba(13,89,56,0.16)] transition-all duration-500 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between text-[11px] font-mono text-[#767A78] mb-3">
+              <span>REF. 228238-0061</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-[#0D5938]/10 text-[#0D5938] font-semibold">Model-04</span>
+            </div>
+            <div class="h-64 rounded-xl bg-[#F2EDE6] flex items-center justify-center p-4 overflow-hidden">
+              <img src="assets/cushion_watch_green.png" alt="Rolex Day-Date 40 Emerald Green" class="h-full w-auto object-contain group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&q=80';" />
+            </div>
+            <h3 class="text-lg font-bold text-[#161817] mt-4">Green Oysters &amp; Yellow Gold</h3>
+            <p class="text-xs text-[#767A78] mt-1">Oyster, 40 mm, 18 ct yellow gold, fluted bezel, President bracelet.</p>
+          </div>
+          <div class="mt-5 pt-4 border-t border-black/10 flex items-center justify-between">
+            <span class="font-mono text-sm font-bold text-[#0D5938]">$7,850.00</span>
+            <button data-select-Watch="green" class="inspect-in-stage-btn text-xs font-semibold text-[#161817] hover:text-[#0D5938] flex items-center gap-1">
+              <span>Load on Cushion</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Reference 2 -->
+        <div class="ref-tilt-card group bg-white rounded-2xl p-6 border border-black/10 shadow-[0_18px_40px_rgba(12,28,18,0.06)] hover:shadow-[0_26px_60px_rgba(13,89,56,0.16)] transition-all duration-500 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between text-[11px] font-mono text-[#767A78] mb-3">
+              <span>REF. 128155-0018</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-[#0D5938]/10 text-[#0D5938] font-semibold">Model-02</span>
+            </div>
+            <div class="h-64 rounded-xl bg-[#F2EDE6] flex items-center justify-center p-4 overflow-hidden">
+              <img src="assets/cushion_watch_brown.png" alt="Rolex Day-Date Leather & Diamonds" class="h-full w-auto object-contain group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=600&q=80';" />
+            </div>
+            <h3 class="text-lg font-bold text-[#161817] mt-4">Leather &amp; Diamonds</h3>
+            <p class="text-xs text-[#767A78] mt-1">Oyster, 36 mm, 18 ct Everose gold, chocolate dial with diamonds &amp; rubies.</p>
+          </div>
+          <div class="mt-5 pt-4 border-t border-black/10 flex items-center justify-between">
+            <span class="font-mono text-sm font-bold text-[#0D5938]">$6,999.00</span>
+            <button data-select-watch="brown" class="inspect-in-stage-btn text-xs font-semibold text-[#161817] hover:text-[#0D5938] flex items-center gap-1">
+              <span>Load on Cushion</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Reference 3 -->
+        <div class="ref-tilt-card group bg-white rounded-2xl p-6 border border-black/10 shadow-[0_18px_40px_rgba(12,28,18,0.06)] hover:shadow-[0_26px_60px_rgba(13,89,56,0.16)] transition-all duration-500 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between text-[11px] font-mono text-[#767A78] mb-3">
+              <span>REF. 228238-0006</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-[#0D5938]/10 text-[#0D5938] font-semibold">Model-03</span>
+            </div>
+            <div class="h-64 rounded-xl bg-[#F2EDE6] flex items-center justify-center p-4 overflow-hidden">
+              <img src="assets/cushion_watch_yellow_black.png" alt="Rolex Day-Date Yellow Gold & Diamonds" class="h-full w-auto object-contain group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&w=600&q=80';" />
+            </div>
+            <h3 class="text-lg font-bold text-[#161817] mt-4">Yellow Gold &amp; Diamonds</h3>
+            <p class="text-xs text-[#767A78] mt-1">Oyster, 40 mm, 18 ct yellow gold, bright black dial set with 10 baguette diamonds.</p>
+          </div>
+          <div class="mt-5 pt-4 border-t border-black/10 flex items-center justify-between">
+            <span class="font-mono text-sm font-bold text-[#0D5938]">$3,449.00</span>
+            <button data-select-watch="yellow_black" class="inspect-in-stage-btn text-xs font-semibold text-[#161817] hover:text-[#0D5938] flex items-center gap-1">
+              <span>Load on Cushion</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Reference 4 -->
+        <div class="ref-tilt-card group bg-white rounded-2xl p-6 border border-black/10 shadow-[0_18px_40px_rgba(12,28,18,0.06)] hover:shadow-[0_26px_60px_rgba(13,89,56,0.16)] transition-all duration-500 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between text-[11px] font-mono text-[#767A78] mb-3">
+              <span>REF. 228239-0033</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-[#0D5938]/10 text-[#0D5938] font-semibold">Model-01</span>
+            </div>
+            <div class="h-64 rounded-xl bg-[#F2EDE6] flex items-center justify-center p-4 overflow-hidden">
+              <img src="assets/cushion_watch_white_gold.png" alt="Rolex Day-Date White Gold & Oysters" class="h-full w-auto object-contain group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=600&q=80';" />
+            </div>
+            <h3 class="text-lg font-bold text-[#161817] mt-4">White Gold &amp; Oysters</h3>
+            <p class="text-xs text-[#767A78] mt-1">Oyster, 40 mm, 18 ct white gold, rhodium &amp; obsidian sunray dial, fluted bezel.</p>
+          </div>
+          <div class="mt-5 pt-4 border-t border-black/10 flex items-center justify-between">
+            <span class="font-mono text-sm font-bold text-[#0D5938]">$8,977.00</span>
+            <button data-select-watch="white_gold" class="inspect-in-stage-btn text-xs font-semibold text-[#161817] hover:text-[#0D5938] flex items-center gap-1">
+              <span>Load on Cushion</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SECTION 8: GENEVA COSC SUPERLATIVE CHRONOMETER CERTIFICATE PRINTER
+       (Synthesized from Asura Vault: lab.xevrion.dev/lab Thermal Dossier Blueprint)
+       ========================================================================= -->
+  <section id="cosc-certificate-section" class="relative py-24 md:py-32 px-6 md:px-14 bg-[#0B3321] text-[#F2EDE6] border-t border-[#D4AF37]/25">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+
+      <!-- Left 6 Cols: Private Geneva Boutique Allocation Form -->
+      <div class="lg:col-span-6 space-y-6">
+        <span class="inline-block font-mono text-xs uppercase tracking-[0.2em] text-[#D4AF37]">Official Geneva Chronometer Dossier</span>
+        <h2 class="rolex-display-clean text-5xl sm:text-6xl text-white leading-[0.9]">
+          REQUEST PRIVATE <span class="text-[#D4AF37] block">SALON ALLOCATION.</span>
+        </h2>
+        <p class="text-sm text-[#F2EDE6]/80 leading-relaxed">
+          Select your preferred Oyster Perpetual Day-Date configuration below to generate an official serialized Geneva Superlative Chronometer (COSC) allocation certificate.
+        </p>
+
+        <form id="cosc-allocation-form" class="space-y-4 bg-[#072015] p-6 md:p-8 rounded-2xl border border-white/15">
+          <div>
+            <label for="client-name-input" class="block font-mono text-[11px] uppercase tracking-wider text-[#7FA392] mb-1.5">Collector Name / Inscription</label>
+            <input
+              id="client-name-input"
+              type="text"
+              value="A. VANDERBILT // GENEVA"
+              class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/15 text-white text-sm font-mono focus:outline-none focus:border-[#D4AF37]"
+              required
+            />
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="client-ref-select" class="block font-mono text-[11px] uppercase tracking-wider text-[#7FA392] mb-1.5">Reference Model</label>
+              <select
+                id="client-ref-select"
+                class="w-full px-4 py-3 rounded-xl bg-[#0B3321] border border-white/15 text-white text-sm font-mono focus:outline-none focus:border-[#D4AF37]"
+              >
+                <option value="REF. 228238 // GREEN OYSTERS ($7,850)">Ref. 228238 — Green Oysters</option>
+                <option value="REF. 128155 // LEATHER & DIAMONDS ($6,999)">Ref. 128155 — Leather &amp; Diamonds</option>
+                <option value="REF. 228238 // YELLOW GOLD & DIAMONDS ($3,449)">Ref. 228238 — Yellow Gold &amp; Diamonds</option>
+                <option value="REF. 228239 // WHITE GOLD & OYSTERS ($8,977)">Ref. 228239 — White Gold &amp; Oysters</option>
+              </select>
+            </div>
+            <div>
+              <label for="client-boutique-select" class="block font-mono text-[11px] uppercase tracking-wider text-[#7FA392] mb-1.5">Salon Destination</label>
+              <select
+                id="client-boutique-select"
+                class="w-full px-4 py-3 rounded-xl bg-[#0B3321] border border-white/15 text-white text-sm font-mono focus:outline-none focus:border-[#D4AF37]"
+              >
+                <option value="RUE DU RHÔNE 42, GENEVA">Rue du Rhône 42, Geneva</option>
+                <option value="PLACE VENDÔME, PARIS">Place Vendôme, Paris</option>
+                <option value="NEW BOND STREET, LONDON">New Bond Street, London</option>
+                <option value="FIFTH AVENUE, NEW YORK">Fifth Avenue, New York</option>
+              </select>
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="w-full py-3.5 px-6 rounded-full bg-[#D4AF37] hover:bg-[#e4bf47] text-[#072015] font-bold text-xs font-mono uppercase tracking-[0.18em] transition-all shadow-lg"
+          >
+            Extrude COSC Chronometer Certificate
+          </button>
+        </form>
+      </div>
+
+      <!-- Right 6 Cols: Tactile Extruding Perforated COSC Certificate Printer -->
+      <div class="lg:col-span-6 flex flex-col items-center">
+        <!-- Printer Slot Housing -->
+        <div class="w-full max-w-md h-5 rounded-full bg-[#04140D] border border-[#D4AF37]/40 shadow-inner flex items-center justify-center px-6">
+          <div class="w-full h-1.5 bg-black rounded-full"></div>
+        </div>
+
+        <!-- Extruded Paper Certificate -->
+        <div id="cosc-receipt-card" class="w-[92%] max-w-md bg-[#FAF6F0] text-[#161817] p-6 md:p-8 shadow-2xl border-x border-b border-black/15 transition-all duration-500 origin-top">
+          <div class="flex items-center justify-between border-b border-dashed border-black/25 pb-4">
+            <div>
+              <p class="font-mono text-[10px] uppercase tracking-widest text-[#0D5938] font-bold">CONTRÔLE OFFICIEL SUISSE DES CHRONOMÈTRES</p>
+              <p class="font-bold text-base mt-0.5">ROLEX GENEVA — DAY-DATE 40</p>
+            </div>
+            <span class="px-2.5 py-1 rounded bg-[#0D5938] text-white font-mono text-[10px] font-bold">COSC PASSED</span>
+          </div>
+
+          <div class="my-5 space-y-2.5 font-mono text-xs">
+            <div class="flex justify-between">
+              <span class="text-[#767A78]">COLLECTOR:</span>
+              <span id="cert-collector" class="font-bold">A. VANDERBILT // GENEVA</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#767A78]">REFERENCE:</span>
+              <span id="cert-ref" class="font-bold text-[#0D5938]">REF. 228238 // GREEN OYSTERS ($7,850)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#767A78]">SALON:</span>
+              <span id="cert-salon" class="font-semibold">RUE DU RHÔNE 42, GENEVA</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#767A78]">MOVEMENT:</span>
+              <span>CALIBRE 3255 (14 PATENTS)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#767A78]">MEAN DAILY RATE:</span>
+              <span class="text-[#0D5938] font-bold">+0.4 SEC/DAY (SUPERLATIVE)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#767A78]">WATERPROOFNESS:</span>
+              <span>100 METRES / 330 FEET (TWINLOCK)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#767A78]">SERIAL DOSSIER:</span>
+              <span id="cert-serial">RLX-DD40-894210-GVA</span>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-dashed border-black/25 flex items-center justify-between">
+            <div class="font-mono text-[10px] text-[#767A78]">
+              SEAL: GREEN SUPERLATIVE SEAL<br />
+              GUARANTEE: 5-YEAR INTERNATIONAL
+            </div>
+            <button id="tear-certificate-btn" type="button" class="px-3.5 py-1.5 rounded-full bg-[#161817] hover:bg-[#0D5938] text-white font-mono text-[10px] uppercase tracking-wider transition-colors">
+              Detach Copy
+            </button>
+          </div>
+        </div>
+        <div class="w-[92%] max-w-md h-3 perforated-edge"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-10 px-6 md:px-14 bg-[#071F14] text-[#7FA392] border-t border-white/10 font-mono text-xs">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <span class="w-2 h-2 rounded-full bg-[#D4AF37]"></span>
+        <span class="text-white font-semibold">ROLEX OYSTER PERPETUAL DAY-DATE 40</span>
+      </div>
+      <div>TURNING EVERY DAY INTO A PROMISE FOR THE FUTURE.</div>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       MASTER INTERACTIVE & GSAP SCROLLTRIGGER 5-STAGE CHOREOGRAPHY ENGINE
+       ========================================================================= -->
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 1. Initialize Lenis Smooth Inertia Scrolling
+    const lenis = new Lenis({
+      duration: 1.15,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true
+    });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+
+    // 2. Live 28,800 BPH (8 ticks/sec) Mechanical Sweeping Second Hand
+    const secondHandEl = document.getElementById('rolex-live-second-hand');
+    let sweepAngle = 186; // Starts near 6 o'clock like the reference frame
+    function animateMechanicalSweep() {
+      sweepAngle = (sweepAngle + 0.18) % 360;
+      if (secondHandEl) {
+        secondHandEl.style.transform = `rotate(${sweepAngle.toFixed(2)}deg)`;
+      }
+      requestAnimationFrame(animateMechanicalSweep);
+    }
+    requestAnimationFrame(animateMechanicalSweep);
+
+    // 3. Model Switcher State Machine (Stage 2 Interactive Cushion & Orbiting Pills)
+    const MODELS = {
+      green: {
+        id: 'green',
+        pills: ['Model-04', 'Day Date', 'Green Oysters', 'Yellow Gold'],
+        cushionImgId: 'cushion-img-green',
+        trackOffsetIndex: 0
+      },
+      brown: {
+        id: 'brown',
+        pills: ['Model-02', 'Day Date', 'Brown Oysters', 'Brown Straps'],
+        cushionImgId: 'cushion-img-brown',
+        trackOffsetIndex: 1
+      },
+      yellow_black: {
+        id: 'yellow_black',
+        pills: ['Model-03', 'Day Date', 'Black Diamonds', 'Yellow Gold'],
+        cushionImgId: 'cushion-img-yellow-black',
+        trackOffsetIndex: 1
+      },
+      white_gold: {
+        id: 'white_gold',
+        pills: ['Model-01', 'Day Date', 'White Gold', 'Oysters Perpetual'],
+        cushionImgId: 'cushion-img-white-gold',
+        trackOffsetIndex: 2
+      }
+    };
+
+    const modelOrder = ['green', 'brown', 'yellow_black', 'white_gold'];
+    let activeModelKey = 'green';
+    let userOverrodeModel = false;
+
+    const pillTL = document.getElementById('pill-tl');
+    const pillTR = document.getElementById('pill-tr');
+    const pillBL = document.getElementById('pill-bl');
+    const pillBR = document.getElementById('pill-br');
+    const cardsTrack = document.getElementById('stage2-cards-track');
+    const allProductCards = document.querySelectorAll('.model-product-card');
+
+    function switchWatchModel(targetKey, isManual = false) {
+      if (!MODELS[targetKey] || activeModelKey === targetKey) return;
+      if (isManual) userOverrodeModel = true;
+      activeModelKey = targetKey;
+      const cfg = MODELS[targetKey];
+
+      // 1. Cross-fade watch on the black pebble-leather cushion
+      ['cushion-img-green', 'cushion-img-brown', 'cushion-img-yellow-black', 'cushion-img-white-gold'].forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (id === cfg.cushionImgId) {
+          el.style.opacity = '1';
+          el.style.transform = 'scale(1) rotate(0deg)';
+        } else {
+          el.style.opacity = '0';
+          el.style.transform = 'scale(0.94) rotate(2deg)';
+        }
+      });
+
+      // 2. Tilt the product cards by -5deg during horizontal slide (exact match to z_015.jpg)
+      const shiftPx = cfg.trackOffsetIndex * 255;
+      allProductCards.forEach((c) => {
+        c.classList.toggle('active-card', c.dataset.modelKey === targetKey);
+        c.style.transform = 'rotate(-5deg) scale(0.96)';
+      });
+      if (cardsTrack) {
+        cardsTrack.style.transform = `translate3d(-${shiftPx}px, 0, 0)`;
+      }
+      setTimeout(() => {
+        allProductCards.forEach((c) => {
+          c.style.transform = 'rotate(0deg) scale(1)';
+        });
+      }, 420);
+
+      // 3. Animate the 4 orbiting oval pill badges around the cushion
+      const pills = [pillTL, pillTR, pillBL, pillBR];
+      pills.forEach((p, idx) => {
+        if (!p) return;
+        gsap.fromTo(
+          p,
+          { scale: 0.82, opacity: 0.4, y: 6 },
+          {
+            scale: 1,
+            opacity: 1,
+            y: 0,
+            duration: 0.38,
+            delay: idx * 0.04,
+            ease: 'back.out(1.8)',
+            onStart: () => {
+              p.textContent = cfg.pills[idx];
+            }
+          }
+        );
+      });
+    }
+
+    // Bind Next Arrow button & individual Product Cards in Stage 2
+    const nextBtn = document.getElementById('stage2-next-btn');
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        const nextIdx = (modelOrder.indexOf(activeModelKey) + 1) % modelOrder.length;
+        switchWatchModel(modelOrder[nextIdx], true);
+      });
+    }
+    allProductCards.forEach((card) => {
+      card.addEventListener('click', () => {
+        const key = card.dataset.modelKey;
+        if (key) switchWatchModel(key, true);
+      });
+    });
+
+    // Bind "Load on Cushion" buttons in Section 7 Reference Archive
+    document.querySelectorAll('.inspect-in-stage-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const targetWatch = btn.getAttribute('data-select-watch') || 'green';
+        const trackEl = document.getElementById('rolex-scroll-track');
+        if (trackEl) {
+          const targetScroll = trackEl.offsetTop + (trackEl.offsetHeight - window.innerHeight) * 0.32;
+          lenis.scrollTo(targetScroll, { duration: 1.2 });
+          setTimeout(() => switchWatchModel(targetWatch, true), 450);
+        }
+      });
+    });
+
+    // 4. Master 5-Stage Continuous 3D Scroll Choreography State Machine
+    const masterWatch = document.getElementById('master-watch-actor');
+    const soloWatchImg = document.getElementById('actor-solo-watch');
+    const cushionLayer = document.getElementById('actor-cushion-layer');
+    const rolexBoxActor = document.getElementById('rolex-box-actor');
+
+    const stage1Layer = document.getElementById('stage1-layer');
+    const stage1Headline = document.getElementById('stage1-headline-wrap');
+    const stage1PolLeft = document.getElementById('stage1-polaroid-left');
+    const stage1PolRight = document.getElementById('stage1-polaroid-right');
+    const stage1PillLeft = document.getElementById('stage1-pill-left');
+    const stage1PillRight = document.getElementById('stage1-pill-right');
+    const stage1BottomBar = document.getElementById('stage1-bottom-attributes');
+
+    const stage2Layer = document.getElementById('stage2-layer');
+    const stage2RightCol = document.getElementById('stage2-right-col');
+    const stage2OrbitPills = document.getElementById('stage2-orbit-pills');
+
+    const stage3Backdrop = document.getElementById('stage3-dark-backdrop');
+    const stage3Callouts = document.getElementById('stage3-callouts-layer');
+
+    const stage5Layer = document.getElementById('stage5-layer');
+    const stage5Row1 = document.getElementById('stage5-row1');
+    const stage5Row2 = document.getElementById('stage5-row2');
+    const stage5Row3 = document.getElementById('stage5-row3');
+    const stage5MicroLabels = document.getElementById('stage5-micro-labels');
+    const stage5EmeraldPol = document.getElementById('stage5-emerald-polaroid');
+    const stage5SilverWatch = document.getElementById('stage5-silver-watch');
+
+    const navbar = document.getElementById('rolex-navbar');
+    const navMenuLabel = document.getElementById('nav-menu-label');
+    const navSearchBtn = document.getElementById('nav-search-btn');
+    const navBarLines = document.querySelectorAll('.nav-bar-line');
+
+    function clamp01(v) {
+      return Math.max(0, Math.min(1, v));
+    }
+    function mapRange(p, inMin, inMax) {
+      return clamp01((p - inMin) / (inMax - inMin));
+    }
+    function lerp(a, b, t) {
+      return a + (b - a) * t;
+    }
+    function easeInOutCubic(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function renderRolexScrollState(p) {
+      const isMobile = window.innerWidth < 1024;
+
+      // =======================================================================
+      // A. STAGE 1 (0.00 -> 0.22): HERO "OYSTERS PERPETUAL" & FLOATING POLAROIDS
+      // =======================================================================
+      const s1PolaroidIn = easeInOutCubic(mapRange(p, 0.05, 0.13));
+      const s1Exit = easeInOutCubic(mapRange(p, 0.17, 0.25));
+
+      if (stage1Layer) {
+        stage1Layer.style.opacity = String(1 - s1Exit);
+        stage1Layer.style.transform = `translate3d(0, ${-s1Exit * 140}px, 0)`;
+        stage1Layer.style.visibility = s1Exit >= 0.99 ? 'hidden' : 'visible';
+      }
+
+      if (stage1PolLeft) {
+        const plAlpha = s1PolaroidIn * (1 - s1Exit);
+        const plY = lerp(90, 0, s1PolaroidIn) - s1Exit * 120;
+        const plRot = lerp(-16, -6.2, s1PolaroidIn);
+        stage1PolLeft.style.opacity = String(plAlpha);
+        stage1PolLeft.style.transform = `translate3d(0, ${plY}px, 0) rotate(${plRot}deg)`;
+      }
+
+      if (stage1PolRight) {
+        const prAlpha = s1PolaroidIn * (1 - s1Exit);
+        const prY = lerp(110, 0, s1PolaroidIn) - s1Exit * 120;
+        const prRot = lerp(16, 6.2, s1PolaroidIn);
+        stage1PolRight.style.opacity = String(prAlpha);
+        stage1PolRight.style.transform = `translate3d(0, ${prY}px, 0) rotate(${prRot}deg)`;
+      }
+
+      if (stage1PillLeft && stage1PillRight) {
+        stage1PillLeft.style.opacity = String(s1PolaroidIn);
+        stage1PillLeft.style.transform = `rotate(3.5deg) scale(${lerp(0.75, 1, s1PolaroidIn)})`;
+        stage1PillRight.style.opacity = String(s1PolaroidIn);
+        stage1PillRight.style.transform = `rotate(-5.5deg) scale(${lerp(0.75, 1, s1PolaroidIn)})`;
+      }
+
+      // =======================================================================
+      // B. STAGE 2 (0.20 -> 0.47): "PURE BRILLIANCE" & CUSHION MODEL SWITCHER
+      // =======================================================================
+      const s2Enter = easeInOutCubic(mapRange(p, 0.19, 0.26));
+      const s2Exit = easeInOutCubic(mapRange(p, 0.43, 0.50));
+      const s2Vis = s2Enter * (1 - s2Exit);
+
+      if (stage2Layer) {
+        stage2Layer.style.opacity = String(s2Vis);
+        stage2Layer.style.visibility = s2Vis <= 0.01 ? 'hidden' : 'visible';
+      }
+      if (stage2RightCol) {
+        const rightX = lerp(90, 0, s2Enter) + s2Exit * 160;
+        stage2RightCol.style.transform = `translate3d(${rightX}px, 0, 0)`;
+      }
+      if (stage2OrbitPills) {
+        const pillPop = easeInOutCubic(mapRange(p, 0.23, 0.28)) * (1 - easeInOutCubic(mapRange(p, 0.42, 0.47)));
+        stage2OrbitPills.style.opacity = String(pillPop);
+        stage2OrbitPills.style.transform = `scale(${lerp(0.92, 1, pillPop)})`;
+      }
+
+      // Automatic scroll-driven model switch inside Stage 2 (matches z_012 -> z_019 -> z_025)
+      if (!userOverrodeModel && p >= 0.22 && p <= 0.45) {
+        if (p >= 0.32 && p <= 0.39) {
+          switchWatchModel('brown', false);
+        } else {
+          switchWatchModel('green', false);
+        }
+      } else if (p > 0.46 && activeModelKey !== 'green') {
+        switchWatchModel('green', false);
+      }
+
+      // =======================================================================
+      // C. STAGE 3 (0.46 -> 0.69): 2.6x MACRO DIAL ZOOM & 6 SVG CALLOUTS
+      // =======================================================================
+      const s3ZoomIn = easeInOutCubic(mapRange(p, 0.45, 0.53));
+      const s3ZoomOut = easeInOutCubic(mapRange(p, 0.66, 0.74));
+      const s3Active = s3ZoomIn * (1 - s3ZoomOut);
+
+      if (stage3Backdrop) {
+        stage3Backdrop.style.opacity = String(s3Active);
+      }
+
+      const s3CalloutsIn = easeInOutCubic(mapRange(p, 0.52, 0.57));
+      const s3CalloutsOut = easeInOutCubic(mapRange(p, 0.64, 0.68));
+      const s3CalloutsAlpha = s3CalloutsIn * (1 - s3CalloutsOut);
+
+      if (stage3Callouts) {
+        stage3Callouts.style.opacity = String(s3CalloutsAlpha);
+        stage3Callouts.style.transform = `scale(${lerp(0.95, 1, s3CalloutsAlpha)})`;
+        stage3Callouts.style.visibility = s3CalloutsAlpha <= 0.01 ? 'hidden' : 'visible';
+      }
+
+      // Adaptive Navbar contrast for Stage 3 Dark Leather Zoom
+      const isDarkStage = s3Active > 0.5;
+      if (navMenuLabel) navMenuLabel.style.color = isDarkStage ? '#FFFFFF' : '#161817';
+      if (navSearchBtn) navSearchBtn.style.color = isDarkStage ? '#FFFFFF' : '#161817';
+      navBarLines.forEach((line) => {
+        line.style.backgroundColor = isDarkStage ? '#FFFFFF' : '#161817';
+      });
+      if (navbar) {
+        navbar.style.borderColor = isDarkStage ? 'rgba(255,255,255,0.12)' : 'rgba(22,24,23,0.10)';
+        navbar.style.backgroundColor = isDarkStage ? 'rgba(18,18,20,0.35)' : 'transparent';
+      }
+
+      // =======================================================================
+      // D. MASTER WATCH & CUSHION POSITION / SCALE / ROTATION ACROSS STAGES 1-4
+      // =======================================================================
+      // Stage 1: center (0vw, 0vh), rotate(-6deg), scale(1.0)
+      // Stage 2: left (-21.5vw on desktop, 0vw on mobile), rotate(0deg), scale(0.98)
+      // Stage 3: center (0vw, 2vh), rotate(0deg), scale(2.42)
+      // Stage 4: center (0vw, 4vh), scale(0.46) docking inside the Open Rolex Green Box!
+      const toStage2 = easeInOutCubic(mapRange(p, 0.18, 0.26));
+      const toStage3 = easeInOutCubic(mapRange(p, 0.45, 0.53));
+      const toStage4 = easeInOutCubic(mapRange(p, 0.66, 0.75));
+      const toStage5 = easeInOutCubic(mapRange(p, 0.80, 0.88));
+
+      const stage2OffsetX = isMobile ? 0 : -21.5;
+      const stage2OffsetY = isMobile ? -14 : 1;
+
+      let watchXvw = lerp(0, stage2OffsetX, toStage2);
+      watchXvw = lerp(watchXvw, 0, toStage3);
+
+      let watchYvh = lerp(0, stage2OffsetY, toStage2);
+      watchYvh = lerp(watchYvh, 2, toStage3);
+      watchYvh = lerp(watchYvh, 5.5, toStage4);
+
+      let watchRot = lerp(-6.2, 0, toStage2);
+
+      let watchScale = lerp(1.0, 0.98, toStage2);
+      watchScale = lerp(watchScale, 2.42, toStage3);
+      watchScale = lerp(watchScale, 0.42, toStage4);
+
+      // Cushion fades in during Stage 1 -> Stage 2 transition
+      if (cushionLayer && soloWatchImg) {
+        cushionLayer.style.opacity = String(toStage2);
+        soloWatchImg.style.opacity = String(1 - toStage2 * 0.99);
+      }
+
+      // Cross-fade Master Watch into the Open Rolex Box (`rolex-box-actor`) as Stage 4 finishes
+      const boxComplete = easeInOutCubic(mapRange(p, 0.72, 0.77));
+      if (masterWatch) {
+        masterWatch.style.opacity = String(1 - boxComplete);
+        masterWatch.style.transform = `translate3d(calc(-50% + ${watchXvw}vw), calc(-50% + ${watchYvh}vh), 0) rotate(${watchRot}deg) scale(${watchScale})`;
+      }
+
+      // =======================================================================
+      // E. STAGE 4 & 5 OPEN ROLEX GREEN BOX CHOREOGRAPHY (0.67 -> 1.00)
+      // =======================================================================
+      // Rises behind cushion at 0.67 -> 0.75, then scales down & docks inline between TURNING and EVERY DAY at 0.80 -> 0.88!
+      const boxRise = easeInOutCubic(mapRange(p, 0.67, 0.75));
+      const boxScale = lerp(1.08, 1.0, boxRise) * lerp(1.0, isMobile ? 0.34 : 0.44, toStage5);
+      const boxXvw = lerp(0, -2.2, toStage5);
+      const boxYvh = lerp(18, 0, boxRise) + lerp(0, isMobile ? -13 : -15.5, toStage5);
+
+      if (rolexBoxActor) {
+        rolexBoxActor.style.opacity = String(boxRise);
+        rolexBoxActor.style.transform = `translate3d(calc(-50% + ${boxXvw}vw), calc(-50% + ${boxYvh}vh), 0) scale(${boxScale})`;
+      }
+
+      // =======================================================================
+      // F. STAGE 5 (0.80 -> 1.00): "TURNING EVERY DAY INTO A PROMISE FOR THE FUTURE."
+      // =======================================================================
+      const s5Vis = easeInOutCubic(mapRange(p, 0.79, 0.84));
+      if (stage5Layer) {
+        stage5Layer.style.opacity = String(s5Vis);
+        stage5Layer.style.visibility = s5Vis <= 0.01 ? 'hidden' : 'visible';
+      }
+
+      // Row-by-row vertical clip-path wipe (z_040 -> z_042)
+      const wipe1 = easeInOutCubic(mapRange(p, 0.80, 0.86));
+      const wipe2 = easeInOutCubic(mapRange(p, 0.83, 0.89));
+      const wipe3 = easeInOutCubic(mapRange(p, 0.86, 0.92));
+
+      if (stage5Row1) stage5Row1.style.clipPath = `inset(0 0 ${(1 - wipe1) * 100}% 0)`;
+      if (stage5Row2) stage5Row2.style.clipPath = `inset(0 0 ${(1 - wipe2) * 100}% 0)`;
+      if (stage5Row3) stage5Row3.style.clipPath = `inset(0 0 ${(1 - wipe3) * 100}% 0)`;
+
+      // Finale details: Micro-labels ("State of the Art" / "Midnight miracle"), Emerald Polaroid, and Bottom-Right Silver Watch (z_043 -> z_046)
+      const s5FinaleIn = easeInOutCubic(mapRange(p, 0.89, 0.96));
+      if (stage5MicroLabels) {
+        stage5MicroLabels.style.opacity = String(s5FinaleIn);
+      }
+      if (stage5EmeraldPol) {
+        stage5EmeraldPol.style.opacity = String(s5FinaleIn);
+        stage5EmeraldPol.style.transform = `translate(-50%, ${lerp(35, 0, s5FinaleIn)}px) rotate(${lerp(-22, -11.5, s5FinaleIn)}deg) scale(${lerp(0.55, 1, s5FinaleIn)})`;
+      }
+      if (stage5SilverWatch) {
+        stage5SilverWatch.style.opacity = String(s5FinaleIn);
+        const swX = lerp(160, 0, s5FinaleIn);
+        const swY = lerp(210, 0, s5FinaleIn);
+        stage5SilverWatch.style.transform = `translate3d(${swX}px, ${swY}px, 0) rotate(-28deg)`;
+      }
+
+      // Update active indicator in bottom Stage HUD
+      const hudBtns = document.querySelectorAll('#rolex-stage-hud .stage-jump-btn');
+      const ranges = [
+        [0, 0.09],
+        [0.09, 0.21],
+        [0.21, 0.46],
+        [0.46, 0.67],
+        [0.67, 0.81],
+        [0.81, 1.01]
+      ];
+      hudBtns.forEach((btn, idx) => {
+        const [rMin, rMax] = ranges[idx] || [0, 0];
+        if (p >= rMin && p < rMax) {
+          btn.classList.add('text-[#D4AF37]', 'font-semibold', 'bg-white/10');
+        } else {
+          btn.classList.remove('text-[#D4AF37]', 'font-semibold', 'bg-white/10');
+        }
+      });
+    }
+
+    // Bind ScrollTrigger to #rolex-scroll-track
+    ScrollTrigger.create({
+      trigger: '#rolex-scroll-track',
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0.35,
+      onUpdate: (self) => {
+        renderRolexScrollState(self.progress);
+      }
+    });
+    renderRolexScrollState(0);
+
+    // 5. Stage Jump Buttons & Menu Drawer Logic
+    const menuDrawer = document.getElementById('rolex-menu-drawer');
+    const menuPanel = document.getElementById('rolex-menu-panel');
+    const menuOpenBtn = document.getElementById('rolex-menu-open');
+    const menuCloseBtn = document.getElementById('rolex-menu-close');
+    const menuBackdrop = document.getElementById('rolex-menu-backdrop');
+
+    function setMenuOpen(open) {
+      if (!menuDrawer || !menuPanel) return;
+      if (open) {
+        menuDrawer.classList.remove('pointer-events-none', 'opacity-0');
+        menuDrawer.classList.add('pointer-events-auto', 'opacity-100');
+        menuPanel.classList.remove('-translate-x-full');
+        menuPanel.classList.add('translate-x-0');
+      } else {
+        menuDrawer.classList.add('pointer-events-none', 'opacity-0');
+        menuDrawer.classList.remove('pointer-events-auto', 'opacity-100');
+        menuPanel.classList.add('-translate-x-full');
+        menuPanel.classList.remove('translate-x-0');
+      }
+    }
+
+    if (menuOpenBtn) menuOpenBtn.addEventListener('click', () => setMenuOpen(true));
+    if (menuCloseBtn) menuCloseBtn.addEventListener('click', () => setMenuOpen(false));
+    if (menuBackdrop) menuBackdrop.addEventListener('click', () => setMenuOpen(false));
+
+    document.querySelectorAll('.stage-jump-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const targetProg = parseFloat(btn.getAttribute('data-jump-progress') || '0');
+        const trackEl = document.getElementById('rolex-scroll-track');
+        if (trackEl) {
+          const maxScroll = trackEl.offsetHeight - window.innerHeight;
+          const targetY = trackEl.offsetTop + maxScroll * targetProg;
+          setMenuOpen(false);
+          lenis.scrollTo(targetY, { duration: 1.25 });
+        }
+      });
+    });
+
+    document.querySelectorAll('.drawer-anchor-link').forEach((link) => {
+      link.addEventListener('click', () => setMenuOpen(false));
+    });
+
+    // 6. Section 6 Interactive Calibre 3255 Exploded View & Crown Winding Simulator
+    let powerHours = 70;
+    const reserveReadout = document.getElementById('power-reserve-readout');
+    const reserveBar = document.getElementById('power-reserve-bar');
+    const windCrownBtn = document.getElementById('wind-crown-btn');
+    const toggleExplodeBtn = document.getElementById('toggle-explode-btn');
+    const explodedNodes = document.querySelectorAll('.exploded-node');
+    const activeLayerBadge = document.getElementById('active-layer-badge');
+    let isExploded = false;
+
+    if (windCrownBtn) {
+      windCrownBtn.addEventListener('click', () => {
+        powerHours = powerHours >= 70 ? 25 : Math.min(70, powerHours + 15);
+        const pct = Math.round((powerHours / 70) * 100);
+        if (reserveReadout) reserveReadout.textContent = `${powerHours} HOURS (${pct}%)`;
+        if (reserveBar) reserveBar.style.width = `${pct}%`;
+      });
+    }
+
+    if (toggleExplodeBtn) {
+      toggleExplodeBtn.addEventListener('click', () => {
+        isExploded = !isExploded;
+        if (activeLayerBadge) {
+          activeLayerBadge.textContent = isExploded ? 'STATE: EXPLODED SUBSYSTEM VIEW' : 'STATE: ASSEMBLED CHRONOMETER';
+        }
+        explodedNodes.forEach((node, idx) => {
+          if (isExploded) {
+            const offset = (idx - 1) * 18;
+            node.style.transform = `translate3d(${offset}px, -12px, 30px) rotateY(${(idx - 1) * 14}deg) scale(1.06)`;
+          } else {
+            node.style.transform = 'translate3d(0, 0, 0) rotateY(0deg) scale(1)';
+          }
+        });
+      });
+    }
+
+    const CALIBRE_SPECS = [
+      {
+        title: 'Paramagnetic Blue Parachrom Hairspring',
+        desc: 'Manufactured from a paramagnetic niobium-zirconium alloy, up to 10 times more precise than a traditional hairspring in case of shocks.'
+      },
+      {
+        title: 'Patented Chronergy Escapement',
+        desc: 'Made of nickel-phosphorus by LIGA electroforming, insensitive to magnetic interference with 15% higher energy efficiency.'
+      },
+      {
+        title: 'Instantaneous Day & Date Mechanism',
+        desc: 'At midnight, both the day of the week spelled out in full at 12 o’clock and the date at 3 o’clock change simultaneously in a few thousandths of a second.'
+      },
+      {
+        title: 'Bidirectional Perpetual Rotor on Ball Bearing',
+        desc: 'Convertible wrist motion winds the high-capacity mainspring barrel seamlessly in both directions for a 70-hour power reserve.'
+      }
+    ];
+
+    const detailTitle = document.getElementById('calibre-detail-title');
+    const detailDesc = document.getElementById('calibre-detail-desc');
+    document.querySelectorAll('.calibre-layer-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.getAttribute('data-layer') || '0', 10);
+        const spec = CALIBRE_SPECS[idx] || CALIBRE_SPECS[0];
+        if (detailTitle) detailTitle.textContent = spec.title;
+        if (detailDesc) detailDesc.textContent = spec.desc;
+        document.querySelectorAll('.calibre-layer-btn').forEach((b) => {
+          b.classList.remove('border-[#D4AF37]/40');
+          b.classList.add('border-white/10');
+        });
+        btn.classList.add('border-[#D4AF37]/40');
+      });
+    });
+
+    // 7. Section 8 COSC Certificate Printer Interaction
+    const coscForm = document.getElementById('cosc-allocation-form');
+    const receiptCard = document.getElementById('cosc-receipt-card');
+    const tearBtn = document.getElementById('tear-certificate-btn');
+
+    if (coscForm) {
+      coscForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const nameVal = document.getElementById('client-name-input')?.value || 'COLLECTOR';
+        const refVal = document.getElementById('client-ref-select')?.value || 'REF. 228238';
+        const salonVal = document.getElementById('client-boutique-select')?.value || 'GENEVA';
+        const serialNum = 'RLX-DD40-' + Math.floor(100000 + Math.random() * 900000) + '-GVA';
+
+        if (receiptCard) {
+          gsap.fromTo(
+            receiptCard,
+            { scaleY: 0.15, opacity: 0.3, y: -30 },
+            {
+              scaleY: 1,
+              opacity: 1,
+              y: 0,
+              duration: 0.65,
+              ease: 'power3.out',
+              onStart: () => {
+                document.getElementById('cert-collector').textContent = nameVal.toUpperCase();
+                document.getElementById('cert-ref').textContent = refVal;
+                document.getElementById('cert-salon').textContent = salonVal;
+                document.getElementById('cert-serial').textContent = serialNum;
+              }
+            }
+          );
+        }
+      });
+    }
+
+    if (tearBtn && receiptCard) {
+      tearBtn.addEventListener('click', () => {
+        gsap.to(receiptCard, {
+          y: 28,
+          rotate: -2.5,
+          duration: 0.35,
+          ease: 'back.out(2)',
+          yoyo: true,
+          repeat: 1
+        });
+      });
+    }
+
+    // 8. 3D Perspective Tilt Physics on Reference Cards
+    document.querySelectorAll('.ref-tilt-card').forEach((card) => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const nx = (e.clientX - rect.left) / rect.width - 0.5;
+        const ny = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = `perspective(1000px) rotateY(${nx * 10}deg) rotateX(${-ny * 10}deg) translateY(-4px)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) translateY(0)';
+      });
+    });
+  </script>
+</body>
+</html>
