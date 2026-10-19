@@ -253,11 +253,11 @@
       <div id="rolex-screen-canvas" class="relative w-full h-full rounded-none md:rounded-[14px] overflow-hidden alabaster-studio-bg shadow-[0_30px_90px_rgba(0,0,0,0.45)]">
 
         <!-- STAGE 3 DARK LEATHER MACRO BACKDROP LAYER (Fades in smoothly during Stage 3 2.6x zoom) -->
-        <div id="stage3-dark-backdrop" class="absolute inset-0 z-[5] dark-leather-macro-bg opacity-0 pointer-events-none">
+        <div id="stage3-dark-backdrop" class="absolute inset-0 z-[28] dark-leather-macro-bg opacity-0 pointer-events-none">
           <img
             src="assets/macro_cushion_watch.jpg"
             alt="Rolex Day-Date 40 Macro Cushion"
-            class="w-full h-full object-cover object-center opacity-35 mix-blend-luminosity"
+            class="w-full h-full object-cover object-center"
             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1600&q=85';"
           />
         </div>
@@ -663,18 +663,18 @@
              =================================================================== -->
         <div id="stage5-layer" class="absolute inset-0 z-[20] pointer-events-none opacity-0 flex flex-col items-center justify-center">
 
-          <!-- Subtle Micro-Labels Flanking the Inline Open Rolex Box ("State of the Art" | "Midnight miracle") -->
-          <div id="stage5-micro-labels" class="relative w-full max-w-[1380px] h-0 opacity-0">
-            <span class="absolute left-[27%] sm:left-[30%] -top-[14.5vw] lg:-top-[175px] text-[11px] sm:text-[12.5px] font-medium text-[#555957] tracking-[-0.01em]">
-              State of the Art
-            </span>
-            <span class="absolute right-[31%] sm:right-[34.5%] -top-[14.5vw] lg:-top-[175px] text-[11px] sm:text-[12.5px] font-medium text-[#555957] tracking-[-0.01em]">
-              Midnight miracle
-            </span>
-          </div>
-
           <!-- 3-Row Distressed Deep Forest Green Typography Block -->
           <div class="relative w-full max-w-[1520px] px-4 flex flex-col items-center justify-center text-center select-none mt-10">
+
+            <!-- Subtle Micro-Labels Flanking the Inline Open Rolex Box ("State of the Art" | "Midnight miracle") -->
+            <div id="stage5-micro-labels" class="relative w-full h-0 opacity-0">
+              <span class="absolute left-[26%] sm:left-[28.5%] -top-[22px] sm:-top-[28px] text-[11px] sm:text-[13px] font-medium text-[#4A4E4C] tracking-[-0.01em]">
+                State of the Art
+              </span>
+              <span class="absolute right-[30%] sm:right-[33%] -top-[22px] sm:-top-[28px] text-[11px] sm:text-[13px] font-medium text-[#4A4E4C] tracking-[-0.01em]">
+                Midnight miracle
+              </span>
+            </div>
 
             <!-- ROW 1: TURNING [Inline Rolex Box Space] EVERY DAY -->
             <div id="stage5-row1" class="wipe-line-inner flex items-center justify-center gap-[17vw] sm:gap-[15.5vw] md:gap-[14.5vw] rolex-display-title text-[#0B3321] text-[10.8vw] sm:text-[10.2vw] md:text-[9.4vw] leading-[0.92]">
@@ -1454,21 +1454,23 @@
         soloWatchImg.style.opacity = String(1 - toStage2 * 0.99);
       }
 
-      // Cross-fade Master Watch into the Open Rolex Box (`rolex-box-actor`) as Stage 4 finishes
-      const boxComplete = easeInOutCubic(mapRange(p, 0.72, 0.77));
+      // Cross-fade Master Watch into Stage 3 full-bleed macro render (`stage3-dark-backdrop`) and into Stage 4 Open Rolex Box (`rolex-box-actor`)
+      const boxComplete = easeInOutCubic(mapRange(p, 0.69, 0.735));
+      const s3MacroTakeover = easeInOutCubic(mapRange(p, 0.49, 0.535)) * (1 - easeInOutCubic(mapRange(p, 0.65, 0.69)));
       if (masterWatch) {
-        masterWatch.style.opacity = String(1 - boxComplete);
+        const mwAlpha = (1 - boxComplete) * (1 - s3MacroTakeover);
+        masterWatch.style.opacity = String(mwAlpha);
         masterWatch.style.transform = `translate3d(calc(-50% + ${watchXvw}vw), calc(-50% + ${watchYvh}vh), 0) rotate(${watchRot}deg) scale(${watchScale})`;
       }
 
       // =======================================================================
       // E. STAGE 4 & 5 OPEN ROLEX GREEN BOX CHOREOGRAPHY (0.67 -> 1.00)
       // =======================================================================
-      // Rises behind cushion at 0.67 -> 0.75, then scales down & docks inline between TURNING and EVERY DAY at 0.80 -> 0.88!
-      const boxRise = easeInOutCubic(mapRange(p, 0.67, 0.75));
-      const boxScale = lerp(1.08, 1.0, boxRise) * lerp(1.0, isMobile ? 0.34 : 0.44, toStage5);
+      // Rises behind cushion at 0.67 -> 0.74, then scales down & docks inline between TURNING and EVERY DAY at 0.80 -> 0.88!
+      const boxRise = easeInOutCubic(mapRange(p, 0.67, 0.74));
+      const boxScale = lerp(1.06, 1.0, boxRise) * lerp(1.0, isMobile ? 0.32 : 0.38, toStage5);
       const boxXvw = lerp(0, -2.2, toStage5);
-      const boxYvh = lerp(18, 0, boxRise) + lerp(0, isMobile ? -13 : -15.5, toStage5);
+      const boxYvh = lerp(18, 0, boxRise) + lerp(0, isMobile ? -15 : -18.5, toStage5);
 
       if (rolexBoxActor) {
         rolexBoxActor.style.opacity = String(boxRise);
