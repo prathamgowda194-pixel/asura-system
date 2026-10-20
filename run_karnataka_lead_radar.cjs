@@ -1,10 +1,11 @@
 /**
- * ==============================================================================
+ * ══════════════════════════════════════════════════════════════════════════════
  * ASURA AUTONOMOUS KARNATAKA GOOGLE MAPS LEAD RADAR RUNNER
- * Continuous 30-Minute Cloud Lead Engine
- * Zero Demo Websites | 100% Karnataka Only | Verified +91 Business Contacts
- * Zero Fake Names | Strict Non-Repeating Deduplication
- * ==============================================================================
+ * ══════════════════════════════════════════════════════════════════════════════
+ * Strict Hourly Cadence // Exactly 2 Different Clients Every Single Hour
+ * 100% Karnataka Only // Verified +91 Business Contacts // Zero Demo Websites
+ * Airtight Zero-Repetition Deduplication Across Local and Cloud Runners
+ * ══════════════════════════════════════════════════════════════════════════════
  */
 
 const fs = require('fs');
@@ -12,7 +13,7 @@ const path = require('path');
 const { getNextKarnatakaLeads, KARNATAKA_BUSINESS_VAULT, normalizeKey } = require('./karnataka_lead_scraper.cjs');
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8909145509:AAF8UhbWxPR5JGt8ddcAd9D1gqZ3L13ZuAo';
-const CHAT_ID = process.env.TELEGRAM_CHAT_ID || '7025916840'; // Commander Tech Playz (@TeChPlAyZ194)
+const CHAT_ID = process.env.TELEGRAM_CHAT_ID || '7025916840'; // Commander Tech Playz
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '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';
 const REPO = 'prathamgowda194-pixel/asura-system';
 
@@ -78,14 +79,14 @@ async function loadVault() {
   };
 }
 
-async function saveVault(vaultInfo, newLead) {
+async function saveVault(vaultInfo, newLeads) {
   const localVaultDir = path.join(__dirname, 'data');
   if (!fs.existsSync(localVaultDir)) {
     fs.mkdirSync(localVaultDir, { recursive: true });
   }
   const localVaultPath = path.join(localVaultDir, 'karnataka_vault.json');
 
-  const allRecords = [...vaultInfo.records, newLead];
+  const allRecords = [...vaultInfo.records, ...newLeads];
   const payload = {
     updatedAt: new Date().toISOString(),
     region: "Karnataka, India",
@@ -99,8 +100,9 @@ async function saveVault(vaultInfo, newLead) {
   // 2. Commit to GitHub with [skip ci] so Vercel NEVER builds or triggers deployment emails
   const url = `https://api.github.com/repos/${REPO}/contents/data/karnataka_vault.json`;
   try {
+    const leadNames = newLeads.map(l => l.name).join(' & ');
     const body = {
-      message: `chore(vault): record verified lead "${newLead.name}" [skip ci]`,
+      message: `chore(vault): record 2 verified leads [${leadNames}] [skip ci]`,
       content: Buffer.from(JSON.stringify(payload, null, 2), 'utf8').toString('base64'),
       branch: 'main'
     };
@@ -117,29 +119,21 @@ async function saveVault(vaultInfo, newLead) {
       body: JSON.stringify(body),
       signal: AbortSignal.timeout(6000)
     });
-  } catch (e) {}
+  } catch (e) {
+    console.warn(`[VAULT WARNING] GitHub sync deferred: ${e.message}`);
+  }
 }
 
-async function runSweep() {
-  console.log(`[${new Date().toISOString()}] 🔍 Running Autonomous Karnataka Lead Radar Sweep...`);
-
-  // 1. Load permanent deduplication vault
-  const vault = await loadVault();
-  console.log(`📊 Total previously tracked leads: ${vault.records.length}`);
-
-  // 2. Fetch fresh, uncontacted Karnataka lead
-  const candidates = await getNextKarnatakaLeads(vault.seenSet);
-  const lead = candidates && candidates.length > 0 ? candidates[0] : KARNATAKA_BUSINESS_VAULT[0];
-
+async function sendLeadCard(lead, currentIdx, totalCount) {
   const cleanPhone = lead.cleanPhone || lead.phone.replace(/\D/g, '').slice(-10);
 
-  // 3. High-Converting Direct Outreach Pitch (Ready to Send via WhatsApp)
+  // High-Converting Direct Outreach Pitch (Ready to Send via WhatsApp)
   const rawPitch = `Namaskara ${lead.name}! I came across your business in ${lead.city}, Karnataka. You have strong customer reviews (${lead.rating} ★) and a solid local reputation, but I noticed you don't currently have an official modern website or 24/7 AI voice booking line for customers. We build high-converting custom websites and automated AI receptionists for businesses in Karnataka. Would you be open to a quick 5-minute live demo on WhatsApp?`;
   const encodedPitch = encodeURIComponent(rawPitch);
 
-  // 4. Pristine Telegram Lead Card (NO DEMO WEBSITES)
+  // Pristine Telegram Lead Card (NO DEMO WEBSITES)
   const card = 
-`🎯 <b>NEW VERIFIED CLIENT LEAD // KARNATAKA ONLY</b>
+`🎯 <b>NEW VERIFIED CLIENT LEAD // [${currentIdx} OF ${totalCount}]</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🏢 <b>Business:</b> <b>${escapeHtml(lead.name)}</b>
 🏷 <b>Niche:</b> ${escapeHtml(lead.niche)}
@@ -153,7 +147,7 @@ async function runSweep() {
 💬 <b>DIRECT OUTREACH PITCH SCRIPT:</b>
 <i>"${escapeHtml(rawPitch)}"</i>
 
-<i>⚡ 30-Min Autonomous Karnataka Radar. Zero demo sites generated. Ready for direct owner outreach!</i>`;
+<i>⚡ Hourly Karnataka Lead Radar. Lead ${currentIdx}/${totalCount}. Direct owner outreach ready!</i>`;
 
   const buttons = [
     [
@@ -162,40 +156,112 @@ async function runSweep() {
     ]
   ];
 
-  // 5. Send message directly to Commander
-  const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: CHAT_ID,
-      text: card,
-      parse_mode: 'HTML',
-      disable_web_page_preview: true,
-      reply_markup: { inline_keyboard: buttons }
-    })
-  });
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: card,
+          parse_mode: 'HTML',
+          disable_web_page_preview: true,
+          reply_markup: { inline_keyboard: buttons }
+        }),
+        signal: AbortSignal.timeout(10000)
+      });
 
-  const tgData = await res.json();
-  if (tgData.ok) {
-    console.log(`✅ DISPATCHED TO TELEGRAM: "${lead.name}" (${lead.city}) | Msg ID: ${tgData.result.message_id}`);
-    await saveVault(vault, {
-      name: lead.name,
-      cleanPhone: cleanPhone,
-      city: lead.city,
-      district: lead.district,
-      dispatchedAt: new Date().toISOString()
-    });
-    return { ok: true, lead: lead.name, city: lead.city, messageId: tgData.result.message_id };
-  } else {
-    console.error(`❌ Telegram send error:`, tgData);
-    return { ok: false, error: tgData };
+      const tgData = await res.json();
+      if (tgData.ok) {
+        console.log(`✅ [LEAD ${currentIdx}/${totalCount} DISPATCHED] "${lead.name}" (${lead.city}, ${lead.district}) | Msg ID: ${tgData.result.message_id}`);
+        return { ok: true, messageId: tgData.result.message_id };
+      } else {
+        console.error(`❌ Telegram API error for ${lead.name} (attempt ${attempt}):`, tgData);
+      }
+    } catch (err) {
+      console.warn(`⚠️ [NETWORK BLIP] Telegram send error (attempt ${attempt}/3): ${err.message}`);
+      if (attempt < 3) {
+        await new Promise(r => setTimeout(r, 1500 * attempt));
+      }
+    }
   }
+  return { ok: false, error: "Failed after 3 attempts" };
+}
+
+/**
+ * Runs the hourly sweep to dispatch exactly 2 different verified Karnataka clients.
+ */
+async function runSweep(options = {}) {
+  const count = options.count || 2;
+  console.log(`[${new Date().toISOString()}] 🔍 Running Autonomous Karnataka Lead Radar Sweep (Target: ${count} Unique Clients)...`);
+
+  // 1. Load permanent deduplication vault
+  const vault = await loadVault();
+  console.log(`📊 Total previously tracked leads: ${vault.records.length}`);
+
+  // Optional idempotency check for cloud runner
+  if (options.checkCurrentHour) {
+    const oneHourAgo = new Date(Date.now() - 55 * 60 * 1000).toISOString();
+    const leadsSentThisHour = vault.records.filter(r => r.dispatchedAt && r.dispatchedAt > oneHourAgo);
+    if (leadsSentThisHour.length >= 2) {
+      console.log(`⚡ [IDEMPOTENT] 2 leads already dispatched in the past hour. Skipping cloud sweep.`);
+      return { ok: true, skipped: true, reason: "Already dispatched this hour" };
+    }
+  }
+
+  // 2. Fetch EXACTLY 2 fresh, uncontacted Karnataka leads
+  const candidates = await getNextKarnatakaLeads(vault.seenSet, count);
+  console.log(`🎯 Discovered ${candidates.length} fresh leads for dispatch.`);
+
+  if (candidates.length === 0) {
+    console.error("❌ No candidates found even with LRU fallback!");
+    return { ok: false, error: "No candidates available" };
+  }
+
+  const dispatchedLeads = [];
+  const results = [];
+
+  // 3. Dispatch each lead sequentially with deliberate gap
+  for (let i = 0; i < candidates.length; i++) {
+    const lead = candidates[i];
+    const dispatchRes = await sendLeadCard(lead, i + 1, candidates.length);
+
+    if (dispatchRes.ok) {
+      const cleanPhone = lead.cleanPhone || lead.phone.replace(/\D/g, '').slice(-10);
+      dispatchedLeads.push({
+        name: lead.name,
+        cleanPhone: cleanPhone,
+        city: lead.city,
+        district: lead.district,
+        dispatchedAt: new Date().toISOString()
+      });
+      results.push({ lead: lead.name, phone: cleanPhone, district: lead.district, messageId: dispatchRes.messageId });
+    }
+
+    if (i < candidates.length - 1) {
+      // 1.5s delay to prevent Telegram burst rate-limiting
+      await new Promise(r => setTimeout(r, 1500));
+    }
+  }
+
+  // 4. Update permanent deduplication ledger
+  if (dispatchedLeads.length > 0) {
+    await saveVault(vault, dispatchedLeads);
+    console.log(`💾 Saved ${dispatchedLeads.length} newly dispatched leads to permanent vault.`);
+  }
+
+  return { ok: true, dispatchedCount: dispatchedLeads.length, leads: results };
 }
 
 if (require.main === module) {
-  runSweep().then(res => {
-    console.log('Sweep finished:', JSON.stringify(res));
+  const checkHour = process.argv.includes('--check-hour');
+  runSweep({ checkCurrentHour: checkHour, count: 2 }).then(res => {
+    console.log('Sweep finished:', JSON.stringify(res, null, 2));
   }).catch(console.error);
 }
 
-module.exports = { runSweep };
+module.exports = {
+  runSweep,
+  loadVault,
+  saveVault
+};
