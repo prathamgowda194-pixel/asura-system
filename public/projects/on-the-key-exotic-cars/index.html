@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased selection:bg-[#FF007F] selection:text-white">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ON THE KEY — Exotic Car Rentals | Miami</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF007F'%3E%3Cpath d='M7 14a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm5-4h10v4h-2v2h-2v-2h-2v2h-2V8z'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@700&family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <style>
+    :root {
+      --bg-dark: #07090D;
+      --bg-card: #0D1117;
+      --neon-magenta: #FF007F;
+      --neon-cyan: #00F5D4;
+      --neon-green: #25F443;
+      --ferrari-red: #FF2800;
+      --rolls-gold: #D4AF37;
+      --mclaren-papaya: #FF8000;
+      --font-display: 'Syne', sans-serif;
+      --font-condensed: 'Antonio', 'Bebas Neue', sans-serif;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #F3F4F6;
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+    }
+
+    .font-display { font-family: var(--font-display); }
+    .font-condensed { font-family: var(--font-condensed); }
+    .font-mono { font-family: var(--font-mono); }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #07090D; }
+    ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #FF007F; }
+
+    /* 3D Glass & Neon Glows */
+    .glass-panel {
+      background: rgba(13, 17, 23, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .glass-neon-pink {
+      box-shadow: 0 0 35px rgba(255, 0, 127, 0.25), inset 0 0 20px rgba(255, 0, 127, 0.15);
+    }
+
+    .glass-neon-cyan {
+      box-shadow: 0 0 35px rgba(0, 245, 212, 0.25), inset 0 0 20px rgba(0, 245, 212, 0.15);
+    }
+
+    /* Turntable 3D Ring */
+    .turntable-ring {
+      border: 2px solid rgba(255, 0, 127, 0.4);
+      box-shadow: 0 0 50px rgba(255, 0, 127, 0.5), inset 0 0 40px rgba(0, 245, 212, 0.3);
+    }
+
+    /* Starlight Twinkle Animation */
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle var(--duration, 3s) infinite ease-in-out var(--delay, 0s);
+    }
+
+    /* Key Card Hover Lift */
+    .key-hover-card {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+      transform-style: preserve-3d;
+    }
+
+    .key-hover-card:hover {
+      transform: translateY(-8px) scale(1.02);
+    }
+  </style>
+</head>
+<body class="bg-[#07090D] text-white">
+
+  <!-- ========================================== -->
+  <!-- NAVIGATION BAR (Glass-to-Solid Edge Header)-->
+  <!-- ========================================== -->
+  <header id="main-header" class="fixed top-0 left-0 right-0 z-50 h-[72px] md:h-[80px] px-6 md:px-12 flex items-center justify-between transition-all duration-300 bg-transparent">
+    <!-- Brand Logo -->
+    <a href="#hero-section" class="flex items-center gap-3 group">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF007F] to-[#00F5D4] p-[1.5px] shadow-[0_0_15px_rgba(255,0,127,0.4)] group-hover:shadow-[0_0_25px_rgba(0,245,212,0.6)] transition-all">
+        <div class="w-full h-full bg-[#07090D] rounded-[10px] flex items-center justify-center">
+          <svg class="w-5 h-5 text-[#00F5D4] group-hover:rotate-12 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 0 1 2 2m4 0a6 6 0 0 1-7.743 5.743L11 17H9v2H7v2H4a1 1 0 0 1-1-1v-2.586a1 1 0 0 1 .293-.707l5.964-5.964A6 6 0 1 1 21 9z" />
+          </svg>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <span class="font-display text-lg md:text-xl tracking-tight text-white font-bold flex items-center gap-1.5">
+          ON THE KEY
+          <span class="w-2 h-2 rounded-full bg-[#25F443] animate-pulse"></span>
+        </span>
+        <span class="font-mono text-[9px] uppercase tracking-widest text-[#9CA3AF]">MIAMI EXOTIC FLEET</span>
+      </div>
+    </a>
+
+    <!-- Nav Links (Desktop) -->
+    <nav class="hidden lg:flex items-center gap-8 font-mono text-xs tracking-wider text-[#9CA3AF]">
+      <a href="#lamborghini-section" class="hover:text-[#25F443] transition-colors py-1 flex items-center gap-1.5">
+        <span class="text-[#25F443]">01</span> LAMBORGHINI
+      </a>
+      <a href="#ferrari-section" class="hover:text-[#FF2800] transition-colors py-1 flex items-center gap-1.5">
+        <span class="text-[#FF2800]">02</span> FERRARI
+      </a>
+      <a href="#rolls-royce-section" class="hover:text-[#D4AF37] transition-colors py-1 flex items-center gap-1.5">
+        <span class="text-[#D4AF37]">03</span> ROLLS-ROYCE
+      </a>
+      <a href="#mclaren-section" class="hover:text-[#FF8000] transition-colors py-1 flex items-center gap-1.5">
+        <span class="text-[#FF8000]">04</span> MCLAREN
+      </a>
+      <a href="#fleet-matrix" class="hover:text-white transition-colors py-1">FLEET ARCHIVE</a>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="flex items-center gap-4">
+      <!-- Engine Sound FX Toggle -->
+      <button id="sound-toggle-btn" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-xs font-mono text-[#D1D5DB] transition-all">
+        <svg id="sound-icon" class="w-3.5 h-3.5 text-[#00F5D4]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+        </svg>
+        <span id="sound-text">V12 AUDIO: ON</span>
+      </button>
+
+      <!-- Book CTA -->
+      <a href="#fleet-matrix" class="px-5 py-2.5 rounded-full bg-[#FF007F] hover:bg-[#E0006F] text-white font-mono text-xs font-semibold tracking-wider transition-all shadow-[0_0_20px_rgba(255,0,127,0.4)] hover:shadow-[0_0_30px_rgba(255,0,127,0.7)] flex items-center gap-2">
+        <span>BOOK A KEY</span>
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- 01 HERO SECTION: THE 4 EXOTIC KEYS VALET TRAY -->
+  <!-- ========================================== -->
+  <section id="hero-section" class="relative w-full min-h-screen pt-28 pb-16 px-6 md:px-14 flex flex-col items-center justify-center overflow-hidden">
+    <!-- Ambient Neon Backlights -->
+    <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#FF007F]/20 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+    <div class="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-[#00F5D4]/20 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+
+    <!-- Client Paid Telemetry Badge -->
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-6 animate-pulse">
+      <span class="w-2 h-2 rounded-full bg-[#25F443]"></span>
+      <span class="font-mono text-xs text-[#E5E7EB] tracking-wider uppercase">CLIENT PAID $1,550 // INSTANT CONCIERGE DISPATCH</span>
+    </div>
+
+    <!-- Main Display Headline -->
+    <h1 class="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-center tracking-tight leading-[0.95] max-w-5xl mb-4">
+      FOUR KEYS.<br/>
+      <span class="bg-gradient-to-r from-[#FF007F] via-[#00F5D4] to-[#25F443] bg-clip-text text-transparent">
+        CHOOSE WISELY.
+      </span>
+    </h1>
+
+    <p class="font-sans text-sm md:text-base text-[#9CA3AF] text-center max-w-2xl mb-10 font-normal leading-relaxed">
+      Miami's bespoke supercar collective. White-glove concierge delivery to your private jet terminal, luxury villa, or South Beach hotel in under 60 minutes.
+    </p>
+
+    <!-- Interactive 3D Valet Tray with 4 Keys -->
+    <div id="valet-tray-container" class="relative w-full max-w-5xl rounded-3xl p-6 md:p-10 glass-panel border border-white/15 shadow-[0_20px_80px_rgba(0,0,0,0.8)] perspective-[1200px] transition-transform duration-500">
+      <div class="flex items-center justify-between pb-6 mb-6 border-b border-white/10 font-mono text-xs text-[#9CA3AF]">
+        <span class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-[#FF007F]"></span> VALET TRAY 01 // CLICK ANY KEY TO IGNITE
+        </span>
+        <span class="hidden sm:inline-block text-[#00F5D4]">MIA AIRPORT &middot; BAL HARBOUR &middot; STAR ISLAND</span>
+      </div>
+
+      <!-- 4 Exotic Key Cards Matrix -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <!-- 1. Lamborghini Key -->
+        <a href="#lamborghini-section" class="key-hover-card group p-5 rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 hover:border-[#25F443]/60 flex flex-col items-center text-center cursor-pointer">
+          <div class="w-16 h-28 md:w-20 md:h-32 mb-4 relative flex items-center justify-center">
+            <div class="absolute inset-0 bg-[#25F443]/20 rounded-full blur-xl group-hover:bg-[#25F443]/40 transition-all"></div>
+            <!-- Key Silhouette / Graphic -->
+            <div class="relative w-full h-full bg-[#111827] rounded-2xl border-2 border-[#25F443] p-2 flex flex-col items-center justify-between shadow-lg">
+              <span class="w-3 h-3 rounded-full border border-[#25F443]"></span>
+              <svg class="w-8 h-8 text-[#25F443]" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5L4.5 9.75 3 10.5l9 4.5 9-4.5-1.5-.75L12 13.5z"/>
+              </svg>
+              <span class="font-mono text-[9px] text-[#25F443] font-bold">AVENTADOR</span>
+            </div>
+          </div>
+          <span class="font-display text-sm md:text-base font-bold text-white group-hover:text-[#25F443] transition-colors">LAMBORGHINI</span>
+          <span class="font-mono text-xs text-[#9CA3AF]">Aventador S &middot; V12</span>
+          <span class="mt-2 text-xs font-mono font-semibold text-[#25F443]">$1,550 / day</span>
+        </a>
+
+        <!-- 2. Ferrari Key -->
+        <a href="#ferrari-section" class="key-hover-card group p-5 rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 hover:border-[#FF2800]/60 flex flex-col items-center text-center cursor-pointer">
+          <div class="w-16 h-28 md:w-20 md:h-32 mb-4 relative flex items-center justify-center">
+            <div class="absolute inset-0 bg-[#FF2800]/20 rounded-full blur-xl group-hover:bg-[#FF2800]/40 transition-all"></div>
+            <div class="relative w-full h-full bg-[#FFD700] rounded-2xl border-2 border-[#FF2800] p-2 flex flex-col items-center justify-between shadow-lg text-black">
+              <span class="w-3 h-3 rounded-full border border-black"></span>
+              <span class="font-display font-extrabold text-sm tracking-wider">Ferrari</span>
+              <span class="font-mono text-[9px] text-black font-bold">296 GTB</span>
+            </div>
+          </div>
+          <span class="font-display text-sm md:text-base font-bold text-white group-hover:text-[#FF2800] transition-colors">FERRARI</span>
+          <span class="font-mono text-xs text-[#9CA3AF]">296 GTB &middot; 819 HP</span>
+          <span class="mt-2 text-xs font-mono font-semibold text-[#FF2800]">$1,190 / day</span>
+        </a>
+
+        <!-- 3. Rolls-Royce Key -->
+        <a href="#rolls-royce-section" class="key-hover-card group p-5 rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 hover:border-[#D4AF37]/60 flex flex-col items-center text-center cursor-pointer">
+          <div class="w-16 h-28 md:w-20 md:h-32 mb-4 relative flex items-center justify-center">
+            <div class="absolute inset-0 bg-[#D4AF37]/20 rounded-full blur-xl group-hover:bg-[#D4AF37]/40 transition-all"></div>
+            <div class="relative w-full h-full bg-[#0A0D12] rounded-2xl border-2 border-[#D4AF37] p-2 flex flex-col items-center justify-between shadow-lg">
+              <span class="w-3 h-3 rounded-full border border-[#D4AF37]"></span>
+              <span class="font-serif text-lg font-bold text-[#D4AF37]">RR</span>
+              <span class="font-mono text-[9px] text-[#D4AF37] font-bold">CULLINAN</span>
+            </div>
+          </div>
+          <span class="font-display text-sm md:text-base font-bold text-white group-hover:text-[#D4AF37] transition-colors">ROLLS-ROYCE</span>
+          <span class="font-mono text-xs text-[#9CA3AF]">Cullinan &middot; Arctic</span>
+          <span class="mt-2 text-xs font-mono font-semibold text-[#D4AF37]">$990 / day</span>
+        </a>
+
+        <!-- 4. McLaren Key -->
+        <a href="#mclaren-section" class="key-hover-card group p-5 rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/15 hover:border-[#FF8000]/60 flex flex-col items-center text-center cursor-pointer">
+          <div class="w-16 h-28 md:w-20 md:h-32 mb-4 relative flex items-center justify-center">
+            <div class="absolute inset-0 bg-[#FF8000]/20 rounded-full blur-xl group-hover:bg-[#FF8000]/40 transition-all"></div>
+            <div class="relative w-full h-full bg-[#1F1F1F] rounded-2xl border-2 border-[#FF8000] p-2 flex flex-col items-center justify-between shadow-lg">
+              <span class="w-3 h-3 rounded-full border border-[#FF8000]"></span>
+              <svg class="w-8 h-8 text-[#FF8000]" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 3C7.03 3 3 7.03 3 12c0 3.31 1.79 6.2 4.47 7.74l1.35-2.34C7.02 16.32 6 14.28 6 12c0-3.31 2.69-6 6-6s6 2.69 6 6c0 2.28-1.02 4.32-2.82 5.4l1.35 2.34C19.21 18.2 21 15.31 21 12c0-4.97-4.03-9-9-9z"/>
+              </svg>
+              <span class="font-mono text-[9px] text-[#FF8000] font-bold">720S SPIDER</span>
+            </div>
+          </div>
+          <span class="font-display text-sm md:text-base font-bold text-white group-hover:text-[#FF8000] transition-colors">MCLAREN</span>
+          <span class="font-mono text-xs text-[#9CA3AF]">720S &middot; Papaya</span>
+          <span class="mt-2 text-xs font-mono font-semibold text-[#FF8000]">$1,350 / day</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 02 LAMBORGHINI AVENTADOR S: "THE BULL WAKES UP." -->
+  <!-- ========================================== -->
+  <section id="lamborghini-section" class="relative w-full min-h-screen py-24 px-6 md:px-14 flex flex-col justify-center border-t border-white/10 overflow-hidden bg-gradient-to-b from-[#07090D] via-[#08120B] to-[#07090D]">
+    <div class="max-w-7xl mx-auto w-full">
+      
+      <!-- Stage 2A: Exterior Presentation -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-20">
+        <div class="lg:col-span-5 flex flex-col justify-center">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#25F443]/10 border border-[#25F443]/30 text-[#25F443] font-mono text-xs mb-4 w-fit">
+            <span>01 // LAMBORGHINI CHAPTER</span>
+          </div>
+          <h2 class="font-display text-4xl sm:text-6xl font-extrabold text-white leading-tight mb-2">
+            The bull wakes up.
+          </h2>
+          <p class="font-mono text-lg text-[#25F443] mb-6">Aventador S &middot; Verde Mantis</p>
+          
+          <!-- Telemetry Badges -->
+          <div class="grid grid-cols-3 gap-3 p-4 rounded-2xl glass-panel border border-white/10 mb-8 font-mono">
+            <div>
+              <span class="text-[10px] text-[#9CA3AF] block uppercase">POWER</span>
+              <span class="text-xl font-bold text-white">730 HP</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-[#9CA3AF] block uppercase">0-60 MPH</span>
+              <span class="text-xl font-bold text-white">2.9 SEC</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-[#9CA3AF] block uppercase">DAILY RATE</span>
+              <span class="text-xl font-bold text-[#25F443]">$1,550</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <button onclick="triggerEngineAudio('lambo')" class="px-6 py-3 rounded-full bg-[#25F443] text-black font-mono text-xs font-bold tracking-wider hover:bg-[#20D03A] transition-all shadow-[0_0_20px_rgba(37,244,67,0.4)] flex items-center gap-2">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <span>IGNITE V12 ENGINE</span>
+            </button>
+            <a href="#fleet-matrix" class="px-6 py-3 rounded-full glass-panel border border-white/20 text-white font-mono text-xs hover:border-[#25F443] transition-colors">
+              RESERVE KEY
+            </a>
+          </div>
+        </div>
+
+        <!-- Exterior Visual Frame -->
+        <div class="lg:col-span-7 relative group">
+          <div class="absolute -inset-1 bg-gradient-to-r from-[#25F443] to-[#00F5D4] rounded-3xl blur-2xl opacity-20 group-hover:opacity-40 transition duration-700"></div>
+          <div class="relative rounded-3xl overflow-hidden border border-white/20 shadow-2xl bg-[#0F141C]">
+            <img 
+              id="lambo-stage-img"
+              src="assets/lambo_miami_exterior.jpg" 
+              alt="Lamborghini Aventador S in Verde Mantis on Miami Ocean Drive" 
+              class="w-full h-[400px] md:h-[500px] object-cover transition-transform duration-700 group-hover:scale-105"
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=2560&q=90';"
+            />
+            <div class="absolute bottom-4 left-4 right-4 p-4 rounded-xl glass-panel flex items-center justify-between text-xs font-mono text-[#D1D5DB]">
+              <span>SCISSOR DOORS: ELEVATED UPWARD</span>
+              <span class="text-[#25F443]">OCEAN DRIVE &middot; MIAMI BEACH</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 2B: Cockpit & Start Button Reveal -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-10 border-t border-white/10">
+        <div class="relative rounded-2xl overflow-hidden border border-white/10">
+          <img 
+            src="assets/lambo_cockpit.jpg" 
+            alt="Lamborghini Aventador S Hexagonal Cockpit" 
+            class="w-full h-[320px] object-cover"
+            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=2560&q=90';"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6">
+            <span class="font-display text-2xl font-bold text-white">Hexagons everywhere.</span>
+            <span class="font-mono text-xs text-[#9CA3AF]">Aero-inspired digital cockpit with carbon-fiber shell racing seats.</span>
+          </div>
+        </div>
+
+        <div class="p-8 rounded-2xl glass-panel border border-white/10 flex flex-col justify-center">
+          <span class="font-mono text-xs text-[#25F443] mb-2">FIGHTER-JET IGNITION PROTOCOL</span>
+          <h3 class="font-display text-3xl font-extrabold text-white mb-4">Flip the cover. Press start.</h3>
+          <p class="font-sans text-sm text-[#9CA3AF] mb-6">
+            An authentic tactical experience. The anodized red missile switch opens with mechanical resistance before unleashing the naturally aspirated 6.5-liter V12 symphony.
+          </p>
+
+          <button onclick="triggerEngineAudio('lambo')" class="w-full py-4 rounded-xl bg-gradient-to-r from-[#DC2626] to-[#EF4444] text-white font-mono font-bold text-sm tracking-widest shadow-[0_0_25px_rgba(239,68,68,0.5)] hover:shadow-[0_0_40px_rgba(239,68,68,0.8)] transition-all flex items-center justify-center gap-3">
+            <span class="w-3 h-3 rounded-full bg-white animate-ping"></span>
+            <span>PRESS START &middot; 6.5L V12</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 03 FERRARI 296 GTB: "SUNSET, IN RED." -->
+  <!-- ========================================== -->
+  <section id="ferrari-section" class="relative w-full min-h-screen py-24 px-6 md:px-14 flex flex-col justify-center border-t border-white/10 overflow-hidden bg-gradient-to-b from-[#07090D] via-[#1A0A0A] to-[#07090D]">
+    <div class="max-w-7xl mx-auto w-full">
+      
+      <!-- Stage 3A: Exterior Presentation -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-20">
+        <div class="lg:col-span-7 relative group order-2 lg:order-1">
+          <div class="absolute -inset-1 bg-gradient-to-r from-[#FF2800] to-[#FF8000] rounded-3xl blur-2xl opacity-20 group-hover:opacity-40 transition duration-700"></div>
+          <div class="relative rounded-3xl overflow-hidden border border-white/20 shadow-2xl bg-[#0F141C]">
+            <img 
+              id="ferrari-stage-img"
+              src="assets/ferrari_sunset_exterior.jpg" 
+              alt="Ferrari 296 GTB at Sunset Skyline" 
+              class="w-full h-[400px] md:h-[500px] object-cover transition-transform duration-700 group-hover:scale-105"
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=2560&q=90';"
+            />
+            <div class="absolute bottom-4 left-4 right-4 p-4 rounded-xl glass-panel flex items-center justify-between text-xs font-mono text-[#D1D5DB]">
+              <span>BUTTERFLY DOORS: GOLDEN HOUR EXTENSION</span>
+              <span class="text-[#FF2800]">BISCAYNE BAY &middot; SUNSET</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 flex flex-col justify-center order-1 lg:order-2">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF2800]/10 border border-[#FF2800]/30 text-[#FF2800] font-mono text-xs mb-4 w-fit">
+            <span>02 // FERRARI CHAPTER</span>
+          </div>
+          <h2 class="font-display text-4xl sm:text-6xl font-extrabold text-white leading-tight mb-2">
+            Sunset, in red.
+          </h2>
+          <p class="font-mono text-lg text-[#FF2800] mb-6">296 GTB &middot; Rosso Corsa</p>
+          
+          <div class="grid grid-cols-3 gap-3 p-4 rounded-2xl glass-panel border border-white/10 mb-8 font-mono">
+            <div>
+              <span class="text-[10px] text-[#9CA3AF] block uppercase">HYBRID V6</span>
+              <span class="text-xl font-bold text-white">819 HP</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-[#9CA3AF] block uppercase">0-60 MPH</span>
+              <span class="text-xl font-bold text-white">2.9 SEC</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-[#9CA3AF] block uppercase">DAILY RATE</span>
+              <span class="text-xl font-bold text-[#FF2800]">$1,190</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <button onclick="triggerEngineAudio('ferrari')" class="px-6 py-3 rounded-full bg-[#FF2800] text-white font-mono text-xs font-bold tracking-wider hover:bg-[#D92200] transition-all shadow-[0_0_20px_rgba(255,40,0,0.4)] flex items-center gap-2">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <span>REV TWIN-TURBO V6</span>
+            </button>
+            <a href="#fleet-matrix" class="px-6 py-3 rounded-full glass-panel border border-white/20 text-white font-mono text-xs hover:border-[#FF2800] transition-colors">
+              RESERVE KEY
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 3B: Interactive 360° Turntable ("Spin the 296 GTB") -->
+      <div class="p-8 md:p-12 rounded-3xl glass-panel border border-white/10 relative overflow-hidden flex flex-col items-center text-center">
+        <span class="font-mono text-xs text-[#FF2800] tracking-widest uppercase mb-2">360&deg; ROTATIONAL STUDIO TURNTABLE</span>
+        <h3 class="font-display text-3xl md:text-5xl font-extrabold text-white mb-6">Spin the 296 GTB</h3>
+
+        <!-- Turntable Stage Container with Drag/Hover Physics -->
+        <div id="ferrari-turntable-box" class="relative w-full max-w-3xl h-[340px] md:h-[420px] rounded-2xl overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing border border-white/10">
+          <!-- Neon Ambient Ground Rings -->
+          <div class="absolute bottom-6 w-3/4 h-24 rounded-full turntable-ring transform rotateX(65deg) pointer-events-none"></div>
+
+          <img 
+            id="ferrari-spin-img"
+            src="assets/ferrari_turntable.jpg" 
+            alt="Ferrari 296 GTB Turntable Rotation" 
+            class="relative z-10 w-full h-full object-cover transition-transform duration-300"
+            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=2560&q=90';"
+          />
+
+          <div class="absolute bottom-4 z-20 px-4 py-1.5 rounded-full glass-panel text-[11px] font-mono text-[#D1D5DB] flex items-center gap-2">
+            <svg class="w-3.5 h-3.5 text-[#00F5D4] animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            <span>DRAG HORIZONTALLY OR SCROLL TO ROTATE 360&deg;</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 04 ROLLS-ROYCE CULLINAN: "ARRIVE QUIETLY." -->
+  <!-- ========================================== -->
+  <section id="rolls-royce-section" class="relative w-full min-h-screen py-24 px-6 md:px-14 flex flex-col justify-center border-t border-white/10 overflow-hidden bg-gradient-to-b from-[#07090D] via-[#0D0F14] to-[#07090D]">
+    <div class="max-w-7xl mx-auto w-full">
+      
+      <!-- Stage 4A: Exterior Presentation -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-20">
+        <div class="lg:col-span-5 flex flex-col justify-center">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#D4AF37] font-mono text-xs mb-4 w-fit">
+            <span>03 // ROLLS-ROYCE CHAPTER</span>
+          </div>
+          <h2 class="font-display text-4xl sm:text-6xl font-extrabold text-white leading-tight mb-2">
+            Arrive quietly.
+          </h2>
+          <p class="font-mono text-lg text-[#D4AF37] mb-6">Cullinan &middot; Arctic White</p>
+          
+          <div class="grid grid-cols-3 gap-3 p-4 rounded-2xl glass-panel border border-white/10 mb-8 font-mono">
+            <div>
+              <span class="text-[10px] text-[#9CA3AF] block uppercase">TWIN-TURBO</span>
+              <span class="text-xl font-bold text-white">V12 6.75L</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-[#9CA3AF] block uppercase">0-60 MPH</span>
+              <span class="text-xl font-bold text-white">4.5 SEC</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-[#9CA3AF] block uppercase">DAILY RATE</span>
+              <span class="text-xl font-bold text-[#D4AF37]">$990</span>
+            </div>
+          </div>
+
+          <p class="font-sans text-sm text-[#9CA3AF] mb-6 leading-relaxed">
+            "They open the other way. Rear-hinged coach doors for an entrance of undisputed consequence."
+          </p>
+
+          <div class="flex items-center gap-4">
+            <button onclick="triggerEngineAudio('rolls')" class="px-6 py-3 rounded-full bg-[#D4AF37] text-black font-mono text-xs font-bold tracking-wider hover:bg-[#C29E30] transition-all shadow-[0_0_20px_rgba(212,175,55,0.4)] flex items-center gap-2">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <span>START WHISPER V12</span>
+            </button>
+            <a href="#fleet-matrix" class="px-6 py-3 rounded-full glass-panel border border-white/20 text-white font-mono text-xs hover:border-[#D4AF37] transition-colors">
+              RESERVE KEY
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 relative group">
+          <div class="absolute -inset-1 bg-gradient-to-r from-[#D4AF37] to-[#FAF6F0] rounded-3xl blur-2xl opacity-15 group-hover:opacity-30 transition duration-700"></div>
+          <div class="relative rounded-3xl overflow-hidden border border-white/20 shadow-2xl bg-[#0F141C]">
+            <img 
+              id="rolls-stage-img"
+              src="assets/rolls_cullinan_exterior.jpg" 
+              alt="Rolls-Royce Cullinan in Arctic White at Beachfront Villa" 
+              class="w-full h-[400px] md:h-[500px] object-cover transition-transform duration-700 group-hover:scale-105"
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1631295868223-63265b40d9e4?auto=format&fit=crop&w=2560&q=90';"
+            />
+            <div class="absolute bottom-4 left-4 right-4 p-4 rounded-xl glass-panel flex items-center justify-between text-xs font-mono text-[#D1D5DB]">
+              <span>SUICIDE COACH DOORS: POWER CLOSING ACTUATORS</span>
+              <span class="text-[#D4AF37]">STAR ISLAND &middot; PRIVATE ESTATE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 4B: Starlight Headliner & Lounge Experience -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-10 border-t border-white/10">
+        <!-- Interactive Starlight Headliner -->
+        <div id="starlight-headliner" class="relative rounded-2xl overflow-hidden border border-white/15 h-[340px] bg-[#05070A] flex flex-col justify-end p-6">
+          <!-- Dynamically Spawned Starlight Points -->
+          <div class="absolute inset-0 pointer-events-none">
+            <div class="star w-1 h-1 top-[15%] left-[20%]" style="--duration: 2.5s; --delay: 0.2s;"></div>
+            <div class="star w-1.5 h-1.5 top-[25%] left-[65%]" style="--duration: 3.2s; --delay: 0.8s;"></div>
+            <div class="star w-1 h-1 top-[40%] left-[35%]" style="--duration: 2.1s; --delay: 0.5s;"></div>
+            <div class="star w-2 h-2 top-[55%] left-[80%]" style="--duration: 4s; --delay: 1.2s; box-shadow: 0 0 8px white;"></div>
+            <div class="star w-1 h-1 top-[70%] left-[15%]" style="--duration: 2.8s; --delay: 0.3s;"></div>
+            <div class="star w-1.5 h-1.5 top-[30%] left-[85%]" style="--duration: 3.5s; --delay: 1s;"></div>
+            <div class="star w-1 h-1 top-[10%] left-[50%]" style="--duration: 2.9s; --delay: 0.7s;"></div>
+          </div>
+
+          <div class="relative z-10">
+            <span class="font-display text-2xl font-bold text-white">Starlight Headliner.</span>
+            <span class="font-mono text-xs text-[#D4AF37] block mt-1">1,344 fiber-optic lights hand-woven into perforated leather.</span>
+          </div>
+        </div>
+
+        <div class="p-8 rounded-2xl glass-panel border border-white/10 flex flex-col justify-center">
+          <span class="font-mono text-xs text-[#D4AF37] mb-2">BESPOKE CABIN ARCHITECTURE</span>
+          <h3 class="font-display text-3xl font-extrabold text-white mb-4">Sanctuary on wheels.</h3>
+          <p class="font-sans text-sm text-[#9CA3AF] mb-6 leading-relaxed">
+            Lambswool footmats, champagne cooler console, and active acoustic noise cancellation insulating you from the vibrant Miami energy outside.
+          </p>
+
+          <!-- Turntable Stage Link -->
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
+            <div class="flex flex-col font-mono text-xs">
+              <span class="text-white font-bold">Spin the Cullinan</span>
+              <span class="text-[#9CA3AF]">360&deg; Turntable view</span>
+            </div>
+            <a href="#fleet-matrix" class="px-4 py-2 rounded-lg bg-[#D4AF37]/20 border border-[#D4AF37]/40 text-[#D4AF37] font-mono text-xs font-semibold hover:bg-[#D4AF37] hover:text-black transition-colors">
+              VIEW FLEET
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 05 FLEET MATRIX: "FOUR KEYS. CHOOSE WISELY." -->
+  <!-- ========================================== -->
+  <section id="fleet-matrix" class="relative w-full py-28 px-6 md:px-14 border-t border-white/10 bg-[#080B10]">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="font-mono text-xs text-[#00F5D4] tracking-widest uppercase mb-2 block">MIAMI BESPOKE COLLECTION</span>
+        <h2 class="font-display text-4xl sm:text-6xl font-extrabold text-white mb-4">
+          Four keys. Choose wisely.
+        </h2>
+        <p class="font-sans text-sm md:text-base text-[#9CA3AF]">
+          Transparent daily rates, zero hidden airport fees, and complimentary concierge delivery to any address in South Florida.
+        </p>
+      </div>
+
+      <!-- 4-Column Bento Comparison Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        
+        <!-- Card 1: Aventador S -->
+        <article class="p-6 rounded-3xl glass-panel border border-white/10 hover:border-[#25F443]/50 transition-all flex flex-col justify-between group">
+          <div>
+            <div class="h-44 rounded-2xl overflow-hidden mb-6 bg-black/40">
+              <img src="assets/lambo_miami_exterior.jpg" alt="Aventador S" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-display text-xl font-bold text-white">Aventador S</span>
+              <span class="w-2.5 h-2.5 rounded-full bg-[#25F443]"></span>
+            </div>
+            <span class="font-mono text-xs text-[#25F443] block mb-4">Verde Mantis &middot; V12</span>
+
+            <div class="space-y-2 font-mono text-xs text-[#9CA3AF] py-4 border-y border-white/10 mb-6">
+              <div class="flex justify-between"><span>Horsepower:</span><span class="text-white font-semibold">730 HP</span></div>
+              <div class="flex justify-between"><span>0-60 Time:</span><span class="text-white font-semibold">2.9 sec</span></div>
+              <div class="flex justify-between"><span>Top Speed:</span><span class="text-white font-semibold">217 MPH</span></div>
+              <div class="flex justify-between"><span>Doors:</span><span class="text-white font-semibold">Scissor Lift</span></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="text-2xl font-display font-extrabold text-white mb-4">
+              $1,550 <span class="font-mono text-xs text-[#9CA3AF] font-normal">/ day</span>
+            </div>
+            <button onclick="openBookingModal('Aventador S', '$1,550', 'assets/lambo_miami_exterior.jpg')" class="w-full py-3 rounded-xl bg-[#25F443] hover:bg-[#20D03A] text-black font-mono font-bold text-xs tracking-wider transition-all shadow-[0_0_15px_rgba(37,244,67,0.3)]">
+              BOOK KEY
+            </button>
+          </div>
+        </article>
+
+        <!-- Card 2: Ferrari 296 GTB -->
+        <article class="p-6 rounded-3xl glass-panel border border-white/10 hover:border-[#FF2800]/50 transition-all flex flex-col justify-between group">
+          <div>
+            <div class="h-44 rounded-2xl overflow-hidden mb-6 bg-black/40">
+              <img src="assets/ferrari_sunset_exterior.jpg" alt="Ferrari 296 GTB" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-display text-xl font-bold text-white">296 GTB</span>
+              <span class="w-2.5 h-2.5 rounded-full bg-[#FF2800]"></span>
+            </div>
+            <span class="font-mono text-xs text-[#FF2800] block mb-4">Rosso Corsa &middot; Hybrid V6</span>
+
+            <div class="space-y-2 font-mono text-xs text-[#9CA3AF] py-4 border-y border-white/10 mb-6">
+              <div class="flex justify-between"><span>Horsepower:</span><span class="text-white font-semibold">819 HP</span></div>
+              <div class="flex justify-between"><span>0-60 Time:</span><span class="text-white font-semibold">2.9 sec</span></div>
+              <div class="flex justify-between"><span>Drivetrain:</span><span class="text-white font-semibold">PHEV Mid-Rear</span></div>
+              <div class="flex justify-between"><span>Doors:</span><span class="text-white font-semibold">Butterfly</span></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="text-2xl font-display font-extrabold text-white mb-4">
+              $1,190 <span class="font-mono text-xs text-[#9CA3AF] font-normal">/ day</span>
+            </div>
+            <button onclick="openBookingModal('Ferrari 296 GTB', '$1,190', 'assets/ferrari_sunset_exterior.jpg')" class="w-full py-3 rounded-xl bg-[#FF2800] hover:bg-[#D92200] text-white font-mono font-bold text-xs tracking-wider transition-all shadow-[0_0_15px_rgba(255,40,0,0.3)]">
+              BOOK KEY
+            </button>
+          </div>
+        </article>
+
+        <!-- Card 3: Rolls-Royce Cullinan -->
+        <article class="p-6 rounded-3xl glass-panel border border-white/10 hover:border-[#D4AF37]/50 transition-all flex flex-col justify-between group">
+          <div>
+            <div class="h-44 rounded-2xl overflow-hidden mb-6 bg-black/40">
+              <img src="assets/rolls_cullinan_exterior.jpg" alt="Rolls-Royce Cullinan" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-display text-xl font-bold text-white">Cullinan</span>
+              <span class="w-2.5 h-2.5 rounded-full bg-[#D4AF37]"></span>
+            </div>
+            <span class="font-mono text-xs text-[#D4AF37] block mb-4">Arctic White &middot; Twin-Turbo V12</span>
+
+            <div class="space-y-2 font-mono text-xs text-[#9CA3AF] py-4 border-y border-white/10 mb-6">
+              <div class="flex justify-between"><span>Engine:</span><span class="text-white font-semibold">6.75L V12</span></div>
+              <div class="flex justify-between"><span>0-60 Time:</span><span class="text-white font-semibold">4.5 sec</span></div>
+              <div class="flex justify-between"><span>Seating:</span><span class="text-white font-semibold">4 VIP Lounge</span></div>
+              <div class="flex justify-between"><span>Doors:</span><span class="text-white font-semibold">Suicide Coach</span></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="text-2xl font-display font-extrabold text-white mb-4">
+              $990 <span class="font-mono text-xs text-[#9CA3AF] font-normal">/ day</span>
+            </div>
+            <button onclick="openBookingModal('Rolls-Royce Cullinan', '$990', 'assets/rolls_cullinan_exterior.jpg')" class="w-full py-3 rounded-xl bg-[#D4AF37] hover:bg-[#C29E30] text-black font-mono font-bold text-xs tracking-wider transition-all shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+              BOOK KEY
+            </button>
+          </div>
+        </article>
+
+        <!-- Card 4: McLaren 720S Spider -->
+        <article class="p-6 rounded-3xl glass-panel border border-white/10 hover:border-[#FF8000]/50 transition-all flex flex-col justify-between group">
+          <div>
+            <div class="h-44 rounded-2xl overflow-hidden mb-6 bg-black/40">
+              <img src="assets/mclaren_720s_exterior.jpg" alt="McLaren 720S Spider" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-display text-xl font-bold text-white">720S Spider</span>
+              <span class="w-2.5 h-2.5 rounded-full bg-[#FF8000]"></span>
+            </div>
+            <span class="font-mono text-xs text-[#FF8000] block mb-4">Papaya Spark &middot; Twin-Turbo V8</span>
+
+            <div class="space-y-2 font-mono text-xs text-[#9CA3AF] py-4 border-y border-white/10 mb-6">
+              <div class="flex justify-between"><span>Horsepower:</span><span class="text-white font-semibold">710 HP</span></div>
+              <div class="flex justify-between"><span>0-60 Time:</span><span class="text-white font-semibold">2.8 sec</span></div>
+              <div class="flex justify-between"><span>Chassis:</span><span class="text-white font-semibold">Monocage II</span></div>
+              <div class="flex justify-between"><span>Doors:</span><span class="text-white font-semibold">Dihedral Roof</span></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="text-2xl font-display font-extrabold text-white mb-4">
+              $1,350 <span class="font-mono text-xs text-[#9CA3AF] font-normal">/ day</span>
+            </div>
+            <button onclick="openBookingModal('McLaren 720S Spider', '$1,350', 'assets/mclaren_720s_exterior.jpg')" class="w-full py-3 rounded-xl bg-[#FF8000] hover:bg-[#E07000] text-black font-mono font-bold text-xs tracking-wider transition-all shadow-[0_0_15px_rgba(255,128,0,0.3)]">
+              BOOK KEY
+            </button>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Bottom Conversion Scrim: "Key in your hand in under an hour." -->
+      <div class="p-8 md:p-12 rounded-3xl bg-gradient-to-r from-white/10 via-white/5 to-white/10 border border-white/15 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+          <span class="font-mono text-xs text-[#00F5D4] tracking-widest uppercase block mb-1">RAPID DISPATCH GUARANTEE</span>
+          <h3 class="font-display text-2xl md:text-4xl font-extrabold text-white">
+            Key in your hand in under an hour.
+          </h3>
+          <p class="font-sans text-sm text-[#9CA3AF] mt-1">
+            Airport curbside delivery at Miami International (MIA), Fort Lauderdale (FLL), or private FBO ramp access.
+          </p>
+        </div>
+
+        <button onclick="openBookingModal('VIP Custom Request', 'From $990', 'assets/hero_tray_keys.jpg')" class="px-8 py-4 rounded-full bg-[#FF007F] hover:bg-[#E0006F] text-white font-mono text-xs font-bold tracking-wider shadow-[0_0_25px_rgba(255,0,127,0.5)] transition-all whitespace-nowrap">
+          REQUEST DIRECT CONCIERGE
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- MODAL: CONCIERGE BOOKING DRAWER -->
+  <!-- ========================================== -->
+  <div id="booking-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="relative w-full max-w-xl rounded-3xl glass-panel border border-white/20 p-6 md:p-8 overflow-hidden shadow-2xl">
+      <button onclick="closeBookingModal()" class="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <span class="font-mono text-xs text-[#00F5D4] tracking-wider uppercase block mb-1">CONCIERGE BOOKING DISPATCH</span>
+      <h3 id="modal-car-title" class="font-display text-2xl font-bold text-white mb-1">Lamborghini Aventador S</h3>
+      <p id="modal-car-price" class="font-mono text-sm text-[#25F443] mb-6">$1,550 / day</p>
+
+      <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block font-mono text-xs text-[#9CA3AF] mb-1">YOUR FULL NAME</label>
+          <input type="text" required placeholder="Alexander Vance" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white font-sans text-sm focus:outline-none focus:border-[#00F5D4] transition-colors" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-mono text-xs text-[#9CA3AF] mb-1">START DATE</label>
+            <input type="date" required class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white font-sans text-sm focus:outline-none focus:border-[#00F5D4] transition-colors" />
+          </div>
+          <div>
+            <label class="block font-mono text-xs text-[#9CA3AF] mb-1">DELIVERY LOCATION</label>
+            <select class="w-full px-4 py-2.5 rounded-xl bg-[#0D1117] border border-white/15 text-white font-sans text-sm focus:outline-none focus:border-[#00F5D4] transition-colors">
+              <option>MIA Airport Terminal (Curbside)</option>
+              <option>Signature Flight Support (FBO)</option>
+              <option>South Beach Hotel / Villa</option>
+              <option>Sunny Isles / Bal Harbour</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-mono text-xs text-[#9CA3AF] mb-1">CONTACT PHONE / WHATSAPP</label>
+          <input type="tel" required placeholder="+1 (305) 555-0199" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white font-sans text-sm focus:outline-none focus:border-[#00F5D4] transition-colors" />
+        </div>
+
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-[#FF007F] hover:bg-[#E0006F] text-white font-mono font-bold text-xs tracking-wider transition-all shadow-[0_0_20px_rgba(255,0,127,0.4)] mt-4">
+          EXTRUDE RESERVATION DOSSIER
+        </button>
+      </form>
+
+      <div id="booking-success" class="hidden text-center py-8">
+        <div class="w-12 h-12 rounded-full bg-[#25F443]/20 border border-[#25F443] flex items-center justify-center mx-auto mb-4 text-[#25F443]">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <h4 class="font-display text-xl font-bold text-white mb-2">Key Reserved &amp; Dispatched</h4>
+        <p class="font-sans text-xs text-[#9CA3AF] max-w-sm mx-auto mb-6">
+          Your reservation confirmation dossier has been queued. Our Miami operations concierge will reach out in under 15 minutes.
+        </p>
+        <button onclick="closeBookingModal()" class="px-6 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white font-mono text-xs">
+          CLOSE
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- FOOTER -->
+  <!-- ========================================== -->
+  <footer class="py-12 px-6 md:px-14 border-t border-white/10 bg-[#05070A] text-[#9CA3AF] font-mono text-xs">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <span class="font-display text-white font-bold tracking-wider">ON THE KEY</span>
+        <span>&middot;</span>
+        <span>MIAMI EXOTIC CAR RENTALS</span>
+      </div>
+
+      <div class="flex items-center gap-6">
+        <span>MIA AIRPORT CONCIERGE</span>
+        <span>&middot;</span>
+        <span>24/7 VIP FLEET DISPATCH</span>
+      </div>
+
+      <div class="text-[#6B7280]">
+        &copy; 2026 ON THE KEY &middot; ASURA SOVEREIGN AUTOMOTIVE EDGE
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================== -->
+  <!-- SCRIPT ENGINE: LENIS + GSAP + AUDIO SYNTH -->
+  <!-- ========================================== -->
+  <script>
+    // 1. Initialize Lenis Momentum Smooth Scroll
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.0
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Register GSAP plugins
+    gsap.registerPlugin(ScrollTrigger);
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+
+    // 2. Glass Header Transition on Scroll
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('main-header');
+      if (window.scrollY > 80) {
+        header.classList.add('bg-[#07090D]/90', 'backdrop-blur-md', 'border-b', 'border-white/10');
+      } else {
+        header.classList.remove('bg-[#07090D]/90', 'backdrop-blur-md', 'border-b', 'border-white/10');
+      }
+    });
+
+    // 3. 3D Tilt Physics for Valet Tray
+    const tray = document.getElementById('valet-tray-container');
+    if (tray) {
+      tray.addEventListener('mousemove', (e) => {
+        const rect = tray.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const rotateX = (-y / rect.height) * 12;
+        const rotateY = (x / rect.width) * 12;
+        tray.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+      tray.addEventListener('mouseleave', () => {
+        tray.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+      });
+    }
+
+    // 4. Web Audio API Supercar Engine Rev Synthesizer
+    let audioCtx = null;
+    let isSoundEnabled = true;
+
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+    }
+
+    function triggerEngineAudio(carType) {
+      if (!isSoundEnabled) return;
+      initAudio();
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      // Configure frequencies based on car character
+      if (carType === 'lambo') {
+        // High-pitch V12 scream
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(60, now);
+        osc.frequency.exponentialRampToValueAtTime(320, now + 0.4);
+        osc.frequency.exponentialRampToValueAtTime(140, now + 1.2);
+        gain.gain.setValueAtTime(0.01, now);
+        gain.gain.linearRampToValueAtTime(0.3, now + 0.3);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.4);
+      } else if (carType === 'ferrari') {
+        // Crisp Twin-Turbo V6 crescendo
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(90, now);
+        osc.frequency.exponentialRampToValueAtTime(440, now + 0.35);
+        osc.frequency.exponentialRampToValueAtTime(180, now + 1.1);
+        gain.gain.setValueAtTime(0.01, now);
+        gain.gain.linearRampToValueAtTime(0.25, now + 0.25);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.3);
+      } else {
+        // Low-frequency Rolls-Royce V12 whisper
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(45, now);
+        osc.frequency.linearRampToValueAtTime(90, now + 0.5);
+        osc.frequency.linearRampToValueAtTime(40, now + 1.5);
+        gain.gain.setValueAtTime(0.01, now);
+        gain.gain.linearRampToValueAtTime(0.2, now + 0.4);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.6);
+      }
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 1.6);
+    }
+
+    // Sound toggle button
+    const soundBtn = document.getElementById('sound-toggle-btn');
+    const soundText = document.getElementById('sound-text');
+    if (soundBtn) {
+      soundBtn.addEventListener('click', () => {
+        isSoundEnabled = !isSoundEnabled;
+        soundText.innerText = isSoundEnabled ? 'V12 AUDIO: ON' : 'V12 AUDIO: OFF';
+        soundBtn.classList.toggle('opacity-50', !isSoundEnabled);
+      });
+    }
+
+    // 5. Booking Modal Logic
+    const modal = document.getElementById('booking-modal');
+    const modalCarTitle = document.getElementById('modal-car-title');
+    const modalCarPrice = document.getElementById('modal-car-price');
+    const bookingForm = document.getElementById('booking-form');
+    const bookingSuccess = document.getElementById('booking-success');
+
+    function openBookingModal(carName, price, imgSrc) {
+      if (modalCarTitle) modalCarTitle.innerText = carName;
+      if (modalCarPrice) modalCarPrice.innerText = price + ' / day';
+      if (bookingForm) bookingForm.classList.remove('hidden');
+      if (bookingSuccess) bookingSuccess.classList.add('hidden');
+      if (modal) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100');
+      }
+    }
+
+    function closeBookingModal() {
+      if (modal) {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        modal.classList.remove('opacity-100');
+      }
+    }
+
+    function handleBookingSubmit(e) {
+      e.preventDefault();
+      if (bookingForm) bookingForm.classList.add('hidden');
+      if (bookingSuccess) bookingSuccess.classList.remove('hidden');
+    }
+
+    // Close modal on click outside
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeBookingModal();
+      });
+    }
+  </script>
+</body>
+</html>
