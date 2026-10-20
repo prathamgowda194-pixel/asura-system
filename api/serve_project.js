@@ -642,7 +642,7 @@ export default async function handler(req, res) {
   const qSlug = (req.query && req.query.slug) || parsedUrl.searchParams.get('slug') || '';
   const assetParam = qAsset.toString().trim();
   const urlPath = req.url || '';
-  if (assetParam || urlPath.includes('/assets/') || urlPath.includes('/frames/')) {
+  if (assetParam || urlPath.includes('/assets/')) {
     const rawAsset = assetParam || (urlPath.split('/assets/')[1] || '').split('?')[0];
     const cleanAsset = rawAsset.replace(/^[/\\]+/, '').replace(/\.\./g, '');
     const basename = path.basename(cleanAsset);
@@ -665,14 +665,6 @@ export default async function handler(req, res) {
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
     const candidatePaths = [
-      path.join('projects', qSlug || 'filter-coffee', cleanAsset),
-      path.join('public', 'projects', qSlug || 'filter-coffee', cleanAsset),
-      path.join('projects', qSlug || 'filter-coffee', 'frames', cleanAsset),
-      path.join('projects', qSlug || 'filter-coffee', 'frames', 'assets', basename),
-      path.join('projects', qSlug || 'royal-wedding-invitation', 'assets', basename),
-      path.join('public', 'projects', qSlug || 'royal-wedding-invitation', 'assets', basename),
-      path.join('projects', 'royal-wedding-invitation', 'assets', basename),
-      path.join('public', 'projects', 'royal-wedding-invitation', 'assets', basename),
       path.join('projects', 'ktm-showroom', 'assets', basename),
       path.join('public', 'projects', 'ktm-showroom', 'assets', basename),
       path.join('projects', 'ktm-showroom', 'frames', 'drone', basename),
@@ -839,19 +831,9 @@ export default async function handler(req, res) {
   ];
 
   for (const relPath of paths) {
+    // Priority 1: GitHub API contents (Always live, never stale container cached)
     try {
-      const localPath = path.join(process.cwd(), relPath);
-      if (fs.existsSync(localPath)) {
-        const html = fs.readFileSync(localPath, 'utf8');
-        res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0');
-        return res.status(200).send(html);
-      }
-    } catch (e) {}
-
-    // Priority 1: GitHub API contents (Always live, never CDN-cached)
-    try {
-      const apiEndpoint = `https://api.github.com/repos/${REPO}/contents/${relPath}?ref=main`;
+      const apiEndpoint = `https://api.github.com/repos/${REPO}/contents/${relPath}?ref=main&t=${Date.now()}`;
       const apiRes = await fetch(apiEndpoint, {
         headers: {
           'Authorization': `Bearer ${GITHUB_TOKEN}`,
@@ -886,6 +868,17 @@ export default async function handler(req, res) {
             }
           }
         }
+      }
+    } catch (e) {}
+
+    // Priority 2: Fallback to local disk if GitHub API is unreachable
+    try {
+      const localPath = path.join(process.cwd(), relPath);
+      if (fs.existsSync(localPath)) {
+        const html = fs.readFileSync(localPath, 'utf8');
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0');
+        return res.status(200).send(html);
       }
     } catch (e) {}
 
