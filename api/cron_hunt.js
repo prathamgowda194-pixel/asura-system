@@ -1,13 +1,11 @@
 /**
- * ==============================================================================
+ * ══════════════════════════════════════════════════════════════════════════════
  * ASURA 24/7 KARNATAKA LEAD RADAR (VERCEL SERVERLESS CRON)
  * Route: /api/cron_hunt
- * Runs automatically every 30 minutes 24/7/365 without fail!
- * Exclusively searches verified businesses across KARNATAKA, INDIA.
- * ZERO DEMO WEBSITES BUILT (Direct verified business intelligence only)
- * ==============================================================================
+ * Runs automatically every hour to deliver exactly 2 unique Karnataka clients!
+ * ══════════════════════════════════════════════════════════════════════════════
  */
-import { getNextKarnatakaLeads } from './karnataka_lead_scraper.js';
+import { getNextKarnatakaLeads, normalizeKey } from './karnataka_lead_scraper.js';
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8909145509:AAF8UhbWxPR5JGt8ddcAd9D1gqZ3L13ZuAo';
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID || '7025916840'; // Commander Tech Playz
@@ -38,7 +36,7 @@ async function sendTelegram(payload) {
 }
 
 async function loadVault() {
-  const url = `https://api.github.com/repos/${REPO}/contents/data/karnataka_vault.json`;
+  const url = `https://api.github.com/repos/${REPO}/contents/data/karnataka_vault.json?ref=main`;
   try {
     const res = await fetch(url, {
       headers: {
@@ -53,20 +51,21 @@ async function loadVault() {
       const content = Buffer.from(data.content, 'base64').toString('utf8');
       const parsed = JSON.parse(content);
       const records = parsed.records || [];
-      return {
-        sha: data.sha,
-        seenSet: new Set(records.map(r => r.cleanPhone || r.name.toLowerCase().trim())),
-        records: records
-      };
+      const seenSet = new Set();
+      for (const r of records) {
+        if (r.cleanPhone) seenSet.add(r.cleanPhone);
+        if (r.name) seenSet.add(normalizeKey(r.name));
+      }
+      return { sha: data.sha, seenSet, records };
     }
   } catch (e) {}
 
   return { sha: null, seenSet: new Set(), records: [] };
 }
 
-async function saveVault(vaultInfo, newLead) {
+async function saveVault(vaultInfo, newLeads) {
   const url = `https://api.github.com/repos/${REPO}/contents/data/karnataka_vault.json`;
-  const allRecords = [...vaultInfo.records, newLead];
+  const allRecords = [...vaultInfo.records, ...newLeads];
   const payload = {
     updatedAt: new Date().toISOString(),
     region: "Karnataka, India",
@@ -75,8 +74,9 @@ async function saveVault(vaultInfo, newLead) {
   };
 
   try {
+    const leadNames = newLeads.map(l => l.name).join(' & ');
     const body = {
-      message: `chore(karnataka): record verified lead "${newLead.name}" in Karnataka vault [skip ci]`,
+      message: `chore(karnataka): record verified leads [${leadNames}] [skip ci]`,
       content: Buffer.from(JSON.stringify(payload, null, 2), 'utf8').toString('base64'),
       branch: 'main'
     };
@@ -102,23 +102,23 @@ export default async function handler(req, res) {
   // 1. Load permanent deduplication vault
   const vault = await loadVault();
 
-  // 2. Fetch fresh Karnataka lead
-  const candidates = await getNextKarnatakaLeads(vault.seenSet);
+  // 2. Fetch fresh Karnataka leads (Exactly 2)
+  const candidates = await getNextKarnatakaLeads(vault.seenSet, 2);
   if (!candidates || candidates.length === 0) {
     return res.status(200).json({ ok: true, message: "No new lead available this cycle." });
   }
 
-  const lead = candidates[0];
-  const cleanPhone = lead.cleanPhone || lead.phone.replace(/\D/g, '').slice(-10);
+  const dispatchedLeads = [];
 
-  // 3. High-Converting Direct Outreach Pitch (Ready to Send via WhatsApp)
-  const rawPitch = `Namaskara ${lead.name}! I came across your business in ${lead.city}, Karnataka. You have strong customer reviews (${lead.rating} ★) and a solid local reputation, but I noticed you don't currently have an official modern website or 24/7 AI voice booking line for customers. We build high-converting custom websites and automated AI receptionists for businesses in Karnataka. Would you be open to a quick 5-minute live demo on WhatsApp?`;
+  for (let idx = 0; idx < candidates.length; idx++) {
+    const lead = candidates[idx];
+    const cleanPhone = lead.cleanPhone || lead.phone.replace(/\D/g, '').slice(-10);
 
-  const encodedPitch = encodeURIComponent(rawPitch);
+    const rawPitch = `Namaskara ${lead.name}! I came across your business in ${lead.city}, Karnataka. You have strong customer reviews (${lead.rating} ★) and a solid local reputation, but I noticed you don't currently have an official modern website or 24/7 AI voice booking line for customers. We build high-converting custom websites and automated AI receptionists for businesses in Karnataka. Would you be open to a quick 5-minute live demo on WhatsApp?`;
+    const encodedPitch = encodeURIComponent(rawPitch);
 
-  // 4. Clean, Professional Telegram Message (NO DEMO WEBSITE LINKS)
-  const card = 
-`🎯 <b>NEW VERIFIED CLIENT LEAD // KARNATAKA ONLY</b>
+    const card = 
+`🎯 <b>NEW VERIFIED CLIENT LEAD // [${idx + 1} OF ${candidates.length}]</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🏢 <b>Business:</b> <b>${escapeHtml(lead.name)}</b>
 🏷 <b>Niche:</b> ${escapeHtml(lead.niche)}
@@ -132,41 +132,46 @@ export default async function handler(req, res) {
 💬 <b>DIRECT OUTREACH PITCH SCRIPT:</b>
 <i>"${escapeHtml(rawPitch)}"</i>
 
-<i>⚡ 30-Min Autonomous Karnataka Radar active. Zero demo sites generated. Ready for direct owner outreach!</i>`;
+<i>⚡ Hourly Karnataka Lead Radar. Lead ${idx + 1}/${candidates.length}. Direct owner outreach ready!</i>`;
 
-  const buttons = [
-    [
-      { text: "💬 1-Click WhatsApp Pitch", url: `https://wa.me/91${cleanPhone}?text=${encodedPitch}` },
-      { text: "📞 Direct Contact (WhatsApp)", url: `https://wa.me/91${cleanPhone}` }
-    ]
-  ];
+    const buttons = [
+      [
+        { text: "💬 1-Click WhatsApp Pitch", url: `https://wa.me/91${cleanPhone}?text=${encodedPitch}` },
+        { text: "📞 Direct Contact (WhatsApp)", url: `https://wa.me/91${cleanPhone}` }
+      ]
+    ];
 
-  // 5. Send message directly to Commander
-  const ok = await sendTelegram({
-    chat_id: CHAT_ID,
-    text: card,
-    parse_mode: 'HTML',
-    disable_web_page_preview: true,
-    reply_markup: { inline_keyboard: buttons }
-  });
-
-  // 6. Record to vault
-  if (ok) {
-    await saveVault(vault, {
-      name: lead.name,
-      cleanPhone: cleanPhone,
-      city: lead.city,
-      district: lead.district,
-      dispatchedAt: new Date().toISOString()
+    const ok = await sendTelegram({
+      chat_id: CHAT_ID,
+      text: card,
+      parse_mode: 'HTML',
+      disable_web_page_preview: true,
+      reply_markup: { inline_keyboard: buttons }
     });
+
+    if (ok) {
+      dispatchedLeads.push({
+        name: lead.name,
+        cleanPhone: cleanPhone,
+        city: lead.city,
+        district: lead.district,
+        dispatchedAt: new Date().toISOString()
+      });
+    }
+
+    if (idx < candidates.length - 1) {
+      await new Promise(r => setTimeout(r, 1500));
+    }
+  }
+
+  if (dispatchedLeads.length > 0) {
+    await saveVault(vault, dispatchedLeads);
   }
 
   return res.status(200).json({
-    ok: ok,
+    ok: true,
     region: "Karnataka, India",
-    leadName: lead.name,
-    city: lead.city,
-    phone: lead.phone,
+    dispatchedCount: dispatchedLeads.length,
     elapsedMs: Date.now() - startTime
   });
 }
