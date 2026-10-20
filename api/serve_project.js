@@ -871,28 +871,28 @@ export default async function handler(req, res) {
       }
     } catch (e) {}
 
-    // Priority 2: Fallback to local disk if GitHub API is unreachable
+    // Priority 2: Raw GitHub fallback (Always live edge commit, never rate-limited or stale)
     try {
-      const localPath = path.join(process.cwd(), relPath);
-      if (fs.existsSync(localPath)) {
-        const html = fs.readFileSync(localPath, 'utf8');
+      const rawUrl = `https://raw.githubusercontent.com/${REPO}/main/${relPath}?v=${Date.now()}`;
+      const rawRes = await fetch(rawUrl, {
+        headers: {
+          'Authorization': `token ${GITHUB_TOKEN}`,
+          'User-Agent': 'ASURA-Edge'
+        }
+      });
+      if (rawRes.status === 200) {
+        const html = await rawRes.text();
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0');
         return res.status(200).send(html);
       }
     } catch (e) {}
 
-    // Priority 2: Raw GitHub fallback
+    // Priority 3: Fallback to local container disk only if GitHub is completely unreachable
     try {
-      const rawUrl = `https://raw.githubusercontent.com/${REPO}/main/${relPath}?v=${Date.now()}`;
-      const rawRes = await fetch(rawUrl, {
-        headers: {
-          'Authorization': `Bearer ${GITHUB_TOKEN}`,
-          'User-Agent': 'ASURA-Edge'
-        }
-      });
-      if (rawRes.status === 200) {
-        const html = await rawRes.text();
+      const localPath = path.join(process.cwd(), relPath);
+      if (fs.existsSync(localPath)) {
+        const html = fs.readFileSync(localPath, 'utf8');
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0');
         return res.status(200).send(html);
