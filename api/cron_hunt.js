@@ -36,15 +36,16 @@ async function sendTelegram(payload) {
 }
 
 async function loadVault() {
-  const url = `https://api.github.com/repos/${REPO}/contents/data/karnataka_vault.json?ref=main`;
+  const url = `https://api.github.com/repos/${REPO}/contents/data/karnataka_vault.json?ref=main&_t=${Date.now()}`;
   try {
     const res = await fetch(url, {
+      cache: 'no-store',
       headers: {
         'Authorization': `Bearer ${GITHUB_TOKEN}`,
         'User-Agent': 'ASURA-Cron',
         'Accept': 'application/vnd.github.v3+json'
       },
-      signal: AbortSignal.timeout(5000)
+      signal: AbortSignal.timeout(6000)
     });
     if (res.status === 200) {
       const data = await res.json();
