@@ -1,22 +1,38 @@
-name: "ASURA HUNTER // 24/7 AUTONOMOUS CLOUD RADAR"
+name: "ASURA HUNTER // 24/7 KARNATAKA CLOUD RADAR"
 
 on:
   schedule:
-    - cron: '*/30 * * * *' # Runs every 30 minutes in the cloud 24/7
-  workflow_dispatch:
+    # Runs autonomously every hour on GitHub Actions cloud (zero laptop required)
+    - cron: '0 * * * *'
+  workflow_dispatch: # Allows 1-click manual trigger anytime from GitHub Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hunter-cloud-runner
+  cancel-in-progress: false
 
 jobs:
-  hunt:
+  karnataka_radar_sweep:
+    name: "24/7 Karnataka Autonomous Lead Scraper"
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
         with:
-          node-version: 20
-      - name: Run 24/7 Lead Hunter
-        env:
-          TELEGRAM_BOT_TOKEN: "8909145509:AAF8UhbWxPR5JGt8ddcAd9D1gqZ3L13ZuAo"
-          TELEGRAM_CHAT_ID: "7025916840"
-          FIRECRAWL_API_KEY: "fc-9580658b488a4455850b07c92bd7ed59"
-          GEMINI_API_KEY: "AQ.Ab8RN6LQTcBVg27285xhxo4j7NrFIsXGY9tKv96nGlh6e6rlDQ"
-        run: node hunter_engine.cjs --cron
+          fetch-depth: 1
+
+      - name: Trigger Vercel Edge Cloud Radar
+        run: |
+          echo "⚡ [ASURA CLOUD RADAR] Pinging Vercel Serverless Edge with Security Key..."
+          RESPONSE=$(curl -s -w "\nHTTP_STATUS:%{http_code}" "https://asura-system.vercel.app/api/cron_hunt?key=asura-sovereign-radar-2026")
+          echo "$RESPONSE"
+          STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS" | cut -d':' -f2)
+          if [ "$STATUS" -eq "200" ]; then
+            echo "✅ Successfully executed hourly Karnataka lead sweep on Vercel Serverless!"
+          else
+            echo "⚠️ Non-200 status received: $STATUS. Check endpoint logs."
+          fi
