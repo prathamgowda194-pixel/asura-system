@@ -15,7 +15,7 @@ const { runSweep } = require('./run_karnataka_lead_radar.cjs');
 async function main() {
   console.log(`[${new Date().toISOString()}] ⚡ ASURA HUNTER ENGINE: 24/7 Autonomous Karnataka Radar Triggered`);
   try {
-    const res = await runSweep();
+    const res = await runSweep({ count: 2, checkCurrentHour: true });
     console.log(`[${new Date().toISOString()}] ✅ Autonomous sweep completed successfully:`, JSON.stringify(res));
     process.exit(0);
   } catch (err) {
