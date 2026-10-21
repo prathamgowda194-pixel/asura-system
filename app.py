@@ -24,8 +24,8 @@ import streamlit.components.v1 as components
 import base64
 import requests
 
-os.environ["GEMINI_API_KEY"] = "AQ.Ab8RN6LQTcBVg27285xhxo4j7NrFIsXGY9tKv96nGlh6e6rlDQ"
-os.environ["GITHUB_TOKEN"] = "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"
+os.environ["GEMINI_API_KEY"] = os.environ.get("GEMINI_API_KEY", "")
+os.environ["GITHUB_TOKEN"] = os.environ.get("GITHUB_TOKEN", "")
 os.environ["OPENAI_API_KEY"] = os.environ["GITHUB_TOKEN"]
 os.environ["GOOGLE_API_KEY"] = os.environ["GEMINI_API_KEY"]
 os.environ["OTEL_SDK_DISABLED"] = "true"
@@ -66,7 +66,7 @@ st.set_page_config(
 )
 
 def get_api_key():
-    return os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6LQTcBVg27285xhxo4j7NrFIsXGY9tKv96nGlh6e6rlDQ")
+    return os.environ.get("GEMINI_API_KEY", "")
 
 # ── DYNAMIC STATE MEMORY MAPPING ──────────────────────────────────────────────
 if "system_logs" not in st.session_state:
