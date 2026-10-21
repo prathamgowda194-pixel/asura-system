@@ -25,10 +25,10 @@ import requests
 from telegram_bot import TelegramBot
 
 # ── CONFIGURATION & CREDENTIALS ──────────────────────────────────────────────
-TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "8909145509:AAF8UhbWxPR5JGt8ddcAd9D1gqZ3L13ZuAo")
-FIRECRAWL_KEY = os.environ.get("FIRECRAWL_API_KEY", "fc-9580658b488a4455850b07c92bd7ed59")
-GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6LQTcBVg27285xhxo4j7NrFIsXGY9tKv96nGlh6e6rlDQ")
-GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "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")
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+FIRECRAWL_KEY = os.environ.get("FIRECRAWL_API_KEY", "")
+GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "")
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
 REPO_NAME = "prathamgowda194-pixel/asura-system"
 CLOUDFLARE_BASE = "https://asura-system.pages.dev"
 VERCEL_BASE = "https://asura-system.vercel.app"
