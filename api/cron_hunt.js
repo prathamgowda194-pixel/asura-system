@@ -102,6 +102,18 @@ export default async function handler(req, res) {
   // 1. Load permanent deduplication vault
   const vault = await loadVault();
 
+  // 1.5. Idempotency Check: If 2 leads were already dispatched in the past 50 minutes, skip (unless force query passed)
+  const fiftyMinsAgo = new Date(Date.now() - 50 * 60 * 1000).toISOString();
+  const leadsSentThisHour = vault.records.filter(r => r.dispatchedAt && r.dispatchedAt > fiftyMinsAgo);
+  if (leadsSentThisHour.length >= 2 && !req.query?.force) {
+    return res.status(200).json({
+      ok: true,
+      skipped: true,
+      reason: `Quota satisfied: ${leadsSentThisHour.length} leads already dispatched in the past 50 minutes.`,
+      dispatchedCount: 0
+    });
+  }
+
   // 2. Fetch fresh Karnataka leads (Exactly 2)
   const candidates = await getNextKarnatakaLeads(vault.seenSet, 2);
   if (!candidates || candidates.length === 0) {
