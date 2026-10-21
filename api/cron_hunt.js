@@ -9,7 +9,7 @@ import { getNextKarnatakaLeads, normalizeKey } from './karnataka_lead_scraper.js
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8909145509:AAF8UhbWxPR5JGt8ddcAd9D1gqZ3L13ZuAo';
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID || '7025916840'; // Commander Tech Playz
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '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';
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '';
 const REPO = 'prathamgowda194-pixel/asura-system';
 const API_URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
 
@@ -38,13 +38,16 @@ async function sendTelegram(payload) {
 async function loadVault() {
   const url = `https://api.github.com/repos/${REPO}/contents/data/karnataka_vault.json?ref=main&_t=${Date.now()}`;
   try {
+    const headers = {
+      'User-Agent': 'ASURA-Cron',
+      'Accept': 'application/vnd.github.v3+json'
+    };
+    if (GITHUB_TOKEN) {
+      headers['Authorization'] = `Bearer ${GITHUB_TOKEN}`;
+    }
     const res = await fetch(url, {
       cache: 'no-store',
-      headers: {
-        'Authorization': `Bearer ${GITHUB_TOKEN}`,
-        'User-Agent': 'ASURA-Cron',
-        'Accept': 'application/vnd.github.v3+json'
-      },
+      headers,
       signal: AbortSignal.timeout(6000)
     });
     if (res.status === 200) {
@@ -58,6 +61,22 @@ async function loadVault() {
         if (r.name) seenSet.add(normalizeKey(r.name));
       }
       return { sha: data.sha, seenSet, records };
+    }
+  } catch (e) {}
+
+  // Fallback 1: Raw GitHub UserContent (reliable public mirror, requires zero tokens)
+  try {
+    const rawUrl = `https://raw.githubusercontent.com/${REPO}/main/data/karnataka_vault.json?_t=${Date.now()}`;
+    const rawRes = await fetch(rawUrl, { cache: 'no-store', signal: AbortSignal.timeout(6000) });
+    if (rawRes.status === 200) {
+      const parsed = await rawRes.json();
+      const records = parsed.records || [];
+      const seenSet = new Set();
+      for (const r of records) {
+        if (r.cleanPhone) seenSet.add(r.cleanPhone);
+        if (r.name) seenSet.add(normalizeKey(r.name));
+      }
+      return { sha: null, seenSet, records };
     }
   } catch (e) {}
 
@@ -100,12 +119,22 @@ async function saveVault(vaultInfo, newLeads) {
 export default async function handler(req, res) {
   const startTime = Date.now();
 
+  // 0. Security Barrier: Prevent unauthorized calls from disturbing or spamming the radar
+  const host = req.headers?.host || 'asura-system.vercel.app';
+  const parsedUrl = new URL(req.url || '/api/cron_hunt', `https://${host}`);
+  const providedKey = parsedUrl.searchParams.get('key') || req.headers['x-radar-key'] || (req.headers['authorization'] || '').replace('Bearer ', '');
+  const SECURE_KEY = process.env.RADAR_SECURITY_KEY || 'asura-sovereign-radar-2026';
+
+  if (providedKey !== SECURE_KEY && process.env.NODE_ENV === 'production') {
+    return res.status(401).json({
+      error: "Unauthorized: Protected Asura Radar Endpoint",
+      hint: "Pass valid ?key= parameter to trigger"
+    });
+  }
+
   // 1. Load permanent deduplication vault
   const vault = await loadVault();
 
-  // 1.5. Idempotency Check: If 2 leads were already dispatched in the past 50 minutes, skip (unless force query passed)
-  const host = req.headers?.host || 'asura-system.vercel.app';
-  const parsedUrl = new URL(req.url || '/api/cron_hunt', `https://${host}`);
   const isForced = parsedUrl.searchParams.get('force') === 'true';
 
   const fiftyMinsAgo = new Date(Date.now() - 50 * 60 * 1000).toISOString();
