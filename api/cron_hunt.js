@@ -104,12 +104,19 @@ export default async function handler(req, res) {
   const vault = await loadVault();
 
   // 1.5. Idempotency Check: If 2 leads were already dispatched in the past 50 minutes, skip (unless force query passed)
+  const host = req.headers?.host || 'asura-system.vercel.app';
+  const parsedUrl = new URL(req.url || '/api/cron_hunt', `https://${host}`);
+  const isForced = parsedUrl.searchParams.get('force') === 'true';
+
   const fiftyMinsAgo = new Date(Date.now() - 50 * 60 * 1000).toISOString();
   const leadsSentThisHour = vault.records.filter(r => r.dispatchedAt && r.dispatchedAt > fiftyMinsAgo);
-  if (leadsSentThisHour.length >= 2 && !req.query?.force) {
+
+  if (leadsSentThisHour.length >= 2 && !isForced) {
     return res.status(200).json({
       ok: true,
       skipped: true,
+      version: "2.5-idempotent",
+      recentDispatchedCount: leadsSentThisHour.length,
       reason: `Quota satisfied: ${leadsSentThisHour.length} leads already dispatched in the past 50 minutes.`,
       dispatchedCount: 0
     });
@@ -183,7 +190,9 @@ export default async function handler(req, res) {
 
   return res.status(200).json({
     ok: true,
+    version: "2.5-idempotent",
     region: "Karnataka, India",
+    recentDispatchedCount: leadsSentThisHour.length,
     dispatchedCount: dispatchedLeads.length,
     elapsedMs: Date.now() - startTime
   });
