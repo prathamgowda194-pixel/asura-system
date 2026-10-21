@@ -138,9 +138,13 @@ async function getNextKarnatakaLeads(dispatchedVaultSet, count = 2) {
   const selectedPhones = new Set();
   const selectedDistricts = new Set();
 
-  for (const lead of MASTER_KARNATAKA_VAULT) {
-    if (selectedLeads.length >= count) break;
+  const total = MASTER_KARNATAKA_VAULT.length;
+  const hourOffset = Math.floor(Date.now() / (1000 * 60 * 60)) % total;
+  const startIdx = (hourOffset * 2) % total;
 
+  for (let i = 0; i < total; i++) {
+    if (selectedLeads.length >= count) break;
+    const lead = MASTER_KARNATAKA_VAULT[(startIdx + i) % total];
     const phoneKey = lead.cleanPhone;
     const nameKey = normalizeKey(lead.name);
 
@@ -155,9 +159,9 @@ async function getNextKarnatakaLeads(dispatchedVaultSet, count = 2) {
   }
 
   if (selectedLeads.length < count) {
-    for (const lead of MASTER_KARNATAKA_VAULT) {
+    for (let i = 0; i < total; i++) {
       if (selectedLeads.length >= count) break;
-
+      const lead = MASTER_KARNATAKA_VAULT[(startIdx + i) % total];
       const phoneKey = lead.cleanPhone;
       const nameKey = normalizeKey(lead.name);
 
