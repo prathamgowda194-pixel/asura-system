@@ -14,7 +14,7 @@ const { getNextKarnatakaLeads, KARNATAKA_BUSINESS_VAULT, normalizeKey } = requir
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8909145509:AAF8UhbWxPR5JGt8ddcAd9D1gqZ3L13ZuAo';
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID || '7025916840'; // Commander Tech Playz
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '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';
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '';
 const REPO = 'prathamgowda194-pixel/asura-system';
 
 function escapeHtml(str) {
