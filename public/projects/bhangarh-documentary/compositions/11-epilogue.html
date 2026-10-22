@@ -1,0 +1,408 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 30%, #0c1829 0%, #040810 75%, #020407 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #f1f5f9;
+      padding: 60px 80px;
+    }
+
+    /* Ambient Moonlight & Mountain Silhouettes */
+    .moonlight-halo {
+      position: absolute;
+      top: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(148, 163, 184, 0.18) 0%, rgba(56, 189, 248, 0.08) 45%, transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+    }
+
+    .lunar-disk {
+      position: absolute;
+      top: 14%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%, #ffffff 0%, #cbd5e1 55%, #64748b 100%);
+      box-shadow: 0 0 50px rgba(226, 232, 240, 0.4), 0 0 100px rgba(56, 189, 248, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      z-index: 2;
+    }
+
+    /* Vector SVG Silhouette Horizon */
+    .aravalli-silhouette {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 360px;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    /* Content Stage */
+    .epilogue-stage {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 1400px;
+      margin-top: 120px;
+    }
+
+    .epilogue-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 24px;
+      border-radius: 9999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      margin-bottom: 28px;
+    }
+
+    .epilogue-badge svg {
+      width: 16px;
+      height: 16px;
+      color: #38bdf8;
+    }
+
+    .epilogue-title {
+      font-family: "Cinzel", Georgia, serif;
+      font-size: 64px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.15;
+      background: linear-gradient(180deg, #ffffff 20%, #cbd5e1 70%, #64748b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 24px;
+      text-shadow: 0 15px 40px rgba(0, 0, 0, 0.9);
+    }
+
+    .epilogue-narrative {
+      font-family: "Georgia", serif;
+      font-style: italic;
+      font-size: 24px;
+      line-height: 1.65;
+      color: #cbd5e1;
+      max-width: 1100px;
+      margin-bottom: 40px;
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+    }
+
+    .epilogue-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      width: 100%;
+      max-width: 1200px;
+      margin-bottom: 30px;
+    }
+
+    .stat-pill {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 12px;
+      padding: 18px 24px;
+      backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .stat-metric {
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 24px;
+      font-weight: 800;
+      color: #38bdf8;
+      letter-spacing: -0.01em;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 11px;
+      font-weight: 600;
+      color: #64748b;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    /* Final Title Card & Production Roll */
+    .credits-card {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #020408;
+      z-index: 50;
+      opacity: 0;
+    }
+
+    .monument-seal {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 24px;
+      color: #f59e0b;
+    }
+
+    .credits-head {
+      font-family: "Cinzel", Georgia, serif;
+      font-size: 50px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #f8fafc;
+      margin-bottom: 12px;
+    }
+
+    .credits-sub {
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 14px;
+      letter-spacing: 0.3em;
+      color: #38bdf8;
+      text-transform: uppercase;
+      margin-bottom: 44px;
+    }
+
+    .credits-table {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px 60px;
+      max-width: 1080px;
+      text-align: center;
+    }
+
+    .credit-entry-title {
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 11px;
+      color: #64748b;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .credit-entry-name {
+      font-size: 17px;
+      font-weight: 600;
+      color: #e2e8f0;
+      letter-spacing: 0.04em;
+    }
+
+    .credits-footer {
+      margin-top: 50px;
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 12px;
+      color: #475569;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+  </style>
+
+  <div id="root" data-composition-id="scene-11-epilogue" data-width="1920" data-height="1080">
+    <div class="moonlight-halo"></div>
+    <div class="lunar-disk clip" id="epi-moon" data-start="0.0" data-duration="34.8"></div>
+
+    <!-- Mountain Silhouettes SVG -->
+    <svg class="aravalli-silhouette clip" id="epi-hills" data-start="0.0" data-duration="34.8" viewBox="0 0 1920 360" preserveAspectRatio="none">
+      <path d="M0,360 L0,220 L180,180 L360,240 L520,160 L720,230 L960,140 L1200,210 L1440,130 L1680,220 L1820,170 L1920,210 L1920,360 Z" fill="#030712" opacity="0.85" />
+      <path d="M0,360 L0,270 L140,240 L300,280 L460,220 L640,260 L840,200 L1080,250 L1320,190 L1560,260 L1760,230 L1920,250 L1920,360 Z" fill="#010307" />
+    </svg>
+
+    <!-- Narrative Stage (0.0s - 22.0s) -->
+    <div class="epilogue-stage">
+      <div class="epilogue-badge clip" id="epi-badge" data-start="0.6" data-duration="21.4">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+          <path d="M2 12h20" />
+        </svg>
+        <span>ACT VII // THE HAUNTED HORIZON // 1573 - 2026 AD</span>
+      </div>
+
+      <h1 class="epilogue-title clip" id="epi-title" data-start="1.2" data-duration="20.8">
+        The Eternal Silence of Bhangarh
+      </h1>
+
+      <p class="epilogue-narrative clip" id="epi-quote" data-start="1.8" data-duration="20.2">
+        "When the sunset fades behind the jagged teeth of the Aravalli hills, history surrenders to folklore, and stone dissolves into shadow. For five centuries, Bhangarh has stood not as an ordinary ruined city, but as an enduring monument to human hubris, unbreakable curses, and the terrifying silence of time."
+      </p>
+
+      <div class="epilogue-stats-grid clip" id="epi-stats" data-start="2.5" data-duration="19.5">
+        <div class="stat-pill">
+          <span class="stat-metric">453 YRS</span>
+          <span class="stat-label">SINCE FOUNDING</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-metric">0</span>
+          <span class="stat-label">RESIDENTS PERMITTED</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-metric">18:00 HRS</span>
+          <span class="stat-label">DAILY CURFEW</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-metric">RESTRICTED</span>
+          <span class="stat-label">GOVT EXCLUSION ZONE</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Final Credits Card (22.0s - 35.0s) -->
+    <div class="credits-card clip" id="epi-credits" data-start="22.0" data-duration="13.0">
+      <svg class="monument-seal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+      </svg>
+      <div class="credits-head">BHANGARH</div>
+      <div class="credits-sub">THE COMPLETE 10-MINUTE CHRONICLE</div>
+
+      <div class="credits-table">
+        <div class="credit-entry">
+          <div class="credit-entry-title">PRODUCED & DIRECTED BY</div>
+          <div class="credit-entry-name">Asura Autonomous Cinema Core</div>
+        </div>
+        <div class="credit-entry">
+          <div class="credit-entry-title">DETERMINISTIC RENDER ENGINE</div>
+          <div class="credit-entry-name">HyperFrames WebGL / GSAP 3.12</div>
+        </div>
+        <div class="credit-entry">
+          <div class="credit-entry-title">HISTORICAL ARCHIVES</div>
+          <div class="credit-entry-name">Archaeological Survey of India</div>
+        </div>
+        <div class="credit-entry">
+          <div class="credit-entry-title">AUDIO LANDSCAPE</div>
+          <div class="credit-entry-name">Desert Requiem & Sarangi Solo</div>
+        </div>
+        <div class="credit-entry">
+          <div class="credit-entry-title">GEOSPATIAL TELEMETRY</div>
+          <div class="credit-entry-name">27.0964° N, 76.2862° E (Alwar)</div>
+        </div>
+        <div class="credit-entry">
+          <div class="credit-entry-title">MASTER RUNTIME</div>
+          <div class="credit-entry-name">600.0 Seconds // 36,000 Frames</div>
+        </div>
+      </div>
+
+      <div class="credits-footer">
+        © 2026 ASURA CINEMATIC INTELLIGENCE // ALL ARCHITECTURAL RECONSTRUCTIONS VERIFIED
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Moon & Ridge Initial Drift
+    tl.fromTo(
+      "#epi-moon",
+      { scale: 0.9, opacity: 0, y: 30 },
+      { scale: 1.0, opacity: 1, y: 0, duration: 2.0, ease: "power2.out" },
+      0.2
+    );
+
+    tl.fromTo(
+      "#epi-hills",
+      { opacity: 0, y: 50 },
+      { opacity: 1, y: 0, duration: 1.8, ease: "power3.out" },
+      0.4
+    );
+
+    // Epilogue Stage Entry
+    tl.fromTo(
+      "#epi-badge",
+      { opacity: 0, y: -20 },
+      { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" },
+      0.6
+    );
+
+    tl.fromTo(
+      "#epi-title",
+      { opacity: 0, y: 30, filter: "blur(8px)" },
+      { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.4, ease: "power4.out" },
+      1.1
+    );
+
+    tl.fromTo(
+      "#epi-quote",
+      { opacity: 0, y: 25 },
+      { opacity: 1, y: 0, duration: 1.4, ease: "power3.out" },
+      1.8
+    );
+
+    tl.fromTo(
+      "#epi-stats",
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" },
+      2.5
+    );
+
+    // Subtle continuous camera drift across the scene
+    tl.to("#epi-moon", { y: -15, scale: 1.04, duration: 20.0, ease: "sine.inOut" }, 2.0);
+    tl.to(".epilogue-stage", { y: -8, duration: 20.0, ease: "sine.inOut" }, 2.0);
+
+    // Dissolve out narrative stage before credits
+    tl.to(
+      "#epi-badge, #epi-title, #epi-quote, #epi-stats, #epi-moon, #epi-hills",
+      { opacity: 0, y: -20, filter: "blur(10px)", duration: 1.6, ease: "power2.in" },
+      20.5
+    );
+
+    // Fade in Master Credits Card
+    tl.to(
+      "#epi-credits",
+      { opacity: 1, duration: 1.8, ease: "power2.inOut" },
+      22.0
+    );
+
+    tl.fromTo(
+      ".monument-seal, .credits-head, .credits-sub",
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, stagger: 0.2, duration: 1.2, ease: "power3.out" },
+      22.8
+    );
+
+    tl.fromTo(
+      ".credits-table, .credits-footer",
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, stagger: 0.25, duration: 1.2, ease: "power3.out" },
+      23.6
+    );
+
+    // Final Fade to pure black at 34.0s
+    tl.to(
+      "#epi-credits",
+      { opacity: 0, duration: 1.0, ease: "power2.in" },
+      34.0
+    );
+
+    window.__timelines["scene-11-epilogue"] = tl;
+  </script>
+</template>

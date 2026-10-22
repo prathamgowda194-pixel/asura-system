@@ -1,0 +1,244 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background: #060911;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    /* Topographic Grid Vector Background */
+    .topo-map-canvas {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(217, 119, 6, 0.08) 0%, transparent 70%),
+        repeating-radial-gradient(circle at 50% 50%, transparent 0, transparent 40px, rgba(255, 255, 255, 0.03) 41px, transparent 42px);
+      z-index: 1;
+    }
+
+    .crosshair-reticle {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      border-radius: 50%;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .crosshair-h {
+      position: absolute;
+      top: 50%;
+      left: -40px;
+      right: -40px;
+      height: 1px;
+      background: rgba(217, 119, 6, 0.4);
+    }
+    .crosshair-v {
+      position: absolute;
+      left: 50%;
+      top: -40px;
+      bottom: -40px;
+      width: 1px;
+      background: rgba(217, 119, 6, 0.4);
+    }
+
+    .telemetry-panel {
+      position: absolute;
+      top: 140px;
+      left: 100px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      border-radius: 16px;
+      padding: 32px 40px;
+      max-width: 520px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+      z-index: 10;
+    }
+
+    .sat-tag {
+      font-family: ui-monospace, Menlo, Monaco, monospace;
+      font-size: 13px;
+      color: #d97706;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .sat-heading {
+      font-size: 38px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .sat-body {
+      font-size: 17px;
+      color: #94a3b8;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .coords-matrix {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      border-top: 1px solid rgba(148, 163, 184, 0.15);
+      padding-top: 20px;
+    }
+
+    .coord-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .coord-label {
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 11px;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .coord-val {
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 16px;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-top: 4px;
+    }
+
+    /* Satellite Target Center Callout */
+    .target-pin-wrapper {
+      position: absolute;
+      z-index: 15;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .pin-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(217, 119, 6, 0.2);
+      border: 2px solid #d97706;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 30px #d97706;
+    }
+
+    .pin-tag {
+      background: #d97706;
+      color: #030712;
+      font-family: ui-monospace, Menlo, monospace;
+      font-weight: 800;
+      font-size: 14px;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      margin-top: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    }
+  </style>
+
+  <div id="root" data-composition-id="scene-02-satellite" data-width="1920" data-height="1080">
+    <div class="topo-map-canvas"></div>
+
+    <div class="crosshair-reticle" id="sat-crosshair">
+      <div class="crosshair-h"></div>
+      <div class="crosshair-v"></div>
+    </div>
+
+    <!-- Center Coordinate Pin -->
+    <div class="target-pin-wrapper clip" id="sat-pin" data-start="1.2" data-duration="38.5">
+      <div class="pin-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="16"/>
+          <line x1="8" y1="12" x2="16" y2="12"/>
+        </svg>
+      </div>
+      <div class="pin-tag">BHANGARH VALLEY // GROUND ZERO</div>
+    </div>
+
+    <!-- Telemetry Information Card -->
+    <div class="telemetry-panel clip" id="sat-panel" data-start="0.6" data-duration="39.0">
+      <div class="sat-tag">SATELLITE DESCENT // ORBIT SCAN</div>
+      <h2 class="sat-heading">The Natural Fortress of Aravalli</h2>
+      <p class="sat-body">
+        Enclosed on three sides by near-vertical mountain slopes, Bhangarh was engineered as an impregnable natural stronghold. Its isolated geography created a microclimate of eerie stillness, cutting the city off from Rajasthan's trade corridors.
+      </p>
+
+      <div class="coords-matrix">
+        <div class="coord-item">
+          <span class="coord-label">LATITUDE / LONGITUDE</span>
+          <span class="coord-val">27.0964° N, 76.2862° E</span>
+        </div>
+        <div class="coord-item">
+          <span class="coord-label">TOPOGRAPHY</span>
+          <span class="coord-val">Aravalli Gorges (412m)</span>
+        </div>
+        <div class="coord-item">
+          <span class="coord-label">NEAREST METROPOLIS</span>
+          <span class="coord-val">Alwar (65 km North)</span>
+        </div>
+        <div class="coord-item">
+          <span class="coord-label">SURROUNDING JUNGLE</span>
+          <span class="coord-val">Sariska Reserve Buffer</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Satellite zoom and scan initiation
+    tl.fromTo(
+      "#sat-crosshair",
+      { scale: 2.5, opacity: 0, rotate: -45 },
+      { scale: 1.0, opacity: 1, rotate: 0, duration: 2.2, ease: "power4.out" },
+      0.2
+    );
+
+    tl.fromTo(
+      "#sat-panel",
+      { opacity: 0, x: -60, filter: "blur(10px)" },
+      { opacity: 1, x: 0, filter: "blur(0px)", duration: 1.2, ease: "power3.out" },
+      0.6
+    );
+
+    tl.fromTo(
+      "#sat-pin",
+      { opacity: 0, scale: 0.5, y: -30 },
+      { opacity: 1, scale: 1.0, y: 0, duration: 1.0, ease: "back.out(1.8)" },
+      1.2
+    );
+
+    // Continuous orbital tracking rotation
+    tl.to(
+      "#sat-crosshair",
+      { rotate: 90, scale: 1.15, duration: 32.0, ease: "none" },
+      2.5
+    );
+
+    // Outro transition
+    tl.to(
+      "#sat-panel, #sat-pin, #sat-crosshair",
+      { opacity: 0, scale: 0.9, filter: "blur(12px)", duration: 1.2, ease: "power2.in" },
+      38.5
+    );
+
+    window.__timelines["scene-02-satellite"] = tl;
+  </script>
+</template>

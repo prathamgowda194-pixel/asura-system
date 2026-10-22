@@ -1,0 +1,140 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 50%, #0d1527 0%, #05070c 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .outro-content {
+      text-align: center;
+      max-width: 1000px;
+      position: relative;
+      z-index: 2;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 24px;
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      border-radius: 9999px;
+      color: #4ade80;
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 14px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .pulse-dot {
+      width: 10px;
+      height: 10px;
+      background: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #22c55e;
+    }
+    .outro-title {
+      font-size: 72px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: #ffffff;
+      margin-bottom: 24px;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .outro-sub {
+      font-size: 24px;
+      color: #94a3b8;
+      line-height: 1.5;
+      margin-bottom: 40px;
+    }
+    .action-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 18px 32px;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+    .action-code {
+      font-family: ui-monospace, Menlo, Monaco, monospace;
+      font-size: 18px;
+      color: #38bdf8;
+      font-weight: 600;
+    }
+  </style>
+
+  <div id="root" data-composition-id="outro" data-width="1920" data-height="1080">
+    <div class="outro-content">
+      <div id="outro-badge" class="status-badge clip" data-start="0.3" data-duration="7.5">
+        <span class="pulse-dot"></span>
+        <span>ENVIRONMENT OPERATIONAL // STANDBY FOR TOPIC</span>
+      </div>
+
+      <h2 id="outro-heading" class="outro-title clip" data-start="0.6" data-duration="7.2">
+        Ready to Build <span class="gradient-text">World-Class Cinema</span>.
+      </h2>
+
+      <p id="outro-paragraph" class="outro-sub clip" data-start="1.0" data-duration="6.8">
+        Full repository files, all 13 AI skills, deterministic render pipeline, and cinematic sound stage configured and verified.
+      </p>
+
+      <div id="outro-action" class="action-box clip" data-start="1.5" data-duration="6.3">
+        <span style="color: #64748b; font-size: 15px; text-transform: uppercase;">Awaiting</span>
+        <span class="action-code">Provide Your First Topic to Research & Build</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Entrance
+    tl.fromTo(
+      "#outro-badge",
+      { opacity: 0, scale: 0.85 },
+      { opacity: 1, scale: 1.0, duration: 0.7, ease: "back.out(1.5)" },
+      0.3
+    );
+
+    tl.fromTo(
+      "#outro-heading",
+      { opacity: 0, y: 30, filter: "blur(10px)" },
+      { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9, ease: "power4.out" },
+      0.6
+    );
+
+    tl.fromTo(
+      "#outro-paragraph",
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
+      1.0
+    );
+
+    tl.fromTo(
+      "#outro-action",
+      { opacity: 0, scale: 0.92, y: 15 },
+      { opacity: 1, scale: 1.0, y: 0, duration: 0.7, ease: "back.out(1.4)" },
+      1.5
+    );
+
+    // Subtle hold and camera pull
+    tl.to("#outro-heading", { scale: 1.02, duration: 4.5, ease: "none" }, 2.0);
+
+    window.__timelines["outro"] = tl;
+  </script>
+</template>

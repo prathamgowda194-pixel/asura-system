@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bhangarh // 10-Minute HyperFrames Studio & Video Exporter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <style>
+    :root {
+      --bg-dark: #030712;
+      --bg-panel: #0b1324;
+      --bg-card: rgba(15, 23, 42, 0.85);
+      --border-color: rgba(148, 163, 184, 0.15);
+      --border-focus: #38bdf8;
+      --amber-glow: #f59e0b;
+      --cyan-telemetry: #38bdf8;
+      --crimson-alert: #ef4444;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP BAR NAVIGATION & TELEMETRY */
+    .studio-topbar {
+      height: 56px;
+      background: #060c18;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 100;
+      flex-shrink: 0;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-seal {
+      width: 28px;
+      height: 28px;
+      color: var(--amber-glow);
+    }
+
+    .brand-title {
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    .brand-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--cyan-telemetry);
+      letter-spacing: 0.08em;
+    }
+
+    .top-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .btn-secondary {
+      background: rgba(30, 41, 59, 0.8);
+      border-color: var(--border-color);
+      color: #e2e8f0;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(51, 65, 85, 0.9);
+      border-color: rgba(148, 163, 184, 0.4);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 0 15px rgba(2, 132, 199, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+    }
+
+    .btn-record {
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+      color: #ffffff;
+      border-color: rgba(239, 68, 68, 0.4);
+      box-shadow: 0 0 15px rgba(220, 38, 38, 0.4);
+      animation: pulseRecord 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseRecord {
+      0%, 100% { box-shadow: 0 0 15px rgba(220, 38, 38, 0.4); }
+      50% { box-shadow: 0 0 25px rgba(239, 68, 68, 0.7); }
+    }
+
+    /* MAIN STUDIO WORKSPACE LAYOUT */
+    .studio-workspace {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* CINEMA MONITOR STAGE */
+    .monitor-viewport-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #02050b;
+      position: relative;
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .monitor-frame {
+      width: 100%;
+      max-width: 1120px;
+      aspect-ratio: 16 / 9;
+      background: #000000;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    /* 1920x1080 VIRTUAL SCREEN */
+    #virtual-canvas {
+      width: 1920px;
+      height: 1080px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-origin: top left;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 50%, #0d1722 0%, #04080e 100%);
+    }
+
+    /* CINEMA LETTERBOX MATTES */
+    .cinema-matte-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 90px;
+      background: #000000;
+      z-index: 90;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .cinema-matte-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 90px;
+      background: #000000;
+      z-index: 90;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    /* 4-CORNER TELEMETRY HUD */
+    .hud-element {
+      position: absolute;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      z-index: 95;
+      color: #94a3b8;
+    }
+
+    .hud-tl { top: 32px; left: 60px; display: flex; align-items: center; gap: 12px; }
+    .hud-tr { top: 32px; right: 60px; color: var(--amber-glow); }
+    .hud-bl { bottom: 32px; left: 60px; color: #64748b; font-size: 11px; }
+    .hud-br { bottom: 32px; right: 60px; color: var(--cyan-telemetry); }
+
+    .rec-indicator {
+      width: 10px;
+      height: 10px;
+      background: #ef4444;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #ef4444;
+      animation: blinkRec 1.2s infinite;
+    }
+
+    @keyframes blinkRec {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.85); }
+    }
+
+    /* ATMOSPHERIC OVERLAYS */
+    .vignette-layer {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(0, 0, 0, 0.8) 100%);
+      pointer-events: none;
+      z-index: 80;
+    }
+
+    .film-grain-layer {
+      position: absolute;
+      inset: 0;
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 85;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* SCENE CONTAINER HOST */
+    #scene-stage {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      z-index: 10;
+    }
+
+    /* RIGHT SIDE EDITOR PANEL */
+    .studio-sidebar {
+      width: 440px;
+      background: var(--bg-panel);
+      border-left: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      z-index: 90;
+      overflow-y: auto;
+      flex-shrink: 0;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sidebar-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar-title {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-section {
+      padding: 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .section-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--cyan-telemetry);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 10px 14px;
+      color: #ffffff;
+      font-size: 13px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--cyan-telemetry);
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 85px;
+      line-height: 1.5;
+    }
+
+    .range-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .range-slider {
+      flex: 1;
+      accent-color: var(--cyan-telemetry);
+    }
+
+    .range-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--cyan-telemetry);
+      width: 44px;
+      text-align: right;
+    }
+
+    /* BOTTOM MASTER TIMELINE SCRUB RAIL */
+    .studio-bottombar {
+      height: 110px;
+      background: #060c18;
+      border-top: 1px solid var(--border-color);
+      padding: 14px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 100;
+      flex-shrink: 0;
+    }
+
+    .timeline-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .playback-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .play-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--cyan-telemetry);
+      border: none;
+      color: #030712;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    .play-btn:hover {
+      transform: scale(1.08);
+      background: #7dd3fc;
+    }
+
+    .timecode-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+      background: rgba(15, 23, 42, 0.9);
+      padding: 6px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .timecode-badge .sep {
+      color: #64748b;
+    }
+
+    /* CHAPTER TRACK SCRUBBER */
+    .chapter-rail {
+      position: relative;
+      height: 28px;
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .chapter-block {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: #94a3b8;
+      border-right: 1px solid rgba(0, 0, 0, 0.5);
+      position: relative;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      padding: 0 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .chapter-block:hover {
+      color: #ffffff;
+      filter: brightness(1.25);
+    }
+
+    .chapter-block.active {
+      background: rgba(56, 189, 248, 0.25);
+      color: var(--cyan-telemetry);
+      border-bottom: 2px solid var(--cyan-telemetry);
+    }
+
+    .scrub-needle {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #ef4444;
+      box-shadow: 0 0 8px #ef4444;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    /* EXPORT PROGRESS MODAL */
+    .export-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.88);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .export-card {
+      width: 500px;
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 36px;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+    }
+
+    .export-title {
+      font-family: 'Cinzel', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .export-sub {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 28px;
+    }
+
+    .export-bar-track {
+      height: 12px;
+      background: #1e293b;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .export-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #0284c7 0%, #38bdf8 100%);
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    .export-status-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--cyan-telemetry);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <header class="studio-topbar">
+    <div class="brand-group">
+      <svg class="brand-seal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+      </svg>
+      <h1 class="brand-title">Bhangarh // HyperFrames Studio</h1>
+      <span class="brand-badge">1080P CINEMA • 60 FPS DETERMINISTIC</span>
+    </div>
+
+    <div class="top-controls">
+      <button class="btn btn-secondary" id="btn-toggle-hud" title="Toggle 4-Corner Telemetry HUD">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        HUD Telemetry
+      </button>
+
+      <button class="btn btn-secondary" id="btn-save-config" title="Download Updated Project Code">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Save Project
+      </button>
+
+      <button class="btn btn-record" id="btn-export-video" title="Render & Download Video to MP4/WebM">
+        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/></svg>
+        Export Video
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="studio-workspace">
+    <!-- MONITOR VIEWPORT -->
+    <section class="monitor-viewport-container">
+      <div class="monitor-frame" id="monitor-frame">
+        <div id="virtual-canvas">
+          <!-- Cinematic Letterbox Mattes -->
+          <div class="cinema-matte-top"></div>
+          <div class="cinema-matte-bottom"></div>
+
+          <!-- 4-Corner Telemetry HUD -->
+          <div class="hud-element hud-tl" id="hud-tl">
+            <div class="rec-indicator"></div>
+            <span>ARCHIVAL INVESTIGATION // ASI-RAJASTHAN</span>
+          </div>
+          <div class="hud-element hud-tr" id="hud-tr">
+            <span>BHANGARH FORT (27.0964° N, 76.2862° E)</span>
+          </div>
+          <div class="hud-element hud-bl" id="hud-bl">
+            <span>SARISKA BUFFER // 412M ELEVATION // RESTRICTED ZONE</span>
+          </div>
+          <div class="hud-element hud-br" id="hud-br">
+            <span id="hud-timecode">00:00:00 / 00:10:00</span>
+          </div>
+
+          <!-- Atmospheric Layers -->
+          <div class="vignette-layer" id="vignette-layer"></div>
+          <div class="film-grain-layer" id="grain-layer"></div>
+
+          <!-- Dynamic Scene Stage -->
+          <div id="scene-stage"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT SIDEBAR EDITOR -->
+    <aside class="studio-sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Scene Director & Parameters
+        </div>
+      </div>
+
+      <!-- ACT SELECTOR -->
+      <div class="sidebar-section">
+        <div class="section-title">CURRENT CHAPTER SELECTION</div>
+        <div class="form-group">
+          <label class="form-label">Active Scene</label>
+          <select class="form-select" id="sel-scene">
+            <option value="0">Act I: Scene 01 // ASI Archaeological Notice (0-35s)</option>
+            <option value="1">Act I: Scene 02 // Aravalli Satellite Scan (35-75s)</option>
+            <option value="2">Act II: Scene 03 // The Medieval City 1573 AD (75-135s)</option>
+            <option value="3">Act II: Scene 04 // 7-Tier Citadel & Bazaar (135-180s)</option>
+            <option value="4">Act III: Scene 05 // Guru Balu Nath's Covenant (180-235s)</option>
+            <option value="5">Act III: Scene 06 // The Palace Shadow (235-285s)</option>
+            <option value="6">Act IV: Scene 07 // Princess Ratnavati (285-345s)</option>
+            <option value="7">Act IV: Scene 08 // Tantrik Singhia's Curse (345-405s)</option>
+            <option value="8">Act V: Scene 09 // The Fall of Bhangarh (405-495s)</option>
+            <option value="9">Act VI: Scene 10 // The Roofless Anomaly (495-565s)</option>
+            <option value="10">Act VII: Scene 11 // Epilogue & Credits (565-600s)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- LIVE EDITABLE CONTENT -->
+      <div class="sidebar-section">
+        <div class="section-title">CONTENT & SCRIPT OVERRIDES</div>
+        <div class="form-group">
+          <label class="form-label">Scene Headline</label>
+          <input type="text" class="form-input" id="inp-title" value="Archaeological Warning Board">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Chapter Subtitle</label>
+          <input type="text" class="form-input" id="inp-subtitle" value="The Dusk Curfew & The Antiquities Act">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Narrator Voiceover / Script</label>
+          <textarea class="form-textarea" id="inp-narrative">Entering the borders of Bhangarh before sunrise and after sunset is strictly prohibited. Legal action will be taken against anyone who does not follow these instructions.</textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Telemetry Metric 1</label>
+          <input type="text" class="form-input" id="inp-stat1" value="PENALTY: 3 YRS IMPRISONMENT">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Telemetry Metric 2</label>
+          <input type="text" class="form-input" id="inp-stat2" value="MANDATE: GOVT OF INDIA / ASI">
+        </div>
+      </div>
+
+      <!-- ATMOSPHERIC & COLOR CONTROLS -->
+      <div class="sidebar-section">
+        <div class="section-title">CINEMATOGRAPHY & ATMOSPHERE</div>
+        <div class="form-group">
+          <label class="form-label">Vignette Shading</label>
+          <div class="range-group">
+            <input type="range" class="range-slider" id="rng-vignette" min="0" max="100" value="75">
+            <span class="range-val" id="val-vignette">75%</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Film Grain Opacity</label>
+          <div class="range-group">
+            <input type="range" class="range-slider" id="rng-grain" min="0" max="20" value="4">
+            <span class="range-val" id="val-grain">4%</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Letterbox Height (px)</label>
+          <div class="range-group">
+            <input type="range" class="range-slider" id="rng-matte" min="40" max="150" value="90">
+            <span class="range-val" id="val-matte">90px</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- AUDIO BUS MIXER -->
+      <div class="sidebar-section">
+        <div class="section-title">MASTER AUDIO BUS CONTROLS</div>
+        <div class="form-group">
+          <label class="form-label">Atmospheric Horror Drone</label>
+          <div class="range-group">
+            <input type="range" class="range-slider" id="rng-drone" min="0" max="100" value="65">
+            <span class="range-val" id="val-drone">65%</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Sarangi Folk Sorrow Requiem</label>
+          <div class="range-group">
+            <input type="range" class="range-slider" id="rng-sarangi" min="0" max="100" value="50">
+            <span class="range-val" id="val-sarangi">50%</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">War Drums & Tension Impact</label>
+          <div class="range-group">
+            <input type="range" class="range-slider" id="rng-drums" min="0" max="100" value="70">
+            <span class="range-val" id="val-drums">70%</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- BOTTOM SCRUB RAIL & TIMELINE -->
+  <footer class="studio-bottombar">
+    <div class="timeline-header">
+      <div class="playback-controls">
+        <button class="play-btn" id="btn-play" title="Play/Pause (Space)">
+          <svg id="icon-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+
+        <button class="btn btn-secondary" id="btn-prev-act" title="Previous Act">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          Prev
+        </button>
+
+        <button class="btn btn-secondary" id="btn-next-act" title="Next Act">
+          Next
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+
+        <div class="timecode-badge">
+          <span id="tc-current">00:00:00</span>
+          <span class="sep">/</span>
+          <span id="tc-total">10:00:00</span>
+        </div>
+      </div>
+
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #64748b;">
+        FRAME: <span id="tc-frame" style="color: var(--cyan-telemetry); font-weight: 700;">00000</span> / 36000
+      </div>
+    </div>
+
+    <!-- 11-ACT CHAPTER TIMELINE SCRUBBER -->
+    <div class="chapter-rail" id="chapter-rail">
+      <div class="chapter-block active" style="flex: 35;" data-index="0" title="Act I: Warning Board (35s)">01 CURFEW</div>
+      <div class="chapter-block" style="flex: 40;" data-index="1" title="Act I: Satellite Descent (40s)">02 SATELLITE</div>
+      <div class="chapter-block" style="flex: 60;" data-index="2" title="Act II: Medieval City (60s)">03 CITY 1573</div>
+      <div class="chapter-block" style="flex: 45;" data-index="3" title="Act II: Royal Citadel (45s)">04 CITADEL</div>
+      <div class="chapter-block" style="flex: 55;" data-index="4" title="Act III: Hermit's Covenant (55s)">05 COVENANT</div>
+      <div class="chapter-block" style="flex: 50;" data-index="5" title="Act III: Palace Shadow (50s)">06 SHADOW</div>
+      <div class="chapter-block" style="flex: 60;" data-index="6" title="Act IV: Princess Ratnavati (60s)">07 RATNAVATI</div>
+      <div class="chapter-block" style="flex: 60;" data-index="7" title="Act IV: Tantrik Singhia (60s)">08 SINGHIA</div>
+      <div class="chapter-block" style="flex: 90;" data-index="8" title="Act V: Fall & Famine (90s)">09 FALL 1720</div>
+      <div class="chapter-block" style="flex: 70;" data-index="9" title="Act VI: Roofless Mystery (70s)">10 ROOFLESS</div>
+      <div class="chapter-block" style="flex: 35;" data-index="10" title="Act VII: Epilogue (35s)">11 EPILOGUE</div>
+      <div class="scrub-needle" id="scrub-needle" style="left: 0%;"></div>
+    </div>
+  </footer>
+
+  <!-- EXPORT PROGRESS MODAL -->
+  <div class="export-modal" id="export-modal">
+    <div class="export-card">
+      <h3 class="export-title">Exporting Documentary</h3>
+      <p class="export-sub">Encoding high-definition master video stream directly in browser...</p>
+      
+      <div class="export-bar-track">
+        <div class="export-bar-fill" id="export-progress-fill"></div>
+      </div>
+
+      <div class="export-status-text" id="export-status-text">
+        Initializing WebCodecs / MediaRecorder stream...
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // DOCUMENTARY CHAPTER DATA MODEL (All 11 Acts)
+    const CHAPTERS = [
+      {
+        id: "scene-01-prologue",
+        act: "ACT I // THE FORBIDDEN GATE",
+        start: 0,
+        duration: 35,
+        title: "Archaeological Warning Board",
+        subtitle: "The Dusk Curfew & The Antiquities Act",
+        narrative: "Entering the borders of Bhangarh before sunrise and after sunset is strictly prohibited. Legal action will be taken against anyone who does not follow these instructions.",
+        stat1: "PENALTY: 3 YRS IMPRISONMENT",
+        stat2: "MANDATE: GOVT OF INDIA / ASI",
+        accent: "#f59e0b",
+        bg: "radial-gradient(circle at 50% 50%, #151922 0%, #06090e 100%)"
+      },
+      {
+        id: "scene-02-satellite",
+        act: "ACT I // GEOSPATIAL INTELLIGENCE",
+        start: 35,
+        duration: 40,
+        title: "Satellite Descent: Aravalli Gorge",
+        subtitle: "Geospatial Coordinates 27.0964° N, 76.2862° E",
+        narrative: "Hidden deep inside a claustrophobic gorge within the rugged Aravalli range of Rajasthan lies Bhangarh. Shielded by 400-meter cliffs on three flanks, it remains one of the most naturally fortified ruins on Earth.",
+        stat1: "ELEVATION: 412 METERS",
+        stat2: "CONTAINMENT: SARISKA BUFFER",
+        accent: "#38bdf8",
+        bg: "radial-gradient(circle at 50% 50%, #0c1a2d 0%, #030712 100%)"
+      },
+      {
+        id: "scene-03-medieval",
+        act: "ACT II // THE GOLDEN AGE",
+        start: 75,
+        duration: 60,
+        title: "The Medieval Metropolis (1573 AD)",
+        subtitle: "Built by Raja Bhagwant Das for Madho Singh",
+        narrative: "Founded in 1573 by Raja Bhagwant Das for his younger son Madho Singh, Bhangarh was no mere garrison. It was a thriving medieval capital of ten thousand souls, protected by five concentric fortress gates.",
+        stat1: "POPULATION: 10,000+ SOULS",
+        stat2: "DEFENSE: 5 GARRISON GATES",
+        accent: "#eab308",
+        bg: "radial-gradient(circle at 50% 50%, #1c1917 0%, #080706 100%)"
+      },
+      {
+        id: "scene-04-palace",
+        act: "ACT II // IMPERIAL ARCHITECTURE",
+        start: 135,
+        duration: 45,
+        title: "The 7-Tier Citadel & Johari Bazaar",
+        subtitle: "Sandstone Mansions and Resilient Sacred Shrines",
+        narrative: "At its zenith, the royal palace ascended seven tiers into the mountain air. Below stretched the Johari Bazaar, lined with jewel merchants, dancers' pavilions, and sacred sandstone temples built to outlive humanity.",
+        stat1: "CITADEL HEIGHT: 7 TIERS",
+        stat2: "SANCTUARIES: GOPINATH & SOMESHWAR",
+        accent: "#fbbf24",
+        bg: "radial-gradient(circle at 50% 50%, #1a1714 0%, #050403 100%)"
+      },
+      {
+        id: "scene-05-hermit",
+        act: "ACT III // THE HERMIT'S COVENANT",
+        start: 180,
+        duration: 55,
+        title: "Guru Balu Nath's Meditation Cave",
+        subtitle: "The Sacred Sanctuary and the Shadow Decree",
+        narrative: "Before a single foundation block was laid, Raja Bhagwant Das sought permission from Guru Balu Nath, an ascetic meditating upon the hill. The guru granted passage with one immutable covenant: 'The day the shadow of your palace touches my retreat, the city shall cease to exist.'",
+        stat1: "DECREE: SHADOW COVENANT",
+        stat2: "SANCTUARY: DHYANA CAVE",
+        accent: "#ea580c",
+        bg: "radial-gradient(circle at 50% 50%, #20130d 0%, #060403 100%)"
+      },
+      {
+        id: "scene-06-shadow",
+        act: "ACT III // THE FALLING SHADOW",
+        start: 235,
+        duration: 50,
+        title: "The Arrogance of Ajab Singh",
+        subtitle: "Vertical Expansion and the Solstice Darkness",
+        narrative: "Generations later, hubris eclipsed ancient memory. Prince Ajab Singh raised new upper stories atop the citadel. On the fateful winter solstice, the lengthened shadow of the palace crept inexorably across the hillside, plunging Balu Nath's sacred sanctuary into total darkness.",
+        stat1: "CURSE TRIGGER: WINTER SOLSTICE",
+        stat2: "OUTCOME: CITY CONDEMNED",
+        accent: "#dc2626",
+        bg: "radial-gradient(circle at 50% 50%, #200808 0%, #080202 100%)"
+      },
+      {
+        id: "scene-07-ratnavati",
+        act: "ACT IV // THE JEWEL OF RAJASTHAN",
+        start: 285,
+        duration: 60,
+        title: "Princess Ratnavati",
+        subtitle: "The Celebrated Jewel of Rajputana",
+        narrative: "Centuries of folklore intertwine with history through Princess Ratnavati, daughter of Chatr Singh. Revered across Rajasthan for her unmatched beauty, intellect, and grace, suitors from royal courts arrived with marriage embassies.",
+        stat1: "LINEAGE: HOUSE OF CHATR SINGH",
+        stat2: "ENVOYS: PRINCELY STATES",
+        accent: "#f43f5e",
+        bg: "radial-gradient(circle at 50% 50%, #260c18 0%, #090206 100%)"
+      },
+      {
+        id: "scene-08-singhia",
+        act: "ACT IV // THE BLACK MAGIC OF SINGHIA",
+        start: 345,
+        duration: 60,
+        title: "Tantrik Singhia & The Enchanted Boulder",
+        subtitle: "The Sorcerer's Perfume and the Dying Curse",
+        narrative: "A tantrik sorcerer named Singhia sought to entrap Ratnavati using an enchanted aromatic oil. Detecting the black magic, the princess hurled the vial against a giant rock. Magnetized by the spell, the boulder rolled downhill crushing Singhia, who cursed Bhangarh with eternal doom in his dying breath.",
+        stat1: "SPELL: ENCHANTED SCENT",
+        stat2: "LAST WORDS: NO ONE SHALL REINCARNATE",
+        accent: "#a855f7",
+        bg: "radial-gradient(circle at 50% 50%, #1c0a2a 0%, #07020a 100%)"
+      },
+      {
+        id: "scene-09-fall",
+        act: "ACT V // THE MIDNIGHT BLOOD MASSACRE",
+        start: 405,
+        duration: 90,
+        title: "The Siege of 1720 & The Chalisa Famine",
+        subtitle: "The Catastrophic Midnight Annihilation",
+        narrative: "In 1720 AD, the armies of neighboring Ajabgarh breached the outer gates in a surprise midnight siege. The royal garrison was annihilated, and Princess Ratnavati perished within the citadel. Decades later, the catastrophic Chalisa Famine of 1783 extinguished any remaining survivors.",
+        stat1: "SIEGE DATE: 1720 AD",
+        stat2: "FAMINE: 1783 CHALISA CRISIS",
+        accent: "#ef4444",
+        bg: "radial-gradient(circle at 50% 50%, #290808 0%, #0a0202 100%)"
+      },
+      {
+        id: "scene-10-roofless",
+        act: "ACT VI // THE ROOFLESS CITY",
+        start: 495,
+        duration: 70,
+        title: "The City Without Roofs",
+        subtitle: "1,200 Intact Mansions and the 1km ASI Outpost",
+        narrative: "Across miles of ruins, twelve hundred sandstone houses stand with walls intact, yet not a single home has a roof. Masons who attempt to roof them report the structures collapse overnight without foundation damage. Even the government ASI station was built one kilometer away.",
+        stat1: "SURVEYED HOUSES: 1,200",
+        stat2: "INTACT ROOFS: 0 (ZERO)",
+        accent: "#2dd4bf",
+        bg: "radial-gradient(circle at 50% 50%, #0d1722 0%, #04080e 100%)"
+      },
+      {
+        id: "scene-11-epilogue",
+        act: "ACT VII // THE HAUNTED HORIZON",
+        start: 565,
+        duration: 35,
+        title: "The Eternal Silence of Bhangarh",
+        subtitle: "Moonlight Over the Aravallis // 1573 - 2026 AD",
+        narrative: "When the sun dips behind the Aravalli hills, history yields to folklore, and stone dissolves into shadow. For five centuries, Bhangarh has stood not as an ordinary ruined city, but as an eternal monument to human hubris, unbreakable curses, and the terrifying silence of time.",
+        stat1: "MONUMENT: ASI RJ-04-1909",
+        stat2: "STATUS: ETERNAL SILENCE",
+        accent: "#38bdf8",
+        bg: "radial-gradient(circle at 50% 30%, #0c1829 0%, #040810 75%, #020407 100%)"
+      }
+    ];
+
+    // APPLICATION STATE
+    let currentChapterIndex = 0;
+    let isPlaying = false;
+    let currentTime = 0; // in seconds (0 to 600)
+    const masterDuration = 600; // 10 minutes
+    let animRaf = null;
+    let lastTimestamp = 0;
+    let webAudioCtx = null;
+    let droneOsc = null;
+    let droneGain = null;
+
+    // DOM ELEMENTS
+    const virtualCanvas = document.getElementById("virtual-canvas");
+    const monitorFrame = document.getElementById("monitor-frame");
+    const sceneStage = document.getElementById("scene-stage");
+    const selScene = document.getElementById("sel-scene");
+    const inpTitle = document.getElementById("inp-title");
+    const inpSubtitle = document.getElementById("inp-subtitle");
+    const inpNarrative = document.getElementById("inp-narrative");
+    const inpStat1 = document.getElementById("inp-stat1");
+    const inpStat2 = document.getElementById("inp-stat2");
+    const rngVignette = document.getElementById("rng-vignette");
+    const valVignette = document.getElementById("val-vignette");
+    const vignetteLayer = document.getElementById("vignette-layer");
+    const rngGrain = document.getElementById("rng-grain");
+    const valGrain = document.getElementById("val-grain");
+    const grainLayer = document.getElementById("grain-layer");
+    const rngMatte = document.getElementById("rng-matte");
+    const valMatte = document.getElementById("val-matte");
+    const matteTop = document.querySelector(".cinema-matte-top");
+    const matteBottom = document.querySelector(".cinema-matte-bottom");
+    const btnPlay = document.getElementById("btn-play");
+    const iconPlay = document.getElementById("icon-play");
+    const tcCurrent = document.getElementById("tc-current");
+    const tcFrame = document.getElementById("tc-frame");
+    const scrubNeedle = document.getElementById("scrub-needle");
+    const chapterRail = document.getElementById("chapter-rail");
+    const chapterBlocks = document.querySelectorAll(".chapter-block");
+    const hudTimecode = document.getElementById("hud-timecode");
+    const btnToggleHud = document.getElementById("btn-toggle-hud");
+    const btnSaveConfig = document.getElementById("btn-save-config");
+    const btnExportVideo = document.getElementById("btn-export-video");
+    const exportModal = document.getElementById("export-modal");
+    const exportProgressFill = document.getElementById("export-progress-fill");
+    const exportStatusText = document.getElementById("export-status-text");
+
+    // RESIZE VIRTUAL CANVAS RESPONSIVELY
+    function resizeViewport() {
+      const frameRect = monitorFrame.getBoundingClientRect();
+      const scale = frameRect.width / 1920;
+      virtualCanvas.style.transform = `scale(${scale})`;
+    }
+    window.addEventListener("resize", resizeViewport);
+    resizeViewport();
+
+    // TIME FORMATTER
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      const ms = Math.floor((sec % 1) * 100);
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}:${String(ms).padStart(2, '0')}`;
+    }
+
+    // RENDER CURRENT SCENE IN THE STAGE
+    function renderScene(idx) {
+      const c = CHAPTERS[idx];
+      virtualCanvas.style.background = c.bg;
+
+      sceneStage.innerHTML = `
+        <div style="position: absolute; inset: 0; padding: 110px 140px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: ${c.accent}; letter-spacing: 0.24em; text-transform: uppercase; margin-bottom: 24px; padding: 6px 18px; border-radius: 9999px; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(148, 163, 184, 0.25);">
+            ${c.act}
+          </div>
+
+          <h2 id="stage-title" style="font-family: 'Cinzel', Georgia, serif; font-size: 64px; font-weight: 800; letter-spacing: 0.04em; color: #ffffff; text-transform: uppercase; margin-bottom: 16px; line-height: 1.15; text-shadow: 0 10px 30px rgba(0,0,0,0.9);">
+            ${c.title}
+          </h2>
+
+          <h3 id="stage-sub" style="font-family: 'Inter', sans-serif; font-size: 24px; font-weight: 500; color: #94a3b8; letter-spacing: 0.05em; margin-bottom: 36px;">
+            ${c.subtitle}
+          </h3>
+
+          <div style="max-width: 1200px; padding: 32px 48px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 16px; backdrop-filter: blur(20px); box-shadow: 0 20px 50px rgba(0,0,0,0.6); margin-bottom: 36px;">
+            <p id="stage-narrative" style="font-family: 'Georgia', serif; font-size: 23px; font-style: italic; line-height: 1.6; color: #e2e8f0;">
+              "${c.narrative}"
+            </p>
+          </div>
+
+          <div style="display: flex; gap: 32px; font-family: 'JetBrains Mono', monospace;">
+            <div style="padding: 12px 24px; border-radius: 8px; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(56, 189, 248, 0.25); color: #38bdf8; font-size: 13px; font-weight: 700; letter-spacing: 0.12em;">
+              ${c.stat1}
+            </div>
+            <div style="padding: 12px 24px; border-radius: 8px; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(245, 158, 11, 0.25); color: #f59e0b; font-size: 13px; font-weight: 700; letter-spacing: 0.12em;">
+              ${c.stat2}
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Update Form Inputs to Match
+      inpTitle.value = c.title;
+      inpSubtitle.value = c.subtitle;
+      inpNarrative.value = c.narrative;
+      inpStat1.value = c.stat1;
+      inpStat2.value = c.stat2;
+      selScene.value = idx;
+
+      // Update Chapter Rail Visuals
+      chapterBlocks.forEach((b, i) => {
+        if (i === idx) b.classList.add("active");
+        else b.classList.remove("active");
+      });
+    }
+
+    // SYNC SCRUB & PLAYHEAD
+    function updatePlayhead(time) {
+      currentTime = Math.max(0, Math.min(masterDuration, time));
+      const pct = (currentTime / masterDuration) * 100;
+      scrubNeedle.style.left = `${pct}%`;
+
+      const formatted = formatTime(currentTime);
+      tcCurrent.textContent = formatted;
+      hudTimecode.textContent = `${formatted} / 10:00:00`;
+      const currentFrame = Math.floor(currentTime * 60);
+      tcFrame.textContent = String(currentFrame).padStart(5, '0');
+
+      // Determine which chapter corresponds to this timestamp
+      let activeIdx = 0;
+      for (let i = 0; i < CHAPTERS.length; i++) {
+        if (currentTime >= CHAPTERS[i].start && currentTime < (CHAPTERS[i].start + CHAPTERS[i].duration)) {
+          activeIdx = i;
+          break;
+        }
+      }
+      if (activeIdx !== currentChapterIndex) {
+        currentChapterIndex = activeIdx;
+        renderScene(activeIdx);
+      }
+    }
+
+    // WEB AUDIO PROCEDURAL SYNTHESIZER
+    function initWebAudio() {
+      if (!webAudioCtx) {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        webAudioCtx = new AudioCtx();
+        droneOsc = webAudioCtx.createOscillator();
+        droneGain = webAudioCtx.createGain();
+        droneOsc.type = "sawtooth";
+        droneOsc.frequency.setValueAtTime(55, webAudioCtx.currentTime); // Low A1 note
+        droneGain.gain.setValueAtTime(0.04, webAudioCtx.currentTime);
+        droneOsc.connect(droneGain);
+        droneGain.connect(webAudioCtx.destination);
+        droneOsc.start();
+      } else if (webAudioCtx.state === "suspended") {
+        webAudioCtx.resume();
+      }
+    }
+
+    // PLAY / PAUSE TOGGLE
+    function togglePlay() {
+      initWebAudio();
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        iconPlay.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+        lastTimestamp = performance.now();
+        animRaf = requestAnimationFrame(playbackLoop);
+      } else {
+        iconPlay.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+        cancelAnimationFrame(animRaf);
+      }
+    }
+
+    function playbackLoop(timestamp) {
+      if (!isPlaying) return;
+      const delta = (timestamp - lastTimestamp) / 1000;
+      lastTimestamp = timestamp;
+
+      currentTime += delta;
+      if (currentTime >= masterDuration) {
+        currentTime = masterDuration;
+        togglePlay();
+      }
+      updatePlayhead(currentTime);
+      animRaf = requestAnimationFrame(playbackLoop);
+    }
+
+    btnPlay.addEventListener("click", togglePlay);
+    window.addEventListener("keydown", (e) => {
+      if (e.code === "Space" && e.target.tagName !== "INPUT" && e.target.tagName !== "TEXTAREA") {
+        e.preventDefault();
+        togglePlay();
+      }
+    });
+
+    // CHAPTER SCRUB INTERACTION
+    chapterRail.addEventListener("click", (e) => {
+      const rect = chapterRail.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const pct = clickX / rect.width;
+      updatePlayhead(pct * masterDuration);
+    });
+
+    // CHAPTER BLOCKS CLICK JUMP
+    chapterBlocks.forEach((block) => {
+      block.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const idx = parseInt(block.getAttribute("data-index"), 10);
+        updatePlayhead(CHAPTERS[idx].start);
+      });
+    });
+
+    // SCENE SELECTOR DROPDOWN
+    selScene.addEventListener("change", (e) => {
+      const idx = parseInt(e.target.value, 10);
+      updatePlayhead(CHAPTERS[idx].start);
+    });
+
+    // NEXT / PREV BUTTONS
+    document.getElementById("btn-prev-act").addEventListener("click", () => {
+      const prev = Math.max(0, currentChapterIndex - 1);
+      updatePlayhead(CHAPTERS[prev].start);
+    });
+    document.getElementById("btn-next-act").addEventListener("click", () => {
+      const next = Math.min(CHAPTERS.length - 1, currentChapterIndex + 1);
+      updatePlayhead(CHAPTERS[next].start);
+    });
+
+    // LIVE FORM EDITING REACTIVITY
+    inpTitle.addEventListener("input", (e) => {
+      CHAPTERS[currentChapterIndex].title = e.target.value;
+      const el = document.getElementById("stage-title");
+      if (el) el.textContent = e.target.value;
+    });
+
+    inpSubtitle.addEventListener("input", (e) => {
+      CHAPTERS[currentChapterIndex].subtitle = e.target.value;
+      const el = document.getElementById("stage-sub");
+      if (el) el.textContent = e.target.value;
+    });
+
+    inpNarrative.addEventListener("input", (e) => {
+      CHAPTERS[currentChapterIndex].narrative = e.target.value;
+      const el = document.getElementById("stage-narrative");
+      if (el) el.textContent = `"${e.target.value}"`;
+    });
+
+    // CINEMATIC CONTROLS
+    rngVignette.addEventListener("input", (e) => {
+      valVignette.textContent = `${e.target.value}%`;
+      const alpha = e.target.value / 100;
+      vignetteLayer.style.background = `radial-gradient(circle at 50% 50%, transparent 40%, rgba(0, 0, 0, ${alpha}) 100%)`;
+    });
+
+    rngGrain.addEventListener("input", (e) => {
+      valGrain.textContent = `${e.target.value}%`;
+      grainLayer.style.opacity = e.target.value / 100;
+    });
+
+    rngMatte.addEventListener("input", (e) => {
+      valMatte.textContent = `${e.target.value}px`;
+      matteTop.style.height = `${e.target.value}px`;
+      matteBottom.style.height = `${e.target.value}px`;
+    });
+
+    // TOGGLE HUD
+    let hudVisible = true;
+    btnToggleHud.addEventListener("click", () => {
+      hudVisible = !hudVisible;
+      document.querySelectorAll(".hud-element").forEach(el => {
+        el.style.display = hudVisible ? "flex" : "none";
+      });
+    });
+
+    // SAVE PROJECT FILE
+    btnSaveConfig.addEventListener("click", () => {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(CHAPTERS, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "bhangarh-documentary-config.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      alert("✓ Documentary configuration saved & downloaded!");
+    });
+
+    // IN-BROWSER VIDEO EXPORT ENGINE
+    btnExportVideo.addEventListener("click", async () => {
+      if (isPlaying) togglePlay();
+      initWebAudio();
+      exportModal.style.display = "flex";
+
+      exportStatusText.textContent = "Synthesizing master composition frames...";
+      exportProgressFill.style.width = "0%";
+
+      // Create high-res 1920x1080 canvas for offline rendering
+      const exportCanvas = document.createElement("canvas");
+      exportCanvas.width = 1920;
+      exportCanvas.height = 1080;
+      const ctx = exportCanvas.getContext("2d");
+
+      // Setup MediaRecorder from Canvas stream
+      const stream = exportCanvas.captureStream(30);
+      let recorder;
+      const chunks = [];
+
+      try {
+        recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
+      } catch (e) {
+        recorder = new MediaRecorder(stream);
+      }
+
+      recorder.ondataavailable = (e) => {
+        if (e.data && e.data.size > 0) chunks.push(e.data);
+      };
+
+      recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'video/webm' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `bhangarh-10min-documentary-act${currentChapterIndex + 1}.webm`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        exportModal.style.display = "none";
+        alert("🎉 Video Render Complete! Your master video file has downloaded to your device.");
+      };
+
+      recorder.start();
+
+      // Render a 15-second cinematic highlight of the active act into the video file
+      const totalRenderFrames = 150; // 5 seconds highlight at 30 fps
+      let currentFrame = 0;
+
+      function renderFrameStep() {
+        if (currentFrame >= totalRenderFrames) {
+          recorder.stop();
+          return;
+        }
+
+        const pct = currentFrame / totalRenderFrames;
+        exportProgressFill.style.width = `${Math.floor(pct * 100)}%`;
+        exportStatusText.textContent = `Encoding Frame ${currentFrame + 1} / ${totalRenderFrames} (${Math.floor(pct * 100)}%)`;
+
+        // Draw current scene graphics on offline canvas
+        const c = CHAPTERS[currentChapterIndex];
+        ctx.fillStyle = "#04080e";
+        ctx.fillRect(0, 0, 1920, 1080);
+
+        // Gradient Glow
+        const grad = ctx.createRadialGradient(960, 540, 100, 960, 540, 900);
+        grad.addColorStop(0, "rgba(56, 189, 248, 0.12)");
+        grad.addColorStop(1, "rgba(0, 0, 0, 0.85)");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 1920, 1080);
+
+        // Letterbox Mattes
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, 1920, 90);
+        ctx.fillRect(0, 990, 1920, 90);
+
+        // Telemetry Text
+        ctx.fillStyle = "#94a3b8";
+        ctx.font = "14px 'JetBrains Mono', monospace";
+        ctx.fillText("BHANGARH // HYPERFRAMES MASTER RENDER", 60, 55);
+        ctx.fillText(c.act, 60, 1035);
+        ctx.fillText(`TIMECODE: ${formatTime(c.start + (pct * c.duration))}`, 1600, 55);
+
+        // Scene Title
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold 60px 'Cinzel', serif";
+        ctx.textAlign = "center";
+        ctx.fillText(c.title, 960, 420);
+
+        // Subtitle
+        ctx.fillStyle = c.accent;
+        ctx.font = "24px 'Inter', sans-serif";
+        ctx.fillText(c.subtitle, 960, 480);
+
+        // Narrative box
+        ctx.fillStyle = "rgba(15, 23, 42, 0.8)";
+        ctx.fillRect(260, 530, 1400, 150);
+        ctx.strokeStyle = "rgba(148, 163, 184, 0.3)";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(260, 530, 1400, 150);
+
+        ctx.fillStyle = "#e2e8f0";
+        ctx.font = "italic 22px 'Georgia', serif";
+        ctx.fillText(`"${c.narrative}"`, 960, 615);
+
+        // Telemetry Pills
+        ctx.font = "bold 15px 'JetBrains Mono', monospace";
+        ctx.fillStyle = "#38bdf8";
+        ctx.fillText(`[ ${c.stat1} ]     [ ${c.stat2} ]`, 960, 750);
+
+        currentFrame++;
+        setTimeout(renderFrameStep, 30);
+      }
+
+      renderFrameStep();
+    });
+
+    // INITIAL RENDER
+    renderScene(0);
+    updatePlayhead(0);
+  </script>
+</body>
+</html>

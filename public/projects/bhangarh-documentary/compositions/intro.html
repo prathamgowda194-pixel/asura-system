@@ -1,0 +1,168 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 50%, #0d1322 0%, #05070c 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .hud-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 80%);
+    }
+    .telemetry-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 9999px;
+      color: #38bdf8;
+      font-family: ui-monospace, Menlo, Monaco, monospace;
+      font-size: 14px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      backdrop-filter: blur(12px);
+    }
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background: #38bdf8;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #38bdf8;
+    }
+    .kinetic-title-wrapper {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    .kinetic-title {
+      font-size: 84px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+    .kinetic-subtitle {
+      font-size: 28px;
+      font-weight: 400;
+      color: #94a3b8;
+      letter-spacing: -0.01em;
+      max-width: 900px;
+      margin: 0 auto;
+      line-height: 1.4;
+    }
+    .ambient-glow {
+      position: absolute;
+      width: 800px;
+      height: 400px;
+      background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.18) 0%, transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .corner-bracket {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      border-color: rgba(148, 163, 184, 0.35);
+      border-style: solid;
+    }
+    .corner-tl { top: 48px; left: 48px; border-width: 2px 0 0 2px; }
+    .corner-tr { top: 48px; right: 48px; border-width: 2px 2px 0 0; }
+    .corner-bl { bottom: 48px; left: 48px; border-width: 0 0 2px 2px; }
+    .corner-br { bottom: 48px; right: 48px; border-width: 0 2px 2px 0; }
+  </style>
+
+  <div id="root" data-composition-id="intro" data-width="1920" data-height="1080">
+    <div class="hud-grid"></div>
+    <div class="ambient-glow" id="intro-glow"></div>
+
+    <div class="corner-bracket corner-tl"></div>
+    <div class="corner-bracket corner-tr"></div>
+    <div class="corner-bracket corner-bl"></div>
+    <div class="corner-bracket corner-br"></div>
+
+    <div class="kinetic-title-wrapper">
+      <div id="intro-badge" class="telemetry-badge clip" data-start="0.3" data-duration="5.5">
+        <span class="badge-dot"></span>
+        <span>EPISODE 01 // ARCHITECTURAL REVOLUTION</span>
+      </div>
+
+      <h1 id="intro-title" class="kinetic-title clip" data-start="0.5" data-duration="5.3" data-var-text="doc_title">
+        THE OPEN PROTOCOL
+      </h1>
+
+      <p id="intro-sub" class="kinetic-subtitle clip" data-start="1.2" data-duration="4.6" data-var-text="subtitle">
+        How autonomous coding agents generate deterministic cinema directly from code.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Entrance Animation
+    tl.fromTo(
+      "#intro-glow",
+      { opacity: 0, scale: 0.6 },
+      { opacity: 1, scale: 1.1, duration: 1.8, ease: "power2.out" },
+      0.2
+    );
+
+    tl.fromTo(
+      "#intro-badge",
+      { opacity: 0, y: -24, filter: "blur(8px)" },
+      { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "power4.out" },
+      0.3
+    );
+
+    tl.fromTo(
+      "#intro-title",
+      { opacity: 0, y: 36, scale: 0.94, filter: "blur(12px)" },
+      { opacity: 1, y: 0, scale: 1.0, filter: "blur(0px)", duration: 0.9, ease: "power4.out" },
+      0.5
+    );
+
+    tl.fromTo(
+      "#intro-sub",
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
+      1.2
+    );
+
+    // Subtle breathing push over the remaining duration
+    tl.to(
+      "#intro-title",
+      { scale: 1.03, duration: 3.5, ease: "none" },
+      1.5
+    );
+
+    // Cinematic Exit transition
+    tl.to(
+      "#intro-title, #intro-sub, #intro-badge",
+      { opacity: 0, y: -30, filter: "blur(10px)", duration: 0.5, ease: "power3.in" },
+      5.4
+    );
+
+    window.__timelines["intro"] = tl;
+  </script>
+</template>

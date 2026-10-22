@@ -1,0 +1,140 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 50%, #1a1008 0%, #080402 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Cinzel", Georgia, serif;
+      padding: 80px;
+    }
+
+    .ambient-fire {
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, transparent 70%);
+      filter: blur(80px);
+      pointer-events: none;
+    }
+
+    .covenant-box {
+      max-width: 1100px;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .covenant-tag {
+      font-family: ui-monospace, Menlo, Monaco, monospace;
+      font-size: 14px;
+      color: #fbbf24;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      display: inline-block;
+    }
+
+    .covenant-title {
+      font-size: 64px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.1;
+      margin-bottom: 30px;
+      letter-spacing: 0.02em;
+    }
+
+    .decree-card {
+      background: rgba(30, 20, 12, 0.85);
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      border-radius: 20px;
+      padding: 44px 56px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(20px);
+      margin-top: 20px;
+    }
+
+    .decree-text {
+      font-size: 32px;
+      font-style: italic;
+      color: #fef3c7;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .decree-author {
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 15px;
+      color: #d97706;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+  </style>
+
+  <div id="root" data-composition-id="scene-05-hermit" data-width="1920" data-height="1080">
+    <div class="ambient-fire" id="hermit-fire"></div>
+
+    <div class="covenant-box">
+      <span class="covenant-tag clip" id="cov-tag" data-start="0.4" data-duration="54.2">
+        ACT III // THE HERMIT'S SACRED COVENANT
+      </span>
+
+      <h2 class="covenant-title clip" id="cov-title" data-start="0.8" data-duration="53.8">
+        The Meditation Rock of Guru Balu Nath
+      </h2>
+
+      <div class="decree-card clip" id="cov-card" data-start="1.5" data-duration="53.0">
+        <p class="decree-text">
+          "You may construct your great stone city in this valley... but hear my sacred oath: the day the shadow of your royal palace touches my meditation hermitage, this entire city shall turn to ash, and no roof shall ever stand."
+        </p>
+        <div class="decree-author">
+          — GURU BALU NATH // ANCIENT ASCETIC OF THE ARAVALLIS (1573 AD)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    tl.fromTo(
+      "#hermit-fire",
+      { opacity: 0, scale: 0.7 },
+      { opacity: 1, scale: 1.1, duration: 2.5, ease: "power2.out" },
+      0.2
+    );
+
+    tl.fromTo(
+      "#cov-tag, #cov-title",
+      { opacity: 0, y: -30, filter: "blur(8px)" },
+      { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.2, stagger: 0.3, ease: "power4.out" },
+      0.4
+    );
+
+    tl.fromTo(
+      "#cov-card",
+      { opacity: 0, scale: 0.9, y: 40, filter: "blur(12px)" },
+      { opacity: 1, scale: 1.0, y: 0, filter: "blur(0px)", duration: 1.4, ease: "power4.out" },
+      1.5
+    );
+
+    // Subtle drift
+    tl.to("#cov-card", { scale: 1.03, duration: 20.0, ease: "sine.inOut" }, 3.5);
+
+    // Outro
+    tl.to(
+      "#cov-tag, #cov-title, #cov-card, #hermit-fire",
+      { opacity: 0, filter: "blur(12px)", duration: 1.2, ease: "power2.in" },
+      53.5
+    );
+
+    window.__timelines["scene-05-hermit"] = tl;
+  </script>
+</template>

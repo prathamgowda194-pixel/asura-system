@@ -1,0 +1,261 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 60%, #150a0a 0%, #050203 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Cinzel", Georgia, serif;
+    }
+
+    .mist-ambient {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 70%, rgba(185, 28, 28, 0.12) 0%, transparent 65%);
+      filter: blur(80px);
+      pointer-events: none;
+    }
+
+    /* Authentic Archaeological Survey of India (ASI) Signboard Replica */
+    .asi-signboard-wrapper {
+      position: relative;
+      width: 980px;
+      background: #eab308;
+      border: 6px solid #1c1917;
+      border-radius: 12px;
+      padding: 36px 44px;
+      box-shadow:
+        0 25px 60px -15px rgba(0, 0, 0, 0.9),
+        0 0 50px rgba(234, 179, 8, 0.15);
+      color: #0c0a09;
+      z-index: 10;
+      transform-style: preserve-3d;
+    }
+
+    .asi-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 3px solid #1c1917;
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+    }
+
+    .asi-crest {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .asi-title-eng {
+      font-family: ui-monospace, Menlo, Monaco, monospace;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .asi-warning-box {
+      background: #1c1917;
+      color: #fef08a;
+      padding: 16px 20px;
+      border-radius: 6px;
+      text-align: center;
+      font-family: ui-monospace, Menlo, monospace;
+      font-weight: 700;
+      font-size: 19px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      border: 1px dashed rgba(234, 179, 8, 0.5);
+    }
+
+    .asi-clauses {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #1c1917;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .asi-clause-item {
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Dramatic Cinematic Typography Overlays */
+    .prologue-overlay {
+      position: absolute;
+      top: 130px;
+      text-align: center;
+      z-index: 20;
+    }
+
+    .ancient-tag {
+      display: inline-block;
+      font-family: ui-monospace, Menlo, Monaco, monospace;
+      font-size: 14px;
+      color: #f87171;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .prologue-title {
+      font-size: 64px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #f5f5f4;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.9);
+      line-height: 1.1;
+    }
+
+    .prologue-sub {
+      font-size: 22px;
+      color: #a8a29e;
+      letter-spacing: 0.04em;
+      max-width: 860px;
+      margin: 12px auto 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.5;
+    }
+
+    .prologue-lower {
+      position: absolute;
+      bottom: 120px;
+      text-align: center;
+      z-index: 20;
+      max-width: 1000px;
+    }
+
+    .lower-quote {
+      font-size: 26px;
+      font-style: italic;
+      color: #fef08a;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.8);
+    }
+  </style>
+
+  <div id="root" data-composition-id="scene-01-prologue" data-width="1920" data-height="1080">
+    <div class="mist-ambient" id="prologue-mist"></div>
+
+    <!-- Top Headline Section -->
+    <div class="prologue-overlay">
+      <span class="ancient-tag clip" id="pro-tag" data-start="0.4" data-duration="34.0">
+        ACT I // PROLOGUE : THE SACRED WARNING
+      </span>
+      <h1 class="prologue-title clip" id="pro-title" data-start="0.8" data-duration="33.6">
+        BHANGARH : THE CURSED METROPOLIS
+      </h1>
+      <p class="prologue-sub clip" id="pro-desc" data-start="1.5" data-duration="32.8">
+        85 kilometers from Jaipur, hidden inside the prehistoric ridges of the Aravalli range, stands the only place in India legally sealed by the federal government at twilight.
+      </p>
+    </div>
+
+    <!-- Center ASI Board Replica -->
+    <div class="asi-signboard-wrapper clip" id="asi-board" data-start="3.2" data-duration="31.2">
+      <div class="asi-header">
+        <div class="asi-crest">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1c1917" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+          <div class="asi-title-eng">
+            ARCHAEOLOGICAL SURVEY OF INDIA<br />
+            JAIPUR CIRCLE // GOVERNMENT OF INDIA
+          </div>
+        </div>
+        <div style="font-family: ui-monospace; font-weight: 800; font-size: 14px;">NOTICE NO. 187/B</div>
+      </div>
+
+      <div class="asi-warning-box">
+        ENTERING THE BORDERS OF BHANGARH BEFORE SUNRISE AND AFTER SUNSET IS STRICTLY PROHIBITED.
+      </div>
+
+      <div class="asi-clauses">
+        <div class="asi-clause-item">
+          <span>1.</span>
+          <span>Legal action will be initiated against any trespassers under the Ancient Monuments and Archaeological Sites and Remains Act of 1958.</span>
+        </div>
+        <div class="asi-clause-item">
+          <span>2.</span>
+          <span>Any person found within the fortification walls after dusk will be prosecuted without bail.</span>
+        </div>
+        <div class="asi-clause-item">
+          <span>3.</span>
+          <span>No animals or domestic cattle shall graze within the ruins after sunset.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lower Third Quotation -->
+    <div class="prologue-lower clip" id="pro-quote" data-start="14.0" data-duration="20.4">
+      <div class="lower-quote">
+        "Local legend warns that those who remain inside the city walls after the final ray of sunlight disappears... do not return to greet the dawn."
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // 0.0s - 3.0s: Dramatic Fade-in of Title & Atmosphere
+    tl.fromTo(
+      "#prologue-mist",
+      { opacity: 0, scale: 0.8 },
+      { opacity: 1, scale: 1.2, duration: 4.0, ease: "power2.out" },
+      0.2
+    );
+
+    tl.fromTo(
+      "#pro-tag, #pro-title, #pro-desc",
+      { opacity: 0, y: -20, filter: "blur(10px)" },
+      { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.2, stagger: 0.3, ease: "power4.out" },
+      0.4
+    );
+
+    // 3.2s: 3D Entrance of the ASI Signboard
+    tl.fromTo(
+      "#asi-board",
+      { opacity: 0, rotateX: 20, y: 40, scale: 0.92, filter: "blur(12px)" },
+      { opacity: 1, rotateX: 0, y: 0, scale: 1.0, filter: "blur(0px)", duration: 1.4, ease: "power4.out" },
+      3.2
+    );
+
+    // Slow cinematic push towards the warning text
+    tl.to(
+      "#asi-board",
+      { scale: 1.05, duration: 10.0, ease: "none" },
+      4.6
+    );
+
+    // 14.0s: Lower quotation reveal
+    tl.fromTo(
+      "#pro-quote",
+      { opacity: 0, y: 25 },
+      { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" },
+      14.0
+    );
+
+    // 33.5s - 35.0s: Scene Transition Dissolve
+    tl.to(
+      "#asi-board, #pro-tag, #pro-title, #pro-desc, #pro-quote",
+      { opacity: 0, scale: 0.95, filter: "blur(10px)", duration: 1.5, ease: "power2.in" },
+      33.5
+    );
+
+    window.__timelines["scene-01-prologue"] = tl;
+  </script>
+</template>
