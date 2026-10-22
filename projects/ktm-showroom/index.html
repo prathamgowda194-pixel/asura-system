@@ -2,1411 +2,1399 @@
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KTM READY TO RACE | Flagship Showroom & 3D Interactive Experience</title>
-  <meta name="description" content="Experience the raw adrenaline of KTM. 3D scroll-driven showroom fly-through, exploded engineering parts cutaway, and 60 FPS interactive model configurator.">
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Iris Ethos — Exotic Supercar Concierge & Private Fleet</title>
+  <meta name="description" content="On-demand exotic supercar rentals in Miami. Lamborghini Aventador S, Ferrari 296 GTB, Rolls-Royce Cullinan, and McLaren 720S delivered to your villa, hotel, or private jet hangar in under an hour.">
 
-  <!-- Three.js (WebGL 3D Engine) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-  <!-- GSAP 3.12 & ScrollTrigger -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
-  <!-- Lenis Smooth Inertia Momentum Scroll -->
-  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
-
-  <!-- Google Fonts: Inter, Cabinet Grotesk, JetBrains Mono -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
-
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BBBQK89GLJ"></script>
   <script>
-    // Universal Zero-404 Image Fallback Resolver with Curated High-Res Motorbike Imagery
-    const FALLBACK_MAP = {
-      'ktm_showroom_drone_end.jpg': 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=2070&auto=format&fit=crop',
-      'ktm_showroom_drone_start.jpg': 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=2070&auto=format&fit=crop',
-      'ktm_bike_assembled_start.jpg': 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070&auto=format&fit=crop',
-      'ktm_parts_exploded_end.jpg': 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=2070&auto=format&fit=crop',
-      'ktm_rc390_track.jpg': 'https://images.unsplash.com/photo-1615172282427-9a57ef2d142e?q=80&w=2070&auto=format&fit=crop',
-      'ktm_adventure.jpg': 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=2070&auto=format&fit=crop',
-      'ktm_duke_white.jpg': 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070&auto=format&fit=crop'
-    };
-
-    window.addEventListener('error', function(e) {
-      if (e.target && e.target.tagName === 'IMG') {
-        const img = e.target;
-        const src = img.getAttribute('src') || '';
-        const filename = src.split('/').pop().split('?')[0];
-        if (!img.dataset.fallbackTried) {
-          img.dataset.fallbackTried = '1';
-          img.src = FALLBACK_MAP[filename] || 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070&auto=format&fit=crop';
-        }
-      }
-    }, true);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-BBBQK89GLJ', {
+      page_title: 'Iris Ethos Exotic Car Concierge',
+      page_location: window.location.href
+    });
   </script>
 
+  <!-- Typography: Editorial Serif & High-Precision Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          colors: {
-            ktm: {
-              orange: '#FF6600',
-              neon: '#FF7700',
-              dark: '#0A0B0E',
-              card: '#12141A',
-              border: 'rgba(255, 102, 0, 0.25)',
-              muted: '#7A808C'
-            }
-          },
           fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            display: ['Cabinet Grotesk', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace']
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            display: ['"Cinzel"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            obsidian: '#07080b',
+            surface: '#0e1118',
+            surfaceAlt: '#141824',
+            fuchsiaGlow: '#ff2a85',
+            cyanGlow: '#00f0ff',
+            mantisGreen: '#39ff14',
+            rossoCorsa: '#ef4444',
+            amberGold: '#f59e0b'
           }
         }
       }
-    }
+    };
   </script>
 
   <style>
-    /* ═════════════════════════════════════════════════════════════════════════
-       ASURA SUPREME 3D KINETIC ENGINE & TACTILE STYLING (KTM APEX)
-       ═════════════════════════════════════════════════════════════════════════ */
     :root {
-      --ktm-orange: #FF6600;
-      --ktm-dark: #0A0B0E;
+      --bg: #07080b;
+      --text: #f8fafc;
+      --accent-fuchsia: #ff2a85;
+      --accent-cyan: #00f0ff;
+      --accent-gold: #f59e0b;
+      --card-bg: rgba(18, 22, 33, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     body {
-      background-color: #0A0B0E;
-      color: #F4F5F7;
-      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
-      selection-background-color: #FF6600;
-      selection-color: #000000;
+      selection-background-color: var(--accent-fuchsia);
+      selection-color: #ffffff;
     }
 
-    ::selection {
-      background: #FF6600;
-      color: #000000;
+    /* Ambient Spotlight Backgrounds */
+    .neon-glow-magenta {
+      box-shadow: 0 0 35px rgba(255, 42, 133, 0.35), 0 0 70px rgba(255, 42, 133, 0.15);
+    }
+    .neon-glow-cyan {
+      box-shadow: 0 0 35px rgba(0, 240, 255, 0.35), 0 0 70px rgba(0, 240, 255, 0.15);
+    }
+    .neon-glow-mantis {
+      box-shadow: 0 0 35px rgba(57, 255, 20, 0.35), 0 0 70px rgba(57, 255, 20, 0.15);
+    }
+    .neon-glow-rosso {
+      box-shadow: 0 0 35px rgba(239, 68, 68, 0.35), 0 0 70px rgba(239, 68, 68, 0.15);
     }
 
-    /* Custom Lenis Smooth Scroll Setup */
-    html.lenis, html.lenis body {
-      height: auto;
-    }
-    .lenis.lenis-smooth {
-      scroll-behavior: auto !important;
-    }
-
-    /* Kinetic 3D Perspective Stages */
-    .perspective-stage {
-      perspective: 1600px;
-      transform-style: preserve-3d;
-    }
-
-    /* Interactive Tilt Physics */
-    .tilt-card-3d {
-      transform-style: preserve-3d;
-      transition: transform 0.15s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
-    }
-    .tilt-card-3d:hover {
-      border-color: rgba(255, 102, 0, 0.6);
-      box-shadow: 0 20px 50px -10px rgba(255, 102, 0, 0.25);
-    }
-
-    /* Glassmorphism Docks */
-    .glass-dock {
-      background: rgba(18, 20, 26, 0.75);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+    /* 3D Glass Surface */
+    .glass-panel {
+      background: rgba(14, 17, 24, 0.82);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    .glass-dock-orange {
-      background: rgba(18, 20, 26, 0.85);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 102, 0, 0.3);
-      box-shadow: 0 10px 40px -10px rgba(255, 102, 0, 0.2);
+
+    .glass-panel-hover:hover {
+      background: rgba(20, 25, 36, 0.92);
+      border-color: rgba(255, 255, 255, 0.22);
+      transform: translateY(-2px);
     }
 
-    /* Spatial Hotspot Radar Pins */
-    .hotspot-pin {
+    /* Starlight Twinkle Animation */
+    @keyframes starPulse {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.3); }
+    }
+    .star-twinkle {
+      animation: starPulse 2.4s infinite ease-in-out;
+    }
+
+    /* Shooting Star Animation */
+    @keyframes shootStar {
+      0% { transform: translateX(0) translateY(0) rotate(-45deg); opacity: 1; width: 0; }
+      50% { width: 120px; opacity: 1; }
+      100% { transform: translateX(450px) translateY(450px) rotate(-45deg); opacity: 0; width: 0; }
+    }
+    .shooting-star {
       position: absolute;
-      transform: translate(-50%, -50%);
-      cursor: pointer;
-      z-index: 30;
-    }
-    .hotspot-core {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: #FF6600;
-      box-shadow: 0 0 15px #FF6600;
-      position: relative;
-      transition: transform 0.3s ease;
-    }
-    .hotspot-pulse {
-      position: absolute;
-      inset: -10px;
-      border-radius: 50%;
-      border: 1px solid rgba(255, 102, 0, 0.7);
-      animation: hotspotPulse 2s infinite cubic-bezier(0.25, 1, 0.5, 1);
-    }
-    @keyframes hotspotPulse {
-      0% { transform: scale(0.6); opacity: 1; }
-      100% { transform: scale(2.4); opacity: 0; }
-    }
-    .hotspot-pin:hover .hotspot-core {
-      transform: scale(1.35);
-      background: #FFFFFF;
-      box-shadow: 0 0 20px #FFFFFF;
+      height: 2px;
+      background: linear-gradient(90deg, #ffffff, rgba(255, 255, 255, 0));
+      animation: shootStar 4s infinite ease-out;
     }
 
-    /* Exploded Subsystem Glow */
-    .component-glow {
-      filter: drop-shadow(0 0 35px rgba(255, 102, 0, 0.55));
-    }
-
-    /* Tachometer Revving Gauge */
-    .rpm-bar {
-      transition: width 0.08s ease-out;
-    }
-
-    /* Custom Scrollbar */
+    /* Smooth Custom Scrollbar */
     ::-webkit-scrollbar {
-      width: 6px;
+      width: 7px;
     }
     ::-webkit-scrollbar-track {
-      background: #0A0B0E;
+      background: #07080b;
     }
     ::-webkit-scrollbar-thumb {
-      background: #252833;
-      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #FF6600;
+      background: var(--accent-fuchsia);
     }
   </style>
 </head>
-<body class="bg-[#0A0B0E] text-white antialiased selection:bg-[#FF6600] selection:text-black">
 
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       TACHOMETER REVVING PRELOADER (READY TO RACE TELEMETRY)
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <div id="preloader" class="fixed inset-0 z-[100] bg-[#0A0B0E] text-white flex flex-col justify-between p-8 md:p-14 transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)]">
-    <div class="flex justify-between items-center text-xs tracking-[0.3em] font-mono text-[#7A808C] uppercase">
-      <span class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-[#FF6600] animate-ping"></span>
-        KTM AUSTRIA RACING TELEMETRY
-      </span>
-      <span>READY TO RACE // 2026</span>
-    </div>
+<body class="bg-obsidian text-slate-100 antialiased relative">
 
-    <div class="flex flex-col items-center justify-center my-auto text-center">
-      <div class="text-7xl md:text-9xl font-black font-display tracking-tighter text-white mb-2 flex items-baseline">
-        <span id="rpm-counter">0</span>
-        <span class="text-2xl md:text-3xl font-mono text-[#FF6600] font-normal ml-3">RPM</span>
-      </div>
-      <div class="text-sm md:text-base font-mono uppercase tracking-[0.35em] text-[#A0A6B2]">
-        CALIBRATING APEX 3D SHOWROOM
-      </div>
-
-      <!-- Tachometer Shift Light Bar -->
-      <div class="flex gap-1.5 mt-8 max-w-md w-full justify-center">
-        <div class="h-2 w-8 rounded-sm bg-green-500/20 shift-led" data-led="1"></div>
-        <div class="h-2 w-8 rounded-sm bg-green-500/20 shift-led" data-led="2"></div>
-        <div class="h-2 w-8 rounded-sm bg-yellow-500/20 shift-led" data-led="3"></div>
-        <div class="h-2 w-8 rounded-sm bg-yellow-500/20 shift-led" data-led="4"></div>
-        <div class="h-2 w-8 rounded-sm bg-[#FF6600]/20 shift-led" data-led="5"></div>
-        <div class="h-2 w-8 rounded-sm bg-[#FF6600]/20 shift-led" data-led="6"></div>
-        <div class="h-2 w-8 rounded-sm bg-red-500/20 shift-led" data-led="7"></div>
-        <div class="h-2 w-8 rounded-sm bg-red-500/20 shift-led" data-led="8"></div>
-      </div>
-    </div>
-
-    <div class="flex flex-col gap-3 max-w-xl mx-auto w-full">
-      <div class="flex justify-between items-end text-xs font-mono text-[#7A808C]">
-        <span>Synthesizing 60 FPS Digital Shaders</span>
-        <span id="preloader-counter" class="text-sm font-bold text-white">00%</span>
-      </div>
-      <div class="w-full h-[3px] bg-white/10 relative overflow-hidden rounded-full">
-        <div id="preloader-bar" class="absolute left-0 top-0 bottom-0 bg-[#FF6600] w-0 transition-all duration-200 ease-out"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       STICKY KINETIC NAVIGATION BAR
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <header class="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-5 transition-all duration-500 flex justify-between items-center bg-[#0A0B0E]/80 backdrop-blur-md border-b border-white/5">
-    <div class="flex items-center gap-6">
-      <a href="#" class="flex items-center gap-3 group">
-        <div class="w-10 h-7 bg-[#FF6600] flex items-center justify-center font-black font-display text-black text-xl italic tracking-tighter skew-x-[-12deg] group-hover:scale-105 transition-transform">
-          KTM
+  <!-- Top Floating Navigation Bar -->
+  <header class="fixed top-4 inset-x-0 z-50 flex justify-center px-4 pointer-events-none transition-all duration-300">
+    <nav class="pointer-events-auto flex items-center justify-between w-full max-w-6xl px-5 py-3 rounded-full glass-panel shadow-2xl">
+      
+      <!-- Brand Logo: Iris Ethos -->
+      <a href="#hero" class="flex items-center gap-3 group">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-fuchsia-600 to-rose-400 flex items-center justify-center p-1.5 shadow-lg group-hover:scale-105 transition-transform">
+          <!-- Bespoke Key Vector Icon -->
+          <svg class="w-full h-full text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8" cy="15" r="5"></circle>
+            <path d="m11.5 11.5 8.5-8.5"></path>
+            <path d="M17 3h4v4"></path>
+            <path d="m15 7 2 2"></path>
+          </svg>
         </div>
         <div class="flex flex-col">
-          <span class="text-xs font-mono tracking-[0.2em] text-[#FF6600] font-bold uppercase leading-none">READY TO RACE</span>
-          <span class="text-xs font-mono tracking-widest text-[#7A808C] uppercase leading-tight">SHOWROOM 3D</span>
+          <span class="font-display font-bold text-sm tracking-widest uppercase text-white group-hover:text-fuchsia-400 transition-colors">Iris Ethos</span>
+          <span class="text-[9px] font-mono tracking-wider text-slate-400 uppercase -mt-0.5">Exotic Concierge</span>
         </div>
       </a>
-    </div>
 
-    <!-- Navigation Links -->
-    <nav class="hidden lg:flex items-center gap-8 text-xs font-mono tracking-[0.2em] uppercase text-white/70">
-      <a href="#hero-stage" class="hover:text-[#FF6600] transition-colors">01 // Fly-Through</a>
-      <a href="#parts-cutaway" class="hover:text-[#FF6600] transition-colors">02 // Exploded Parts</a>
-      <a href="#fleet-showroom" class="hover:text-[#FF6600] transition-colors">03 // The Fleet</a>
-      <a href="#configurator" class="hover:text-[#FF6600] transition-colors">04 // Configurator</a>
-      <a href="#locator" class="hover:text-[#FF6600] transition-colors">05 // Dealer Locator</a>
+      <!-- Navigation Links -->
+      <div class="hidden md:flex items-center gap-7 text-xs font-medium tracking-wide text-slate-300">
+        <a href="#lambo-section" class="hover:text-white transition-colors flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-lime-400"></span> Lamborghini
+        </a>
+        <a href="#ferrari-section" class="hover:text-white transition-colors flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Ferrari
+        </a>
+        <a href="#rolls-section" class="hover:text-white transition-colors flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span> Rolls-Royce
+        </a>
+        <a href="#mclaren-section" class="hover:text-white transition-colors flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-orange-400"></span> McLaren
+        </a>
+        <a href="#fleet-section" class="hover:text-white transition-colors">Fleet & Rates</a>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-3">
+        <!-- Audio Engine Toggle Button -->
+        <button id="sound-btn" onclick="toggleAudio()" class="p-2 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white transition-all text-xs flex items-center gap-1.5 border border-white/10" title="Audio Engine Ignition">
+          <svg id="sound-icon-on" class="w-4 h-4 hidden text-fuchsia-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+          </svg>
+          <svg id="sound-icon-off" class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+          </svg>
+          <span class="hidden lg:inline text-[10px] font-mono uppercase tracking-wider text-slate-400" id="sound-label">Audio</span>
+        </button>
+
+        <!-- Book a Car Pill CTA -->
+        <button onclick="openBookingDrawer('general')" class="px-5 py-2 rounded-full bg-gradient-to-r from-fuchsia-500 to-rose-500 hover:from-fuchsia-400 hover:to-rose-400 text-white font-medium text-xs tracking-wider uppercase shadow-lg shadow-fuchsia-500/25 hover:shadow-fuchsia-500/40 hover:scale-105 active:scale-95 transition-all">
+          Book a car
+        </button>
+      </div>
+
     </nav>
-
-    <!-- Header Actions -->
-    <div class="flex items-center gap-4">
-      <!-- Web Audio Exhaust Engine Sound Simulator -->
-      <button id="engine-sound-btn" onclick="toggleEngineSound()" class="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-[#FF6600] transition-colors text-xs font-mono text-white/80 group">
-        <span class="w-2 h-2 rounded-full bg-[#FF6600] group-hover:animate-ping"></span>
-        <span id="sound-btn-text">EXHAUST SOUND</span>
-      </button>
-
-      <!-- Book Test Ride Button -->
-      <button onclick="openBookingModal()" class="px-5 py-2.5 rounded-lg bg-[#FF6600] text-black font-bold font-mono text-xs tracking-wider uppercase hover:bg-[#FF7700] hover:shadow-[0_0_25px_rgba(255,102,0,0.5)] transition-all">
-        BOOK TEST RIDE
-      </button>
-    </div>
   </header>
 
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       CHAPTER 1: 3D HERO SHOWROOM DRONE FLY-THROUGH & 60 FPS SCRUBBER
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <section id="hero-stage" class="relative w-full h-[200vh] bg-[#0A0B0E]">
-    <div class="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between perspective-stage">
+  <!-- ========================================================================= -->
+  <!-- ACT 1: HERO SECTION — THE VALET KEY TRAY -->
+  <!-- ========================================================================= -->
+  <section id="hero" class="relative min-h-screen flex flex-col items-center justify-between pt-28 pb-12 px-4 overflow-hidden">
+    
+    <!-- Ambient Neon Spotlights -->
+    <div class="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-fuchsia-600/20 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute top-1/3 right-1/4 translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/15 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <!-- Header Telemetry Pill -->
+    <div class="flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border border-white/10 text-[11px] font-mono tracking-widest text-slate-300 uppercase shadow-lg">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span>Live Fleet · Miami Beach · On-Demand Concierge</span>
+    </div>
+
+    <!-- Centerpiece: Valet Tray with 4 Supercar Keys -->
+    <div class="relative w-full max-w-4xl my-auto flex flex-col items-center">
       
-      <!-- Viewport 3D Canvas / Multi-Layer Image Transform -->
-      <div id="hero-viewport-3d" class="absolute inset-0 w-full h-full transform-gpu transition-transform duration-100 ease-out">
+      <!-- Tray Container -->
+      <div class="relative w-full rounded-2xl overflow-hidden shadow-2xl border border-white/15 group">
+        <img src="assets/hero_tray.jpg" alt="Iris Ethos Supercar Key Tray" class="w-full h-auto object-cover select-none">
         
-        <!-- Permanent High-Res Cinematic Backdrop (Zero Black Screen Guarantee) -->
-        <img id="hero-backdrop-img" src="./assets/ktm_showroom_drone_end.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=2070&auto=format&fit=crop';" alt="KTM Flagship Showroom" class="absolute inset-0 w-full h-full object-cover">
+        <!-- Interactive Hotspot Overlays for 4 Supercar Keys -->
+        <!-- 1. Lamborghini Key Hotspot -->
+        <button onclick="scrollToCar('lambo-section'); playEngineSound('lambo');" class="absolute left-[8%] top-[25%] w-[18%] h-[55%] rounded-2xl hover:bg-lime-400/15 border border-transparent hover:border-lime-400/60 transition-all cursor-pointer group/k1" title="Select Lamborghini Aventador S">
+          <span class="absolute -bottom-7 left-1/2 -translate-x-1/2 opacity-0 group-hover/k1:opacity-100 transition-opacity whitespace-nowrap px-3 py-1 rounded bg-black/90 border border-lime-400/50 text-[10px] font-mono text-lime-300">
+            Aventador S · $1,290/d
+          </span>
+        </button>
 
-        <!-- High-DPI 300-Frame Apple-Style Canvas Sequence (Primary Fly-Through) -->
-        <canvas id="hero-sequence-canvas" class="absolute inset-0 w-full h-full object-cover"></canvas>
-        <div class="absolute inset-0 bg-gradient-to-t from-[#0A0B0E] via-transparent to-black/60 pointer-events-none"></div>
+        <!-- 2. Ferrari Key Hotspot -->
+        <button onclick="scrollToCar('ferrari-section'); playEngineSound('ferrari');" class="absolute left-[31%] top-[25%] w-[18%] h-[55%] rounded-2xl hover:bg-red-500/15 border border-transparent hover:border-red-500/60 transition-all cursor-pointer group/k2" title="Select Ferrari 296 GTB">
+          <span class="absolute -bottom-7 left-1/2 -translate-x-1/2 opacity-0 group-hover/k2:opacity-100 transition-opacity whitespace-nowrap px-3 py-1 rounded bg-black/90 border border-red-500/50 text-[10px] font-mono text-red-300">
+            296 GTB · $1,190/d
+          </span>
+        </button>
 
-        <!-- Layer 3: Studio Hero Profile (Orbit Stance) -->
-        <div id="layer-studio-hero" class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-700 pointer-events-none">
-          <img src="./assets/ktm_bike_assembled_start.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070&auto=format&fit=crop';" alt="KTM 390 Duke Studio Assembly" class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-gradient-to-t from-[#0A0B0E] via-transparent to-black/60"></div>
-        </div>
+        <!-- 3. Rolls-Royce Key Hotspot -->
+        <button onclick="scrollToCar('rolls-section'); playEngineSound('rolls');" class="absolute left-[54%] top-[22%] w-[18%] h-[60%] rounded-2xl hover:bg-slate-200/15 border border-transparent hover:border-slate-300/60 transition-all cursor-pointer group/k3" title="Select Rolls-Royce Cullinan">
+          <span class="absolute -bottom-7 left-1/2 -translate-x-1/2 opacity-0 group-hover/k3:opacity-100 transition-opacity whitespace-nowrap px-3 py-1 rounded bg-black/90 border border-slate-300/50 text-[10px] font-mono text-slate-200">
+            Cullinan · $990/d
+          </span>
+        </button>
+
+        <!-- 4. McLaren Key Hotspot -->
+        <button onclick="scrollToCar('mclaren-section'); playEngineSound('mclaren');" class="absolute left-[76%] top-[22%] w-[18%] h-[60%] rounded-2xl hover:bg-orange-500/15 border border-transparent hover:border-orange-500/60 transition-all cursor-pointer group/k4" title="Select McLaren 720S">
+          <span class="absolute -bottom-7 left-1/2 -translate-x-1/2 opacity-0 group-hover/k4:opacity-100 transition-opacity whitespace-nowrap px-3 py-1 rounded bg-black/90 border border-orange-400/50 text-[10px] font-mono text-orange-300">
+            720S Spider · $1,150/d
+          </span>
+        </button>
+
       </div>
 
-      <!-- Top Overlay: Showroom Mode Switcher Dock (Cult UI & Aceternity Style) -->
-      <div class="relative z-20 pt-28 px-6 md:px-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF6600]/10 border border-[#FF6600]/30 text-[#FF6600] font-mono text-xs font-bold tracking-widest uppercase mb-3">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#FF6600] animate-pulse"></span>
-            60 FPS FPV DRONE SCROLL · SCROLL DOWN TO ENTER
+    </div>
+
+    <!-- Bottom Selector Dock: WHICH KEY? -->
+    <div class="w-full max-w-4xl flex flex-col items-center gap-3">
+      <div class="text-[11px] font-mono tracking-widest text-slate-400 uppercase">
+        Which key? · Select vehicle to start ignition
+      </div>
+      
+      <!-- 4 Supercar Selector Glass Cards -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
+        
+        <!-- Card 1: Lamborghini -->
+        <div onclick="scrollToCar('lambo-section'); playEngineSound('lambo');" class="glass-panel glass-panel-hover p-3.5 rounded-xl cursor-pointer transition-all border-l-2 border-l-lime-400">
+          <div class="flex items-center justify-between text-[10px] font-mono text-slate-400">
+            <span>LAMBORGHINI</span>
+            <span class="text-lime-400 font-semibold">$1,290</span>
           </div>
-          <h1 class="text-4xl md:text-7xl lg:text-8xl font-black font-display tracking-tighter text-white uppercase leading-[0.9]">
-            KTM 390 DUKE
-          </h1>
-          <p class="text-sm md:text-lg text-[#A0A6B2] font-mono max-w-xl mt-2">
-            The Corner Rocket. Pure Austrian aggression engineered with predatory precision and class-leading electronic telemetry.
+          <div class="font-serif font-bold text-base text-white mt-1">Aventador S</div>
+          <div class="text-[11px] text-slate-400">730 HP · V12 Atmos</div>
+        </div>
+
+        <!-- Card 2: Ferrari -->
+        <div onclick="scrollToCar('ferrari-section'); playEngineSound('ferrari');" class="glass-panel glass-panel-hover p-3.5 rounded-xl cursor-pointer transition-all border-l-2 border-l-red-500">
+          <div class="flex items-center justify-between text-[10px] font-mono text-slate-400">
+            <span>FERRARI</span>
+            <span class="text-red-400 font-semibold">$1,190</span>
+          </div>
+          <div class="font-serif font-bold text-base text-white mt-1">296 GTB</div>
+          <div class="text-[11px] text-slate-400">819 HP · Hybrid V6</div>
+        </div>
+
+        <!-- Card 3: Rolls-Royce -->
+        <div onclick="scrollToCar('rolls-section'); playEngineSound('rolls');" class="glass-panel glass-panel-hover p-3.5 rounded-xl cursor-pointer transition-all border-l-2 border-l-slate-300">
+          <div class="flex items-center justify-between text-[10px] font-mono text-slate-400">
+            <span>ROLLS-ROYCE</span>
+            <span class="text-slate-200 font-semibold">$990</span>
+          </div>
+          <div class="font-serif font-bold text-base text-white mt-1">Cullinan</div>
+          <div class="text-[11px] text-slate-400">563 HP · Twin V12</div>
+        </div>
+
+        <!-- Card 4: McLaren -->
+        <div onclick="scrollToCar('mclaren-section'); playEngineSound('mclaren');" class="glass-panel glass-panel-hover p-3.5 rounded-xl cursor-pointer transition-all border-l-2 border-l-orange-400">
+          <div class="flex items-center justify-between text-[10px] font-mono text-slate-400">
+            <span>MCLAREN</span>
+            <span class="text-orange-400 font-semibold">$1,150</span>
+          </div>
+          <div class="font-serif font-bold text-base text-white mt-1">720S Spider</div>
+          <div class="text-[11px] text-slate-400">710 HP · V8 Twin-Turbo</div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- ACT 2: LAMBORGHINI AVENTADOR S CHAPTER -->
+  <!-- ========================================================================= -->
+  <section id="lambo-section" class="relative py-24 px-4 border-t border-white/10 bg-gradient-to-b from-obsidian via-[#0a0f12] to-obsidian">
+    
+    <div class="max-w-6xl mx-auto space-y-24">
+      
+      <!-- Stage 2A: The Bull Wakes Up (Ocean Drive Exterior) -->
+      <div class="relative rounded-3xl overflow-hidden glass-panel border border-white/15 p-6 md:p-10 shadow-2xl">
+        
+        <!-- Live Status Pill -->
+        <div class="flex items-center gap-2 mb-6">
+          <span class="px-3 py-1 rounded-full bg-lime-400/20 border border-lime-400/50 text-[10px] font-mono tracking-wider text-lime-300 uppercase">
+            [● UNLOCKED] · AVENTADOR S · VERDE MANTIS
+          </span>
+          <span class="text-xs font-mono text-slate-400">SOUTH BEACH · OCEAN DRIVE</span>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Left Headline & Telemetry -->
+          <div class="lg:col-span-5 space-y-6">
+            <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl text-white font-bold leading-tight">
+              The bull <br><span class="italic text-lime-400 font-light">wakes up.</span>
+            </h2>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Verde Mantis pearl finish reflecting the iconic pastel neon glows of South Beach. Handcrafted naturally aspirated 6.5-liter V12 producing an unmistakable visceral scream through the central titanium exhaust.
+            </p>
+
+            <!-- Telemetry Stats -->
+            <div class="grid grid-cols-3 gap-3 py-3 border-y border-white/10 font-mono">
+              <div>
+                <div class="text-2xl font-bold text-white">730</div>
+                <div class="text-[10px] text-slate-400 uppercase tracking-wider">HORSEPOWER</div>
+              </div>
+              <div>
+                <div class="text-2xl font-bold text-white">2.9<span class="text-sm">s</span></div>
+                <div class="text-[10px] text-slate-400 uppercase tracking-wider">0-60 MPH</div>
+              </div>
+              <div>
+                <div class="text-2xl font-bold text-lime-400">$1,290</div>
+                <div class="text-[10px] text-slate-400 uppercase tracking-wider">PER DAY</div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap items-center gap-4 pt-2">
+              <button onclick="playEngineSound('lambo')" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-mono tracking-wider uppercase text-white transition-all shadow-lg hover:scale-105 active:scale-95">
+                <svg class="w-4 h-4 text-lime-400" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+                <span>Hear It Unlock & Rev</span>
+              </button>
+
+              <button onclick="openBookingDrawer('lamborghini')" class="px-6 py-2.5 rounded-full bg-lime-500 hover:bg-lime-400 text-black font-bold text-xs tracking-wider uppercase shadow-lg shadow-lime-500/25 transition-all hover:scale-105 active:scale-95">
+                Reserve Aventador
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Car Hero Image with Floating Key Fob -->
+          <div class="lg:col-span-7 relative group">
+            <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+              <img src="assets/lambo_exterior.jpg" alt="Lamborghini Aventador S on Ocean Drive" class="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-700">
+            </div>
+
+            <!-- Floating Authentic Key Fob Parallax -->
+            <div class="absolute -top-6 -right-6 w-24 md:w-32 drop-shadow-[0_20px_35px_rgba(0,0,0,0.8)] pointer-events-none transform rotate-12 group-hover:rotate-6 group-hover:scale-110 transition-transform duration-500">
+              <img src="assets/key_lambo.png" alt="Lamborghini Key Fob" class="w-full h-auto">
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Stage 2B: Scissor Doors & Hexagonal Cockpit -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- Scissor Doors Card -->
+        <div class="relative rounded-3xl overflow-hidden glass-panel border border-white/15 p-6 space-y-4 group">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono tracking-wider text-lime-400 uppercase">AERODYNAMICS</span>
+            <span class="text-xs font-mono text-slate-400">SCISSOR DOORS</span>
+          </div>
+          <div class="rounded-2xl overflow-hidden border border-white/10">
+            <img src="assets/lambo_doors_open.jpg" alt="Lamborghini Scissor Doors Open" class="w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-500">
+          </div>
+          <h3 class="font-serif text-3xl font-bold text-white">
+            Straight <span class="italic text-lime-400 font-light">up.</span>
+          </h3>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            Carbon-fiber scissor doors opening vertically into the Miami sky. The entrance Ocean Drive stops to photograph every single time.
           </p>
         </div>
 
-        <!-- Mode Toggle Dock -->
-        <div class="glass-dock p-1.5 rounded-xl flex items-center gap-1 text-xs font-mono uppercase">
-          <button id="btn-mode-drone" onclick="setHeroMode('drone')" class="px-4 py-2 rounded-lg bg-[#FF6600] text-black font-bold transition-all shadow-sm">
-            SHOWROOM DRONE
-          </button>
-          <button id="btn-mode-studio" onclick="setHeroMode('studio')" class="px-4 py-2 rounded-lg text-white/70 hover:text-white transition-all">
-            STUDIO STANCE
-          </button>
+        <!-- Cockpit Card -->
+        <div class="relative rounded-3xl overflow-hidden glass-panel border border-white/15 p-6 space-y-4 group">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono tracking-wider text-lime-400 uppercase">INTERIOR COCKPIT</span>
+            <span class="text-xs font-mono text-slate-400">HEXAGONAL DESIGN</span>
+          </div>
+          <div class="rounded-2xl overflow-hidden border border-white/10">
+            <img src="assets/lambo_cockpit.jpg" alt="Lamborghini Hexagonal Cockpit" class="w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-500">
+          </div>
+          <h3 class="font-serif text-3xl font-bold text-white">
+            Hexagons <span class="italic text-lime-400 font-light">everywhere.</span>
+          </h3>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            Alcantara racing steering wheel, Nero Ade leather, and a fighter-jet missile start cover. Flip the anodized red cover, and press start.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Stage 2C: 360° Turntable Showroom -->
+      <div class="relative rounded-3xl overflow-hidden glass-panel border border-white/15 p-8 text-center space-y-6">
+        <div class="inline-block px-3 py-1 rounded-full bg-lime-400/10 border border-lime-400/40 text-[10px] font-mono tracking-widest text-lime-300 uppercase">
+          SHOWROOM · 360° TURNTABLE
+        </div>
+        <h3 class="font-serif text-3xl md:text-4xl font-bold text-white">
+          Spin the <span class="italic font-light text-lime-400">Aventador S</span>
+        </h3>
+        <p class="text-slate-400 text-xs max-w-lg mx-auto">
+          Interactive studio inspection. Drag or click below to examine the sculpted carbon aerodynamic diffuser and aggressive profile from any angle.
+        </p>
+
+        <!-- Turntable Image Container -->
+        <div class="relative max-w-3xl mx-auto rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
+          <img id="lambo-turntable-img" src="assets/lambo_spin_1.jpg" alt="Aventador S 360 Turntable" class="w-full h-auto object-cover transition-opacity duration-300">
+          
+          <!-- 360 Badge Overlay -->
+          <div class="absolute bottom-4 left-4 px-3 py-1 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-[10px] font-mono text-slate-200 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-lime-400 animate-ping"></span>
+            <span>360° DRAG TO ROTATE</span>
+          </div>
+        </div>
+
+        <!-- Interactive Angle Slider -->
+        <div class="max-w-md mx-auto flex items-center gap-4">
+          <span class="text-[10px] font-mono text-slate-400">0°</span>
+          <input type="range" min="0" max="360" value="0" class="w-full accent-lime-400 cursor-pointer" oninput="handleTurntableRotate('lambo', this.value)">
+          <span class="text-[10px] font-mono text-slate-400">360°</span>
         </div>
       </div>
 
-      <!-- Bottom Floating Telemetry Cockpit (HUD Tracker) -->
-      <div class="relative z-20 pb-8 px-6 md:px-12 flex flex-col lg:flex-row justify-between items-end gap-6">
-        
-        <!-- Live Cockpit Readouts Grid -->
-        <div class="glass-dock-orange px-6 py-4 rounded-2xl grid grid-cols-2 sm:grid-cols-5 gap-6 text-center max-w-3xl w-full">
-          <div>
-            <div class="text-xs font-mono text-[#7A808C] uppercase tracking-wider">TACHOMETER</div>
-            <div id="hud-rpm" class="text-xl md:text-2xl font-black font-mono text-[#FF6600] mt-0.5">8,500 <span class="text-xs font-normal text-white/60">RPM</span></div>
-          </div>
-          <div>
-            <div class="text-xs font-mono text-[#7A808C] uppercase tracking-wider">POWER</div>
-            <div class="text-xl md:text-2xl font-black font-mono text-white mt-0.5">45 <span class="text-xs font-normal text-white/60">HP</span></div>
-          </div>
-          <div>
-            <div class="text-xs font-mono text-[#7A808C] uppercase tracking-wider">TORQUE</div>
-            <div class="text-xl md:text-2xl font-black font-mono text-white mt-0.5">39 <span class="text-xs font-normal text-white/60">NM</span></div>
-          </div>
-          <div>
-            <div class="text-xs font-mono text-[#7A808C] uppercase tracking-wider">WET WEIGHT</div>
-            <div class="text-xl md:text-2xl font-black font-mono text-white mt-0.5">165 <span class="text-xs font-normal text-white/60">KG</span></div>
-          </div>
-          <div>
-            <div class="text-xs font-mono text-[#7A808C] uppercase tracking-wider">CAMERA ZOOM</div>
-            <div id="hud-zoom" class="text-xl md:text-2xl font-black font-mono text-[#FF6600] mt-0.5">1.00x</div>
-          </div>
-        </div>
-
-        <!-- Scroll Indicator Hint -->
-        <div class="flex items-center gap-4 text-right">
-          <div class="hidden sm:block">
-            <div class="text-xs font-mono tracking-widest text-[#FF6600] font-bold uppercase">EXPLORE 3D ASSEMBLY</div>
-            <div class="text-xs font-mono text-[#7A808C]">Scroll to decompose engineering parts</div>
-          </div>
-          <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center animate-bounce">
-            <svg width="20" height="20" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; max-width: 20px; max-height: 20px;" class="w-5 h-5 text-[#FF6600]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-            </svg>
-          </div>
-        </div>
-      </div>
     </div>
+
   </section>
 
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       CHAPTER 2: 3D EXPLODED PARTS CUTAWAY & SUBSYSTEM DECONSTRUCTION (MECHANIC 14)
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <section id="parts-cutaway" class="relative w-full min-h-screen py-28 px-6 md:px-12 bg-gradient-to-b from-[#0A0B0E] via-[#0F1117] to-[#0A0B0E] border-t border-white/5">
-    <div class="max-w-7xl mx-auto">
+  <!-- ========================================================================= -->
+  <!-- ACT 3: FERRARI 296 GTB CHAPTER -->
+  <!-- ========================================================================= -->
+  <section id="ferrari-section" class="relative py-24 px-4 border-t border-white/10 bg-gradient-to-b from-obsidian via-[#120a0a] to-obsidian">
+    
+    <div class="max-w-6xl mx-auto space-y-24">
       
-      <!-- Section Header -->
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
-        <div>
-          <div class="text-xs font-mono tracking-[0.25em] text-[#FF6600] uppercase font-bold mb-2">
-            02 // PRECISION ENGINEERING
-          </div>
-          <h2 class="text-4xl md:text-6xl lg:text-7xl font-black font-display tracking-tight uppercase text-white leading-none">
-            EXPLODED <span class="text-[#FF6600]">PARTS</span> CUTAWAY
-          </h2>
+      <!-- Stage 3A: Sunset in Red (Biscayne Bay Exterior) -->
+      <div class="relative rounded-3xl overflow-hidden glass-panel border border-white/15 p-6 md:p-10 shadow-2xl">
+        
+        <!-- Live Status Pill -->
+        <div class="flex items-center gap-2 mb-6">
+          <span class="px-3 py-1 rounded-full bg-red-500/20 border border-red-500/50 text-[10px] font-mono tracking-wider text-red-300 uppercase">
+            [● UNLOCKED] · 296 GTB · ROSSO CORSA
+          </span>
+          <span class="text-xs font-mono text-slate-400">BISCAYNE BAY · GOLDEN HOUR</span>
         </div>
-        <p class="text-sm md:text-base text-[#A0A6B2] font-mono max-w-md">
-          Deconstructing the apex machinery. Click or hover any subsystem below to isolate the mechanical anatomy and view dyno benchmarks.
-        </p>
+
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Left Headline & Telemetry -->
+          <div class="lg:col-span-5 space-y-6">
+            <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl text-white font-bold leading-tight">
+              Sunset, <br><span class="italic text-red-500 font-light">in red.</span>
+            </h2>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Rosso Corsa bodywork kissed by the golden hour horizon over Biscayne Bay. Twin-turbocharged 120° V6 hybrid powerplant revving to a staggering 8,500 RPM, nicknamed the 'piccolo V12' for its operatic acoustic crescendo.
+            </p>
+
+            <!-- Telemetry Stats -->
+            <div class="grid grid-cols-3 gap-3 py-3 border-y border-white/10 font-mono">
+              <div>
+                <div class="text-2xl font-bold text-white">819</div>
+                <div class="text-[10px] text-slate-400 uppercase tracking-wider">COMBINED HP</div>
+              </div>
+              <div>
+                <div class="text-2xl font-bold text-white">2.9<span class="text-sm">s</span></div>
+                <div class="text-[10px] text-slate-400 uppercase tracking-wider">0-60 MPH</div>
+              </div>
+              <div>
+                <div class="text-2xl font-bold text-red-400">$1,190</div>
+                <div class="text-[10px] text-slate-400 uppercase tracking-wider">PER DAY</div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap items-center gap-4 pt-2">
+              <button onclick="playEngineSound('ferrari')" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-mono tracking-wider uppercase text-white transition-all shadow-lg hover:scale-105 active:scale-95">
+                <svg class="w-4 h-4 text-red-400" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+                <span>Hear F1 Roar</span>
+              </button>
+
+              <button onclick="openBookingDrawer('ferrari')" class="px-6 py-2.5 rounded-full bg-red-600 hover:bg-red-500 text-white font-bold text-xs tracking-wider uppercase shadow-lg shadow-red-600/30 transition-all hover:scale-105 active:scale-95">
+                Reserve 296 GTB
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Car Hero Image with Floating Key Fob -->
+          <div class="lg:col-span-7 relative group">
+            <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+              <img src="assets/ferrari_sunset.jpg" alt="Ferrari 296 GTB Sunset Exterior" class="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-700">
+            </div>
+
+            <!-- Floating Authentic Key Fob Parallax -->
+            <div class="absolute -top-6 -right-6 w-20 md:w-28 drop-shadow-[0_20px_35px_rgba(0,0,0,0.8)] pointer-events-none transform -rotate-12 group-hover:rotate-0 group-hover:scale-110 transition-transform duration-500">
+              <img src="assets/key_ferrari.png" alt="Ferrari Key Fob" class="w-full h-auto">
+            </div>
+          </div>
+
+        </div>
+
       </div>
 
-      <!-- Parts Cutaway Interactive Workspace -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      <!-- Stage 3B: Driver's POV on the Causeway & Reservation HUD -->
+      <div class="relative rounded-3xl overflow-hidden glass-panel border border-white/15 p-6 md:p-8">
         
-        <!-- Left 7 Cols: Interactive 3D Exploded Visual Stage -->
-        <div class="lg:col-span-7 relative rounded-3xl overflow-hidden border border-white/10 bg-[#12141A] p-4 md:p-8 perspective-stage group">
-          <div id="exploded-interactive-container" class="relative w-full aspect-[16/10] overflow-hidden rounded-2xl flex items-center justify-center">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Cockpit POV Image with Interactive Start Button -->
+          <div class="lg:col-span-8 relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
+            <img src="assets/ferrari_cockpit.jpg" alt="Ferrari Driver Cockpit View on Causeway" class="w-full h-auto object-cover">
             
-            <!-- Exploded Engineering Visual & Sequence Canvas -->
-            <img id="cutaway-visual" src="./assets/ktm_parts_exploded_end.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=2070&auto=format&fit=crop';" alt="KTM Exploded Engineering Cutaway" class="absolute inset-0 w-full h-full object-cover rounded-xl transition-all duration-500">
-            <canvas id="cutaway-sequence-canvas" class="relative z-10 w-full h-full object-cover rounded-xl transition-all duration-700"></canvas>
+            <!-- Interactive HUD Engine Start Circle Button -->
+            <button onclick="playEngineSound('ferrari')" class="absolute top-[28%] left-[25%] -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full border-2 border-white/40 bg-black/60 backdrop-blur-md flex flex-col items-center justify-center hover:scale-110 hover:border-red-400 active:scale-95 transition-all shadow-xl group/btn" title="Push To Start Sound">
+              <span class="text-[9px] font-mono font-bold text-white tracking-widest text-center uppercase group-hover/btn:text-red-400">ENGINE<br>START</span>
+            </button>
 
-            <!-- Laser Holographic Crosshairs & Blueprint Overlays -->
-            <div class="absolute inset-0 pointer-events-none border border-[#FF6600]/20 rounded-xl"></div>
-            <div class="absolute top-4 left-4 font-mono text-[10px] text-[#FF6600] tracking-widest uppercase bg-black/70 px-2.5 py-1 rounded border border-[#FF6600]/30">
-              SYS ID // LC4c-GEN3 · READY TO RACE
+            <!-- Bottom Subtitle Overlay -->
+            <div class="absolute bottom-4 left-6 max-w-sm">
+              <div class="text-[10px] font-mono uppercase tracking-widest text-red-400">YOUR SEAT</div>
+              <h4 class="font-serif text-2xl font-bold text-white">The causeway is yours.</h4>
             </div>
-            <div id="part-laser-box" class="absolute inset-0 pointer-events-none transition-all duration-500 opacity-0 border-2 border-[#FF6600] shadow-[0_0_30px_rgba(255,102,0,0.5)] rounded-lg"></div>
           </div>
 
-          <!-- Bottom Micro-Controls -->
-          <div class="flex justify-between items-center mt-4 text-xs font-mono text-[#7A808C]">
-            <span>ISOLATION VIEW: <strong id="active-part-label" class="text-white">FULL VEHICLE STANCE</strong></span>
-            <span class="flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-green-500"></span>
-              CAD BIM SPEC VERIFIED
-            </span>
+          <!-- Quick Reservation Card -->
+          <div class="lg:col-span-4 p-6 rounded-2xl bg-black/60 border border-white/10 space-y-5">
+            <div>
+              <div class="text-[10px] font-mono text-red-400 uppercase tracking-wider">FERRARI SELECTION</div>
+              <div class="font-serif text-2xl font-bold text-white">296 GTB</div>
+              <div class="text-xl font-mono font-bold text-slate-200 mt-1">$1,190 <span class="text-xs text-slate-400 font-normal">/ DAY</span></div>
+            </div>
+
+            <!-- Duration Selector Tabs -->
+            <div class="space-y-1.5">
+              <label class="text-[10px] font-mono uppercase text-slate-400">Rental Duration</label>
+              <div class="grid grid-cols-4 gap-1.5 text-xs font-mono text-center">
+                <button onclick="selectDuration(this, '4h', 690)" class="py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300">4h</button>
+                <button onclick="selectDuration(this, '1d', 1190)" class="py-2 rounded-lg bg-red-600 border border-red-500 text-white font-bold">1d</button>
+                <button onclick="selectDuration(this, '3d', 3150)" class="py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300">3d</button>
+                <button onclick="selectDuration(this, '1w', 6400)" class="py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300">1w</button>
+              </div>
+            </div>
+
+            <div class="text-[11px] text-slate-400 space-y-1 py-2 border-y border-white/10">
+              <div class="flex justify-between"><span>Included Miles</span><span class="text-white font-mono">100 mi / day</span></div>
+              <div class="flex justify-between"><span>Delivery</span><span class="text-emerald-400 font-mono">Complimentary</span></div>
+              <div class="flex justify-between"><span>Security Hold</span><span class="text-white font-mono">$2,500</span></div>
+            </div>
+
+            <button onclick="openBookingDrawer('ferrari')" class="w-full py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-red-600/30 transition-all hover:scale-[1.02] active:scale-95">
+              Reserve the 296 GTB
+            </button>
           </div>
+
         </div>
 
-        <!-- Right 5 Cols: Technical Subsystem Selector & Dyno Telemetry -->
-        <div class="lg:col-span-5 flex flex-col gap-3">
+      </div>
+
+      <!-- Stage 3C: 360° Turntable Showroom -->
+      <div class="relative rounded-3xl overflow-hidden glass-panel border border-white/15 p-8 text-center space-y-6">
+        <div class="inline-block px-3 py-1 rounded-full bg-red-500/10 border border-red-500/40 text-[10px] font-mono tracking-widest text-red-300 uppercase">
+          SHOWROOM · 360° TURNTABLE
+        </div>
+        <h3 class="font-serif text-3xl md:text-4xl font-bold text-white">
+          Spin the <span class="italic font-light text-red-400">296 GTB</span>
+        </h3>
+        <p class="text-slate-400 text-xs max-w-lg mx-auto">
+          Rotate through the low-drag Kamm tail and central aerodynamic air blade engineered for 360 kg of downforce.
+        </p>
+
+        <!-- Turntable Image Container -->
+        <div class="relative max-w-3xl mx-auto rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
+          <img id="ferrari-turntable-img" src="assets/ferrari_spin_1.jpg" alt="Ferrari 296 GTB 360 Turntable" class="w-full h-auto object-cover transition-opacity duration-300">
           
-          <!-- Subsystem Card 1: Engine -->
-          <div class="subsystem-card p-5 rounded-2xl bg-[#12141A] border border-white/10 hover:border-[#FF6600] cursor-pointer transition-all duration-300" onclick="selectSubsystem('engine')">
-            <div class="flex justify-between items-start">
-              <div>
-                <span class="text-xs font-mono text-[#FF6600] font-bold">01 // POWERTRAIN</span>
-                <h3 class="text-xl font-bold font-display text-white mt-1">399cc DOHC Single-Cylinder</h3>
-              </div>
-              <span class="text-xs font-mono px-2.5 py-1 rounded bg-white/5 text-white/70">45 HP / 39 NM</span>
-            </div>
-            <p class="text-xs text-[#A0A6B2] mt-2 font-mono leading-relaxed">
-              Newly re-engineered LC4c engine featuring a lightweight cylinder head, anti-hopping slipper clutch, and ride-by-wire precision fueling.
-            </p>
+          <div class="absolute bottom-4 left-4 px-3 py-1 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-[10px] font-mono text-slate-200 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+            <span>360° DRAG TO ROTATE</span>
           </div>
+        </div>
 
-          <!-- Subsystem Card 2: Trellis Frame -->
-          <div class="subsystem-card p-5 rounded-2xl bg-[#12141A] border border-white/10 hover:border-[#FF6600] cursor-pointer transition-all duration-300" onclick="selectSubsystem('chassis')">
-            <div class="flex justify-between items-start">
-              <div>
-                <span class="text-xs font-mono text-[#FF6600] font-bold">02 // CHASSIS</span>
-                <h3 class="text-xl font-bold font-display text-white mt-1">2-Piece Steel Trellis Frame</h3>
-              </div>
-              <span class="text-xs font-mono px-2.5 py-1 rounded bg-white/5 text-white/70">165 KG WET</span>
-            </div>
-            <p class="text-xs text-[#A0A6B2] mt-2 font-mono leading-relaxed">
-              Hydroformed steel main frame powder-coated in signature KTM orange, bolted to a die-cast aluminum subframe for apex cornering rigidity.
-            </p>
-          </div>
-
-          <!-- Subsystem Card 3: WP Suspension -->
-          <div class="subsystem-card p-5 rounded-2xl bg-[#12141A] border border-white/10 hover:border-[#FF6600] cursor-pointer transition-all duration-300" onclick="selectSubsystem('suspension')">
-            <div class="flex justify-between items-start">
-              <div>
-                <span class="text-xs font-mono text-[#FF6600] font-bold">03 // SUSPENSION</span>
-                <h3 class="text-xl font-bold font-display text-white mt-1">WP APEX 43mm Inverted Forks</h3>
-              </div>
-              <span class="text-xs font-mono px-2.5 py-1 rounded bg-white/5 text-white/70">5-CLICK ADJUST</span>
-            </div>
-            <p class="text-xs text-[#A0A6B2] mt-2 font-mono leading-relaxed">
-              Open-cartridge front forks with compression and rebound adjustment paired with an offset WP APEX rear monoshock.
-            </p>
-          </div>
-
-          <!-- Subsystem Card 4: ByBre Radial Brakes -->
-          <div class="subsystem-card p-5 rounded-2xl bg-[#12141A] border border-white/10 hover:border-[#FF6600] cursor-pointer transition-all duration-300" onclick="selectSubsystem('brakes')">
-            <div class="flex justify-between items-start">
-              <div>
-                <span class="text-xs font-mono text-[#FF6600] font-bold">04 // BRAKING</span>
-                <h3 class="text-xl font-bold font-display text-white mt-1">ByBre 320mm Radial Caliper</h3>
-              </div>
-              <span class="text-xs font-mono px-2.5 py-1 rounded bg-white/5 text-white/70">SUPERMOTO ABS</span>
-            </div>
-            <p class="text-xs text-[#A0A6B2] mt-2 font-mono leading-relaxed">
-              Radial 4-piston caliper clamping onto a 320mm drilled disc, supported by Bosch 9.3 MP Cornering ABS with rear wheel disengagement mode.
-            </p>
-          </div>
-
+        <div class="max-w-md mx-auto flex items-center gap-4">
+          <span class="text-[10px] font-mono text-slate-400">0°</span>
+          <input type="range" min="0" max="360" value="0" class="w-full accent-red-500 cursor-pointer" oninput="handleTurntableRotate('ferrari', this.value)">
+          <span class="text-[10px] font-mono text-slate-400">360°</span>
         </div>
       </div>
+
     </div>
+
   </section>
 
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       CHAPTER 3: THE FLEET SHOWROOM (3D TILT CARDS & MODEL SELECTOR)
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <section id="fleet-showroom" class="relative w-full py-28 px-6 md:px-12 bg-[#0A0B0E] border-t border-white/5">
-    <div class="max-w-7xl mx-auto">
+  <!-- ========================================================================= -->
+  <!-- ACT 4: ROLLS-ROYCE CULLINAN CHAPTER -->
+  <!-- ========================================================================= -->
+  <section id="rolls-section" class="relative py-24 px-4 border-t border-white/10 bg-gradient-to-b from-obsidian via-[#090b10] to-obsidian">
+    
+    <div class="max-w-6xl mx-auto space-y-24">
       
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
-        <div>
-          <div class="text-xs font-mono tracking-[0.25em] text-[#FF6600] uppercase font-bold mb-2">
-            03 // SHOWROOM LINEUP
-          </div>
-          <h2 class="text-4xl md:text-6xl lg:text-7xl font-black font-display tracking-tight uppercase text-white leading-none">
-            THE 2026 <span class="text-[#FF6600]">FLEET</span>
-          </h2>
-        </div>
-        <div class="text-xs font-mono text-[#7A808C] uppercase tracking-widest">
-          INTERACTIVE 3D PERSPECTIVE CARDS · MOVE CURSOR TO TILT
-        </div>
-      </div>
-
-      <!-- 3D Tilt Card Grid (Aceternity UI + React Bits Physics) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Stage 4A: Arrive Quietly & Suicide Coach Doors -->
+      <div class="relative rounded-3xl overflow-hidden glass-panel border border-white/15 p-6 md:p-10 shadow-2xl">
         
-        <!-- Card 1: KTM 390 DUKE -->
-        <div class="tilt-card-3d bg-[#12141A] rounded-3xl p-6 border border-white/10 flex flex-col justify-between group">
-          <div>
-            <div class="flex justify-between items-center mb-4">
-              <span class="text-xs font-mono tracking-widest px-3 py-1 rounded-full bg-[#FF6600]/10 text-[#FF6600] font-bold">NAKED AGGRESSION</span>
-              <span class="text-xs font-mono text-[#7A808C]">MY 2026</span>
-            </div>
-            <div class="relative w-full aspect-[16/11] rounded-2xl overflow-hidden mb-6 bg-black/40">
-              <img src="./assets/ktm_bike_assembled_start.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070&auto=format&fit=crop';" alt="KTM 390 Duke" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-            </div>
-            <h3 class="text-2xl font-black font-display text-white uppercase">KTM 390 DUKE</h3>
-            <p class="text-xs font-mono text-[#A0A6B2] mt-2 leading-relaxed">
-              The Corner Rocket. Razor-sharp lightweight chassis with class-leading 45 HP output and cornering ABS.
+        <div class="flex items-center gap-2 mb-6">
+          <span class="px-3 py-1 rounded-full bg-slate-300/20 border border-slate-300/50 text-[10px] font-mono tracking-wider text-slate-200 uppercase">
+            [● UNLOCKED] · CULLINAN · ARCTIC WHITE
+          </span>
+          <span class="text-xs font-mono text-slate-400">STAR ISLAND · WATERFRONT PRIVATE DOCK</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Left Headline & Telemetry -->
+          <div class="lg:col-span-5 space-y-6">
+            <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl text-white font-bold leading-tight">
+              They open <br><span class="italic text-slate-300 font-light">the other way.</span>
+            </h2>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              Rear-hinged coach doors allow you to step inside instead of ducking in. Twin-turbocharged 6.75-liter V12 gliding across city streets in supernatural silence.
             </p>
+
+            <div class="grid grid-cols-3 gap-3 py-3 border-y border-white/10 font-mono">
+              <div>
+                <div class="text-2xl font-bold text-white">563</div>
+                <div class="text-[10px] text-slate-400 uppercase tracking-wider">TWIN V12 HP</div>
+              </div>
+              <div>
+                <div class="text-2xl font-bold text-white">4.8<span class="text-sm">s</span></div>
+                <div class="text-[10px] text-slate-400 uppercase tracking-wider">0-60 MPH</div>
+              </div>
+              <div>
+                <div class="text-2xl font-bold text-slate-200">$990</div>
+                <div class="text-[10px] text-slate-400 uppercase tracking-wider">PER DAY</div>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-4 pt-2">
+              <button onclick="playEngineSound('rolls')" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-mono tracking-wider uppercase text-white transition-all shadow-lg hover:scale-105 active:scale-95">
+                <svg class="w-4 h-4 text-slate-300" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+                <span>Hear V12 Whisper</span>
+              </button>
+
+              <button onclick="openBookingDrawer('rolls-royce')" class="px-6 py-2.5 rounded-full bg-white text-black font-bold text-xs tracking-wider uppercase shadow-lg shadow-white/20 transition-all hover:scale-105 active:scale-95">
+                Reserve Cullinan
+              </button>
+            </div>
           </div>
 
-          <div class="mt-8 pt-6 border-t border-white/10">
-            <div class="grid grid-cols-3 gap-2 text-center font-mono text-xs mb-6">
-              <div class="p-2 rounded-lg bg-black/40">
-                <div class="text-[#7A808C]">DISP</div>
-                <div class="font-bold text-white mt-1">399 cc</div>
-              </div>
-              <div class="p-2 rounded-lg bg-black/40">
-                <div class="text-[#7A808C]">POWER</div>
-                <div class="font-bold text-[#FF6600] mt-1">45 PS</div>
-              </div>
-              <div class="p-2 rounded-lg bg-black/40">
-                <div class="text-[#7A808C]">WEIGHT</div>
-                <div class="font-bold text-white mt-1">165 kg</div>
+          <!-- Right: Car Hero Image with Floating Key Fob -->
+          <div class="lg:col-span-7 relative group">
+            <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+              <img src="assets/rolls_exterior.jpg" alt="Rolls-Royce Cullinan Coach Doors Open" class="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-700">
+            </div>
+
+            <div class="absolute -top-6 -right-6 w-20 md:w-28 drop-shadow-[0_20px_35px_rgba(0,0,0,0.8)] pointer-events-none transform rotate-6 group-hover:rotate-0 group-hover:scale-110 transition-transform duration-500">
+              <img src="assets/key_rolls.png" alt="Rolls-Royce Key Fob" class="w-full h-auto">
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Stage 4B: Celestial Starlight Headliner & Quick Reservation -->
+      <div class="relative rounded-3xl overflow-hidden glass-panel border border-white/15 p-6 md:p-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Starlight Headliner Interior Visual with Shooting Stars -->
+          <div class="lg:col-span-8 relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
+            <img src="assets/rolls_starlight.jpg" alt="Rolls-Royce Starlight Headliner Interior" class="w-full h-auto object-cover">
+            
+            <!-- Animated Shooting Stars -->
+            <div class="shooting-star top-[15%] left-[25%]"></div>
+            <div class="shooting-star top-[25%] left-[55%]" style="animation-delay: 2.2s;"></div>
+
+            <!-- Push to Start Sound Trigger Button -->
+            <button onclick="playEngineSound('rolls')" class="absolute top-[35%] left-[26%] -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full border-2 border-white/40 bg-black/60 backdrop-blur-md flex flex-col items-center justify-center hover:scale-110 hover:border-fuchsia-400 active:scale-95 transition-all shadow-xl group/btn" title="Push To Start Engine">
+              <span class="text-[8px] font-mono font-bold text-white tracking-widest text-center uppercase group-hover/btn:text-fuchsia-300">ENGINE<br>START</span>
+            </button>
+
+            <div class="absolute bottom-4 left-6 max-w-sm">
+              <div class="text-[10px] font-mono uppercase tracking-widest text-slate-300">CELESTIAL SANCTUARY</div>
+              <h4 class="font-serif text-2xl font-bold text-white">A sky of your own.</h4>
+              <p class="text-[11px] text-slate-300">1,344 hand-woven fiber-optic stars sparkling in bespoke Connolly leather.</p>
+            </div>
+          </div>
+
+          <!-- Quick Reservation Card -->
+          <div class="lg:col-span-4 p-6 rounded-2xl bg-black/60 border border-white/10 space-y-5">
+            <div>
+              <div class="text-[10px] font-mono text-slate-400 uppercase tracking-wider">ROLLS-ROYCE SELECTION</div>
+              <div class="font-serif text-2xl font-bold text-white">Cullinan</div>
+              <div class="text-xl font-mono font-bold text-slate-200 mt-1">$990 <span class="text-xs text-slate-400 font-normal">/ DAY</span></div>
+            </div>
+
+            <!-- Duration Selector Tabs -->
+            <div class="space-y-1.5">
+              <label class="text-[10px] font-mono uppercase text-slate-400">Rental Duration</label>
+              <div class="grid grid-cols-4 gap-1.5 text-xs font-mono text-center">
+                <button onclick="selectDuration(this, '4h', 550)" class="py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300">4h</button>
+                <button onclick="selectDuration(this, '1d', 990)" class="py-2 rounded-lg bg-white text-black font-bold">1d</button>
+                <button onclick="selectDuration(this, '3d', 2700)" class="py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300">3d</button>
+                <button onclick="selectDuration(this, '1w', 5500)" class="py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300">1w</button>
               </div>
             </div>
-            <button onclick="openBookingModal('KTM 390 DUKE')" class="w-full py-3 rounded-xl bg-[#FF6600] text-black font-bold font-mono text-xs uppercase tracking-wider hover:bg-[#FF7700] transition-colors">
-              CONFIGURE & TEST RIDE
+
+            <div class="text-[11px] text-slate-400 space-y-1 py-2 border-y border-white/10">
+              <div class="flex justify-between"><span>Chauffeur Option</span><span class="text-white font-mono">Available</span></div>
+              <div class="flex justify-between"><span>Delivery</span><span class="text-emerald-400 font-mono">Complimentary</span></div>
+              <div class="flex justify-between"><span>Security Hold</span><span class="text-white font-mono">$2,500</span></div>
+            </div>
+
+            <button onclick="openBookingDrawer('rolls-royce')" class="w-full py-3 rounded-xl bg-white hover:bg-slate-200 text-black font-bold text-xs uppercase tracking-wider shadow-lg transition-all hover:scale-[1.02] active:scale-95">
+              Reserve the Cullinan
             </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Stage 4C: 360° Turntable Showroom -->
+      <div class="relative rounded-3xl overflow-hidden glass-panel border border-white/15 p-8 text-center space-y-6">
+        <div class="inline-block px-3 py-1 rounded-full bg-slate-300/10 border border-slate-300/40 text-[10px] font-mono tracking-widest text-slate-200 uppercase">
+          SHOWROOM · 360° TURNTABLE
+        </div>
+        <h3 class="font-serif text-3xl md:text-4xl font-bold text-white">
+          Spin the <span class="italic font-light text-slate-300">Cullinan</span>
+        </h3>
+        <p class="text-slate-400 text-xs max-w-lg mx-auto">
+          Explore the imposing pantheon chrome grille and majestic architecture on our studio reflection platform.
+        </p>
+
+        <div class="relative max-w-3xl mx-auto rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
+          <img id="rolls-turntable-img" src="assets/rolls_spin_1.jpg" alt="Rolls-Royce Cullinan 360 Turntable" class="w-full h-auto object-cover transition-opacity duration-300">
+          
+          <div class="absolute bottom-4 left-4 px-3 py-1 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-[10px] font-mono text-slate-200 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-slate-300 animate-ping"></span>
+            <span>360° DRAG TO ROTATE</span>
           </div>
         </div>
 
-        <!-- Card 2: KTM RC 390 -->
-        <div class="tilt-card-3d bg-[#12141A] rounded-3xl p-6 border border-white/10 flex flex-col justify-between group">
-          <div>
-            <div class="flex justify-between items-center mb-4">
-              <span class="text-xs font-mono tracking-widest px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 font-bold">SUPERSPORT RACER</span>
-              <span class="text-xs font-mono text-[#7A808C]">MY 2026</span>
-            </div>
-            <div class="relative w-full aspect-[16/11] rounded-2xl overflow-hidden mb-6 bg-black/40">
-              <img src="./assets/ktm_rc390_track.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1615172282427-9a57ef2d142e?q=80&w=2070&auto=format&fit=crop';" alt="KTM RC 390 Track" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-            </div>
-            <h3 class="text-2xl font-black font-display text-white uppercase">KTM RC 390</h3>
-            <p class="text-xs font-mono text-[#A0A6B2] mt-2 leading-relaxed">
-              Grand Prix aerodynamics. Clip-on race geometry, Moto3-derived windscreen, and full-fairing wind tunnel stability.
-            </p>
-          </div>
+        <div class="max-w-md mx-auto flex items-center gap-4">
+          <span class="text-[10px] font-mono text-slate-400">0°</span>
+          <input type="range" min="0" max="360" value="0" class="w-full accent-slate-300 cursor-pointer" oninput="handleTurntableRotate('rolls', this.value)">
+          <span class="text-[10px] font-mono text-slate-400">360°</span>
+        </div>
+      </div>
 
-          <div class="mt-8 pt-6 border-t border-white/10">
-            <div class="grid grid-cols-3 gap-2 text-center font-mono text-xs mb-6">
-              <div class="p-2 rounded-lg bg-black/40">
-                <div class="text-[#7A808C]">DISP</div>
-                <div class="font-bold text-white mt-1">373 cc</div>
-              </div>
-              <div class="p-2 rounded-lg bg-black/40">
-                <div class="text-[#7A808C]">POWER</div>
-                <div class="font-bold text-[#FF6600] mt-1">43.5 PS</div>
-              </div>
-              <div class="p-2 rounded-lg bg-black/40">
-                <div class="text-[#7A808C]">TOP SPEED</div>
-                <div class="font-bold text-white mt-1">179 km/h</div>
-              </div>
-            </div>
-            <button onclick="openBookingModal('KTM RC 390')" class="w-full py-3 rounded-xl bg-white/10 text-white font-bold font-mono text-xs uppercase tracking-wider hover:bg-[#FF6600] hover:text-black transition-colors">
-              CONFIGURE & TEST RIDE
-            </button>
-          </div>
+    </div>
+
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- ACT 5: MCLAREN 720S SPIDER CHAPTER -->
+  <!-- ========================================================================= -->
+  <section id="mclaren-section" class="relative py-24 px-4 border-t border-white/10 bg-gradient-to-b from-obsidian via-[#0f0b09] to-obsidian">
+    
+    <div class="max-w-6xl mx-auto space-y-16">
+      
+      <div class="relative rounded-3xl overflow-hidden glass-panel border border-white/15 p-6 md:p-10 shadow-2xl">
+        <div class="flex items-center gap-2 mb-6">
+          <span class="px-3 py-1 rounded-full bg-orange-500/20 border border-orange-500/50 text-[10px] font-mono tracking-wider text-orange-300 uppercase">
+            [● UNLOCKED] · 720S SPIDER · PAPAYA ORANGE
+          </span>
+          <span class="text-xs font-mono text-slate-400">CARBON MONOCAGE II · RETRACTABLE HARDTOP</span>
         </div>
 
-        <!-- Card 3: KTM 390 ADVENTURE -->
-        <div class="tilt-card-3d bg-[#12141A] rounded-3xl p-6 border border-white/10 flex flex-col justify-between group">
-          <div>
-            <div class="flex justify-between items-center mb-4">
-              <span class="text-xs font-mono tracking-widest px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 font-bold">ALL-TERRAIN EXPLORER</span>
-              <span class="text-xs font-mono text-[#7A808C]">MY 2026</span>
-            </div>
-            <div class="relative w-full aspect-[16/11] rounded-2xl overflow-hidden mb-6 bg-black/40">
-              <img src="./assets/ktm_adventure.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=2070&auto=format&fit=crop';" alt="KTM 390 Adventure" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-            </div>
-            <h3 class="text-2xl font-black font-display text-white uppercase">KTM 390 ADVENTURE</h3>
-            <p class="text-xs font-mono text-[#A0A6B2] mt-2 leading-relaxed">
-              Dakar-proven DNA. Spoked wheels, long-travel WP Apex suspension, off-road traction control, and 14.5L endurance fuel tank.
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-5 space-y-6">
+            <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl text-white font-bold leading-tight">
+              Dihedral <br><span class="italic text-orange-400 font-light">wings.</span>
+            </h2>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              F1 aerodynamic mastery. Twin-turbocharged 4.0-liter V8 catapulting from 0 to 60 mph in 2.8 seconds. Retractable glazed electrochromic hardtop folding seamlessly in 11 seconds.
             </p>
+
+            <div class="grid grid-cols-3 gap-3 py-3 border-y border-white/10 font-mono">
+              <div>
+                <div class="text-2xl font-bold text-white">710</div>
+                <div class="text-[10px] text-slate-400 uppercase tracking-wider">HORSEPOWER</div>
+              </div>
+              <div>
+                <div class="text-2xl font-bold text-white">2.8<span class="text-sm">s</span></div>
+                <div class="text-[10px] text-slate-400 uppercase tracking-wider">0-60 MPH</div>
+              </div>
+              <div>
+                <div class="text-2xl font-bold text-orange-400">$1,150</div>
+                <div class="text-[10px] text-slate-400 uppercase tracking-wider">PER DAY</div>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-4 pt-2">
+              <button onclick="playEngineSound('mclaren')" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-mono tracking-wider uppercase text-white transition-all shadow-lg hover:scale-105 active:scale-95">
+                <svg class="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+                <span>Hear V8 Twin-Turbo</span>
+              </button>
+
+              <button onclick="openBookingDrawer('mclaren')" class="px-6 py-2.5 rounded-full bg-orange-500 hover:bg-orange-400 text-black font-bold text-xs tracking-wider uppercase shadow-lg shadow-orange-500/25 transition-all hover:scale-105 active:scale-95">
+                Reserve 720S Spider
+              </button>
+            </div>
           </div>
 
-          <div class="mt-8 pt-6 border-t border-white/10">
-            <div class="grid grid-cols-3 gap-2 text-center font-mono text-xs mb-6">
-              <div class="p-2 rounded-lg bg-black/40">
-                <div class="text-[#7A808C]">CLEARANCE</div>
-                <div class="font-bold text-white mt-1">200 mm</div>
-              </div>
-              <div class="p-2 rounded-lg bg-black/40">
-                <div class="text-[#7A808C]">FUEL</div>
-                <div class="font-bold text-[#FF6600] mt-1">14.5 L</div>
-              </div>
-              <div class="p-2 rounded-lg bg-black/40">
-                <div class="text-[#7A808C]">RANGE</div>
-                <div class="font-bold text-white mt-1">400+ km</div>
-              </div>
+          <div class="lg:col-span-7 relative group">
+            <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+              <img src="assets/hero_tray_alt.jpg" alt="McLaren 720S Supercar Coastal Dock" class="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-700">
             </div>
-            <button onclick="openBookingModal('KTM 390 ADVENTURE')" class="w-full py-3 rounded-xl bg-white/10 text-white font-bold font-mono text-xs uppercase tracking-wider hover:bg-[#FF6600] hover:text-black transition-colors">
-              CONFIGURE & TEST RIDE
-            </button>
+
+            <div class="absolute -top-6 -right-6 w-20 md:w-28 drop-shadow-[0_20px_35px_rgba(0,0,0,0.8)] pointer-events-none transform rotate-12 group-hover:rotate-0 group-hover:scale-110 transition-transform duration-500">
+              <img src="assets/key_mclaren.png" alt="McLaren Key Fob" class="w-full h-auto">
+            </div>
           </div>
         </div>
 
       </div>
+
     </div>
+
   </section>
 
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       CHAPTER 4: INTERACTIVE 3D CONFIGURATOR DOCK (CULT UI & UIVERSE PATTERN)
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <section id="configurator" class="relative w-full py-28 px-6 md:px-12 bg-gradient-to-b from-[#0A0B0E] via-[#0D0F14] to-[#0A0B0E] border-t border-white/5">
-    <div class="max-w-7xl mx-auto">
+  <!-- ========================================================================= -->
+  <!-- ACT 6: FLEET COMPARISON BENTO GRID — FOUR KEYS. CHOOSE WISELY. -->
+  <!-- ========================================================================= -->
+  <section id="fleet-section" class="relative py-24 px-4 border-t border-white/10 bg-obsidian">
+    
+    <div class="max-w-6xl mx-auto space-y-12">
       
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
-        <div>
-          <div class="text-xs font-mono tracking-[0.25em] text-[#FF6600] uppercase font-bold mb-2">
-            04 // PERSONAL BUILD STUDIO
-          </div>
-          <h2 class="text-4xl md:text-6xl lg:text-7xl font-black font-display tracking-tight uppercase text-white leading-none">
-            SPEC <span class="text-[#FF6600]">CONFIGURATOR</span>
-          </h2>
+      <div class="text-center space-y-3">
+        <div class="inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono tracking-widest text-slate-400 uppercase">
+          THE COMPLETE PRIVATE FLEET
         </div>
-        <p class="text-sm md:text-base text-[#A0A6B2] font-mono max-w-md">
-          Equip factory KTM PowerParts, select exhaust tuning, and calculate real-time delivery allocation.
+        <h2 class="font-serif text-4xl md:text-5xl font-bold text-white">
+          Four keys. <span class="italic font-light text-fuchsia-400">Choose wisely.</span>
+        </h2>
+        <p class="text-slate-400 text-xs md:text-sm max-w-xl mx-auto">
+          White-glove concierge delivery anywhere in South Florida: direct to your hotel valet, private waterfront villa, or Miami Opa-Locka executive jet hangar.
         </p>
       </div>
 
-      <!-- Configurator Shell -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      <!-- 4 Supercar Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
-        <!-- Left 7 Cols: Interactive 3D Render Preview -->
-        <div class="lg:col-span-7 relative rounded-3xl overflow-hidden border border-white/10 bg-[#12141A] p-6 md:p-10 flex flex-col items-center justify-center">
-          <div class="relative w-full aspect-[16/10] flex items-center justify-center">
-            <img id="configurator-bike-img" src="./assets/ktm_bike_assembled_start.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070&auto=format&fit=crop';" alt="Configured KTM 390 Duke" class="w-full h-full object-cover rounded-2xl transition-all duration-500">
-          </div>
-
-          <!-- Color Swatches Bar -->
-          <div class="flex items-center gap-4 mt-6">
-            <span class="text-xs font-mono text-[#7A808C] uppercase">FACTORY LIVERY:</span>
-            <button onclick="setLivery('orange')" class="w-8 h-8 rounded-full bg-[#FF6600] border-2 border-white shadow-lg shadow-[#FF6600]/40"></button>
-            <button onclick="setLivery('white')" class="w-8 h-8 rounded-full bg-white border-2 border-transparent hover:border-white/60 transition-colors"></button>
-            <button onclick="setLivery('black')" class="w-8 h-8 rounded-full bg-[#181A20] border-2 border-transparent hover:border-white/60 transition-colors"></button>
-          </div>
-        </div>
-
-        <!-- Right 5 Cols: PowerParts Add-On Toggles -->
-        <div class="lg:col-span-5 flex flex-col gap-4">
-          <div class="text-xs font-mono text-[#7A808C] uppercase tracking-wider mb-2">OFFICIAL KTM POWERPARTS CATALOGUE</div>
-
-          <!-- Option 1: Akrapovič Exhaust -->
-          <label class="flex items-center justify-between p-4 rounded-xl bg-[#12141A] border border-white/10 hover:border-[#FF6600]/60 cursor-pointer transition-all">
-            <div class="flex items-center gap-3">
-              <input type="checkbox" id="opt-exhaust" onchange="updateConfigPrice()" class="w-5 h-5 accent-[#FF6600] rounded">
-              <div>
-                <div class="font-bold text-white text-sm">Akrapovič Titanium Slip-On</div>
-                <div class="text-xs text-[#7A808C] font-mono">-1.2 kg weight · Racing exhaust note</div>
+        <!-- Fleet Card 1: Lamborghini Aventador S -->
+        <div class="glass-panel glass-panel-hover rounded-2xl p-5 flex flex-col justify-between space-y-4 border-t-2 border-t-lime-400 transition-all group">
+          <div class="space-y-3">
+            <div class="relative w-full h-36 rounded-xl overflow-hidden border border-white/10">
+              <img src="assets/lambo_exterior.jpg" alt="Aventador S" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/70 backdrop-blur-md p-1 border border-white/20">
+                <img src="assets/key_lambo.png" alt="Key" class="w-full h-full object-contain">
               </div>
             </div>
-            <span class="font-mono text-sm text-[#FF6600] font-bold">+$850</span>
-          </label>
-
-          <!-- Option 2: Quickshifter+ -->
-          <label class="flex items-center justify-between p-4 rounded-xl bg-[#12141A] border border-white/10 hover:border-[#FF6600]/60 cursor-pointer transition-all">
-            <div class="flex items-center gap-3">
-              <input type="checkbox" id="opt-quickshifter" checked onchange="updateConfigPrice()" class="w-5 h-5 accent-[#FF6600] rounded">
-              <div>
-                <div class="font-bold text-white text-sm">Quickshifter+ (Bi-Directional)</div>
-                <div class="text-xs text-[#7A808C] font-mono">Clutchless up & down gear shifts</div>
-              </div>
-            </div>
-            <span class="font-mono text-sm text-[#FF6600] font-bold">+$320</span>
-          </label>
-
-          <!-- Option 3: Bar-End CNC Mirrors -->
-          <label class="flex items-center justify-between p-4 rounded-xl bg-[#12141A] border border-white/10 hover:border-[#FF6600]/60 cursor-pointer transition-all">
-            <div class="flex items-center gap-3">
-              <input type="checkbox" id="opt-mirrors" onchange="updateConfigPrice()" class="w-5 h-5 accent-[#FF6600] rounded">
-              <div>
-                <div class="font-bold text-white text-sm">CNC Billet Bar-End Mirrors</div>
-                <div class="text-xs text-[#7A808C] font-mono">Anodized matte black aero optics</div>
-              </div>
-            </div>
-            <span class="font-mono text-sm text-[#FF6600] font-bold">+$195</span>
-          </label>
-
-          <!-- Option 4: Factory Crash Bungs -->
-          <label class="flex items-center justify-between p-4 rounded-xl bg-[#12141A] border border-white/10 hover:border-[#FF6600]/60 cursor-pointer transition-all">
-            <div class="flex items-center gap-3">
-              <input type="checkbox" id="opt-crash" checked onchange="updateConfigPrice()" class="w-5 h-5 accent-[#FF6600] rounded">
-              <div>
-                <div class="font-bold text-white text-sm">Orange Tubular Crash Bungs</div>
-                <div class="text-xs text-[#7A808C] font-mono">Frame & engine casing drop shield</div>
-              </div>
-            </div>
-            <span class="font-mono text-sm text-[#FF6600] font-bold">+$240</span>
-          </label>
-
-          <!-- Price Dock -->
-          <div class="mt-4 p-5 rounded-2xl glass-dock-orange flex justify-between items-center">
             <div>
-              <div class="text-xs font-mono text-[#7A808C] uppercase">ESTIMATED AS-BUILT PRICE</div>
-              <div id="config-total-price" class="text-3xl font-black font-mono text-[#FF6600]">$6,645</div>
+              <div class="text-[10px] font-mono text-lime-400 uppercase">V12 6.5L · ATMOSPHERIC</div>
+              <h3 class="font-serif text-xl font-bold text-white">Aventador S</h3>
+              <p class="text-slate-400 text-xs">Verde Mantis · Scissor Doors</p>
             </div>
-            <button onclick="openBookingModal('Configured KTM 390 Duke')" class="px-6 py-3 rounded-xl bg-white text-black font-bold font-mono text-xs uppercase tracking-wider hover:bg-[#FF6600] hover:text-black transition-colors">
-              RESERVE BUILD
+            <div class="grid grid-cols-2 gap-2 text-[11px] font-mono py-2 border-y border-white/10 text-slate-300">
+              <div>HP: <span class="text-white font-bold">730</span></div>
+              <div>0-60: <span class="text-white font-bold">2.9s</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-baseline justify-between mb-3">
+              <span class="text-[10px] font-mono text-slate-400">Daily Rate</span>
+              <span class="text-lg font-mono font-bold text-lime-400">$1,290<span class="text-xs text-slate-400">/d</span></span>
+            </div>
+            <button onclick="openBookingDrawer('lamborghini')" class="w-full py-2.5 rounded-xl bg-lime-500 hover:bg-lime-400 text-black font-bold text-xs uppercase tracking-wider transition-all">
+              Reserve
             </button>
           </div>
-
         </div>
+
+        <!-- Fleet Card 2: Ferrari 296 GTB -->
+        <div class="glass-panel glass-panel-hover rounded-2xl p-5 flex flex-col justify-between space-y-4 border-t-2 border-t-red-500 transition-all group">
+          <div class="space-y-3">
+            <div class="relative w-full h-36 rounded-xl overflow-hidden border border-white/10">
+              <img src="assets/ferrari_sunset.jpg" alt="Ferrari 296 GTB" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/70 backdrop-blur-md p-1 border border-white/20">
+                <img src="assets/key_ferrari.png" alt="Key" class="w-full h-full object-contain">
+              </div>
+            </div>
+            <div>
+              <div class="text-[10px] font-mono text-red-400 uppercase">HYBRID V6 TWIN-TURBO</div>
+              <h3 class="font-serif text-xl font-bold text-white">296 GTB</h3>
+              <p class="text-slate-400 text-xs">Rosso Corsa · F1 Cockpit</p>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-[11px] font-mono py-2 border-y border-white/10 text-slate-300">
+              <div>HP: <span class="text-white font-bold">819</span></div>
+              <div>0-60: <span class="text-white font-bold">2.9s</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-baseline justify-between mb-3">
+              <span class="text-[10px] font-mono text-slate-400">Daily Rate</span>
+              <span class="text-lg font-mono font-bold text-red-400">$1,190<span class="text-xs text-slate-400">/d</span></span>
+            </div>
+            <button onclick="openBookingDrawer('ferrari')" class="w-full py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider transition-all">
+              Reserve
+            </button>
+          </div>
+        </div>
+
+        <!-- Fleet Card 3: Rolls-Royce Cullinan -->
+        <div class="glass-panel glass-panel-hover rounded-2xl p-5 flex flex-col justify-between space-y-4 border-t-2 border-t-slate-300 transition-all group">
+          <div class="space-y-3">
+            <div class="relative w-full h-36 rounded-xl overflow-hidden border border-white/10">
+              <img src="assets/rolls_exterior.jpg" alt="Rolls-Royce Cullinan" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/70 backdrop-blur-md p-1 border border-white/20">
+                <img src="assets/key_rolls.png" alt="Key" class="w-full h-full object-contain">
+              </div>
+            </div>
+            <div>
+              <div class="text-[10px] font-mono text-slate-300 uppercase">TWIN-TURBO 6.75L V12</div>
+              <h3 class="font-serif text-xl font-bold text-white">Cullinan</h3>
+              <p class="text-slate-400 text-xs">Arctic White · Starlight Ceiling</p>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-[11px] font-mono py-2 border-y border-white/10 text-slate-300">
+              <div>HP: <span class="text-white font-bold">563</span></div>
+              <div>0-60: <span class="text-white font-bold">4.8s</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-baseline justify-between mb-3">
+              <span class="text-[10px] font-mono text-slate-400">Daily Rate</span>
+              <span class="text-lg font-mono font-bold text-slate-200">$990<span class="text-xs text-slate-400">/d</span></span>
+            </div>
+            <button onclick="openBookingDrawer('rolls-royce')" class="w-full py-2.5 rounded-xl bg-white hover:bg-slate-200 text-black font-bold text-xs uppercase tracking-wider transition-all">
+              Reserve
+            </button>
+          </div>
+        </div>
+
+        <!-- Fleet Card 4: McLaren 720S Spider -->
+        <div class="glass-panel glass-panel-hover rounded-2xl p-5 flex flex-col justify-between space-y-4 border-t-2 border-t-orange-400 transition-all group">
+          <div class="space-y-3">
+            <div class="relative w-full h-36 rounded-xl overflow-hidden border border-white/10">
+              <img src="assets/hero_tray_alt.jpg" alt="McLaren 720S" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/70 backdrop-blur-md p-1 border border-white/20">
+                <img src="assets/key_mclaren.png" alt="Key" class="w-full h-full object-contain">
+              </div>
+            </div>
+            <div>
+              <div class="text-[10px] font-mono text-orange-400 uppercase">TWIN-TURBO 4.0L V8</div>
+              <h3 class="font-serif text-xl font-bold text-white">720S Spider</h3>
+              <p class="text-slate-400 text-xs">Papaya Orange · Dihedral Roof</p>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-[11px] font-mono py-2 border-y border-white/10 text-slate-300">
+              <div>HP: <span class="text-white font-bold">710</span></div>
+              <div>0-60: <span class="text-white font-bold">2.8s</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-baseline justify-between mb-3">
+              <span class="text-[10px] font-mono text-slate-400">Daily Rate</span>
+              <span class="text-lg font-mono font-bold text-orange-400">$1,150<span class="text-xs text-slate-400">/d</span></span>
+            </div>
+            <button onclick="openBookingDrawer('mclaren')" class="w-full py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-black font-bold text-xs uppercase tracking-wider transition-all">
+              Reserve
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- ACT 7: BANNER & VIP ON-DEMAND CONCIERGE -->
+  <!-- ========================================================================= -->
+  <section class="relative py-20 px-4 border-t border-white/10 bg-gradient-to-r from-fuchsia-950/40 via-obsidian to-rose-950/40">
+    <div class="max-w-4xl mx-auto text-center space-y-6">
+      <div class="text-[11px] font-mono tracking-widest text-fuchsia-400 uppercase">
+        INSTANT ON-DEMAND DISPATCH
+      </div>
+      <h2 class="font-serif text-4xl md:text-6xl font-bold text-white">
+        Key in your hand <br><span class="italic font-light text-fuchsia-400">in under an hour.</span>
+      </h2>
+      <p class="text-slate-300 text-sm max-w-lg mx-auto">
+        No dealership waiting rooms. No paperwork friction. Simply pick your key, confirm your delivery coordinates, and experience Miami in peak exotic luxury.
+      </p>
+      <div>
+        <button onclick="openBookingDrawer('general')" class="px-8 py-3.5 rounded-full bg-gradient-to-r from-fuchsia-500 to-rose-500 hover:from-fuchsia-400 hover:to-rose-400 text-white font-bold text-xs tracking-widest uppercase shadow-xl shadow-fuchsia-500/25 hover:scale-105 active:scale-95 transition-all">
+          Request Instant Delivery
+        </button>
       </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       CHAPTER 5: FLAGSHIP SHOWROOM LOCATOR & CONCIERGE (MECHANIC 8)
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <section id="locator" class="relative w-full py-28 px-6 md:px-12 bg-[#0A0B0E] border-t border-white/5">
-    <div class="max-w-7xl mx-auto">
-      
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        <div class="lg:col-span-6">
-          <div class="text-xs font-mono tracking-[0.25em] text-[#FF6600] uppercase font-bold mb-2">
-            05 // GLOBAL NETWORK
-          </div>
-          <h2 class="text-4xl md:text-6xl font-black font-display tracking-tight uppercase text-white leading-none">
-            FLAGSHIP <span class="text-[#FF6600]">SHOWROOM</span> LOCATOR
-          </h2>
-          <p class="text-sm md:text-base text-[#A0A6B2] font-mono mt-4 leading-relaxed">
-            Step onto the floor of our state-of-the-art dealerships. Experience our 3D interactive dyno bays, factory race gear, and official service technicians.
-          </p>
-
-          <div class="flex flex-col gap-4 mt-8 font-mono text-xs">
-            <div class="p-4 rounded-xl bg-[#12141A] border border-white/10 flex justify-between items-center">
-              <div>
-                <strong class="text-white text-sm block">KTM Flagship Apex Hub</strong>
-                <span class="text-[#7A808C]">Stallhofnerstraße 3, Mattighofen, Austria</span>
-              </div>
-              <span class="text-[#FF6600] font-bold">HEADQUARTERS</span>
-            </div>
-            <div class="p-4 rounded-xl bg-[#12141A] border border-white/10 flex justify-between items-center">
-              <div>
-                <strong class="text-white text-sm block">KTM Southern Dealership</strong>
-                <span class="text-[#7A808C]">Perambalur High Road, South Hub</span>
-              </div>
-              <span class="text-emerald-400 font-bold">OPEN TODAY</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="lg:col-span-6 rounded-3xl overflow-hidden border border-white/10 bg-[#12141A] p-8">
-          <h3 class="text-2xl font-bold font-display text-white uppercase mb-2">Book A Priority Test Ride</h3>
-          <p class="text-xs font-mono text-[#7A808C] mb-6">Select your preferred machine and our certified rider concierge will prep your machine.</p>
-          
-          <form onsubmit="handleTestRideSubmit(event)" class="space-y-4 font-mono text-xs">
-            <div>
-              <label class="block text-[#7A808C] mb-1">RIDER FULL NAME</label>
-              <input type="text" required placeholder="Alex Mercer" class="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 focus:border-[#FF6600] text-white outline-none">
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-[#7A808C] mb-1">PHONE NUMBER</label>
-                <input type="tel" required placeholder="+1 (555) 019-2834" class="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 focus:border-[#FF6600] text-white outline-none">
-              </div>
-              <div>
-                <label class="block text-[#7A808C] mb-1">PREFERRED MODEL</label>
-                <select id="form-model-select" class="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 focus:border-[#FF6600] text-white outline-none">
-                  <option value="KTM 390 DUKE">KTM 390 DUKE</option>
-                  <option value="KTM RC 390">KTM RC 390</option>
-                  <option value="KTM 390 ADVENTURE">KTM 390 ADVENTURE</option>
-                  <option value="KTM 1390 SUPER DUKE R">KTM 1390 SUPER DUKE R</option>
-                </select>
-              </div>
-            </div>
-            <button type="submit" class="w-full py-4 rounded-xl bg-[#FF6600] text-black font-bold font-mono text-xs uppercase tracking-wider hover:bg-[#FF7700] hover:shadow-[0_0_30px_rgba(255,102,0,0.5)] transition-all">
-              CONFIRM APPOINTMENT NOW
-            </button>
-            <div id="form-confirmation" class="hidden text-center text-xs font-mono text-emerald-400 mt-2">
-              ✓ Test ride reserved! Our dealer concierge will contact you within 2 hours.
-            </div>
-          </form>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       FOOTER (EDITORIAL GIANT WORDMARK - MECHANIC 8)
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <footer class="w-full py-16 px-6 md:px-12 bg-black border-t border-white/5 relative overflow-hidden">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+  <!-- ========================================================================= -->
+  <!-- FOOTER -->
+  <!-- ========================================================================= -->
+  <footer class="py-12 px-6 border-t border-white/10 bg-black text-slate-400 text-xs">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
       <div class="flex items-center gap-3">
-        <div class="w-8 h-6 bg-[#FF6600] flex items-center justify-center font-black font-display text-black text-sm italic skew-x-[-12deg]">
-          KTM
-        </div>
-        <span class="text-xs font-mono text-[#7A808C]">© 2026 KTM SPORTMOTORCYCLE GMBH · ALL RIGHTS RESERVED</span>
+        <span class="font-display font-bold text-sm tracking-wider text-white">IRIS ETHOS</span>
+        <span class="text-slate-600">|</span>
+        <span>Exotic Car Concierge & Private Fleet</span>
       </div>
-      <div class="flex gap-6 text-xs font-mono text-[#7A808C]">
-        <a href="#hero-stage" class="hover:text-[#FF6600] transition-colors">TOP</a>
-        <a href="#parts-cutaway" class="hover:text-[#FF6600] transition-colors">CUTAWAY</a>
-        <a href="#fleet-showroom" class="hover:text-[#FF6600] transition-colors">MODELS</a>
-        <a href="#configurator" class="hover:text-[#FF6600] transition-colors">CONFIGURATOR</a>
+      <div class="text-slate-500 font-mono text-[11px]">
+        © 2026 Iris Ethos. All rights reserved. Miami · Palm Beach · Monaco.
       </div>
     </div>
   </footer>
 
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       BOOKING MODAL (CULT UI OVERLAY)
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <div id="booking-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-6">
-    <div class="bg-[#12141A] border border-[#FF6600]/40 rounded-3xl max-w-lg w-full p-8 relative">
-      <button onclick="closeBookingModal()" class="absolute top-6 right-6 text-white/60 hover:text-white font-mono text-lg">✕</button>
-      <div class="text-xs font-mono text-[#FF6600] font-bold uppercase mb-1">PRIORITY PASS</div>
-      <h3 class="text-2xl font-black font-display text-white uppercase mb-2">Reserve Test Ride</h3>
-      <p id="modal-model-title" class="text-xs font-mono text-[#A0A6B2] mb-6">Select date and your nearest dealer will prepare the motorcycle.</p>
+  <!-- ========================================================================= -->
+  <!-- FLOATING BRAND BADGE: Made by IrisEthos -->
+  <!-- ========================================================================= -->
+  <aside class="fixed bottom-4 right-4 z-40 pointer-events-auto">
+    <a href="https://irisethos.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 px-4 py-2 rounded-full glass-panel border border-white/20 text-xs font-medium text-slate-200 hover:text-white shadow-2xl transition-all hover:scale-105 active:scale-95 group">
+      <span class="w-2 h-2 rounded-full bg-fuchsia-400 group-hover:animate-ping"></span>
+      <span class="text-[11px] text-slate-300">Made by <strong class="text-white font-semibold">IrisEthos</strong></span>
+      <span class="font-mono text-fuchsia-400 text-[10px] group-hover:translate-x-0.5 transition-transform">Visit IrisEthos →</span>
+    </a>
+  </aside>
 
-      <form onsubmit="handleModalSubmit(event)" class="space-y-4 font-mono text-xs">
-        <div>
-          <label class="block text-[#7A808C] mb-1">FULL NAME</label>
-          <input type="text" required placeholder="Alex Mercer" class="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 text-white outline-none focus:border-[#FF6600]">
+  <!-- ========================================================================= -->
+  <!-- VIP CONCIERGE BOOKING DRAWER & CHECKOUT MODAL -->
+  <!-- ========================================================================= -->
+  <div id="booking-drawer" class="fixed inset-0 z-50 pointer-events-none opacity-0 transition-opacity duration-300">
+    <!-- Backdrop -->
+    <div onclick="closeBookingDrawer()" class="absolute inset-0 bg-black/80 backdrop-blur-sm pointer-events-auto"></div>
+
+    <!-- Slide-over Drawer Panel -->
+    <div class="absolute inset-y-0 right-0 w-full max-w-lg bg-[#0e1118] border-l border-white/15 shadow-2xl p-6 md:p-8 flex flex-col justify-between overflow-y-auto pointer-events-auto transform translate-x-full transition-transform duration-300" id="drawer-panel">
+      
+      <!-- Drawer Header -->
+      <div class="space-y-6">
+        <div class="flex items-center justify-between border-b border-white/10 pb-4">
+          <div>
+            <div class="text-[10px] font-mono text-fuchsia-400 uppercase tracking-widest">VIP CONCIERGE DISPATCH</div>
+            <h3 class="font-serif text-2xl font-bold text-white">Reserve Your Key</h3>
+          </div>
+          <button onclick="closeBookingDrawer()" class="p-2 rounded-full hover:bg-white/10 text-slate-400 hover:text-white transition-colors" title="Close Drawer">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
         </div>
-        <div>
-          <label class="block text-[#7A808C] mb-1">PHONE NUMBER</label>
-          <input type="tel" required placeholder="+1 (555) 019-2834" class="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 text-white outline-none focus:border-[#FF6600]">
+
+        <!-- Vehicle Selection -->
+        <div class="space-y-2">
+          <label class="text-[10px] font-mono uppercase tracking-wider text-slate-400">Selected Vehicle</label>
+          <select id="vehicle-select" onchange="updateDrawerVehicle(this.value)" class="w-full p-3 rounded-xl bg-white/5 border border-white/15 text-white font-mono text-xs focus:outline-none focus:border-fuchsia-400">
+            <option value="lamborghini">Lamborghini Aventador S — $1,290/day</option>
+            <option value="ferrari">Ferrari 296 GTB — $1,190/day</option>
+            <option value="rolls-royce">Rolls-Royce Cullinan — $990/day</option>
+            <option value="mclaren">McLaren 720S Spider — $1,150/day</option>
+          </select>
         </div>
-        <button type="submit" class="w-full py-4 rounded-xl bg-[#FF6600] text-black font-bold font-mono text-xs uppercase tracking-wider hover:bg-[#FF7700] transition-colors">
-          COMPLETE RESERVATION
+
+        <!-- Delivery Location Coordinates -->
+        <div class="space-y-2">
+          <label class="text-[10px] font-mono uppercase tracking-wider text-slate-400">Delivery Location in South Florida</label>
+          <input type="text" id="delivery-address" placeholder="e.g. 1 Hotel South Beach / Fontainebleau / OPF Airport" class="w-full p-3 rounded-xl bg-white/5 border border-white/15 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-fuchsia-400">
+        </div>
+
+        <!-- Duration Picker -->
+        <div class="space-y-2">
+          <label class="text-[10px] font-mono uppercase tracking-wider text-slate-400">Rental Duration</label>
+          <div class="grid grid-cols-4 gap-2 text-xs font-mono">
+            <button type="button" onclick="setDrawerDuration('4h')" class="dur-btn py-2.5 rounded-lg border border-white/10 bg-white/5 text-slate-300 text-center">4 Hours</button>
+            <button type="button" onclick="setDrawerDuration('1d')" class="dur-btn py-2.5 rounded-lg border border-fuchsia-500 bg-fuchsia-600 text-white font-bold text-center">1 Day</button>
+            <button type="button" onclick="setDrawerDuration('3d')" class="dur-btn py-2.5 rounded-lg border border-white/10 bg-white/5 text-slate-300 text-center">3 Days</button>
+            <button type="button" onclick="setDrawerDuration('1w')" class="dur-btn py-2.5 rounded-lg border border-white/10 bg-white/5 text-slate-300 text-center">1 Week</button>
+          </div>
+        </div>
+
+        <!-- Add-on Concierge Services -->
+        <div class="space-y-2 pt-2">
+          <label class="text-[10px] font-mono uppercase tracking-wider text-slate-400">VIP Concierge Add-ons</label>
+          <div class="space-y-2">
+            <label class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10 cursor-pointer hover:bg-white/10 transition-colors">
+              <span class="text-xs text-slate-200">Dedicated Chauffeur Service</span>
+              <input type="checkbox" id="addon-chauffeur" onchange="calculateDrawerTotal()" class="accent-fuchsia-500 w-4 h-4">
+            </label>
+            <label class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10 cursor-pointer hover:bg-white/10 transition-colors">
+              <span class="text-xs text-slate-200">Zero-Deductible Track Shield Protection</span>
+              <input type="checkbox" id="addon-insurance" checked onchange="calculateDrawerTotal()" class="accent-fuchsia-500 w-4 h-4">
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Drawer Footer & Checkout Action -->
+      <div class="space-y-4 pt-6 border-t border-white/10">
+        <div class="flex items-baseline justify-between">
+          <span class="text-xs font-mono text-slate-400">Estimated Total</span>
+          <span id="drawer-total" class="text-2xl font-mono font-bold text-white">$1,390</span>
+        </div>
+        <p class="text-[10px] text-slate-400">
+          Complimentary delivery anywhere in Miami-Dade & Broward County within 60 minutes.
+        </p>
+        <button onclick="confirmBooking()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-fuchsia-500 to-rose-500 hover:from-fuchsia-400 hover:to-rose-400 text-white font-bold text-xs uppercase tracking-widest shadow-lg shadow-fuchsia-500/30 transition-all hover:scale-[1.02] active:scale-95">
+          Confirm Instant Dispatch
         </button>
-        <div id="modal-success" class="hidden text-center text-xs font-mono text-emerald-400 mt-2">
-          ✓ Booking confirmed! Check your SMS for rider pass.
-        </div>
-      </form>
+      </div>
+
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       MASTER JAVASCRIPT: 60 FPS GSAP SCROLLTRIGGER + LENIS + AUDIO ENGINE
-       ══════════════════════════════════════════════════════════════════════════ -->
+  <!-- Booking Confirmation Modal Alert -->
+  <div id="confirm-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-[#121622] border border-white/20 p-6 md:p-8 rounded-3xl max-w-md w-full text-center space-y-5 shadow-2xl">
+      <div class="w-14 h-14 rounded-full bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center mx-auto text-emerald-400">
+        <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+      </div>
+      <h3 class="font-serif text-2xl font-bold text-white">Dispatch Dispatched</h3>
+      <p id="confirm-details" class="text-xs text-slate-300 leading-relaxed">
+        Your supercar request has been received by the Iris Ethos Miami Concierge team. Our driver is en route with your vehicle.
+      </p>
+      <button onclick="closeConfirmModal()" class="w-full py-2.5 rounded-xl bg-white text-black font-bold text-xs uppercase tracking-wider hover:bg-slate-200 transition-colors">
+        Done
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT: WEB AUDIO SYNTHESIZER & INTERACTIVE SCRIPTS -->
+  <!-- ========================================================================= -->
   <script>
-    // ═════════════════════════════════════════════════════════════════════════
-    // 1. APPLE-STYLE 300-FRAME CANVAS SEQUENCE CONFIGURATION
-    // ═════════════════════════════════════════════════════════════════════════
-    const DRONE_FRAME_FOLDER = './frames/drone/';
-    const EXPLODED_FRAME_FOLDER = './frames/exploded/';
-    const FRAME_PATTERN = 'ezgif-frame-%03d.jpg';
-    const TOTAL_FRAMES = 300;
+    // State Machine
+    let currentCar = 'lamborghini';
+    let currentDuration = '1d';
+    let audioCtx = null;
+    let isSoundOn = false;
 
-    const droneImages = [];
-    const explodedImages = [];
-    const droneSequence = { frame: 0 };
-    const cutawaySequence = { frame: 0 };
-    let droneFramesLoaded = 0;
-    let explodedFramesLoaded = 0;
-
-    const heroCanvas = document.getElementById("hero-sequence-canvas");
-    const heroCtx = heroCanvas ? heroCanvas.getContext("2d") : null;
-    const cutawayCanvas = document.getElementById("cutaway-sequence-canvas");
-    const cutawayCtx = cutawayCanvas ? cutawayCanvas.getContext("2d") : null;
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    function getFrameUrl(folder, index) {
-      const padded = String(index).padStart(3, '0');
-      return folder + FRAME_PATTERN.replace('%03d', padded);
-    }
-
-    function setHeroCanvasDimensions() {
-      if (!heroCanvas || !heroCtx) return;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      heroCanvas.width = w * dpr;
-      heroCanvas.height = h * dpr;
-      heroCanvas.style.width = w + "px";
-      heroCanvas.style.height = h + "px";
-      heroCtx.scale(dpr, dpr);
-    }
-
-    function renderHeroFrame(index) {
-      if (!heroCtx || !heroCanvas) return;
-      const img = droneImages[index];
-      if (!img || !img.complete || !img.naturalWidth) return;
-
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      heroCtx.clearRect(0, 0, w, h);
-
-      const imgAspect = img.naturalWidth / img.naturalHeight;
-      const canvasAspect = w / h;
-      let drawW, drawH, drawX, drawY;
-
-      if (canvasAspect > imgAspect) {
-        drawW = w;
-        drawH = w / imgAspect;
-        drawX = 0;
-        drawY = (h - drawH) / 2;
-      } else {
-        drawH = h;
-        drawW = h * imgAspect;
-        drawX = (w - drawW) / 2;
-        drawY = 0;
-      }
-      heroCtx.drawImage(img, drawX, drawY, drawW, drawH);
-    }
-
-    function setCutawayCanvasDimensions() {
-      if (!cutawayCanvas || !cutawayCtx) return;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const container = cutawayCanvas.parentElement;
-      const w = container ? container.clientWidth : 800;
-      const h = container ? container.clientHeight : 500;
-      cutawayCanvas.width = w * dpr;
-      cutawayCanvas.height = h * dpr;
-      cutawayCanvas.style.width = w + "px";
-      cutawayCanvas.style.height = h + "px";
-      cutawayCtx.scale(dpr, dpr);
-    }
-
-    function renderCutawayFrame(index) {
-      if (!cutawayCtx || !cutawayCanvas) return;
-      const img = explodedImages[index] || droneImages[index];
-      if (!img || !img.complete || !img.naturalWidth) return;
-
-      const container = cutawayCanvas.parentElement;
-      const w = container ? container.clientWidth : 800;
-      const h = container ? container.clientHeight : 500;
-      cutawayCtx.clearRect(0, 0, w, h);
-
-      const imgAspect = img.naturalWidth / img.naturalHeight;
-      const canvasAspect = w / h;
-      let drawW, drawH, drawX, drawY;
-
-      if (canvasAspect > imgAspect) {
-        drawW = w;
-        drawH = w / imgAspect;
-        drawX = 0;
-        drawY = (h - drawH) / 2;
-      } else {
-        drawH = h;
-        drawW = h * imgAspect;
-        drawX = (w - drawW) / 2;
-        drawY = 0;
-      }
-      cutawayCtx.drawImage(img, drawX, drawY, drawW, drawH);
-    }
-
-    function preloadAllSequences() {
-      const counterEl = document.getElementById("preloader-counter");
-      const barEl = document.getElementById("preloader-bar");
-      const rpmEl = document.getElementById("rpm-counter");
-      const preloader = document.getElementById("preloader");
-
-      let preloaderDismissed = false;
-      function dismissPreloader() {
-        if (preloaderDismissed) return;
-        preloaderDismissed = true;
-        if (preloader) {
-          preloader.style.opacity = "0";
-          preloader.style.transform = "translateY(-100%)";
-          preloader.style.pointerEvents = "none";
-          setTimeout(() => { preloader.style.display = "none"; }, 500);
-        }
-        renderHeroFrame(0);
-        renderCutawayFrame(0);
-      }
-
-      // Preload 300 drone fly-through frames
-      for (let i = 1; i <= TOTAL_FRAMES; i++) {
-        const img = new Image();
-        img.src = getFrameUrl(DRONE_FRAME_FOLDER, i);
-        img.onload = () => {
-          droneFramesLoaded++;
-          const percent = Math.floor((droneFramesLoaded / TOTAL_FRAMES) * 100);
-          const rpm = Math.floor((percent / 100) * 11500);
-
-          if (counterEl) counterEl.innerText = `${percent}% (${droneFramesLoaded}/${TOTAL_FRAMES})`;
-          if (barEl) barEl.style.width = `${percent}%`;
-          if (rpmEl) rpmEl.innerText = rpm.toLocaleString();
-
-          const leds = document.querySelectorAll(".shift-led");
-          const activeCount = Math.floor((percent / 100) * 8);
-          leds.forEach((led, idx) => {
-            if (idx < activeCount) {
-              led.style.opacity = "1";
-              led.style.filter = "brightness(1.5)";
-            }
-          });
-
-          if (droneFramesLoaded === 1) renderHeroFrame(0);
-          if (droneFramesLoaded >= 15) dismissPreloader();
-        };
-        img.onerror = () => {
-          droneFramesLoaded++;
-        };
-        droneImages.push(img);
-      }
-
-      // Preload exploded frames in background
-      for (let i = 1; i <= Math.min(TOTAL_FRAMES, 50); i++) {
-        const img = new Image();
-        img.src = getFrameUrl(EXPLODED_FRAME_FOLDER, i);
-        img.onload = () => {
-          explodedFramesLoaded++;
-          if (explodedFramesLoaded === 1) renderCutawayFrame(0);
-        };
-        explodedImages.push(img);
-      }
-
-      // Dismiss preloader quickly so user never sits waiting on black screen
-      setTimeout(dismissPreloader, 400);
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener("DOMContentLoaded", () => {
-        setHeroCanvasDimensions();
-        setCutawayCanvasDimensions();
-        preloadAllSequences();
-      });
-    } else {
-      setHeroCanvasDimensions();
-      setCutawayCanvasDimensions();
-      preloadAllSequences();
-    }
-
-    window.addEventListener("resize", () => {
-      setHeroCanvasDimensions();
-      setCutawayCanvasDimensions();
-      renderHeroFrame(Math.round(droneSequence.frame));
-      renderCutawayFrame(Math.round(cutawaySequence.frame));
-    });
-
-    // ═════════════════════════════════════════════════════════════════════════
-    // 2. LENIS SMOOTH MOMENTUM SCROLL
-    // ═════════════════════════════════════════════════════════════════════════
-    const lenis = new Lenis({
-      duration: 1.0,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      touchMultiplier: 1.2
-    });
-
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
-    gsap.ticker.lagSmoothing(0);
-
-    // ═════════════════════════════════════════════════════════════════════════
-    // 3. GSAP SCROLLTRIGGER 3D FLY-THROUGH SCRUB ENGINE
-    // ═════════════════════════════════════════════════════════════════════════
-    gsap.registerPlugin(ScrollTrigger);
-
-    let currentHeroMode = 'drone'; // 'drone' | 'studio'
-
-    function setHeroMode(mode) {
-      currentHeroMode = mode;
-      const btnDrone = document.getElementById("btn-mode-drone");
-      const btnStudio = document.getElementById("btn-mode-studio");
-      const heroCanvasEl = document.getElementById("hero-sequence-canvas");
-      const layerStudio = document.getElementById("layer-studio-hero");
-
-      if (mode === 'studio') {
-        btnStudio.classList.add("bg-[#FF6600]", "text-black", "font-bold");
-        btnStudio.classList.remove("text-white/70");
-        btnDrone.classList.remove("bg-[#FF6600]", "text-black", "font-bold");
-        btnDrone.classList.add("text-white/70");
-
-        if (layerStudio) layerStudio.style.opacity = "1";
-        if (heroCanvasEl) heroCanvasEl.style.opacity = "0";
-      } else {
-        btnDrone.classList.add("bg-[#FF6600]", "text-black", "font-bold");
-        btnDrone.classList.remove("text-white/70");
-        btnStudio.classList.remove("bg-[#FF6600]", "text-black", "font-bold");
-        btnStudio.classList.add("text-white/70");
-
-        if (layerStudio) layerStudio.style.opacity = "0";
-        if (heroCanvasEl) {
-          heroCanvasEl.style.opacity = "1";
-          renderHeroFrame(Math.round(droneSequence.frame));
-        }
-        ScrollTrigger.refresh();
-      }
-    }
-
-    function initScrollAnimations() {
-      // 1. Hero 3D Drone Push-In Timeline (Natural ~1200px calibrated scrub)
-      const heroStage = document.getElementById("hero-stage");
-      const pinDistance = Math.min(window.innerHeight * 1.3, 1200);
-      if (heroStage) heroStage.style.height = `${pinDistance + window.innerHeight}px`;
-
-      if (!prefersReducedMotion) {
-        gsap.to(droneSequence, {
-          frame: TOTAL_FRAMES - 1,
-          snap: "frame",
-          ease: "none",
-          scrollTrigger: {
-            trigger: "#hero-stage",
-            start: "top top",
-            end: `+=${pinDistance}`,
-            pin: ".perspective-stage",
-            scrub: 0.4,
-            onUpdate: (self) => {
-              const currentFrame = Math.round(droneSequence.frame);
-              if (currentHeroMode === 'drone') {
-                renderHeroFrame(currentFrame);
-              }
-
-              const p = self.progress;
-
-              // Camera Zoom Dolly
-              const scaleVal = 1.0 + p * 0.35;
-              gsap.set("#hero-viewport-3d", {
-                scale: scaleVal,
-                z: p * 50
-              });
-
-              // Telemetry HUD Readout
-              const zoomEl = document.getElementById("hud-zoom");
-              if (zoomEl) zoomEl.innerText = `${scaleVal.toFixed(2)}x`;
-
-              const rpmEl = document.getElementById("hud-rpm");
-              if (rpmEl) {
-                const calculatedRpm = Math.floor(1200 + p * 8600);
-                rpmEl.innerHTML = `${calculatedRpm.toLocaleString()} <span class="text-xs font-normal text-white/60">RPM</span>`;
-              }
-            }
-          }
-        });
-      } else {
-        renderHeroFrame(0);
-      }
-
-      // 2. Parts Cutaway Forward Reveal
-      gsap.fromTo("#parts-cutaway .subsystem-card",
-        { opacity: 0, y: 50, rotationX: -10 },
-        {
-          opacity: 1,
-          y: 0,
-          rotationX: 0,
-          duration: 0.8,
-          stagger: 0.12,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: "#parts-cutaway",
-            start: "top 75%",
-            toggleActions: "play none none none"
-          }
-        }
-      );
-
-      // 3. The Fleet 3D Tilt Cards Entrance
-      gsap.fromTo("#fleet-showroom .tilt-card-3d",
-        { opacity: 0, y: 60, scale: 0.95 },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.9,
-          stagger: 0.15,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: "#fleet-showroom",
-            start: "top 75%",
-            toggleActions: "play none none none"
-          }
-        }
-      );
-    }
-
-    // ═════════════════════════════════════════════════════════════════════════
-    // 4. INTERACTIVE 3D PARTS CUTAWAY SUBSYSTEM ENGINE
-    // ═════════════════════════════════════════════════════════════════════════
-    const subsystemData = {
-      engine: {
-        label: "399cc DOHC POWERTRAIN ISOLATION",
-        laserBox: { left: "30%", top: "45%", width: "40%", height: "40%" }
-      },
-      chassis: {
-        label: "ORANGE TUBULAR TRELLIS CHASSIS ISOLATION",
-        laserBox: { left: "25%", top: "35%", width: "48%", height: "35%" }
-      },
-      suspension: {
-        label: "WP APEX 43mm INVERTED FORKS ISOLATION",
-        laserBox: { left: "62%", top: "30%", width: "25%", height: "55%" }
-      },
-      brakes: {
-        label: "ByBre 320mm RADIAL BRAKE CALIPER ISOLATION",
-        laserBox: { left: "68%", top: "58%", width: "22%", height: "32%" }
-      }
+    // Rates Dictionary
+    const FLEET_RATES = {
+      'lamborghini': { name: 'Lamborghini Aventador S', rates: { '4h': 790, '1d': 1290, '3d': 3450, '1w': 6900 } },
+      'ferrari': { name: 'Ferrari 296 GTB', rates: { '4h': 690, '1d': 1190, '3d': 3150, '1w': 6400 } },
+      'rolls-royce': { name: 'Rolls-Royce Cullinan', rates: { '4h': 550, '1d': 990, '3d': 2700, '1w': 5500 } },
+      'mclaren': { name: 'McLaren 720S Spider', rates: { '4h': 650, '1d': 1150, '3d': 3100, '1w': 6200 } }
     };
 
-    const subsystemFrameMap = {
-      engine: 150,     // DOHC engine & clutch isolated
-      chassis: 225,    // Steel trellis frame detached
-      suspension: 75,  // WP Apex forks isolated
-      brakes: 290      // ByBre caliper & rotor exploded
-    };
-
-    function selectSubsystem(key) {
-      const data = subsystemData[key];
-      if (!data) return;
-
-      const labelEl = document.getElementById("active-part-label");
-      const box = document.getElementById("part-laser-box");
-      const canvasEl = document.getElementById("cutaway-sequence-canvas");
-
-      if (labelEl) labelEl.innerText = data.label;
-      if (box) {
-        box.style.left = data.laserBox.left;
-        box.style.top = data.laserBox.top;
-        box.style.width = data.laserBox.width;
-        box.style.height = data.laserBox.height;
-        box.style.opacity = "1";
-      }
-
-      // Smoothly animate cutaway canvas frame to target exploded index
-      const targetFrame = subsystemFrameMap[key] || 0;
-      gsap.to(cutawaySequence, {
-        frame: targetFrame,
-        duration: 0.7,
-        ease: "power2.out",
-        onUpdate: () => renderCutawayFrame(Math.round(cutawaySequence.frame))
-      });
-
-      if (canvasEl) {
-        gsap.fromTo(canvasEl, { scale: 0.98 }, { scale: 1.0, duration: 0.4, ease: "power2.out" });
-      }
-    }
-
-    function scrollToPart(key) {
-      const el = document.getElementById("parts-cutaway");
+    // Smooth Scroll to Car Chapter
+    function scrollToCar(sectionId) {
+      const el = document.getElementById(sectionId);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth' });
-        setTimeout(() => selectSubsystem(key), 600);
       }
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // 5. 3D TILT PHYSICS (VANILLA MOUSE TRACKER)
-    // ═════════════════════════════════════════════════════════════════════════
-    document.querySelectorAll(".tilt-card-3d").forEach(card => {
-      card.addEventListener("mousemove", (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        const rotX = -(y / (rect.height / 2)) * 10;
-        const rotY = (x / (rect.width / 2)) * 10;
-        card.style.transform = `perspective(1200px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(1.02)`;
-      });
-      card.addEventListener("mouseleave", () => {
-        card.style.transform = "perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)";
-      });
-    });
-
-    // ═════════════════════════════════════════════════════════════════════════
-    // 6. CONFIGURATOR PRICING ENGINE & LIVERY SELECTOR
-    // ═════════════════════════════════════════════════════════════════════════
-    function updateConfigPrice() {
-      let base = 5890;
-      if (document.getElementById("opt-exhaust").checked) base += 850;
-      if (document.getElementById("opt-quickshifter").checked) base += 320;
-      if (document.getElementById("opt-mirrors").checked) base += 195;
-      if (document.getElementById("opt-crash").checked) base += 240;
-
-      const priceEl = document.getElementById("config-total-price");
-      if (priceEl) priceEl.innerText = `$${base.toLocaleString()}`;
+    // Interactive Turntable Rotator
+    function handleTurntableRotate(brand, degree) {
+      const deg = parseInt(degree);
+      if (brand === 'lambo') {
+        const img = document.getElementById('lambo-turntable-img');
+        if (img) img.style.filter = `hue-rotate(${(deg % 60) - 30}deg) brightness(${1 + (deg % 30)/100})`;
+      } else if (brand === 'ferrari') {
+        const img = document.getElementById('ferrari-turntable-img');
+        if (img) img.src = deg > 180 ? 'assets/ferrari_spin_2.jpg' : 'assets/ferrari_spin_1.jpg';
+      } else if (brand === 'rolls') {
+        const img = document.getElementById('rolls-turntable-img');
+        if (img) img.src = deg > 180 ? 'assets/rolls_spin_2.jpg' : 'assets/rolls_spin_1.jpg';
+      }
     }
 
-    function setLivery(color) {
-      const img = document.getElementById("configurator-bike-img");
-      if (!img) return;
-
-      gsap.to(img, {
-        opacity: 0.3,
-        scale: 0.95,
-        duration: 0.25,
-        onComplete: () => {
-          if (color === 'white') {
-            img.src = "./assets/ktm_duke_white.jpg";
-          } else {
-            img.src = "./assets/ktm_bike_assembled_start.jpg";
-          }
-          gsap.to(img, { opacity: 1, scale: 1, duration: 0.35 });
-        }
-      });
-    }
-
-    // ═════════════════════════════════════════════════════════════════════════
-    // 7. WEB AUDIO API SYNTHESIZER: RAW EXHAUST ENGINE REVS
-    // ═════════════════════════════════════════════════════════════════════════
-    let audioCtx = null;
-    let isSoundPlaying = false;
-    let soundNodes = [];
-
-    function toggleEngineSound() {
-      const btnText = document.getElementById("sound-btn-text");
+    // Web Audio Engine Synthesizer for Authentic Supercar Revs & Clicks
+    function initAudio() {
       if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
 
-      if (isSoundPlaying) {
-        soundNodes.forEach(n => { try { n.stop(); } catch(e){} });
-        soundNodes = [];
-        isSoundPlaying = false;
-        if (btnText) btnText.innerText = "EXHAUST SOUND";
-        return;
+    function toggleAudio() {
+      initAudio();
+      isSoundOn = !isSoundOn;
+      const iconOn = document.getElementById('sound-icon-on');
+      const iconOff = document.getElementById('sound-icon-off');
+      const label = document.getElementById('sound-label');
+
+      if (isSoundOn) {
+        iconOn.classList.remove('hidden');
+        iconOff.classList.add('hidden');
+        label.textContent = 'SOUND ON';
+        playKeyChirp();
+      } else {
+        iconOn.classList.add('hidden');
+        iconOff.classList.remove('hidden');
+        label.textContent = 'AUDIO';
+      }
+    }
+
+    // Key Unlock Chirp
+    function playKeyChirp() {
+      try {
+        initAudio();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1800, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(2400, audioCtx.currentTime + 0.08);
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.12);
+      } catch (e) {}
+    }
+
+    // Engine Start & Rev Synthesizer
+    function playEngineSound(brand) {
+      try {
+        initAudio();
+        playKeyChirp();
+
+        setTimeout(() => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+
+          if (brand === 'lambo') {
+            // V12 high rev scream
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(80, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(380, audioCtx.currentTime + 0.4);
+            osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 1.2);
+            gain.gain.setValueAtTime(0.22, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.2);
+          } else if (brand === 'ferrari') {
+            // F1 high pitch rev
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(120, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(450, audioCtx.currentTime + 0.35);
+            osc.frequency.exponentialRampToValueAtTime(90, audioCtx.currentTime + 1.0);
+            gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.0);
+          } else {
+            // Rolls V12 deep whisper
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(55, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(95, audioCtx.currentTime + 0.5);
+            osc.frequency.exponentialRampToValueAtTime(45, audioCtx.currentTime + 1.2);
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.2);
+          }
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 1.2);
+        }, 120);
+
+      } catch (e) {}
+    }
+
+    // Booking Drawer Controls
+    function openBookingDrawer(brand) {
+      if (brand && brand !== 'general') {
+        currentCar = brand;
+        const sel = document.getElementById('vehicle-select');
+        if (sel) sel.value = brand;
+      }
+      calculateDrawerTotal();
+
+      const drawer = document.getElementById('booking-drawer');
+      const panel = document.getElementById('drawer-panel');
+      drawer.classList.remove('pointer-events-none', 'opacity-0');
+      drawer.classList.add('opacity-100');
+      panel.classList.remove('translate-x-full');
+      panel.classList.add('translate-x-0');
+    }
+
+    function closeBookingDrawer() {
+      const drawer = document.getElementById('booking-drawer');
+      const panel = document.getElementById('drawer-panel');
+      panel.classList.remove('translate-x-0');
+      panel.classList.add('translate-x-full');
+      setTimeout(() => {
+        drawer.classList.remove('opacity-100');
+        drawer.classList.add('pointer-events-none', 'opacity-0');
+      }, 250);
+    }
+
+    function updateDrawerVehicle(val) {
+      currentCar = val;
+      calculateDrawerTotal();
+    }
+
+    function setDrawerDuration(dur) {
+      currentDuration = dur;
+      const btns = document.querySelectorAll('.dur-btn');
+      btns.forEach(b => {
+        b.classList.remove('bg-fuchsia-600', 'border-fuchsia-500', 'text-white', 'font-bold');
+        b.classList.add('bg-white/5', 'border-white/10', 'text-slate-300');
+      });
+      event.target.classList.remove('bg-white/5', 'border-white/10', 'text-slate-300');
+      event.target.classList.add('bg-fuchsia-600', 'border-fuchsia-500', 'text-white', 'font-bold');
+      calculateDrawerTotal();
+    }
+
+    function calculateDrawerTotal() {
+      const carData = FLEET_RATES[currentCar] || FLEET_RATES['lamborghini'];
+      let base = carData.rates[currentDuration] || carData.rates['1d'];
+      const hasChauffeur = document.getElementById('addon-chauffeur')?.checked;
+      const hasInsurance = document.getElementById('addon-insurance')?.checked;
+
+      if (hasChauffeur) base += 350;
+      if (hasInsurance) base += 100;
+
+      const totalEl = document.getElementById('drawer-total');
+      if (totalEl) totalEl.textContent = `$${base.toLocaleString()}`;
+    }
+
+    function confirmBooking() {
+      const carData = FLEET_RATES[currentCar] || FLEET_RATES['lamborghini'];
+      const addr = document.getElementById('delivery-address')?.value || 'Miami Beach Hotel Valet';
+      const total = document.getElementById('drawer-total')?.textContent || '$1,290';
+
+      // Telemetry to Google Analytics
+      if (typeof gtag === 'function') {
+        gtag('event', 'reserve_car', {
+          event_category: 'booking',
+          event_label: carData.name,
+          value: parseInt(total.replace(/\D/g, '')) || 1290
+        });
       }
 
-      // Synthesize high-compression 4-stroke thumper exhaust tone
-      const osc1 = audioCtx.createOscillator();
-      const osc2 = audioCtx.createOscillator();
-      const gainNode = audioCtx.createGain();
-      const filter = audioCtx.createBiquadFilter();
+      closeBookingDrawer();
 
-      osc1.type = 'sawtooth';
-      osc1.frequency.setValueAtTime(65, audioCtx.currentTime); // 1300 RPM idle
-      osc1.frequency.exponentialRampToValueAtTime(140, audioCtx.currentTime + 0.8); // Rev pulse
-      osc1.frequency.exponentialRampToValueAtTime(75, audioCtx.currentTime + 1.8);
-
-      osc2.type = 'triangle';
-      osc2.frequency.setValueAtTime(130, audioCtx.currentTime);
-      osc2.frequency.exponentialRampToValueAtTime(280, audioCtx.currentTime + 0.8);
-      osc2.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 1.8);
-
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(450, audioCtx.currentTime);
-      filter.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.8);
-      filter.frequency.exponentialRampToValueAtTime(500, audioCtx.currentTime + 1.8);
-
-      gainNode.gain.setValueAtTime(0.12, audioCtx.currentTime);
-
-      osc1.connect(filter);
-      osc2.connect(filter);
-      filter.connect(gainNode);
-      gainNode.connect(audioCtx.destination);
-
-      osc1.start();
-      osc2.start();
-      soundNodes.push(osc1, osc2);
-      isSoundPlaying = true;
-      if (btnText) btnText.innerText = "MUTE EXHAUST";
-
-      setTimeout(() => {
-        if (isSoundPlaying) toggleEngineSound();
-      }, 2600);
+      const modal = document.getElementById('confirm-modal');
+      const details = document.getElementById('confirm-details');
+      if (details) {
+        details.innerHTML = `Your <strong>${carData.name}</strong> has been secured for delivery to <strong>${addr}</strong>. Estimated arrival: <span class="text-fuchsia-400 font-mono">under 45 minutes</span>. Confirmation sent to your concierge.`;
+      }
+      modal.classList.remove('pointer-events-none', 'opacity-0');
+      modal.classList.add('opacity-100');
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // 8. TEST RIDE CONCIERGE MODALS
-    // ═════════════════════════════════════════════════════════════════════════
-    function openBookingModal(model = "KTM 390 DUKE") {
-      const modal = document.getElementById("booking-modal");
-      const title = document.getElementById("modal-model-title");
-      if (title) title.innerText = `Machine selected: ${model} · Choose appointment slot.`;
-      modal.classList.remove("hidden");
-      modal.classList.add("flex");
+    function closeConfirmModal() {
+      const modal = document.getElementById('confirm-modal');
+      modal.classList.remove('opacity-100');
+      modal.classList.add('pointer-events-none', 'opacity-0');
     }
 
-    function closeBookingModal() {
-      const modal = document.getElementById("booking-modal");
-      modal.classList.add("hidden");
-      modal.classList.remove("flex");
-    }
-
-    function handleModalSubmit(e) {
-      e.preventDefault();
-      const success = document.getElementById("modal-success");
-      if (success) success.classList.remove("hidden");
-      setTimeout(() => { closeBookingModal(); }, 1800);
-    }
-
-    function handleTestRideSubmit(e) {
-      e.preventDefault();
-      const conf = document.getElementById("form-confirmation");
-      if (conf) conf.classList.remove("hidden");
-    }
-
-    // ═════════════════════════════════════════════════════════════════════════
-    // 9. APP INITIALIZATION LIFECYCLE
-    // ═════════════════════════════════════════════════════════════════════════
-    function startApp() {
-      initScrollAnimations();
-    }
-
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-      startApp();
-    } else {
-      window.addEventListener("load", startApp);
+    function selectDuration(btn, dur, price) {
+      const siblings = btn.parentElement.querySelectorAll('button');
+      siblings.forEach(s => {
+        s.className = 'py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300';
+      });
+      btn.className = 'py-2 rounded-lg bg-red-600 border border-red-500 text-white font-bold';
     }
   </script>
+
 </body>
 </html>
