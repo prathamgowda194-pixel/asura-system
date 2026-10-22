@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bhangarh Fort // 10-Minute Horror Cinema & AI Motion Studio</title>
+  <title>Bhangarh Fort // 10-Minute Horror Cinema & AI Flow Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #03050a;
-      --card-bg: #0a0f1d;
-      --border: rgba(148, 163, 184, 0.18);
+      --card-bg: #090e1a;
+      --border: rgba(148, 163, 184, 0.16);
       --red: #ef4444;
       --yellow: #f59e0b;
       --cyan: #38bdf8;
+      --emerald: #10b981;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -47,7 +48,7 @@
     }
     .brand-title {
       font-family: 'Cinzel', serif;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 800;
       letter-spacing: 0.14em;
       color: #ffffff;
@@ -55,10 +56,10 @@
     }
     .badge {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      padding: 3px 10px;
+      font-size: 10px;
+      padding: 3px 9px;
       border-radius: 4px;
-      background: rgba(239, 68, 68, 0.2);
+      background: rgba(239, 68, 68, 0.18);
       border: 1px solid var(--red);
       color: var(--red);
       font-weight: 700;
@@ -67,14 +68,14 @@
 
     .mode-tabs {
       display: flex;
-      gap: 8px;
-      background: rgba(15, 23, 42, 0.8);
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.9);
       padding: 4px;
       border-radius: 8px;
       border: 1px solid var(--border);
     }
     .tab-btn {
-      padding: 6px 16px;
+      padding: 6px 14px;
       border-radius: 6px;
       font-size: 12px;
       font-weight: 600;
@@ -84,6 +85,7 @@
       color: #94a3b8;
       transition: all 0.2s;
     }
+    .tab-btn:hover { color: #f1f5f9; }
     .tab-btn.active {
       background: var(--red);
       color: #ffffff;
@@ -104,8 +106,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #010205;
-      padding: 24px;
+      background: #010204;
+      padding: 20px;
       position: relative;
     }
     .screen-frame {
@@ -127,14 +129,13 @@
       height: 100%;
       z-index: 10;
     }
-    .video-viewport iframe, .video-viewport video {
+    .video-viewport iframe {
       width: 100%;
       height: 100%;
       border: none;
-      object-fit: cover;
     }
 
-    /* 2.5D ARTWORK VIEWPORT (TAB 2) */
+    /* 2.5D SEEDANCE / FLOW STUDIO ARTWORK VIEWPORT (TAB 2) */
     .art-viewport {
       position: absolute;
       inset: 0;
@@ -142,16 +143,86 @@
       height: 100%;
       z-index: 10;
       display: none;
+      background: #05070d;
+      overflow: hidden;
     }
-    .art-img {
+    .art-canvas-container {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .art-img-stage {
       width: 100%;
       height: 100%;
       object-fit: cover;
       transform-origin: center center;
-      transition: transform 12s cubic-bezier(0.2, 0.8, 0.2, 1);
+      transition: transform 0.4s ease-out;
+      will-change: transform;
     }
-    .art-img.zoom-active {
-      transform: scale(1.15);
+
+    /* Camera motion presets */
+    .motion-push-in {
+      animation: camPushIn 12s cubic-bezier(0.25, 1, 0.5, 1) infinite alternate;
+    }
+    .motion-pan-left {
+      animation: camPanLeft 14s ease-in-out infinite alternate;
+    }
+    .motion-pan-right {
+      animation: camPanRight 14s ease-in-out infinite alternate;
+    }
+    .motion-jitter {
+      animation: camJitter 0.3s ease-in-out infinite alternate;
+    }
+    .motion-tilt-down {
+      animation: camTiltDown 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes camPushIn {
+      0% { transform: scale(1.0) translate(0, 0); }
+      100% { transform: scale(1.18) translate(0, -10px); }
+    }
+    @keyframes camPanLeft {
+      0% { transform: scale(1.12) translate(-3%, 0); }
+      100% { transform: scale(1.12) translate(3%, -8px); }
+    }
+    @keyframes camPanRight {
+      0% { transform: scale(1.12) translate(3%, 0); }
+      100% { transform: scale(1.12) translate(-3%, -8px); }
+    }
+    @keyframes camJitter {
+      0% { transform: scale(1.08) translate(0px, 0px) rotate(0deg); }
+      25% { transform: scale(1.08) translate(2px, 1px) rotate(0.2deg); }
+      50% { transform: scale(1.08) translate(-1px, 2px) rotate(-0.15deg); }
+      75% { transform: scale(1.08) translate(1px, -1px) rotate(0.1deg); }
+      100% { transform: scale(1.08) translate(-2px, 0px) rotate(-0.2deg); }
+    }
+    @keyframes camTiltDown {
+      0% { transform: scale(1.1) translate(0, -20px); }
+      100% { transform: scale(1.1) translate(0, 15px); }
+    }
+
+    /* ATMOSPHERIC VFX */
+    .vfx-fog {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 60%, rgba(239, 68, 68, 0.08) 0%, transparent 60%);
+      mix-blend-mode: screen;
+      z-index: 15;
+    }
+    .vfx-lightning {
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.4);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 20;
+      transition: opacity 0.05s ease;
+    }
+    .vfx-lightning.flash {
+      opacity: 1;
     }
 
     /* CINEMA LETTERBOX MATTES */
@@ -178,8 +249,8 @@
       z-index: 45;
       color: #94a3b8;
     }
-    .hud-tl { top: 18px; left: 28px; display: flex; align-items: center; gap: 8px; }
-    .hud-tr { top: 18px; right: 28px; color: var(--yellow); }
+    .hud-tl { top: 18px; left: 24px; display: flex; align-items: center; gap: 8px; }
+    .hud-tr { top: 18px; right: 24px; color: var(--yellow); }
     .rec-dot {
       width: 8px; height: 8px; border-radius: 50%;
       background: #ef4444; box-shadow: 0 0 8px #ef4444;
@@ -190,36 +261,36 @@
     /* AUTHENTIC CINEMA SUBTITLES (ZERO FLOATING CARDS) */
     .cinema-subtitles {
       position: absolute;
-      bottom: 24px;
+      bottom: 12px;
       left: 50%;
       transform: translateX(-50%);
-      width: 90%;
-      max-width: 960px;
+      width: 92%;
+      max-width: 980px;
       text-align: center;
       z-index: 50;
       pointer-events: none;
     }
     .sub-hindi {
       font-family: 'Tiro Devanagari Hindi', serif;
-      font-size: 24px;
+      font-size: 21px;
       font-weight: 700;
       color: #ffeb3b;
-      line-height: 1.4;
-      text-shadow: 0 2px 4px #000000, 0 0 10px #000000, 0 0 18px #000000;
-      margin-bottom: 4px;
+      line-height: 1.35;
+      text-shadow: 0 2px 4px #000000, 0 0 10px #000000, 0 0 16px #000000;
+      margin-bottom: 3px;
     }
     .sub-english {
       font-family: 'Inter', sans-serif;
-      font-size: 15px;
+      font-size: 13.5px;
       font-weight: 500;
       color: #ffffff;
-      line-height: 1.4;
+      line-height: 1.35;
       text-shadow: 0 2px 4px #000000, 0 0 8px #000000;
     }
 
     /* SIDEBAR */
     .sidebar {
-      width: 420px;
+      width: 440px;
       background: var(--card-bg);
       border-left: 1px solid var(--border);
       display: flex;
@@ -229,58 +300,63 @@
       flex-shrink: 0;
     }
     .sidebar-header {
-      padding: 18px 24px;
+      padding: 16px 20px;
       border-bottom: 1px solid var(--border);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
     .sidebar-section {
-      padding: 20px 24px;
+      padding: 16px 20px;
       border-bottom: 1px solid var(--border);
     }
     .section-label {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
       color: var(--cyan);
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
+    /* CHAPTER CARDS */
     .chapter-card {
       display: flex;
       gap: 12px;
-      padding: 10px;
-      border-radius: 8px;
-      background: rgba(15, 23, 42, 0.7);
+      padding: 8px 10px;
+      border-radius: 6px;
+      background: rgba(15, 23, 42, 0.6);
       border: 1px solid var(--border);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       cursor: pointer;
       transition: all 0.2s;
     }
     .chapter-card:hover {
-      background: rgba(30, 41, 59, 0.9);
+      background: rgba(30, 41, 59, 0.85);
       border-color: var(--red);
-      transform: translateX(3px);
+      transform: translateX(2px);
     }
     .chapter-card.active {
       border-color: var(--red);
-      background: rgba(220, 38, 38, 0.2);
+      background: rgba(220, 38, 38, 0.18);
     }
     .card-thumb {
-      width: 80px;
-      height: 48px;
+      width: 76px;
+      height: 46px;
       border-radius: 4px;
       object-fit: cover;
+      flex-shrink: 0;
     }
     .card-info { flex: 1; overflow: hidden; }
     .card-act {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
+      font-size: 9.5px;
       color: var(--yellow);
       font-weight: 700;
     }
@@ -294,31 +370,58 @@
       margin-top: 2px;
     }
     .card-desc {
-      font-size: 11px;
+      font-size: 10.5px;
       color: #94a3b8;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      margin-top: 2px;
+      margin-top: 1px;
+    }
+
+    /* I2V CONTROLS DOCK (FOR TAB 2) */
+    .i2v-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: rgba(15, 23, 42, 0.7);
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+    .control-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+    }
+    .control-select {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      color: #f8fafc;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      outline: none;
     }
 
     /* FOOTER SCRUBBER */
     .footer {
-      height: 76px;
+      height: 68px;
       background: #060911;
       border-top: 1px solid var(--border);
-      padding: 12px 24px;
+      padding: 10px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       z-index: 100;
       flex-shrink: 0;
     }
-    .controls { display: flex; align-items: center; gap: 14px; }
+    .controls { display: flex; align-items: center; gap: 10px; }
     .btn-ctrl {
-      padding: 8px 16px;
+      padding: 7px 14px;
       border-radius: 6px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       border: 1px solid var(--border);
@@ -327,13 +430,18 @@
       transition: all 0.2s;
     }
     .btn-ctrl:hover { background: #334155; }
+    .btn-ctrl.primary {
+      background: var(--red);
+      color: #ffffff;
+      border-color: var(--red);
+    }
     .time-badge {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       color: #ffffff;
       background: #0f172a;
-      padding: 6px 14px;
+      padding: 6px 12px;
       border-radius: 6px;
       border: 1px solid var(--border);
     }
@@ -344,14 +452,14 @@
   <!-- HEADER -->
   <header class="topbar">
     <div class="topbar-left">
-      <h1 class="brand-title">Bhangarh Fort // Horror Story Cinema</h1>
-      <span class="badge">10-MINUTE ANIMATED HORROR FILM</span>
+      <h1 class="brand-title">Bhangarh Fort // Horror Cinema & AI Studio</h1>
+      <span class="badge">10-MINUTE FILM // 11 ACTS</span>
     </div>
 
     <div class="mode-tabs">
       <button class="tab-btn active" id="tab-movie">🎬 Complete Animated Video (YouTube)</button>
-      <button class="tab-btn" id="tab-seedance">⚡ Seedance 2.5 Visual Lab</button>
-      <button class="tab-btn" id="tab-ai-guide">📖 Open-Source AI Video Guide</button>
+      <button class="tab-btn" id="tab-seedance">⚡ Seedance 2.5 & Google Flow Studio Lab</button>
+      <button class="tab-btn" id="tab-ai-guide">📖 Free Open-Source AI Video Guide</button>
     </div>
   </header>
 
@@ -367,18 +475,23 @@
         <!-- HUD -->
         <div class="hud hud-tl">
           <div class="rec-dot"></div>
-          <span>BHANGARH KILLA // ARCHIVAL FILM (600 SECONDS)</span>
+          <span id="hud-title">BHANGARH KILLA // ARCHIVAL MASTER (600 SECONDS)</span>
         </div>
-        <div class="hud hud-tr">27.0964° N, 76.2862° E</div>
+        <div class="hud hud-tr" id="hud-coords">27.0964° N, 76.2862° E</div>
 
         <!-- 1. FULL ANIMATED MOVIE VIEWPORT (NO CARDS, CLEAN VIDEO STREAM) -->
         <div class="video-viewport" id="viewport-video">
           <iframe id="yt-player" src="https://www.youtube.com/embed/81ZCwnIWIRk?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
         </div>
 
-        <!-- 2. SEEDANCE 2.5 I2V ARTWORK VIEWPORT -->
+        <!-- 2. SEEDANCE 2.5 / GOOGLE AI FLOW STUDIO I2V ARTWORK VIEWPORT -->
         <div class="art-viewport" id="viewport-art">
-          <img id="art-img" class="art-img zoom-active" src="scenes/youtube_thumbnail.jpg" alt="Horror Scene">
+          <div class="art-canvas-container" id="art-container">
+            <img id="art-img" class="art-img-stage motion-push-in" src="scenes/youtube_thumbnail.jpg" alt="Horror Scene">
+          </div>
+          <!-- Atmospheric VFX -->
+          <div class="vfx-fog"></div>
+          <div class="vfx-lightning" id="lightning-fx"></div>
         </div>
 
         <!-- CLEAN CINEMATIC SUBTITLES AT THE BOTTOM (ZERO UGLY FLOATING BOXES!) -->
@@ -391,89 +504,77 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-      <div class="sidebar-header" id="sidebar-header-text">CHAPTER SCENE DIRECTORY (10-MINUTES)</div>
+      <div class="sidebar-header">
+        <span id="sidebar-header-text">11-SCENE MASTER DIRECTORY (600s)</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--yellow);">11 ACTS</span>
+      </div>
       
-      <!-- CHAPTER CARDS LIST -->
+      <!-- CHAPTER CARDS LIST (ALL 11 SCENES) -->
       <div class="sidebar-section" id="section-chapters">
-        <div class="section-label">CLICK ANY SCENE TO JUMP & WATCH</div>
+        <!-- I2V Motion Controls (shown only on Tab 2) -->
+        <div class="i2v-controls" id="i2v-panel" style="display: none;">
+          <div class="control-row">
+            <span style="font-weight: 700; color: var(--cyan);">AI Camera Motion Engine:</span>
+            <select class="control-select" id="motion-selector">
+              <option value="motion-push-in">Cinematic Push-In (Zoom)</option>
+              <option value="motion-pan-left">Slow Pan Left</option>
+              <option value="motion-pan-right">Slow Pan Right</option>
+              <option value="motion-jitter">Horror Handheld Jitter</option>
+              <option value="motion-tilt-down">Low-Angle Tilt Down</option>
+            </select>
+          </div>
+          <div class="control-row">
+            <span>Atmospheric Lightning:</span>
+            <button class="btn-ctrl" id="btn-flash" style="padding: 3px 8px; font-size: 10px;">⚡ Trigger Lightning</button>
+          </div>
+        </div>
+
+        <div class="section-label">CLICK ANY SCENE TO JUMP & PLAY</div>
         <div id="chapter-list">
-          <div class="chapter-card active" data-time="0" data-idx="0">
-            <img class="card-thumb" src="scenes/youtube_thumbnail.jpg" alt="Scene 1">
-            <div class="card-info">
-              <div class="card-act">ACT I // 00:00 - 01:45</div>
-              <div class="card-title">The Sunset Curfew Warning</div>
-              <div class="card-desc">Government warning board & dusk arrival</div>
-            </div>
-          </div>
-
-          <div class="chapter-card" data-time="105" data-idx="1">
-            <img class="card-thumb" src="scenes/explorers_climbing.jpg" alt="Scene 2">
-            <div class="card-info">
-              <div class="card-act">ACT II // 01:45 - 03:30</div>
-              <div class="card-title">Midnight Wall Scaling</div>
-              <div class="card-desc">Two explorers climb over the dark battlements</div>
-            </div>
-          </div>
-
-          <div class="chapter-card" data-time="210" data-idx="2">
-            <img class="card-thumb" src="scenes/fortress_corridor.jpg" alt="Scene 3">
-            <div class="card-info">
-              <div class="card-act">ACT III // 03:30 - 05:45</div>
-              <div class="card-title">The Deserted Royal Bazaar</div>
-              <div class="card-desc">Whispering corridors & 1,200 roofless homes</div>
-            </div>
-          </div>
-
-          <div class="chapter-card" data-time="345" data-idx="3">
-            <img class="card-thumb" src="scenes/tantrik_ritual.jpg" alt="Scene 4">
-            <div class="card-info">
-              <div class="card-act">ACT IV // 05:45 - 07:50</div>
-              <div class="card-title">Tantrik Singhia's Black Potion</div>
-              <div class="card-desc">The enchanted perfume & crushed boulder curse</div>
-            </div>
-          </div>
-
-          <div class="chapter-card" data-time="470" data-idx="4">
-            <img class="card-thumb" src="scenes/daayan_ghost.jpg" alt="Scene 5">
-            <div class="card-info">
-              <div class="card-act">ACT V // 07:50 - 10:00</div>
-              <div class="card-title">The Daayan's Terror Awakening</div>
-              <div class="card-desc">Glowing yellow eyes & the chilling midnight chase</div>
-            </div>
-          </div>
+          <!-- 11 SCENES GENERATED DYNAMICALLY OR STATICALLY -->
         </div>
       </div>
 
       <!-- OPEN-SOURCE AI GUIDE (TAB 3 CONTENT) -->
       <div class="sidebar-section" id="section-ai-guide" style="display: none;">
-        <div class="section-label">FREE OPEN-SOURCE SEEDANCE 2.5 ALTERNATIVES</div>
+        <div class="section-label">FREE OPEN-SOURCE SEEDANCE 2.5 ALTERNATIVES (ZERO API KEYS)</div>
         
-        <div style="font-size: 13px; color: #cbd5e1; line-height: 1.6; margin-bottom: 16px;">
-          <strong style="color: #ef4444;">1. Wan 2.1 (Wan-Video) by Alibaba</strong><br>
-          • <strong>GitHub</strong>: <code style="color: #38bdf8;">Wan-Video/Wan2.1</code><br>
-          • <strong>Architecture</strong>: 14B & 1.3B Diffusion Transformer.<br>
-          • <strong>Capabilities</strong>: State-of-the-art Image-to-Video (I2V) with complex physical motions, character actions, and camera dollies.<br>
-          • <strong>Cost</strong>: 100% Free, Apache 2.0 open-source.
+        <div style="font-size: 12.5px; color: #cbd5e1; line-height: 1.6; margin-bottom: 16px; background: rgba(15, 23, 42, 0.8); padding: 12px; border-radius: 6px; border: 1px solid var(--border);">
+          <strong style="color: #ef4444; font-size: 13.5px;">1. Alibaba Wan 2.1 (Wan-Video)</strong><br>
+          • <strong>GitHub</strong>: <code style="color: #38bdf8;">github.com/Wan-Video/Wan2.1</code><br>
+          • <strong>License</strong>: Apache 2.0 (100% Free Open Weights)<br>
+          • <strong>Models</strong>: <code style="color: #f59e0b;">Wan2.1-I2V-14B-720P</code> & <code style="color: #f59e0b;">Wan2.1-I2V-1.3B-480P</code><br>
+          • <strong>Capabilities</strong>: SOTA Image-to-Video diffusion transformer with complex camera trajectories (pan, tilt, orbit, zoom) and physics motion.<br>
+          • <strong>ComfyUI Support</strong>: Native support via <code style="color: #38bdf8;">ComfyUI-WanVideoWrapper</code> or WanGP.
         </div>
 
-        <div style="font-size: 13px; color: #cbd5e1; line-height: 1.6; margin-bottom: 16px;">
-          <strong style="color: #f59e0b;">2. CogVideoX-5B / CogVideoX-2B</strong><br>
-          • <strong>GitHub</strong>: <code style="color: #38bdf8;">THUDM/CogVideo</code><br>
-          • <strong>Architecture</strong>: 3D Variational Autoencoder (VAE) + DiT.<br>
-          • <strong>Capabilities</strong>: High-fidelity I2V motion with ComfyUI native nodes. Free Google Colab notebooks available.
+        <div style="font-size: 12.5px; color: #cbd5e1; line-height: 1.6; margin-bottom: 16px; background: rgba(15, 23, 42, 0.8); padding: 12px; border-radius: 6px; border: 1px solid var(--border);">
+          <strong style="color: #f59e0b; font-size: 13.5px;">2. THUDM CogVideoX-5B / CogVideoX1.5-5B</strong><br>
+          • <strong>GitHub</strong>: <code style="color: #38bdf8;">github.com/zai-org/CogVideo</code><br>
+          • <strong>Architecture</strong>: 3D VAE + Diffusion Transformer (ZhipuAI / Tsinghua).<br>
+          • <strong>Capabilities</strong>: High-fidelity Image-to-Video generation with text prompt guidance.<br>
+          • <strong>Cost</strong>: Free on Hugging Face & Google Colab.
         </div>
 
-        <div style="font-size: 13px; color: #cbd5e1; line-height: 1.6; margin-bottom: 16px;">
-          <strong style="color: #2dd4bf;">3. HunyuanVideo by Tencent</strong><br>
-          • <strong>GitHub</strong>: <code style="color: #38bdf8;">Tencent/HunyuanVideo</code><br>
-          • <strong>Capabilities</strong>: 13B parameter open weights supporting cinematic 1080p video generation with zero API keys.
+        <div style="font-size: 12.5px; color: #cbd5e1; line-height: 1.6; margin-bottom: 16px; background: rgba(15, 23, 42, 0.8); padding: 12px; border-radius: 6px; border: 1px solid var(--border);">
+          <strong style="color: #2dd4bf; font-size: 13.5px;">3. Tencent HunyuanVideo</strong><br>
+          • <strong>GitHub</strong>: <code style="color: #38bdf8;">github.com/Tencent/HunyuanVideo</code><br>
+          • <strong>Specs</strong>: 13B parameter foundation video model with community I2V adapters.
         </div>
 
-        <div style="font-size: 13px; color: #cbd5e1; line-height: 1.6;">
-          <strong style="color: #a855f7;">4. Google AI Flow Studio Reproduction Workflow</strong><br>
-          1. <strong>Concept Art Generation</strong>: Generate keyframe characters (e.g. Daayan, Explorers) using Flux.1-schnell / SDXL.<br>
-          2. <strong>Image-to-Video Conditioning</strong>: Feed image into Wan 2.1 or CogVideoX with motion prompts.<br>
-          3. <strong>Audio & Voice Sync</strong>: Overlay Hindi horror narration & sound design.
+        <div style="font-size: 12.5px; color: #cbd5e1; line-height: 1.6; margin-bottom: 16px; background: rgba(15, 23, 42, 0.8); padding: 12px; border-radius: 6px; border: 1px solid var(--border);">
+          <strong style="color: #a855f7; font-size: 13.5px;">4. Lightricks LTX-Video</strong><br>
+          • <strong>GitHub</strong>: <code style="color: #38bdf8;">github.com/Lightricks/LTX-Video</code><br>
+          • <strong>Specs</strong>: Real-time high-speed video generation on consumer GPUs.
+        </div>
+
+        <div style="font-size: 12.5px; color: #cbd5e1; line-height: 1.6; background: rgba(15, 23, 42, 0.8); padding: 12px; border-radius: 6px; border: 1px solid var(--border);">
+          <strong style="color: #38bdf8; font-size: 13.5px;">5. Google AI Flow Studio Reproduction Pipeline</strong><br>
+          1. <strong>Scene Breakdown</strong>: Script 10-11 scenes with exact narrative cues and audio.<br>
+          2. <strong>Character Consistency</strong>: Generate keyframe visuals with Flux.1 Schnell / SDXL.<br>
+          3. <strong>Image-to-Video Conditioning</strong>: Feed keyframes into Wan 2.1 I2V with camera prompts (`[slow push-in, handheld horror jitter, dark mist]`).<br>
+          4. <strong>Frame Interpolation</strong>: Smooth to 60fps using RIFE (Real-Time Intermediate Flow Estimation).<br>
+          5. <strong>Audio Stitching</strong>: Merge voiceover and horror SFX stems.
         </div>
       </div>
     </aside>
@@ -482,49 +583,142 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="controls">
-      <button class="btn-ctrl" id="btn-restart">⏮ Restart (00:00)</button>
-      <button class="btn-ctrl" id="btn-next-scene">⏭ Next Chapter</button>
+      <button class="btn-ctrl" id="btn-prev-scene">⏮ Previous</button>
+      <button class="btn-ctrl" id="btn-restart">↺ Restart (00:00)</button>
+      <button class="btn-ctrl primary" id="btn-next-scene">⏭ Next Scene</button>
       <div class="time-badge">
         CURRENT: <span id="timecode-display" style="color: var(--red);">00:00</span> / 10:00 (600s)
       </div>
     </div>
 
-    <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #64748b;">
-      CLEAN VIEW ACTIVE // ZERO FLOATING CARDS // CINEMATIC SUBTITLES
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #64748b;">
+      CLEAN CINEMA VIEW // ZERO FLOATING BOXES // 11 SCENES SYNCED
     </div>
   </footer>
 
   <script>
+    // COMPLETE 11 SCENES COVERING THE 10-MINUTE DOCUMENTARY (600 SECONDS)
     const CHAPTER_DATA = [
       {
+        act: "ACT 01 // 00:00 - 00:35",
+        title: "The Archaeological Curfew",
+        desc: "ASI Warning Board & Sunset Exclusion Zone",
         time: 0,
         hindi: "भानगढ़ का यह किला दिन में जितना रहस्यमयी लगता है, रात होते ही यह उतना ही भयानक और खौफनाक बन जाता है...",
-        english: "Entering Bhangarh Fort before sunrise and after sunset is strictly prohibited by law. Those who crossed the gate after dusk never returned.",
-        img: "scenes/youtube_thumbnail.jpg"
+        english: "Entering Bhangarh Fort before sunrise and after sunset is strictly prohibited by law. Those who entered after dusk never returned.",
+        img: "scenes/scene-01-curfew-board.jpg",
+        coords: "27.0964° N, 76.2862° E",
+        motion: "motion-push-in"
       },
       {
-        time: 105,
-        hindi: "दो साहसी दोस्तों ने सरकारी चेतावनी को नजरअंदाज किया, और रात के अंधेरे में किले की ऊंची दीवारों पर चढ़ने लगे...",
-        english: "Equipped with tactical flashlights, two young explorers secretly scaled the perimeter battlements under the full moon.",
-        img: "scenes/explorers_climbing.jpg"
+        act: "ACT 02 // 00:35 - 01:15",
+        title: "Satellite Descent into Aravalli",
+        desc: "Geospatial telemetry & the Sariska Gorge",
+        time: 35,
+        hindi: "अरावली की पहाड़ियों के बीच 27.0964° उत्तर अक्षांश पर स्थित यह वीरान घाटी सदियों से शापित है...",
+        english: "Deep within the Sariska Tiger Reserve buffer zone lies the isolated gorge of Bhangarh, shrouded in perpetual mist.",
+        img: "scenes/youtube_thumbnail.jpg",
+        coords: "27.0964° N, 76.2862° E (412m EL)",
+        motion: "motion-tilt-down"
       },
       {
-        time: 210,
-        hindi: "सन्नाटे में सिर्फ उनके कदमों की आवाज आ रही थी। 1,200 बिना छतों के मकान खंडहर में तब्दील हो चुके थे...",
-        english: "The ancient Johari bazaar stretched into darkness. 1,200 roofless stone houses stood in chilling silence.",
-        img: "scenes/fortress_corridor.jpg"
+        act: "ACT 03 // 01:15 - 02:15",
+        title: "The Medieval Metropolis (1573 AD)",
+        desc: "Madho Singh's founding & 5 fortified gates",
+        time: 75,
+        hindi: "1573 में राजा भगवंत दास ने अपने पुत्र माधो सिंह के लिए इस विशाल नगर की स्थापना की थी, जहां 10,000 से अधिक लोग रहते थे...",
+        english: "Founded in 1573 AD with 5 defensive gates (Lahori, Ajmeri, Phulbari, Delhi, Hanuman), housing over 10,000 citizens in imperial prosperity.",
+        img: "scenes/fortress_corridor.jpg",
+        coords: "GATE 01 // LAHORI POL",
+        motion: "motion-pan-right"
       },
       {
+        act: "ACT 04 // 02:15 - 03:00",
+        title: "The Deserted Johari Bazaar",
+        desc: "The 7-Tier Palace & silent trading street",
+        time: 135,
+        hindi: "जौहरी बाज़ार की वो सन्नाटे भरी सड़कें, जहां कभी हज़ारों व्यापारी थे, आज सिर्फ वीराना और खंडहर बची हैं...",
+        english: "The 7-tiered royal palace and the ancient stone merchant stalls of Johari Bazaar stand in total, chilling silence.",
+        img: "scenes/fortress_corridor.jpg",
+        coords: "ROYAL JOHARI BAZAAR",
+        motion: "motion-pan-left"
+      },
+      {
+        act: "ACT 05 // 03:00 - 03:55",
+        title: "Guru Balu Nath's Covenant",
+        desc: "The ascetic hermit's sacred decree",
+        time: 180,
+        hindi: "तपस्वी गुरु बालू नाथ का सख्त नियम था: 'जिस दिन तुम्हारे महल की परछाई मेरे आश्रम पर पड़ी, यह नगर उसी क्षण नष्ट हो जाएगा'...",
+        english: "Guru Balu Nath meditated in the cliffside cave, granting permission with one condition: 'The palace shadow must never cross my sanctuary.'",
+        img: "scenes/tantrik_ritual.jpg",
+        coords: "HERMIT SANCTUARY // BALU NATH",
+        motion: "motion-push-in"
+      },
+      {
+        act: "ACT 06 // 03:55 - 04:45",
+        title: "The Creeping Spire Shadow",
+        desc: "Ajab Singh's hubris & the winter solstice doom",
+        time: 235,
+        hindi: "अहंकारी शासक अजब सिंह ने महल की ऊंचाई बढ़ा दी, और संक्रांति की ढलती शाम को परछाई ने आश्रम को छू लिया...",
+        english: "Ajab Singh raised the palace spires. On the winter solstice sunset, the shadow reached the hermit's rock, unleashing the doom.",
+        img: "scenes/fortress_corridor.jpg",
+        coords: "SOLSTICE AXIS // SHADOW CAST",
+        motion: "motion-tilt-down"
+      },
+      {
+        act: "ACT 07 // 04:45 - 05:45",
+        title: "Princess Ratnavati of Bhangarh",
+        desc: "Jewel of Rajputana & the royal suitors",
+        time: 285,
+        hindi: "राजकुमारी रत्नावती की अलौकिक सुंदरता और बुद्धिमता की चर्चा पूरे राजपूताना में थी, और दूर-दराज के राजा उनसे विवाह के सपने देखते थे...",
+        english: "Princess Ratnavati was celebrated across Rajasthan for her unmatched grace and intellect, attracting suitors from all kingdoms.",
+        img: "scenes/youtube_thumbnail.jpg",
+        coords: "RATNAVATI MAHAL // UPPER BALCONY",
+        motion: "motion-pan-right"
+      },
+      {
+        act: "ACT 08 // 05:45 - 06:45",
+        title: "Tantrik Singhia's Love Potion",
+        desc: "Black magic enchantment in the market",
         time: 345,
-        hindi: "सिंघिया तांत्रिक ने राजकुमारी रत्नावती को वश में करने के लिए एक जादुई इत्र तैयार किया, जिसमें काले जादू की भयानक शक्ति थी...",
-        english: "Tantrik Singhia summoned dark entities to infuse a perfume vial with a love-binding curse, sealing the doom of the empire.",
-        img: "scenes/tantrik_ritual.jpg"
+        hindi: "काले जादू के उस्ताद तांत्रिक सिंघिया ने राजकुमारी को वश में करने के लिए एक जादुई इत्र तैयार किया, जिसमें भयानक शक्तियां थीं...",
+        english: "Singhia, a master of dark occult arts, conjured a potent hypnotic love potion into an oil flask to bind the princess to his will.",
+        img: "scenes/tantrik_ritual.jpg",
+        coords: "SINGHIA RETREAT // BLACK MAGIC",
+        motion: "motion-push-in"
       },
       {
-        time: 470,
-        hindi: "अचानक अंधेरे में दो पीली चमकती आंखें नजर आईं। एक भयानक चुड़ैल की डरावनी हंसी पूरे खंडहर में गूंज उठी!",
-        english: "A demonic supernatural entity with glowing yellow eyes and a sinister grin manifested atop the ramparts.",
-        img: "scenes/daayan_ghost.jpg"
+        act: "ACT 09 // 06:45 - 08:15",
+        title: "The Crushing Boulder & Dying Curse",
+        desc: "The enchanted rock rolls down & seals the doom",
+        time: 405,
+        hindi: "राजकुमारी ने इत्र की शीशी चट्टान पर दे मारी! वह भारी शिला लुढ़कती हुई आई और तांत्रिक को कुचल दिया, जिसने मरते-मरते पूरे नगर को शाप दे दिया...",
+        english: "Ratnavati recognized the spell and hurled the flask against a boulder. The stone rolled downhill, crushing Singhia under his final dying curse.",
+        img: "scenes/explorers_climbing.jpg",
+        coords: "BOULDER RIDGE // CLIFFSIDE",
+        motion: "motion-jitter"
+      },
+      {
+        act: "ACT 10 // 08:15 - 09:25",
+        title: "The Roofless Anomaly & The Daayan",
+        desc: "1,200 roofless stone houses & midnight terror",
+        time: 495,
+        hindi: "रात होते ही खंडहरों में पायल की खनक और दो पीली चमकती डरावनी आंखें दिखने लगती हैं। एक भयानक चुड़ैल खंडहरों पर पहरा देती है!",
+        english: "1,200 ancient houses stand without roofs. At midnight, a terrifying female entity with glowing yellow eyes manifests atop the ramparts.",
+        img: "scenes/daayan_ghost.jpg",
+        coords: "RAMPARTS // MIDNIGHT ENTITY",
+        motion: "motion-jitter"
+      },
+      {
+        act: "ACT 11 // 09:25 - 10:00",
+        title: "The Desperate Dawn Escape",
+        desc: "Flight through crumbling arches into morning",
+        time: 565,
+        hindi: "सुबह की पहली किरण फूटने से पहले जो किले से बाहर नहीं निकला, वह हमेशा के लिए इस वीराने का कैदी बन गया...",
+        english: "The explorers sprinted through the ancient main gate into the cold morning mist, escaping the cursed ruins just as daylight broke.",
+        img: "scenes/explorers_climbing.jpg",
+        coords: "OUTER GATEWAY // 05:45 AM ESCAPE",
+        motion: "motion-push-in"
       }
     ];
 
@@ -540,41 +734,91 @@
     const subHindi = document.getElementById("sub-hindi");
     const subEnglish = document.getElementById("sub-english");
     const ytPlayer = document.getElementById("yt-player");
-    const cards = document.querySelectorAll(".chapter-card");
+    const hudTitle = document.getElementById("hud-title");
+    const hudCoords = document.getElementById("hud-coords");
+    const timecodeDisplay = document.getElementById("timecode-display");
+    const motionSelector = document.getElementById("motion-selector");
+    const lightningFx = document.getElementById("lightning-fx");
+    const i2vPanel = document.getElementById("i2v-panel");
+    const chapterList = document.getElementById("chapter-list");
+
+    // Render 11 Chapter Cards
+    function renderChapterCards() {
+      chapterList.innerHTML = "";
+      CHAPTER_DATA.forEach((c, idx) => {
+        const card = document.createElement("div");
+        card.className = `chapter-card ${idx === 0 ? "active" : ""}`;
+        card.setAttribute("data-idx", idx);
+        card.innerHTML = `
+          <img class="card-thumb" src="${c.img}" alt="${c.title}" onerror="this.onerror=null; this.src='scenes/youtube_thumbnail.jpg';">
+          <div class="card-info">
+            <div class="card-act">${c.act}</div>
+            <div class="card-title">${c.title}</div>
+            <div class="card-desc">${c.desc}</div>
+          </div>
+        `;
+        card.addEventListener("click", () => setChapter(idx));
+        chapterList.appendChild(card);
+      });
+    }
+
+    renderChapterCards();
 
     function setChapter(idx) {
       currentIdx = idx;
       const c = CHAPTER_DATA[idx];
       subHindi.textContent = `"${c.hindi}"`;
       subEnglish.textContent = c.english;
-      artImg.classList.remove("zoom-active");
+      hudTitle.textContent = `${c.title.toUpperCase()} // SCENE ${idx + 1} OF 11`;
+      hudCoords.textContent = c.coords;
+
+      // Update Art & Motion
+      artImg.className = `art-img-stage ${c.motion}`;
       artImg.src = c.img;
-      setTimeout(() => artImg.classList.add("zoom-active"), 50);
+      motionSelector.value = c.motion;
 
       // Seek YouTube Player
       ytPlayer.src = `https://www.youtube.com/embed/81ZCwnIWIRk?autoplay=1&mute=0&start=${c.time}&controls=1&rel=0&modestbranding=1`;
 
+      // Highlight Active Card
+      const cards = document.querySelectorAll(".chapter-card");
       cards.forEach((card, i) => {
-        if (i === idx) card.classList.add("active");
-        else card.classList.remove("active");
+        if (i === idx) {
+          card.classList.add("active");
+          card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        } else {
+          card.classList.remove("active");
+        }
       });
 
+      // Update Timecode
       const m = Math.floor(c.time / 60);
       const s = c.time % 60;
-      document.getElementById("timecode-display").textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+      timecodeDisplay.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
     }
 
-    cards.forEach((card) => {
-      card.addEventListener("click", () => {
-        const idx = parseInt(card.getAttribute("data-idx"), 10);
-        setChapter(idx);
-      });
+    // Motion Selector
+    motionSelector.addEventListener("change", (e) => {
+      artImg.className = `art-img-stage ${e.target.value}`;
     });
 
+    // Lightning Flash
+    document.getElementById("btn-flash").addEventListener("click", () => {
+      lightningFx.classList.add("flash");
+      setTimeout(() => lightningFx.classList.remove("flash"), 120);
+      setTimeout(() => lightningFx.classList.add("flash"), 220);
+      setTimeout(() => lightningFx.classList.remove("flash"), 340);
+    });
+
+    // Footer Controls
     document.getElementById("btn-restart").addEventListener("click", () => setChapter(0));
     document.getElementById("btn-next-scene").addEventListener("click", () => {
       const next = (currentIdx + 1) % CHAPTER_DATA.length;
       setChapter(next);
+    });
+    document.getElementById("btn-prev-scene").addEventListener("click", () => {
+      const prev = (currentIdx - 1 + CHAPTER_DATA.length) % CHAPTER_DATA.length;
+      setChapter(prev);
     });
 
     // TABS
@@ -586,6 +830,7 @@
       viewportArt.style.display = "none";
       sectionChapters.style.display = "block";
       sectionAiGuide.style.display = "none";
+      i2vPanel.style.display = "none";
     });
 
     tabSeedance.addEventListener("click", () => {
@@ -596,6 +841,7 @@
       viewportArt.style.display = "block";
       sectionChapters.style.display = "block";
       sectionAiGuide.style.display = "none";
+      i2vPanel.style.display = "flex";
     });
 
     tabAiGuide.addEventListener("click", () => {
