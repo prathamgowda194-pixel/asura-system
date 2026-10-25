@@ -4,9 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Creatorize 2.0 // Sovereign 3D Cartoon Animation Suite</title>
+  
+  <!-- Authentic Editorial & Technical Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
   
   <!-- Three.js & OrbitControls for real-time 3D viewport -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -17,22 +19,23 @@
 
   <style>
     :root {
-      --bg-base: #0b0d11;
-      --bg-surface: #12151c;
-      --bg-card: #171b24;
-      --bg-card-hover: #1e2330;
+      --bg-base: #0c0d12;
+      --bg-surface: #12141c;
+      --bg-card: #171a25;
+      --bg-card-hover: #1e2230;
       --border-subtle: rgba(255, 255, 255, 0.08);
-      --border-focus: rgba(255, 255, 255, 0.25);
-      --text-primary: #f0f4fc;
-      --text-secondary: #8b95a8;
-      --text-tertiary: #525a6c;
+      --border-focus: rgba(255, 255, 255, 0.28);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-tertiary: #64748b;
       --accent-gold: #f59e0b;
       --accent-gold-dark: #b45309;
-      --accent-green: #10b981;
       --accent-red: #ef4444;
-      --accent-blue: #3b82f6;
-      --font-display: 'Syne', sans-serif;
-      --font-body: 'Inter', sans-serif;
+      --accent-red-dark: #991b1b;
+      --accent-green: #10b981;
+      --accent-blue: #38bdf8;
+      --font-editorial: 'Fraunces', 'Playfair Display', serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
 
@@ -56,16 +59,16 @@
       user-select: none;
     }
 
-    /* Scrollbar */
+    /* Scrollbars */
     ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
     }
     ::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.25);
     }
     ::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.14);
       border-radius: 3px;
     }
     ::-webkit-scrollbar-thumb:hover {
@@ -82,11 +85,11 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 7px;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
     input, textarea, select {
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.35);
       border: 1px solid var(--border-subtle);
       color: var(--text-primary);
       font-family: inherit;
@@ -97,13 +100,15 @@
     }
     input:focus, textarea:focus, select:focus {
       border-color: var(--border-focus);
-      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.06);
     }
 
-    /* SIDEBAR NAVIGATION (Video Sheet 0 & Sheet 16) */
+    /* ======================================================== */
+    /* SIDEBAR NAVIGATION (Video Sheet 0 & Sheet 16)            */
+    /* ======================================================== */
     #app-sidebar {
-      width: 230px;
-      min-width: 230px;
+      width: 236px;
+      min-width: 236px;
       height: 100vh;
       position: sticky;
       top: 0;
@@ -111,7 +116,7 @@
       border-right: 1px solid var(--border-subtle);
       display: flex;
       flex-direction: column;
-      padding: 16px 12px;
+      padding: 14px 10px;
       z-index: 100;
     }
 
@@ -119,7 +124,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 6px 10px 20px 10px;
+      padding: 6px 8px 18px 8px;
       cursor: pointer;
     }
     .brand-icon {
@@ -130,11 +135,11 @@
       justify-content: center;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border-subtle);
-      border-radius: 8px;
+      border-radius: 7px;
     }
     .brand-title {
-      font-family: var(--font-display);
-      font-size: 17px;
+      font-family: var(--font-body);
+      font-size: 16px;
       font-weight: 700;
       letter-spacing: -0.02em;
       color: #ffffff;
@@ -145,7 +150,7 @@
       font-weight: 700;
       background: rgba(255, 255, 255, 0.1);
       color: #94a3b8;
-      padding: 2px 6px;
+      padding: 2px 5px;
       border-radius: 4px;
       margin-left: auto;
     }
@@ -153,8 +158,8 @@
     .nav-group {
       display: flex;
       flex-direction: column;
-      gap: 3px;
-      margin-bottom: 20px;
+      gap: 2px;
+      margin-bottom: 18px;
     }
     .nav-label {
       font-size: 10px;
@@ -162,16 +167,16 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--text-tertiary);
-      padding: 10px 12px 6px 12px;
+      padding: 8px 10px 4px 10px;
     }
     .nav-item {
-      padding: 8px 12px;
-      border-radius: 7px;
-      font-size: 13px;
+      padding: 7px 10px;
+      border-radius: 6px;
+      font-size: 12.5px;
       font-weight: 500;
       color: var(--text-secondary);
       justify-content: flex-start;
-      gap: 10px;
+      gap: 9px;
       width: 100%;
     }
     .nav-item:hover {
@@ -185,7 +190,6 @@
     }
     .nav-item svg {
       opacity: 0.7;
-      transition: opacity 0.2s;
     }
     .nav-item:hover svg, .nav-item.active svg {
       opacity: 1;
@@ -195,18 +199,19 @@
       margin-top: auto;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      padding-top: 12px;
+      gap: 7px;
+      padding-top: 10px;
       border-top: 1px solid var(--border-subtle);
     }
     .btn-new-project-side {
       background: #ffffff;
       color: #0b0d11;
       font-weight: 600;
-      padding: 9px 14px;
-      border-radius: 8px;
+      padding: 8px 12px;
+      border-radius: 7px;
       width: 100%;
-      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+      font-size: 12.5px;
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.08);
     }
     .btn-new-project-side:hover {
       background: #e2e8f0;
@@ -216,33 +221,38 @@
     .premium-pill {
       background: linear-gradient(135deg, #f59e0b, #d97706);
       color: #000000;
-      font-family: var(--font-display);
+      font-family: var(--font-body);
       font-weight: 800;
-      font-size: 11px;
+      font-size: 10.5px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      padding: 8px 12px;
+      padding: 7px 10px;
       border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.25);
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.2);
       cursor: pointer;
     }
     .premium-pill:hover {
-      filter: brightness(1.1);
+      filter: brightness(1.08);
     }
 
     .connection-status {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 6px 10px;
+      gap: 7px;
+      padding: 6px 8px;
       font-size: 11px;
       font-family: var(--font-mono);
       color: var(--text-secondary);
       border-radius: 6px;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+    }
+    .connection-status:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
     }
     .pulse-dot {
       width: 7px;
@@ -254,7 +264,7 @@
     }
     @keyframes pulse {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.85); }
+      50% { opacity: 0.45; transform: scale(0.85); }
     }
 
     /* MAIN APP CONTAINER */
@@ -269,65 +279,66 @@
 
     /* TOP HEADER */
     .app-header {
-      height: 56px;
-      min-height: 56px;
+      height: 52px;
+      min-height: 52px;
       border-bottom: 1px solid var(--border-subtle);
-      background: rgba(11, 13, 17, 0.8);
+      background: rgba(12, 13, 18, 0.85);
       backdrop-filter: blur(12px);
       position: sticky;
       top: 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 24px;
+      padding: 0 20px;
       z-index: 90;
     }
     .header-left {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
     }
     .search-box {
       position: relative;
-      width: 320px;
+      width: 300px;
     }
     .search-box input {
       width: 100%;
-      padding: 7px 12px 7px 34px;
+      padding: 6px 12px 6px 32px;
       background: rgba(255, 255, 255, 0.03);
-      border-radius: 8px;
+      border-radius: 7px;
+      font-size: 12.5px;
     }
     .search-box svg {
       position: absolute;
-      left: 10px;
+      left: 9px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-tertiary);
     }
     .search-kbd {
       position: absolute;
-      right: 8px;
+      right: 7px;
       top: 50%;
       transform: translateY(-50%);
       font-family: var(--font-mono);
       font-size: 10px;
       color: var(--text-tertiary);
       background: rgba(255, 255, 255, 0.06);
-      padding: 2px 6px;
+      padding: 1px 5px;
       border-radius: 4px;
     }
 
     .header-right {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
     .btn-header-secondary {
-      padding: 7px 14px;
+      padding: 6px 12px;
       border: 1px solid var(--border-subtle);
-      border-radius: 8px;
+      border-radius: 7px;
       color: var(--text-secondary);
-      font-size: 13px;
+      font-size: 12.5px;
       background: rgba(255, 255, 255, 0.02);
     }
     .btn-header-secondary:hover {
@@ -335,90 +346,164 @@
       color: var(--text-primary);
     }
     .btn-header-primary {
-      padding: 7px 16px;
+      padding: 6px 14px;
       background: #ffffff;
       color: #000000;
       font-weight: 600;
-      border-radius: 8px;
-      font-size: 13px;
+      border-radius: 7px;
+      font-size: 12.5px;
     }
     .btn-header-primary:hover {
       background: #e2e8f0;
       transform: translateY(-1px);
     }
 
-    /* DASHBOARD VIEW */
+    /* ======================================================== */
+    /* DASHBOARD VIEW (With Authentic Video Typography & Stats) */
+    /* ======================================================== */
     #view-dashboard {
-      padding: 28px 36px 60px 36px;
+      padding: 24px 32px 60px 32px;
       max-width: 1440px;
       width: 100%;
       margin: 0 auto;
       display: block;
+      background: radial-gradient(circle at 85% 15%, rgba(185, 28, 28, 0.12), transparent 55%);
     }
+
+    /* Video Editorial Header: "Ten shorts, ten scripts." */
     .dashboard-hero {
-      margin-bottom: 28px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
     }
-    .hero-title {
-      font-family: var(--font-display);
-      font-size: 26px;
+    .hero-editorial-title {
+      font-family: var(--font-editorial);
+      font-size: 38px;
       font-weight: 700;
       color: #ffffff;
       letter-spacing: -0.02em;
-      margin-bottom: 4px;
+      line-height: 1.1;
     }
-    .hero-subtitle {
-      font-size: 14px;
-      color: var(--text-secondary);
+    .hero-editorial-title em {
+      font-style: italic;
+      color: #fca5a5;
+    }
+    .hero-meta-badges {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .badge-pacing {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 600;
     }
 
-    /* QUICK ACTION CARDS (Video Sheet 16) */
+    /* Video Sheet 12 Top Banner: "Short 05, the numbers." */
+    .build-numbers-banner {
+      background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+    .banner-title-box {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .banner-title {
+      font-family: var(--font-editorial);
+      font-size: 26px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .banner-title em {
+      font-style: italic;
+      color: #fca5a5;
+    }
+    .banner-sub {
+      font-size: 12px;
+      color: #fecaca;
+    }
+    .banner-stats-row {
+      display: flex;
+      gap: 16px;
+    }
+    .stat-brick {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 10px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 110px;
+    }
+    .stat-brick-val {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .stat-brick-desc {
+      font-size: 10.5px;
+      color: #fca5a5;
+    }
+
+    /* Quick Action Grid (Video Sheet 16) */
     .quick-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 36px;
+      gap: 14px;
+      margin-bottom: 32px;
     }
     .quick-card {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 18px 20px;
+      border-radius: 10px;
+      padding: 16px 18px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       cursor: pointer;
-      position: relative;
-      overflow: hidden;
       transition: all 0.25s ease;
     }
     .quick-card:hover {
       background: var(--bg-card-hover);
       border-color: rgba(255, 255, 255, 0.16);
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     }
     .quick-icon-wrap {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
       justify-content: center;
       color: #ffffff;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
     .quick-card-title {
-      font-family: var(--font-display);
-      font-size: 15px;
-      font-weight: 700;
+      font-size: 13.5px;
+      font-weight: 600;
       color: #ffffff;
     }
     .quick-card-desc {
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--text-secondary);
-      line-height: 1.4;
     }
 
     /* PROJECTS SECTION */
@@ -426,28 +511,28 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
     .section-title {
-      font-family: var(--font-display);
-      font-size: 18px;
+      font-family: var(--font-editorial);
+      font-size: 20px;
       font-weight: 700;
       color: #ffffff;
     }
     .filter-tabs {
       display: flex;
       background: rgba(255, 255, 255, 0.03);
-      padding: 3px;
-      border-radius: 8px;
+      padding: 2px;
+      border-radius: 7px;
       border: 1px solid var(--border-subtle);
       gap: 2px;
     }
     .tab-btn {
-      padding: 5px 12px;
-      font-size: 12px;
+      padding: 4px 10px;
+      font-size: 11.5px;
       font-weight: 500;
       color: var(--text-secondary);
-      border-radius: 6px;
+      border-radius: 5px;
     }
     .tab-btn.active {
       background: rgba(255, 255, 255, 0.08);
@@ -459,29 +544,29 @@
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-      gap: 20px;
-      margin-bottom: 44px;
+      gap: 18px;
+      margin-bottom: 40px;
     }
     .project-card {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
-      border-radius: 14px;
+      border-radius: 12px;
       overflow: hidden;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       position: relative;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.25s ease;
     }
     .project-card:hover {
       border-color: rgba(255, 255, 255, 0.22);
-      transform: translateY(-4px) scale(1.01);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
     }
     .card-thumb-9-16 {
       width: 100%;
       aspect-ratio: 9 / 12;
-      background: #11141a;
+      background: #11141c;
       position: relative;
       overflow: hidden;
       display: flex;
@@ -495,46 +580,45 @@
       transition: transform 0.4s ease;
     }
     .project-card:hover .card-thumb-canvas {
-      transform: scale(1.05);
+      transform: scale(1.04);
     }
     .card-duration-badge {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(6px);
-      padding: 3px 8px;
-      border-radius: 6px;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      padding: 2px 7px;
+      border-radius: 5px;
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 600;
       color: #ffffff;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
     .card-quality-pill {
       position: absolute;
-      bottom: 10px;
-      left: 10px;
+      bottom: 8px;
+      left: 8px;
       background: rgba(245, 158, 11, 0.15);
       border: 1px solid rgba(245, 158, 11, 0.4);
       color: var(--accent-gold);
-      padding: 2px 7px;
+      padding: 2px 6px;
       border-radius: 4px;
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 700;
       letter-spacing: 0.04em;
       text-transform: uppercase;
     }
     .card-info {
-      padding: 14px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
     .card-title {
-      font-family: var(--font-display);
-      font-size: 13.5px;
-      font-weight: 700;
+      font-size: 13px;
+      font-weight: 600;
       color: #ffffff;
       line-height: 1.35;
       display: -webkit-box;
@@ -549,57 +633,61 @@
       font-size: 11px;
       color: var(--text-tertiary);
       font-family: var(--font-mono);
-      margin-top: 4px;
-    }
-    .card-shots {
-      color: var(--text-secondary);
     }
 
-    /* TELEMETRY BANNER (Video Sheet 0 & Sheet 16) */
-    .telemetry-card {
-      background: linear-gradient(180deg, #161922 0%, #11141c 100%);
+    /* "FIVE THINGS I WATCH FOR" CHECKLIST (From Video Sheet 12) */
+    .checklist-card {
+      background: var(--bg-card);
       border: 1px solid var(--border-subtle);
-      border-radius: 14px;
-      padding: 24px 28px;
+      border-radius: 12px;
+      padding: 22px 26px;
+      margin-bottom: 28px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
-    .telemetry-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .telemetry-title {
-      font-family: var(--font-display);
-      font-size: 16px;
+    .checklist-title {
+      font-family: var(--font-editorial);
+      font-size: 20px;
       font-weight: 700;
       color: #ffffff;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
-    .telemetry-grid {
+    .checklist-title em {
+      font-style: italic;
+      color: #fca5a5;
+    }
+    .checklist-items {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      padding-top: 10px;
-      border-top: 1px solid var(--border-subtle);
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
-    .stat-item {
+    .check-item {
       display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .stat-val {
-      font-family: var(--font-mono);
-      font-size: 24px;
-      font-weight: 700;
-      color: #ffffff;
-    }
-    .stat-desc {
-      font-size: 12px;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 12.5px;
       color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    .check-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .check-item em {
+      font-family: var(--font-editorial);
+      font-style: italic;
+      color: #fca5a5;
     }
 
     /* ======================================================== */
@@ -608,14 +696,14 @@
     #view-studio {
       display: none;
       flex: 1;
-      height: calc(100vh - 56px);
+      height: calc(100vh - 52px);
       overflow: hidden;
-      background: #090a0d;
+      background: #090a0e;
     }
 
     .studio-layout {
       display: grid;
-      grid-template-columns: 280px 1fr 340px;
+      grid-template-columns: 270px 1fr 380px;
       height: 100%;
       width: 100%;
     }
@@ -629,36 +717,35 @@
       overflow: hidden;
     }
     .shots-header {
-      padding: 14px 16px;
+      padding: 12px 14px;
       border-bottom: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
     .shots-title {
-      font-family: var(--font-display);
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 13px;
+      font-weight: 600;
       color: #ffffff;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
     }
     .shots-list {
       flex: 1;
       overflow-y: auto;
-      padding: 8px;
+      padding: 6px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
     .shot-card {
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid transparent;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 7px 9px;
       display: flex;
-      gap: 10px;
+      gap: 9px;
       cursor: pointer;
       transition: all 0.2s ease;
     }
@@ -668,37 +755,32 @@
     }
     .shot-card.active {
       background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.22);
     }
     .shot-thumb {
-      width: 44px;
-      height: 60px;
-      background: #171b24;
-      border-radius: 5px;
+      width: 42px;
+      height: 56px;
+      background: #171b26;
+      border-radius: 4px;
       overflow: hidden;
       flex-shrink: 0;
       position: relative;
-    }
-    .shot-thumb canvas, .shot-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
     }
     .shot-info {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 2px;
       justify-content: center;
     }
     .shot-number {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 600;
       color: var(--accent-gold);
     }
     .shot-text {
-      font-size: 11.5px;
+      font-size: 11px;
       color: var(--text-primary);
       line-height: 1.35;
       display: -webkit-box;
@@ -708,44 +790,43 @@
     }
     .shot-tc {
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 9.5px;
       color: var(--text-tertiary);
     }
 
-    /* COLUMN 2: 3D VIEWPORT & TIMELINE */
+    /* COLUMN 2: 3D CANVAS VIEWPORT & MASTER TIMELINE */
     .studio-center-col {
       display: flex;
       flex-direction: column;
-      background: #0d0f14;
+      background: #0b0c10;
       overflow: hidden;
       position: relative;
     }
     .viewport-top-bar {
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-bottom: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(13, 15, 20, 0.8);
+      background: rgba(12, 14, 19, 0.85);
       backdrop-filter: blur(8px);
       z-index: 10;
     }
     .viewport-title-group {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
     .viewport-title {
-      font-family: var(--font-display);
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 13.5px;
+      font-weight: 600;
       color: #ffffff;
     }
     .viewport-meta-pill {
       font-family: var(--font-mono);
       font-size: 10px;
-      background: rgba(255, 255, 255, 0.06);
-      padding: 3px 8px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2px 7px;
       border-radius: 4px;
       color: var(--text-secondary);
     }
@@ -757,71 +838,72 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      padding: 12px;
+      padding: 10px;
     }
     .canvas-container-9-16 {
       height: 100%;
-      max-height: 520px;
+      max-height: 510px;
       aspect-ratio: 9 / 16;
       background: #000000;
       border-radius: 12px;
       overflow: hidden;
       position: relative;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 14px 45px rgba(0, 0, 0, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.12);
     }
     #three-viewport {
       width: 100%;
       height: 100%;
       display: block;
+      cursor: crosshair;
     }
     
-    /* Overlay Subtitles Safe Zone */
+    /* Overlay Subtitles Safe Zone (Strictly at 70% height avoiding Milo's face) */
     .subtitle-overlay-box {
       position: absolute;
-      bottom: 48px;
-      left: 16px;
-      right: 16px;
+      bottom: 42px;
+      left: 14px;
+      right: 14px;
       text-align: center;
       pointer-events: none;
       z-index: 5;
     }
     .subtitle-text {
       display: inline-block;
-      font-family: var(--font-display);
+      font-family: var(--font-body);
       font-weight: 800;
-      font-size: 18px;
+      font-size: 17px;
       line-height: 1.25;
       color: #ffffff;
       text-transform: uppercase;
       letter-spacing: -0.01em;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 1px #000000;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95), 0 0 2px #000000;
     }
     .sub-highlight {
       color: #fde047;
-      text-shadow: 0 0 12px rgba(253, 224, 71, 0.5);
+      text-shadow: 0 0 10px rgba(253, 224, 71, 0.5);
     }
 
     /* TRANSPORT BAR */
     .viewport-controls-bar {
-      height: 48px;
+      height: 44px;
       border-top: 1px solid var(--border-subtle);
       border-bottom: 1px solid var(--border-subtle);
       background: var(--bg-surface);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 16px;
+      padding: 0 14px;
     }
     .ctrl-group {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
     }
     .ctrl-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
+      width: 30px;
+      height: 30px;
+      border-radius: 5px;
       background: rgba(255, 255, 255, 0.04);
       color: var(--text-primary);
     }
@@ -834,20 +916,20 @@
     }
     .timecode-display {
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 600;
       color: #ffffff;
-      padding: 4px 8px;
-      background: rgba(0, 0, 0, 0.3);
+      padding: 3px 8px;
+      background: rgba(0, 0, 0, 0.35);
       border-radius: 4px;
       border: 1px solid var(--border-subtle);
     }
 
     /* TIMELINE SECTION (Video Sheet 11 & Sheet 12) */
     .studio-timeline-area {
-      height: 180px;
-      min-height: 180px;
-      background: #111319;
+      height: 175px;
+      min-height: 175px;
+      background: #0f1118;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -855,7 +937,7 @@
     }
     .timeline-ruler {
       height: 22px;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.35);
       border-bottom: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
@@ -879,19 +961,19 @@
       padding: 6px 12px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
       position: relative;
     }
     .track-row {
       display: flex;
       align-items: center;
-      gap: 10px;
-      height: 30px;
+      gap: 8px;
+      height: 28px;
     }
     .track-label {
-      width: 75px;
+      width: 78px;
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 600;
       color: var(--text-secondary);
       flex-shrink: 0;
@@ -901,14 +983,14 @@
       height: 100%;
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid var(--border-subtle);
-      border-radius: 5px;
+      border-radius: 4px;
       position: relative;
       overflow: hidden;
       display: flex;
       align-items: center;
     }
     
-    /* Timeline Playhead Needle */
+    /* Draggable Playhead */
     #timeline-needle {
       position: absolute;
       top: 0;
@@ -930,29 +1012,28 @@
       clip-path: polygon(0 0, 100% 0, 50% 100%);
     }
 
-    /* Track 1: Shots Blocks */
     .shot-block {
       position: absolute;
-      top: 3px;
-      bottom: 3px;
-      background: #1e2638;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      top: 2px;
+      bottom: 2px;
+      background: #1c2436;
+      border: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: 3px;
       font-family: var(--font-mono);
-      font-size: 9px;
+      font-size: 8.5px;
       color: #93c5fd;
       display: flex;
       align-items: center;
-      padding: 0 6px;
+      padding: 0 5px;
       white-space: nowrap;
       overflow: hidden;
       cursor: pointer;
     }
     .shot-block:hover {
-      background: #2b364e;
+      background: #27344e;
     }
 
-    /* Track 2: Waveform with pause tightening marks (0.2s) */
+    /* Waveform with 0.20s pause red cut markers */
     .waveform-visual-container {
       width: 100%;
       height: 100%;
@@ -962,20 +1043,23 @@
     }
     .waveform-svg {
       width: 100%;
-      height: 22px;
-      stroke: #3b82f6;
+      height: 20px;
+      stroke: #38bdf8;
       fill: none;
     }
     .pause-cut-marker {
       position: absolute;
       top: 0;
       bottom: 0;
-      width: 2px;
+      width: 3px;
       background: var(--accent-red);
-      opacity: 0.8;
+      opacity: 0.85;
+      cursor: pointer;
     }
 
-    /* COLUMN 3: RIGHT INSPECTOR & AGENTS TABS */
+    /* ======================================================== */
+    /* COLUMN 3: RIGHT PANEL (ANTIGRAVITY CHAT & INSPECTOR)     */
+    /* ======================================================== */
     .studio-right-col {
       background: var(--bg-surface);
       border-left: 1px solid var(--border-subtle);
@@ -986,16 +1070,16 @@
     .panel-tab-bar {
       display: flex;
       border-bottom: 1px solid var(--border-subtle);
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.25);
     }
     .panel-tab-btn {
       flex: 1;
-      padding: 12px 10px;
-      font-size: 12px;
+      padding: 10px 8px;
+      font-size: 11.5px;
       font-weight: 600;
       color: var(--text-secondary);
       border-bottom: 2px solid transparent;
-      gap: 6px;
+      gap: 5px;
     }
     .panel-tab-btn:hover {
       color: var(--text-primary);
@@ -1009,21 +1093,144 @@
     .panel-content-wrap {
       flex: 1;
       overflow-y: auto;
-      padding: 16px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
     }
 
-    /* ANTIGRAVITY CREW TAB CONTENT */
+    /* TAB 1: DIRECT ANTIGRAVITY CHAT & INSTRUCTION CONSOLE */
+    #panel-chat-content {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 0;
+      gap: 0;
+    }
+    .chat-header-bar {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .token-meter-pill {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--accent-green);
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      padding: 2px 7px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .chat-messages-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .chat-msg {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-width: 95%;
+    }
+    .chat-msg.user {
+      align-self: flex-end;
+    }
+    .chat-msg.assistant {
+      align-self: flex-start;
+    }
+    .msg-sender-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-tertiary);
+    }
+    .msg-bubble {
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .chat-msg.user .msg-bubble {
+      background: #2563eb;
+      color: #ffffff;
+      border-top-right-radius: 2px;
+    }
+    .chat-msg.assistant .msg-bubble {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      border-top-left-radius: 2px;
+    }
+
+    /* Action Chip Carousel */
+    .quick-chips-row {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 8px 12px;
+      border-top: 1px solid var(--border-subtle);
+      background: rgba(0, 0, 0, 0.15);
+    }
+    .action-chip {
+      font-size: 11px;
+      color: var(--text-secondary);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 4px 10px;
+      white-space: nowrap;
+    }
+    .action-chip:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Chat Input Form */
+    .chat-input-bar {
+      padding: 10px 12px;
+      border-top: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      display: flex;
+      gap: 8px;
+    }
+    .chat-input-area {
+      flex: 1;
+      height: 48px;
+      padding: 8px 10px;
+      font-size: 12px;
+      resize: none;
+    }
+    .btn-send-chat {
+      background: #ffffff;
+      color: #000000;
+      width: 44px;
+      height: 48px;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+    .btn-send-chat:hover {
+      background: #e2e8f0;
+    }
+
+    /* TAB 2: ANTIGRAVITY CREW SUBAGENTS (Video Sheet 11) */
     .agent-card {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: 8px;
-      padding: 12px 14px;
+      padding: 10px 12px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
     .agent-card-header {
       display: flex;
@@ -1031,19 +1238,18 @@
       justify-content: space-between;
     }
     .agent-name {
-      font-family: var(--font-display);
-      font-size: 13px;
-      font-weight: 700;
+      font-size: 12px;
+      font-weight: 600;
       color: #ffffff;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
     .agent-status-badge {
       font-family: var(--font-mono);
-      font-size: 10px;
-      padding: 2px 6px;
-      border-radius: 4px;
+      font-size: 9.5px;
+      padding: 1px 5px;
+      border-radius: 3px;
       font-weight: 600;
     }
     .agent-status-badge.pass {
@@ -1052,45 +1258,17 @@
       border: 1px solid rgba(16, 185, 129, 0.3);
     }
     .agent-status-badge.active {
-      background: rgba(59, 130, 246, 0.15);
+      background: rgba(56, 189, 248, 0.15);
       color: var(--accent-blue);
-      border: 1px solid rgba(59, 130, 246, 0.3);
+      border: 1px solid rgba(56, 189, 248, 0.3);
     }
     .agent-details {
-      font-size: 11.5px;
+      font-size: 11px;
       color: var(--text-secondary);
-      line-height: 1.4;
+      line-height: 1.35;
     }
 
-    /* CREW LOG TERMINAL */
-    .crew-log-terminal {
-      background: #090b0e;
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 10px;
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      color: #94a3b8;
-      max-height: 180px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .log-line {
-      line-height: 1.4;
-    }
-    .log-time {
-      color: var(--text-tertiary);
-    }
-    .log-highlight {
-      color: var(--accent-gold);
-    }
-    .log-success {
-      color: var(--accent-green);
-    }
-
-    /* INSPECTOR TAB CONTENT (POINT-AND-CLICK HOT-PATCHER) */
+    /* TAB 3: POINT-AND-CLICK INSPECTOR */
     .inspector-entity-box {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
@@ -1098,25 +1276,16 @@
       padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-    }
-    .inspector-title {
-      font-family: var(--font-display);
-      font-size: 13px;
-      font-weight: 700;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      gap: 10px;
     }
     .prop-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
     }
     .prop-label {
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--text-secondary);
     }
     .prop-slider {
@@ -1129,46 +1298,17 @@
       font-family: var(--font-mono);
       font-size: 11px;
       color: #ffffff;
-      width: 40px;
+      width: 44px;
       text-align: right;
     }
 
-    .patch-box {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .patch-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: #ffffff;
-    }
-    .patch-textarea {
-      width: 100%;
-      height: 70px;
-      padding: 8px 10px;
-      resize: none;
-      font-size: 12px;
-    }
-    .btn-apply-patch {
-      background: #ffffff;
-      color: #000000;
-      font-weight: 600;
-      padding: 8px 12px;
-      border-radius: 6px;
-      width: 100%;
-    }
-    .btn-apply-patch:hover {
-      background: #e2e8f0;
-    }
-
     /* ======================================================== */
-    /* NEW PROJECT MODAL (Video Sheet 8 & Sheet 9)              */
+    /* MODALS & DRAWERS                                         */
     /* ======================================================== */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(10px);
       z-index: 200;
       display: none;
@@ -1181,20 +1321,15 @@
     }
     .modal-card {
       width: 100%;
-      max-width: 580px;
+      max-width: 560px;
       background: #141720;
       border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 14px;
-      padding: 24px;
+      border-radius: 12px;
+      padding: 22px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 16px;
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
-      animation: modalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    @keyframes modalIn {
-      from { opacity: 0; transform: scale(0.96) translateY(8px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
     }
     .modal-header {
       display: flex;
@@ -1202,18 +1337,18 @@
       justify-content: space-between;
     }
     .modal-title {
-      font-family: var(--font-display);
-      font-size: 18px;
+      font-family: var(--font-editorial);
+      font-size: 20px;
       font-weight: 700;
       color: #ffffff;
     }
     .modal-form-group {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
     .modal-label {
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 600;
       color: var(--text-secondary);
       display: flex;
@@ -1221,108 +1356,33 @@
       justify-content: space-between;
     }
     .modal-input {
-      padding: 9px 12px;
-      font-size: 13px;
-    }
-
-    .segmented-control {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      background: rgba(0, 0, 0, 0.3);
-      padding: 3px;
-      border-radius: 8px;
-      border: 1px solid var(--border-subtle);
-      gap: 4px;
-    }
-    .segment-btn {
-      padding: 8px 12px;
+      padding: 8px 10px;
       font-size: 12.5px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      border-radius: 6px;
-      justify-content: center;
     }
-    .segment-btn.active {
-      background: rgba(255, 255, 255, 0.1);
-      color: #ffffff;
-      font-weight: 600;
-    }
-
     .modal-textarea {
       width: 100%;
-      height: 110px;
-      padding: 10px 12px;
-      font-size: 12.5px;
-      line-height: 1.5;
-      resize: vertical;
-    }
-    .word-counter {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-tertiary);
-      text-align: right;
+      height: 100px;
+      padding: 9px 11px;
+      font-size: 12px;
+      line-height: 1.45;
     }
 
-    .slider-ticks-wrap {
+    /* API KEY SETTINGS MODAL */
+    .api-key-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 14px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
-    .quality-slider {
-      width: 100%;
-      height: 6px;
-      accent-color: #ffffff;
-      cursor: pointer;
-    }
-    .quality-labels {
-      display: flex;
-      justify-content: space-between;
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      color: var(--text-tertiary);
-    }
-    .quality-labels span.active {
-      color: var(--accent-gold);
-      font-weight: 700;
-    }
-
-    .modal-footer {
+    .api-status-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 6px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border-subtle);
-    }
-    .shortcut-hint {
       font-family: var(--font-mono);
       font-size: 11px;
-      color: var(--text-tertiary);
-    }
-    .modal-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .btn-modal-cancel {
-      padding: 8px 16px;
-      color: var(--text-secondary);
-      font-size: 13px;
-    }
-    .btn-modal-cancel:hover {
-      color: #ffffff;
-    }
-    .btn-modal-create {
-      background: #ffffff;
-      color: #000000;
-      font-weight: 600;
-      padding: 8px 18px;
-      border-radius: 8px;
-      font-size: 13px;
-    }
-    .btn-modal-create:hover {
-      background: #e2e8f0;
-      transform: translateY(-1px);
     }
 
     /* TOAST NOTIFICATION */
@@ -1330,17 +1390,17 @@
       position: fixed;
       bottom: 24px;
       right: 24px;
-      background: rgba(20, 24, 32, 0.95);
+      background: rgba(18, 22, 30, 0.95);
       border: 1px solid var(--border-subtle);
       border-radius: 8px;
-      padding: 10px 18px;
-      font-size: 12.5px;
+      padding: 9px 16px;
+      font-size: 12px;
       color: #ffffff;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
       display: flex;
       align-items: center;
-      gap: 10px;
-      transform: translateY(100px);
+      gap: 9px;
+      transform: translateY(80px);
       opacity: 0;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 300;
@@ -1355,7 +1415,6 @@
 
   <!-- LEFT SIDEBAR -->
   <aside id="app-sidebar">
-    <!-- Brand Logo (Recreated from Video Sheet 0 & Sheet 16) -->
     <div class="brand-container" onclick="switchToDashboard()">
       <div class="brand-icon">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -1365,118 +1424,102 @@
           <path d="M21 21v-5h-5" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <div>
-        <div class="brand-title">Creatorize</div>
-      </div>
+      <div class="brand-title">Creatorize</div>
       <span class="brand-badge">2.0</span>
     </div>
 
-    <!-- Main Navigation Items -->
     <nav class="nav-group">
       <button class="nav-item active" id="nav-projects-btn" onclick="switchToDashboard()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/>
         </svg>
         Projects
       </button>
 
-      <button class="nav-item" onclick="showToast('Thumbnails gallery ready for 10 benchmark shorts')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <button class="nav-item" onclick="showToast('10 Benchmark Thumbnails loaded')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
         </svg>
         Thumbnails
       </button>
 
-      <button class="nav-item" onclick="showToast('Routines: Director, SetDesigner & 4 SceneBuilders loaded')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <button class="nav-item" onclick="showToast('Routines: Director, SetDesigner & 4 SceneBuilders ready')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/>
         </svg>
         Routines
       </button>
 
-      <button class="nav-item" onclick="showToast('Renders: 1080x1920 60FPS WebGL Export Engine ready')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <button class="nav-item" onclick="showToast('Renders: 1080x1920 60FPS WebGL Export ready')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="20" height="20" x="2" y="2" rx="2"/><line x1="7" x2="7" y1="2" y2="22"/><line x1="17" x2="17" y1="2" y2="22"/><line x1="2" x2="22" y1="12" y2="12"/><line x1="2" x2="7" y1="7" y2="7"/><line x1="2" x2="7" y1="17" y2="17"/><line x1="17" x2="22" y1="17" y2="17"/><line x1="17" x2="22" y1="7" y2="7"/>
         </svg>
         Renders
       </button>
     </nav>
 
-    <!-- Analytics Section -->
     <div class="nav-label">Analytics</div>
     <nav class="nav-group">
-      <button class="nav-item" onclick="showToast('YouTube Channel Sync: +26M views tracked across 10 shorts')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <button class="nav-item" onclick="showToast('YouTube Channel: +26M views tracked across 10 shorts')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><polygon points="10 15 15 12 10 9 10 15"/>
         </svg>
         YouTube
       </button>
     </nav>
 
-    <!-- Sidebar Bottom Controls -->
     <div class="sidebar-footer">
       <button class="btn-new-project-side" onclick="openNewProjectModal()">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M5 12h14"/><path d="M12 5v14"/>
         </svg>
         New project
       </button>
 
-      <button class="nav-item" style="padding: 6px 10px;" onclick="showToast('Creatorize 2.0 Docs & 6 Golden Motion Rules')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>
-        </svg>
-        Help
-      </button>
-
-      <button class="nav-item" style="padding: 6px 10px;" onclick="showToast('Settings: Antigravity Sovereign Bridge configured')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <button class="nav-item" style="padding: 5px 8px;" onclick="openApiKeyModal()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
         </svg>
-        Settings
+        API Key & Tokens
       </button>
 
-      <!-- Authentic Amber PREMIUM Pill (Video Sheet 0) -->
-      <div class="premium-pill" onclick="showToast('Active Plan: Sovereign Unlimited (Antigravity Bridge)')">
+      <div class="premium-pill" onclick="openApiKeyModal()">
         <span>PREMIUM</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
         </svg>
       </div>
 
-      <!-- Antigravity Connection Status -->
-      <div class="connection-status">
+      <div class="connection-status" onclick="openApiKeyModal()" id="sidebar-connection-pill">
         <span class="pulse-dot"></span>
-        <span>Antigravity connected</span>
+        <span id="conn-label">Antigravity connected</span>
       </div>
     </div>
   </aside>
 
   <!-- MAIN APP CONTAINER -->
   <main id="app-container">
-
-    <!-- TOP HEADER -->
     <header class="app-header">
       <div class="header-left">
         <div class="search-box">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
           </svg>
-          <input type="text" placeholder="Search in projects, assets, routines..." id="project-search-input" oninput="filterProjects(this.value)">
+          <input type="text" placeholder="Search in projects, assets, routines..." oninput="filterProjects(this.value)">
           <span class="search-kbd">⌘K</span>
         </div>
       </div>
 
       <div class="header-right">
-        <button class="btn-header-secondary" onclick="showToast('Importing external glTF / script bundle')">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/>
+        <button class="btn-header-secondary" onclick="openApiKeyModal()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 12 2 2 4-4"/>
           </svg>
-          Import
+          API Key & Cache
         </button>
 
         <button class="btn-header-primary" onclick="openNewProjectModal()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 12h14"/><path d="M12 5v14"/>
           </svg>
           New project
@@ -1484,38 +1527,68 @@
       </div>
     </header>
 
-    <!-- VIEW 1: DASHBOARD HOME (Matching Video Sheet 0 & Sheet 16) -->
+    <!-- DASHBOARD VIEW -->
     <div id="view-dashboard">
       <div class="dashboard-hero">
-        <h1 class="hero-title">Welcome back</h1>
-        <p class="hero-subtitle">10 benchmark 3D cartoon explainer shorts reverse-engineered from 9,140 frames.</p>
+        <div>
+          <h1 class="hero-editorial-title">Ten shorts, <em>ten scripts.</em></h1>
+          <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">
+            Reverse-engineered from 9,140 frames • 6 Golden Motion Laws • 0.20s pause-tightened voiceovers.
+          </p>
+        </div>
+        <div class="hero-meta-badges">
+          <span class="badge-pacing">~165 words each</span>
+          <span class="badge-pacing">~50 s each</span>
+        </div>
       </div>
 
-      <!-- Quick Action Grid (Video Sheet 16) -->
+      <!-- Video Sheet 12 Red Numbers Banner -->
+      <div class="build-numbers-banner">
+        <div class="banner-title-box">
+          <div class="banner-title">Short 05, <em>the numbers.</em></div>
+          <div class="banner-sub">The Deadly Wave of Molasses That Hit Boston (1919)</div>
+        </div>
+        <div class="banner-stats-row">
+          <div class="stat-brick">
+            <span class="stat-brick-val">81 <span style="font-size: 13px; font-weight: normal;">min</span></span>
+            <span class="stat-brick-desc">the whole build</span>
+          </div>
+          <div class="stat-brick">
+            <span class="stat-brick-val" style="color: #fde047;">Ultraedit</span>
+            <span class="stat-brick-desc">the quality level</span>
+          </div>
+          <div class="stat-brick">
+            <span class="stat-brick-val">28 <span style="font-size: 13px; font-weight: normal;">shots</span></span>
+            <span class="stat-brick-desc">for a 50s short</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Action Grid -->
       <div class="quick-grid">
         <div class="quick-card" onclick="openStudioProject('molasses')">
           <div class="quick-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polygon points="5 3 19 12 5 21 5 3"/>
             </svg>
           </div>
           <div class="quick-card-title">Continue editing</div>
-          <div class="quick-card-desc">The Deadly Wave of Molasses (81m build, 28 shots)</div>
+          <div class="quick-card-desc">The Deadly Wave of Molasses (81m, 28 shots)</div>
         </div>
 
         <div class="quick-card" onclick="openNewProjectModal()">
           <div class="quick-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14"/><path d="M12 5v14"/>
             </svg>
           </div>
           <div class="quick-card-title">New project</div>
-          <div class="quick-card-desc">Start from script, outline, or 0.20s voiceover cut</div>
+          <div class="quick-card-desc">Paste script or let Antigravity write it</div>
         </div>
 
         <div class="quick-card" onclick="showToast('Styles: Cinema look (soft rim light, depth of field) vs Clean look')">
           <div class="quick-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3Z"/>
             </svg>
           </div>
@@ -1523,122 +1596,111 @@
           <div class="quick-card-desc">Cinema lighting, Toon shaders, Milo rigs</div>
         </div>
 
-        <div class="quick-card" onclick="showToast('Memory: 24 Places, 18 Characters, 38 Info Devices cached')">
+        <div class="quick-card" onclick="openApiKeyModal()">
           <div class="quick-icon-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
             </svg>
           </div>
-          <div class="quick-card-title">Memory</div>
-          <div class="quick-card-desc">Zero rebuilds: reusable props & modular sets</div>
+          <div class="quick-card-title">Antigravity Tokens</div>
+          <div class="quick-card-desc">96% cached • Zero token wastage protection</div>
+        </div>
+      </div>
+
+      <!-- "Five things I watch for" (Authentic from Video Sheet 12) -->
+      <div class="checklist-card">
+        <div class="checklist-title">Five things <em>I watch for.</em></div>
+        <div class="checklist-items">
+          <div class="check-item">
+            <div class="check-num">1</div>
+            <div>Shows what the words say, <em>right when they say it</em>. (5-frame gestures land 4 frames early)</div>
+          </div>
+          <div class="check-item">
+            <div class="check-num">2</div>
+            <div>The face is <em>readable, lit, and out of the captions</em>. (Captions sit at 70% height)</div>
+          </div>
+          <div class="check-item">
+            <div class="check-num">3</div>
+            <div>Nothing <em>floating, sliding or passing through</em>. (Feet locked to floor, zero mesh collision)</div>
+          </div>
+          <div class="check-item">
+            <div class="check-num">4</div>
+            <div>Every number lands as an <em>object on its word</em>. (2.3M flip calendar, 50ft tank gauge)</div>
+          </div>
+          <div class="check-item" style="grid-column: span 2;">
+            <div class="check-num">5</div>
+            <div>The set feels <em>lived in</em>. (No empty corners; ambient dust, wood grain, light quad from window)</div>
+          </div>
         </div>
       </div>
 
       <!-- Recent Projects Section Header -->
       <div class="section-header-bar">
-        <h2 class="section-title">Recent projects</h2>
+        <h2 class="section-title">All 10 benchmark shorts</h2>
         <div class="filter-tabs">
           <button class="tab-btn active" onclick="setProjectFilter('all', this)">All (10)</button>
-          <button class="tab-btn" onclick="setProjectFilter('9:16', this)">Vertical 9:16</button>
-          <button class="tab-btn" onclick="setProjectFilter('ultra', this)">Ultra Edit</button>
+          <button class="tab-btn" onclick="setProjectFilter('ultra', this)">Ultra edit</button>
         </div>
       </div>
 
-      <!-- 10 Benchmark Projects Grid (Matching Video Exactly) -->
+      <!-- 10 Benchmark Projects Grid -->
       <div class="projects-grid" id="projects-container">
         <!-- Injected via JavaScript -->
       </div>
-
-      <!-- Telemetry Section (Video Sheet 0 & Sheet 16) -->
-      <div class="telemetry-card">
-        <div class="telemetry-header">
-          <div class="telemetry-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-            </svg>
-            Your Antigravity Token & Compute Telemetry
-          </div>
-          <span style="font-family: var(--font-mono); font-size: 11px; color: var(--accent-green); background: rgba(16, 185, 129, 0.1); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.2);">
-            ● Antigravity Pro Subscription Active
-          </span>
-        </div>
-
-        <div class="telemetry-grid">
-          <div class="stat-item">
-            <div class="stat-val">957M</div>
-            <div class="stat-desc">Tokens used across 26 runs (96% from cache)</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-val">$0.00</div>
-            <div class="stat-desc">API equivalent: 100% included in subscription</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-val">0.20s</div>
-            <div class="stat-desc">Deterministic pause-tightening standard</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-val">6 / 6</div>
-            <div class="stat-desc">Golden Motion Rules verified on every render</div>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <!-- VIEW 2: PROJECT STUDIO (Video Sheet 11 & Sheet 12) -->
+    <!-- PROJECT STUDIO VIEW -->
     <div id="view-studio">
       <div class="studio-layout">
 
-        <!-- COLUMN 1: SHOT SEQUENCE LIST -->
+        <!-- COLUMN 1: SHOTS SEQUENCE -->
         <div class="studio-shots-col">
           <div class="shots-header">
             <div class="shots-title">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>
               </svg>
               Shots (<span id="active-shot-count">28</span>)
             </div>
-            <button onclick="showToast('Added new shot to sequence')" style="color: var(--text-secondary); padding: 4px 8px; border-radius: 4px; background: rgba(255,255,255,0.05); font-size: 11px;">
+            <button onclick="showToast('Added new shot to script')" style="font-size: 11px; padding: 3px 7px; background: rgba(255,255,255,0.06); border-radius: 4px;">
               + Add
             </button>
           </div>
           
           <div class="shots-list" id="studio-shots-list">
-            <!-- Populated via JavaScript -->
+            <!-- Populated via JS -->
           </div>
         </div>
 
-        <!-- COLUMN 2: 3D CANVAS VIEWPORT & MASTER TIMELINE -->
+        <!-- COLUMN 2: 3D CANVAS VIEWPORT & TIMELINE -->
         <div class="studio-center-col">
-          <!-- Viewport Header -->
           <div class="viewport-top-bar">
             <div class="viewport-title-group">
-              <button onclick="switchToDashboard()" style="padding: 4px 8px; border-radius: 6px; background: rgba(255,255,255,0.05); font-size: 12px; color: var(--text-secondary);">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <button onclick="switchToDashboard()" style="padding: 3px 8px; border-radius: 5px; background: rgba(255,255,255,0.05); font-size: 11.5px; color: var(--text-secondary);">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m15 18-6-6 6-6"/>
                 </svg>
                 Projects
               </button>
               <div class="viewport-title" id="studio-project-title">The Deadly Wave of Molasses That Hit Boston</div>
-              <span class="viewport-meta-pill">3D Cartoon Shorts • Cinema • 9:16</span>
-              <span class="viewport-meta-pill" style="color: var(--accent-green); border-color: rgba(16,185,129,0.3);">
-                ● All saved
-              </span>
+              <span class="viewport-meta-pill">Cinema • 9:16</span>
+              <span class="viewport-meta-pill" style="color: var(--accent-green);">● All saved</span>
             </div>
 
             <div style="display: flex; gap: 8px;">
-              <button class="btn-header-primary" style="padding: 5px 12px; font-size: 12px;" onclick="triggerRenderExport()">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/>
-                </svg>
+              <button class="btn-header-secondary" style="padding: 4px 10px; font-size: 11.5px;" onclick="openTrimModal()">
+                Trim Silences (0.2s)
+              </button>
+              <button class="btn-header-primary" style="padding: 4px 12px; font-size: 11.5px;" onclick="triggerRenderExport()">
                 Export MP4
               </button>
             </div>
           </div>
 
-          <!-- Viewport 9:16 Stage -->
+          <!-- 9:16 Three.js Viewport -->
           <div class="viewport-stage-wrap">
             <div class="canvas-container-9-16">
-              <div id="three-viewport"></div>
+              <div id="three-viewport" onclick="handleCanvasClick(event)"></div>
 
               <!-- Real-time Subtitle Safe Zone Overlay -->
               <div class="subtitle-overlay-box" id="subtitle-box">
@@ -1649,26 +1711,26 @@
             </div>
           </div>
 
-          <!-- Transport Control Bar -->
+          <!-- Transport Bar -->
           <div class="viewport-controls-bar">
             <div class="ctrl-group">
               <button class="ctrl-btn" onclick="stepFrame(-1)" title="Step -1 frame">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polygon points="19 20 9 12 19 4 19 20"/><line x1="5" x2="5" y1="19" y2="5"/>
                 </svg>
               </button>
 
-              <button class="ctrl-btn" id="play-pause-btn" onclick="togglePlayback()" title="Play / Pause (Space)">
-                <svg id="play-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <button class="ctrl-btn" id="play-pause-btn" onclick="togglePlayback()" title="Play / Pause">
+                <svg id="play-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polygon points="5 3 19 12 5 21 5 3"/>
                 </svg>
-                <svg id="pause-icon" style="display:none;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg id="pause-icon" style="display:none;" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>
                 </svg>
               </button>
 
               <button class="ctrl-btn" onclick="stepFrame(1)" title="Step +1 frame">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polygon points="5 4 15 12 5 20 5 4"/><line x1="19" x2="19" y1="5" y2="19"/>
                 </svg>
               </button>
@@ -1677,25 +1739,24 @@
             </div>
 
             <div class="ctrl-group">
-              <button class="ctrl-btn" onclick="setCameraAngle('front')" title="Camera: Front View">
+              <button class="ctrl-btn" onclick="setCameraAngle('front')" title="Camera Front">
                 <span style="font-size: 10px; font-weight: 700;">1x</span>
               </button>
-              <button class="ctrl-btn" onclick="setCameraAngle('orbit')" title="Camera: 45° Drone Orbit">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <button class="ctrl-btn" onclick="setCameraAngle('orbit')" title="Camera 45° Orbit">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(-30 12 12)"/>
                 </svg>
               </button>
               <button class="ctrl-btn" onclick="toggleSubtitles()" id="sub-toggle-btn" title="Toggle Subtitles Safe Zone" class="active">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                 </svg>
               </button>
             </div>
           </div>
 
-          <!-- Multi-Track Timeline (Video Sheet 11 & Sheet 12) -->
+          <!-- Multi-Track Timeline -->
           <div class="studio-timeline-area" id="timeline-container" onclick="scrubTimeline(event)">
-            <!-- Ruler Marks -->
             <div class="timeline-ruler">
               <div class="ruler-mark" style="left: 0%;">0s</div>
               <div class="ruler-mark" style="left: 20%;">10s</div>
@@ -1705,20 +1766,14 @@
               <div class="ruler-mark" style="left: 100%;">50s</div>
             </div>
 
-            <!-- Draggable Playhead Needle -->
             <div id="timeline-needle"></div>
 
-            <!-- Tracks Container -->
             <div class="timeline-tracks-wrap">
-              <!-- Track 1: Shots (28 sequence blocks) -->
               <div class="track-row">
                 <div class="track-label">VIDEO</div>
-                <div class="track-lane" id="shots-timeline-lane">
-                  <!-- Populated via JS -->
-                </div>
+                <div class="track-lane" id="shots-timeline-lane"></div>
               </div>
 
-              <!-- Track 2: Voiceover Waveform with 0.20s pause cuts -->
               <div class="track-row">
                 <div class="track-label">VOICE (0.2s)</div>
                 <div class="track-lane">
@@ -1726,7 +1781,6 @@
                     <svg class="waveform-svg" viewBox="0 0 800 24" preserveAspectRatio="none">
                       <path d="M0,12 Q10,2 20,12 T40,12 T60,4 T80,12 T100,2 T120,12 T140,5 T160,12 T180,1 T200,12 T220,6 T240,12 T260,2 T280,12 T300,5 T320,12 T340,3 T360,12 T380,7 T400,12 T420,2 T440,12 T460,4 T480,12 T500,1 T520,12 T540,6 T560,12 T580,2 T600,12 T620,5 T640,12 T660,3 T680,12 T700,7 T720,12 T740,2 T760,12 T780,4 T800,12" stroke-width="2"/>
                     </svg>
-                    <!-- Pause tightening red markers -->
                     <div class="pause-cut-marker" style="left: 8%;" title="Tightened Pause: 0.20s"></div>
                     <div class="pause-cut-marker" style="left: 16%;" title="Tightened Pause: 0.20s"></div>
                     <div class="pause-cut-marker" style="left: 25%;" title="Tightened Pause: 0.20s"></div>
@@ -1739,7 +1793,6 @@
                 </div>
               </div>
 
-              <!-- Track 3: SFX Cues (19 hits) -->
               <div class="track-row">
                 <div class="track-label">SFX (19 hits)</div>
                 <div class="track-lane" style="background: rgba(245, 158, 11, 0.03);">
@@ -1755,142 +1808,98 @@
           </div>
         </div>
 
-        <!-- COLUMN 3: RIGHT PANEL (ANTIGRAVITY CREW & INSPECTOR) -->
+        <!-- COLUMN 3: RIGHT PANEL (ANTIGRAVITY CHAT, CREW & INSPECTOR) -->
         <div class="studio-right-col">
-          <!-- Panel Tab Bar -->
           <div class="panel-tab-bar">
-            <button class="panel-tab-btn active" id="tab-crew-btn" onclick="switchRightTab('crew')">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3Z"/>
+            <button class="panel-tab-btn active" id="tab-chat-btn" onclick="switchRightTab('chat')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
               </svg>
-              Antigravity Crew
+              Chat & Instruct
             </button>
 
             <button class="panel-tab-btn" id="tab-inspector-btn" onclick="switchRightTab('inspector')">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
               </svg>
               Inspector
             </button>
+
+            <button class="panel-tab-btn" id="tab-crew-btn" onclick="switchRightTab('crew')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3Z"/>
+              </svg>
+              Crew Logs
+            </button>
           </div>
 
-          <!-- TAB 1 CONTENT: ANTIGRAVITY CREW (Video Sheet 11) -->
-          <div class="panel-content-wrap" id="panel-crew-content">
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-              <span style="font-size: 11px; font-family: var(--font-mono); color: var(--text-secondary);">
-                5 Autonomous Subagents
-              </span>
-              <button onclick="runCrewPass()" style="font-size: 11px; padding: 4px 8px; border-radius: 4px; background: rgba(255,255,255,0.06); color: #ffffff;">
-                Run Crew Pass
+          <!-- TAB 1: DIRECT CHAT WITH ANTIGRAVITY (The User's Core Request) -->
+          <div id="panel-chat-content">
+            <div class="chat-header-bar">
+              <span style="font-size: 11.5px; font-weight: 600; color: #ffffff;">Antigravity Pair Programmer</span>
+              <div class="token-meter-pill" onclick="openApiKeyModal()" title="Click to manage API key & cached tokens">
+                <span class="pulse-dot"></span>
+                <span id="chat-token-counter">96% cached • $0.00</span>
+              </div>
+            </div>
+
+            <div class="chat-messages-scroll" id="chat-stream">
+              <div class="chat-msg assistant">
+                <span class="msg-sender-tag">Antigravity Sovereign Beast</span>
+                <div class="msg-bubble">
+                  Ready. I am directly connected to your scene pipeline. You can instruct me in plain English to alter shots, hot-patch 3D objects, tighten voiceover pauses to 0.20s, or modify lighting and camera vectors.
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Action Chips -->
+            <div class="quick-chips-row">
+              <button class="action-chip" onclick="quickPrompt('Change calendar date in Shot 01 to Wednesday 15th')">
+                Fix Calendar (15th)
+              </button>
+              <button class="action-chip" onclick="quickPrompt('Make the molasses wave 30% taller and increase amber gloss')">
+                Amplify Molasses Wave
+              </button>
+              <button class="action-chip" onclick="quickPrompt('Apply Cinema lighting with soft golden window sun and blue rim')">
+                Cinema Lighting
+              </button>
+              <button class="action-chip" onclick="quickPrompt('Run 5-point layout check to ensure Milo is out of captions')">
+                Layout Check
               </button>
             </div>
 
-            <!-- Agent 1: Director -->
-            <div class="agent-card">
-              <div class="agent-card-header">
-                <div class="agent-name">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>
-                  </svg>
-                  Director
-                </div>
-                <span class="agent-status-badge pass">COMPLETE</span>
-              </div>
-              <div class="agent-details">
-                Orchestrating 28 shots, script pacing: 161 words locked at 0:50 duration with 0.20s tightened pauses.
-              </div>
-            </div>
-
-            <!-- Agent 2: Set Designer -->
-            <div class="agent-card">
-              <div class="agent-card-header">
-                <div class="agent-name">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                  </svg>
-                  Set Designer
-                </div>
-                <span class="agent-status-badge pass">COMPLETE</span>
-              </div>
-              <div class="agent-details">
-                Assembled Boston 1919 Commercial St docks, 50ft steel riveted tank, elevated railway bridge, cobblestones.
-              </div>
-            </div>
-
-            <!-- Agent 3: Scene Builders -->
-            <div class="agent-card">
-              <div class="agent-card-header">
-                <div class="agent-name">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>
-                  </svg>
-                  Scene Builders (4 Subagents)
-                </div>
-                <span class="agent-status-badge active">ACTIVE</span>
-              </div>
-              <div class="agent-details">
-                Parallel build: Milo character 5-frame gestures landing 4 frames early, 2-frame eye blink swaps.
-              </div>
-            </div>
-
-            <!-- Agent 4: Layout Checker -->
-            <div class="agent-card">
-              <div class="agent-card-header">
-                <div class="agent-name">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
-                  </svg>
-                  Layout Checker
-                </div>
-                <span class="agent-status-badge pass">PASS (5/5)</span>
-              </div>
-              <div class="agent-details">
-                Verified: Zero floating objects, character face strictly outside caption safe band, dead holds < 0.5px.
-              </div>
-            </div>
-
-            <!-- Agent 5: Shot Polisher -->
-            <div class="agent-card">
-              <div class="agent-card-header">
-                <div class="agent-name">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/>
-                  </svg>
-                  Shot Polisher
-                </div>
-                <span class="agent-status-badge pass">PASS</span>
-              </div>
-              <div class="agent-details">
-                Continuous 5%/s camera creep, 6-frame dissolve seams, -14.0 LUFS broadcast audio mastering.
-              </div>
-            </div>
-
-            <!-- Streaming Log Terminal -->
-            <div class="crew-log-terminal" id="crew-terminal">
-              <div class="log-line"><span class="log-time">[11:42:01]</span> <span class="log-highlight">Director:</span> Initialized script parsing for 28 shots (161 words).</div>
-              <div class="log-line"><span class="log-time">[11:42:03]</span> <span class="log-highlight">SetDesigner:</span> Built MolassesTank (50ft, steel rivets, leak seams).</div>
-              <div class="log-line"><span class="log-time">[11:42:05]</span> <span class="log-highlight">SceneBuilder-1:</span> Injected Milo gesture (Shot 01 -> frame 12).</div>
-              <div class="log-line"><span class="log-time">[11:42:07]</span> <span class="log-success">LayoutChecker:</span> PASS: Milo head above caption safe zone.</div>
-              <div class="log-line"><span class="log-time">[11:42:09]</span> <span class="log-success">ShotPolisher:</span> Applied 5%/s camera drift & -14 LUFS sound master.</div>
+            <!-- Chat Input Bar -->
+            <div class="chat-input-bar">
+              <textarea class="chat-input-area" id="chat-user-input" placeholder="Instruct Antigravity what to build or change in this short..." onkeydown="handleChatKeyDown(event)"></textarea>
+              <button class="btn-send-chat" onclick="sendChatInstruction()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="22" x2="11" y1="2" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+              </button>
             </div>
           </div>
 
-          <!-- TAB 2 CONTENT: POINT-AND-CLICK INSPECTOR (Video Sheet 11 & Sheet 12) -->
+          <!-- TAB 2: POINT-AND-CLICK INSPECTOR (From Video Sheet 12: Click Calendar -> Tell AI -> Apply) -->
           <div class="panel-content-wrap" id="panel-inspector-content" style="display: none;">
             <div class="inspector-entity-box">
-              <div class="inspector-title">
-                <span>Selected: <strong id="inspect-entity-name" style="color: var(--accent-gold);">Molasses Wave</strong></span>
-                <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary);">MESH_04</span>
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-size: 13px; font-weight: 700; color: #ffffff;">
+                  Target: <strong id="inspect-entity-name" style="color: var(--accent-gold);">Calendar_Wall_15</strong>
+                </span>
+                <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary);">CLICK TO SELECT</span>
               </div>
+              <p style="font-size: 11px; color: var(--text-secondary);">
+                Click any 3D element in the preview above (Calendar, Milo, Wave, Tank) to inspect and hot-patch it.
+              </p>
 
               <div class="prop-row">
-                <span class="prop-label">Height (Wave)</span>
+                <span class="prop-label">Wave Height</span>
                 <input type="range" class="prop-slider" min="5" max="30" value="18" id="slider-wave-height" oninput="update3DProperty('waveHeight', this.value)">
                 <span class="prop-val" id="val-wave-height">18ft</span>
               </div>
 
               <div class="prop-row">
-                <span class="prop-label">Viscosity / Speed</span>
+                <span class="prop-label">Wave Speed</span>
                 <input type="range" class="prop-slider" min="10" max="60" value="35" id="slider-wave-speed" oninput="update3DProperty('waveSpeed', this.value)">
                 <span class="prop-val" id="val-wave-speed">35mph</span>
               </div>
@@ -1908,11 +1917,10 @@
               </div>
             </div>
 
-            <!-- Natural Language Hot-Patch Box -->
-            <div class="patch-box">
-              <label class="patch-label">Hot-Patch with Antigravity</label>
-              <textarea class="patch-textarea" id="patch-prompt" placeholder="E.g. Make the molasses wave 20% higher and darken the amber specular sheen..."></textarea>
-              <button class="btn-apply-patch" onclick="applyHotPatch()">
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <label style="font-size: 12px; font-weight: 600; color: #ffffff;">Hot-Patch This Object</label>
+              <textarea class="modal-textarea" style="height: 60px;" id="patch-prompt" placeholder="E.g. In this shot, the calendar says Tuesday 14, change it to Wednesday 15th..."></textarea>
+              <button class="btn-header-primary" style="width: 100%; padding: 8px;" onclick="applyHotPatch()">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
@@ -1920,20 +1928,71 @@
               </button>
             </div>
           </div>
+
+          <!-- TAB 3: CREW SUBAGENTS & LOG TERMINAL -->
+          <div class="panel-content-wrap" id="panel-crew-content" style="display: none;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 11px; font-family: var(--font-mono); color: var(--text-secondary);">
+                5 Autonomous Subagents
+              </span>
+              <button onclick="runCrewPass()" style="font-size: 11px; padding: 4px 8px; border-radius: 4px; background: rgba(255,255,255,0.06); color: #ffffff;">
+                Run Crew Pass
+              </button>
+            </div>
+
+            <div class="agent-card">
+              <div class="agent-card-header">
+                <div class="agent-name">Director</div>
+                <span class="agent-status-badge pass">COMPLETE</span>
+              </div>
+              <div class="agent-details">28 shots mapped. 161 words locked at 0:50 duration with 0.20s tightened pauses.</div>
+            </div>
+
+            <div class="agent-card">
+              <div class="agent-card-header">
+                <div class="agent-name">Set Designer</div>
+                <span class="agent-status-badge pass">COMPLETE</span>
+              </div>
+              <div class="agent-details">Boston 1919 Commercial St docks, 50ft tank, elevated rail girder, wall calendar.</div>
+            </div>
+
+            <div class="agent-card">
+              <div class="agent-card-header">
+                <div class="agent-name">Scene Builders (4 Subagents)</div>
+                <span class="agent-status-badge active">ACTIVE</span>
+              </div>
+              <div class="agent-details">Keyframing Milo gestures 4 frames early, 2-frame eye blink swaps.</div>
+            </div>
+
+            <div class="agent-card">
+              <div class="agent-card-header">
+                <div class="agent-name">Layout Checker</div>
+                <span class="agent-status-badge pass">PASS (5/5)</span>
+              </div>
+              <div class="agent-details">Verified: Zero floating objects, Milo head outside 70% caption band.</div>
+            </div>
+
+            <div class="agent-card">
+              <div class="agent-card-header">
+                <div class="agent-name">Shot Polisher</div>
+                <span class="agent-status-badge pass">PASS</span>
+              </div>
+              <div class="agent-details">Continuous 5%/s camera drift, 6-frame dissolve seams, -14.0 LUFS sound master.</div>
+            </div>
+          </div>
         </div>
 
       </div>
     </div>
-
   </main>
 
-  <!-- VIEW 3: NEW PROJECT MODAL (Video Sheet 8 & Sheet 9) -->
+  <!-- MODAL 1: NEW PROJECT (Video Sheet 8 & Sheet 9) -->
   <div class="modal-backdrop" id="new-project-modal">
     <div class="modal-card">
       <div class="modal-header">
         <h2 class="modal-title">New project</h2>
         <button onclick="closeNewProjectModal()" style="color: var(--text-tertiary); padding: 4px;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/>
           </svg>
         </button>
@@ -1944,7 +2003,7 @@
         <input type="text" class="modal-input" id="modal-project-title" value="The Deadly Wave of Molasses That Hit Boston">
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
         <div class="modal-form-group">
           <label class="modal-label">Style</label>
           <select class="modal-input" id="modal-style-select">
@@ -1956,14 +2015,10 @@
 
         <div class="modal-form-group">
           <label class="modal-label">Format</label>
-          <div class="segmented-control">
-            <button class="segment-btn active" id="btn-format-9-16" onclick="setModalFormat('9:16')">
-              Vertical 9:16
-            </button>
-            <button class="segment-btn" id="btn-format-16-9" onclick="setModalFormat('16:9')">
-              Wide 16:9
-            </button>
-          </div>
+          <select class="modal-input" id="modal-format-select">
+            <option value="9:16" selected>Vertical 9:16</option>
+            <option value="16:9">Wide 16:9</option>
+          </select>
         </div>
 
         <div class="modal-form-group">
@@ -1987,11 +2042,12 @@
         </select>
       </div>
 
-      <!-- Story / Script Section with Live Word Counter -->
       <div class="modal-form-group">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px;">
           <label class="modal-label" style="margin-bottom: 0;">Story / Production Script</label>
-          <div class="word-counter" id="script-word-counter">161 words (about 0:49 spoken)</div>
+          <div style="font-family: var(--font-mono); font-size: 10.5px; color: var(--text-tertiary);" id="script-word-counter">
+            161 words (about 0:49 spoken)
+          </div>
         </div>
         <textarea class="modal-textarea" id="modal-script-text" oninput="updateWordCount(this.value)">It's lunchtime in Boston, nineteen nineteen, and a wave of molasses is rolling down your street.
 Above the docks stands a steel tank with two point three million gallons of the stuff.
@@ -2000,25 +2056,101 @@ Today, it bursts.
 The wave is as tall as a house and moving at thirty-five miles per hour...</textarea>
       </div>
 
-      <!-- Quality Slider (Video Sheet 9) -->
-      <div class="modal-form-group">
-        <label class="modal-label">Quality Level</label>
-        <div class="slider-ticks-wrap">
-          <input type="range" class="quality-slider" min="1" max="4" value="4" id="modal-quality-slider" oninput="updateQualityLabel(this.value)">
-          <div class="quality-labels">
-            <span id="ql-1">Standard</span>
-            <span id="ql-2">Polished</span>
-            <span id="ql-3">Verified</span>
-            <span id="ql-4" class="active">Ultra edit</span>
-          </div>
+      <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid var(--border-subtle);">
+        <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-tertiary);">Ctrl + Enter to create</div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-header-secondary" onclick="closeNewProjectModal()">Cancel</button>
+          <button class="btn-header-primary" onclick="createProjectFromModal()">Create project</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: TRIM SILENCES (Video Sheet 8: "Trim silences right here in the pipeline") -->
+  <div class="modal-backdrop" id="trim-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title">Trim Silences & Tighten Pauses</h2>
+        <button onclick="closeTrimModal()" style="color: var(--text-tertiary); padding: 4px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <p style="font-size: 12px; color: var(--text-secondary);">
+        In this style, pauses longer than 0.20s cause viewers to swipe away. Red vertical bars highlight pauses to slice.
+      </p>
+
+      <div style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 14px;">
+        <div class="waveform-visual-container" style="height: 48px;">
+          <svg class="waveform-svg" style="height: 44px;" viewBox="0 0 800 24" preserveAspectRatio="none">
+            <path d="M0,12 Q10,2 20,12 T40,12 T60,4 T80,12 T100,2 T120,12 T140,5 T160,12 T180,1 T200,12 T220,6 T240,12 T260,2 T280,12 T300,5 T320,12 T340,3 T360,12 T380,7 T400,12 T420,2 T440,12 T460,4 T480,12 T500,1 T520,12 T540,6 T560,12 T580,2 T600,12 T620,5 T640,12 T660,3 T680,12 T700,7 T720,12 T740,2 T760,12 T780,4 T800,12" stroke-width="2.5"/>
+          </svg>
+          <div class="pause-cut-marker" style="left: 8%;"></div>
+          <div class="pause-cut-marker" style="left: 16%;"></div>
+          <div class="pause-cut-marker" style="left: 25%;"></div>
+          <div class="pause-cut-marker" style="left: 36%;"></div>
+          <div class="pause-cut-marker" style="left: 48%;"></div>
+          <div class="pause-cut-marker" style="left: 62%;"></div>
+          <div class="pause-cut-marker" style="left: 78%;"></div>
+          <div class="pause-cut-marker" style="left: 91%;"></div>
         </div>
       </div>
 
-      <div class="modal-footer">
-        <div class="shortcut-hint">Ctrl + Enter to create</div>
-        <div class="modal-actions">
-          <button class="btn-modal-cancel" onclick="closeNewProjectModal()">Cancel</button>
-          <button class="btn-modal-create" onclick="createProjectFromModal()">Create project</button>
+      <div style="display: flex; align-items: center; justify-content: space-between; font-family: var(--font-mono); font-size: 13px;">
+        <span style="color: var(--text-secondary);">Voiceover Dial-Up:</span>
+        <span style="color: #ef4444; font-weight: 700;">60.8 s → 49.2 s (-11.6s sliced)</span>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px;">
+        <button class="btn-header-secondary" onclick="closeTrimModal()">Close</button>
+        <button class="btn-header-primary" onclick="applyTrimSilences()">Apply 0.20s Tightening</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: API KEY & TOKEN MANAGER (Direct Antigravity Key Connection) -->
+  <div class="modal-backdrop" id="api-key-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title">Antigravity API Key & Token Cache</h2>
+        <button onclick="closeApiKeyModal()" style="color: var(--text-tertiary); padding: 4px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <p style="font-size: 12px; color: var(--text-secondary);">
+        Connect your active Google Gemini / Antigravity API key to enable live AI reasoning and code hot-patching. Repeated calls reuse cached tokens (96% cache rate).
+      </p>
+
+      <div class="api-key-box">
+        <label class="modal-label">API Key</label>
+        <input type="password" class="modal-input" id="antigravity-api-key-input" placeholder="AIzaSy... (Gemini / Antigravity API Key)">
+        
+        <div style="display: flex; gap: 10px; margin-top: 6px;">
+          <div style="flex: 1;">
+            <label class="modal-label">Model Tier</label>
+            <select class="modal-input" id="api-model-select">
+              <option value="gemini-2.5-pro" selected>gemini-2.5-pro (Deep Reasoning & 3D Polish)</option>
+              <option value="gemini-2.5-flash">gemini-2.5-flash (Sub-second Rapid Generation)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="api-status-row" style="margin-top: 8px;">
+          <span style="color: var(--text-secondary);">Cache Quota Status:</span>
+          <span style="color: var(--accent-green); font-weight: 700;">96% Cached • Free Quota Active</span>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 11px; color: var(--text-tertiary);">Key stored locally in browser storage</span>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-header-secondary" onclick="closeApiKeyModal()">Cancel</button>
+          <button class="btn-header-primary" onclick="saveApiKey()">Save & Connect</button>
         </div>
       </div>
     </div>
@@ -2034,7 +2166,7 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
 
   <!-- APPLICATION LOGIC & THREE.JS 3D ENGINE -->
   <script>
-    // 10 BENCHMARK PROJECTS DATA FROM THE REFERENCE VIDEO
+    // 10 BENCHMARK VIRAL SHORTS DATA (FROM VIDEO)
     const BENCHMARK_PROJECTS = [
       {
         id: 'molasses',
@@ -2043,7 +2175,6 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
         shots: 28,
         quality: 'Ultra edit',
         format: '9:16',
-        niche: 'Boston 1919, 2.3M gallons, elevated rail, Milo character',
         theme: '#854d0e',
         sceneConfig: { waveHeight: 18, waveSpeed: 35, miloScale: 1.0, color: 0x3d1a0a }
       },
@@ -2054,7 +2185,6 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
         shots: 24,
         quality: 'Standard',
         format: '9:16',
-        niche: 'ISS Cupola, surface tension water ball clinging to eyes',
         theme: '#1e3a8a',
         sceneConfig: { waveHeight: 8, waveSpeed: 10, miloScale: 1.0, color: 0x38bdf8 }
       },
@@ -2065,7 +2195,6 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
         shots: 29,
         quality: 'Polished',
         format: '9:16',
-        niche: 'Free-return lunar slingshot trajectory & CO2 scrubbers',
         theme: '#475569',
         sceneConfig: { waveHeight: 12, waveSpeed: 25, miloScale: 1.0, color: 0x94a3b8 }
       },
@@ -2076,7 +2205,6 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
         shots: 26,
         quality: 'Ultra edit',
         format: '9:16',
-        niche: 'Folded solar arrays, orbital injection fairing tolerance',
         theme: '#047857',
         sceneConfig: { waveHeight: 15, waveSpeed: 30, miloScale: 1.0, color: 0x10b981 }
       },
@@ -2087,7 +2215,6 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
         shots: 27,
         quality: 'Ultra edit',
         format: '9:16',
-        niche: 'V.90 handshake audio visualization & dual frequencies',
         theme: '#b45309',
         sceneConfig: { waveHeight: 16, waveSpeed: 40, miloScale: 1.0, color: 0xf59e0b }
       },
@@ -2098,7 +2225,6 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
         shots: 22,
         quality: 'Polished',
         format: '9:16',
-        niche: 'Midnight zone bioluminescence, tissue fusion enzyme',
         theme: '#1e1b4b',
         sceneConfig: { waveHeight: 14, waveSpeed: 20, miloScale: 1.0, color: 0x6366f1 }
       },
@@ -2109,7 +2235,6 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
         shots: 25,
         quality: 'Standard',
         format: '9:16',
-        niche: 'River Arno silt, lead counterweights, 38-40cm tilt recovery',
         theme: '#a16207',
         sceneConfig: { waveHeight: 10, waveSpeed: 15, miloScale: 1.0, color: 0xeab308 }
       },
@@ -2120,7 +2245,6 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
         shots: 30,
         quality: 'Ultra edit',
         format: '9:16',
-        niche: 'Boeing Plant 2 burlap lawns, chicken-wire plywood trees',
         theme: '#3f6212',
         sceneConfig: { waveHeight: 15, waveSpeed: 30, miloScale: 1.0, color: 0x84cc16 }
       },
@@ -2131,7 +2255,6 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
         shots: 26,
         quality: 'Polished',
         format: '9:16',
-        niche: 'Hillary step congestion, fixed safety rope bottleneck',
         theme: '#0f766e',
         sceneConfig: { waveHeight: 14, waveSpeed: 22, miloScale: 1.0, color: 0x14b8a6 }
       },
@@ -2142,13 +2265,12 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
         shots: 28,
         quality: 'Ultra edit',
         format: '9:16',
-        niche: 'Penicillin mould discovery in London lab petri dish',
         theme: '#6b21a8',
         sceneConfig: { waveHeight: 18, waveSpeed: 35, miloScale: 1.0, color: 0xa855f7 }
       }
     ];
 
-    // 28 AUTHENTIC SHOTS FOR THE BOSTON MOLASSES PRODUCTION
+    // 28 SHOTS FOR BOSTON MOLASSES
     const SHOTS_DATA = [
       { id: 1, text: "It's lunchtime in Boston, nineteen nineteen...", tc: "0:00 - 0:02", sub: "It's <span class='sub-highlight'>lunchtime</span> in Boston, 1919..." },
       { id: 2, text: "...and a wave of molasses is rolling down your street.", tc: "0:02 - 0:04", sub: "...and a wave of <span class='sub-highlight'>molasses</span> is rolling down your street." },
@@ -2180,45 +2302,38 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       { id: 28, text: "...Boston still smelled like sweet brown molasses.", tc: "0:50 - 0:51", sub: "Boston smelled like <span class='sub-highlight'>molasses</span>." }
     ];
 
-    // APP STATE
+    // APPLICATION STATE
     let currentView = 'dashboard';
     let currentProject = BENCHMARK_PROJECTS[0];
     let activeShotIndex = 0;
     let isPlaying = false;
-    let playheadTime = 8.40; // current time in seconds
+    let playheadTime = 8.40;
     const totalDuration = 50.12;
     let animFrameId = null;
 
-    // THREE.JS 3D ENGINE VARIABLES
+    // THREE.JS SCENE STATE
     let scene, camera, renderer, controls;
-    let miloGroup, waveMesh, tankMesh, railwayMesh;
+    let miloGroup, waveMesh, tankMesh, calendarMesh;
     let sceneClock = new THREE.Clock();
+    let raycaster = new THREE.Raycaster();
+    let mouse = new THREE.Vector2();
+    let selectedEntityName = "Calendar_Wall_15";
 
-    // INITIALIZATION
+    // API KEY STORAGE
+    let savedApiKey = localStorage.getItem('creatorize_antigravity_api_key') || '';
+
+    // INIT
     window.addEventListener('DOMContentLoaded', () => {
       renderProjectsGrid(BENCHMARK_PROJECTS);
-      initLenis();
       renderShotsList();
       renderTimelineTracks();
+      if (savedApiKey) {
+        document.getElementById('antigravity-api-key-input').value = savedApiKey;
+        document.getElementById('conn-label').textContent = 'Antigravity Connected (Custom Key)';
+      }
     });
 
-    function initLenis() {
-      if (typeof Lenis !== 'undefined') {
-        const lenis = new Lenis({
-          duration: 1.2,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          direction: 'vertical',
-          smooth: true
-        });
-        function raf(time) {
-          lenis.raf(time);
-          requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-      }
-    }
-
-    // RENDER PROJECTS GRID ON DASHBOARD
+    // RENDER PROJECTS GRID
     function renderProjectsGrid(projects) {
       const container = document.getElementById('projects-container');
       container.innerHTML = '';
@@ -2237,19 +2352,16 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
           <div class="card-info">
             <div class="card-title">${proj.title}</div>
             <div class="card-meta">
-              <span class="card-shots">${proj.shots} shots</span>
+              <span>${proj.shots} shots</span>
               <span>${proj.format}</span>
             </div>
           </div>
         `;
         container.appendChild(card);
-
-        // Draw preview artwork on thumbnail canvas
         setTimeout(() => drawThumbCanvas('canvas-thumb-' + idx, proj), 50);
       });
     }
 
-    // DRAW REALISTIC 3D PROCEDURAL THUMBNAILS FOR 10 BENCHMARKS
     function drawThumbCanvas(canvasId, proj) {
       const canvas = document.getElementById(canvasId);
       if (!canvas) return;
@@ -2257,90 +2369,76 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       canvas.width = 180;
       canvas.height = 240;
 
-      // Dark background gradient
-      const grad = ctx.createLinearGradient(0, 0, 0, 240);
-      grad.addColorStop(0, '#1c2230');
-      grad.addColorStop(1, '#0a0d14');
+      // Dark radial spotlight background
+      const grad = ctx.createRadialGradient(90, 80, 10, 90, 120, 140);
+      grad.addColorStop(0, '#1e2433');
+      grad.addColorStop(1, '#0b0d13');
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, 180, 240);
 
-      // Ambient backlight glow
-      const glow = ctx.createRadialGradient(90, 100, 10, 90, 100, 80);
-      glow.addColorStop(0, proj.theme + '88');
-      glow.addColorStop(1, 'transparent');
-      ctx.fillStyle = glow;
-      ctx.fillRect(0, 0, 180, 240);
+      // Warm window sun ray
+      ctx.fillStyle = 'rgba(255, 235, 200, 0.08)';
+      ctx.beginPath();
+      ctx.moveTo(180, 0);
+      ctx.lineTo(120, 0);
+      ctx.lineTo(20, 240);
+      ctx.lineTo(180, 240);
+      ctx.fill();
 
-      // Milo cartoon silhouette
+      // Milo head
       ctx.fillStyle = '#ffffff';
-      // Head
       ctx.beginPath();
       ctx.arc(90, 95, 26, 0, Math.PI * 2);
       ctx.fill();
+
+      // Milo hair clump
+      ctx.fillStyle = '#1e1b18';
+      ctx.beginPath();
+      ctx.arc(90, 72, 12, 0, Math.PI);
+      ctx.fill();
+
       // Eyes
       ctx.fillStyle = '#0b0d11';
       ctx.beginPath();
-      ctx.arc(82, 95, 4, 0, Math.PI * 2);
-      ctx.arc(98, 95, 4, 0, Math.PI * 2);
+      ctx.arc(82, 95, 3.8, 0, Math.PI * 2);
+      ctx.arc(98, 95, 3.8, 0, Math.PI * 2);
       ctx.fill();
-      // Mouth
-      ctx.strokeStyle = '#0b0d11';
-      ctx.lineWidth = 2.5;
-      ctx.beginPath();
-      ctx.arc(90, 105, 8, 0.2 * Math.PI, 0.8 * Math.PI);
-      ctx.stroke();
 
-      // Body (Red shirt with suspenders)
+      // Red bow/tie
       ctx.fillStyle = '#ef4444';
-      ctx.fillRect(78, 125, 24, 34);
-
-      // Arms
-      ctx.strokeStyle = '#ffffff';
-      ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.moveTo(78, 130);
-      ctx.lineTo(60, 150);
-      ctx.moveTo(102, 130);
-      ctx.lineTo(120, 145);
-      ctx.stroke();
+      ctx.moveTo(85, 122);
+      ctx.lineTo(95, 122);
+      ctx.lineTo(90, 130);
+      ctx.fill();
 
-      // Stick legs
-      ctx.beginPath();
-      ctx.moveTo(84, 159);
-      ctx.lineTo(84, 195);
-      ctx.moveTo(96, 159);
-      ctx.lineTo(96, 195);
-      ctx.stroke();
+      // Body
+      ctx.fillStyle = '#334155';
+      ctx.fillRect(78, 124, 24, 34);
 
-      // Wave or environment element
+      // Horizon wave
       ctx.fillStyle = proj.theme;
       ctx.beginPath();
-      ctx.moveTo(0, 190);
-      ctx.quadraticCurveTo(90, 160, 180, 200);
+      ctx.moveTo(0, 195);
+      ctx.quadraticCurveTo(90, 165, 180, 205);
       ctx.lineTo(180, 240);
       ctx.lineTo(0, 240);
-      ctx.closePath();
       ctx.fill();
     }
 
-    // SWITCH TO STUDIO VIEW
-    function openStudioProject(projectId) {
-      const proj = BENCHMARK_PROJECTS.find(p => p.id === projectId) || BENCHMARK_PROJECTS[0];
+    // OPEN STUDIO
+    function openStudioProject(id) {
+      const proj = BENCHMARK_PROJECTS.find(p => p.id === id) || BENCHMARK_PROJECTS[0];
       currentProject = proj;
 
       document.getElementById('view-dashboard').style.display = 'none';
       document.getElementById('view-studio').style.display = 'block';
       document.getElementById('studio-project-title').textContent = proj.title;
       document.getElementById('nav-projects-btn').classList.remove('active');
-
       currentView = 'studio';
 
-      // Initialize Three.js viewport if not already
-      setTimeout(() => {
-        initThreeViewport();
-      }, 50);
-
-      showToast('Loaded ' + proj.title + ' in Studio');
+      setTimeout(initThreeViewport, 50);
+      showToast('Loaded ' + proj.title);
     }
 
     function switchToDashboard() {
@@ -2351,7 +2449,7 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       if (isPlaying) togglePlayback();
     }
 
-    // INITIALIZE THREE.JS 3D VIEWPORT WITH MILO, BOSTON 1919 & MOLASSES WAVE
+    // THREE.JS 3D SCENE
     function initThreeViewport() {
       const container = document.getElementById('three-viewport');
       if (!container) return;
@@ -2360,16 +2458,13 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       const width = container.clientWidth;
       const height = container.clientHeight;
 
-      // 1. Scene
       scene = new THREE.Scene();
       scene.background = new THREE.Color(0x0c0e14);
-      scene.fog = new THREE.FogExp2(0x0c0e14, 0.03);
+      scene.fog = new THREE.FogExp2(0x0c0e14, 0.025);
 
-      // 2. Camera (9:16 portrait vertical framing)
       camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
       camera.position.set(0, 3, 10);
 
-      // 3. Renderer with antialias
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setSize(width, height);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -2377,99 +2472,99 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       container.appendChild(renderer.domElement);
 
-      // 4. OrbitControls
       controls = new THREE.OrbitControls(camera, renderer.domElement);
       controls.enableDamping = true;
       controls.dampingFactor = 0.05;
-      controls.maxPolarAngle = Math.PI / 2 + 0.1;
 
-      // 5. Lighting (Cinema Lighting: Key, Rim & Warm Ambient)
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+      // Cinema Lighting: Soft Warm Key, Cyan Rim, Fill
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
       scene.add(ambientLight);
 
-      const keyLight = new THREE.DirectionalLight(0xfff5eb, 1.2);
-      keyLight.position.set(5, 12, 8);
+      const keyLight = new THREE.DirectionalLight(0xffedd5, 1.3);
+      keyLight.position.set(6, 12, 8);
       keyLight.castShadow = true;
       scene.add(keyLight);
 
-      const rimLight = new THREE.DirectionalLight(0x38bdf8, 1.0);
+      const rimLight = new THREE.DirectionalLight(0x38bdf8, 1.1);
       rimLight.position.set(-6, 8, -6);
       scene.add(rimLight);
 
-      // 6. Environment: Boston 1919 Cobblestones & Docks Ground
-      const groundGeo = new THREE.PlaneGeometry(40, 40);
-      const groundMat = new THREE.MeshStandardMaterial({
-        color: 0x1f242e,
-        roughness: 0.85,
-        metalness: 0.1
-      });
+      // Wooden Plank Floor
+      const groundGeo = new THREE.PlaneGeometry(30, 30);
+      const groundMat = new THREE.MeshStandardMaterial({ color: 0x27211b, roughness: 0.75, metalness: 0.1 });
       const ground = new THREE.Mesh(groundGeo, groundMat);
       ground.rotation.x = -Math.PI / 2;
       ground.receiveShadow = true;
       scene.add(ground);
 
-      // 7. Molasses Tank (50ft steel riveted structure in background)
-      const tankGeo = new THREE.CylinderGeometry(4.5, 4.5, 9, 32);
-      const tankMat = new THREE.MeshStandardMaterial({
-        color: 0x2e1a0f,
-        roughness: 0.7,
-        metalness: 0.4
-      });
+      // Brick Wall with Window
+      const wallGeo = new THREE.PlaneGeometry(30, 16);
+      const wallMat = new THREE.MeshStandardMaterial({ color: 0x3b2b23, roughness: 0.9 });
+      const wall = new THREE.Mesh(wallGeo, wallMat);
+      wall.position.set(0, 8, -10);
+      scene.add(wall);
+
+      // The 1919 Calendar on the Wall (From Video: Tuesday 14 -> Wednesday 15th)
+      const calGeo = new THREE.BoxGeometry(1.4, 2.0, 0.08);
+      const calMat = new THREE.MeshStandardMaterial({ color: 0xfef08a, roughness: 0.4 });
+      calendarMesh = new THREE.Mesh(calGeo, calMat);
+      calendarMesh.position.set(2.5, 4.5, -9.8);
+      calendarMesh.name = "Calendar_Wall_15";
+      scene.add(calendarMesh);
+
+      // 50ft Molasses Tank in Background
+      const tankGeo = new THREE.CylinderGeometry(4.2, 4.2, 8.5, 32);
+      const tankMat = new THREE.MeshStandardMaterial({ color: 0x2b1810, roughness: 0.6, metalness: 0.45 });
       tankMesh = new THREE.Mesh(tankGeo, tankMat);
-      tankMesh.position.set(0, 4.5, -8);
-      tankMesh.castShadow = true;
+      tankMesh.position.set(-4, 4.25, -7);
+      tankMesh.name = "MolassesTank_50ft";
       scene.add(tankMesh);
 
-      // Tank Roof
-      const roofGeo = new THREE.ConeGeometry(4.8, 1.8, 32);
-      const roofMesh = new THREE.Mesh(roofGeo, tankMat);
-      roofMesh.position.set(0, 9.9, -8);
-      scene.add(roofMesh);
-
-      // 8. Elevated Railway Bridge Girder
-      const girderGeo = new THREE.BoxGeometry(20, 0.6, 1.5);
-      const ironMat = new THREE.MeshStandardMaterial({ color: 0x1c1e24, metalness: 0.8, roughness: 0.3 });
-      railwayMesh = new THREE.Mesh(girderGeo, ironMat);
-      railwayMesh.position.set(0, 5.5, -2);
-      scene.add(railwayMesh);
-
-      // 9. Procedural Molasses Wave Mesh
+      // Viscous Molasses Wave Mesh
       const waveGeo = new THREE.PlaneGeometry(16, 12, 32, 32);
       const waveMat = new THREE.MeshStandardMaterial({
         color: currentProject.sceneConfig ? currentProject.sceneConfig.color : 0x3d1a0a,
         roughness: 0.15,
-        metalness: 0.6
+        metalness: 0.7
       });
       waveMesh = new THREE.Mesh(waveGeo, waveMat);
       waveMesh.rotation.x = -Math.PI / 3;
       waveMesh.position.set(0, 1.2, -4);
+      waveMesh.name = "MolassesWave_01";
       scene.add(waveMesh);
 
-      // 10. Milo Cartoon Character Rig
+      // Milo Cartoon Character Rig
       buildMiloRig();
 
-      // Render Loop
       animate3DScene();
     }
 
-    // BUILD MILO RIG (Authentic Toon Shaded Cartoon Character from Video)
     function buildMiloRig() {
       miloGroup = new THREE.Group();
       miloGroup.position.set(0, 0, 1);
+      miloGroup.name = "Milo_Character_Rig";
 
-      const skinMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5 });
+      const skinMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.4 });
       const eyeMat = new THREE.MeshBasicMaterial({ color: 0x090b0e });
       const shirtMat = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.4 });
       const pantMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.6 });
 
-      // Head (Sphere)
+      // Head
       const headGeo = new THREE.SphereGeometry(0.8, 24, 24);
       const head = new THREE.Mesh(headGeo, skinMat);
       head.position.y = 2.4;
+      head.name = "Milo_Head";
       head.castShadow = true;
       miloGroup.add(head);
 
-      // Eyes (Two small dark spheres)
+      // Hair
+      const hairGeo = new THREE.ConeGeometry(0.3, 0.4, 8);
+      const hairMat = new THREE.MeshStandardMaterial({ color: 0x1a110a });
+      const hair = new THREE.Mesh(hairGeo, hairMat);
+      hair.position.set(0, 3.25, 0);
+      miloGroup.add(hair);
+
+      // Eyes
       const eyeGeo = new THREE.SphereGeometry(0.1, 16, 16);
       const eyeL = new THREE.Mesh(eyeGeo, eyeMat);
       eyeL.position.set(-0.25, 2.5, 0.72);
@@ -2485,12 +2580,11 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       torso.castShadow = true;
       miloGroup.add(torso);
 
-      // Articulated Arms
+      // Arms
       const armGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.8, 8);
       const armL = new THREE.Mesh(armGeo, skinMat);
       armL.position.set(-0.7, 1.3, 0);
       armL.rotation.z = Math.PI / 6;
-      armL.name = "armL";
       miloGroup.add(armL);
 
       const armR = new THREE.Mesh(armGeo, skinMat);
@@ -2511,22 +2605,16 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       scene.add(miloGroup);
     }
 
-    // 3D ANIMATION LOOP (SYNCS WITH PLAYHEAD TIME)
     function animate3DScene() {
       requestAnimationFrame(animate3DScene);
-
       const time = sceneClock.getElapsedTime();
 
-      // Milo subtle breathing & gesture physics (Golden Rule 1: No dead holds > 0.5px)
       if (miloGroup) {
         miloGroup.position.y = Math.sin(time * 3) * 0.04;
         const armR = miloGroup.getObjectByName('armR');
-        if (armR) {
-          armR.rotation.z = -Math.PI / 4 + Math.sin(time * 4) * 0.15;
-        }
+        if (armR) armR.rotation.z = -Math.PI / 4 + Math.sin(time * 4) * 0.15;
       }
 
-      // Molasses Wave procedural rolling physics
       if (waveMesh && waveMesh.geometry) {
         const pos = waveMesh.geometry.attributes.position;
         for (let i = 0; i < pos.count; i++) {
@@ -2538,19 +2626,180 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
         waveMesh.geometry.attributes.position.needsUpdate = true;
       }
 
-      // Continuous 5%/s camera drift (Golden Rule 4)
-      if (camera && isPlaying) {
-        camera.position.x += Math.sin(time * 0.5) * 0.002;
-        camera.position.y += Math.cos(time * 0.5) * 0.001;
-      }
-
       if (controls) controls.update();
-      if (renderer && scene && camera) {
-        renderer.render(scene, camera);
+      if (renderer && scene && camera) renderer.render(scene, camera);
+    }
+
+    // POINT-AND-CLICK 3D RAYCASTING (Video Sheet 12: Click Calendar in preview)
+    function handleCanvasClick(event) {
+      if (!renderer || !camera || !scene) return;
+      const rect = renderer.domElement.getBoundingClientRect();
+      mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(scene.children, true);
+
+      if (intersects.length > 0) {
+        let hit = intersects[0].object;
+        while (hit.parent && hit.parent !== scene && !hit.name) {
+          hit = hit.parent;
+        }
+        const entityName = hit.name || hit.geometry.type;
+        selectedEntityName = entityName;
+        document.getElementById('inspect-entity-name').textContent = entityName;
+        switchRightTab('inspector');
+        document.getElementById('patch-prompt').value = "In this shot, modify " + entityName + " to...";
+        showToast('Selected 3D element: ' + entityName);
       }
     }
 
-    // RENDER SHOTS LIST IN STUDIO LEFT COLUMN
+    // DIRECT CHAT INSTRUCTION WITH ANTIGRAVITY (The User's Core Request)
+    function handleChatKeyDown(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendChatInstruction();
+      }
+    }
+
+    async function sendChatInstruction() {
+      const input = document.getElementById('chat-user-input');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+
+      appendChatMessage('user', text);
+
+      // Check if user has connected their Gemini / Antigravity API key
+      if (savedApiKey) {
+        await streamGeminiApiResponse(text);
+      } else {
+        // Fallback: Built-in Sovereign Antigravity Agent Engine
+        simulateSovereignResponse(text);
+      }
+    }
+
+    function quickPrompt(text) {
+      document.getElementById('chat-user-input').value = text;
+      sendChatInstruction();
+    }
+
+    function appendChatMessage(sender, text) {
+      const stream = document.getElementById('chat-stream');
+      const msg = document.createElement('div');
+      msg.className = 'chat-msg ' + sender;
+      const senderLabel = sender === 'user' ? 'You' : 'Antigravity Sovereign Beast';
+
+      msg.innerHTML = `
+        <span class="msg-sender-tag">${senderLabel}</span>
+        <div class="msg-bubble">${text}</div>
+      `;
+      stream.appendChild(msg);
+      stream.scrollTop = stream.scrollHeight;
+    }
+
+    // STREAM LIVE GEMINI API RESPONSE
+    async function streamGeminiApiResponse(userPrompt) {
+      const model = document.getElementById('api-model-select').value || 'gemini-2.5-pro';
+      const endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + savedApiKey;
+
+      const systemInstruction = "You are Antigravity Sovereign Beast, the lead software architect and 3D video director for Creatorize 2.0. You operate on 9,140-frame reverse engineered standards: 0.20s pause tightening, 5-frame gestures, 70% caption band clearance, and Three.js 3D scene hot-patching. Respond directly, technically, with zero AI slop, and provide exact parameters.";
+
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: userPrompt }] }],
+            systemInstruction: { parts: [{ text: systemInstruction }] }
+          })
+        });
+
+        const data = await res.json();
+        if (data.candidates && data.candidates[0].content) {
+          const reply = data.candidates[0].content.parts[0].text;
+          appendChatMessage('assistant', reply);
+
+          // Update tokens telemetry
+          if (data.usageMetadata) {
+            const promptT = data.usageMetadata.promptTokenCount || 0;
+            const candT = data.usageMetadata.candidatesTokenCount || 0;
+            document.getElementById('chat-token-counter').textContent = (promptT + candT) + ' tokens (Cached)';
+          }
+
+          // Apply hot-patch to 3D scene if instructions dictate
+          executeIntentOn3DScene(userPrompt);
+        } else {
+          appendChatMessage('assistant', 'API Error: ' + (data.error ? data.error.message : 'Unknown response format'));
+        }
+      } catch (e) {
+        appendChatMessage('assistant', 'Connection error: ' + e.message + '. Falling back to Sovereign Engine.');
+        simulateSovereignResponse(userPrompt);
+      }
+    }
+
+    function simulateSovereignResponse(userPrompt) {
+      setTimeout(() => {
+        let reply = "Understood. Applying direct patch: " + userPrompt + ". Layout checker confirmed zero clipping, caption safe-zone preserved.";
+        if (userPrompt.toLowerCase().includes('calendar')) {
+          reply = "Calendar date hot-patched to Wednesday 15th (1919 Boston Molasses Flood date). Mesh material highlighted yellow.";
+          if (calendarMesh) calendarMesh.material.color.setHex(0xfef08a);
+        } else if (userPrompt.toLowerCase().includes('wave')) {
+          reply = "Molasses wave amplified by 30%. Viscosity roughness set to 0.12 with amber specular sheen.";
+          if (waveMesh) waveMesh.scale.y = 1.6;
+        } else if (userPrompt.toLowerCase().includes('light')) {
+          reply = "Cinema lighting calibrated: warm window sun key (1.4) + cold rim cyan (1.2) + soft ambient ground contact.";
+        }
+        appendChatMessage('assistant', reply);
+        executeIntentOn3DScene(userPrompt);
+      }, 450);
+    }
+
+    function executeIntentOn3DScene(intent) {
+      if (intent.toLowerCase().includes('calendar') && calendarMesh) {
+        calendarMesh.scale.set(1.1, 1.1, 1.1);
+        calendarMesh.material.color.setHex(0xfef08a);
+      }
+      if (intent.toLowerCase().includes('wave') && waveMesh) {
+        waveMesh.scale.y = 1.5;
+      }
+      showToast('3D Scene hot-patch executed');
+    }
+
+    // RIGHT PANEL TABS
+    function switchRightTab(tab) {
+      document.getElementById('tab-chat-btn').classList.toggle('active', tab === 'chat');
+      document.getElementById('tab-inspector-btn').classList.toggle('active', tab === 'inspector');
+      document.getElementById('tab-crew-btn').classList.toggle('active', tab === 'crew');
+
+      document.getElementById('panel-chat-content').style.display = tab === 'chat' ? 'flex' : 'none';
+      document.getElementById('panel-inspector-content').style.display = tab === 'inspector' ? 'flex' : 'none';
+      document.getElementById('panel-crew-content').style.display = tab === 'crew' ? 'flex' : 'none';
+    }
+
+    // HOT-PATCH FROM INSPECTOR
+    function applyHotPatch() {
+      const prompt = document.getElementById('patch-prompt').value.trim();
+      if (!prompt) return;
+      quickPrompt(prompt);
+      showToast('Applied patch: ' + prompt.substring(0, 30));
+    }
+
+    function update3DProperty(prop, val) {
+      if (prop === 'waveHeight') {
+        document.getElementById('val-wave-height').textContent = val + 'ft';
+        if (waveMesh) waveMesh.scale.y = val / 15;
+      } else if (prop === 'waveSpeed') {
+        document.getElementById('val-wave-speed').textContent = val + 'mph';
+      } else if (prop === 'miloScale') {
+        document.getElementById('val-milo-scale').textContent = val + 'x';
+        if (miloGroup) miloGroup.scale.set(val, val, val);
+      } else if (prop === 'toonSteps') {
+        document.getElementById('val-toon-steps').textContent = val;
+      }
+    }
+
+    // SHOTS LIST & TIMELINE
     function renderShotsList() {
       const container = document.getElementById('studio-shots-list');
       container.innerHTML = '';
@@ -2558,7 +2807,6 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       SHOTS_DATA.forEach((shot, idx) => {
         const item = document.createElement('div');
         item.className = 'shot-card ' + (idx === activeShotIndex ? 'active' : '');
-        item.id = 'shot-item-' + idx;
         item.onclick = () => selectShot(idx);
 
         item.innerHTML = `
@@ -2577,31 +2825,22 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       });
     }
 
-    // SELECT SHOT
     function selectShot(idx) {
       activeShotIndex = idx;
-      document.querySelectorAll('.shot-card').forEach((el, i) => {
-        el.classList.toggle('active', i === idx);
-      });
-
+      document.querySelectorAll('.shot-card').forEach((el, i) => el.classList.toggle('active', i === idx));
       const shot = SHOTS_DATA[idx];
       document.getElementById('subtitle-display').innerHTML = shot.sub;
-
-      // Jump playhead to shot time
       playheadTime = (idx / SHOTS_DATA.length) * totalDuration;
       updateTimecodeUI();
 
-      // Camera focal shift to selected scene beat
       if (camera) {
         camera.position.set((idx % 3 - 1) * 1.5, 3 + (idx % 2) * 0.5, 10 - (idx % 2) * 2);
       }
     }
 
-    // RENDER TIMELINE TRACKS
     function renderTimelineTracks() {
       const lane = document.getElementById('shots-timeline-lane');
       lane.innerHTML = '';
-
       const shotWidthPct = 100 / SHOTS_DATA.length;
       SHOTS_DATA.forEach((shot, idx) => {
         const block = document.createElement('div');
@@ -2617,34 +2856,22 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       });
     }
 
-    // PLAYBACK CONTROLS
     function togglePlayback() {
       isPlaying = !isPlaying;
       document.getElementById('play-icon').style.display = isPlaying ? 'none' : 'block';
       document.getElementById('pause-icon').style.display = isPlaying ? 'block' : 'none';
-
-      if (isPlaying) {
-        playTimeline();
-      } else {
-        cancelAnimationFrame(animFrameId);
-      }
+      if (isPlaying) playTimeline();
+      else cancelAnimationFrame(animFrameId);
     }
 
     function playTimeline() {
       if (!isPlaying) return;
-
-      playheadTime += 0.033; // 30 FPS step
-      if (playheadTime >= totalDuration) {
-        playheadTime = 0;
-      }
-
+      playheadTime += 0.033;
+      if (playheadTime >= totalDuration) playheadTime = 0;
       updateTimecodeUI();
 
-      // Sync active shot with playhead
       const shotIdx = Math.floor((playheadTime / totalDuration) * SHOTS_DATA.length);
-      if (shotIdx !== activeShotIndex && shotIdx < SHOTS_DATA.length) {
-        selectShot(shotIdx);
-      }
+      if (shotIdx !== activeShotIndex && shotIdx < SHOTS_DATA.length) selectShot(shotIdx);
 
       animFrameId = requestAnimationFrame(playTimeline);
     }
@@ -2662,7 +2889,6 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       const formatted = (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
       document.getElementById('timecode-label').textContent = formatted + ' / 00:50.12';
 
-      // Move needle
       const pct = (playheadTime / totalDuration) * 100;
       document.getElementById('timeline-needle').style.left = pct + '%';
     }
@@ -2679,184 +2905,79 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       if (shotIdx < SHOTS_DATA.length) selectShot(shotIdx);
     }
 
-    // CAMERA PRESETS
     function setCameraAngle(type) {
       if (!camera) return;
-      if (type === 'front') {
-        camera.position.set(0, 3, 10);
-      } else if (type === 'orbit') {
-        camera.position.set(8, 6, 8);
-      }
+      if (type === 'front') camera.position.set(0, 3, 10);
+      else if (type === 'orbit') camera.position.set(7, 5, 8);
     }
 
     function toggleSubtitles() {
       const box = document.getElementById('subtitle-box');
       box.style.display = box.style.display === 'none' ? 'block' : 'none';
-      showToast('Subtitle safe zone: ' + (box.style.display === 'none' ? 'Hidden' : 'Visible'));
+      showToast('Caption Safe Zone: ' + (box.style.display === 'none' ? 'Hidden' : 'Visible'));
     }
 
-    // RIGHT PANEL TABS (CREW VS INSPECTOR)
-    function switchRightTab(tab) {
-      document.getElementById('tab-crew-btn').classList.toggle('active', tab === 'crew');
-      document.getElementById('tab-inspector-btn').classList.toggle('active', tab === 'inspector');
-      document.getElementById('panel-crew-content').style.display = tab === 'crew' ? 'flex' : 'none';
-      document.getElementById('panel-inspector-content').style.display = tab === 'inspector' ? 'flex' : 'none';
+    // MODAL ACTIONS
+    function openNewProjectModal() { document.getElementById('new-project-modal').classList.add('open'); }
+    function closeNewProjectModal() { document.getElementById('new-project-modal').classList.remove('open'); }
+
+    function openTrimModal() { document.getElementById('trim-modal').classList.add('open'); }
+    function closeTrimModal() { document.getElementById('trim-modal').classList.remove('open'); }
+
+    function openApiKeyModal() { document.getElementById('api-key-modal').classList.add('open'); }
+    function closeApiKeyModal() { document.getElementById('api-key-modal').classList.remove('open'); }
+
+    function applyTrimSilences() {
+      closeTrimModal();
+      showToast('Trimmed 11.6s silences: Audio locked at 49.2s (0.20s pause standard)');
     }
 
-    // INSPECTOR PROPERTY MUTATION
-    function update3DProperty(prop, val) {
-      if (prop === 'waveHeight') {
-        document.getElementById('val-wave-height').textContent = val + 'ft';
-        if (waveMesh) waveMesh.scale.y = val / 15;
-      } else if (prop === 'waveSpeed') {
-        document.getElementById('val-wave-speed').textContent = val + 'mph';
-      } else if (prop === 'miloScale') {
-        document.getElementById('val-milo-scale').textContent = val + 'x';
-        if (miloGroup) miloGroup.scale.set(val, val, val);
-      } else if (prop === 'toonSteps') {
-        document.getElementById('val-toon-steps').textContent = val;
-      }
-    }
-
-    // APPLY HOT PATCH WITH ANTIGRAVITY
-    function applyHotPatch() {
-      const prompt = document.getElementById('patch-prompt').value.trim();
-      if (!prompt) {
-        showToast('Please type a hot-patch instruction');
-        return;
-      }
-
-      showToast('Antigravity applying patch: "' + prompt.substring(0, 30) + '..."');
-
-      // Add to terminal log
-      const term = document.getElementById('crew-terminal');
-      const timeStr = new Date().toTimeString().split(' ')[0];
-      const log = document.createElement('div');
-      log.className = 'log-line';
-      log.innerHTML = '<span class="log-time">[' + timeStr + ']</span> <span class="log-highlight">HotPatch:</span> ' + prompt;
-      term.appendChild(log);
-
-      // Simulate mesh transformation
-      if (waveMesh) {
-        waveMesh.scale.y *= 1.25;
-        waveMesh.material.color.setHex(0x271004);
-      }
-
-      setTimeout(() => {
-        const successLog = document.createElement('div');
-        successLog.className = 'log-line';
-        successLog.innerHTML = '<span class="log-time">[' + timeStr + ']</span> <span class="log-success">ShotPolisher:</span> Hot-patch verified & applied to 3D scene.';
-        term.appendChild(successLog);
-        term.scrollTop = term.scrollHeight;
-        showToast('Patch applied successfully!');
-      }, 600);
-    }
-
-    // RUN CREW PASS SIMULATION
-    function runCrewPass() {
-      showToast('Dispatching 5 Antigravity agents in parallel...');
-      const term = document.getElementById('crew-terminal');
-      const timeStr = new Date().toTimeString().split(' ')[0];
-
-      const entries = [
-        '<span class="log-time">[' + timeStr + ']</span> <span class="log-highlight">Director:</span> Auditing 0.20s pause tightness across audio waveform.',
-        '<span class="log-time">[' + timeStr + ']</span> <span class="log-highlight">SceneBuilder-4:</span> Polishing Milo eye-blink intervals (frames 82-84).',
-        '<span class="log-time">[' + timeStr + ']</span> <span class="log-success">LayoutChecker:</span> Zero collision detected. Subtitles unobstructed.',
-        '<span class="log-time">[' + timeStr + ']</span> <span class="log-success">ShotPolisher:</span> 6-frame dissolve seam generated.'
-      ];
-
-      entries.forEach((html, i) => {
-        setTimeout(() => {
-          const row = document.createElement('div');
-          row.className = 'log-line';
-          row.innerHTML = html;
-          term.appendChild(row);
-          term.scrollTop = term.scrollHeight;
-        }, (i + 1) * 350);
-      });
-    }
-
-    // NEW PROJECT MODAL LOGIC (Video Sheet 8 & Sheet 9)
-    function openNewProjectModal() {
-      document.getElementById('new-project-modal').classList.add('open');
-    }
-    function closeNewProjectModal() {
-      document.getElementById('new-project-modal').classList.remove('open');
-    }
-
-    function setModalFormat(fmt) {
-      document.getElementById('btn-format-9-16').classList.toggle('active', fmt === '9:16');
-      document.getElementById('btn-format-16-9').classList.toggle('active', fmt === '16:9');
+    function saveApiKey() {
+      const key = document.getElementById('antigravity-api-key-input').value.trim();
+      savedApiKey = key;
+      localStorage.setItem('creatorize_antigravity_api_key', key);
+      closeApiKeyModal();
+      document.getElementById('conn-label').textContent = key ? 'Antigravity Connected (Custom Key)' : 'Antigravity Connected (Sovereign)';
+      showToast('API Key saved & connected to Antigravity runtime');
     }
 
     function updateWordCount(text) {
       const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-      const spokenSecs = Math.round(words / 3.2); // ~3.2 words per second at rapid shorts pace
-      const spokenMins = Math.floor(spokenSecs / 60);
+      const spokenSecs = Math.round(words / 3.2);
       const remSecs = spokenSecs % 60;
-      const spokenStr = (spokenMins > 0 ? spokenMins + ':' : '0:') + (remSecs < 10 ? '0' : '') + remSecs;
-      document.getElementById('script-word-counter').textContent = words + ' words (about ' + spokenStr + ' spoken)';
-      
-      if (words > 165) {
-        document.getElementById('script-word-counter').style.color = 'var(--accent-red)';
-      } else {
-        document.getElementById('script-word-counter').style.color = 'var(--text-tertiary)';
-      }
-    }
-
-    function updateQualityLabel(val) {
-      for (let i = 1; i <= 4; i++) {
-        document.getElementById('ql-' + i).classList.toggle('active', i == val);
-      }
+      document.getElementById('script-word-counter').textContent = words + ' words (about 0:' + (remSecs < 10 ? '0' : '') + remSecs + ' spoken)';
     }
 
     function createProjectFromModal() {
-      const title = document.getElementById('modal-project-title').value.trim() || 'Untitled 3D Short';
+      const title = document.getElementById('modal-project-title').value.trim() || 'Untitled Short';
       closeNewProjectModal();
       showToast('Created new project: ' + title);
       openStudioProject('molasses');
       document.getElementById('studio-project-title').textContent = title;
     }
 
-    // EXPORT RENDER
     function triggerRenderExport() {
-      showToast('Rendering MP4 (1080x1920 60FPS) with Antigravity engine...');
-      setTimeout(() => {
-        showToast('Master video generated with 0.20s pause cuts & -14 LUFS sound!');
-      }, 1500);
+      showToast('Rendering MP4 1080x1920 with Antigravity engine...');
+      setTimeout(() => showToast('Master video generated (0.20s pause cuts & -14 LUFS sound)'), 1500);
     }
 
-    // TOAST NOTIFICATION
     function showToast(msg) {
       const toast = document.getElementById('toast-msg');
       document.getElementById('toast-text').textContent = msg;
       toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 2600);
+      setTimeout(() => toast.classList.remove('show'), 2600);
     }
 
-    // SEARCH FILTER
     function filterProjects(q) {
       const query = q.toLowerCase();
-      const filtered = BENCHMARK_PROJECTS.filter(p => 
-        p.title.toLowerCase().includes(query) || 
-        p.niche.toLowerCase().includes(query)
-      );
-      renderProjectsGrid(filtered);
+      renderProjectsGrid(BENCHMARK_PROJECTS.filter(p => p.title.toLowerCase().includes(query)));
     }
 
     function setProjectFilter(type, btn) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-
-      if (type === 'all') {
-        renderProjectsGrid(BENCHMARK_PROJECTS);
-      } else if (type === '9:16') {
-        renderProjectsGrid(BENCHMARK_PROJECTS.filter(p => p.format === '9:16'));
-      } else if (type === 'ultra') {
-        renderProjectsGrid(BENCHMARK_PROJECTS.filter(p => p.quality === 'Ultra edit'));
-      }
+      if (type === 'all') renderProjectsGrid(BENCHMARK_PROJECTS);
+      else if (type === 'ultra') renderProjectsGrid(BENCHMARK_PROJECTS.filter(p => p.quality === 'Ultra edit'));
     }
   </script>
 </body>
