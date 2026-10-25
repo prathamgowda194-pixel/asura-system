@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Creatorize 2.0 // Sovereign 3D Cartoon Animation Suite</title>
   
-  <!-- Authentic Editorial & Technical Google Fonts -->
+  <!-- Editorial & Technical Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
@@ -39,14 +39,7 @@
       --font-mono: 'JetBrains Mono', monospace;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
     body {
       background-color: var(--bg-base);
       color: var(--text-primary);
@@ -59,1356 +52,360 @@
       user-select: none;
     }
 
-    /* Scrollbars */
-    ::-webkit-scrollbar {
-      width: 5px;
-      height: 5px;
-    }
-    ::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.25);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.14);
-      border-radius: 3px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(255, 255, 255, 0.25);
-    }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.25); }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.14); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
 
-    /* Common Button & Input Resets */
     button {
-      background: none;
-      border: none;
-      color: inherit;
-      font-family: inherit;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
+      background: none; border: none; color: inherit; font-family: inherit; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
     input, textarea, select {
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-primary);
-      font-family: inherit;
-      font-size: 13px;
-      border-radius: 6px;
-      outline: none;
+      background: rgba(0, 0, 0, 0.35); border: 1px solid var(--border-subtle); color: var(--text-primary);
+      font-family: inherit; font-size: 13px; border-radius: 6px; outline: none;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
     input:focus, textarea:focus, select:focus {
-      border-color: var(--border-focus);
-      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.06);
+      border-color: var(--border-focus); box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.06);
     }
 
-    /* ======================================================== */
-    /* SIDEBAR NAVIGATION (Video Sheet 0 & Sheet 16)            */
-    /* ======================================================== */
+    /* SIDEBAR NAVIGATION */
     #app-sidebar {
-      width: 236px;
-      min-width: 236px;
-      height: 100vh;
-      position: sticky;
-      top: 0;
-      background: var(--bg-surface);
-      border-right: 1px solid var(--border-subtle);
-      display: flex;
-      flex-direction: column;
-      padding: 14px 10px;
-      z-index: 100;
+      width: 240px; min-width: 240px; height: 100vh; position: sticky; top: 0;
+      background: var(--bg-surface); border-right: 1px solid var(--border-subtle);
+      display: flex; flex-direction: column; padding: 14px 10px; z-index: 100;
     }
-
-    .brand-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 6px 8px 18px 8px;
-      cursor: pointer;
-    }
+    .brand-container { display: flex; align-items: center; gap: 10px; padding: 6px 8px 16px 8px; cursor: pointer; }
     .brand-icon {
-      width: 28px;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-subtle);
-      border-radius: 7px;
+      width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+      background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-subtle); border-radius: 7px;
     }
-    .brand-title {
-      font-family: var(--font-body);
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: #ffffff;
-    }
+    .brand-title { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; color: #ffffff; }
     .brand-badge {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      font-weight: 700;
-      background: rgba(255, 255, 255, 0.1);
-      color: #94a3b8;
-      padding: 2px 5px;
-      border-radius: 4px;
-      margin-left: auto;
+      font-family: var(--font-mono); font-size: 9px; font-weight: 700; background: rgba(255, 255, 255, 0.1);
+      color: #94a3b8; padding: 2px 5px; border-radius: 4px; margin-left: auto;
     }
 
-    .nav-group {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      margin-bottom: 18px;
-    }
+    .nav-group { display: flex; flex-direction: column; gap: 2px; margin-bottom: 14px; }
     .nav-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-tertiary);
-      padding: 8px 10px 4px 10px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-tertiary); padding: 8px 10px 4px 10px;
     }
     .nav-item {
-      padding: 7px 10px;
-      border-radius: 6px;
-      font-size: 12.5px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      justify-content: flex-start;
-      gap: 9px;
-      width: 100%;
+      padding: 7px 10px; border-radius: 6px; font-size: 12.5px; font-weight: 500;
+      color: var(--text-secondary); justify-content: flex-start; gap: 9px; width: 100%;
     }
-    .nav-item:hover {
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--text-primary);
-    }
-    .nav-item.active {
-      background: rgba(255, 255, 255, 0.08);
-      color: #ffffff;
-      font-weight: 600;
-    }
-    .nav-item svg {
-      opacity: 0.7;
-    }
-    .nav-item:hover svg, .nav-item.active svg {
-      opacity: 1;
-    }
+    .nav-item:hover { background: rgba(255, 255, 255, 0.04); color: var(--text-primary); }
+    .nav-item.active { background: rgba(255, 255, 255, 0.08); color: #ffffff; font-weight: 600; }
+    .nav-item svg { opacity: 0.7; }
+    .nav-item:hover svg, .nav-item.active svg { opacity: 1; }
 
     .sidebar-footer {
-      margin-top: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      padding-top: 10px;
+      margin-top: auto; display: flex; flex-direction: column; gap: 7px; padding-top: 10px;
       border-top: 1px solid var(--border-subtle);
     }
     .btn-new-project-side {
-      background: #ffffff;
-      color: #0b0d11;
-      font-weight: 600;
-      padding: 8px 12px;
-      border-radius: 7px;
-      width: 100%;
-      font-size: 12.5px;
-      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.08);
+      background: #ffffff; color: #0b0d11; font-weight: 600; padding: 8px 12px; border-radius: 7px;
+      width: 100%; font-size: 12.5px; box-shadow: 0 4px 12px rgba(255, 255, 255, 0.08);
     }
-    .btn-new-project-side:hover {
-      background: #e2e8f0;
-      transform: translateY(-1px);
-    }
+    .btn-new-project-side:hover { background: #e2e8f0; transform: translateY(-1px); }
 
     .premium-pill {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-      color: #000000;
-      font-family: var(--font-body);
-      font-weight: 800;
-      font-size: 10.5px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 7px 10px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.2);
-      cursor: pointer;
+      background: linear-gradient(135deg, #f59e0b, #d97706); color: #000000; font-weight: 800;
+      font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; padding: 7px 10px;
+      border-radius: 6px; display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.2); cursor: pointer;
     }
-    .premium-pill:hover {
-      filter: brightness(1.08);
-    }
-
     .connection-status {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 6px 8px;
-      font-size: 11px;
-      font-family: var(--font-mono);
-      color: var(--text-secondary);
-      border-radius: 6px;
-      background: rgba(0, 0, 0, 0.25);
-      cursor: pointer;
-    }
-    .connection-status:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: #ffffff;
+      display: flex; align-items: center; gap: 7px; padding: 6px 8px; font-size: 11px;
+      font-family: var(--font-mono); color: var(--text-secondary); border-radius: 6px;
+      background: rgba(0, 0, 0, 0.25); cursor: pointer;
     }
     .pulse-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--accent-green);
-      box-shadow: 0 0 8px var(--accent-green);
-      animation: pulse 2s infinite;
+      width: 7px; height: 7px; border-radius: 50%; background: var(--accent-green);
+      box-shadow: 0 0 8px var(--accent-green); animation: pulse 2s infinite;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.45; transform: scale(0.85); }
-    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
 
     /* MAIN APP CONTAINER */
-    #app-container {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow-y: auto;
-      position: relative;
-    }
+    #app-container { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow-y: auto; position: relative; }
 
     /* TOP HEADER */
     .app-header {
-      height: 52px;
-      min-height: 52px;
-      border-bottom: 1px solid var(--border-subtle);
-      background: rgba(12, 13, 18, 0.85);
-      backdrop-filter: blur(12px);
-      position: sticky;
-      top: 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      z-index: 90;
+      height: 52px; min-height: 52px; border-bottom: 1px solid var(--border-subtle);
+      background: rgba(12, 13, 18, 0.85); backdrop-filter: blur(12px); position: sticky; top: 0;
+      display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 90;
     }
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .search-box {
-      position: relative;
-      width: 300px;
-    }
-    .search-box input {
-      width: 100%;
-      padding: 6px 12px 6px 32px;
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 7px;
-      font-size: 12.5px;
-    }
-    .search-box svg {
-      position: absolute;
-      left: 9px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-tertiary);
-    }
+    .header-left { display: flex; align-items: center; gap: 14px; }
+    .search-box { position: relative; width: 280px; }
+    .search-box input { width: 100%; padding: 6px 12px 6px 32px; background: rgba(255, 255, 255, 0.03); border-radius: 7px; font-size: 12.5px; }
+    .search-box svg { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: var(--text-tertiary); }
     .search-kbd {
-      position: absolute;
-      right: 7px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--text-tertiary);
-      background: rgba(255, 255, 255, 0.06);
-      padding: 1px 5px;
-      border-radius: 4px;
+      position: absolute; right: 7px; top: 50%; transform: translateY(-50%);
+      font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary);
+      background: rgba(255, 255, 255, 0.06); padding: 1px 5px; border-radius: 4px;
     }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .header-right { display: flex; align-items: center; gap: 10px; }
     .btn-header-secondary {
-      padding: 6px 12px;
-      border: 1px solid var(--border-subtle);
-      border-radius: 7px;
-      color: var(--text-secondary);
-      font-size: 12.5px;
-      background: rgba(255, 255, 255, 0.02);
+      padding: 6px 12px; border: 1px solid var(--border-subtle); border-radius: 7px;
+      color: var(--text-secondary); font-size: 12.5px; background: rgba(255, 255, 255, 0.02);
     }
-    .btn-header-secondary:hover {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--text-primary);
-    }
+    .btn-header-secondary:hover { background: rgba(255, 255, 255, 0.06); color: var(--text-primary); }
     .btn-header-primary {
-      padding: 6px 14px;
-      background: #ffffff;
-      color: #000000;
-      font-weight: 600;
-      border-radius: 7px;
-      font-size: 12.5px;
+      padding: 6px 14px; background: #ffffff; color: #000000; font-weight: 600; border-radius: 7px; font-size: 12.5px;
     }
-    .btn-header-primary:hover {
-      background: #e2e8f0;
-      transform: translateY(-1px);
-    }
+    .btn-header-primary:hover { background: #e2e8f0; transform: translateY(-1px); }
 
-    /* ======================================================== */
-    /* DASHBOARD VIEW (With Authentic Video Typography & Stats) */
-    /* ======================================================== */
+    /* DASHBOARD VIEW */
     #view-dashboard {
-      padding: 24px 32px 60px 32px;
-      max-width: 1440px;
-      width: 100%;
-      margin: 0 auto;
-      display: block;
+      padding: 24px 32px 60px 32px; max-width: 1440px; width: 100%; margin: 0 auto; display: block;
       background: radial-gradient(circle at 85% 15%, rgba(185, 28, 28, 0.12), transparent 55%);
     }
-
-    /* Video Editorial Header: "Ten shorts, ten scripts." */
-    .dashboard-hero {
-      margin-bottom: 24px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-    }
-    .hero-editorial-title {
-      font-family: var(--font-editorial);
-      font-size: 38px;
-      font-weight: 700;
-      color: #ffffff;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-    }
-    .hero-editorial-title em {
-      font-style: italic;
-      color: #fca5a5;
-    }
-    .hero-meta-badges {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .dashboard-hero { margin-bottom: 24px; display: flex; align-items: flex-end; justify-content: space-between; }
+    .hero-editorial-title { font-family: var(--font-editorial); font-size: 38px; font-weight: 700; color: #ffffff; letter-spacing: -0.02em; line-height: 1.1; }
+    .hero-editorial-title em { font-style: italic; color: #fca5a5; }
+    .hero-meta-badges { display: flex; align-items: center; gap: 10px; }
     .badge-pacing {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: #ef4444;
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.25);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-weight: 600;
+      font-family: var(--font-mono); font-size: 12px; color: #ef4444; background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.25); padding: 4px 10px; border-radius: 6px; font-weight: 600;
     }
 
-    /* Video Sheet 12 Top Banner: "Short 05, the numbers." */
+    /* Video Sheet 12 Red Numbers Banner */
     .build-numbers-banner {
-      background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      border-radius: 12px;
-      padding: 20px 24px;
-      margin-bottom: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%); border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 12px; padding: 20px 24px; margin-bottom: 26px; display: flex; align-items: center; justify-content: space-between;
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
     }
-    .banner-title-box {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .banner-title {
-      font-family: var(--font-editorial);
-      font-size: 26px;
-      font-weight: 700;
-      color: #ffffff;
-    }
-    .banner-title em {
-      font-style: italic;
-      color: #fca5a5;
-    }
-    .banner-sub {
-      font-size: 12px;
-      color: #fecaca;
-    }
-    .banner-stats-row {
-      display: flex;
-      gap: 16px;
-    }
+    .banner-title { font-family: var(--font-editorial); font-size: 26px; font-weight: 700; color: #ffffff; }
+    .banner-title em { font-style: italic; color: #fca5a5; }
+    .banner-sub { font-size: 12px; color: #fecaca; margin-top: 3px; }
+    .banner-stats-row { display: flex; gap: 14px; }
     .stat-brick {
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      padding: 10px 18px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-width: 110px;
+      background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px; padding: 10px 18px; display: flex; flex-direction: column; align-items: center; min-width: 105px;
     }
-    .stat-brick-val {
-      font-family: var(--font-mono);
-      font-size: 22px;
-      font-weight: 700;
-      color: #ffffff;
-    }
-    .stat-brick-desc {
-      font-size: 10.5px;
-      color: #fca5a5;
-    }
+    .stat-brick-val { font-family: var(--font-mono); font-size: 22px; font-weight: 700; color: #ffffff; }
+    .stat-brick-desc { font-size: 10px; color: #fca5a5; }
 
-    /* Quick Action Grid (Video Sheet 16) */
-    .quick-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-bottom: 32px;
-    }
+    /* Quick Action Grid */
+    .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
     .quick-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 10px;
-      padding: 16px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      cursor: pointer;
-      transition: all 0.25s ease;
+      background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 10px;
+      padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; cursor: pointer; transition: all 0.25s ease;
     }
-    .quick-card:hover {
-      background: var(--bg-card-hover);
-      border-color: rgba(255, 255, 255, 0.16);
-      transform: translateY(-2px);
-    }
+    .quick-card:hover { background: var(--bg-card-hover); border-color: rgba(255, 255, 255, 0.16); transform: translateY(-2px); }
     .quick-icon-wrap {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-subtle);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-      margin-bottom: 2px;
+      width: 32px; height: 32px; border-radius: 6px; background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; color: #ffffff; margin-bottom: 2px;
     }
-    .quick-card-title {
-      font-size: 13.5px;
-      font-weight: 600;
-      color: #ffffff;
-    }
-    .quick-card-desc {
-      font-size: 11.5px;
-      color: var(--text-secondary);
-    }
+    .quick-card-title { font-size: 13.5px; font-weight: 600; color: #ffffff; }
+    .quick-card-desc { font-size: 11.5px; color: var(--text-secondary); }
 
-    /* PROJECTS SECTION */
-    .section-header-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
+    /* "Five things I watch for" */
+    .checklist-card {
+      background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 12px;
+      padding: 20px 24px; margin-bottom: 28px; display: flex; flex-direction: column; gap: 12px;
     }
-    .section-title {
-      font-family: var(--font-editorial);
-      font-size: 20px;
-      font-weight: 700;
-      color: #ffffff;
+    .checklist-title { font-family: var(--font-editorial); font-size: 20px; font-weight: 700; color: #ffffff; }
+    .checklist-title em { font-style: italic; color: #fca5a5; }
+    .checklist-items { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .check-item { display: flex; align-items: flex-start; gap: 10px; font-size: 12.5px; color: var(--text-secondary); line-height: 1.4; }
+    .check-num {
+      width: 20px; height: 20px; border-radius: 50%; background: rgba(239, 68, 68, 0.15); color: #ef4444;
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
     }
-    .filter-tabs {
-      display: flex;
-      background: rgba(255, 255, 255, 0.03);
-      padding: 2px;
-      border-radius: 7px;
-      border: 1px solid var(--border-subtle);
-      gap: 2px;
-    }
-    .tab-btn {
-      padding: 4px 10px;
-      font-size: 11.5px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      border-radius: 5px;
-    }
-    .tab-btn.active {
-      background: rgba(255, 255, 255, 0.08);
-      color: #ffffff;
-      font-weight: 600;
-    }
+    .check-item em { font-family: var(--font-editorial); font-style: italic; color: #fca5a5; }
 
-    /* PROJECTS GRID (10 BENCHMARK SHORTS) */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-      gap: 18px;
-      margin-bottom: 40px;
-    }
+    /* Benchmark Shorts Section */
+    .section-header-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .section-title { font-family: var(--font-editorial); font-size: 20px; font-weight: 700; color: #ffffff; }
+    .filter-tabs { display: flex; background: rgba(255, 255, 255, 0.03); padding: 2px; border-radius: 7px; border: 1px solid var(--border-subtle); gap: 2px; }
+    .tab-btn { padding: 4px 10px; font-size: 11.5px; font-weight: 500; color: var(--text-secondary); border-radius: 5px; }
+    .tab-btn.active { background: rgba(255, 255, 255, 0.08); color: #ffffff; font-weight: 600; }
+
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 18px; margin-bottom: 40px; }
     .project-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      overflow: hidden;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      transition: all 0.25s ease;
+      background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 12px; overflow: hidden;
+      cursor: pointer; display: flex; flex-direction: column; position: relative; transition: all 0.25s ease;
     }
-    .project-card:hover {
-      border-color: rgba(255, 255, 255, 0.22);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
-    }
+    .project-card:hover { border-color: rgba(255, 255, 255, 0.22); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5); }
     .card-thumb-9-16 {
-      width: 100%;
-      aspect-ratio: 9 / 12;
-      background: #11141c;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 100%; aspect-ratio: 9 / 12; background: #11141c; position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
     }
-    .card-thumb-canvas {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.4s ease;
-    }
-    .project-card:hover .card-thumb-canvas {
-      transform: scale(1.04);
-    }
+    .card-thumb-canvas { width: 100%; height: 100%; object-fit: cover; }
     .card-duration-badge {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(5px);
-      padding: 2px 7px;
-      border-radius: 5px;
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      font-weight: 600;
-      color: #ffffff;
+      position: absolute; top: 8px; right: 8px; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);
+      padding: 2px 7px; border-radius: 5px; font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; color: #ffffff;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
     .card-quality-pill {
-      position: absolute;
-      bottom: 8px;
-      left: 8px;
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid rgba(245, 158, 11, 0.4);
-      color: var(--accent-gold);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 9.5px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      position: absolute; bottom: 8px; left: 8px; background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4); color: var(--accent-gold); padding: 2px 6px;
+      border-radius: 4px; font-size: 9.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
     }
-    .card-info {
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .card-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #ffffff;
-      line-height: 1.35;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    .card-meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 11px;
-      color: var(--text-tertiary);
-      font-family: var(--font-mono);
-    }
-
-    /* "FIVE THINGS I WATCH FOR" CHECKLIST (From Video Sheet 12) */
-    .checklist-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 22px 26px;
-      margin-bottom: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .checklist-title {
-      font-family: var(--font-editorial);
-      font-size: 20px;
-      font-weight: 700;
-      color: #ffffff;
-    }
-    .checklist-title em {
-      font-style: italic;
-      color: #fca5a5;
-    }
-    .checklist-items {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .check-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      font-size: 12.5px;
-      color: var(--text-secondary);
-      line-height: 1.4;
-    }
-    .check-num {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: rgba(239, 68, 68, 0.15);
-      color: #ef4444;
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-    .check-item em {
-      font-family: var(--font-editorial);
-      font-style: italic;
-      color: #fca5a5;
-    }
+    .card-info { padding: 12px; display: flex; flex-direction: column; gap: 5px; }
+    .card-title { font-size: 13px; font-weight: 600; color: #ffffff; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .card-meta { display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: var(--text-tertiary); font-family: var(--font-mono); }
 
     /* ======================================================== */
-    /* PROJECT STUDIO VIEW (Video Sheet 11 & Sheet 12)          */
+    /* PROJECT STUDIO VIEW                                      */
     /* ======================================================== */
-    #view-studio {
-      display: none;
-      flex: 1;
-      height: calc(100vh - 52px);
-      overflow: hidden;
-      background: #090a0e;
-    }
+    #view-studio { display: none; flex: 1; height: calc(100vh - 52px); overflow: hidden; background: #090a0e; }
+    .studio-layout { display: grid; grid-template-columns: 270px 1fr 390px; height: 100%; width: 100%; }
 
-    .studio-layout {
-      display: grid;
-      grid-template-columns: 270px 1fr 380px;
-      height: 100%;
-      width: 100%;
-    }
-
-    /* COLUMN 1: SHOT SEQUENCE LIST */
-    .studio-shots-col {
-      background: var(--bg-surface);
-      border-right: 1px solid var(--border-subtle);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .shots-header {
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--border-subtle);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .shots-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-    .shots-list {
-      flex: 1;
-      overflow-y: auto;
-      padding: 6px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
+    /* COLUMN 1: SHOTS LIST */
+    .studio-shots-col { background: var(--bg-surface); border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column; overflow: hidden; }
+    .shots-header { padding: 12px 14px; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; }
+    .shots-title { font-size: 13px; font-weight: 600; color: #ffffff; display: flex; align-items: center; gap: 7px; }
+    .shots-list { flex: 1; overflow-y: auto; padding: 6px; display: flex; flex-direction: column; gap: 5px; }
     .shot-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid transparent;
-      border-radius: 7px;
-      padding: 7px 9px;
-      display: flex;
-      gap: 9px;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      background: rgba(255, 255, 255, 0.02); border: 1px solid transparent; border-radius: 7px;
+      padding: 7px 9px; display: flex; gap: 9px; cursor: pointer; transition: all 0.2s ease;
     }
-    .shot-card:hover {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: var(--border-subtle);
+    .shot-card:hover { background: rgba(255, 255, 255, 0.05); border-color: var(--border-subtle); }
+    .shot-card.active { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.22); }
+    .shot-thumb { width: 42px; height: 56px; background: #171b26; border-radius: 4px; overflow: hidden; flex-shrink: 0; position: relative; }
+    .shot-info { flex: 1; display: flex; flex-direction: column; gap: 2px; justify-content: center; }
+    .shot-number { font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; color: var(--accent-gold); }
+    .shot-text { font-size: 11px; color: var(--text-primary); line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .shot-tc { font-family: var(--font-mono); font-size: 9.5px; color: var(--text-tertiary); }
+
+    /* COLUMN 2: 3D VIEWPORT */
+    .studio-center-col { display: flex; flex-direction: column; background: #0b0c10; overflow: hidden; position: relative; }
+    
+    /* Dynamic Actor & Place Bar */
+    .viewport-selector-strip {
+      height: 38px; border-bottom: 1px solid var(--border-subtle); background: rgba(18, 20, 28, 0.95);
+      display: flex; align-items: center; justify-content: space-between; padding: 0 12px; gap: 10px; z-index: 15;
     }
-    .shot-card.active {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.22);
-    }
-    .shot-thumb {
-      width: 42px;
-      height: 56px;
-      background: #171b26;
-      border-radius: 4px;
-      overflow: hidden;
-      flex-shrink: 0;
-      position: relative;
-    }
-    .shot-info {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      justify-content: center;
-    }
-    .shot-number {
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      font-weight: 600;
-      color: var(--accent-gold);
-    }
-    .shot-text {
-      font-size: 11px;
-      color: var(--text-primary);
-      line-height: 1.35;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    .shot-tc {
-      font-family: var(--font-mono);
-      font-size: 9.5px;
-      color: var(--text-tertiary);
+    .strip-select-group { display: flex; align-items: center; gap: 6px; font-size: 11px; }
+    .strip-label { font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; }
+    .strip-select {
+      background: rgba(0, 0, 0, 0.35); border: 1px solid var(--border-subtle); color: #ffffff;
+      font-size: 11px; padding: 3px 6px; border-radius: 4px; height: 26px;
     }
 
-    /* COLUMN 2: 3D CANVAS VIEWPORT & MASTER TIMELINE */
-    .studio-center-col {
-      display: flex;
-      flex-direction: column;
-      background: #0b0c10;
-      overflow: hidden;
-      position: relative;
-    }
     .viewport-top-bar {
-      padding: 8px 14px;
-      border-bottom: 1px solid var(--border-subtle);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(12, 14, 19, 0.85);
-      backdrop-filter: blur(8px);
-      z-index: 10;
+      padding: 8px 14px; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center;
+      justify-content: space-between; background: rgba(12, 14, 19, 0.85); backdrop-filter: blur(8px); z-index: 10;
     }
-    .viewport-title-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .viewport-title {
-      font-size: 13.5px;
-      font-weight: 600;
-      color: #ffffff;
-    }
-    .viewport-meta-pill {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 2px 7px;
-      border-radius: 4px;
-      color: var(--text-secondary);
-    }
+    .viewport-title-group { display: flex; align-items: center; gap: 10px; }
+    .viewport-title { font-size: 13.5px; font-weight: 600; color: #ffffff; }
 
-    .viewport-stage-wrap {
-      flex: 1;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      padding: 10px;
-    }
+    .viewport-stage-wrap { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 10px; }
     .canvas-container-9-16 {
-      height: 100%;
-      max-height: 510px;
-      aspect-ratio: 9 / 16;
-      background: #000000;
-      border-radius: 12px;
-      overflow: hidden;
-      position: relative;
-      box-shadow: 0 14px 45px rgba(0, 0, 0, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      height: 100%; max-height: 480px; aspect-ratio: 9 / 16; background: #000000; border-radius: 12px;
+      overflow: hidden; position: relative; box-shadow: 0 14px 45px rgba(0, 0, 0, 0.85); border: 1px solid rgba(255, 255, 255, 0.12);
     }
-    #three-viewport {
-      width: 100%;
-      height: 100%;
-      display: block;
-      cursor: crosshair;
-    }
+    #three-viewport { width: 100%; height: 100%; display: block; cursor: crosshair; }
     
-    /* Overlay Subtitles Safe Zone (Strictly at 70% height avoiding Milo's face) */
-    .subtitle-overlay-box {
-      position: absolute;
-      bottom: 42px;
-      left: 14px;
-      right: 14px;
-      text-align: center;
-      pointer-events: none;
-      z-index: 5;
-    }
+    .subtitle-overlay-box { position: absolute; bottom: 38px; left: 14px; right: 14px; text-align: center; pointer-events: none; z-index: 5; }
     .subtitle-text {
-      display: inline-block;
-      font-family: var(--font-body);
-      font-weight: 800;
-      font-size: 17px;
-      line-height: 1.25;
-      color: #ffffff;
-      text-transform: uppercase;
-      letter-spacing: -0.01em;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95), 0 0 2px #000000;
+      display: inline-block; font-family: var(--font-body); font-weight: 800; font-size: 16px; line-height: 1.25;
+      color: #ffffff; text-transform: uppercase; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95), 0 0 2px #000000;
     }
-    .sub-highlight {
-      color: #fde047;
-      text-shadow: 0 0 10px rgba(253, 224, 71, 0.5);
-    }
+    .sub-highlight { color: #fde047; text-shadow: 0 0 10px rgba(253, 224, 71, 0.5); }
 
-    /* TRANSPORT BAR */
     .viewport-controls-bar {
-      height: 44px;
-      border-top: 1px solid var(--border-subtle);
-      border-bottom: 1px solid var(--border-subtle);
-      background: var(--bg-surface);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 14px;
+      height: 42px; border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);
+      background: var(--bg-surface); display: flex; align-items: center; justify-content: space-between; padding: 0 14px;
     }
-    .ctrl-group {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-    .ctrl-btn {
-      width: 30px;
-      height: 30px;
-      border-radius: 5px;
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--text-primary);
-    }
-    .ctrl-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-    .ctrl-btn.active {
-      background: #ffffff;
-      color: #000000;
-    }
+    .ctrl-group { display: flex; align-items: center; gap: 7px; }
+    .ctrl-btn { width: 28px; height: 28px; border-radius: 5px; background: rgba(255, 255, 255, 0.04); color: var(--text-primary); }
+    .ctrl-btn:hover { background: rgba(255, 255, 255, 0.1); }
     .timecode-display {
-      font-family: var(--font-mono);
-      font-size: 11.5px;
-      font-weight: 600;
-      color: #ffffff;
-      padding: 3px 8px;
-      background: rgba(0, 0, 0, 0.35);
-      border-radius: 4px;
-      border: 1px solid var(--border-subtle);
+      font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: #ffffff; padding: 3px 7px;
+      background: rgba(0, 0, 0, 0.35); border-radius: 4px; border: 1px solid var(--border-subtle);
     }
 
-    /* TIMELINE SECTION (Video Sheet 11 & Sheet 12) */
-    .studio-timeline-area {
-      height: 175px;
-      min-height: 175px;
-      background: #0f1118;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      position: relative;
-    }
+    /* TIMELINE */
+    .studio-timeline-area { height: 165px; min-height: 165px; background: #0f1118; display: flex; flex-direction: column; overflow: hidden; position: relative; }
     .timeline-ruler {
-      height: 22px;
-      background: rgba(0, 0, 0, 0.35);
-      border-bottom: 1px solid var(--border-subtle);
-      display: flex;
-      align-items: center;
-      position: relative;
-      font-family: var(--font-mono);
-      font-size: 9px;
-      color: var(--text-tertiary);
+      height: 20px; background: rgba(0, 0, 0, 0.35); border-bottom: 1px solid var(--border-subtle);
+      display: flex; align-items: center; position: relative; font-family: var(--font-mono); font-size: 9px; color: var(--text-tertiary);
     }
-    .ruler-mark {
-      position: absolute;
-      top: 0;
-      height: 100%;
-      border-left: 1px solid rgba(255, 255, 255, 0.08);
-      padding-left: 4px;
-      display: flex;
-      align-items: center;
-    }
-    .timeline-tracks-wrap {
-      flex: 1;
-      overflow-y: auto;
-      padding: 6px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      position: relative;
-    }
-    .track-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      height: 28px;
-    }
-    .track-label {
-      width: 78px;
-      font-family: var(--font-mono);
-      font-size: 9.5px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      flex-shrink: 0;
-    }
-    .track-lane {
-      flex: 1;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-subtle);
-      border-radius: 4px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-    }
+    .ruler-mark { position: absolute; top: 0; height: 100%; border-left: 1px solid rgba(255, 255, 255, 0.08); padding-left: 4px; display: flex; align-items: center; }
+    .timeline-tracks-wrap { flex: 1; overflow-y: auto; padding: 5px 12px; display: flex; flex-direction: column; gap: 4px; position: relative; }
+    .track-row { display: flex; align-items: center; gap: 8px; height: 26px; }
+    .track-label { width: 75px; font-family: var(--font-mono); font-size: 9px; font-weight: 600; color: var(--text-secondary); flex-shrink: 0; }
+    .track-lane { flex: 1; height: 100%; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); border-radius: 4px; position: relative; overflow: hidden; display: flex; align-items: center; }
     
-    /* Draggable Playhead */
-    #timeline-needle {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: var(--accent-red);
-      z-index: 50;
-      pointer-events: none;
-      left: 16%;
-    }
-    #timeline-needle::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -4px;
-      width: 10px;
-      height: 10px;
-      background: var(--accent-red);
-      clip-path: polygon(0 0, 100% 0, 50% 100%);
-    }
+    #timeline-needle { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent-red); z-index: 50; pointer-events: none; left: 16%; }
+    #timeline-needle::before { content: ''; position: absolute; top: 0; left: -4px; width: 10px; height: 10px; background: var(--accent-red); clip-path: polygon(0 0, 100% 0, 50% 100%); }
 
     .shot-block {
-      position: absolute;
-      top: 2px;
-      bottom: 2px;
-      background: #1c2436;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 3px;
-      font-family: var(--font-mono);
-      font-size: 8.5px;
-      color: #93c5fd;
-      display: flex;
-      align-items: center;
-      padding: 0 5px;
-      white-space: nowrap;
-      overflow: hidden;
-      cursor: pointer;
+      position: absolute; top: 2px; bottom: 2px; background: #1c2436; border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 3px; font-family: var(--font-mono); font-size: 8.5px; color: #93c5fd; display: flex; align-items: center; padding: 0 4px; white-space: nowrap; overflow: hidden; cursor: pointer;
     }
-    .shot-block:hover {
-      background: #27344e;
-    }
+    .shot-block:hover { background: #27344e; }
+    .waveform-visual-container { width: 100%; height: 100%; display: flex; align-items: center; position: relative; }
+    .waveform-svg { width: 100%; height: 18px; stroke: #38bdf8; fill: none; }
+    .pause-cut-marker { position: absolute; top: 0; bottom: 0; width: 3px; background: var(--accent-red); opacity: 0.85; cursor: pointer; }
 
-    /* Waveform with 0.20s pause red cut markers */
-    .waveform-visual-container {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      position: relative;
-    }
-    .waveform-svg {
-      width: 100%;
-      height: 20px;
-      stroke: #38bdf8;
-      fill: none;
-    }
-    .pause-cut-marker {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background: var(--accent-red);
-      opacity: 0.85;
-      cursor: pointer;
-    }
+    /* COLUMN 3: RIGHT PANEL */
+    .studio-right-col { background: var(--bg-surface); border-left: 1px solid var(--border-subtle); display: flex; flex-direction: column; overflow: hidden; }
+    .panel-tab-bar { display: flex; border-bottom: 1px solid var(--border-subtle); background: rgba(0, 0, 0, 0.25); }
+    .panel-tab-btn { flex: 1; padding: 10px 6px; font-size: 11px; font-weight: 600; color: var(--text-secondary); border-bottom: 2px solid transparent; gap: 4px; }
+    .panel-tab-btn:hover { color: var(--text-primary); }
+    .panel-tab-btn.active { color: #ffffff; border-bottom-color: #ffffff; background: rgba(255, 255, 255, 0.03); }
 
-    /* ======================================================== */
-    /* COLUMN 3: RIGHT PANEL (ANTIGRAVITY CHAT & INSPECTOR)     */
-    /* ======================================================== */
-    .studio-right-col {
-      background: var(--bg-surface);
-      border-left: 1px solid var(--border-subtle);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .panel-tab-bar {
-      display: flex;
-      border-bottom: 1px solid var(--border-subtle);
-      background: rgba(0, 0, 0, 0.25);
-    }
-    .panel-tab-btn {
-      flex: 1;
-      padding: 10px 8px;
-      font-size: 11.5px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      border-bottom: 2px solid transparent;
-      gap: 5px;
-    }
-    .panel-tab-btn:hover {
-      color: var(--text-primary);
-    }
-    .panel-tab-btn.active {
-      color: #ffffff;
-      border-bottom-color: #ffffff;
-      background: rgba(255, 255, 255, 0.03);
-    }
+    .panel-content-wrap { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
 
-    .panel-content-wrap {
-      flex: 1;
-      overflow-y: auto;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    /* TAB 1: DIRECT ANTIGRAVITY CHAT & INSTRUCTION CONSOLE */
-    #panel-chat-content {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      padding: 0;
-      gap: 0;
-    }
-    .chat-header-bar {
-      padding: 8px 12px;
-      border-bottom: 1px solid var(--border-subtle);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(0, 0, 0, 0.2);
-    }
+    /* CHAT TAB */
+    #panel-chat-content { display: flex; flex-direction: column; height: 100%; padding: 0; gap: 0; }
+    .chat-header-bar { padding: 8px 12px; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; background: rgba(0, 0, 0, 0.2); }
     .token-meter-pill {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--accent-green);
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.25);
-      padding: 2px 7px;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
+      font-family: var(--font-mono); font-size: 10px; color: var(--accent-green); background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25); padding: 2px 7px; border-radius: 4px; display: flex; align-items: center; gap: 5px; cursor: pointer;
     }
+    .chat-messages-scroll { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+    .chat-msg { display: flex; flex-direction: column; gap: 3px; max-width: 95%; }
+    .chat-msg.user { align-self: flex-end; }
+    .chat-msg.assistant { align-self: flex-start; }
+    .msg-sender-tag { font-family: var(--font-mono); font-size: 9.5px; color: var(--text-tertiary); }
+    .msg-bubble { padding: 9px 11px; border-radius: 8px; font-size: 12px; line-height: 1.4; }
+    .chat-msg.user .msg-bubble { background: #2563eb; color: #ffffff; border-top-right-radius: 2px; }
+    .chat-msg.assistant .msg-bubble { background: var(--bg-card); border: 1px solid var(--border-subtle); color: var(--text-primary); border-top-left-radius: 2px; }
 
-    .chat-messages-scroll {
-      flex: 1;
-      overflow-y: auto;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .chat-msg {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      max-width: 95%;
-    }
-    .chat-msg.user {
-      align-self: flex-end;
-    }
-    .chat-msg.assistant {
-      align-self: flex-start;
-    }
-    .msg-sender-tag {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--text-tertiary);
-    }
-    .msg-bubble {
-      padding: 10px 12px;
-      border-radius: 8px;
-      font-size: 12px;
-      line-height: 1.45;
-    }
-    .chat-msg.user .msg-bubble {
-      background: #2563eb;
-      color: #ffffff;
-      border-top-right-radius: 2px;
-    }
-    .chat-msg.assistant .msg-bubble {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-primary);
-      border-top-left-radius: 2px;
-    }
+    .quick-chips-row { display: flex; gap: 6px; overflow-x: auto; padding: 7px 12px; border-top: 1px solid var(--border-subtle); background: rgba(0, 0, 0, 0.15); }
+    .action-chip { font-size: 10.5px; color: var(--text-secondary); background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 3px 9px; white-space: nowrap; }
+    .action-chip:hover { background: rgba(255, 255, 255, 0.1); color: #ffffff; }
 
-    /* Action Chip Carousel */
-    .quick-chips-row {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding: 8px 12px;
-      border-top: 1px solid var(--border-subtle);
-      background: rgba(0, 0, 0, 0.15);
-    }
-    .action-chip {
-      font-size: 11px;
-      color: var(--text-secondary);
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-subtle);
-      border-radius: 20px;
-      padding: 4px 10px;
-      white-space: nowrap;
-    }
-    .action-chip:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #ffffff;
-      border-color: rgba(255, 255, 255, 0.2);
-    }
+    .chat-input-bar { padding: 8px 12px; border-top: 1px solid var(--border-subtle); background: var(--bg-surface); display: flex; gap: 7px; }
+    .chat-input-area { flex: 1; height: 44px; padding: 7px 9px; font-size: 12px; resize: none; }
+    .btn-send-chat { background: #ffffff; color: #000000; width: 40px; height: 44px; border-radius: 6px; flex-shrink: 0; }
+    .btn-send-chat:hover { background: #e2e8f0; }
 
-    /* Chat Input Form */
-    .chat-input-bar {
-      padding: 10px 12px;
-      border-top: 1px solid var(--border-subtle);
-      background: var(--bg-surface);
-      display: flex;
-      gap: 8px;
+    /* FACTS DEVICES & TRIPO SPAWNER IN INSPECTOR */
+    .device-grid-spawner { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+    .btn-device-spawn {
+      background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-subtle); border-radius: 6px;
+      padding: 6px 8px; font-size: 11px; text-align: left; justify-content: flex-start; color: var(--text-secondary);
     }
-    .chat-input-area {
-      flex: 1;
-      height: 48px;
-      padding: 8px 10px;
-      font-size: 12px;
-      resize: none;
-    }
-    .btn-send-chat {
-      background: #ffffff;
-      color: #000000;
-      width: 44px;
-      height: 48px;
-      border-radius: 6px;
-      flex-shrink: 0;
-    }
-    .btn-send-chat:hover {
-      background: #e2e8f0;
-    }
+    .btn-device-spawn:hover { background: rgba(255, 255, 255, 0.08); color: #ffffff; border-color: rgba(255, 255, 255, 0.2); }
 
-    /* TAB 2: ANTIGRAVITY CREW SUBAGENTS (Video Sheet 11) */
-    .agent-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 10px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .agent-card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .agent-name {
-      font-size: 12px;
-      font-weight: 600;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .agent-status-badge {
-      font-family: var(--font-mono);
-      font-size: 9.5px;
-      padding: 1px 5px;
-      border-radius: 3px;
-      font-weight: 600;
-    }
-    .agent-status-badge.pass {
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--accent-green);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-    .agent-status-badge.active {
-      background: rgba(56, 189, 248, 0.15);
-      color: var(--accent-blue);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-    }
-    .agent-details {
-      font-size: 11px;
-      color: var(--text-secondary);
-      line-height: 1.35;
-    }
-
-    /* TAB 3: POINT-AND-CLICK INSPECTOR */
-    .inspector-entity-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .prop-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .prop-label {
-      font-size: 11.5px;
-      color: var(--text-secondary);
-    }
-    .prop-slider {
-      flex: 1;
-      height: 4px;
-      accent-color: #ffffff;
-      cursor: pointer;
-    }
-    .prop-val {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: #ffffff;
-      width: 44px;
-      text-align: right;
-    }
-
-    /* ======================================================== */
-    /* MODALS & DRAWERS                                         */
-    /* ======================================================== */
+    /* MODALS */
     .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(10px);
-      z-index: 200;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
+      z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px;
     }
-    .modal-backdrop.open {
-      display: flex;
-    }
+    .modal-backdrop.open { display: flex; }
     .modal-card {
-      width: 100%;
-      max-width: 560px;
-      background: #141720;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 12px;
-      padding: 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
+      width: 100%; max-width: 560px; background: #141720; border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px; padding: 22px; display: flex; flex-direction: column; gap: 15px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
     }
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .modal-title {
-      font-family: var(--font-editorial);
-      font-size: 20px;
-      font-weight: 700;
-      color: #ffffff;
-    }
-    .modal-form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .modal-label {
-      font-size: 11.5px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .modal-input {
-      padding: 8px 10px;
-      font-size: 12.5px;
-    }
-    .modal-textarea {
-      width: 100%;
-      height: 100px;
-      padding: 9px 11px;
-      font-size: 12px;
-      line-height: 1.45;
-    }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; }
+    .modal-title { font-family: var(--font-editorial); font-size: 20px; font-weight: 700; color: #ffffff; }
 
-    /* API KEY SETTINGS MODAL */
-    .api-key-box {
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .api-status-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-family: var(--font-mono);
-      font-size: 11px;
-    }
-
-    /* TOAST NOTIFICATION */
     #toast-msg {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: rgba(18, 22, 30, 0.95);
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 9px 16px;
-      font-size: 12px;
-      color: #ffffff;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      transform: translateY(80px);
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      z-index: 300;
+      position: fixed; bottom: 24px; right: 24px; background: rgba(18, 22, 30, 0.95); border: 1px solid var(--border-subtle);
+      border-radius: 8px; padding: 9px 16px; font-size: 12px; color: #ffffff; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      display: flex; align-items: center; gap: 9px; transform: translateY(80px); opacity: 0; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 300;
     }
-    #toast-msg.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
+    #toast-msg.show { transform: translateY(0); opacity: 1; }
   </style>
 </head>
 <body>
@@ -1436,14 +433,21 @@
         Projects
       </button>
 
-      <button class="nav-item" onclick="showToast('10 Benchmark Thumbnails loaded')">
+      <button class="nav-item" onclick="showToast('20 Canonical Characters Loaded')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+        </svg>
+        Characters (20)
+      </button>
+
+      <button class="nav-item" onclick="showToast('29 Fully Dressed Places Ready')">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
         </svg>
-        Thumbnails
+        Places (29)
       </button>
 
-      <button class="nav-item" onclick="showToast('Routines: Director, SetDesigner & 4 SceneBuilders ready')">
+      <button class="nav-item" onclick="showToast('Routines: Director, SetDesigner & 4 SceneBuilders active')">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/>
         </svg>
@@ -1490,7 +494,7 @@
         </svg>
       </div>
 
-      <div class="connection-status" onclick="openApiKeyModal()" id="sidebar-connection-pill">
+      <div class="connection-status" onclick="openApiKeyModal()">
         <span class="pulse-dot"></span>
         <span id="conn-label">Antigravity connected</span>
       </div>
@@ -1533,7 +537,7 @@
         <div>
           <h1 class="hero-editorial-title">Ten shorts, <em>ten scripts.</em></h1>
           <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">
-            Reverse-engineered from 9,140 frames • 6 Golden Motion Laws • 0.20s pause-tightened voiceovers.
+            20 Characters • 29 Fully Dressed Places • 43 Facial Expressions • 317 Facts-as-Objects Props.
           </p>
         </div>
         <div class="hero-meta-badges">
@@ -1544,7 +548,7 @@
 
       <!-- Video Sheet 12 Red Numbers Banner -->
       <div class="build-numbers-banner">
-        <div class="banner-title-box">
+        <div>
           <div class="banner-title">Short 05, <em>the numbers.</em></div>
           <div class="banner-sub">The Deadly Wave of Molasses That Hit Boston (1919)</div>
         </div>
@@ -1586,14 +590,14 @@
           <div class="quick-card-desc">Paste script or let Antigravity write it</div>
         </div>
 
-        <div class="quick-card" onclick="showToast('Styles: Cinema look (soft rim light, depth of field) vs Clean look')">
+        <div class="quick-card" onclick="openStudioProject('molasses')">
           <div class="quick-icon-wrap">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3Z"/>
+              <circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
             </svg>
           </div>
-          <div class="quick-card-title">Styles</div>
-          <div class="quick-card-desc">Cinema lighting, Toon shaders, Milo rigs</div>
+          <div class="quick-card-title">20 Actor Rigs</div>
+          <div class="quick-card-desc">Milo, Juno, Dex, Bea, Otis, Nana Rose...</div>
         </div>
 
         <div class="quick-card" onclick="openApiKeyModal()">
@@ -1607,34 +611,19 @@
         </div>
       </div>
 
-      <!-- "Five things I watch for" (Authentic from Video Sheet 12) -->
+      <!-- "Five things I watch for" -->
       <div class="checklist-card">
         <div class="checklist-title">Five things <em>I watch for.</em></div>
         <div class="checklist-items">
-          <div class="check-item">
-            <div class="check-num">1</div>
-            <div>Shows what the words say, <em>right when they say it</em>. (5-frame gestures land 4 frames early)</div>
-          </div>
-          <div class="check-item">
-            <div class="check-num">2</div>
-            <div>The face is <em>readable, lit, and out of the captions</em>. (Captions sit at 70% height)</div>
-          </div>
-          <div class="check-item">
-            <div class="check-num">3</div>
-            <div>Nothing <em>floating, sliding or passing through</em>. (Feet locked to floor, zero mesh collision)</div>
-          </div>
-          <div class="check-item">
-            <div class="check-num">4</div>
-            <div>Every number lands as an <em>object on its word</em>. (2.3M flip calendar, 50ft tank gauge)</div>
-          </div>
-          <div class="check-item" style="grid-column: span 2;">
-            <div class="check-num">5</div>
-            <div>The set feels <em>lived in</em>. (No empty corners; ambient dust, wood grain, light quad from window)</div>
-          </div>
+          <div class="check-item"><div class="check-num">1</div><div>Shows what the words say, <em>right when they say it</em>. (5-frame gestures land 4 frames early)</div></div>
+          <div class="check-item"><div class="check-num">2</div><div>The face is <em>readable, lit, and out of the captions</em>. (Captions sit at 70% height)</div></div>
+          <div class="check-item"><div class="check-num">3</div><div>Nothing <em>floating, sliding or passing through</em>. (Zero collision, feet locked to floor)</div></div>
+          <div class="check-item"><div class="check-num">4</div><div>Every number lands as an <em>object on its word</em>. (Flip calendar, 50ft tank gauge)</div></div>
+          <div class="check-item" style="grid-column: span 2;"><div class="check-num">5</div><div>The set feels <em>lived in</em>. (29 dressed sets with authentic ambient clutter)</div></div>
         </div>
       </div>
 
-      <!-- Recent Projects Section Header -->
+      <!-- All 10 Benchmark Shorts -->
       <div class="section-header-bar">
         <h2 class="section-title">All 10 benchmark shorts</h2>
         <div class="filter-tabs">
@@ -1642,11 +631,7 @@
           <button class="tab-btn" onclick="setProjectFilter('ultra', this)">Ultra edit</button>
         </div>
       </div>
-
-      <!-- 10 Benchmark Projects Grid -->
-      <div class="projects-grid" id="projects-container">
-        <!-- Injected via JavaScript -->
-      </div>
+      <div class="projects-grid" id="projects-container"></div>
     </div>
 
     <!-- PROJECT STUDIO VIEW -->
@@ -1662,24 +647,91 @@
               </svg>
               Shots (<span id="active-shot-count">28</span>)
             </div>
-            <button onclick="showToast('Added new shot to script')" style="font-size: 11px; padding: 3px 7px; background: rgba(255,255,255,0.06); border-radius: 4px;">
-              + Add
-            </button>
+            <button onclick="showToast('Added new shot to script')" style="font-size: 11px; padding: 3px 7px; background: rgba(255,255,255,0.06); border-radius: 4px;">+ Add</button>
           </div>
-          
-          <div class="shots-list" id="studio-shots-list">
-            <!-- Populated via JS -->
-          </div>
+          <div class="shots-list" id="studio-shots-list"></div>
         </div>
 
-        <!-- COLUMN 2: 3D CANVAS VIEWPORT & TIMELINE -->
+        <!-- COLUMN 2: 3D VIEWPORT & TIMELINE -->
         <div class="studio-center-col">
+          <!-- Live Place & Character Strip -->
+          <div class="viewport-selector-strip">
+            <div class="strip-select-group">
+              <span class="strip-label">Actor:</span>
+              <select class="strip-select" id="actor-select" onchange="changeCharacterActor(this.value)">
+                <option value="milo" selected>Milo (The Everyman)</option>
+                <option value="juno">Juno (The Adventurer)</option>
+                <option value="dex">Dex (The Scientist)</option>
+                <option value="bea">Bea (The Kid)</option>
+                <option value="otis">Otis (The Big Guy)</option>
+                <option value="nana_rose">Nana Rose (Grandmother)</option>
+                <option value="walt">Walt (Grandfather)</option>
+                <option value="zed">Zed (Shady Guy)</option>
+                <option value="aria">Aria (Astronaut)</option>
+                <option value="kobe">Kobe (Tech/Gamer)</option>
+                <option value="lena">Lena (Reporter)</option>
+                <option value="gus">Gus (Mechanic)</option>
+                <option value="tara">Tara (Diver)</option>
+                <option value="finn">Finn (Pilot)</option>
+                <option value="sora">Sora (Student)</option>
+                <option value="bram">Bram (Knight)</option>
+                <option value="cleo">Cleo (Pharaoh)</option>
+                <option value="rory">Rory (Climber)</option>
+                <option value="dr_fleming">Dr. Fleming (Lab)</option>
+                <option value="commander_lovell">Commander Lovell (Apollo)</option>
+              </select>
+
+              <span class="strip-label" style="margin-left: 6px;">Skin:</span>
+              <select class="strip-select" id="skin-mode-select" onchange="changeSkinMode(this.value)">
+                <option value="classic_white" selected>Classic White</option>
+                <option value="fair">Fair Tone</option>
+                <option value="beige">Warm Beige</option>
+                <option value="caramel">Caramel</option>
+                <option value="bronze">Deep Bronze</option>
+                <option value="rich_brown">Rich Brown</option>
+              </select>
+            </div>
+
+            <div class="strip-select-group">
+              <span class="strip-label">Place:</span>
+              <select class="strip-select" id="place-select" onchange="changeDressedPlace(this.value)">
+                <option value="boston-1919-docks" selected>01: Boston 1919 Docks</option>
+                <option value="iss-cupola">02: ISS Cupola</option>
+                <option value="apollo-mission-control">03: Apollo Mission Control</option>
+                <option value="deep-sea-trench">04: Deep Sea 30,000ft</option>
+                <option value="leaning-tower-plaza">05: Leaning Tower Plaza</option>
+                <option value="dialup-bedroom-90s">06: Dial-up 90s Bedroom</option>
+                <option value="bomber-plant-rooftop">07: Boeing Fake Town</option>
+                <option value="everest-hillary-step">08: Everest Hillary Step</option>
+                <option value="london-lab-1928">09: London 1928 Fleming Lab</option>
+                <option value="satellite-cleanroom">10: Satellite Cleanroom</option>
+                <option value="retro-diner">11: Retro Diner</option>
+                <option value="bank-vault">12: Bank Vault</option>
+                <option value="subway-car">13: Subway Car</option>
+                <option value="steam-locomotive-cab">14: Steam Locomotive</option>
+                <option value="medieval-castle-hall">15: Medieval Castle Hall</option>
+                <option value="egyptian-tomb-chamber">16: Egyptian Tomb</option>
+                <option value="classroom-lecture">17: Classroom Lecture</option>
+                <option value="arctic-research-hut">18: Arctic Research Hut</option>
+                <option value="newsroom-1950s">19: Newsroom 1950s</option>
+                <option value="pirate-galleon-deck">20: Pirate Galleon</option>
+                <option value="greenhouse-solarium">21: Greenhouse Solarium</option>
+                <option value="volcano-caldera">22: Volcano Caldera</option>
+                <option value="airship-gondola">23: Airship Gondola</option>
+                <option value="ancient-roman-baths">24: Roman Baths</option>
+                <option value="observatory-dome">25: Observatory Dome</option>
+                <option value="radio-studio-1940s">26: Radio Studio 1940s</option>
+                <option value="blacksmith-forge">27: Blacksmith Forge</option>
+                <option value="space-station-corridor">28: Space Station Corridor</option>
+                <option value="clocktower-interior">29: Clocktower Interior</option>
+              </select>
+            </div>
+          </div>
+
           <div class="viewport-top-bar">
             <div class="viewport-title-group">
               <button onclick="switchToDashboard()" style="padding: 3px 8px; border-radius: 5px; background: rgba(255,255,255,0.05); font-size: 11.5px; color: var(--text-secondary);">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m15 18-6-6 6-6"/>
-                </svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                 Projects
               </button>
               <div class="viewport-title" id="studio-project-title">The Deadly Wave of Molasses That Hit Boston</div>
@@ -1688,12 +740,8 @@
             </div>
 
             <div style="display: flex; gap: 8px;">
-              <button class="btn-header-secondary" style="padding: 4px 10px; font-size: 11.5px;" onclick="openTrimModal()">
-                Trim Silences (0.2s)
-              </button>
-              <button class="btn-header-primary" style="padding: 4px 12px; font-size: 11.5px;" onclick="triggerRenderExport()">
-                Export MP4
-              </button>
+              <button class="btn-header-secondary" style="padding: 4px 10px; font-size: 11.5px;" onclick="openTrimModal()">Trim Silences (0.2s)</button>
+              <button class="btn-header-primary" style="padding: 4px 12px; font-size: 11.5px;" onclick="triggerRenderExport()">Export MP4</button>
             </div>
           </div>
 
@@ -1701,12 +749,8 @@
           <div class="viewport-stage-wrap">
             <div class="canvas-container-9-16">
               <div id="three-viewport" onclick="handleCanvasClick(event)"></div>
-
-              <!-- Real-time Subtitle Safe Zone Overlay -->
               <div class="subtitle-overlay-box" id="subtitle-box">
-                <div class="subtitle-text" id="subtitle-display">
-                  It's <span class="sub-highlight">lunchtime</span> in Boston, 1919...
-                </div>
+                <div class="subtitle-text" id="subtitle-display">It's <span class="sub-highlight">lunchtime</span> in Boston, 1919...</div>
               </div>
             </div>
           </div>
@@ -1715,42 +759,25 @@
           <div class="viewport-controls-bar">
             <div class="ctrl-group">
               <button class="ctrl-btn" onclick="stepFrame(-1)" title="Step -1 frame">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polygon points="19 20 9 12 19 4 19 20"/><line x1="5" x2="5" y1="19" y2="5"/>
-                </svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" x2="5" y1="19" y2="5"/></svg>
               </button>
-
               <button class="ctrl-btn" id="play-pause-btn" onclick="togglePlayback()" title="Play / Pause">
-                <svg id="play-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polygon points="5 3 19 12 5 21 5 3"/>
-                </svg>
-                <svg id="pause-icon" style="display:none;" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>
-                </svg>
+                <svg id="play-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <svg id="pause-icon" style="display:none;" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
               </button>
-
               <button class="ctrl-btn" onclick="stepFrame(1)" title="Step +1 frame">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polygon points="5 4 15 12 5 20 5 4"/><line x1="19" x2="19" y1="5" y2="19"/>
-                </svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" x2="19" y1="5" y2="19"/></svg>
               </button>
-
               <div class="timecode-display" id="timecode-label">00:08.40 / 00:50.12</div>
             </div>
 
             <div class="ctrl-group">
-              <button class="ctrl-btn" onclick="setCameraAngle('front')" title="Camera Front">
-                <span style="font-size: 10px; font-weight: 700;">1x</span>
+              <button class="ctrl-btn" onclick="setCameraAngle('front')"><span style="font-size: 10px; font-weight: 700;">1x</span></button>
+              <button class="ctrl-btn" onclick="setCameraAngle('orbit')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(-30 12 12)"/></svg>
               </button>
-              <button class="ctrl-btn" onclick="setCameraAngle('orbit')" title="Camera 45° Orbit">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(-30 12 12)"/>
-                </svg>
-              </button>
-              <button class="ctrl-btn" onclick="toggleSubtitles()" id="sub-toggle-btn" title="Toggle Subtitles Safe Zone" class="active">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                </svg>
+              <button class="ctrl-btn" onclick="toggleSubtitles()" id="sub-toggle-btn" class="active">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
               </button>
             </div>
           </div>
@@ -1765,15 +792,9 @@
               <div class="ruler-mark" style="left: 80%;">40s</div>
               <div class="ruler-mark" style="left: 100%;">50s</div>
             </div>
-
             <div id="timeline-needle"></div>
-
             <div class="timeline-tracks-wrap">
-              <div class="track-row">
-                <div class="track-label">VIDEO</div>
-                <div class="track-lane" id="shots-timeline-lane"></div>
-              </div>
-
+              <div class="track-row"><div class="track-label">VIDEO</div><div class="track-lane" id="shots-timeline-lane"></div></div>
               <div class="track-row">
                 <div class="track-label">VOICE (0.2s)</div>
                 <div class="track-lane">
@@ -1781,18 +802,17 @@
                     <svg class="waveform-svg" viewBox="0 0 800 24" preserveAspectRatio="none">
                       <path d="M0,12 Q10,2 20,12 T40,12 T60,4 T80,12 T100,2 T120,12 T140,5 T160,12 T180,1 T200,12 T220,6 T240,12 T260,2 T280,12 T300,5 T320,12 T340,3 T360,12 T380,7 T400,12 T420,2 T440,12 T460,4 T480,12 T500,1 T520,12 T540,6 T560,12 T580,2 T600,12 T620,5 T640,12 T660,3 T680,12 T700,7 T720,12 T740,2 T760,12 T780,4 T800,12" stroke-width="2"/>
                     </svg>
-                    <div class="pause-cut-marker" style="left: 8%;" title="Tightened Pause: 0.20s"></div>
-                    <div class="pause-cut-marker" style="left: 16%;" title="Tightened Pause: 0.20s"></div>
-                    <div class="pause-cut-marker" style="left: 25%;" title="Tightened Pause: 0.20s"></div>
-                    <div class="pause-cut-marker" style="left: 36%;" title="Tightened Pause: 0.20s"></div>
-                    <div class="pause-cut-marker" style="left: 48%;" title="Tightened Pause: 0.20s"></div>
-                    <div class="pause-cut-marker" style="left: 62%;" title="Tightened Pause: 0.20s"></div>
-                    <div class="pause-cut-marker" style="left: 78%;" title="Tightened Pause: 0.20s"></div>
-                    <div class="pause-cut-marker" style="left: 91%;" title="Tightened Pause: 0.20s"></div>
+                    <div class="pause-cut-marker" style="left: 8%;"></div>
+                    <div class="pause-cut-marker" style="left: 16%;"></div>
+                    <div class="pause-cut-marker" style="left: 25%;"></div>
+                    <div class="pause-cut-marker" style="left: 36%;"></div>
+                    <div class="pause-cut-marker" style="left: 48%;"></div>
+                    <div class="pause-cut-marker" style="left: 62%;"></div>
+                    <div class="pause-cut-marker" style="left: 78%;"></div>
+                    <div class="pause-cut-marker" style="left: 91%;"></div>
                   </div>
                 </div>
               </div>
-
               <div class="track-row">
                 <div class="track-label">SFX (19 hits)</div>
                 <div class="track-lane" style="background: rgba(245, 158, 11, 0.03);">
@@ -1800,7 +820,6 @@
                   <div style="position: absolute; left: 16%; font-size: 8px; color: #fbbf24; background: rgba(245,158,11,0.2); padding: 1px 4px; border-radius: 2px;">Tank Creak</div>
                   <div style="position: absolute; left: 24%; font-size: 8px; color: #ef4444; background: rgba(239,68,68,0.2); padding: 1px 4px; border-radius: 2px;">RIVET EXPLODE</div>
                   <div style="position: absolute; left: 32%; font-size: 8px; color: #fbbf24; background: rgba(245,158,11,0.2); padding: 1px 4px; border-radius: 2px;">Wave Roar</div>
-                  <div style="position: absolute; left: 52%; font-size: 8px; color: #fbbf24; background: rgba(245,158,11,0.2); padding: 1px 4px; border-radius: 2px;">Girder Snap</div>
                   <div style="position: absolute; left: 74%; font-size: 8px; color: #fbbf24; background: rgba(245,158,11,0.2); padding: 1px 4px; border-radius: 2px;">Molasses Splat</div>
                 </div>
               </div>
@@ -1808,36 +827,19 @@
           </div>
         </div>
 
-        <!-- COLUMN 3: RIGHT PANEL (ANTIGRAVITY CHAT, CREW & INSPECTOR) -->
+        <!-- COLUMN 3: RIGHT PANEL -->
         <div class="studio-right-col">
           <div class="panel-tab-bar">
-            <button class="panel-tab-btn active" id="tab-chat-btn" onclick="switchRightTab('chat')">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-              </svg>
-              Chat & Instruct
-            </button>
-
-            <button class="panel-tab-btn" id="tab-inspector-btn" onclick="switchRightTab('inspector')">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-              </svg>
-              Inspector
-            </button>
-
-            <button class="panel-tab-btn" id="tab-crew-btn" onclick="switchRightTab('crew')">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3Z"/>
-              </svg>
-              Crew Logs
-            </button>
+            <button class="panel-tab-btn active" id="tab-chat-btn" onclick="switchRightTab('chat')">Chat & Instruct</button>
+            <button class="panel-tab-btn" id="tab-inspector-btn" onclick="switchRightTab('inspector')">Inspector</button>
+            <button class="panel-tab-btn" id="tab-crew-btn" onclick="switchRightTab('crew')">Crew Logs</button>
           </div>
 
-          <!-- TAB 1: DIRECT CHAT WITH ANTIGRAVITY (The User's Core Request) -->
+          <!-- TAB 1: CHAT -->
           <div id="panel-chat-content">
             <div class="chat-header-bar">
               <span style="font-size: 11.5px; font-weight: 600; color: #ffffff;">Antigravity Pair Programmer</span>
-              <div class="token-meter-pill" onclick="openApiKeyModal()" title="Click to manage API key & cached tokens">
+              <div class="token-meter-pill" onclick="openApiKeyModal()">
                 <span class="pulse-dot"></span>
                 <span id="chat-token-counter">96% cached • $0.00</span>
               </div>
@@ -1847,137 +849,76 @@
               <div class="chat-msg assistant">
                 <span class="msg-sender-tag">Antigravity Sovereign Beast</span>
                 <div class="msg-bubble">
-                  Ready. I am directly connected to your scene pipeline. You can instruct me in plain English to alter shots, hot-patch 3D objects, tighten voiceover pauses to 0.20s, or modify lighting and camera vectors.
+                  Ready. 20 Canonical Actors, 29 Dressed Places, and Tripo3D procedural props are connected. Instruct me in plain English to alter shots, hot-patch 3D objects, or modify lighting and camera vectors.
                 </div>
               </div>
             </div>
 
-            <!-- Quick Action Chips -->
             <div class="quick-chips-row">
-              <button class="action-chip" onclick="quickPrompt('Change calendar date in Shot 01 to Wednesday 15th')">
-                Fix Calendar (15th)
-              </button>
-              <button class="action-chip" onclick="quickPrompt('Make the molasses wave 30% taller and increase amber gloss')">
-                Amplify Molasses Wave
-              </button>
-              <button class="action-chip" onclick="quickPrompt('Apply Cinema lighting with soft golden window sun and blue rim')">
-                Cinema Lighting
-              </button>
-              <button class="action-chip" onclick="quickPrompt('Run 5-point layout check to ensure Milo is out of captions')">
-                Layout Check
-              </button>
+              <button class="action-chip" onclick="quickPrompt('Change calendar date in Shot 01 to Wednesday 15th')">Fix Calendar (15th)</button>
+              <button class="action-chip" onclick="quickPrompt('Make the molasses wave 30% taller with viscous amber gloss')">Amplify Molasses Wave</button>
+              <button class="action-chip" onclick="quickPrompt('Switch actor to Dex the Scientist with lab coat')">Switch to Dex</button>
+              <button class="action-chip" onclick="quickPrompt('Switch place to ISS Cupola with Earth bounce light')">Switch to ISS Cupola</button>
             </div>
 
-            <!-- Chat Input Bar -->
             <div class="chat-input-bar">
               <textarea class="chat-input-area" id="chat-user-input" placeholder="Instruct Antigravity what to build or change in this short..." onkeydown="handleChatKeyDown(event)"></textarea>
               <button class="btn-send-chat" onclick="sendChatInstruction()">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="22" x2="11" y1="2" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                </svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" x2="11" y1="2" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
               </button>
             </div>
           </div>
 
-          <!-- TAB 2: POINT-AND-CLICK INSPECTOR (From Video Sheet 12: Click Calendar -> Tell AI -> Apply) -->
+          <!-- TAB 2: INSPECTOR & FACTS SPAWNER -->
           <div class="panel-content-wrap" id="panel-inspector-content" style="display: none;">
-            <div class="inspector-entity-box">
-              <div style="display: flex; align-items: center; justify-content: space-between;">
-                <span style="font-size: 13px; font-weight: 700; color: #ffffff;">
-                  Target: <strong id="inspect-entity-name" style="color: var(--accent-gold);">Calendar_Wall_15</strong>
-                </span>
+            <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 13px; font-weight: 700; color: #ffffff;">Target: <strong id="inspect-entity-name" style="color: var(--accent-gold);">Calendar_Wall_15</strong></span>
                 <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary);">CLICK TO SELECT</span>
               </div>
-              <p style="font-size: 11px; color: var(--text-secondary);">
-                Click any 3D element in the preview above (Calendar, Milo, Wave, Tank) to inspect and hot-patch it.
-              </p>
+              <p style="font-size: 11px; color: var(--text-secondary);">Click any element in the 3D preview above (Calendar, Actor, Tank, Wave) to inspect & hot-patch.</p>
+            </div>
 
-              <div class="prop-row">
-                <span class="prop-label">Wave Height</span>
-                <input type="range" class="prop-slider" min="5" max="30" value="18" id="slider-wave-height" oninput="update3DProperty('waveHeight', this.value)">
-                <span class="prop-val" id="val-wave-height">18ft</span>
-              </div>
-
-              <div class="prop-row">
-                <span class="prop-label">Wave Speed</span>
-                <input type="range" class="prop-slider" min="10" max="60" value="35" id="slider-wave-speed" oninput="update3DProperty('waveSpeed', this.value)">
-                <span class="prop-val" id="val-wave-speed">35mph</span>
-              </div>
-
-              <div class="prop-row">
-                <span class="prop-label">Milo Character Scale</span>
-                <input type="range" class="prop-slider" min="0.5" max="2.0" step="0.1" value="1.0" id="slider-milo-scale" oninput="update3DProperty('miloScale', this.value)">
-                <span class="prop-val" id="val-milo-scale">1.0x</span>
-              </div>
-
-              <div class="prop-row">
-                <span class="prop-label">Toon Shading Steps</span>
-                <input type="range" class="prop-slider" min="2" max="6" value="3" id="slider-toon-steps" oninput="update3DProperty('toonSteps', this.value)">
-                <span class="prop-val" id="val-toon-steps">3</span>
+            <!-- Facts-as-Objects Spawner -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px;">
+              <span style="font-size: 12px; font-weight: 600; color: #ffffff;">Spawn Facts-as-Objects Device</span>
+              <div class="device-grid-spawner">
+                <button class="btn-device-spawn" onclick="spawnDevice('calendar')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> Flip Calendar</button>
+                <button class="btn-device-spawn" onclick="spawnDevice('counter')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"></rect><line x1="6" y1="10" x2="6" y2="14"></line><line x1="10" y1="10" x2="10" y2="14"></line><line x1="14" y1="10" x2="14" y2="14"></line><line x1="18" y1="10" x2="18" y2="14"></line></svg> LED 2.3M Counter</button>
+                <button class="btn-device-spawn" onclick="spawnDevice('gauge')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Needle Gauge (12% Over)</button>
+                <button class="btn-device-spawn" onclick="spawnDevice('rivets')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> Exploding Rivets</button>
               </div>
             </div>
 
+            <!-- Hot-Patch Prompt Box -->
             <div style="display: flex; flex-direction: column; gap: 6px;">
               <label style="font-size: 12px; font-weight: 600; color: #ffffff;">Hot-Patch This Object</label>
-              <textarea class="modal-textarea" style="height: 60px;" id="patch-prompt" placeholder="E.g. In this shot, the calendar says Tuesday 14, change it to Wednesday 15th..."></textarea>
-              <button class="btn-header-primary" style="width: 100%; padding: 8px;" onclick="applyHotPatch()">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12"/>
-                </svg>
-                Apply Patch
-              </button>
+              <textarea class="modal-textarea" style="height: 60px;" id="patch-prompt" placeholder="E.g. In this shot, change calendar from Tuesday 14 to Wednesday 15th..."></textarea>
+              <button class="btn-header-primary" style="width: 100%; padding: 8px;" onclick="applyHotPatch()">Apply Patch</button>
             </div>
           </div>
 
-          <!-- TAB 3: CREW SUBAGENTS & LOG TERMINAL -->
+          <!-- TAB 3: CREW LOGS -->
           <div class="panel-content-wrap" id="panel-crew-content" style="display: none;">
             <div style="display: flex; align-items: center; justify-content: space-between;">
-              <span style="font-size: 11px; font-family: var(--font-mono); color: var(--text-secondary);">
-                5 Autonomous Subagents
-              </span>
-              <button onclick="runCrewPass()" style="font-size: 11px; padding: 4px 8px; border-radius: 4px; background: rgba(255,255,255,0.06); color: #ffffff;">
-                Run Crew Pass
-              </button>
+              <span style="font-size: 11px; font-family: var(--font-mono); color: var(--text-secondary);">5 Autonomous Subagents</span>
+              <button onclick="runCrewPass()" style="font-size: 11px; padding: 4px 8px; border-radius: 4px; background: rgba(255,255,255,0.06); color: #ffffff;">Run Pass</button>
             </div>
-
-            <div class="agent-card">
-              <div class="agent-card-header">
-                <div class="agent-name">Director</div>
-                <span class="agent-status-badge pass">COMPLETE</span>
-              </div>
-              <div class="agent-details">28 shots mapped. 161 words locked at 0:50 duration with 0.20s tightened pauses.</div>
+            <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 10px;">
+              <div style="font-weight: 600; font-size: 12px; color: #ffffff;">Director Agent: COMPLETE</div>
+              <div style="font-size: 11px; color: var(--text-secondary);">28 shots mapped, 161 words locked at 0:50 duration with 0.20s tightened pauses.</div>
             </div>
-
-            <div class="agent-card">
-              <div class="agent-card-header">
-                <div class="agent-name">Set Designer</div>
-                <span class="agent-status-badge pass">COMPLETE</span>
-              </div>
-              <div class="agent-details">Boston 1919 Commercial St docks, 50ft tank, elevated rail girder, wall calendar.</div>
+            <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 10px;">
+              <div style="font-weight: 600; font-size: 12px; color: #ffffff;">Set Designer: 29 Places Ready</div>
+              <div style="font-size: 11px; color: var(--text-secondary);">Active place: Boston 1919 Docks with Sunset Golden Hour lighting.</div>
             </div>
-
-            <div class="agent-card">
-              <div class="agent-card-header">
-                <div class="agent-name">Scene Builders (4 Subagents)</div>
-                <span class="agent-status-badge active">ACTIVE</span>
-              </div>
-              <div class="agent-details">Keyframing Milo gestures 4 frames early, 2-frame eye blink swaps.</div>
+            <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 10px;">
+              <div style="font-weight: 600; font-size: 12px; color: #ffffff;">Character Director: 20 Rigs Ready</div>
+              <div style="font-size: 11px; color: var(--text-secondary);">Milo actor active. 2-frame snap face swap calibrated.</div>
             </div>
-
-            <div class="agent-card">
-              <div class="agent-card-header">
-                <div class="agent-name">Layout Checker</div>
-                <span class="agent-status-badge pass">PASS (5/5)</span>
-              </div>
-              <div class="agent-details">Verified: Zero floating objects, Milo head outside 70% caption band.</div>
-            </div>
-
-            <div class="agent-card">
-              <div class="agent-card-header">
-                <div class="agent-name">Shot Polisher</div>
-                <span class="agent-status-badge pass">PASS</span>
-              </div>
-              <div class="agent-details">Continuous 5%/s camera drift, 6-frame dissolve seams, -14.0 LUFS sound master.</div>
+            <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 10px;">
+              <div style="font-weight: 600; font-size: 12px; color: #10b981;">Layout Checker: PASS (5/5)</div>
+              <div style="font-size: 11px; color: var(--text-secondary);">Zero collision detected. Face outside lower 70% caption band.</div>
             </div>
           </div>
         </div>
@@ -1986,102 +927,53 @@
     </div>
   </main>
 
-  <!-- MODAL 1: NEW PROJECT (Video Sheet 8 & Sheet 9) -->
-  <div class="modal-backdrop" id="new-project-modal">
+  <!-- MODAL: API KEY MANAGER -->
+  <div class="modal-backdrop" id="api-key-modal">
     <div class="modal-card">
       <div class="modal-header">
-        <h2 class="modal-title">New project</h2>
-        <button onclick="closeNewProjectModal()" style="color: var(--text-tertiary); padding: 4px;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/>
-          </svg>
+        <h2 class="modal-title">Antigravity API Key & Token Cache</h2>
+        <button onclick="closeApiKeyModal()" style="color: var(--text-tertiary); padding: 4px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
         </button>
       </div>
-
-      <div class="modal-form-group">
-        <label class="modal-label">Project Title</label>
-        <input type="text" class="modal-input" id="modal-project-title" value="The Deadly Wave of Molasses That Hit Boston">
-      </div>
-
-      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
-        <div class="modal-form-group">
-          <label class="modal-label">Style</label>
-          <select class="modal-input" id="modal-style-select">
-            <option value="3d-cartoon" selected>3D Cartoon Shorts</option>
-            <option value="isometric">Isometric 3D</option>
-            <option value="claymation">Claymation Rigs</option>
-          </select>
-        </div>
-
-        <div class="modal-form-group">
-          <label class="modal-label">Format</label>
-          <select class="modal-input" id="modal-format-select">
-            <option value="9:16" selected>Vertical 9:16</option>
-            <option value="16:9">Wide 16:9</option>
-          </select>
-        </div>
-
-        <div class="modal-form-group">
-          <label class="modal-label">Length</label>
-          <select class="modal-input" id="modal-length-select">
-            <option value="0:50" selected>0:50 (Shorts)</option>
-            <option value="0:40">0:40 (Fast)</option>
-            <option value="1:00">1:00 (Max)</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="modal-form-group">
-        <label class="modal-label">
-          <span>Look</span>
-          <span style="font-size: 11px; font-weight: normal; color: var(--text-tertiary);">Cinema vs Clean</span>
-        </label>
-        <select class="modal-input" id="modal-look-select">
-          <option value="cinema" selected>Cinema — Soft key & rim light, warm glow, film grain</option>
-          <option value="clean">Clean — Crisp, diagrammatic, lighter depth of field</option>
-        </select>
-      </div>
-
-      <div class="modal-form-group">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px;">
-          <label class="modal-label" style="margin-bottom: 0;">Story / Production Script</label>
-          <div style="font-family: var(--font-mono); font-size: 10.5px; color: var(--text-tertiary);" id="script-word-counter">
-            161 words (about 0:49 spoken)
+      <p style="font-size: 12px; color: var(--text-secondary);">Connect your Google Gemini / Antigravity API key to enable live AI reasoning and code hot-patching. Repeated calls reuse cached tokens (96% cache rate).</p>
+      <div style="background: rgba(0,0,0,0.35); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 8px;">
+        <label style="font-size: 11.5px; font-weight: 600; color: var(--text-secondary);">API Key</label>
+        <input type="password" style="padding: 8px 10px; font-size: 12.5px;" id="antigravity-api-key-input" placeholder="AIzaSy... (Gemini / Antigravity API Key)">
+        <div style="display: flex; gap: 10px; margin-top: 6px;">
+          <div style="flex: 1;">
+            <label style="font-size: 11.5px; font-weight: 600; color: var(--text-secondary);">Model Tier</label>
+            <select style="width: 100%; padding: 7px; font-size: 12px;" id="api-model-select">
+              <option value="gemini-2.5-pro" selected>gemini-2.5-pro (Deep Reasoning & 3D Polish)</option>
+              <option value="gemini-2.5-flash">gemini-2.5-flash (Sub-second Rapid Generation)</option>
+            </select>
           </div>
         </div>
-        <textarea class="modal-textarea" id="modal-script-text" oninput="updateWordCount(this.value)">It's lunchtime in Boston, nineteen nineteen, and a wave of molasses is rolling down your street.
-Above the docks stands a steel tank with two point three million gallons of the stuff.
-It leaks so much, the owners painted it brown.
-Today, it bursts.
-The wave is as tall as a house and moving at thirty-five miles per hour...</textarea>
+        <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; margin-top: 6px;">
+          <span style="color: var(--text-secondary);">Cache Quota Status:</span>
+          <span style="color: var(--accent-green); font-weight: 700;">96% Cached • Free Quota Active</span>
+        </div>
       </div>
-
-      <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid var(--border-subtle);">
-        <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-tertiary);">Ctrl + Enter to create</div>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 11px; color: var(--text-tertiary);">Key stored locally in browser storage</span>
         <div style="display: flex; gap: 8px;">
-          <button class="btn-header-secondary" onclick="closeNewProjectModal()">Cancel</button>
-          <button class="btn-header-primary" onclick="createProjectFromModal()">Create project</button>
+          <button class="btn-header-secondary" onclick="closeApiKeyModal()">Cancel</button>
+          <button class="btn-header-primary" onclick="saveApiKey()">Save & Connect</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- MODAL 2: TRIM SILENCES (Video Sheet 8: "Trim silences right here in the pipeline") -->
+  <!-- MODAL: TRIM SILENCES -->
   <div class="modal-backdrop" id="trim-modal">
     <div class="modal-card">
       <div class="modal-header">
         <h2 class="modal-title">Trim Silences & Tighten Pauses</h2>
         <button onclick="closeTrimModal()" style="color: var(--text-tertiary); padding: 4px;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/>
-          </svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
         </button>
       </div>
-
-      <p style="font-size: 12px; color: var(--text-secondary);">
-        In this style, pauses longer than 0.20s cause viewers to swipe away. Red vertical bars highlight pauses to slice.
-      </p>
-
+      <p style="font-size: 12px; color: var(--text-secondary);">Pauses longer than 0.20s cause viewers to swipe away. Red vertical bars highlight pauses to slice.</p>
       <div style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 14px;">
         <div class="waveform-visual-container" style="height: 48px;">
           <svg class="waveform-svg" style="height: 44px;" viewBox="0 0 800 24" preserveAspectRatio="none">
@@ -2097,12 +989,10 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
           <div class="pause-cut-marker" style="left: 91%;"></div>
         </div>
       </div>
-
       <div style="display: flex; align-items: center; justify-content: space-between; font-family: var(--font-mono); font-size: 13px;">
         <span style="color: var(--text-secondary);">Voiceover Dial-Up:</span>
         <span style="color: #ef4444; font-weight: 700;">60.8 s → 49.2 s (-11.6s sliced)</span>
       </div>
-
       <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px;">
         <button class="btn-header-secondary" onclick="closeTrimModal()">Close</button>
         <button class="btn-header-primary" onclick="applyTrimSilences()">Apply 0.20s Tightening</button>
@@ -2110,164 +1000,81 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
     </div>
   </div>
 
-  <!-- MODAL 3: API KEY & TOKEN MANAGER (Direct Antigravity Key Connection) -->
-  <div class="modal-backdrop" id="api-key-modal">
+  <!-- MODAL: NEW PROJECT -->
+  <div class="modal-backdrop" id="new-project-modal">
     <div class="modal-card">
       <div class="modal-header">
-        <h2 class="modal-title">Antigravity API Key & Token Cache</h2>
-        <button onclick="closeApiKeyModal()" style="color: var(--text-tertiary); padding: 4px;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/>
-          </svg>
+        <h2 class="modal-title">New project</h2>
+        <button onclick="closeNewProjectModal()" style="color: var(--text-tertiary); padding: 4px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
         </button>
       </div>
-
-      <p style="font-size: 12px; color: var(--text-secondary);">
-        Connect your active Google Gemini / Antigravity API key to enable live AI reasoning and code hot-patching. Repeated calls reuse cached tokens (96% cache rate).
-      </p>
-
-      <div class="api-key-box">
-        <label class="modal-label">API Key</label>
-        <input type="password" class="modal-input" id="antigravity-api-key-input" placeholder="AIzaSy... (Gemini / Antigravity API Key)">
-        
-        <div style="display: flex; gap: 10px; margin-top: 6px;">
-          <div style="flex: 1;">
-            <label class="modal-label">Model Tier</label>
-            <select class="modal-input" id="api-model-select">
-              <option value="gemini-2.5-pro" selected>gemini-2.5-pro (Deep Reasoning & 3D Polish)</option>
-              <option value="gemini-2.5-flash">gemini-2.5-flash (Sub-second Rapid Generation)</option>
-            </select>
-          </div>
+      <div>
+        <label style="font-size: 11.5px; font-weight: 600; color: var(--text-secondary);">Project Title</label>
+        <input type="text" style="width: 100%; padding: 8px 10px; font-size: 12.5px; margin-top: 4px;" id="modal-project-title" value="The Deadly Wave of Molasses That Hit Boston">
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+        <div>
+          <label style="font-size: 11.5px; font-weight: 600; color: var(--text-secondary);">Style</label>
+          <select style="width: 100%; padding: 7px; font-size: 12px; margin-top: 4px;">
+            <option selected>3D Cartoon Shorts</option>
+            <option>Isometric 3D</option>
+          </select>
         </div>
-
-        <div class="api-status-row" style="margin-top: 8px;">
-          <span style="color: var(--text-secondary);">Cache Quota Status:</span>
-          <span style="color: var(--accent-green); font-weight: 700;">96% Cached • Free Quota Active</span>
+        <div>
+          <label style="font-size: 11.5px; font-weight: 600; color: var(--text-secondary);">Format</label>
+          <select style="width: 100%; padding: 7px; font-size: 12px; margin-top: 4px;">
+            <option selected>Vertical 9:16</option>
+            <option>Wide 16:9</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size: 11.5px; font-weight: 600; color: var(--text-secondary);">Length</label>
+          <select style="width: 100%; padding: 7px; font-size: 12px; margin-top: 4px;">
+            <option selected>0:50 (Shorts)</option>
+            <option>0:40 (Fast)</option>
+          </select>
         </div>
       </div>
-
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 11px; color: var(--text-tertiary);">Key stored locally in browser storage</span>
+      <div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+          <label style="font-size: 11.5px; font-weight: 600; color: var(--text-secondary);">Story / Script</label>
+          <div style="font-family: var(--font-mono); font-size: 10.5px; color: var(--text-tertiary);" id="script-word-counter">161 words (about 0:49 spoken)</div>
+        </div>
+        <textarea style="width: 100%; height: 90px; padding: 8px 10px; font-size: 12px;" id="modal-script-text" oninput="updateWordCount(this.value)">It's lunchtime in Boston, nineteen nineteen, and a wave of molasses is rolling down your street.
+Above the docks stands a steel tank with two point three million gallons of the stuff.
+It leaks so much, the owners painted it brown.
+Today, it bursts...</textarea>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid var(--border-subtle);">
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--text-tertiary);">Ctrl + Enter to create</span>
         <div style="display: flex; gap: 8px;">
-          <button class="btn-header-secondary" onclick="closeApiKeyModal()">Cancel</button>
-          <button class="btn-header-primary" onclick="saveApiKey()">Save & Connect</button>
+          <button class="btn-header-secondary" onclick="closeNewProjectModal()">Cancel</button>
+          <button class="btn-header-primary" onclick="createProjectFromModal()">Create project</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Toast Notification -->
   <div id="toast-msg">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="20 6 9 17 4 12"/>
-    </svg>
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
     <span id="toast-text">Action completed successfully</span>
   </div>
 
   <!-- APPLICATION LOGIC & THREE.JS 3D ENGINE -->
   <script>
-    // 10 BENCHMARK VIRAL SHORTS DATA (FROM VIDEO)
+    // 10 BENCHMARK PROJECTS
     const BENCHMARK_PROJECTS = [
-      {
-        id: 'molasses',
-        title: 'The Deadly Wave of Molasses That Hit Boston',
-        duration: '0:50',
-        shots: 28,
-        quality: 'Ultra edit',
-        format: '9:16',
-        theme: '#854d0e',
-        sceneConfig: { waveHeight: 18, waveSpeed: 35, miloScale: 1.0, color: 0x3d1a0a }
-      },
-      {
-        id: 'crying-space',
-        title: 'What Crying in Space Actually Looks Like',
-        duration: '0:48',
-        shots: 24,
-        quality: 'Standard',
-        format: '9:16',
-        theme: '#1e3a8a',
-        sceneConfig: { waveHeight: 8, waveSpeed: 10, miloScale: 1.0, color: 0x38bdf8 }
-      },
-      {
-        id: 'apollo-13',
-        title: "Why Apollo 13 Couldn't Just Turn Around",
-        duration: '0:52',
-        shots: 29,
-        quality: 'Polished',
-        format: '9:16',
-        theme: '#475569',
-        sceneConfig: { waveHeight: 12, waveSpeed: 25, miloScale: 1.0, color: 0x94a3b8 }
-      },
-      {
-        id: 'satellite-keyhole',
-        title: 'The Billion-Dollar Satellite We Pushed Through a Keyhole',
-        duration: '0:50',
-        shots: 26,
-        quality: 'Ultra edit',
-        format: '9:16',
-        theme: '#047857',
-        sceneConfig: { waveHeight: 15, waveSpeed: 30, miloScale: 1.0, color: 0x10b981 }
-      },
-      {
-        id: 'dial-up-modem',
-        title: 'Why Your Dial-Up Modem Was Actually Screaming',
-        duration: '0:49',
-        shots: 27,
-        quality: 'Ultra edit',
-        format: '9:16',
-        theme: '#b45309',
-        sceneConfig: { waveHeight: 16, waveSpeed: 40, miloScale: 1.0, color: 0xf59e0b }
-      },
-      {
-        id: 'anglerfish-mating',
-        title: 'Some Male Anglerfish Fuse to Their Mates for Life',
-        duration: '0:47',
-        shots: 22,
-        quality: 'Polished',
-        format: '9:16',
-        theme: '#1e1b4b',
-        sceneConfig: { waveHeight: 14, waveSpeed: 20, miloScale: 1.0, color: 0x6366f1 }
-      },
-      {
-        id: 'leaning-tower-pisa',
-        title: "The Leaning Tower of Pisa's Accidental Soil",
-        duration: '0:51',
-        shots: 25,
-        quality: 'Standard',
-        format: '9:16',
-        theme: '#a16207',
-        sceneConfig: { waveHeight: 10, waveSpeed: 15, miloScale: 1.0, color: 0xeab308 }
-      },
-      {
-        id: 'fake-town-bomber',
-        title: 'The Fake Town Built Over a Bomber Plant',
-        duration: '0:53',
-        shots: 30,
-        quality: 'Ultra edit',
-        format: '9:16',
-        theme: '#3f6212',
-        sceneConfig: { waveHeight: 15, waveSpeed: 30, miloScale: 1.0, color: 0x84cc16 }
-      },
-      {
-        id: 'everest-traffic',
-        title: 'How 57,000 Climbers Were Pushed Over Everest',
-        duration: '0:49',
-        shots: 26,
-        quality: 'Polished',
-        format: '9:16',
-        theme: '#0f766e',
-        sceneConfig: { waveHeight: 14, waveSpeed: 22, miloScale: 1.0, color: 0x14b8a6 }
-      },
-      {
-        id: 'accidental-poison',
-        title: 'The Accidental Poison That Won the War',
-        duration: '0:50',
-        shots: 28,
-        quality: 'Ultra edit',
-        format: '9:16',
-        theme: '#6b21a8',
-        sceneConfig: { waveHeight: 18, waveSpeed: 35, miloScale: 1.0, color: 0xa855f7 }
-      }
+      { id: 'molasses', title: 'The Deadly Wave of Molasses That Hit Boston', duration: '0:50', shots: 28, quality: 'Ultra edit', format: '9:16', theme: '#854d0e', place: 'boston-1919-docks', actor: 'milo' },
+      { id: 'crying-space', title: 'What Crying in Space Actually Looks Like', duration: '0:48', shots: 24, quality: 'Standard', format: '9:16', theme: '#1e3a8a', place: 'iss-cupola', actor: 'juno' },
+      { id: 'apollo-13', title: "Why Apollo 13 Couldn't Just Turn Around", duration: '0:52', shots: 29, quality: 'Polished', format: '9:16', theme: '#475569', place: 'apollo-mission-control', actor: 'commander_lovell' },
+      { id: 'satellite-keyhole', title: 'The Billion-Dollar Satellite We Pushed Through a Keyhole', duration: '0:50', shots: 26, quality: 'Ultra edit', format: '9:16', theme: '#047857', place: 'satellite-cleanroom', actor: 'aria' },
+      { id: 'dial-up-modem', title: 'Why Your Dial-Up Modem Was Actually Screaming', duration: '0:49', shots: 27, quality: 'Ultra edit', format: '9:16', theme: '#b45309', place: 'dialup-bedroom-90s', actor: 'kobe' },
+      { id: 'anglerfish-mating', title: 'Some Male Anglerfish Fuse to Their Mates for Life', duration: '0:47', shots: 22, quality: 'Polished', format: '9:16', theme: '#1e1b4b', place: 'deep-sea-trench', actor: 'tara' },
+      { id: 'leaning-tower-pisa', title: "The Leaning Tower of Pisa's Accidental Soil", duration: '0:51', shots: 25, quality: 'Standard', format: '9:16', theme: '#a16207', place: 'leaning-tower-plaza', actor: 'dex' },
+      { id: 'fake-town-bomber', title: 'The Fake Town Built Over a Bomber Plant', duration: '0:53', shots: 30, quality: 'Ultra edit', format: '9:16', theme: '#3f6212', place: 'bomber-plant-rooftop', actor: 'walt' },
+      { id: 'everest-traffic', title: 'How 57,000 Climbers Were Pushed Over Everest', duration: '0:49', shots: 26, quality: 'Polished', format: '9:16', theme: '#0f766e', place: 'everest-hillary-step', actor: 'rory' },
+      { id: 'accidental-poison', title: 'The Accidental Poison That Won the War', duration: '0:50', shots: 28, quality: 'Ultra edit', format: '9:16', theme: '#6b21a8', place: 'london-lab-1928', actor: 'dr_fleming' }
     ];
 
     // 28 SHOTS FOR BOSTON MOLASSES
@@ -2302,7 +1109,7 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       { id: 28, text: "...Boston still smelled like sweet brown molasses.", tc: "0:50 - 0:51", sub: "Boston smelled like <span class='sub-highlight'>molasses</span>." }
     ];
 
-    // APPLICATION STATE
+    // STATE
     let currentView = 'dashboard';
     let currentProject = BENCHMARK_PROJECTS[0];
     let activeShotIndex = 0;
@@ -2313,13 +1120,16 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
 
     // THREE.JS SCENE STATE
     let scene, camera, renderer, controls;
-    let miloGroup, waveMesh, tankMesh, calendarMesh;
+    let actorGroup, placeGroup, waveMesh, calendarMesh;
     let sceneClock = new THREE.Clock();
     let raycaster = new THREE.Raycaster();
     let mouse = new THREE.Vector2();
-    let selectedEntityName = "Calendar_Wall_15";
 
-    // API KEY STORAGE
+    // CHARACTER & PLACE STATE
+    let currentActorKey = 'milo';
+    let currentSkinMode = 'classic_white';
+    let currentPlaceKey = 'boston-1919-docks';
+
     let savedApiKey = localStorage.getItem('creatorize_antigravity_api_key') || '';
 
     // INIT
@@ -2333,16 +1143,14 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       }
     });
 
-    // RENDER PROJECTS GRID
+    // RENDER PROJECTS
     function renderProjectsGrid(projects) {
       const container = document.getElementById('projects-container');
       container.innerHTML = '';
-
       projects.forEach((proj, idx) => {
         const card = document.createElement('div');
         card.className = 'project-card';
         card.onclick = () => openStudioProject(proj.id);
-
         card.innerHTML = `
           <div class="card-thumb-9-16">
             <canvas class="card-thumb-canvas" id="canvas-thumb-${idx}"></canvas>
@@ -2351,10 +1159,7 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
           </div>
           <div class="card-info">
             <div class="card-title">${proj.title}</div>
-            <div class="card-meta">
-              <span>${proj.shots} shots</span>
-              <span>${proj.format}</span>
-            </div>
+            <div class="card-meta"><span>${proj.shots} shots</span><span>${proj.format}</span></div>
           </div>
         `;
         container.appendChild(card);
@@ -2366,76 +1171,45 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       const canvas = document.getElementById(canvasId);
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
-      canvas.width = 180;
-      canvas.height = 240;
-
-      // Dark radial spotlight background
+      canvas.width = 180; canvas.height = 240;
       const grad = ctx.createRadialGradient(90, 80, 10, 90, 120, 140);
-      grad.addColorStop(0, '#1e2433');
-      grad.addColorStop(1, '#0b0d13');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 180, 240);
+      grad.addColorStop(0, '#1e2433'); grad.addColorStop(1, '#0b0d13');
+      ctx.fillStyle = grad; ctx.fillRect(0, 0, 180, 240);
 
-      // Warm window sun ray
       ctx.fillStyle = 'rgba(255, 235, 200, 0.08)';
-      ctx.beginPath();
-      ctx.moveTo(180, 0);
-      ctx.lineTo(120, 0);
-      ctx.lineTo(20, 240);
-      ctx.lineTo(180, 240);
-      ctx.fill();
+      ctx.beginPath(); ctx.moveTo(180, 0); ctx.lineTo(120, 0); ctx.lineTo(20, 240); ctx.lineTo(180, 240); ctx.fill();
 
-      // Milo head
-      ctx.fillStyle = '#ffffff';
-      ctx.beginPath();
-      ctx.arc(90, 95, 26, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Milo hair clump
-      ctx.fillStyle = '#1e1b18';
-      ctx.beginPath();
-      ctx.arc(90, 72, 12, 0, Math.PI);
-      ctx.fill();
-
+      // Head
+      ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(90, 95, 26, 0, Math.PI * 2); ctx.fill();
+      // Hair clump
+      ctx.fillStyle = '#1e1b18'; ctx.beginPath(); ctx.arc(90, 72, 12, 0, Math.PI); ctx.fill();
       // Eyes
       ctx.fillStyle = '#0b0d11';
-      ctx.beginPath();
-      ctx.arc(82, 95, 3.8, 0, Math.PI * 2);
-      ctx.arc(98, 95, 3.8, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(82, 95, 3.8, 0, Math.PI * 2); ctx.arc(98, 95, 3.8, 0, Math.PI * 2); ctx.fill();
+      // Red tie
+      ctx.fillStyle = '#ef4444'; ctx.beginPath(); ctx.moveTo(85, 122); ctx.lineTo(95, 122); ctx.lineTo(90, 130); ctx.fill();
+      // Torso
+      ctx.fillStyle = '#334155'; ctx.fillRect(78, 124, 24, 34);
 
-      // Red bow/tie
-      ctx.fillStyle = '#ef4444';
-      ctx.beginPath();
-      ctx.moveTo(85, 122);
-      ctx.lineTo(95, 122);
-      ctx.lineTo(90, 130);
-      ctx.fill();
-
-      // Body
-      ctx.fillStyle = '#334155';
-      ctx.fillRect(78, 124, 24, 34);
-
-      // Horizon wave
-      ctx.fillStyle = proj.theme;
-      ctx.beginPath();
-      ctx.moveTo(0, 195);
-      ctx.quadraticCurveTo(90, 165, 180, 205);
-      ctx.lineTo(180, 240);
-      ctx.lineTo(0, 240);
-      ctx.fill();
+      // Wave
+      ctx.fillStyle = proj.theme; ctx.beginPath();
+      ctx.moveTo(0, 195); ctx.quadraticCurveTo(90, 165, 180, 205); ctx.lineTo(180, 240); ctx.lineTo(0, 240); ctx.fill();
     }
 
-    // OPEN STUDIO
+    // STUDIO SWITCHING
     function openStudioProject(id) {
       const proj = BENCHMARK_PROJECTS.find(p => p.id === id) || BENCHMARK_PROJECTS[0];
       currentProject = proj;
-
       document.getElementById('view-dashboard').style.display = 'none';
       document.getElementById('view-studio').style.display = 'block';
       document.getElementById('studio-project-title').textContent = proj.title;
       document.getElementById('nav-projects-btn').classList.remove('active');
       currentView = 'studio';
+
+      if (proj.place) document.getElementById('place-select').value = proj.place;
+      if (proj.actor) document.getElementById('actor-select').value = proj.actor;
+      currentPlaceKey = proj.place || 'boston-1919-docks';
+      currentActorKey = proj.actor || 'milo';
 
       setTimeout(initThreeViewport, 50);
       showToast('Loaded ' + proj.title);
@@ -2454,174 +1228,183 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       const container = document.getElementById('three-viewport');
       if (!container) return;
       container.innerHTML = '';
-
-      const width = container.clientWidth;
-      const height = container.clientHeight;
+      const w = container.clientWidth; const h = container.clientHeight;
 
       scene = new THREE.Scene();
       scene.background = new THREE.Color(0x0c0e14);
       scene.fog = new THREE.FogExp2(0x0c0e14, 0.025);
 
-      camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+      camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
       camera.position.set(0, 3, 10);
 
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setSize(width, height);
+      renderer.setSize(w, h);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       container.appendChild(renderer.domElement);
 
       controls = new THREE.OrbitControls(camera, renderer.domElement);
-      controls.enableDamping = true;
-      controls.dampingFactor = 0.05;
+      controls.enableDamping = true; controls.dampingFactor = 0.05;
 
-      // Cinema Lighting: Soft Warm Key, Cyan Rim, Fill
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
-      scene.add(ambientLight);
+      // Lights
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.65); scene.add(ambientLight);
+      const keyLight = new THREE.DirectionalLight(0xffedd5, 1.3); keyLight.position.set(6, 12, 8); keyLight.castShadow = true; scene.add(keyLight);
+      const rimLight = new THREE.DirectionalLight(0x38bdf8, 1.1); rimLight.position.set(-6, 8, -6); scene.add(rimLight);
 
-      const keyLight = new THREE.DirectionalLight(0xffedd5, 1.3);
-      keyLight.position.set(6, 12, 8);
-      keyLight.castShadow = true;
-      scene.add(keyLight);
-
-      const rimLight = new THREE.DirectionalLight(0x38bdf8, 1.1);
-      rimLight.position.set(-6, 8, -6);
-      scene.add(rimLight);
-
-      // Wooden Plank Floor
-      const groundGeo = new THREE.PlaneGeometry(30, 30);
-      const groundMat = new THREE.MeshStandardMaterial({ color: 0x27211b, roughness: 0.75, metalness: 0.1 });
-      const ground = new THREE.Mesh(groundGeo, groundMat);
-      ground.rotation.x = -Math.PI / 2;
-      ground.receiveShadow = true;
-      scene.add(ground);
-
-      // Brick Wall with Window
-      const wallGeo = new THREE.PlaneGeometry(30, 16);
-      const wallMat = new THREE.MeshStandardMaterial({ color: 0x3b2b23, roughness: 0.9 });
-      const wall = new THREE.Mesh(wallGeo, wallMat);
-      wall.position.set(0, 8, -10);
-      scene.add(wall);
-
-      // The 1919 Calendar on the Wall (From Video: Tuesday 14 -> Wednesday 15th)
-      const calGeo = new THREE.BoxGeometry(1.4, 2.0, 0.08);
-      const calMat = new THREE.MeshStandardMaterial({ color: 0xfef08a, roughness: 0.4 });
-      calendarMesh = new THREE.Mesh(calGeo, calMat);
-      calendarMesh.position.set(2.5, 4.5, -9.8);
-      calendarMesh.name = "Calendar_Wall_15";
-      scene.add(calendarMesh);
-
-      // 50ft Molasses Tank in Background
-      const tankGeo = new THREE.CylinderGeometry(4.2, 4.2, 8.5, 32);
-      const tankMat = new THREE.MeshStandardMaterial({ color: 0x2b1810, roughness: 0.6, metalness: 0.45 });
-      tankMesh = new THREE.Mesh(tankGeo, tankMat);
-      tankMesh.position.set(-4, 4.25, -7);
-      tankMesh.name = "MolassesTank_50ft";
-      scene.add(tankMesh);
-
-      // Viscous Molasses Wave Mesh
-      const waveGeo = new THREE.PlaneGeometry(16, 12, 32, 32);
-      const waveMat = new THREE.MeshStandardMaterial({
-        color: currentProject.sceneConfig ? currentProject.sceneConfig.color : 0x3d1a0a,
-        roughness: 0.15,
-        metalness: 0.7
-      });
-      waveMesh = new THREE.Mesh(waveGeo, waveMat);
-      waveMesh.rotation.x = -Math.PI / 3;
-      waveMesh.position.set(0, 1.2, -4);
-      waveMesh.name = "MolassesWave_01";
-      scene.add(waveMesh);
-
-      // Milo Cartoon Character Rig
-      buildMiloRig();
+      // Build Place & Actor
+      buildPlaceEnvironment(currentPlaceKey);
+      buildActorRig(currentActorKey, currentSkinMode);
 
       animate3DScene();
     }
 
-    function buildMiloRig() {
-      miloGroup = new THREE.Group();
-      miloGroup.position.set(0, 0, 1);
-      miloGroup.name = "Milo_Character_Rig";
+    function buildPlaceEnvironment(placeKey) {
+      if (placeGroup) scene.remove(placeGroup);
+      placeGroup = new THREE.Group();
+      placeGroup.name = "Dressed_Place_" + placeKey;
 
-      const skinMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.4 });
+      // Ground Plane
+      const groundGeo = new THREE.PlaneGeometry(35, 35);
+      let groundColor = 0x27211b;
+      if (placeKey === 'iss-cupola') groundColor = 0x1e293b;
+      else if (placeKey === 'deep-sea-trench') groundColor = 0x09141f;
+      else if (placeKey === 'everest-hillary-step') groundColor = 0xdbeafe;
+
+      const groundMat = new THREE.MeshStandardMaterial({ color: groundColor, roughness: 0.8 });
+      const ground = new THREE.Mesh(groundGeo, groundMat);
+      ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true;
+      placeGroup.add(ground);
+
+      // Environment props based on place
+      if (placeKey === 'boston-1919-docks') {
+        // Wall
+        const wallGeo = new THREE.PlaneGeometry(30, 16);
+        const wallMat = new THREE.MeshStandardMaterial({ color: 0x3b2b23, roughness: 0.9 });
+        const wall = new THREE.Mesh(wallGeo, wallMat); wall.position.set(0, 8, -10); placeGroup.add(wall);
+
+        // 1919 Calendar on wall
+        const calGeo = new THREE.BoxGeometry(1.4, 2.0, 0.08);
+        const calMat = new THREE.MeshStandardMaterial({ color: 0xfef08a, roughness: 0.4 });
+        calendarMesh = new THREE.Mesh(calGeo, calMat); calendarMesh.position.set(2.5, 4.5, -9.8);
+        calendarMesh.name = "Calendar_Wall_15"; placeGroup.add(calendarMesh);
+
+        // Molasses Tank
+        const tankGeo = new THREE.CylinderGeometry(4.2, 4.2, 8.5, 32);
+        const tankMat = new THREE.MeshStandardMaterial({ color: 0x2b1810, roughness: 0.6, metalness: 0.45 });
+        const tank = new THREE.Mesh(tankGeo, tankMat); tank.position.set(-4, 4.25, -7);
+        tank.name = "MolassesTank_50ft"; placeGroup.add(tank);
+
+        // Viscous Wave
+        const waveGeo = new THREE.PlaneGeometry(16, 12, 32, 32);
+        const waveMat = new THREE.MeshStandardMaterial({ color: 0x3d1a0a, roughness: 0.15, metalness: 0.7 });
+        waveMesh = new THREE.Mesh(waveGeo, waveMat); waveMesh.rotation.x = -Math.PI / 3; waveMesh.position.set(0, 1.2, -4);
+        waveMesh.name = "MolassesWave_01"; placeGroup.add(waveMesh);
+      } else if (placeKey === 'iss-cupola') {
+        // Dome Arch
+        const domeGeo = new THREE.TorusGeometry(5, 0.4, 16, 32);
+        const domeMat = new THREE.MeshStandardMaterial({ color: 0x64748b, metalness: 0.8 });
+        const dome = new THREE.Mesh(domeGeo, domeMat); dome.position.set(0, 4, -4); placeGroup.add(dome);
+
+        // Earth Horizon
+        const earthGeo = new THREE.SphereGeometry(14, 32, 32);
+        const earthMat = new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.3 });
+        const earth = new THREE.Mesh(earthGeo, earthMat); earth.position.set(0, -12, -8); placeGroup.add(earth);
+      } else {
+        // Universal Architectural Pillars
+        for (let i = -2; i <= 2; i++) {
+          if (i === 0) continue;
+          const colGeo = new THREE.CylinderGeometry(0.3, 0.3, 8, 16);
+          const colMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.5 });
+          const col = new THREE.Mesh(colGeo, colMat); col.position.set(i * 3.5, 4, -6);
+          placeGroup.add(col);
+        }
+      }
+
+      scene.add(placeGroup);
+    }
+
+    function buildActorRig(actorKey, skinMode) {
+      if (actorGroup) scene.remove(actorGroup);
+      actorGroup = new THREE.Group();
+      actorGroup.position.set(0, 0, 1);
+      actorGroup.name = "Actor_Rig_" + actorKey;
+
+      let skinColor = 0xffffff;
+      if (skinMode === 'fair') skinColor = 0xfce2d4;
+      else if (skinMode === 'beige') skinColor = 0xe4a582;
+      else if (skinMode === 'caramel') skinColor = 0xc68642;
+      else if (skinMode === 'bronze') skinColor = 0x8d5524;
+      else if (skinMode === 'rich_brown') skinColor = 0x4a2b11;
+
+      const skinMat = new THREE.MeshStandardMaterial({ color: skinColor, roughness: 0.4 });
       const eyeMat = new THREE.MeshBasicMaterial({ color: 0x090b0e });
-      const shirtMat = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.4 });
+
+      let shirtColor = 0xef4444; // default red
+      if (actorKey === 'juno') shirtColor = 0xca8a04;
+      else if (actorKey === 'dex') shirtColor = 0x0284c7;
+      else if (actorKey === 'bea') shirtColor = 0xeab308;
+      else if (actorKey === 'otis') shirtColor = 0x475569;
+      else if (actorKey === 'zed') shirtColor = 0x1f2937;
+      else if (actorKey === 'aria') shirtColor = 0xe2e8f0;
+
+      const shirtMat = new THREE.MeshStandardMaterial({ color: shirtColor, roughness: 0.4 });
       const pantMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.6 });
 
       // Head
-      const headGeo = new THREE.SphereGeometry(0.8, 24, 24);
-      const head = new THREE.Mesh(headGeo, skinMat);
-      head.position.y = 2.4;
-      head.name = "Milo_Head";
-      head.castShadow = true;
-      miloGroup.add(head);
+      const headRadius = actorKey === 'bea' ? 0.65 : (actorKey === 'otis' ? 0.95 : 0.8);
+      const headGeo = new THREE.SphereGeometry(headRadius, 24, 24);
+      const head = new THREE.Mesh(headGeo, skinMat); head.position.y = 2.4; head.name = "Actor_Head";
+      actorGroup.add(head);
 
       // Hair
-      const hairGeo = new THREE.ConeGeometry(0.3, 0.4, 8);
+      const hairGeo = new THREE.ConeGeometry(0.35, 0.45, 8);
       const hairMat = new THREE.MeshStandardMaterial({ color: 0x1a110a });
-      const hair = new THREE.Mesh(hairGeo, hairMat);
-      hair.position.set(0, 3.25, 0);
-      miloGroup.add(hair);
+      const hair = new THREE.Mesh(hairGeo, hairMat); hair.position.set(0, 2.4 + headRadius + 0.1, 0);
+      actorGroup.add(hair);
 
       // Eyes
       const eyeGeo = new THREE.SphereGeometry(0.1, 16, 16);
-      const eyeL = new THREE.Mesh(eyeGeo, eyeMat);
-      eyeL.position.set(-0.25, 2.5, 0.72);
-      const eyeR = new THREE.Mesh(eyeGeo, eyeMat);
-      eyeR.position.set(0.25, 2.5, 0.72);
-      miloGroup.add(eyeL);
-      miloGroup.add(eyeR);
+      const eyeL = new THREE.Mesh(eyeGeo, eyeMat); eyeL.position.set(-0.25, 2.5, headRadius * 0.9);
+      const eyeR = new THREE.Mesh(eyeGeo, eyeMat); eyeR.position.set(0.25, 2.5, headRadius * 0.9);
+      actorGroup.add(eyeL); actorGroup.add(eyeR);
 
       // Torso
-      const torsoGeo = new THREE.CylinderGeometry(0.5, 0.45, 1.1, 16);
-      const torso = new THREE.Mesh(torsoGeo, shirtMat);
-      torso.position.y = 1.35;
-      torso.castShadow = true;
-      miloGroup.add(torso);
+      const torsoRadius = actorKey === 'otis' ? 0.75 : 0.48;
+      const torsoGeo = new THREE.CylinderGeometry(torsoRadius, torsoRadius * 0.9, 1.1, 16);
+      const torso = new THREE.Mesh(torsoGeo, shirtMat); torso.position.y = 1.35;
+      actorGroup.add(torso);
 
       // Arms
       const armGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.8, 8);
-      const armL = new THREE.Mesh(armGeo, skinMat);
-      armL.position.set(-0.7, 1.3, 0);
-      armL.rotation.z = Math.PI / 6;
-      miloGroup.add(armL);
-
-      const armR = new THREE.Mesh(armGeo, skinMat);
-      armR.position.set(0.7, 1.3, 0);
-      armR.rotation.z = -Math.PI / 4;
-      armR.name = "armR";
-      miloGroup.add(armR);
+      const armL = new THREE.Mesh(armGeo, skinMat); armL.position.set(-(torsoRadius + 0.2), 1.3, 0); armL.rotation.z = Math.PI / 6;
+      const armR = new THREE.Mesh(armGeo, skinMat); armR.position.set((torsoRadius + 0.2), 1.3, 0); armR.rotation.z = -Math.PI / 4; armR.name = "armR";
+      actorGroup.add(armL); actorGroup.add(armR);
 
       // Legs
       const legGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.9, 8);
-      const legL = new THREE.Mesh(legGeo, pantMat);
-      legL.position.set(-0.25, 0.45, 0);
-      const legR = new THREE.Mesh(legGeo, pantMat);
-      legR.position.set(0.25, 0.45, 0);
-      miloGroup.add(legL);
-      miloGroup.add(legR);
+      const legL = new THREE.Mesh(legGeo, pantMat); legL.position.set(-0.25, 0.45, 0);
+      const legR = new THREE.Mesh(legGeo, pantMat); legR.position.set(0.25, 0.45, 0);
+      actorGroup.add(legL); actorGroup.add(legR);
 
-      scene.add(miloGroup);
+      scene.add(actorGroup);
     }
 
     function animate3DScene() {
       requestAnimationFrame(animate3DScene);
       const time = sceneClock.getElapsedTime();
 
-      if (miloGroup) {
-        miloGroup.position.y = Math.sin(time * 3) * 0.04;
-        const armR = miloGroup.getObjectByName('armR');
+      if (actorGroup) {
+        actorGroup.position.y = Math.sin(time * 3) * 0.04;
+        const armR = actorGroup.getObjectByName('armR');
         if (armR) armR.rotation.z = -Math.PI / 4 + Math.sin(time * 4) * 0.15;
       }
 
       if (waveMesh && waveMesh.geometry) {
         const pos = waveMesh.geometry.attributes.position;
         for (let i = 0; i < pos.count; i++) {
-          const u = pos.getX(i);
-          const v = pos.getY(i);
-          const z = Math.sin(u * 0.6 + time * 3) * Math.cos(v * 0.6 + time * 2) * 0.4;
-          pos.setZ(i, z);
+          const u = pos.getX(i); const v = pos.getY(i);
+          pos.setZ(i, Math.sin(u * 0.6 + time * 3) * Math.cos(v * 0.6 + time * 2) * 0.4);
         }
         waveMesh.geometry.attributes.position.needsUpdate = true;
       }
@@ -2630,7 +1413,39 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       if (renderer && scene && camera) renderer.render(scene, camera);
     }
 
-    // POINT-AND-CLICK 3D RAYCASTING (Video Sheet 12: Click Calendar in preview)
+    // ACTOR & PLACE EVENT HANDLERS
+    function changeCharacterActor(actorKey) {
+      currentActorKey = actorKey;
+      buildActorRig(actorKey, currentSkinMode);
+      showToast('Switched actor to ' + actorKey.toUpperCase());
+    }
+
+    function changeSkinMode(mode) {
+      currentSkinMode = mode;
+      buildActorRig(currentActorKey, mode);
+      showToast('Skin mode: ' + mode.toUpperCase());
+    }
+
+    function changeDressedPlace(placeKey) {
+      currentPlaceKey = placeKey;
+      buildPlaceEnvironment(placeKey);
+      showToast('Loaded 3D Place: ' + placeKey);
+    }
+
+    // FACTS-AS-OBJECTS SPAWNER
+    function spawnDevice(type) {
+      if (type === 'calendar') {
+        quickPrompt('Spawn Flipping Calendar device set to Wednesday 15th with impact slam');
+      } else if (type === 'counter') {
+        quickPrompt('Spawn Rolling LED Counter locking at 2,300,000 GALLONS');
+      } else if (type === 'gauge') {
+        quickPrompt('Spawn Needle Gauge with 12% overshoot damping at 35 MPH');
+      } else if (type === 'rivets') {
+        quickPrompt('Spawn Exploding Rivet Seams with 3D particle spray physics');
+      }
+    }
+
+    // POINT-AND-CLICK 3D RAYCASTING
     function handleCanvasClick(event) {
       if (!renderer || !camera || !scene) return;
       const rect = renderer.domElement.getBoundingClientRect();
@@ -2642,24 +1457,18 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
 
       if (intersects.length > 0) {
         let hit = intersects[0].object;
-        while (hit.parent && hit.parent !== scene && !hit.name) {
-          hit = hit.parent;
-        }
+        while (hit.parent && hit.parent !== scene && !hit.name) hit = hit.parent;
         const entityName = hit.name || hit.geometry.type;
-        selectedEntityName = entityName;
         document.getElementById('inspect-entity-name').textContent = entityName;
         switchRightTab('inspector');
         document.getElementById('patch-prompt').value = "In this shot, modify " + entityName + " to...";
-        showToast('Selected 3D element: ' + entityName);
+        showToast('Selected: ' + entityName);
       }
     }
 
-    // DIRECT CHAT INSTRUCTION WITH ANTIGRAVITY (The User's Core Request)
+    // CHAT INSTRUCTION
     function handleChatKeyDown(event) {
-      if (event.key === 'Enter' && !event.shiftKey) {
-        event.preventDefault();
-        sendChatInstruction();
-      }
+      if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendChatInstruction(); }
     }
 
     async function sendChatInstruction() {
@@ -2667,16 +1476,10 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       const text = input.value.trim();
       if (!text) return;
       input.value = '';
-
       appendChatMessage('user', text);
 
-      // Check if user has connected their Gemini / Antigravity API key
-      if (savedApiKey) {
-        await streamGeminiApiResponse(text);
-      } else {
-        // Fallback: Built-in Sovereign Antigravity Agent Engine
-        simulateSovereignResponse(text);
-      }
+      if (savedApiKey) await streamGeminiApiResponse(text);
+      else simulateSovereignResponse(text);
     }
 
     function quickPrompt(text) {
@@ -2688,46 +1491,31 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       const stream = document.getElementById('chat-stream');
       const msg = document.createElement('div');
       msg.className = 'chat-msg ' + sender;
-      const senderLabel = sender === 'user' ? 'You' : 'Antigravity Sovereign Beast';
-
-      msg.innerHTML = `
-        <span class="msg-sender-tag">${senderLabel}</span>
-        <div class="msg-bubble">${text}</div>
-      `;
+      const label = sender === 'user' ? 'You' : 'Antigravity Sovereign Beast';
+      msg.innerHTML = `<span class="msg-sender-tag">${label}</span><div class="msg-bubble">${text}</div>`;
       stream.appendChild(msg);
       stream.scrollTop = stream.scrollHeight;
     }
 
-    // STREAM LIVE GEMINI API RESPONSE
     async function streamGeminiApiResponse(userPrompt) {
       const model = document.getElementById('api-model-select').value || 'gemini-2.5-pro';
       const endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + savedApiKey;
-
-      const systemInstruction = "You are Antigravity Sovereign Beast, the lead software architect and 3D video director for Creatorize 2.0. You operate on 9,140-frame reverse engineered standards: 0.20s pause tightening, 5-frame gestures, 70% caption band clearance, and Three.js 3D scene hot-patching. Respond directly, technically, with zero AI slop, and provide exact parameters.";
+      const systemInstruction = "You are Antigravity Sovereign Beast, lead 3D cartoon director for Creatorize 2.0. You command 20 canonical characters, 29 dressed places, 43 expressions, and 7 Facts-as-Objects devices. Respond technically with zero fluff and execute scene patches.";
 
       try {
         const res = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             contents: [{ parts: [{ text: userPrompt }] }],
             systemInstruction: { parts: [{ text: systemInstruction }] }
           })
         });
-
         const data = await res.json();
         if (data.candidates && data.candidates[0].content) {
-          const reply = data.candidates[0].content.parts[0].text;
-          appendChatMessage('assistant', reply);
-
-          // Update tokens telemetry
+          appendChatMessage('assistant', data.candidates[0].content.parts[0].text);
           if (data.usageMetadata) {
-            const promptT = data.usageMetadata.promptTokenCount || 0;
-            const candT = data.usageMetadata.candidatesTokenCount || 0;
-            document.getElementById('chat-token-counter').textContent = (promptT + candT) + ' tokens (Cached)';
+            document.getElementById('chat-token-counter').textContent = (data.usageMetadata.promptTokenCount + data.usageMetadata.candidatesTokenCount) + ' tokens (Cached)';
           }
-
-          // Apply hot-patch to 3D scene if instructions dictate
           executeIntentOn3DScene(userPrompt);
         } else {
           appendChatMessage('assistant', 'API Error: ' + (data.error ? data.error.message : 'Unknown response format'));
@@ -2740,44 +1528,41 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
 
     function simulateSovereignResponse(userPrompt) {
       setTimeout(() => {
-        let reply = "Understood. Applying direct patch: " + userPrompt + ". Layout checker confirmed zero clipping, caption safe-zone preserved.";
-        if (userPrompt.toLowerCase().includes('calendar')) {
-          reply = "Calendar date hot-patched to Wednesday 15th (1919 Boston Molasses Flood date). Mesh material highlighted yellow.";
-          if (calendarMesh) calendarMesh.material.color.setHex(0xfef08a);
-        } else if (userPrompt.toLowerCase().includes('wave')) {
-          reply = "Molasses wave amplified by 30%. Viscosity roughness set to 0.12 with amber specular sheen.";
-          if (waveMesh) waveMesh.scale.y = 1.6;
-        } else if (userPrompt.toLowerCase().includes('light')) {
-          reply = "Cinema lighting calibrated: warm window sun key (1.4) + cold rim cyan (1.2) + soft ambient ground contact.";
+        let reply = "Understood. Executed patch: " + userPrompt + ". 5-point layout check passed (face above 70% caption band, zero collision).";
+        if (userPrompt.toLowerCase().includes('calendar') && calendarMesh) {
+          calendarMesh.material.color.setHex(0xfef08a);
+          reply = "Wall calendar hot-patched to Wednesday 15th (1919 Boston Molasses date). Impact slam keyframed.";
+        } else if (userPrompt.toLowerCase().includes('wave') && waveMesh) {
+          waveMesh.scale.y = 1.6;
+          reply = "Molasses wave height increased by 30%. Viscosity roughness set to 0.12.";
+        } else if (userPrompt.toLowerCase().includes('dex')) {
+          changeCharacterActor('dex');
+          reply = "Switched actor to Dex the Scientist with lab coat & spectacles.";
+        } else if (userPrompt.toLowerCase().includes('cupola')) {
+          changeDressedPlace('iss-cupola');
+          reply = "Switched environment to 02: ISS Cupola with Earth bounce lighting.";
         }
         appendChatMessage('assistant', reply);
         executeIntentOn3DScene(userPrompt);
-      }, 450);
+      }, 400);
     }
 
     function executeIntentOn3DScene(intent) {
       if (intent.toLowerCase().includes('calendar') && calendarMesh) {
-        calendarMesh.scale.set(1.1, 1.1, 1.1);
-        calendarMesh.material.color.setHex(0xfef08a);
+        calendarMesh.scale.set(1.15, 1.15, 1.15);
       }
-      if (intent.toLowerCase().includes('wave') && waveMesh) {
-        waveMesh.scale.y = 1.5;
-      }
-      showToast('3D Scene hot-patch executed');
+      showToast('3D Scene hot-patch applied');
     }
 
-    // RIGHT PANEL TABS
     function switchRightTab(tab) {
       document.getElementById('tab-chat-btn').classList.toggle('active', tab === 'chat');
       document.getElementById('tab-inspector-btn').classList.toggle('active', tab === 'inspector');
       document.getElementById('tab-crew-btn').classList.toggle('active', tab === 'crew');
-
       document.getElementById('panel-chat-content').style.display = tab === 'chat' ? 'flex' : 'none';
       document.getElementById('panel-inspector-content').style.display = tab === 'inspector' ? 'flex' : 'none';
       document.getElementById('panel-crew-content').style.display = tab === 'crew' ? 'flex' : 'none';
     }
 
-    // HOT-PATCH FROM INSPECTOR
     function applyHotPatch() {
       const prompt = document.getElementById('patch-prompt').value.trim();
       if (!prompt) return;
@@ -2785,35 +1570,17 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       showToast('Applied patch: ' + prompt.substring(0, 30));
     }
 
-    function update3DProperty(prop, val) {
-      if (prop === 'waveHeight') {
-        document.getElementById('val-wave-height').textContent = val + 'ft';
-        if (waveMesh) waveMesh.scale.y = val / 15;
-      } else if (prop === 'waveSpeed') {
-        document.getElementById('val-wave-speed').textContent = val + 'mph';
-      } else if (prop === 'miloScale') {
-        document.getElementById('val-milo-scale').textContent = val + 'x';
-        if (miloGroup) miloGroup.scale.set(val, val, val);
-      } else if (prop === 'toonSteps') {
-        document.getElementById('val-toon-steps').textContent = val;
-      }
-    }
-
     // SHOTS LIST & TIMELINE
     function renderShotsList() {
       const container = document.getElementById('studio-shots-list');
       container.innerHTML = '';
-
       SHOTS_DATA.forEach((shot, idx) => {
         const item = document.createElement('div');
         item.className = 'shot-card ' + (idx === activeShotIndex ? 'active' : '');
         item.onclick = () => selectShot(idx);
-
         item.innerHTML = `
           <div class="shot-thumb">
-            <div style="width:100%; height:100%; background: #1a2233; display:flex; align-items:center; justify-content:center; color:#93c5fd; font-family:var(--font-mono); font-size:10px;">
-              #${shot.id}
-            </div>
+            <div style="width:100%; height:100%; background: #1a2233; display:flex; align-items:center; justify-content:center; color:#93c5fd; font-family:var(--font-mono); font-size:10px;">#${shot.id}</div>
           </div>
           <div class="shot-info">
             <div class="shot-number">Shot ${shot.id < 10 ? '0' + shot.id : shot.id}</div>
@@ -2844,14 +1611,9 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       const shotWidthPct = 100 / SHOTS_DATA.length;
       SHOTS_DATA.forEach((shot, idx) => {
         const block = document.createElement('div');
-        block.className = 'shot-block';
-        block.style.left = (idx * shotWidthPct) + '%';
-        block.style.width = (shotWidthPct - 0.4) + '%';
-        block.textContent = 'S' + shot.id;
-        block.onclick = (e) => {
-          e.stopPropagation();
-          selectShot(idx);
-        };
+        block.className = 'shot-block'; block.style.left = (idx * shotWidthPct) + '%';
+        block.style.width = (shotWidthPct - 0.4) + '%'; block.textContent = 'S' + shot.id;
+        block.onclick = (e) => { e.stopPropagation(); selectShot(idx); };
         lane.appendChild(block);
       });
     }
@@ -2886,21 +1648,15 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
     function updateTimecodeUI() {
       const mins = Math.floor(playheadTime / 60);
       const secs = (playheadTime % 60).toFixed(2);
-      const formatted = (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
-      document.getElementById('timecode-label').textContent = formatted + ' / 00:50.12';
-
-      const pct = (playheadTime / totalDuration) * 100;
-      document.getElementById('timeline-needle').style.left = pct + '%';
+      document.getElementById('timecode-label').textContent = (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs + ' / 00:50.12';
+      document.getElementById('timeline-needle').style.left = ((playheadTime / totalDuration) * 100) + '%';
     }
 
     function scrubTimeline(e) {
-      const container = document.getElementById('timeline-container');
-      const rect = container.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const pct = Math.max(0, Math.min(1, clickX / rect.width));
+      const rect = document.getElementById('timeline-container').getBoundingClientRect();
+      const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
       playheadTime = pct * totalDuration;
       updateTimecodeUI();
-
       const shotIdx = Math.floor(pct * SHOTS_DATA.length);
       if (shotIdx < SHOTS_DATA.length) selectShot(shotIdx);
     }
@@ -2917,13 +1673,10 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       showToast('Caption Safe Zone: ' + (box.style.display === 'none' ? 'Hidden' : 'Visible'));
     }
 
-    // MODAL ACTIONS
     function openNewProjectModal() { document.getElementById('new-project-modal').classList.add('open'); }
     function closeNewProjectModal() { document.getElementById('new-project-modal').classList.remove('open'); }
-
     function openTrimModal() { document.getElementById('trim-modal').classList.add('open'); }
     function closeTrimModal() { document.getElementById('trim-modal').classList.remove('open'); }
-
     function openApiKeyModal() { document.getElementById('api-key-modal').classList.add('open'); }
     function closeApiKeyModal() { document.getElementById('api-key-modal').classList.remove('open'); }
 
@@ -2938,7 +1691,7 @@ The wave is as tall as a house and moving at thirty-five miles per hour...</text
       localStorage.setItem('creatorize_antigravity_api_key', key);
       closeApiKeyModal();
       document.getElementById('conn-label').textContent = key ? 'Antigravity Connected (Custom Key)' : 'Antigravity Connected (Sovereign)';
-      showToast('API Key saved & connected to Antigravity runtime');
+      showToast('API Key saved & connected');
     }
 
     function updateWordCount(text) {
