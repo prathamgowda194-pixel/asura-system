@@ -263,7 +263,11 @@
     bagCloseBtn: document.getElementById('bag-close-btn'),
     bagItemsList: document.getElementById('bag-items-list'),
     bagSubtotalAmount: document.getElementById('bag-subtotal-amount'),
-    bagCheckoutBtn: document.getElementById('bag-checkout-btn')
+    bagCheckoutBtn: document.getElementById('bag-checkout-btn'),
+    telemetryContainer: document.getElementById('scroll-scrub-telemetry'),
+    scrubNodes: document.querySelectorAll('.scrub-step-node'),
+    percentageBadge: document.getElementById('scroll-percentage-badge'),
+    scrollTrack: document.getElementById('scroll-track-container')
   };
 
   // ===================================================================
@@ -688,9 +692,269 @@
     }
   });
 
+  // ===================================================================
+  // 11. LENIS MOMENTUM & GSAP SCROLLTRIGGER 3D CAMERA PIPELINE
+  // ===================================================================
+  let lenisInstance = null;
+  let lastProgressIndex = -1;
+
+  function initScrollEngine() {
+    // 1. Initialize Lenis Momentum Smooth Scrolling
+    if (typeof Lenis !== 'undefined') {
+      try {
+        lenisInstance = new Lenis({
+          duration: 1.25,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          orientation: 'vertical',
+          smoothWheel: true,
+          touchMultiplier: 1.5
+        });
+
+        function lenisRaf(time) {
+          if (lenisInstance) lenisInstance.raf(time);
+          requestAnimationFrame(lenisRaf);
+        }
+        requestAnimationFrame(lenisRaf);
+
+        // Sync Lenis with GSAP ScrollTrigger if GSAP is available
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+          gsap.registerPlugin(ScrollTrigger);
+          lenisInstance.on('scroll', ScrollTrigger.update);
+          gsap.ticker.add((time) => {
+            if (lenisInstance) lenisInstance.raf(time * 1000);
+          });
+          gsap.ticker.lagSmoothing(0);
+        }
+      } catch (err) {
+        console.warn('Lenis momentum engine fallback to native scroll:', err);
+      }
+    }
+
+    // 2. Telemetry Click Handlers for Instant Phase Scrubbing
+    if (DOM.scrubNodes) {
+      DOM.scrubNodes.forEach((node) => {
+        node.addEventListener('click', () => {
+          const targetProgress = parseFloat(node.getAttribute('data-progress') || '0');
+          playTickSound();
+          const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+          const targetY = targetProgress * maxScroll;
+          if (lenisInstance) {
+            lenisInstance.scrollTo(targetY, { duration: 1.2 });
+          } else {
+            window.scrollTo({ top: targetY, behavior: 'smooth' });
+          }
+        });
+      });
+    }
+
+    // 3. Scroll Listener for 3D Camera & Exploded Scrubbing
+    let ticking = false;
+
+    function handleScrollScrub() {
+      const scrollTop = window.scrollY || window.pageYOffset || 0;
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const progress = Math.min(1, Math.max(0, scrollTop / maxScroll));
+
+      // Update Percentage Telemetry Badge
+      const percentVal = Math.round(progress * 100);
+      if (DOM.percentageBadge) {
+        DOM.percentageBadge.textContent = `${percentVal.toString().padStart(2, '0')}%`;
+      }
+
+      // Audio escapement micro-tick on 5% intervals
+      const stepIndex = Math.floor(progress * 20);
+      if (stepIndex !== lastProgressIndex) {
+        lastProgressIndex = stepIndex;
+        playTickSound();
+      }
+
+      // Update Active Telemetry Dot
+      let activePhase = 0;
+      if (progress >= 0.85) activePhase = 3;
+      else if (progress >= 0.55) activePhase = 2;
+      else if (progress >= 0.20) activePhase = 1;
+
+      if (DOM.scrubNodes) {
+        DOM.scrubNodes.forEach((node, idx) => {
+          if (idx === activePhase) {
+            node.classList.add('active');
+          } else {
+            node.classList.remove('active');
+          }
+        });
+      }
+
+      // Master 4-Phase Choreography
+      if (progress < 0.20) {
+        // Phase 1: Mode 1 (Collection Wall Overview)
+        State.viewMode = 'WALL';
+        const wallT = progress / 0.20;
+
+        if (DOM.cameraRig) {
+          DOM.cameraRig.style.transform = `scale(1) translate3d(0, 0, 0)`;
+        }
+
+        DOM.alcoveItems.forEach(item => {
+          item.classList.remove('focused');
+          item.style.filter = 'none';
+          item.style.opacity = '1';
+        });
+
+        if (DOM.specPanel) {
+          DOM.specPanel.classList.remove('visible');
+          DOM.specPanel.style.opacity = '0';
+          DOM.specPanel.style.transform = 'translateY(-50%) translateX(-40px)';
+        }
+
+        if (DOM.heroOverlay) {
+          DOM.heroOverlay.style.opacity = (1 - wallT * 0.8).toFixed(2);
+          DOM.heroOverlay.style.pointerEvents = wallT > 0.5 ? 'none' : 'auto';
+        }
+
+        if (DOM.explodedStage) {
+          DOM.explodedStage.classList.remove('active');
+          DOM.explodedStage.classList.remove('exploded');
+          DOM.explodedStage.style.opacity = '0';
+        }
+
+        const focusedAlcove = DOM.alcoveItems[1];
+        if (focusedAlcove) {
+          const mount = focusedAlcove.querySelector('.watch-mount');
+          if (mount) mount.style.opacity = '1';
+        }
+
+        if (DOM.bagDrawer && DOM.bagDrawer.classList.contains('open')) {
+          closeBagDrawer();
+        }
+
+      } else if (progress >= 0.20 && progress < 0.55) {
+        // Phase 2: Mode 2 (Cinematic Zoom into Alcove N°02 Aqua Terra Blue)
+        State.viewMode = 'FOCUS';
+        State.activeWatchIndex = 1;
+        const focusT = (progress - 0.20) / 0.35;
+
+        const targetScale = 1 + (focusT * 1.15); // 1.0 -> 2.15
+        const targetX = focusT * 420;
+        const targetY = focusT * 30;
+
+        if (DOM.cameraRig) {
+          DOM.cameraRig.style.transform = `scale(${targetScale.toFixed(3)}) translate3d(${targetX.toFixed(1)}px, ${targetY.toFixed(1)}px, 0)`;
+        }
+
+        DOM.alcoveItems.forEach((item, i) => {
+          if (i === 1) {
+            item.classList.add('focused');
+            item.style.filter = 'none';
+            item.style.opacity = '1';
+          } else {
+            item.classList.remove('focused');
+            item.style.filter = `blur(${(focusT * 10).toFixed(1)}px)`;
+            item.style.opacity = (1 - focusT * 0.65).toFixed(2);
+          }
+        });
+
+        if (DOM.specPanel) {
+          DOM.specPanel.classList.add('visible');
+          DOM.specPanel.style.opacity = focusT.toFixed(2);
+          DOM.specPanel.style.transform = `translateY(-50%) translateX(${((1 - focusT) * -40).toFixed(1)}px)`;
+        }
+
+        if (DOM.heroOverlay) {
+          DOM.heroOverlay.style.opacity = '0';
+          DOM.heroOverlay.style.pointerEvents = 'none';
+        }
+
+        if (DOM.explodedStage) {
+          DOM.explodedStage.classList.remove('active');
+          DOM.explodedStage.classList.remove('exploded');
+          DOM.explodedStage.style.opacity = '0';
+        }
+
+        const focusedAlcove = DOM.alcoveItems[1];
+        if (focusedAlcove) {
+          const mount = focusedAlcove.querySelector('.watch-mount');
+          if (mount) mount.style.opacity = '1';
+        }
+
+        if (DOM.bagDrawer && DOM.bagDrawer.classList.contains('open')) {
+          closeBagDrawer();
+        }
+
+      } else if (progress >= 0.55 && progress < 0.85) {
+        // Phase 3: Mode 3 (3D Exploded Movement Deconstruction)
+        State.viewMode = 'EXPLODED';
+        State.activeWatchIndex = 1;
+        const explodeT = (progress - 0.55) / 0.30;
+
+        const focusedAlcove = DOM.alcoveItems[1];
+        if (focusedAlcove) {
+          const mount = focusedAlcove.querySelector('.watch-mount');
+          if (mount) mount.style.opacity = (1 - explodeT * 0.9).toFixed(2);
+        }
+
+        if (DOM.explodedStage) {
+          DOM.explodedStage.classList.add('active');
+          DOM.explodedStage.classList.add('exploded');
+          DOM.explodedStage.style.opacity = '1';
+        }
+
+        const layer1 = document.querySelector('.layer-1-sapphire');
+        const layer2 = document.querySelector('.layer-2-bezel');
+        const layer3 = document.querySelector('.layer-3-dial');
+        const layer4 = document.querySelector('.layer-4-movement');
+        const layer5 = document.querySelector('.layer-5-chassis');
+        const layer6 = document.querySelector('.layer-6-caseback');
+
+        if (layer1) layer1.style.transform = `translateZ(${(explodeT * 240).toFixed(1)}px) translateX(${(-explodeT * 20).toFixed(1)}px)`;
+        if (layer2) layer2.style.transform = `translateZ(${(explodeT * 150).toFixed(1)}px) translateX(${(-explodeT * 12).toFixed(1)}px)`;
+        if (layer3) layer3.style.transform = `translateZ(${(explodeT * 60).toFixed(1)}px) translateX(${(-explodeT * 4).toFixed(1)}px)`;
+        if (layer4) layer4.style.transform = `translateZ(${(explodeT * -30).toFixed(1)}px) translateX(${(explodeT * 4).toFixed(1)}px)`;
+        if (layer5) layer5.style.transform = `translateZ(${(explodeT * -120).toFixed(1)}px) translateX(${(explodeT * 12).toFixed(1)}px)`;
+        if (layer6) layer6.style.transform = `translateZ(${(explodeT * -210).toFixed(1)}px) translateX(${(explodeT * 20).toFixed(1)}px)`;
+
+        if (DOM.explodeSlider) {
+          DOM.explodeSlider.value = Math.round(explodeT * 100);
+        }
+
+        if (DOM.specPanel) {
+          DOM.specPanel.classList.add('visible');
+          DOM.specPanel.style.opacity = '1';
+          DOM.specPanel.style.transform = 'translateY(-50%) translateX(0px)';
+          if (DOM.specKicker) DOM.specKicker.textContent = 'INSIDE THE CASE';
+          if (DOM.specTitle) DOM.specTitle.textContent = 'The movement';
+          if (DOM.specDesc) DOM.specDesc.textContent = 'Behind the dial: the Omega Co-Axial calibre, the crown, and the exhibition sapphire case back, in polished silver-tone steel.';
+        }
+
+        if (DOM.bagDrawer && DOM.bagDrawer.classList.contains('open')) {
+          closeBagDrawer();
+        }
+
+      } else {
+        // Phase 4: Mode 4 (Concierge Reservation & Bag Drawer)
+        if (State.bagItems.length === 0) {
+          State.bagItems.push(WATCH_CATALOG[1]);
+          updateBagUI();
+        }
+        if (DOM.bagDrawer && !DOM.bagDrawer.classList.contains('open')) {
+          openBagDrawer();
+        }
+      }
+
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(handleScrollScrub);
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
   // Initial Boot
   showWallView();
   updateBagUI();
+  initScrollEngine();
   console.log('Black Hour // Maison D\'Horlogerie Engine Initialized.');
 
 })();

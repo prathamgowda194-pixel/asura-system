@@ -27,16 +27,30 @@
   padding: 0;
 }
 
-html, body {
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-obsidian);
+}
+
+body {
   width: 100%;
-  height: 100%;
-  overflow: hidden;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
   background-color: var(--bg-obsidian);
   color: var(--text-primary);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   user-select: none;
+}
+
+/* 400vh Scroll Track for 3D Camera & Exploded Scrubbing */
+.scroll-track-container {
+  position: relative;
+  width: 100%;
+  height: 400vh;
+  pointer-events: none;
 }
 
 /* Subtle Film Grain Overlay */
@@ -169,7 +183,7 @@ html, body {
   border-radius: 12px;
 }
 
-/* Header Utilities (Sound & Currency) */
+/* Header Utilities */
 .header-actions {
   display: flex;
   align-items: center;
@@ -218,10 +232,11 @@ html, body {
 }
 
 /* ===================================================================
-   MAIN SPATIAL STAGE (THE COLLECTION WALL)
+   MAIN SPATIAL STAGE (PINNED VIEWPORT)
    =================================================================== */
 .spatial-stage {
-  position: relative;
+  position: fixed;
+  inset: 0;
   width: 100vw;
   height: 100vh;
   perspective: 1400px;
@@ -229,6 +244,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 10;
+  pointer-events: none;
 }
 
 .wall-camera-rig {
@@ -238,8 +255,8 @@ html, body {
   align-items: center;
   justify-content: center;
   transform-style: preserve-3d;
-  transition: transform 1.2s var(--ease-cinematic);
   will-change: transform;
+  pointer-events: auto;
 }
 
 /* 5 Recessed Alcoves Container */
@@ -265,7 +282,7 @@ html, body {
   justify-content: flex-end;
   cursor: pointer;
   transform-style: preserve-3d;
-  transition: transform 0.6s var(--ease-cinematic), filter 0.6s var(--ease-cinematic);
+  transition: transform 0.4s var(--ease-cinematic), filter 0.4s var(--ease-cinematic);
 }
 
 /* Overhead Volumetric Spotlight Beam */
@@ -279,7 +296,7 @@ html, body {
   filter: blur(14px);
   opacity: 0.45;
   transform-origin: top center;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.4s ease, filter 0.4s ease;
   z-index: 2;
 }
 
@@ -298,7 +315,7 @@ html, body {
   border: 1px solid rgba(255, 255, 255, 0.07);
   box-shadow: inset 0 20px 40px rgba(0, 0, 0, 0.85), 0 10px 30px rgba(0, 0, 0, 0.6);
   overflow: hidden;
-  transition: all 0.5s var(--ease-cinematic);
+  transition: all 0.4s var(--ease-cinematic);
   z-index: 1;
 }
 
@@ -307,7 +324,7 @@ html, body {
   box-shadow: inset 0 20px 50px rgba(0, 0, 0, 0.9), 0 15px 40px rgba(0, 0, 0, 0.7);
 }
 
-/* Ambient Backlight Glow per Watch Color */
+/* Ambient Backlight Glow */
 .ambient-backlight {
   position: absolute;
   bottom: 60px;
@@ -316,7 +333,7 @@ html, body {
   border-radius: 50%;
   filter: blur(45px);
   opacity: 0.25;
-  transition: opacity 0.5s var(--ease-cinematic), transform 0.5s var(--ease-cinematic);
+  transition: opacity 0.4s var(--ease-cinematic), transform 0.4s var(--ease-cinematic);
   z-index: 2;
   pointer-events: none;
 }
@@ -327,7 +344,6 @@ html, body {
   transform: scale(1.15);
 }
 
-/* Color definitions for backlights */
 .alcove-item[data-color="green"] .ambient-backlight { background: #059669; }
 .alcove-item[data-color="blue"] .ambient-backlight { background: #0284c7; }
 .alcove-item[data-color="black"] .ambient-backlight { background: #94a3b8; }
@@ -361,7 +377,7 @@ html, body {
   border-radius: 4px 4px 0 0;
 }
 
-/* Watch Container & Hover Float */
+/* Watch Mount */
 .watch-mount {
   position: relative;
   width: 170px;
@@ -369,7 +385,7 @@ html, body {
   margin-bottom: 70px;
   z-index: 5;
   transform-style: preserve-3d;
-  transition: transform 0.5s var(--ease-cinematic);
+  transition: transform 0.4s var(--ease-cinematic);
 }
 
 .alcove-item:hover .watch-mount {
@@ -381,22 +397,15 @@ html, body {
   height: 100%;
   object-fit: contain;
   filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.7));
-  transition: filter 0.4s ease;
 }
 
-.alcove-item:hover .watch-asset-img {
-  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.85));
-}
-
-/* Plinth Reference Label (Fade in on hover) */
 .plinth-info {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
   opacity: 0.65;
-  transform: translateY(0);
-  transition: all 0.4s var(--ease-cinematic);
+  transition: all 0.3s var(--ease-cinematic);
   z-index: 6;
 }
 
@@ -421,7 +430,79 @@ html, body {
 }
 
 /* ===================================================================
-   HERO HEADLINE & BOTTOM TELEMETRY (MODE 1: WALL OVERVIEW)
+   RIGHT-SIDE VERTICAL SCROLL SCRUB TELEMETRY
+   =================================================================== */
+.scroll-scrub-telemetry {
+  position: fixed;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 95;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  pointer-events: auto;
+}
+
+.scrub-step-node {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 4px;
+}
+
+.scrub-step-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.scrub-step-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.scrub-step-node:hover .scrub-step-label,
+.scrub-step-node.active .scrub-step-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scrub-step-node.active .scrub-step-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 12px var(--accent-cyan);
+}
+
+.scrub-step-node.active .scrub-step-label {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.scroll-percentage-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent-cyan);
+  text-align: right;
+  letter-spacing: 1px;
+  margin-top: 8px;
+}
+
+/* ===================================================================
+   HERO HEADLINE OVERLAY (MODE 1: WALL OVERVIEW)
    =================================================================== */
 .hero-headline-overlay {
   position: fixed;
@@ -433,7 +514,7 @@ html, body {
   justify-content: space-between;
   z-index: 50;
   pointer-events: none;
-  transition: opacity 0.5s var(--ease-cinematic), transform 0.5s var(--ease-cinematic);
+  transition: opacity 0.4s var(--ease-cinematic);
 }
 
 .hero-headline-left {
@@ -467,7 +548,6 @@ html, body {
   font-weight: 400;
 }
 
-/* Right Status Pill */
 .hero-status-right {
   display: flex;
   align-items: center;
@@ -477,6 +557,7 @@ html, body {
   border: 1px solid var(--border-subtle);
   border-radius: 30px;
   padding: 8px 18px;
+  pointer-events: auto;
 }
 
 .status-dot-pulse {
@@ -524,7 +605,7 @@ html, body {
   opacity: 0;
   pointer-events: none;
   transform: translateX(-40px);
-  transition: opacity 0.6s var(--ease-cinematic), transform 0.6s var(--ease-cinematic);
+  transition: opacity 0.5s var(--ease-cinematic), transform 0.5s var(--ease-cinematic);
   overflow-y: auto;
 }
 
@@ -584,7 +665,6 @@ html, body {
   color: var(--text-secondary);
 }
 
-/* Specifications Table */
 .spec-grid-table {
   display: flex;
   flex-direction: column;
@@ -615,7 +695,6 @@ html, body {
   text-align: right;
 }
 
-/* Price & Action Row */
 .detail-price-row {
   display: flex;
   align-items: baseline;
@@ -631,8 +710,9 @@ html, body {
 
 .detail-currency-label {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-muted);
+  letter-spacing: 0.5px;
 }
 
 .detail-action-buttons {
@@ -686,7 +766,6 @@ html, body {
   box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
 }
 
-/* Slider Controls (< 02 / 05 >) */
 .detail-slider-controls {
   display: flex;
   align-items: center;
@@ -729,14 +808,14 @@ html, body {
   position: absolute;
   right: 120px;
   top: 50%;
-  width: 540px;
-  height: 540px;
+  width: 580px;
+  height: 580px;
   transform: translateY(-50%);
   perspective: 1600px;
   transform-style: preserve-3d;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.8s var(--ease-cinematic);
+  transition: opacity 0.6s var(--ease-cinematic);
   z-index: 40;
 }
 
@@ -751,7 +830,7 @@ html, body {
   height: 100%;
   transform-style: preserve-3d;
   transform: rotateY(-24deg) rotateX(14deg);
-  transition: transform 0.1s linear;
+  will-change: transform;
 }
 
 .expl-layer {
@@ -761,7 +840,7 @@ html, body {
   align-items: center;
   justify-content: center;
   transform-style: preserve-3d;
-  transition: transform 0.8s var(--ease-cinematic);
+  transition: transform 0.6s var(--ease-cinematic);
   will-change: transform;
 }
 
@@ -823,7 +902,7 @@ html, body {
   transform: translateX(0);
 }
 
-/* Explode Distance Range Slider */
+/* Explode Distance Slider */
 .explode-slider-container {
   position: absolute;
   bottom: -40px;
@@ -1112,6 +1191,9 @@ html, body {
     width: 420px;
     height: 420px;
   }
+  .scroll-scrub-telemetry {
+    right: 16px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1127,12 +1209,10 @@ html, body {
     overflow-x: auto;
     width: 100vw;
     padding: 10px 20px;
-    scroll-snap-type: x mandatory;
   }
   .alcove-item {
     min-width: 260px;
     height: 480px;
-    scroll-snap-align: center;
   }
   .hero-headline-overlay {
     left: 20px;
@@ -1163,5 +1243,8 @@ html, body {
   }
   .bag-drawer {
     width: 100vw;
+  }
+  .scroll-scrub-telemetry {
+    display: none;
   }
 }
