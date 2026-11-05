@@ -113,14 +113,41 @@
     <!-- 3D Cantilevered Villa Interactive Stage -->
     <div class="hero-villa-stage" id="hero-villa-stage">
       <div class="hero-villa-card" id="hero-villa-card">
+        <!-- 3D Drone Scrub Video Element (60fps Scroll Scrub + Parallax) -->
+        <video 
+          id="hero-scrub-video" 
+          class="hero-scrub-video" 
+          src="assets/scene1_villa_opt.mp4" 
+          poster="assets/scene1_villa_poster.jpg"
+          muted 
+          playsinline 
+          preload="auto"
+          tabindex="-1"
+        ></video>
+        <!-- Immediate Fail-safe Fallback Poster -->
         <img 
-          src="assets/scene1_cantilever_villa_start.jpg" 
+          src="assets/scene1_villa_poster.jpg" 
           alt="Modern Cantilevered Villa with Infinity Pool" 
-          class="hero-villa-img" 
+          class="hero-villa-img fallback" 
           id="hero-villa-img"
           onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=85';"
         >
         <div class="villa-water-reflection"></div>
+
+        <!-- Video Telemetry HUD Pill -->
+        <div class="video-telemetry-badge" id="hero-video-telemetry">
+          <span class="telemetry-rec-dot"></span>
+          <span class="telemetry-mode-label">DRONE SCRUB // 10.0S</span>
+          <span class="telemetry-time-counter" id="hero-time-counter">0.00s</span>
+        </div>
+
+        <!-- Interactive Play/Pause & Walkthrough Mode Switcher -->
+        <button class="hero-video-play-btn" id="hero-play-toggle" title="Toggle 3D Walkthrough / Scroll Scrub">
+          <svg class="play-icon" id="hero-play-icon" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          <span class="play-btn-label" id="hero-play-label">3D Walkthrough</span>
+        </button>
       </div>
     </div>
 
@@ -460,16 +487,49 @@
        SECTION 4: SUNSET GLASS A-FRAME WITH SMART HUD TELEMETRY
        ================================================================= -->
   <section class="hud-section" id="hud-section">
-    <!-- Background Sunset Alpine Landscape -->
-    <div class="hud-bg-container">
+    <!-- Pinned 3D Sunset Time-lapse Video Background (Day -> Dusk -> Night) -->
+    <div class="hud-bg-container" id="hud-bg-container">
+      <video 
+        id="hud-scrub-video" 
+        class="hud-scrub-video" 
+        src="assets/scene2_aframe_opt.mp4" 
+        poster="assets/scene2_aframe_poster.jpg"
+        muted 
+        playsinline 
+        preload="auto"
+        tabindex="-1"
+      ></video>
       <img 
-        src="assets/scene2_aframe_sunset_end.jpg" 
+        src="assets/scene2_aframe_poster.jpg" 
         alt="Contemporary Sunset A-Frame Villa" 
-        class="hud-bg-img"
+        class="hud-bg-img fallback"
         id="hud-bg-img"
         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=1920&q=85';"
       >
       <div class="hud-sunset-ambient-glow"></div>
+
+      <!-- Architectural Time-of-Day Telemetry Pill -->
+      <div class="hud-time-telemetry" id="hud-time-telemetry">
+        <span class="hud-sky-indicator" id="hud-sky-dot"></span>
+        <span class="hud-time-label" id="hud-time-phase">DAYLIGHT 16:30</span>
+        <span class="hud-time-progress" id="hud-time-progress">0.00s / 10.0s</span>
+      </div>
+
+      <!-- Time Scrub Control Trigger -->
+      <button class="hud-scrub-mode-btn" id="hud-mode-toggle" title="Toggle Sunset Scrub / Ambient Night">
+        <svg class="mode-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <span class="mode-label" id="hud-mode-label">Sunset Scrub</span>
+      </button>
     </div>
 
     <!-- Header Overlay -->

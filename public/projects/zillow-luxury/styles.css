@@ -309,7 +309,9 @@ body {
 }
 
 .hero-villa-card {
+  position: relative;
   width: 100%;
+  aspect-ratio: 16 / 9;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 40px 100px rgba(2, 45, 80, 0.55);
@@ -318,12 +320,105 @@ body {
   background: rgba(255, 255, 255, 0.05);
 }
 
-.hero-villa-img {
+.hero-scrub-video {
   width: 100%;
-  height: auto;
-  display: block;
+  height: 100%;
   object-fit: cover;
+  display: block;
+  pointer-events: none;
   transition: transform 0.8s var(--ease-cinematic);
+}
+
+.hero-villa-img.fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.5s ease;
+  z-index: 1;
+}
+
+.hero-villa-card.video-ready .hero-villa-img.fallback {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Video Telemetry Badge */
+.video-telemetry-badge {
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(8, 9, 12, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  pointer-events: none;
+}
+
+.telemetry-rec-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 8px #ef4444;
+  animation: recPulse 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes recPulse {
+  0% { opacity: 0.4; transform: scale(0.85); }
+  100% { opacity: 1; transform: scale(1.15); }
+}
+
+.telemetry-time-counter {
+  color: var(--accent-cyan);
+  font-weight: 700;
+}
+
+/* 3D Walkthrough Play Button */
+.hero-video-play-btn {
+  position: absolute;
+  bottom: 18px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s ease;
+}
+
+.hero-video-play-btn:hover {
+  background: #ffffff;
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.hero-video-play-btn.playing {
+  background: rgba(8, 9, 12, 0.85);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 /* Bottom Right Statement Card */
@@ -907,14 +1002,98 @@ body {
   inset: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
-.hud-bg-img {
+.hud-scrub-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transition: transform 0.6s ease;
+  display: block;
+  z-index: 1;
+}
+
+.hud-bg-img.fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 1;
+  transition: opacity 0.6s ease;
+}
+
+.hud-bg-container.video-ready .hud-bg-img.fallback {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hud-time-telemetry {
+  position: absolute;
+  top: 96px;
+  right: 48px;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px;
+  border-radius: 30px;
+  background: rgba(8, 9, 12, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: #ffffff;
+}
+
+.hud-sky-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 10px #f59e0b;
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+
+.hud-time-telemetry.night .hud-sky-indicator {
+  background: #38bdf8;
+  box-shadow: 0 0 10px #38bdf8;
+}
+
+.hud-time-progress {
+  color: var(--accent-cyan);
+  font-weight: 700;
+}
+
+.hud-scrub-mode-btn {
+  position: absolute;
+  bottom: 36px;
+  left: 48px;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hud-scrub-mode-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: #ffffff;
+  transform: translateY(-2px);
 }
 
 .hud-sunset-ambient-glow {
