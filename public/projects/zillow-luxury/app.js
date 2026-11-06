@@ -2,7 +2,7 @@
  * ZILLOW LUXURY // MODERN ARCHITECTURAL REAL ESTATE
  * Interactive 3D Spatial Engine & Smart HUD Telemetry
  * Video-Scrubbed 60fps Drone & Sunset Time-lapse System
- * Crafted for Iris Ethos // Asura System
+ * Crafted for Iris Ethos // Asura System Production
  */
 
 (function () {
@@ -73,7 +73,7 @@
   requestAnimationFrame(renderCursor);
 
   // Expand cursor on interactive triggers
-  const interactiveElements = 'a, button, input, select, .property-3d-card, .accordion-row-header, .hud-beacon-node, .hero-video-play-btn, .hud-scrub-mode-btn';
+  const interactiveElements = 'a, button, input, select, .property-3d-card, .accordion-row-header, .hud-beacon-node';
   document.querySelectorAll(interactiveElements).forEach((el) => {
     el.addEventListener('mouseenter', () => cursorFollower && cursorFollower.classList.add('hovering'));
     el.addEventListener('mouseleave', () => cursorFollower && cursorFollower.classList.remove('hovering'));
@@ -92,107 +92,137 @@
   }, { passive: true });
 
   // ===================================================================
-  // 4. HERO SECTION FULLSCREEN VIDEO SCRUB & 3D PARALLAX
+  // 4. SECTION 1: HERO PINNED 3D VILLA VIDEO SCRUB & KNOCKOUT TEXT
   // ===================================================================
-  const heroSection = document.getElementById('hero-section');
+  const heroVideo = document.getElementById('hero-scrub-video');
   const heroKnockout = document.getElementById('hero-knockout-text');
   const heroCutout = document.getElementById('hero-cutout-layer');
-  const heroVideo = document.getElementById('hero-scrub-video');
   const heroTimeCounter = document.getElementById('hero-time-counter');
-  const heroPlayToggle = document.getElementById('hero-play-toggle');
-  const heroPlayLabel = document.getElementById('hero-play-label');
-
-  let isHeroAutoPlaying = false;
 
   if (heroVideo) {
-    // Scroll-driven Scrubbing with GSAP ScrollTrigger
+    // Prohibit autoplay: strictly pause on frame 0
+    heroVideo.pause();
+    heroVideo.currentTime = 0;
+
+    heroVideo.addEventListener('loadedmetadata', () => {
+      heroVideo.pause();
+      heroVideo.currentTime = 0;
+    });
+
     if (typeof ScrollTrigger !== 'undefined') {
       ScrollTrigger.create({
-        trigger: '#hero-section',
+        trigger: '#hero-scroll-track',
         start: 'top top',
-        end: 'bottom top',
+        end: 'bottom bottom',
         scrub: 0.5,
         onUpdate: (self) => {
-          if (!isHeroAutoPlaying && heroVideo.duration) {
-            heroVideo.currentTime = self.progress * (heroVideo.duration - 0.05);
-            if (heroTimeCounter) {
-              heroTimeCounter.textContent = `${heroVideo.currentTime.toFixed(2)}s`;
-            }
+          const p = self.progress;
+
+          // Deterministic frame scrubbing
+          if (heroVideo.duration) {
+            heroVideo.currentTime = p * (heroVideo.duration - 0.04);
+          }
+
+          // Scale & translate knockout text in 3D perspective
+          if (heroKnockout) {
+            const scale = 1 + p * 0.42;
+            const translateY = -p * 70;
+            heroKnockout.style.transform = `translateX(-50%) scale(${scale.toFixed(3)}) translateY(${translateY.toFixed(1)}px)`;
+          }
+
+          // Dissolve cutout layer as drone enters courtyard (eliminates ghosting)
+          if (heroCutout) {
+            const opacity = Math.max(0, 1 - p * 3.5);
+            heroCutout.style.opacity = opacity.toFixed(3);
+          }
+
+          // Update telemetry time counter
+          if (heroTimeCounter) {
+            heroTimeCounter.textContent = (p * 10).toFixed(2) + 's';
           }
         }
       });
     }
-
-    // Toggle 3D Walkthrough Autoplay vs. Scroll Scrub
-    if (heroPlayToggle) {
-      heroPlayToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (isHeroAutoPlaying) {
-          heroVideo.pause();
-          isHeroAutoPlaying = false;
-          if (heroPlayLabel) heroPlayLabel.textContent = '3D Walkthrough';
-          heroPlayToggle.classList.remove('playing');
-        } else {
-          heroVideo.play().then(() => {
-            isHeroAutoPlaying = true;
-            if (heroPlayLabel) heroPlayLabel.textContent = 'Pause Walkthrough';
-            heroPlayToggle.classList.add('playing');
-          }).catch((err) => {
-            console.warn('Autoplay restricted by browser:', err);
-          });
-        }
-      });
-    }
-
-    heroVideo.addEventListener('ended', () => {
-      isHeroAutoPlaying = false;
-      if (heroPlayLabel) heroPlayLabel.textContent = '3D Walkthrough';
-      if (heroPlayToggle) heroPlayToggle.classList.remove('playing');
-    });
-
-    heroVideo.addEventListener('timeupdate', () => {
-      if (isHeroAutoPlaying && heroTimeCounter) {
-        heroTimeCounter.textContent = `${heroVideo.currentTime.toFixed(2)}s`;
-      }
-    });
-  }
-
-  // 3D Mouse Parallax between Knockout Text (back) and Cutout Building (front)
-  if (heroSection) {
-    heroSection.addEventListener('mousemove', (e) => {
-      const rect = heroSection.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-
-      if (heroKnockout) {
-        heroKnockout.style.transform = `translateX(calc(-50% + ${(-x * 24).toFixed(1)}px)) translateY(${(-y * 14).toFixed(1)}px)`;
-      }
-      if (heroCutout) {
-        heroCutout.style.transform = `translateX(${(x * 8).toFixed(1)}px) translateY(${(y * 6).toFixed(1)}px)`;
-      }
-    });
-
-    heroSection.addEventListener('mouseleave', () => {
-      if (heroKnockout) heroKnockout.style.transform = 'translateX(-50%) translateY(0px)';
-      if (heroCutout) heroCutout.style.transform = 'translateX(0px) translateY(0px)';
-    });
   }
 
   // ===================================================================
-  // 5. SECTION 2: 3D CARD STACK INTERACTION & FILTERS (GLITCH-FREE)
+  // 5. SECTION 2: 3D CARD STACK SCROLL FAN-OUT & ZERO-GLITCH HOVER
   // ===================================================================
   const propertyCards = document.querySelectorAll('.property-3d-card');
+  const recomTitleLines = document.querySelectorAll('.recom-line');
 
-  // Elevate clicked card smoothly
+  if (typeof ScrollTrigger !== 'undefined') {
+    ScrollTrigger.create({
+      trigger: '#recom-scroll-track',
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0.6,
+      onUpdate: (self) => {
+        const p = self.progress;
+
+        // Fan out the 4 property cards in 3D perspective smoothly
+        const fanFactor = Math.min(1, p * 1.25);
+        propertyCards.forEach((card, idx) => {
+          if (card.matches(':hover')) return; // Do not override active hover physics
+
+          if (idx === 0) {
+            card.style.setProperty('--base-x', '0px');
+            card.style.setProperty('--base-y', '0px');
+            card.style.setProperty('--base-z', `${(80 * fanFactor).toFixed(1)}px`);
+            card.style.setProperty('--base-rot-z', `${(-2 * fanFactor).toFixed(1)}deg`);
+            card.style.setProperty('--base-rot-y', `${(-4 * fanFactor).toFixed(1)}deg`);
+          } else if (idx === 1) {
+            card.style.setProperty('--base-x', `${(80 * fanFactor).toFixed(1)}px`);
+            card.style.setProperty('--base-y', `${(-50 * fanFactor).toFixed(1)}px`);
+            card.style.setProperty('--base-z', `${(20 * fanFactor).toFixed(1)}px`);
+            card.style.setProperty('--base-rot-z', `${(6 * fanFactor).toFixed(1)}deg`);
+            card.style.setProperty('--base-rot-y', `${(8 * fanFactor).toFixed(1)}deg`);
+          } else if (idx === 2) {
+            card.style.setProperty('--base-x', `${(40 * fanFactor).toFixed(1)}px`);
+            card.style.setProperty('--base-y', `${(-100 * fanFactor).toFixed(1)}px`);
+            card.style.setProperty('--base-z', `${(-40 * fanFactor).toFixed(1)}px`);
+            card.style.setProperty('--base-rot-z', `${(-8 * fanFactor).toFixed(1)}deg`);
+            card.style.setProperty('--base-rot-y', `${(-10 * fanFactor).toFixed(1)}deg`);
+          } else if (idx === 3) {
+            card.style.setProperty('--base-x', `${(120 * fanFactor).toFixed(1)}px`);
+            card.style.setProperty('--base-y', `${(-150 * fanFactor).toFixed(1)}px`);
+            card.style.setProperty('--base-z', `${(-90 * fanFactor).toFixed(1)}px`);
+            card.style.setProperty('--base-rot-z', `${(12 * fanFactor).toFixed(1)}deg`);
+            card.style.setProperty('--base-rot-y', `${(14 * fanFactor).toFixed(1)}deg`);
+          }
+        });
+
+        // Kinetic line reveal
+        recomTitleLines.forEach((line, index) => {
+          const threshold = 0.08 + index * 0.12;
+          if (p >= threshold) {
+            line.style.opacity = '1';
+            line.style.transform = 'translateY(0)';
+          } else {
+            line.style.opacity = '0.35';
+            line.style.transform = 'translateY(8px)';
+          }
+        });
+      }
+    });
+  }
+
+  // Card click elevates clicked card to front
   propertyCards.forEach((card) => {
     card.addEventListener('click', (e) => {
       if (e.target.closest('.card-heart-btn')) return;
+
       propertyCards.forEach((c) => c.classList.remove('active-top'));
       card.classList.add('active-top');
+
+      propertyCards.forEach((c) => {
+        c.style.zIndex = '1';
+      });
+      card.style.zIndex = '10';
     });
   });
 
-  // Heart toggle
+  // Favorite Heart Button Toggle
   document.querySelectorAll('.card-heart-btn').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -200,304 +230,223 @@
     });
   });
 
-  // Search input filter
+  // Location Search & Filter Chips
   const searchInput = document.getElementById('recom-search-input');
-  if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      const query = e.target.value.toLowerCase().trim();
-      propertyCards.forEach((card) => {
-        const addr = card.querySelector('.card-address')?.textContent.toLowerCase() || '';
-        const price = card.querySelector('.card-price')?.textContent.toLowerCase() || '';
-        if (!query || addr.includes(query) || price.includes(query)) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    });
-  }
+  const filterChips = document.querySelectorAll('.quick-chip');
 
-  // Quick chips filter
-  const quickChips = document.querySelectorAll('.quick-chip');
-  quickChips.forEach((chip) => {
+  filterChips.forEach((chip) => {
     chip.addEventListener('click', () => {
-      quickChips.forEach((c) => c.classList.remove('active'));
+      filterChips.forEach((c) => c.classList.remove('active'));
       chip.classList.add('active');
-      const val = chip.getAttribute('data-chip').toLowerCase();
-      propertyCards.forEach((card) => {
-        const addr = card.querySelector('.card-address')?.textContent.toLowerCase() || '';
-        if (val === 'all' || addr.includes(val)) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
-      });
+      const val = chip.getAttribute('data-chip');
+      if (searchInput && val !== 'all') {
+        searchInput.value = chip.textContent;
+      } else if (searchInput) {
+        searchInput.value = '';
+      }
     });
   });
 
   // ===================================================================
-  // 6. SECTION 3: EDITORIAL EXPANDING ACCORDION
+  // 6. SECTION 3: DARK EDITORIAL SERVICES ACCORDION
   // ===================================================================
-  const accordionItems = document.querySelectorAll('.accordion-item');
+  const accordionRows = document.querySelectorAll('.accordion-row');
 
-  accordionItems.forEach((item) => {
-    const header = item.querySelector('.accordion-row-header');
+  accordionRows.forEach((row) => {
+    const header = row.querySelector('.accordion-row-header');
     if (!header) return;
 
     header.addEventListener('click', () => {
-      const isOpen = item.classList.contains('open');
-
-      accordionItems.forEach((other) => {
-        other.classList.remove('open');
-      });
-
-      if (!isOpen) {
-        item.classList.add('open');
+      const isActive = row.classList.contains('active');
+      accordionRows.forEach((r) => r.classList.remove('active'));
+      if (!isActive) {
+        row.classList.add('active');
       }
     });
   });
 
-  // Check Availability Buttons open Tour Modal
-  const modalBackdrop = document.getElementById('tour-modal-backdrop');
-  const modalSheet = document.getElementById('tour-modal-sheet');
-  const modalCloseBtn = document.getElementById('modal-close-btn');
-  const propSelectInput = document.getElementById('tour-prop-select');
-
-  function openTourModal(propertyName) {
-    if (propSelectInput && propertyName) {
-      propSelectInput.value = propertyName;
-    }
-    if (modalBackdrop) modalBackdrop.classList.add('open');
-    if (modalSheet) modalSheet.classList.add('open');
-  }
-
-  function closeTourModal() {
-    if (modalBackdrop) modalBackdrop.classList.remove('open');
-    if (modalSheet) modalSheet.classList.remove('open');
-  }
-
-  document.querySelectorAll('.btn-check-availability').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const target = btn.getAttribute('data-target') || 'Luxury Villa';
-      openTourModal(target);
-    });
-  });
-
-  const getStartedBtn = document.getElementById('btn-get-started');
-  if (getStartedBtn) {
-    getStartedBtn.addEventListener('click', () => {
-      openTourModal('Private Client Architectural Consultation');
-    });
-  }
-
-  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeTourModal);
-  if (modalBackdrop) modalBackdrop.addEventListener('click', closeTourModal);
-
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeTourModal();
-  });
-
   // ===================================================================
-  // 7. SECTION 4: SUNSET A-FRAME VIDEO SCRUB & SMART HUD TELEMETRY
+  // 7. SECTION 4: SUNSET A-FRAME PINNED VIDEO SCRUB & SMART HUD
   // ===================================================================
-  const hudSvgCanvas = document.getElementById('hud-svg-canvas');
-  const hudSection = document.getElementById('hud-section');
-  const hudContainer = document.getElementById('hud-bg-container');
   const hudVideo = document.getElementById('hud-scrub-video');
-  const hudTimeProgress = document.getElementById('hud-time-progress');
   const hudTimePhase = document.getElementById('hud-time-phase');
-  const hudTimeTelemetry = document.getElementById('hud-time-telemetry');
-  const hudModeToggle = document.getElementById('hud-mode-toggle');
-  const hudModeLabel = document.getElementById('hud-mode-label');
+  const hudSkyDot = document.getElementById('hud-sky-dot');
+  const hudTimeProgress = document.getElementById('hud-time-progress');
 
+  const hudCards = [
+    document.getElementById('card-hvac'),
+    document.getElementById('card-solar'),
+    document.getElementById('card-lighting')
+  ];
+
+  // SVG Connector Lines
+  const hudSvgCanvas = document.getElementById('hud-svg-canvas');
+  const hudLine1 = document.getElementById('hud-line-1');
+  const hudLine2 = document.getElementById('hud-line-2');
+  const hudLine3 = document.getElementById('hud-line-3');
   const beacon1 = document.getElementById('beacon-1');
-  const card1 = document.getElementById('card-hvac');
-  const line1 = document.getElementById('hud-line-1');
-
   const beacon2 = document.getElementById('beacon-2');
-  const card2 = document.getElementById('card-solar');
-  const line2 = document.getElementById('hud-line-2');
-
   const beacon3 = document.getElementById('beacon-3');
-  const card3 = document.getElementById('card-light');
-  const line3 = document.getElementById('hud-line-3');
 
-  let targetHudTime = 0;
-  let currentHudTime = 0;
+  function updateSvgConnectors() {
+    if (!hudSvgCanvas) return;
+    const canvasRect = hudSvgCanvas.getBoundingClientRect();
 
-  if (hudVideo) {
-    hudVideo.addEventListener('loadeddata', () => {
-      if (hudContainer) hudContainer.classList.add('video-ready');
-    });
-    hudVideo.addEventListener('canplay', () => {
-      if (hudContainer) hudContainer.classList.add('video-ready');
-    });
-
-    if (typeof ScrollTrigger !== 'undefined' && hudSection) {
-      ScrollTrigger.create({
-        trigger: '#hud-section',
-        start: 'top 80%',
-        end: 'bottom 20%',
-        scrub: true,
-        onUpdate: (self) => {
-          if (hudVideo.duration) {
-            targetHudTime = self.progress * (hudVideo.duration - 0.05);
-          }
-          updateHudSvgLines();
-        }
-      });
-    }
-
-    if (hudModeToggle) {
-      let phaseStep = 0;
-      const presets = [
-        { time: 0.1, label: 'Daylight 16:30' },
-        { time: 4.8, label: 'Sunset 18:45' },
-        { time: 9.6, label: 'Night Sky 21:15' }
-      ];
-      hudModeToggle.addEventListener('click', () => {
-        phaseStep = (phaseStep + 1) % presets.length;
-        targetHudTime = presets[phaseStep].time;
-        if (hudModeLabel) hudModeLabel.textContent = presets[phaseStep].label;
-      });
-    }
-  }
-
-  function updateHudPhase(time) {
-    if (hudTimeProgress) {
-      hudTimeProgress.textContent = `${time.toFixed(2)}s / 10.0s`;
-    }
-
-    if (!hudTimePhase || !hudTimeTelemetry) return;
-
-    if (time < 2.5) {
-      hudTimePhase.textContent = 'DAYLIGHT 16:30';
-      hudTimeTelemetry.classList.remove('night');
-    } else if (time >= 2.5 && time < 6.0) {
-      hudTimePhase.textContent = 'GOLDEN HOUR 18:45';
-      hudTimeTelemetry.classList.remove('night');
-    } else if (time >= 6.0 && time < 8.2) {
-      hudTimePhase.textContent = 'TWILIGHT DUSK 19:50';
-      hudTimeTelemetry.classList.add('night');
-    } else {
-      hudTimePhase.textContent = 'ALPINE NIGHT 21:15';
-      hudTimeTelemetry.classList.add('night');
-    }
-  }
-
-  function updateHudSvgLines() {
-    if (!hudSection || !hudSvgCanvas) return;
-    const secRect = hudSection.getBoundingClientRect();
-
-    function connect(beacon, card, line) {
-      if (!beacon || !card || !line) return;
+    function connect(line, beacon, card) {
+      if (!line || !beacon || !card) return;
       const bRect = beacon.getBoundingClientRect();
       const cRect = card.getBoundingClientRect();
 
-      const bx = (bRect.left + bRect.width / 2) - secRect.left;
-      const by = (bRect.top + bRect.height / 2) - secRect.top;
+      const x1 = bRect.left + bRect.width / 2 - canvasRect.left;
+      const y1 = bRect.top + bRect.height / 2 - canvasRect.top;
+      const x2 = cRect.left + cRect.width / 2 - canvasRect.left;
+      const y2 = cRect.top + cRect.height / 2 - canvasRect.top;
 
-      let cx = (cRect.left + cRect.width / 2) - secRect.left;
-      let cy = (cRect.top + cRect.height / 2) - secRect.top;
-
-      if (bx < cx) {
-        cx = cRect.left - secRect.left;
-      } else {
-        cx = cRect.right - secRect.left;
-      }
-
-      line.setAttribute('x1', bx);
-      line.setAttribute('y1', by);
-      line.setAttribute('x2', cx);
-      line.setAttribute('y2', cy);
+      line.setAttribute('x1', x1.toFixed(1));
+      line.setAttribute('y1', y1.toFixed(1));
+      line.setAttribute('x2', x2.toFixed(1));
+      line.setAttribute('y2', y2.toFixed(1));
     }
 
-    connect(beacon1, card1, line1);
-    connect(beacon2, card2, line2);
-    connect(beacon3, card3, line3);
+    connect(hudLine1, beacon1, hudCards[0]);
+    connect(hudLine2, beacon2, hudCards[1]);
+    connect(hudLine3, beacon3, hudCards[2]);
   }
 
-  window.addEventListener('resize', updateHudSvgLines);
-  window.addEventListener('scroll', updateHudSvgLines, { passive: true });
-  setTimeout(updateHudSvgLines, 300);
+  window.addEventListener('resize', updateSvgConnectors);
 
-  // Interactive Sliders in HUD Cards
+  if (hudVideo) {
+    // Prohibit autoplay: strictly pause on frame 0
+    hudVideo.pause();
+    hudVideo.currentTime = 0;
+
+    hudVideo.addEventListener('loadedmetadata', () => {
+      hudVideo.pause();
+      hudVideo.currentTime = 0;
+    });
+
+    if (typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.create({
+        trigger: '#hud-scroll-track',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 0.5,
+        onUpdate: (self) => {
+          const p = self.progress;
+
+          // Deterministic frame scrubbing
+          if (hudVideo.duration) {
+            hudVideo.currentTime = p * (hudVideo.duration - 0.04);
+          }
+
+          // Architectural time telemetry update
+          if (hudTimePhase && hudSkyDot) {
+            if (p < 0.35) {
+              hudTimePhase.textContent = 'DAYLIGHT 16:30';
+              hudSkyDot.style.background = '#f59e0b';
+              hudSkyDot.style.boxShadow = '0 0 10px #f59e0b';
+            } else if (p < 0.70) {
+              hudTimePhase.textContent = 'GOLDEN HOUR 18:45';
+              hudSkyDot.style.background = '#f97316';
+              hudSkyDot.style.boxShadow = '0 0 10px #f97316';
+            } else {
+              hudTimePhase.textContent = 'ALPINE TWILIGHT 21:15';
+              hudSkyDot.style.background = '#38bdf8';
+              hudSkyDot.style.boxShadow = '0 0 10px #38bdf8';
+            }
+          }
+
+          if (hudTimeProgress) {
+            hudTimeProgress.textContent = `${(p * 10).toFixed(2)}s / 10.0s`;
+          }
+
+          // Staggered HUD Card reveals with smooth zoom & fade
+          if (hudCards[0]) {
+            if (p >= 0.10) {
+              hudCards[0].style.opacity = '1';
+              hudCards[0].style.transform = 'scale(1) translateY(0)';
+              hudCards[0].style.pointerEvents = 'auto';
+            } else {
+              hudCards[0].style.opacity = '0';
+              hudCards[0].style.transform = 'scale(0.85) translateY(15px)';
+              hudCards[0].style.pointerEvents = 'none';
+            }
+          }
+
+          if (hudCards[1]) {
+            if (p >= 0.32) {
+              hudCards[1].style.opacity = '1';
+              hudCards[1].style.transform = 'scale(1) translateY(0)';
+              hudCards[1].style.pointerEvents = 'auto';
+            } else {
+              hudCards[1].style.opacity = '0';
+              hudCards[1].style.transform = 'scale(0.85) translateY(15px)';
+              hudCards[1].style.pointerEvents = 'none';
+            }
+          }
+
+          if (hudCards[2]) {
+            if (p >= 0.55) {
+              hudCards[2].style.opacity = '1';
+              hudCards[2].style.transform = 'scale(1) translateY(0)';
+              hudCards[2].style.pointerEvents = 'auto';
+            } else {
+              hudCards[2].style.opacity = '0';
+              hudCards[2].style.transform = 'scale(0.85) translateY(15px)';
+              hudCards[2].style.pointerEvents = 'none';
+            }
+          }
+
+          updateSvgConnectors();
+        }
+      });
+    }
+  }
+
+  // Interactive HUD Sliders
   const tempSlider = document.getElementById('temp-slider');
   const tempDisplay = document.getElementById('hud-temp-display');
   if (tempSlider && tempDisplay) {
     tempSlider.addEventListener('input', (e) => {
-      tempDisplay.textContent = `${e.target.value}.5°C`;
+      tempDisplay.textContent = `${e.target.value}.0°C`;
     });
   }
 
   const lumensSlider = document.getElementById('lumens-slider');
   const lumensDisplay = document.getElementById('hud-lumens-display');
-  const bulbSvg = document.getElementById('hud-bulb-svg');
   if (lumensSlider && lumensDisplay) {
     lumensSlider.addEventListener('input', (e) => {
-      const val = parseInt(e.target.value, 10);
-      lumensDisplay.textContent = `${Math.round(val * 10)} lm`;
-      if (bulbSvg) {
-        bulbSvg.style.opacity = Math.max(0.3, val / 100).toString();
-        bulbSvg.style.filter = `drop-shadow(0 0 ${val / 8}px #fbbf24)`;
-      }
+      const val = Math.round((e.target.value / 100) * 1000);
+      lumensDisplay.textContent = `${val} lm`;
     });
   }
 
-  // Beacon hover pulses card
-  [
-    { b: beacon1, c: card1 },
-    { b: beacon2, c: card2 },
-    { b: beacon3, c: card3 }
-  ].forEach(({ b, c }) => {
-    if (b && c) {
-      b.addEventListener('mouseenter', () => {
-        c.style.transform = 'translateY(-6px) scale(1.05)';
-        c.style.borderColor = 'var(--accent-cyan)';
-      });
-      b.addEventListener('mouseleave', () => {
-        c.style.transform = '';
-        c.style.borderColor = '';
-      });
-    }
+  // ===================================================================
+  // 8. PRIVATE TOUR BOOKING MODAL
+  // ===================================================================
+  const modalBackdrop = document.getElementById('tour-modal-backdrop');
+  const modalSheet = document.getElementById('tour-modal-sheet');
+  const modalClose = document.getElementById('modal-close-btn');
+  const headerCta = document.getElementById('header-cta-btn');
+
+  function openTourModal() {
+    modalBackdrop && modalBackdrop.classList.add('open');
+    modalSheet && modalSheet.classList.add('open');
+  }
+
+  function closeTourModal() {
+    modalBackdrop && modalBackdrop.classList.remove('open');
+    modalSheet && modalSheet.classList.remove('open');
+  }
+
+  if (headerCta) headerCta.addEventListener('click', openTourModal);
+  if (modalClose) modalClose.addEventListener('click', closeTourModal);
+  if (modalBackdrop) modalBackdrop.addEventListener('click', closeTourModal);
+
+  // Initialize smooth momentum engine on DOM load
+  window.addEventListener('DOMContentLoaded', () => {
+    initLenis();
+    updateSvgConnectors();
   });
-
-  // ===================================================================
-  // 8. GSAP TICKER 60FPS FLOATING-POINT LERP VIDEO ENGINE
-  // ===================================================================
-  if (typeof gsap !== 'undefined') {
-    gsap.ticker.add(() => {
-      // 1. Hero Villa Video Lerp Seeking
-      if (heroVideo && heroVideo.duration && !isHeroAutoPlaying) {
-        const diff = targetHeroTime - currentHeroTime;
-        if (Math.abs(diff) > 0.002) {
-          currentHeroTime += diff * 0.12;
-          heroVideo.currentTime = currentHeroTime;
-        }
-        if (heroTimeCounter) {
-          heroTimeCounter.textContent = `${currentHeroTime.toFixed(2)}s / 10.0s`;
-        }
-      } else if (heroVideo && isHeroAutoPlaying && heroTimeCounter) {
-        heroTimeCounter.textContent = `${heroVideo.currentTime.toFixed(2)}s / 10.0s`;
-      }
-
-      // 2. Section 4 Sunset A-Frame Video Lerp Seeking
-      if (hudVideo && hudVideo.duration) {
-        const diff = targetHudTime - currentHudTime;
-        if (Math.abs(diff) > 0.002) {
-          currentHudTime += diff * 0.10;
-          hudVideo.currentTime = currentHudTime;
-        }
-        updateHudPhase(currentHudTime);
-      }
-    });
-  }
-
-  // ===================================================================
-  // 9. BOOT SEQUENCE
-  // ===================================================================
-  initLenis();
-  updateHudSvgLines();
-  console.log('Zillow Luxury // 60fps 3D Video Scrubbing Engine Active.');
 
 })();
