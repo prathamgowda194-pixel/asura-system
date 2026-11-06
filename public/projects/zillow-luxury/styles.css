@@ -213,84 +213,120 @@ body {
 }
 
 /* ===================================================================
-   SECTION 1: HERO
+   SECTION 1: HERO (100% FULLSCREEN CINEMATIC 3D VILLA & OCCLUDED TEXT)
    =================================================================== */
 .hero-section {
   position: relative;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   min-height: 100vh;
-  background: radial-gradient(circle at 50% 20%, var(--sky-top) 0%, var(--sky-mid) 30%, var(--sky-deep) 75%, var(--sky-base) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
-  padding: 90px 40px 60px;
+  background: #020617;
+  display: block;
+  margin: 0;
+  padding: 0;
 }
 
-/* Giant Knockout Background Typography */
+/* Layer 0: Fullscreen Video Background */
+.hero-media-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-full-bg-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+
+.hero-full-bg-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.hero-full-bg-poster.visible {
+  opacity: 1;
+}
+
+/* Layer 1: Giant Knockout Text Behind Villa */
 .hero-knockout-text {
   position: absolute;
-  top: 10%;
+  top: 14%;
   left: 50%;
   transform: translateX(-50%);
   font-family: var(--font-sans);
-  font-size: clamp(140px, 24vw, 360px);
+  font-size: clamp(140px, 22vw, 340px);
   font-weight: 900;
   letter-spacing: -0.05em;
-  color: rgba(255, 255, 255, 0.95);
+  color: #ffffff;
   text-transform: capitalize;
-  line-height: 0.9;
+  line-height: 0.85;
   white-space: nowrap;
   pointer-events: none;
-  z-index: 1;
-  text-shadow: 0 10px 40px rgba(2, 60, 110, 0.2);
+  z-index: 2;
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  user-select: none;
+  transition: transform 0.15s ease-out;
 }
 
-/* Left Social Dock */
+/* Layer 2: Building & Palm Cutout Layer (Occludes Bottom of Letters) */
+.hero-cutout-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-cutout-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  pointer-events: none;
+}
+
+/* Layer 3: Overlays & Telemetry (Z-index >= 15) */
 .social-rail-dock {
   position: absolute;
   left: 44px;
-  bottom: 80px;
+  bottom: 60px;
   display: flex;
   flex-direction: column;
   gap: 12px;
   z-index: 15;
 }
 
-.social-circle-btn {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.28);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  display: grid;
-  place-items: center;
-  color: #ffffff;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.social-circle-btn:hover {
-  background: #ffffff;
-  color: var(--sky-deep);
-  transform: scale(1.1);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-}
-
-/* Top Right Monospace Telemetry */
 .hero-telemetry-badge {
   position: absolute;
-  top: 110px;
+  top: 100px;
   right: 48px;
   font-family: var(--font-mono);
   font-size: 12px;
   line-height: 1.8;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95);
   text-align: right;
   z-index: 15;
   letter-spacing: 0.5px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 .telemetry-year {
@@ -299,72 +335,24 @@ body {
   color: #ffffff;
 }
 
-/* 3D Cantilevered Villa Interactive Stage */
-.hero-villa-stage {
-  position: relative;
-  z-index: 5;
-  width: clamp(640px, 72vw, 1080px);
-  margin-top: 60px;
-  perspective: 1200px;
-}
-
-.hero-villa-card {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 40px 100px rgba(2, 45, 80, 0.55);
-  transform-style: preserve-3d;
-  transition: transform 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.hero-scrub-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  pointer-events: none;
-  transition: transform 0.8s var(--ease-cinematic);
-}
-
-.hero-villa-img.fallback {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: opacity 0.5s ease;
-  z-index: 1;
-}
-
-.hero-villa-card.video-ready .hero-villa-img.fallback {
-  opacity: 0;
-  pointer-events: none;
-}
-
 /* Video Telemetry Badge */
 .video-telemetry-badge {
   position: absolute;
-  top: 18px;
-  left: 20px;
-  z-index: 10;
+  bottom: 50px;
+  left: 110px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: 20px;
-  background: rgba(8, 9, 12, 0.72);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  gap: 10px;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 8px 16px;
+  border-radius: 30px;
   font-family: var(--font-mono);
   font-size: 11px;
-  letter-spacing: 0.5px;
   color: #ffffff;
-  pointer-events: none;
+  z-index: 15;
 }
 
 .telemetry-rec-dot {
@@ -373,12 +361,6 @@ body {
   border-radius: 50%;
   background: #ef4444;
   box-shadow: 0 0 8px #ef4444;
-  animation: recPulse 1.4s ease-in-out infinite alternate;
-}
-
-@keyframes recPulse {
-  0% { opacity: 0.4; transform: scale(0.85); }
-  100% { opacity: 1; transform: scale(1.15); }
 }
 
 .telemetry-time-counter {
@@ -389,9 +371,9 @@ body {
 /* 3D Walkthrough Play Button */
 .hero-video-play-btn {
   position: absolute;
-  bottom: 18px;
-  right: 20px;
-  z-index: 10;
+  bottom: 48px;
+  left: 320px;
+  z-index: 15;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -427,20 +409,13 @@ body {
   right: 48px;
   bottom: 48px;
   max-width: 360px;
-  background: rgba(255, 255, 255, 0.24);
+  background: rgba(15, 23, 42, 0.55);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 14px;
   padding: 18px 22px;
   z-index: 15;
-}
-
-.statement-text {
-  font-size: 12.5px;
-  line-height: 1.6;
-  color: #ffffff;
-  font-weight: 500;
 }
 
 /* Scroll Down Indicator */
@@ -644,7 +619,7 @@ body {
 /* Right 3D Interactive Card Stack */
 .recom-right-col {
   position: relative;
-  height: 600px;
+  min-height: 560px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -652,31 +627,29 @@ body {
 
 .cards-3d-stack-rig {
   position: relative;
-  width: 380px;
-  height: 480px;
-  perspective: 1400px;
-  transform-style: preserve-3d;
+  width: 100%;
+  max-width: 520px;
+  height: 520px;
+  perspective: 1200px;
 }
 
 .property-3d-card {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 380px;
+  width: 340px;
   background: #ffffff;
-  border-radius: 20px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12), 0 10px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.12), 0 8px 16px -6px rgba(15, 23, 42, 0.08);
   border: 1px solid rgba(0, 0, 0, 0.06);
   cursor: pointer;
-  transform-style: preserve-3d;
-  transition: transform 0.45s var(--ease-cinematic), box-shadow 0.45s var(--ease-cinematic);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 
 .card-image-wrap {
   position: relative;
   width: 100%;
-  height: 240px;
+  height: 220px;
   overflow: hidden;
 }
 
@@ -684,7 +657,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s var(--ease-cinematic);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .property-3d-card:hover .card-img {
@@ -708,19 +681,19 @@ body {
 }
 
 .card-details {
-  padding: 22px;
+  padding: 20px;
 }
 
 .card-price-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .card-price {
   font-family: var(--font-sans);
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 800;
   color: var(--text-dark);
   letter-spacing: -0.5px;
@@ -755,14 +728,14 @@ body {
 }
 
 .card-address {
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 600;
   color: #334155;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .card-specs-row {
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--text-muted-dark);
   display: flex;
   align-items: center;
@@ -779,31 +752,40 @@ body {
   font-weight: 600;
 }
 
-/* 3D Stacking Coordinates */
+/* 3D Stacking Coordinates - Clean Fanned Placement matching reference */
 .card-index-0 {
+  left: 20px;
+  top: 140px;
+  transform: rotateZ(-3deg);
   z-index: 4;
-  transform: rotateZ(-2deg) rotateY(-4deg) translateY(0) translateZ(80px);
 }
 
 .card-index-1 {
+  left: 140px;
+  top: 40px;
+  transform: rotateZ(4deg);
   z-index: 3;
-  transform: rotateZ(6deg) rotateY(10deg) translateY(-60px) translateX(80px) translateZ(20px);
 }
 
 .card-index-2 {
+  left: 220px;
+  top: 0px;
+  transform: rotateZ(9deg);
   z-index: 2;
-  transform: rotateZ(-8deg) rotateY(-10deg) translateY(-110px) translateX(40px) translateZ(-40px);
 }
 
 .card-index-3 {
-  z-index: 1;
-  transform: rotateZ(12deg) rotateY(14deg) translateY(-160px) translateX(120px) translateZ(-90px);
+  left: 180px;
+  top: 240px;
+  transform: rotateZ(6deg);
+  z-index: 5;
 }
 
+/* Zero-Glitch Smooth Hover Lift */
 .property-3d-card:hover {
-  z-index: 10 !important;
-  transform: scale(1.05) translateZ(120px) !important;
-  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.22);
+  transform: translateY(-26px) scale(1.05) rotateZ(0deg) !important;
+  box-shadow: 0 35px 70px -15px rgba(15, 23, 42, 0.28), 0 16px 24px -8px rgba(15, 23, 42, 0.16) !important;
+  z-index: 25 !important;
 }
 
 /* ===================================================================

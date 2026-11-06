@@ -92,38 +92,32 @@
   }, { passive: true });
 
   // ===================================================================
-  // 4. HERO SECTION 3D VILLA VIDEO SCRUB & 3D PERSPECTIVE TILT
+  // 4. HERO SECTION FULLSCREEN VIDEO SCRUB & 3D PARALLAX
   // ===================================================================
-  const heroStage = document.getElementById('hero-villa-stage');
-  const heroCard = document.getElementById('hero-villa-card');
+  const heroSection = document.getElementById('hero-section');
   const heroKnockout = document.getElementById('hero-knockout-text');
+  const heroCutout = document.getElementById('hero-cutout-layer');
   const heroVideo = document.getElementById('hero-scrub-video');
   const heroTimeCounter = document.getElementById('hero-time-counter');
   const heroPlayToggle = document.getElementById('hero-play-toggle');
   const heroPlayLabel = document.getElementById('hero-play-label');
 
   let isHeroAutoPlaying = false;
-  let targetHeroTime = 0;
-  let currentHeroTime = 0;
 
   if (heroVideo) {
-    heroVideo.addEventListener('loadeddata', () => {
-      if (heroCard) heroCard.classList.add('video-ready');
-    });
-    heroVideo.addEventListener('canplay', () => {
-      if (heroCard) heroCard.classList.add('video-ready');
-    });
-
     // Scroll-driven Scrubbing with GSAP ScrollTrigger
     if (typeof ScrollTrigger !== 'undefined') {
       ScrollTrigger.create({
         trigger: '#hero-section',
         start: 'top top',
         end: 'bottom top',
-        scrub: true,
+        scrub: 0.5,
         onUpdate: (self) => {
           if (!isHeroAutoPlaying && heroVideo.duration) {
-            targetHeroTime = self.progress * (heroVideo.duration - 0.04);
+            heroVideo.currentTime = self.progress * (heroVideo.duration - 0.05);
+            if (heroTimeCounter) {
+              heroTimeCounter.textContent = `${heroVideo.currentTime.toFixed(2)}s`;
+            }
           }
         }
       });
@@ -155,74 +149,50 @@
       if (heroPlayLabel) heroPlayLabel.textContent = '3D Walkthrough';
       if (heroPlayToggle) heroPlayToggle.classList.remove('playing');
     });
+
+    heroVideo.addEventListener('timeupdate', () => {
+      if (isHeroAutoPlaying && heroTimeCounter) {
+        heroTimeCounter.textContent = `${heroVideo.currentTime.toFixed(2)}s`;
+      }
+    });
   }
 
-  // 3D Mouse Parallax Tilt across Hero Villa
-  if (heroStage && heroCard) {
-    heroStage.addEventListener('mousemove', (e) => {
-      const rect = heroStage.getBoundingClientRect();
+  // 3D Mouse Parallax between Knockout Text (back) and Cutout Building (front)
+  if (heroSection) {
+    heroSection.addEventListener('mousemove', (e) => {
+      const rect = heroSection.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width - 0.5;
       const y = (e.clientY - rect.top) / rect.height - 0.5;
 
-      const rotY = x * 14;
-      const rotX = -y * 10;
-      heroCard.style.transform = `rotateY(${rotY.toFixed(2)}deg) rotateX(${rotX.toFixed(2)}deg) translateZ(24px)`;
       if (heroKnockout) {
-        heroKnockout.style.transform = `translateX(calc(-50% + ${(-x * 25).toFixed(1)}px)) translateY(${(-y * 15).toFixed(1)}px)`;
+        heroKnockout.style.transform = `translateX(calc(-50% + ${(-x * 24).toFixed(1)}px)) translateY(${(-y * 14).toFixed(1)}px)`;
+      }
+      if (heroCutout) {
+        heroCutout.style.transform = `translateX(${(x * 8).toFixed(1)}px) translateY(${(y * 6).toFixed(1)}px)`;
       }
     });
 
-    heroStage.addEventListener('mouseleave', () => {
-      heroCard.style.transform = `rotateY(0deg) rotateX(0deg) translateZ(0px)`;
-      if (heroKnockout) {
-        heroKnockout.style.transform = `translateX(-50%) translateY(0px)`;
-      }
+    heroSection.addEventListener('mouseleave', () => {
+      if (heroKnockout) heroKnockout.style.transform = 'translateX(-50%) translateY(0px)';
+      if (heroCutout) heroCutout.style.transform = 'translateX(0px) translateY(0px)';
     });
   }
 
   // ===================================================================
-  // 5. SECTION 2: 3D CARD STACK INTERACTION & FILTERS
+  // 5. SECTION 2: 3D CARD STACK INTERACTION & FILTERS (GLITCH-FREE)
   // ===================================================================
-  const cardStackRig = document.getElementById('cards-3d-stack-rig');
   const propertyCards = document.querySelectorAll('.property-3d-card');
 
-  // Mouse tilt over 3D card stack
-  if (cardStackRig) {
-    cardStackRig.addEventListener('mousemove', (e) => {
-      const rect = cardStackRig.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-
-      propertyCards.forEach((card, idx) => {
-        const factor = (4 - idx) * 0.4;
-        const currentRotZ = idx === 0 ? -2 : idx === 1 ? 6 : idx === 2 ? -8 : 12;
-        card.style.transform = `rotateZ(${currentRotZ}deg) rotateY(${(x * 16 * factor).toFixed(1)}deg) rotateX(${(-y * 14 * factor).toFixed(1)}deg)`;
-      });
-    });
-
-    cardStackRig.addEventListener('mouseleave', () => {
-      propertyCards.forEach((card) => {
-        card.style.transform = '';
-      });
-    });
-  }
-
-  // Card click elevates clicked card to front
+  // Elevate clicked card smoothly
   propertyCards.forEach((card) => {
     card.addEventListener('click', (e) => {
       if (e.target.closest('.card-heart-btn')) return;
-
       propertyCards.forEach((c) => c.classList.remove('active-top'));
       card.classList.add('active-top');
-
-      propertyCards.forEach((c) => {
-        c.style.zIndex = '1';
-      });
-      card.style.zIndex = '10';
     });
   });
 
-  // Favorite Heart Button Toggle
+  // Heart toggle
   document.querySelectorAll('.card-heart-btn').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -230,20 +200,38 @@
     });
   });
 
-  // Location Search & Filter Chips
+  // Search input filter
   const searchInput = document.getElementById('recom-search-input');
-  const filterChips = document.querySelectorAll('.quick-chip');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      propertyCards.forEach((card) => {
+        const addr = card.querySelector('.card-address')?.textContent.toLowerCase() || '';
+        const price = card.querySelector('.card-price')?.textContent.toLowerCase() || '';
+        if (!query || addr.includes(query) || price.includes(query)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  }
 
-  filterChips.forEach((chip) => {
+  // Quick chips filter
+  const quickChips = document.querySelectorAll('.quick-chip');
+  quickChips.forEach((chip) => {
     chip.addEventListener('click', () => {
-      filterChips.forEach((c) => c.classList.remove('active'));
+      quickChips.forEach((c) => c.classList.remove('active'));
       chip.classList.add('active');
-      const val = chip.getAttribute('data-chip');
-      if (searchInput && val !== 'all') {
-        searchInput.value = chip.textContent;
-      } else if (searchInput) {
-        searchInput.value = '';
-      }
+      const val = chip.getAttribute('data-chip').toLowerCase();
+      propertyCards.forEach((card) => {
+        const addr = card.querySelector('.card-address')?.textContent.toLowerCase() || '';
+        if (val === 'all' || addr.includes(val)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
     });
   });
 

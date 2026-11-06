@@ -68,12 +68,45 @@
   </header>
 
   <!-- =================================================================
-       SECTION 1: HERO (CANTILEVERED LUXURY VILLA & KNOCKOUT TYPOGRAPHY)
+       SECTION 1: HERO (FULLSCREEN 3D VILLA VIDEO & OCCLUDED KNOCKOUT TEXT)
        ================================================================= -->
   <section class="hero-section" id="hero-section">
-    <!-- Giant Knockout Background Typography -->
+    <!-- Fullscreen 60fps Ambient & Scrubbed Video Background (Layer 0) -->
+    <div class="hero-media-wrapper" id="hero-media-wrapper">
+      <video 
+        id="hero-scrub-video" 
+        class="hero-full-bg-video" 
+        src="assets/scene1_villa_opt.mp4" 
+        poster="assets/scene1_villa_poster.jpg"
+        autoplay
+        loop
+        muted 
+        playsinline 
+        preload="auto"
+        tabindex="-1"
+      ></video>
+      <img 
+        src="assets/scene1_villa_poster.jpg" 
+        alt="Modern Cantilevered Villa with Infinity Pool" 
+        class="hero-full-bg-poster fallback" 
+        id="hero-villa-poster"
+        onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=85';"
+      >
+    </div>
+
+    <!-- Giant Knockout Display Typography (Layer 1 - Behind Building, in Front of Sky) -->
     <div class="hero-knockout-text" id="hero-knockout-text" aria-hidden="true">
       Zillow
+    </div>
+
+    <!-- Building & Palms Cutout Layer (Layer 2 - Occludes Bottom of Letters) -->
+    <div class="hero-cutout-layer" id="hero-cutout-layer" aria-hidden="true">
+      <img 
+        src="assets/scene1_villa_cutout.png" 
+        alt="Cantilevered Villa Architecture Foreground" 
+        class="hero-cutout-img"
+        id="hero-cutout-img"
+      >
     </div>
 
     <!-- Floating Social Icons Dock (Left Rail) -->
@@ -110,46 +143,20 @@
       <div class="telemetry-year">@2025</div>
     </div>
 
-    <!-- 3D Cantilevered Villa Interactive Stage -->
-    <div class="hero-villa-stage" id="hero-villa-stage">
-      <div class="hero-villa-card" id="hero-villa-card">
-        <!-- 3D Drone Scrub Video Element (60fps Scroll Scrub + Parallax) -->
-        <video 
-          id="hero-scrub-video" 
-          class="hero-scrub-video" 
-          src="assets/scene1_villa_opt.mp4" 
-          poster="assets/scene1_villa_poster.jpg"
-          muted 
-          playsinline 
-          preload="auto"
-          tabindex="-1"
-        ></video>
-        <!-- Immediate Fail-safe Fallback Poster -->
-        <img 
-          src="assets/scene1_villa_poster.jpg" 
-          alt="Modern Cantilevered Villa with Infinity Pool" 
-          class="hero-villa-img fallback" 
-          id="hero-villa-img"
-          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=85';"
-        >
-        <div class="villa-water-reflection"></div>
-
-        <!-- Video Telemetry HUD Pill -->
-        <div class="video-telemetry-badge" id="hero-video-telemetry">
-          <span class="telemetry-rec-dot"></span>
-          <span class="telemetry-mode-label">DRONE SCRUB // 10.0S</span>
-          <span class="telemetry-time-counter" id="hero-time-counter">0.00s</span>
-        </div>
-
-        <!-- Interactive Play/Pause & Walkthrough Mode Switcher -->
-        <button class="hero-video-play-btn" id="hero-play-toggle" title="Toggle 3D Walkthrough / Scroll Scrub">
-          <svg class="play-icon" id="hero-play-icon" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-            <polygon points="5 3 19 12 5 21 5 3"/>
-          </svg>
-          <span class="play-btn-label" id="hero-play-label">3D Walkthrough</span>
-        </button>
-      </div>
+    <!-- Video Telemetry HUD Pill -->
+    <div class="video-telemetry-badge" id="hero-video-telemetry">
+      <span class="telemetry-rec-dot"></span>
+      <span class="telemetry-mode-label">DRONE SCRUB // 10.0S</span>
+      <span class="telemetry-time-counter" id="hero-time-counter">0.00s</span>
     </div>
+
+    <!-- Interactive Play/Pause & Walkthrough Mode Switcher -->
+    <button class="hero-video-play-btn" id="hero-play-toggle" title="Toggle 3D Walkthrough / Scroll Scrub">
+      <svg class="play-icon" id="hero-play-icon" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+        <polygon points="5 3 19 12 5 21 5 3"/>
+      </svg>
+      <span class="play-btn-label" id="hero-play-label">3D Walkthrough</span>
+    </button>
 
     <!-- Bottom Right Glass Statement Card -->
     <div class="hero-statement-card">
