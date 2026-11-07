@@ -127,16 +127,17 @@
             heroVideo.currentTime = p * (heroVideo.duration - 0.04);
           }
 
-          // Refined subtle parallax without excessive scaling
+          // Refined subtle parallax and atmospheric fade on scroll
           if (heroKnockout) {
-            const translateY = -p * 35;
+            const translateY = -p * 60;
+            const opacity = Math.max(0, 1 - p * 2.2);
             heroKnockout.style.transform = `translateX(-50%) translateY(${translateY.toFixed(1)}px)`;
+            heroKnockout.style.opacity = opacity.toFixed(3);
           }
 
-          // Dissolve cutout layer as drone descends into courtyard (seamless occlusion)
+          // Cutout layer maintains 100% solid occlusion of the building
           if (heroCutout) {
-            const opacity = Math.max(0, 1 - p * 3.2);
-            heroCutout.style.opacity = opacity.toFixed(3);
+            heroCutout.style.opacity = '1';
           }
 
           // Update telemetry time counter
