@@ -1,0 +1,1108 @@
+/* ===================================================================
+   LUXHABITAT DUBAI // STYLESHEET
+   Replicated from @dxasad_grapicdesigner Luxury Real Estate Concept
+   =================================================================== */
+
+:root {
+  --bg-outer: #f6f7f9;
+  --bg-parchment: #f7f4ee;
+  --bg-parchment-alt: #f0ece3;
+  --text-dark: #111215;
+  --text-muted: #5e626e;
+  --text-dim: #8c909e;
+  
+  --accent-magenta: #ff007a;
+  --accent-magenta-glow: rgba(255, 0, 122, 0.4);
+  --accent-cobalt: #1e4bd6;
+  --accent-aegean: #2b5fe8;
+  --accent-gold: #c5a059;
+
+  --font-didone: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --font-cinzel: 'Cinzel', serif;
+
+  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  background-color: var(--bg-outer);
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ===================================================================
+   PRESENTATION WRAPPER (INSTAGRAM REEL MOCKUP PRESENTATION)
+   =================================================================== */
+.presentation-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 40px 24px 60px;
+  background: radial-gradient(circle at 50% 20%, #ffffff 0%, #eceef3 100%);
+  transition: padding 0.4s var(--ease-cinematic);
+}
+
+/* Outer Top Bar */
+.outer-header {
+  width: 100%;
+  max-width: 1180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 28px;
+  position: relative;
+}
+
+.outer-title {
+  font-family: var(--font-sans);
+  font-size: clamp(34px, 4vw, 48px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #111317;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.outer-pills {
+  display: inline-flex;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.04);
+  padding: 5px 8px;
+  border-radius: 40px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.outer-pill {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 6px 18px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.outer-pill:hover {
+  color: #111317;
+}
+
+.outer-pill.active {
+  background: #ffffff;
+  color: #111317;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* View Mode Toggle (Mockup Framing vs Fullscreen Web) */
+.view-mode-toggle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 30px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #334155;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease;
+}
+
+.view-mode-toggle:hover {
+  background: #111317;
+  color: #ffffff;
+  transform: translateY(-50%) scale(1.03);
+}
+
+/* ===================================================================
+   MAIN SITE CARD VIEWPORT (THE CENTRAL LUXURY WEBSITE STAGE)
+   =================================================================== */
+.site-card-viewport {
+  width: 100%;
+  max-width: 1180px;
+  background-color: var(--bg-parchment);
+  background-image: 
+    radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.4), rgba(0, 0, 0, 0.02));
+  background-size: 20px 20px, 100% 100%;
+  border-radius: 28px;
+  box-shadow: 
+    0 40px 100px -15px rgba(20, 24, 38, 0.16),
+    0 0 0 1px rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+  transition: max-width 0.4s var(--ease-cinematic), border-radius 0.4s var(--ease-cinematic), box-shadow 0.4s ease;
+}
+
+/* Fullscreen Mode Overrides */
+body.fullscreen-mode .presentation-wrapper {
+  padding: 0;
+  background: var(--bg-parchment);
+}
+
+body.fullscreen-mode .outer-header,
+body.fullscreen-mode .outer-footer {
+  display: none;
+}
+
+body.fullscreen-mode .site-card-viewport {
+  max-width: 100vw;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Architectural CAD Corner Crosshairs */
+.cad-corner {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: rgba(0, 0, 0, 0.35);
+  letter-spacing: 1px;
+  pointer-events: none;
+  z-index: 40;
+}
+
+.cad-tl { top: 22px; left: 28px; }
+.cad-tr { top: 22px; right: 28px; }
+.cad-bl { bottom: 22px; left: 28px; }
+.cad-br { bottom: 22px; right: 28px; }
+
+/* Overhanging Foliage Vines */
+.vine-branch {
+  position: absolute;
+  width: 220px;
+  height: 380px;
+  pointer-events: none;
+  z-index: 35;
+  transition: transform 0.6s var(--ease-cinematic);
+}
+
+.vine-left {
+  top: 80px;
+  left: -20px;
+}
+
+.vine-right {
+  top: 80px;
+  right: -20px;
+}
+
+.vine-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+}
+
+/* ===================================================================
+   LUXHABITAT SITE HEADER
+   =================================================================== */
+.site-header {
+  position: relative;
+  width: 100%;
+  padding: 34px 56px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 50;
+}
+
+/* Spinning Stamped Seal Logo */
+.brand-seal-link {
+  text-decoration: none;
+  display: inline-block;
+}
+
+.brand-seal-wrapper {
+  width: 58px;
+  height: 58px;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.seal-spinning-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: spinSeal 25s linear infinite;
+}
+
+@keyframes spinSeal {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.seal-text {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 2px;
+  fill: #111317;
+  font-weight: 700;
+}
+
+.seal-center-letter {
+  font-family: var(--font-didone);
+  font-size: 24px;
+  font-weight: 700;
+  font-style: italic;
+  color: #111317;
+  line-height: 1;
+}
+
+/* Center Nav Items */
+.nav-links-row {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.nav-link {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #334155;
+  text-decoration: none;
+  position: relative;
+  padding: 4px 0;
+  transition: color 0.25s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: var(--accent-magenta);
+  transition: width 0.3s var(--ease-cinematic);
+}
+
+.nav-link:hover {
+  color: #0f172a;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Right Action Button: Select AN APARTMENT */
+.btn-select-apartment {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+  text-align: right;
+  transition: transform 0.25s ease;
+}
+
+.btn-primary-text {
+  font-family: var(--font-didone);
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1;
+}
+
+.btn-sub-text {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #0f172a;
+  margin-top: 2px;
+}
+
+.btn-select-apartment:hover {
+  transform: translateX(-4px);
+}
+
+/* ===================================================================
+   SCENE 1: DUBAI COASTAL PANORAMA & KNOCKOUT TEXT
+   =================================================================== */
+.hero-scroll-stage {
+  position: relative;
+  width: 100%;
+  min-height: 820px;
+  padding: 20px 48px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.dubai-panorama-container {
+  width: 100%;
+  max-width: 1020px;
+  height: 520px;
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 25px 60px -10px rgba(15, 23, 42, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.6s var(--ease-cinematic);
+}
+
+.dubai-coast-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 65%;
+  transition: transform 0.8s var(--ease-cinematic);
+}
+
+/* Knockout Typography: Dubai Realestate (Layered Behind Skyline) */
+.dubai-knockout-title {
+  position: absolute;
+  top: 36%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 24px;
+  font-family: var(--font-didone);
+  font-size: clamp(52px, 7vw, 92px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.96);
+  text-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 2;
+  transition: opacity 0.5s ease, transform 0.5s var(--ease-cinematic);
+}
+
+/* ===================================================================
+   SCENE 2: THE ARCHED COBALT BLUE MEDITERRANEAN WINDOW RIG
+   =================================================================== */
+.window-portal-rig {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 980px;
+  height: 540px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  z-index: 20;
+  pointer-events: none;
+  transition: all 0.7s var(--ease-cinematic);
+}
+
+/* Flanking Typography: The leading luxury // Property portal in Dubai */
+.window-flank {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+  font-size: clamp(38px, 4.5vw, 62px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #111317;
+  user-select: none;
+}
+
+.flank-left {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.flank-right {
+  text-align: left;
+  align-items: flex-start;
+}
+
+.text-neon-magenta {
+  color: var(--accent-magenta);
+  text-shadow: 0 0 20px var(--accent-magenta-glow);
+}
+
+.font-didone {
+  font-family: var(--font-didone);
+}
+
+/* The Central Arched Frame */
+.arched-window-frame {
+  position: relative;
+  width: 250px;
+  height: 380px;
+  perspective: 1200px;
+  pointer-events: auto;
+  border-radius: 125px 125px 8px 8px;
+  box-shadow: 
+    0 30px 70px -15px rgba(20, 30, 50, 0.35),
+    0 0 0 10px #1a3fb8,
+    0 0 0 13px rgba(255, 255, 255, 0.4);
+  transition: transform 0.6s var(--ease-cinematic), width 0.6s var(--ease-cinematic), height 0.6s var(--ease-cinematic);
+}
+
+.window-aperture {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 125px 125px 8px 8px;
+  overflow: hidden;
+  background: #a8d5e5;
+}
+
+.window-skyline-view {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  transition: transform 0.6s var(--ease-cinematic);
+}
+
+/* 3D Double Shutters */
+.window-shutter {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: #1c4bd6;
+  background-image: linear-gradient(135deg, #2458f0 0%, #173eb8 100%);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.8s var(--ease-cinematic);
+  transform-style: preserve-3d;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.shutter-left {
+  left: 0;
+  transform-origin: left center;
+  border-top-left-radius: 125px;
+  transform: rotateY(-115deg);
+}
+
+.shutter-right {
+  right: 0;
+  transform-origin: right center;
+  border-top-right-radius: 125px;
+  transform: rotateY(115deg);
+}
+
+.shutter-panel-cutout {
+  width: 100%;
+  height: 100%;
+  padding: 18px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  position: relative;
+}
+
+.shutter-plank {
+  width: 100%;
+  height: 42%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.shutter-handle {
+  position: absolute;
+  top: 50%;
+  width: 5px;
+  height: 22px;
+  background: #c5a059;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.shutter-left .shutter-handle { right: 8px; }
+.shutter-right .shutter-handle { left: 8px; }
+
+/* ===================================================================
+   SCENE 3: EDITORIAL MANIFESTO STAGE
+   =================================================================== */
+.editorial-manifesto-stage {
+  width: 100%;
+  max-width: 820px;
+  margin-top: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 30;
+  transition: all 0.6s var(--ease-cinematic);
+}
+
+.editorial-main-title {
+  font-size: clamp(34px, 4.4vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #111317;
+  line-height: 1.15;
+  margin-bottom: 22px;
+}
+
+.editorial-body-copy {
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  max-width: 720px;
+  margin-bottom: 34px;
+}
+
+/* Glowing Neon Magenta Play Button */
+.action-play-cluster {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.btn-neon-play {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--accent-magenta);
+  border: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  position: relative;
+  box-shadow: 
+    0 10px 30px var(--accent-magenta-glow),
+    0 0 0 4px rgba(255, 255, 255, 0.8);
+  transition: transform 0.3s var(--ease-spring), box-shadow 0.3s ease;
+}
+
+.btn-neon-play:hover {
+  transform: scale(1.12);
+  box-shadow: 
+    0 15px 40px rgba(255, 0, 122, 0.6),
+    0 0 0 6px rgba(255, 255, 255, 0.9);
+}
+
+.play-triangle-svg {
+  width: 22px;
+  height: 22px;
+  margin-left: 3px;
+}
+
+.pulse-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-magenta);
+  opacity: 0.6;
+  animation: pulseRing 2s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
+}
+
+@keyframes pulseRing {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* ===================================================================
+   SCENE 4: 3D PROPERTY SHOWCASE CARDS (HORIZONTAL CASSETTE)
+   =================================================================== */
+.property-cards-container {
+  width: 100%;
+  max-width: 1040px;
+  margin-top: 48px;
+  perspective: 1200px;
+  z-index: 30;
+}
+
+.property-cards-trio {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr 1fr;
+  gap: 22px;
+  align-items: center;
+}
+
+.property-card {
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px -10px rgba(15, 23, 42, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.4s var(--ease-cinematic), box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+}
+
+.property-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 24px 50px -10px rgba(15, 23, 42, 0.18);
+}
+
+/* Featured Center Card with Neon Magenta Ring */
+.featured-magenta-ring {
+  border: 3.5px solid var(--accent-magenta);
+  box-shadow: 
+    0 25px 60px -10px rgba(255, 0, 122, 0.25),
+    0 0 25px rgba(255, 0, 122, 0.2);
+  transform: translateY(-4px) scale(1.03);
+}
+
+.featured-magenta-ring:hover {
+  transform: translateY(-12px) scale(1.05);
+  box-shadow: 
+    0 35px 80px -10px rgba(255, 0, 122, 0.35),
+    0 0 35px rgba(255, 0, 122, 0.3);
+}
+
+.card-thumb-wrap {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.featured-magenta-ring .card-thumb-wrap {
+  height: 205px;
+}
+
+.card-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease-cinematic);
+}
+
+.property-card:hover .card-photo {
+  transform: scale(1.08);
+}
+
+.card-tag-exclusive {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: var(--accent-magenta);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.card-info {
+  padding: 16px 18px 20px;
+}
+
+.card-prop-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111317;
+  margin-bottom: 2px;
+}
+
+.card-prop-type {
+  font-size: 11.5px;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+.card-specs-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+.spec-dot {
+  color: var(--accent-magenta);
+  font-size: 14px;
+}
+
+.card-price-col {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-price-val {
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.card-price-val.font-accent {
+  color: var(--accent-magenta);
+  font-size: 19px;
+}
+
+.btn-card-inquire {
+  background: #111317;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 10.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-card-inquire:hover {
+  background: var(--accent-magenta);
+  transform: translateX(3px);
+}
+
+/* ===================================================================
+   SECTION 5: ARCHITECTURAL PORTFOLIO BENTO & AMENITIES
+   =================================================================== */
+.portfolio-bento-section {
+  position: relative;
+  width: 100%;
+  padding: 80px 48px;
+  background: #ffffff;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.bento-container {
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.bento-top-row {
+  margin-bottom: 40px;
+}
+
+.bento-kicker {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--accent-magenta);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.bento-title {
+  font-size: clamp(28px, 3.5vw, 42px);
+  font-weight: 800;
+  color: #111317;
+  margin-bottom: 12px;
+}
+
+.bento-subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  max-width: 650px;
+  line-height: 1.6;
+}
+
+.bento-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.bento-item {
+  position: relative;
+  height: 280px;
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+  transition: transform 0.4s var(--ease-cinematic);
+}
+
+.bento-item:hover {
+  transform: translateY(-6px);
+}
+
+.bento-item-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s var(--ease-cinematic);
+}
+
+.bento-item:hover .bento-item-bg {
+  transform: scale(1.08);
+}
+
+.item-palm .bento-item-bg {
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 60%), url('https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&w=800&q=85');
+}
+
+.item-hills .bento-item-bg {
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 60%), url('https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=85');
+}
+
+.item-downtown .bento-item-bg {
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 60%), url('https://images.unsplash.com/photo-1546412414-e1885259563a?auto=format&fit=crop&w=800&q=85');
+}
+
+.bento-content {
+  position: relative;
+  z-index: 2;
+}
+
+.bento-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent-magenta);
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.bento-estate-title {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.bento-stat-val {
+  font-size: 15px;
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+/* Made by Iris Ethos Attribution Badge */
+.iris-ethos-badge {
+  position: fixed;
+  bottom: 24px;
+  right: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(17, 19, 23, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 8px 16px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.iris-ethos-badge:hover {
+  background: var(--accent-magenta);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.iris-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-magenta);
+  box-shadow: 0 0 8px var(--accent-magenta);
+  transition: background 0.3s ease;
+}
+
+.iris-ethos-badge:hover .iris-badge-dot {
+  background: #ffffff;
+  box-shadow: 0 0 8px #ffffff;
+}
+
+/* Outer Footer */
+.outer-footer {
+  width: 100%;
+  max-width: 1180px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #64748b;
+  padding: 0 8px;
+}
+
+/* ===================================================================
+   CINEMATIC VIDEO MODAL
+   =================================================================== */
+.video-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 12, 16, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  z-index: 998;
+}
+
+.video-modal-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.video-modal-sheet {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -46%) scale(0.95);
+  width: 90%;
+  max-width: 860px;
+  background: #111317;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 32px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s var(--ease-spring);
+  z-index: 999;
+}
+
+.video-modal-sheet.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  background: var(--accent-magenta);
+}
+
+.modal-film-title {
+  font-family: var(--font-didone);
+  font-size: 24px;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.modal-media-frame {
+  position: relative;
+  width: 100%;
+  height: 440px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.modal-video-placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-playback-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
+  color: #ffffff;
+}
+
+.modal-playback-badge {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--accent-magenta);
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.modal-playback-desc {
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ===================================================================
+   RESPONSIVE DESIGN (TABLET & MOBILE)
+   =================================================================== */
+@media (max-width: 900px) {
+  .outer-header { margin-bottom: 16px; }
+  .view-mode-toggle { position: static; transform: none; margin-top: 12px; }
+  
+  .site-header { padding: 24px 28px; }
+  .nav-links-row { display: none; }
+
+  .window-portal-rig {
+    flex-direction: column;
+    height: auto;
+    gap: 20px;
+  }
+  .window-flank { font-size: 32px; text-align: center; align-items: center; }
+  .arched-window-frame { width: 200px; height: 300px; }
+
+  .property-cards-trio {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .featured-magenta-ring { transform: none; }
+
+  .bento-grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .dubai-knockout-title {
+    font-size: 40px;
+    flex-direction: column;
+    gap: 0;
+  }
+}
