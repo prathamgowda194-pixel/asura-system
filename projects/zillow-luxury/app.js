@@ -127,11 +127,10 @@
             heroVideo.currentTime = p * (heroVideo.duration - 0.04);
           }
 
-          // Scale & translate knockout text in 3D perspective
+          // Refined subtle parallax without excessive scaling
           if (heroKnockout) {
-            const scale = 1 + p * 0.38;
-            const translateY = -p * 65;
-            heroKnockout.style.transform = `translateX(-50%) scale(${scale.toFixed(3)}) translateY(${translateY.toFixed(1)}px)`;
+            const translateY = -p * 35;
+            heroKnockout.style.transform = `translateX(-50%) translateY(${translateY.toFixed(1)}px)`;
           }
 
           // Dissolve cutout layer as drone descends into courtyard (seamless occlusion)
@@ -251,19 +250,19 @@
   });
 
   // ===================================================================
-  // 6. SECTION 3: DARK EDITORIAL SERVICES ACCORDION
+  // 6. SECTION 3: DARK EDITORIAL KINETIC TYPOGRAPHY ROWS
   // ===================================================================
-  const accordionRows = document.querySelectorAll('.accordion-row');
+  const kineticRows = document.querySelectorAll('.kinetic-row');
 
-  accordionRows.forEach((row) => {
-    const header = row.querySelector('.accordion-row-header');
-    if (!header) return;
+  kineticRows.forEach((row) => {
+    row.addEventListener('mouseenter', () => {
+      kineticRows.forEach((r) => r.classList.remove('active'));
+      row.classList.add('active');
+    });
 
-    header.addEventListener('click', () => {
-      const isActive = row.classList.contains('active');
-      accordionRows.forEach((r) => r.classList.remove('active'));
-      if (!isActive) {
-        row.classList.add('active');
+    row.addEventListener('click', (e) => {
+      if (e.target.closest('.kinetic-cta-btn') || e.target.closest('.kinetic-action-tag')) {
+        openTourModal();
       }
     });
   });
