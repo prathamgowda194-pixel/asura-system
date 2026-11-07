@@ -36,8 +36,6 @@ html {
   font-family: var(--font-sans);
   background-color: var(--bg-deep);
   color: var(--text-white);
-  overflow-x: hidden;
-  scroll-behavior: auto; /* Driven by Lenis */
   -webkit-font-smoothing: antialiased;
 }
 
@@ -45,7 +43,7 @@ body {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow-x: clip; /* Clean, modern overflow clipping that never breaks GSAP pinning */
   background-color: var(--bg-deep);
 }
 
@@ -193,22 +191,16 @@ body {
 }
 
 /* ===================================================================
-   SECTION 1: HERO (PINNED 3D VILLA SCROLL-TRACK & OCCLUDED KNOCKOUT TEXT)
+   SECTION 1: HERO (FULLSCREEN 100VH 3D VILLA & OCCLUDED KNOCKOUT TEXT)
    =================================================================== */
-.hero-scroll-track {
+.hero-section {
   position: relative;
-  width: 100vw;
-  height: 240vh; /* Dedicated scroll runway */
-  background: #020617;
-}
-
-.hero-sticky-stage {
-  position: sticky;
-  top: 0;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   background: #020617;
+  margin: 0;
+  padding: 0;
 }
 
 /* Layer 0: Fullscreen 60fps Scrubbed Video Background */
@@ -420,29 +412,22 @@ body {
 }
 
 /* ===================================================================
-   SECTION 2: RECOMMENDATIONS & 3D INTERACTIVE CARD STACK (PINNED FAN-OUT)
+   SECTION 2: RECOMMENDATIONS & 3D INTERACTIVE CARD FAN-OUT
    =================================================================== */
-.recom-scroll-track {
+.recommendations-section {
   position: relative;
   width: 100vw;
-  height: 240vh; /* Dedicated scroll runway */
+  min-height: 100vh;
   background: var(--bg-cream);
-}
-
-.recom-sticky-stage {
-  position: sticky;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-cream);
+  padding: 120px 48px;
+  margin: 0;
 }
 
 .recom-container {
-  width: calc(100% - 96px);
+  width: 100%;
   max-width: 1380px;
   display: grid;
   grid-template-columns: 1fr 1.15fr;
@@ -783,9 +768,10 @@ body {
    =================================================================== */
 .services-section {
   position: relative;
-  width: 100%;
+  width: 100vw;
   background: #060810;
   padding: 130px 48px;
+  margin: 0;
   z-index: 25;
 }
 
@@ -969,22 +955,16 @@ body {
 }
 
 /* ===================================================================
-   SECTION 4: SUNSET GLASS A-FRAME WITH SMART HUD TELEMETRY (PINNED SCROLL)
+   SECTION 4: SUNSET GLASS A-FRAME WITH SMART HUD TELEMETRY (100VH PINNED)
    =================================================================== */
-.hud-scroll-track {
+.hud-section {
   position: relative;
-  width: 100vw;
-  height: 280vh; /* Dedicated scroll runway for full 10s sunset scrubbing */
-  background: #020617;
-}
-
-.hud-sticky-stage {
-  position: sticky;
-  top: 0;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   background: #020617;
+  margin: 0;
+  padding: 0;
 }
 
 .hud-bg-container {

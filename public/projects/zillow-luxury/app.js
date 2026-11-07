@@ -17,7 +17,7 @@
     if (typeof Lenis !== 'undefined') {
       try {
         lenisInstance = new Lenis({
-          duration: 1.25,
+          duration: 1.2,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           orientation: 'vertical',
           smoothWheel: true,
@@ -94,12 +94,13 @@
   // ===================================================================
   // 4. SECTION 1: HERO PINNED 3D VILLA VIDEO SCRUB & KNOCKOUT TEXT
   // ===================================================================
+  const heroSection = document.getElementById('hero-section');
   const heroVideo = document.getElementById('hero-scrub-video');
   const heroKnockout = document.getElementById('hero-knockout-text');
   const heroCutout = document.getElementById('hero-cutout-layer');
   const heroTimeCounter = document.getElementById('hero-time-counter');
 
-  if (heroVideo) {
+  if (heroVideo && heroSection) {
     // Prohibit autoplay: strictly pause on frame 0
     heroVideo.pause();
     heroVideo.currentTime = 0;
@@ -111,28 +112,31 @@
 
     if (typeof ScrollTrigger !== 'undefined') {
       ScrollTrigger.create({
-        trigger: '#hero-scroll-track',
+        trigger: '#hero-section',
         start: 'top top',
-        end: 'bottom bottom',
+        end: '+=130%',
+        pin: true,
+        pinSpacing: true,
         scrub: 0.5,
+        anticipatePin: 1,
         onUpdate: (self) => {
           const p = self.progress;
 
-          // Deterministic frame scrubbing
+          // Deterministic 60fps frame scrubbing
           if (heroVideo.duration) {
             heroVideo.currentTime = p * (heroVideo.duration - 0.04);
           }
 
           // Scale & translate knockout text in 3D perspective
           if (heroKnockout) {
-            const scale = 1 + p * 0.42;
-            const translateY = -p * 70;
+            const scale = 1 + p * 0.38;
+            const translateY = -p * 65;
             heroKnockout.style.transform = `translateX(-50%) scale(${scale.toFixed(3)}) translateY(${translateY.toFixed(1)}px)`;
           }
 
-          // Dissolve cutout layer as drone enters courtyard (eliminates ghosting)
+          // Dissolve cutout layer as drone descends into courtyard (seamless occlusion)
           if (heroCutout) {
-            const opacity = Math.max(0, 1 - p * 3.5);
+            const opacity = Math.max(0, 1 - p * 3.2);
             heroCutout.style.opacity = opacity.toFixed(3);
           }
 
@@ -148,23 +152,22 @@
   // ===================================================================
   // 5. SECTION 2: 3D CARD STACK SCROLL FAN-OUT & ZERO-GLITCH HOVER
   // ===================================================================
+  const recomSection = document.getElementById('recommendations-section');
   const propertyCards = document.querySelectorAll('.property-3d-card');
   const recomTitleLines = document.querySelectorAll('.recom-line');
 
-  if (typeof ScrollTrigger !== 'undefined') {
+  if (typeof ScrollTrigger !== 'undefined' && recomSection) {
     ScrollTrigger.create({
-      trigger: '#recom-scroll-track',
-      start: 'top top',
-      end: 'bottom bottom',
+      trigger: '#recommendations-section',
+      start: 'top 85%',
+      end: 'top 20%',
       scrub: 0.6,
       onUpdate: (self) => {
         const p = self.progress;
 
         // Fan out the 4 property cards in 3D perspective smoothly
-        const fanFactor = Math.min(1, p * 1.25);
+        const fanFactor = Math.min(1, Math.max(0, p * 1.25));
         propertyCards.forEach((card, idx) => {
-          if (card.matches(':hover')) return; // Do not override active hover physics
-
           if (idx === 0) {
             card.style.setProperty('--base-x', '0px');
             card.style.setProperty('--base-y', '0px');
@@ -194,7 +197,7 @@
 
         // Kinetic line reveal
         recomTitleLines.forEach((line, index) => {
-          const threshold = 0.08 + index * 0.12;
+          const threshold = 0.06 + index * 0.12;
           if (p >= threshold) {
             line.style.opacity = '1';
             line.style.transform = 'translateY(0)';
@@ -268,6 +271,7 @@
   // ===================================================================
   // 7. SECTION 4: SUNSET A-FRAME PINNED VIDEO SCRUB & SMART HUD
   // ===================================================================
+  const hudSection = document.getElementById('hud-section');
   const hudVideo = document.getElementById('hud-scrub-video');
   const hudTimePhase = document.getElementById('hud-time-phase');
   const hudSkyDot = document.getElementById('hud-sky-dot');
@@ -315,7 +319,7 @@
 
   window.addEventListener('resize', updateSvgConnectors);
 
-  if (hudVideo) {
+  if (hudVideo && hudSection) {
     // Prohibit autoplay: strictly pause on frame 0
     hudVideo.pause();
     hudVideo.currentTime = 0;
@@ -327,10 +331,13 @@
 
     if (typeof ScrollTrigger !== 'undefined') {
       ScrollTrigger.create({
-        trigger: '#hud-scroll-track',
+        trigger: '#hud-section',
         start: 'top top',
-        end: 'bottom bottom',
+        end: '+=130%',
+        pin: true,
+        pinSpacing: true,
         scrub: 0.5,
+        anticipatePin: 1,
         onUpdate: (self) => {
           const p = self.progress;
 
