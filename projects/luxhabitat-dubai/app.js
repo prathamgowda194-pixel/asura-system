@@ -1,71 +1,101 @@
 /**
- * ══════════════════════════════════════════════════════════════════════════════
- * LUXHABITAT DUBAI // RUNTIME ENGINE
- * Replicated from @dxasad_grapicdesigner Luxury Real Estate Concept
- * ══════════════════════════════════════════════════════════════════════════════
+ * LUXHABITAT DUBAI // LUXURY REAL ESTATE LANDING EXPERIENCE
+ * 100% Full-Bleed 4K Video Scrub, 3D Mediterranean Window & Cards
+ * Replicated with Zero-Slop Precision from @dxasad_grapicdesigner
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+(function () {
+  'use strict';
 
   // ===================================================================
-  // 1. LENIS MOMENTUM SMOOTH SCROLL INITIALIZATION
+  // 1. LENIS MOMENTUM INERTIA & GSAP SCROLLTRIGGER SYNC
   // ===================================================================
-  let lenis = null;
-  if (typeof Lenis !== 'undefined') {
-    lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      smoothWheel: true,
-      touchMultiplier: 1.5
-    });
+  let lenisInstance = null;
 
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
+  function initLenis() {
+    if (typeof Lenis !== 'undefined') {
+      try {
+        lenisInstance = new Lenis({
+          duration: 1.25,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          orientation: 'vertical',
+          smoothWheel: true,
+          touchMultiplier: 1.5
+        });
 
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add((time) => {
-        lenis.raf(time * 1000);
-      });
-      gsap.ticker.lagSmoothing(0);
+        function lenisRaf(time) {
+          if (lenisInstance) lenisInstance.raf(time);
+          requestAnimationFrame(lenisRaf);
+        }
+        requestAnimationFrame(lenisRaf);
+
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+          gsap.registerPlugin(ScrollTrigger);
+          lenisInstance.on('scroll', ScrollTrigger.update);
+          gsap.ticker.add((time) => {
+            if (lenisInstance) lenisInstance.raf(time * 1000);
+          });
+          gsap.ticker.lagSmoothing(0);
+        }
+      } catch (err) {
+        console.warn('Lenis momentum engine fallback to native scroll:', err);
+      }
     }
   }
 
   // ===================================================================
-  // 2. VIEW MODE TOGGLE (MOCKUP FRAMING VS FULLSCREEN WEB)
+  // 2. CUSTOM GLOWING CURSOR FOLLOWER
   // ===================================================================
-  const viewToggleBtn = document.getElementById('view-mode-toggle');
-  const viewModeLabel = document.getElementById('view-mode-label');
+  const cursorFollower = document.getElementById('custom-cursor');
+  const cursorDot = document.getElementById('custom-cursor-dot');
+  let mouseX = -100, mouseY = -100;
+  let followerX = -100, followerY = -100;
 
-  if (viewToggleBtn) {
-    viewToggleBtn.addEventListener('click', () => {
-      const isFullscreen = document.body.classList.toggle('fullscreen-mode');
-      if (viewModeLabel) {
-        viewModeLabel.textContent = isFullscreen ? 'Mockup Frame' : 'Fullscreen Web';
-      }
-      if (typeof ScrollTrigger !== 'undefined') {
-        setTimeout(() => ScrollTrigger.refresh(), 300);
-      }
-    });
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    if (cursorDot) {
+      cursorDot.style.left = `${mouseX}px`;
+      cursorDot.style.top = `${mouseY}px`;
+    }
+  });
+
+  function renderCursor() {
+    followerX += (mouseX - followerX) * 0.18;
+    followerY += (mouseY - followerY) * 0.18;
+    if (cursorFollower) {
+      cursorFollower.style.left = `${followerX}px`;
+      cursorFollower.style.top = `${followerY}px`;
+    }
+    requestAnimationFrame(renderCursor);
   }
+  requestAnimationFrame(renderCursor);
 
-  // Outer Pills Interactivity
-  const outerPills = document.querySelectorAll('.outer-pill');
-  outerPills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      outerPills.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-    });
+  // Expand cursor on interactive triggers
+  const interactiveElements = 'a, button, input, select, .property-3d-card, .bento-card';
+  document.querySelectorAll(interactiveElements).forEach((el) => {
+    el.addEventListener('mouseenter', () => cursorFollower && cursorFollower.classList.add('hovering'));
+    el.addEventListener('mouseleave', () => cursorFollower && cursorFollower.classList.remove('hovering'));
   });
 
   // ===================================================================
-  // 3. 3D CARD PERSPECTIVE TILT & SPECULAR GLARE PHYSICS
+  // 3. HEADER GLASS STATE MACHINE ON SCROLL
   // ===================================================================
-  const propertyCards = document.querySelectorAll('.property-card');
+  const siteHeader = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) {
+      siteHeader && siteHeader.classList.add('scrolled');
+      document.body.classList.add('light-theme');
+    } else {
+      siteHeader && siteHeader.classList.remove('scrolled');
+      document.body.classList.remove('light-theme');
+    }
+  }, { passive: true });
+
+  // ===================================================================
+  // 4. 3D CARD PERSPECTIVE TILT & SPECULAR GLARE PHYSICS
+  // ===================================================================
+  const propertyCards = document.querySelectorAll('.property-3d-card');
 
   propertyCards.forEach(card => {
     const glare = card.querySelector('.card-glare');
@@ -81,17 +111,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const rotateX = ((y - centerY) / centerY) * -9;
       const rotateY = ((x - centerX) / centerX) * 9;
 
-      card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-8px)`;
+      const baseTranslate = card.classList.contains('featured-pink-active') ? -10 : -8;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(${baseTranslate}px)`;
 
       if (glare) {
         const glareX = (x / rect.width) * 100;
         const glareY = (y / rect.height) * 100;
-        glare.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.25) 0%, transparent 60%)`;
+        glare.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.3) 0%, transparent 60%)`;
       }
     });
 
     card.addEventListener('mouseleave', () => {
-      card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)`;
+      const baseTranslate = card.classList.contains('featured-pink-active') ? -10 : 0;
+      card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(${baseTranslate}px)`;
       if (glare) {
         glare.style.background = 'transparent';
       }
@@ -99,10 +131,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ===================================================================
-  // 4. GSAP SCROLLTRIGGER MASTER TIMELINE & 60FPS VIDEO SCRUBBING
+  // 5. GSAP SCROLLTRIGGER MASTER SEQUENCE & 60FPS FULLSCREEN VIDEO SCRUB
   // ===================================================================
-  const heroVideo = document.getElementById('dubai-coast-video');
-  const telemetryTime = document.getElementById('telemetry-time');
+  const heroVideo = document.getElementById('hero-fullscreen-video');
+  const telemetryClock = document.getElementById('telemetry-clock');
 
   if (heroVideo) {
     heroVideo.pause();
@@ -117,117 +149,116 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 
-    const stage = document.getElementById('hero-stage');
     const shutterLeft = document.getElementById('shutter-left');
     const shutterRight = document.getElementById('shutter-right');
     const flankLeft = document.getElementById('flank-left');
     const flankRight = document.getElementById('flank-right');
-    const archedFrame = document.getElementById('arched-window-frame');
-    const windowRig = document.getElementById('window-portal-rig');
-    const panorama = document.getElementById('dubai-panorama');
+    const portalRig = document.getElementById('arched-window-portal-rig');
     const knockoutTitle = document.getElementById('dubai-knockout-title');
-    const manifesto = document.getElementById('editorial-manifesto-stage');
-    const cardsTrio = document.getElementById('property-cards-trio');
+    const manifestoWrapper = document.getElementById('editorial-manifesto-wrapper');
+    const showcaseCards = document.getElementById('showcase-cards-container');
 
-    // Master Scroll Sequence Timeline
-    const masterTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '#hero-stage',
-        start: 'top top',
-        end: '+=220%',
-        pin: true,
-        pinSpacing: true,
-        scrub: 0.6,
-        anticipatePin: 1,
-        onUpdate: (self) => {
-          const p = self.progress;
+    // 1. Hero Pinned Fullscreen Video Scrubbing Timeline
+    ScrollTrigger.create({
+      trigger: '#hero-stage',
+      start: 'top top',
+      end: '+=160%',
+      pin: true,
+      pinSpacing: true,
+      scrub: 0.5,
+      anticipatePin: 1,
+      onUpdate: (self) => {
+        const p = self.progress;
 
-          // 1. Deterministic 60fps frame scrubbing over the first 58% of scroll
-          if (heroVideo && heroVideo.duration) {
-            const videoProgress = Math.min(1, Math.max(0, p / 0.58));
-            const targetTime = videoProgress * (heroVideo.duration - 0.08);
-            if (!isNaN(targetTime) && isFinite(targetTime)) {
-              heroVideo.currentTime = targetTime;
-            }
+        // Smooth video currentTime scrubbing
+        if (heroVideo && heroVideo.duration) {
+          const targetTime = p * (heroVideo.duration - 0.08);
+          if (!isNaN(targetTime) && isFinite(targetTime)) {
+            heroVideo.currentTime = targetTime;
           }
+        }
 
-          // 2. Telemetry time readout
-          if (telemetryTime) {
-            const t = p <= 0.58 ? (p / 0.58) * 10 : 10;
-            telemetryTime.textContent = t.toFixed(2) + 's';
-          }
+        // Real-time telemetry readout
+        if (telemetryClock) {
+          telemetryClock.textContent = (p * 10).toFixed(2) + 's';
+        }
+
+        // Knockout Title subtle upward drift & opacity fade
+        if (knockoutTitle) {
+          const translateY = -p * 60;
+          const opacity = Math.max(0, 1 - p * 2.4);
+          knockoutTitle.style.transform = `translate(-50%, calc(-50% + ${translateY.toFixed(1)}px))`;
+          knockoutTitle.style.opacity = opacity.toFixed(3);
         }
       }
     });
 
-    // Phase 1: Drone forward push -> Knockout Title fade -> Blue Window shutter reveal (0% -> 38%)
-    masterTl
-      .to(knockoutTitle, {
-        opacity: 0,
-        y: -35,
-        duration: 0.8,
-        ease: 'power2.out'
-      }, 0)
-      // Open the royal cobalt-blue wooden shutters as the drone arrives at the window
+    // 2. Mediterranean Portal & Manifesto Pinned Scroll Sequence
+    const portalTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#portal-manifesto-stage',
+        start: 'top top',
+        end: '+=200%',
+        pin: true,
+        pinSpacing: true,
+        scrub: 0.6,
+        anticipatePin: 1
+      }
+    });
+
+    // Phase 1: Blue Shutters Swing Open & Flanking Didone Reveals (0% -> 35%)
+    portalTl
       .fromTo(shutterLeft, 
         { rotateY: 0 }, 
         { rotateY: -115, duration: 1.2, ease: 'power3.out' }, 
-        0.3
+        0
       )
       .fromTo(shutterRight, 
         { rotateY: 0 }, 
         { rotateY: 115, duration: 1.2, ease: 'power3.out' }, 
-        0.3
+        0
       )
-      // Flank Typography reveals
       .fromTo(flankLeft, 
-        { opacity: 0, x: -40 }, 
-        { opacity: 1, x: 0, duration: 1, ease: 'power3.out' }, 
-        0.4
+        { opacity: 0, x: -50 }, 
+        { opacity: 1, x: 0, duration: 1.1, ease: 'power3.out' }, 
+        0.1
       )
       .fromTo(flankRight, 
-        { opacity: 0, x: 40 }, 
-        { opacity: 1, x: 0, duration: 1, ease: 'power3.out' }, 
-        0.4
+        { opacity: 0, x: 50 }, 
+        { opacity: 1, x: 0, duration: 1.1, ease: 'power3.out' }, 
+        0.1
       );
 
-    // Phase 2: Window Shrinks & Floats Upwards into Top Center framing Burj Khalifa (38% -> 72%)
-    masterTl
-      .to(windowRig, {
-        y: -140,
-        scale: 0.48,
+    // Phase 2: Window Shrinks into Top Architectural Crest & Manifesto Rises (35% -> 65%)
+    portalTl
+      .to(portalRig, {
+        y: -120,
+        scale: 0.52,
         duration: 1.2,
         ease: 'power2.inOut'
-      }, 1.3)
+      }, 1.2)
       .to([flankLeft, flankRight], {
-        opacity: 0.2,
+        opacity: 0.25,
         duration: 0.8,
         ease: 'power2.out'
-      }, 1.3)
-      .to(panorama, {
-        opacity: 0.18,
-        scale: 0.94,
-        duration: 1.0,
-        ease: 'power2.out'
-      }, 1.3)
-      // Headline and Manifesto text glide upwards into clear view
-      .fromTo(manifesto, 
-        { opacity: 0, y: 80 }, 
+      }, 1.2)
+      .fromTo(manifestoWrapper, 
+        { opacity: 0, y: 70 }, 
         { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }, 
-        1.5
+        1.4
       );
 
-    // Phase 3: 3D Property Showcase Cards Cascade In (72% -> 100%)
-    masterTl
-      .fromTo(cardsTrio, 
-        { opacity: 0, y: 90, rotateX: 18 }, 
+    // Phase 3: 3D Property Cards Cascade In (65% -> 100%)
+    portalTl
+      .fromTo(showcaseCards, 
+        { opacity: 0, y: 90, rotateX: 16 }, 
         { opacity: 1, y: 0, rotateX: 0, duration: 1.2, ease: 'power3.out' }, 
-        2.4
+        2.2
       );
   }
 
   // ===================================================================
-  // 5. CINEMATIC VIDEO MODAL HANDLER
+  // 6. CINEMATIC VIDEO MODAL HANDLER
   // ===================================================================
   const playBtn = document.getElementById('btn-neon-play');
   const modalBackdrop = document.getElementById('video-modal-backdrop');
@@ -271,5 +302,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  console.log('Luxhabitat Dubai runtime initialized successfully.');
-});
+  // Initialize smooth momentum scrolling
+  window.addEventListener('DOMContentLoaded', () => {
+    initLenis();
+  });
+
+  console.log('Luxhabitat Dubai Fullscreen Engine initialized.');
+})();

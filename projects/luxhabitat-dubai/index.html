@@ -7,7 +7,7 @@
   <meta name="description" content="Luxhabitat Dubai — Connecting discerning global buyers with world-class villas, penthouses, and beachfront estates in Palm Jumeirah, Emirates Hills, and Downtown Dubai. Replicated from @dxasad_grapicdesigner.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff007a'%3E%3Cpath d='M12 2L2 12h3v8h6v-5h2v5h6v-8h3L12 2z'/%3E%3C/svg%3E">
 
-  <!-- Google Fonts: Playfair Display, Cinzel Decorative, Plus Jakarta Sans, Space Mono -->
+  <!-- Google Fonts: Playfair Display, Cinzel, Plus Jakarta Sans, Space Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -20,380 +20,438 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
-<body class="mockup-mode">
+<body class="luxury-portal-body">
+
+  <!-- Custom Ambient Cursor Follower -->
+  <div class="custom-cursor" id="custom-cursor" aria-hidden="true"></div>
+  <div class="custom-cursor-dot" id="custom-cursor-dot" aria-hidden="true"></div>
+
+  <!-- Screen Corner CAD Telemetry Crosshairs -->
+  <div class="cad-crosshair cad-top-left" aria-hidden="true">+ 25°12'N</div>
+  <div class="cad-crosshair cad-top-right" aria-hidden="true">55°18'E +</div>
+  <div class="cad-crosshair cad-bottom-left" aria-hidden="true">+ DXB-01</div>
+  <div class="cad-crosshair cad-bottom-right" aria-hidden="true">LUX-77 +</div>
 
   <!-- =================================================================
-       OUTER PRESENTATION SHELL (REPLICATING INSTAGRAM MOCKUP PRESENTATION)
+       GLOBAL LUXURY SITE HEADER (FIXED WITH GLASS STATE MACHINE)
        ================================================================= -->
-  <div class="presentation-wrapper" id="presentation-wrapper">
+  <header class="site-header" id="site-header">
     
-    <!-- Outer Top Bar -->
-    <header class="outer-header">
-      <h1 class="outer-title">Real estate</h1>
-      <div class="outer-pills">
-        <button class="outer-pill" data-mode="ui">UI Design</button>
-        <button class="outer-pill active" data-mode="landing">Landing Pages</button>
-        <button class="outer-pill" data-mode="dashboards">Dashboards</button>
-      </div>
-      <!-- Viewport Toggle Button -->
-      <button class="view-mode-toggle" id="view-mode-toggle" title="Toggle between Mockup Framing and Fullscreen Web">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-          <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+    <!-- Left: Circular Stamped Brand Seal with 'L' in center -->
+    <a href="#" class="brand-seal-link" aria-label="Luxhabitat Dubai Home">
+      <div class="brand-seal-wrapper">
+        <svg viewBox="0 0 100 100" class="seal-spinning-svg" aria-hidden="true">
+          <path id="seal-text-path" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none"/>
+          <text class="seal-text">
+            <textPath href="#seal-text-path" startOffset="0%">
+              LUXHABITAT • DUBAI • LUXHABITAT • DUBAI •
+            </textPath>
+          </text>
         </svg>
-        <span id="view-mode-label">Fullscreen Web</span>
+        <span class="seal-center-letter">L</span>
+      </div>
+    </a>
+
+    <!-- Center Nav Items -->
+    <nav class="nav-links-row" role="menubar">
+      <a href="#buy" class="nav-link" role="menuitem">Buy</a>
+      <a href="#rent" class="nav-link" role="menuitem">Rent</a>
+      <a href="#stay" class="nav-link" role="menuitem">Stay</a>
+      <a href="#off-plan" class="nav-link" role="menuitem">Off-plan</a>
+    </nav>
+
+    <!-- Right Action Button: High-Contrast Black Serif CTA -->
+    <div class="nav-cta-col">
+      <button class="btn-select-apartment" id="btn-select-apartment" aria-label="Select an apartment">
+        <span class="btn-primary-text">Select</span>
+        <span class="btn-sub-text">AN APARTMENT</span>
       </button>
-    </header>
+    </div>
+  </header>
 
-    <!-- =================================================================
-         MAIN WEBSITE CONTAINER (THE LUXURY CARD VIEWPORT)
-         ================================================================= -->
-    <main class="site-card-viewport" id="site-card-viewport">
+  <!-- =================================================================
+       MAIN SCROLL ENGINE & PINNED SCENES
+       ================================================================= -->
+  <main class="main-scroll-container" id="main-scroll-container">
+
+    <!-- ===============================================================
+         SCENE 1: FULLSCREEN 4K DRONE VIDEO HERO & KNOCKOUT TITLE
+         =============================================================== -->
+    <section class="hero-fullscreen-stage" id="hero-stage">
       
-      <!-- Architectural Corner CAD Telemetry Crosshairs & Ticks -->
-      <div class="cad-corner cad-tl" aria-hidden="true">+ 25°12'N</div>
-      <div class="cad-corner cad-tr" aria-hidden="true">55°18'E +</div>
-      <div class="cad-corner cad-bl" aria-hidden="true">+ DXB-01</div>
-      <div class="cad-corner cad-br" aria-hidden="true">LUX-77 +</div>
-      <div class="cad-grid-lines" aria-hidden="true"></div>
+      <!-- 100% Fullscreen Scrub Video -->
+      <div class="hero-video-wrapper" id="hero-video-wrapper">
+        <video 
+          src="assets/dubai_hero_scrub.mp4" 
+          poster="assets/dubai_hero_poster.jpg" 
+          class="hero-fullscreen-video" 
+          id="hero-fullscreen-video" 
+          muted 
+          playsinline 
+          preload="auto"
+        ></video>
+        <div class="hero-video-scrim" aria-hidden="true"></div>
+      </div>
 
-      <!-- Overhanging Vine Foliage (Left & Right Decorative Corners) -->
-      <div class="vine-branch vine-left" aria-hidden="true">
-        <svg viewBox="0 0 260 480" fill="none" class="vine-svg">
-          <path d="M-20 480 C30 380, 50 260, 30 140 C20 80, 50 30, 90 0" stroke="#2d5a3c" stroke-width="3" fill="none"/>
-          <!-- Leaf Clusters -->
-          <ellipse cx="60" cy="380" rx="22" ry="14" fill="#3d7a4f" transform="rotate(-35 60 380)"/>
-          <ellipse cx="80" cy="320" rx="24" ry="15" fill="#4d8f60" transform="rotate(25 80 320)"/>
-          <ellipse cx="50" cy="240" rx="26" ry="16" fill="#336642" transform="rotate(-40 50 240)"/>
-          <ellipse cx="70" cy="180" rx="22" ry="13" fill="#438054" transform="rotate(15 70 180)"/>
-          <ellipse cx="40" cy="110" rx="20" ry="12" fill="#529966" transform="rotate(-30 40 110)"/>
-          <ellipse cx="75" cy="60" rx="18" ry="11" fill="#3a7047" transform="rotate(45 75 60)"/>
-          <!-- Pink Bougainvillea Blossoms -->
-          <circle cx="85" cy="330" r="7" fill="#ff007a"/>
-          <circle cx="55" cy="230" r="6" fill="#ff007a"/>
-          <circle cx="45" cy="100" r="7" fill="#ff007a"/>
-          <circle cx="80" cy="50" r="6" fill="#ff007a"/>
+      <!-- Knockout Typography: Dubai Realestate (Layered across the sky) -->
+      <div class="dubai-knockout-title" id="dubai-knockout-title" aria-hidden="true">
+        <span class="knockout-word word-dubai">Dubai</span>
+        <span class="knockout-word word-realestate">Realestate</span>
+      </div>
+
+      <!-- Real-Time Drone Scrub Telemetry Badge -->
+      <div class="hero-telemetry-badge" id="hero-telemetry-badge" aria-hidden="true">
+        <span class="telemetry-pill">4K DRONE SCRUB // 10.0s</span>
+        <span class="telemetry-clock" id="telemetry-clock">0.00s</span>
+      </div>
+
+      <!-- Scroll Invite Pill -->
+      <div class="scroll-invite-cue" id="scroll-invite-cue" aria-hidden="true">
+        <span class="invite-label font-mono">SCROLL TO FLY INTO ARCHITECTURE</span>
+        <div class="invite-arrow">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M12 5v14M19 12l-7 7-7-7"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===============================================================
+         SCENE 2 & 3: ARCHED MEDITERRANEAN WINDOW & EDITORIAL MANIFESTO
+         =============================================================== -->
+    <section class="portal-manifesto-stage" id="portal-manifesto-stage">
+      
+      <!-- Background: Warm Mediterranean Plaster Texture -->
+      <div class="mediterranean-stucco-bg" aria-hidden="true"></div>
+
+      <!-- Overhanging Vine Foliage (Bottom-Left & Bottom-Right) -->
+      <div class="corner-foliage foliage-bottom-left" aria-hidden="true">
+        <svg viewBox="0 0 280 340" fill="none" class="foliage-svg">
+          <path d="M-20 340 C40 260, 60 180, 40 80 C30 40, 60 10, 100 0" stroke="#254b32" stroke-width="3.5" fill="none"/>
+          <ellipse cx="60" cy="270" rx="28" ry="17" fill="#366e46" transform="rotate(-30 60 270)"/>
+          <ellipse cx="85" cy="220" rx="30" ry="18" fill="#468857" transform="rotate(25 85 220)"/>
+          <ellipse cx="50" cy="160" rx="32" ry="19" fill="#2d5c3b" transform="rotate(-40 50 160)"/>
+          <ellipse cx="75" cy="110" rx="26" ry="15" fill="#3d7a4f" transform="rotate(20 75 110)"/>
+          <ellipse cx="45" cy="60" rx="24" ry="14" fill="#4f9663" transform="rotate(-25 45 60)"/>
+          <ellipse cx="80" cy="25" rx="20" ry="12" fill="#366e46" transform="rotate(35 80 25)"/>
+          <!-- Pink Bougainvillea Petals -->
+          <circle cx="90" cy="230" r="9" fill="#ff007a"/>
+          <circle cx="55" cy="150" r="8" fill="#ff007a"/>
+          <circle cx="50" cy="50" r="9" fill="#ff007a"/>
+          <circle cx="85" cy="18" r="7" fill="#ff007a"/>
         </svg>
       </div>
 
-      <div class="vine-branch vine-right" aria-hidden="true">
-        <svg viewBox="0 0 260 480" fill="none" class="vine-svg">
-          <path d="M280 480 C230 380, 210 260, 230 140 C240 80, 210 30, 170 0" stroke="#2d5a3c" stroke-width="3" fill="none"/>
-          <ellipse cx="200" cy="380" rx="22" ry="14" fill="#3d7a4f" transform="rotate(35 200 380)"/>
-          <ellipse cx="180" cy="320" rx="24" ry="15" fill="#4d8f60" transform="rotate(-25 180 320)"/>
-          <ellipse cx="210" cy="240" rx="26" ry="16" fill="#336642" transform="rotate(40 210 240)"/>
-          <ellipse cx="190" cy="180" rx="22" ry="13" fill="#438054" transform="rotate(-15 190 180)"/>
-          <ellipse cx="220" cy="110" rx="20" ry="12" fill="#529966" transform="rotate(30 220 110)"/>
-          <ellipse cx="185" cy="60" rx="18" ry="11" fill="#3a7047" transform="rotate(-45 185 60)"/>
-          <!-- Pink Bougainvillea Blossoms -->
-          <circle cx="175" cy="330" r="7" fill="#ff007a"/>
-          <circle cx="205" cy="230" r="6" fill="#ff007a"/>
-          <circle cx="215" cy="100" r="7" fill="#ff007a"/>
-          <circle cx="180" cy="50" r="6" fill="#ff007a"/>
+      <div class="corner-foliage foliage-bottom-right" aria-hidden="true">
+        <svg viewBox="0 0 280 340" fill="none" class="foliage-svg">
+          <path d="M300 340 C240 260, 220 180, 240 80 C250 40, 220 10, 180 0" stroke="#254b32" stroke-width="3.5" fill="none"/>
+          <ellipse cx="220" cy="270" rx="28" ry="17" fill="#366e46" transform="rotate(30 220 270)"/>
+          <ellipse cx="195" cy="220" rx="30" ry="18" fill="#468857" transform="rotate(-25 195 220)"/>
+          <ellipse cx="230" cy="160" rx="32" ry="19" fill="#2d5c3b" transform="rotate(40 230 160)"/>
+          <ellipse cx="205" cy="110" rx="26" ry="15" fill="#3d7a4f" transform="rotate(-20 205 110)"/>
+          <ellipse cx="235" cy="60" rx="24" ry="14" fill="#4f9663" transform="rotate(25 235 60)"/>
+          <ellipse cx="200" cy="25" rx="20" ry="12" fill="#366e46" transform="rotate(-35 200 25)"/>
+          <!-- Pink Bougainvillea Petals -->
+          <circle cx="190" cy="230" r="9" fill="#ff007a"/>
+          <circle cx="225" cy="150" r="8" fill="#ff007a"/>
+          <circle cx="230" cy="50" r="9" fill="#ff007a"/>
+          <circle cx="195" cy="18" r="7" fill="#ff007a"/>
         </svg>
       </div>
 
-      <!-- =================================================================
-           LUXHABITAT SITE HEADER (AUTHENTIC CIRCULAR SEAL & LUXURY NAV)
-           ================================================================= -->
-      <nav class="site-header" id="site-header">
+      <!-- =============================================================
+           ARCHED COBALT BLUE MEDITERRANEAN WINDOW PORTAL RIG
+           ============================================================= -->
+      <div class="arched-window-portal-rig" id="arched-window-portal-rig">
         
-        <!-- Left: Circular Stamped Brand Seal with 'L' in center -->
-        <a href="#hero-stage" class="brand-seal-link" aria-label="Luxhabitat Homepage">
-          <div class="brand-seal-wrapper">
-            <svg class="seal-spinning-svg" viewBox="0 0 100 100">
-              <path id="seal-text-path" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none"/>
-              <text class="seal-text">
-                <textPath href="#seal-text-path" startOffset="0%">
-                  LUXHABITAT • LUXHABITAT • LUXHABITAT •
-                </textPath>
-              </text>
-            </svg>
-            <span class="seal-center-letter">L</span>
-          </div>
-        </a>
-
-        <!-- Center Nav Items -->
-        <div class="nav-links-row" role="menubar">
-          <a href="#buy" class="nav-link" role="menuitem">Buy</a>
-          <a href="#rent" class="nav-link" role="menuitem">Rent</a>
-          <a href="#stay" class="nav-link" role="menuitem">Stay</a>
-          <a href="#off-plan" class="nav-link" role="menuitem">Off-plan</a>
+        <!-- Flanking Left Typography: The leading luxury -->
+        <div class="portal-flank flank-left font-didone" id="flank-left">
+          <span class="flank-line">The</span>
+          <span class="flank-line">leading</span>
+          <span class="flank-line text-neon-magenta">luxury</span>
         </div>
 
-        <!-- Right Action Button: High-Contrast Black Serif CTA -->
-        <div class="nav-cta-col">
-          <button class="btn-select-apartment" id="btn-select-apartment">
-            <span class="btn-primary-text">Select</span>
-            <span class="btn-sub-text">AN APARTMENT</span>
+        <!-- Central Arched Royal Blue Window -->
+        <div class="arched-window-frame" id="arched-window-frame">
+          
+          <!-- Window Arch Aperture & Centered Burj Khalifa View -->
+          <div class="window-aperture">
+            <img 
+              src="assets/dubai_window_hero.jpg" 
+              alt="Burj Khalifa Skyline Through Mediterranean Arch" 
+              class="window-skyline-view" 
+              id="window-skyline-view"
+            >
+            <!-- Window Sill Planter Box with Lush Bougainvillea -->
+            <div class="window-sill-planter" aria-hidden="true"></div>
+          </div>
+
+          <!-- Left Royal Blue Shutter (3D Y-Axis Rotation) -->
+          <div class="window-shutter shutter-left" id="shutter-left">
+            <div class="shutter-panel-cutout">
+              <div class="shutter-plank plank-1"></div>
+              <div class="shutter-plank plank-2"></div>
+              <div class="shutter-handle"></div>
+              <div class="shutter-hinge hinge-top"></div>
+              <div class="shutter-hinge hinge-bottom"></div>
+            </div>
+          </div>
+
+          <!-- Right Royal Blue Shutter (3D Y-Axis Rotation) -->
+          <div class="window-shutter shutter-right" id="shutter-right">
+            <div class="shutter-panel-cutout">
+              <div class="shutter-plank plank-1"></div>
+              <div class="shutter-plank plank-2"></div>
+              <div class="shutter-handle"></div>
+              <div class="shutter-hinge hinge-top"></div>
+              <div class="shutter-hinge hinge-bottom"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Flanking Right Typography: Property portal in Dubai -->
+        <div class="portal-flank flank-right font-didone" id="flank-right">
+          <span class="flank-line">Property</span>
+          <span class="flank-line">portal</span>
+          <span class="flank-line text-neon-magenta">in Dubai</span>
+        </div>
+
+      </div>
+
+      <!-- =============================================================
+           EDITORIAL MANIFESTO BLOCK (HEADLINE + BROKER MISSION + PLAY BTN)
+           ============================================================= -->
+      <div class="editorial-manifesto-wrapper" id="editorial-manifesto-wrapper">
+        
+        <h2 class="editorial-headline font-didone" id="editorial-headline">
+          <span class="headline-row">Discover exceptional</span>
+          <span class="headline-row">Luxury homes <span class="text-neon-magenta">in Dubai</span></span>
+        </h2>
+
+        <p class="editorial-paragraph" id="editorial-paragraph">
+          LUXHABITAT is Dubai's leading luxury property portal connecting buyers with exceptional villas, penthouses, and apartments in the city's most sought-after locations, including Palm Jumeirah, Emirates Hills, and Downtown Dubai. We carefully select and rigorously vet our portfolio, focusing on outstanding architecture, design, quality, and location.
+        </p>
+
+        <!-- Glowing Hot Neon Pink Circular Play Button -->
+        <div class="action-play-container" id="action-play-container">
+          <button class="btn-neon-play" id="btn-neon-play" aria-label="Play 4K Dubai Architectural Film">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <span class="neon-play-pulse"></span>
           </button>
         </div>
-      </nav>
 
-      <!-- =================================================================
-           SCENE 1 & 2: THE 3D SCROLL STAGE (COASTAL REVEAL & AEGEAN WINDOW)
-           ================================================================= -->
-      <section class="hero-scroll-stage" id="hero-stage">
+      </div>
+
+      <!-- =============================================================
+           3D PROPERTY SHOWCASE CARD TRIO (SERENITY TOWN)
+           ============================================================= -->
+      <div class="showcase-cards-container" id="showcase-cards-container">
         
-        <!-- Background Layer: Full Panoramic Dubai Coastline & Knockout Text -->
-        <div class="dubai-panorama-container" id="dubai-panorama">
-          <video 
-            src="assets/dubai_hero_scrub.mp4" 
-            poster="assets/dubai_hero_poster.jpg" 
-            class="dubai-coast-video" 
-            id="dubai-coast-video" 
-            muted 
-            playsinline 
-            preload="auto"
-          ></video>
-          
-          <!-- Knockout Typography: Dubai Realestate (Behind Skyline) -->
-          <div class="dubai-knockout-title" id="dubai-knockout-title" aria-hidden="true">
-            <span class="knockout-word word-dubai">Dubai</span>
-            <span class="knockout-word word-realestate">Realestate</span>
+        <!-- Card 1: Left Villa -->
+        <article class="property-3d-card" data-card="1">
+          <div class="card-image-box">
+            <img 
+              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=85" 
+              alt="Serenity Town Contemporary Villa" 
+              class="card-photo"
+              onerror="this.onerror=null; this.src='assets/dubai_hero_poster.jpg';"
+            >
           </div>
+          <div class="card-content-box">
+            <h3 class="card-title font-sans">Serenity Town</h3>
+            <p class="card-subtitle">Luxury Modern Living</p>
+            <div class="card-footer-row">
+              <span class="card-price font-sans">$340,000</span>
+              <button class="card-action-arrow" aria-label="View property details">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="card-glare" aria-hidden="true"></div>
+        </article>
 
-          <!-- Video Scrub Telemetry Badge -->
-          <div class="video-scrub-telemetry" id="video-scrub-telemetry" aria-hidden="true">
-            <span class="telemetry-badge">DRONE SCRUB // 10.0s 4K</span>
-            <span class="telemetry-time" id="telemetry-time">0.00s</span>
+        <!-- Card 2: Center Featured Card (Hot Neon Pink Active Border) -->
+        <article class="property-3d-card featured-pink-active" data-card="2">
+          <div class="card-image-box">
+            <img 
+              src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=85" 
+              alt="Serenity Town Architectural Estate" 
+              class="card-photo"
+              onerror="this.onerror=null; this.src='assets/dubai_hero_poster.jpg';"
+            >
+            <span class="featured-badge font-mono">FEATURED RESIDENCE</span>
+          </div>
+          <div class="card-content-box pink-content-theme">
+            <h3 class="card-title font-sans">Serenity Town</h3>
+            <p class="card-subtitle">Luxury Modern Living</p>
+            <div class="card-specs-telemetry font-mono">
+              <span>350 m²</span>
+              <span>•</span>
+              <span>4 Beds</span>
+              <span>•</span>
+              <span>3 Baths</span>
+            </div>
+            <div class="card-footer-row">
+              <span class="card-price font-sans">$340,000</span>
+              <button class="card-action-arrow pink-arrow-btn" aria-label="View property details">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="card-glare" aria-hidden="true"></div>
+        </article>
+
+        <!-- Card 3: Right Twilight Villa -->
+        <article class="property-3d-card" data-card="3">
+          <div class="card-image-box">
+            <img 
+              src="https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=85" 
+              alt="Serenity Town Twilight Estate" 
+              class="card-photo"
+              onerror="this.onerror=null; this.src='assets/dubai_hero_poster.jpg';"
+            >
+          </div>
+          <div class="card-content-box">
+            <h3 class="card-title font-sans">Serenity Town</h3>
+            <p class="card-subtitle">Luxury Modern Living</p>
+            <div class="card-footer-row">
+              <span class="card-price font-sans">$340,000</span>
+              <button class="card-action-arrow" aria-label="View property details">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="card-glare" aria-hidden="true"></div>
+        </article>
+
+      </div>
+
+    </section>
+
+    <!-- ===============================================================
+         SCENE 5: EXCLUSIVE CURATED PORTFOLIO BENTO & TELEMETRY
+         =============================================================== -->
+    <section class="exclusive-portfolio-stage" id="exclusive-portfolio">
+      <div class="section-lead-header">
+        <span class="lead-eyebrow font-mono">// CURATED ARCHITECTURAL ENCLAVES</span>
+        <h2 class="lead-title font-didone">The Dubai Collection</h2>
+        <p class="lead-desc">Representing the most architecturally significant residences across the United Arab Emirates.</p>
+      </div>
+
+      <div class="portfolio-bento-grid">
+        <!-- Bento 1: Palm Jumeirah -->
+        <div class="bento-card bento-hero-span">
+          <img 
+            src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=85" 
+            alt="Palm Jumeirah Ultra-Luxury Waterfront Villa" 
+            class="bento-img"
+            onerror="this.onerror=null; this.src='assets/dubai_hero_poster.jpg';"
+          >
+          <div class="bento-overlay">
+            <span class="bento-location font-mono">PALM JUMEIRAH • VILLA 07</span>
+            <h3 class="bento-name font-didone">The Horizon Sanctuary</h3>
+            <p class="bento-details">12,500 sq.ft private beachfront cantilever with infinity pool facing Burj Al Arab.</p>
+            <span class="bento-price font-mono">$48,500,000</span>
           </div>
         </div>
 
-        <!-- =================================================================
-             SCENE 2: THE ARCHED COBALT BLUE MEDITERRANEAN WINDOW RIG
-             ================================================================= -->
-        <div class="window-portal-rig" id="window-portal-rig">
-          
-          <!-- Flanking Editorial Typography (The leading luxury // Property portal in Dubai) -->
-          <div class="window-flank flank-left" id="flank-left">
-            <span class="flank-line font-didone">The</span>
-            <span class="flank-line font-didone">leading</span>
-            <span class="flank-line font-didone text-neon-magenta">luxury</span>
-          </div>
-
-          <!-- Central Arched Aegean Blue Window -->
-          <div class="arched-window-frame" id="arched-window-frame">
-            
-            <!-- Window Arch Aperture & Centered Burj Khalifa View -->
-            <div class="window-aperture">
-              <img 
-                src="assets/dubai_window_hero.jpg" 
-                alt="Dubai Skyline View Through Open Arched Window" 
-                class="window-skyline-view"
-                id="window-skyline-view"
-              >
-              <!-- Window Sill with Blooming Bougainvillea & Ivy -->
-              <div class="window-sill-planter" aria-hidden="true"></div>
-            </div>
-
-            <!-- Left Royal Blue Wooden Shutter (Rotates on 3D Y-Axis) -->
-            <div class="window-shutter shutter-left" id="shutter-left">
-              <div class="shutter-panel-cutout">
-                <div class="shutter-plank plank-1"></div>
-                <div class="shutter-plank plank-2"></div>
-                <div class="shutter-handle"></div>
-                <div class="shutter-hinge hinge-top"></div>
-                <div class="shutter-hinge hinge-bottom"></div>
-              </div>
-            </div>
-
-            <!-- Right Royal Blue Wooden Shutter (Rotates on 3D Y-Axis) -->
-            <div class="window-shutter shutter-right" id="shutter-right">
-              <div class="shutter-panel-cutout">
-                <div class="shutter-plank plank-1"></div>
-                <div class="shutter-plank plank-2"></div>
-                <div class="shutter-handle"></div>
-                <div class="shutter-hinge hinge-top"></div>
-                <div class="shutter-hinge hinge-bottom"></div>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Right Flank Typography -->
-          <div class="window-flank flank-right" id="flank-right">
-            <span class="flank-line font-didone">Property</span>
-            <span class="flank-line font-didone">portal</span>
-            <span class="flank-line font-didone text-neon-magenta">in Dubai</span>
-          </div>
-
-        </div>
-
-        <!-- =================================================================
-             SCENE 3: HEADLINE & EDITORIAL MISSION MANIFESTO
-             ================================================================= -->
-        <div class="editorial-manifesto-stage" id="editorial-manifesto-stage">
-          
-          <h2 class="editorial-main-title font-didone" id="manifesto-title">
-            <span class="title-row">Discover exceptional</span>
-            <span class="title-row">luxury homes <span class="text-neon-magenta">in Dubai</span></span>
-          </h2>
-
-          <p class="editorial-body-copy" id="manifesto-copy">
-            LUXHABITAT is Dubai's leading luxury property broker connecting buyers with world-class villas, penthouses, and apartments in the city's most sought-after locations, including Palm Jumeirah, Emirates Hills, and Downtown Dubai. We carefully select and rigorously vet our portfolio, focusing on outstanding architecture, design, quality, and location.
-          </p>
-
-          <!-- Vibrant Magenta Glowing Video Trigger Button -->
-          <div class="action-play-cluster" id="action-play-cluster">
-            <button class="btn-neon-play" id="btn-neon-play" aria-label="Watch Dubai Architectural Film">
-              <span class="pulse-ring"></span>
-              <svg class="play-triangle-svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8 5v14l11-7z"/>
-              </svg>
-            </button>
-          </div>
-
-        </div>
-
-        <!-- =================================================================
-             SCENE 4: 3D PROPERTY SHOWCASE CARDS (HORIZONTAL CASSETTE)
-             ================================================================= -->
-        <div class="property-cards-container" id="property-cards-container">
-          <div class="property-cards-trio" id="property-cards-trio">
-            
-            <!-- Card 1: Left Villa (Serenity Town) -->
-            <article class="property-card card-left" data-card="1">
-              <div class="card-thumb-wrap">
-                <img 
-                  src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=700&q=85" 
-                  alt="Serenity Town Villa Front" 
-                  class="card-photo"
-                  onerror="this.onerror=null; this.src='assets/dubai_coastline_hero.jpg';"
-                >
-              </div>
-              <div class="card-info">
-                <div class="card-text-col">
-                  <h3 class="card-prop-name">Serenity Town</h3>
-                  <p class="card-prop-type">Luxury Modern Living</p>
-                </div>
-                <div class="card-price-col">
-                  <span class="card-price-val">$340,000</span>
-                </div>
-              </div>
-              <div class="card-glare" aria-hidden="true"></div>
-            </article>
-
-            <!-- Card 2: Center Featured Villa (Hot Neon Magenta Ring) -->
-            <article class="property-card card-center featured-magenta-ring" data-card="2">
-              <div class="featured-glow-halo" aria-hidden="true"></div>
-              <div class="card-thumb-wrap">
-                <img 
-                  src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=700&q=85" 
-                  alt="Serenity Town Estate Center" 
-                  class="card-photo"
-                  onerror="this.onerror=null; this.src='assets/dubai_coastline_hero.jpg';"
-                >
-                <div class="card-tag-exclusive">FEATURED ESTATE</div>
-              </div>
-              <div class="card-info">
-                <div class="card-text-col">
-                  <h3 class="card-prop-name">Serenity Town</h3>
-                  <p class="card-prop-type">Luxury Modern Living</p>
-                  <div class="card-specs-dots">
-                    <span>4 Beds</span>
-                    <span class="spec-dot">•</span>
-                    <span>4 Baths</span>
-                    <span class="spec-dot">•</span>
-                    <span>3,850 sqft</span>
-                  </div>
-                </div>
-                <div class="card-price-col">
-                  <span class="card-price-val font-accent">$340,000</span>
-                  <button class="btn-card-inquire" aria-label="Inquire about Serenity Town">View Details &rarr;</button>
-                </div>
-              </div>
-              <div class="card-glare" aria-hidden="true"></div>
-            </article>
-
-            <!-- Card 3: Right Villa (Serenity Town Twilight) -->
-            <article class="property-card card-right" data-card="3">
-              <div class="card-thumb-wrap">
-                <img 
-                  src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=700&q=85" 
-                  alt="Serenity Town Villa Twilight" 
-                  class="card-photo"
-                  onerror="this.onerror=null; this.src='assets/dubai_coastline_hero.jpg';"
-                >
-              </div>
-              <div class="card-info">
-                <div class="card-text-col">
-                  <h3 class="card-prop-name">Serenity Town</h3>
-                  <p class="card-prop-type">Luxury Modern Living</p>
-                </div>
-                <div class="card-price-col">
-                  <span class="card-price-val">$340,000</span>
-                </div>
-              </div>
-              <div class="card-glare" aria-hidden="true"></div>
-            </article>
-
+        <!-- Bento 2: Emirates Hills -->
+        <div class="bento-card">
+          <img 
+            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=85" 
+            alt="Emirates Hills Golf Course Mansion" 
+            class="bento-img"
+            onerror="this.onerror=null; this.src='assets/dubai_hero_poster.jpg';"
+          >
+          <div class="bento-overlay">
+            <span class="bento-location font-mono">EMIRATES HILLS • SECTOR E</span>
+            <h3 class="bento-name font-didone">Villa Royale</h3>
+            <span class="bento-price font-mono">$32,000,000</span>
           </div>
         </div>
 
-      </section>
-
-      <!-- =================================================================
-           SECTION 5: CURATED ARCHITECTURAL PORTFOLIO BENTO & AMENITIES
-           ================================================================= -->
-      <section class="portfolio-bento-section" id="portfolio-section">
-        <div class="bento-container">
-          
-          <div class="bento-top-row">
-            <span class="bento-kicker font-mono">/PORTFOLIO INDEX</span>
-            <h3 class="bento-title font-didone">Exclusive Waterfront Enclaves</h3>
-            <p class="bento-subtitle">Direct private beach access, custom infinity pools, and bespoke concierge management across Dubai's most prestigious postcodes.</p>
+        <!-- Bento 3: Downtown Penthouse -->
+        <div class="bento-card">
+          <img 
+            src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=85" 
+            alt="Downtown Dubai Triplex Sky Penthouse" 
+            class="bento-img"
+            onerror="this.onerror=null; this.src='assets/dubai_hero_poster.jpg';"
+          >
+          <div class="bento-overlay">
+            <span class="bento-location font-mono">DOWNTOWN • BURJ CROWN</span>
+            <h3 class="bento-name font-didone">Sky Penthouse</h3>
+            <span class="bento-price font-mono">$24,800,000</span>
           </div>
-
-          <div class="bento-grid-3">
-            <div class="bento-item item-palm">
-              <div class="bento-item-bg"></div>
-              <div class="bento-content">
-                <span class="bento-badge">Palm Jumeirah</span>
-                <h4 class="bento-estate-title">The Frond V - Custom Signature Villa</h4>
-                <p class="bento-stat-val">AED 85,000,000</p>
-              </div>
-            </div>
-
-            <div class="bento-item item-hills">
-              <div class="bento-item-bg"></div>
-              <div class="bento-content">
-                <span class="bento-badge">Emirates Hills</span>
-                <h4 class="bento-estate-title">Sector E Manor - Golf Course Panorama</h4>
-                <p class="bento-stat-val">AED 110,000,000</p>
-              </div>
-            </div>
-
-            <div class="bento-item item-downtown">
-              <div class="bento-item-bg"></div>
-              <div class="bento-content">
-                <span class="bento-badge">Downtown Dubai</span>
-                <h4 class="bento-estate-title">Burj Crown Penthouse - 360° Sky Sanctuary</h4>
-                <p class="bento-stat-val">AED 62,500,000</p>
-              </div>
-            </div>
-          </div>
-
         </div>
-      </section>
+      </div>
 
-      <!-- Floating Made by Iris Ethos Attribution Badge -->
-      <a href="https://irisethos.com" target="_blank" rel="noopener noreferrer" class="iris-ethos-badge" title="Created by IrisEthos">
-        <span class="iris-badge-dot"></span>
-        Made by IrisEthos
-      </a>
+      <!-- Architectural Stats Ribbon -->
+      <div class="telemetry-stats-ribbon font-mono">
+        <div class="stat-cell">
+          <span class="stat-value">$4.2B+</span>
+          <span class="stat-label">Portfolio Value</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-value">100%</span>
+          <span class="stat-label">Vetted Estates</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-value">48</span>
+          <span class="stat-label">Global Enclaves</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-value">60 FPS</span>
+          <span class="stat-label">Interactive Scrub</span>
+        </div>
+      </div>
+    </section>
 
-    </main>
+    <!-- ===============================================================
+         GLOBAL SITE FOOTER
+         =============================================================== -->
+    <footer class="global-site-footer">
+      <div class="footer-top-row">
+        <div class="footer-brand-col">
+          <div class="footer-logo font-didone">LUXHABITAT</div>
+          <p class="footer-tagline font-sans">The leading luxury property portal in Dubai.</p>
+        </div>
+        <div class="footer-links-col">
+          <span class="footer-col-title font-mono">// NAVIGATION</span>
+          <a href="#buy" class="footer-link">Buy Luxury Residences</a>
+          <a href="#rent" class="footer-link">Private Rentals</a>
+          <a href="#stay" class="footer-link">Bespoke Stays</a>
+          <a href="#off-plan" class="footer-link">Off-Plan Curations</a>
+        </div>
+        <div class="footer-contact-col">
+          <span class="footer-col-title font-mono">// PRIVATE DESK</span>
+          <p class="footer-address font-mono">DIFC Gate Precinct 4, Level 14<br>Dubai, United Arab Emirates</p>
+          <a href="mailto:concierge@luxhabitat.ae" class="footer-email font-mono">concierge@luxhabitat.ae</a>
+        </div>
+      </div>
 
-    <!-- Outer Footer -->
-    <footer class="outer-footer">
-      <span class="outer-footer-left">© 2026 DX Asad. All rights reserved.</span>
-      <span class="outer-footer-right">@dxasad_grapicdesigner</span>
+      <div class="footer-bottom-row font-mono">
+        <span>© 2026 LUXHABITAT DUBAI. ALL RIGHTS RESERVED.</span>
+        <span>REPLICATED FROM @DXASAD_GRAPICDESIGNER</span>
+        <a href="https://irisethos.com" target="_blank" rel="noopener noreferrer" class="iris-badge">
+          MADE BY IRISETHOS
+        </a>
+      </div>
     </footer>
 
-  </div>
+  </main>
 
   <!-- =================================================================
-       CINEMATIC VIDEO MODAL
+       4K CINEMATIC VIDEO MODAL
        ================================================================= -->
   <div class="video-modal-backdrop" id="video-modal-backdrop"></div>
   <div class="video-modal-sheet" id="video-modal-sheet" role="dialog" aria-modal="true" aria-labelledby="modal-film-title">
@@ -404,7 +462,7 @@
       </svg>
     </button>
     <div class="modal-video-inner">
-      <h3 class="modal-film-title" id="modal-film-title">Dubai Waterfront Architectural Film</h3>
+      <h3 class="modal-film-title font-didone" id="modal-film-title">Dubai Waterfront Architectural Film</h3>
       <div class="modal-media-frame">
         <video 
           src="assets/dubai_hero_scrub.mp4" 
