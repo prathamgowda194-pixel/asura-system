@@ -1,0 +1,123 @@
+/*
+ * Styles for js/moves/*. Structural and effect rules only: colours, type and sizes come from the
+ * project's tokens in site.css. Link this file only if the project uses a move.
+ */
+
+/* ---------------------------------------------------------------- foil card (moves/foil.js) */
+.foil {
+  /* foil.js writes --px/--py (pointer), --hyp (distance from centre) and --active; the tilt is a GSAP transform. */
+  --px: 62%; --py: 32%; --hyp: 0.4; --active: 0;
+  position: relative;
+  aspect-ratio: 63 / 88;
+  border-radius: 4.5% / 3.2%;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.18), 0 18px 40px -12px rgb(0 0 0 / 0.45);
+  background: var(--foil-base, #1d1b22);
+}
+.foil__art { position: absolute; inset: 0; z-index: 0; }
+.foil__art > * { width: 100%; height: 100%; display: block; object-fit: cover; }
+.foil__shine, .foil__glare { position: absolute; inset: 0; pointer-events: none; }
+.foil__shine {
+  z-index: 1;
+  mix-blend-mode: color-dodge;
+  opacity: calc(0.45 + var(--active) * 0.4);
+  background-image:
+    repeating-linear-gradient(118deg,
+      hsl(2 90% 62%) 0%, hsl(48 95% 62%) 4%, hsl(118 70% 58%) 8%, hsl(186 90% 60%) 12%,
+      hsl(240 80% 66%) 16%, hsl(302 80% 64%) 20%, hsl(2 90% 62%) 24%),
+    repeating-linear-gradient(28deg, rgb(255 255 255 / 0.10) 0 1px, transparent 1px 3px);
+  background-size: 300% 300%, 6px 6px;
+  background-position: calc(var(--px) * 1.4) calc(var(--py) * 1.2), 0 0;
+  filter: brightness(calc(0.6 + var(--hyp) * 0.5)) contrast(1.4) saturate(0.9);
+  -webkit-mask-image: var(--foil-mask, none);
+          mask-image: var(--foil-mask, none);
+}
+.foil[data-foil="sparkle"] .foil__shine {
+  background-image:
+    radial-gradient(circle at 20% 30%, #fff 0 0.6px, transparent 1.2px),
+    radial-gradient(circle at 70% 60%, #fff 0 0.5px, transparent 1px),
+    repeating-linear-gradient(118deg, hsl(200 90% 60%) 0%, hsl(300 80% 65%) 10%, hsl(40 95% 62%) 20%);
+  background-size: 14px 14px, 19px 19px, 260% 260%;
+  background-position: calc(var(--px) * -0.3) calc(var(--py) * 0.4), calc(var(--px) * 0.5) calc(var(--py) * -0.2), var(--px) var(--py);
+}
+/* Metal: dark and bright gold bands that slide with the pointer, over a fine brushed grain. */
+.foil[data-foil="metal"] .foil__shine {
+  mix-blend-mode: screen;
+  opacity: calc(0.4 + var(--active) * 0.35);
+  filter: none;
+  background-image:
+    linear-gradient(calc(100deg + var(--hyp) * 30deg), hsl(38 60% 10%) 0%, hsl(44 85% 60%) 22%, hsl(36 50% 12%) 40%, hsl(46 95% 76%) 58%, hsl(38 55% 10%) 78%, hsl(44 80% 52%) 100%),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.07) 0 1px, transparent 1px 2px);
+  background-size: 260% 260%, 3px 3px;
+  background-position: var(--px) var(--py), 0 0;
+}
+.foil__glare {
+  z-index: 2;
+  mix-blend-mode: overlay;
+  opacity: calc(0.35 + var(--active) * 0.5);
+  background: radial-gradient(farthest-corner circle at var(--px) var(--py), rgb(255 255 255 / 0.85) 0%, rgb(255 255 255 / 0.15) 28%, rgb(0 0 0 / 0.35) 90%);
+}
+.foil:focus-visible { outline-offset: 6px; }
+
+/* ---------------------------------------------------------------- deck (moves/deck.js) */
+.deck-stage { position: relative; min-height: 100svh; display: grid; place-items: center; overflow: clip; }
+.deck { position: relative; width: min(92vw, 1100px); height: min(78svh, 680px); }
+/* A slot is placed by its centre: left/top set the centre, the margins pull it back by half its size.
+   --w is the card width, --ratio its height / width (63 x 88 trading card). Rotation goes in transform. */
+.deck__card {
+  --w: clamp(150px, 19vw, 250px); --ratio: 1.397;
+  position: absolute; left: 50%; top: 50%;
+  width: var(--w);
+  margin: calc(var(--w) * var(--ratio) / -2) 0 0 calc(var(--w) / -2);
+}
+.deck.is-throwable .deck__card > * { cursor: grab; }
+.deck.is-throwable .deck__card > *:active { cursor: grabbing; }
+/* Stack: cards piled near the centre with small offsets. */
+.deck[data-layout="stack"] .deck__card:nth-child(1) { transform: rotate(-6deg); }
+.deck[data-layout="stack"] .deck__card:nth-child(2) { transform: rotate(3deg); left: calc(50% + 9px); top: calc(50% - 6px); }
+.deck[data-layout="stack"] .deck__card:nth-child(3) { transform: rotate(-2deg); left: calc(50% - 8px); top: calc(50% + 5px); }
+.deck[data-layout="stack"] .deck__card:nth-child(4) { transform: rotate(7deg); top: calc(50% - 10px); }
+.deck[data-layout="stack"] .deck__card:nth-child(5) { transform: rotate(-9deg); left: calc(50% + 4px); top: calc(50% + 8px); }
+/* Spread: a loose arc across the stage. Design your own layouts the same way. */
+.deck[data-layout="spread"] .deck__card:nth-child(1) { left: 12%; top: 58%; transform: rotate(-14deg); }
+.deck[data-layout="spread"] .deck__card:nth-child(2) { left: 31%; top: 47%; transform: rotate(-6deg); }
+.deck[data-layout="spread"] .deck__card:nth-child(3) { left: 50%; top: 43%; transform: rotate(0deg); }
+.deck[data-layout="spread"] .deck__card:nth-child(4) { left: 69%; top: 47%; transform: rotate(6deg); }
+.deck[data-layout="spread"] .deck__card:nth-child(5) { left: 88%; top: 58%; transform: rotate(14deg); }
+@media (max-width: 760px) {
+  .deck[data-layout="spread"] .deck__card { --w: 38vw; }
+  .deck[data-layout="spread"] .deck__card:nth-child(odd) { left: 28%; }
+  .deck[data-layout="spread"] .deck__card:nth-child(even) { left: 72%; }
+  .deck[data-layout="spread"] .deck__card:nth-child(1), .deck[data-layout="spread"] .deck__card:nth-child(2) { top: 26%; }
+  .deck[data-layout="spread"] .deck__card:nth-child(3), .deck[data-layout="spread"] .deck__card:nth-child(4) { top: 58%; }
+  .deck[data-layout="spread"] .deck__card:nth-child(5) { top: 88%; left: 50%; }
+}
+
+/* ---------------------------------------------------------------- ring text (moves/ring-text.js) */
+.ring { display: inline-grid; place-items: center; }
+.ring__svg { display: block; will-change: transform; overflow: visible; }
+.ring__text { fill: currentColor; font-family: var(--f-display); text-transform: uppercase; }
+
+/* ---------------------------------------------------------------- zoom window (moves/zoom-window.js) */
+.zoom { position: relative; height: 100svh; display: grid; place-items: center; overflow: clip; }
+/* The sheet covers the section; zoom-window.js cuts the window into it with clip-path, and the fixed
+   stage shows through the hole. Without JS the sheet is simply not there: the stage shows. */
+.zoom__sheet { position: absolute; inset: 0; background: var(--zoom-sheet, var(--c-bg, #111)); pointer-events: none; visibility: hidden; }
+.zoom__sheet[style*="clip-path"] { visibility: visible; }
+.zoom__caption { position: relative; z-index: 1; align-self: end; margin-bottom: 8svh; text-align: center; }
+
+/* ---------------------------------------------------------------- sticky steps (moves/sticky-steps.js) */
+.steps { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap, 2rem); padding: 0 var(--grid-margin, 2rem); }
+.steps__media { grid-column: 7 / -1; position: sticky; top: 0; height: 100svh; }
+.steps__list { grid-column: 1 / span 5; list-style: none; padding: 30svh 0; margin: 0; display: grid; gap: 40svh; }
+.step { opacity: 0.35; transition: opacity 0.4s ease; }
+.step.is-active { opacity: 1; }
+@media (max-width: 760px) { .steps__media { grid-column: 1 / -1; height: 60svh; } .steps__list { grid-column: 1 / -1; } }
+
+/* ---------------------------------------------------------------- sound toggle (moves/sound.js) */
+.sound-toggle { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; background: none; border: 0; color: inherit; font: inherit; cursor: pointer; }
+.sound-toggle::before { content: ''; width: 18px; height: 12px; background: currentColor; opacity: 0.5;
+  -webkit-mask: linear-gradient(90deg, #000 2px, transparent 2px 4px) 0 50% / 4px 100% repeat-x; mask: linear-gradient(90deg, #000 2px, transparent 2px 4px) 0 50% / 4px 100% repeat-x;
+  transform: scaleY(0.35); transition: transform 0.3s ease, opacity 0.3s ease; }
+.sound-toggle.is-on::before { opacity: 1; transform: scaleY(1); }

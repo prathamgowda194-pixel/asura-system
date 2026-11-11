@@ -1,755 +1,291 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ELYSIAN // Contemporary Mediterranean Residences & Private Sanctuary</title>
-  <meta name="description" content="Award-winning luxury real estate showcase featuring 60fps cinema scrub choreography, authentic CAD structural anatomy cutaways, and sovereign cantilevered architecture.">
-  
-  <!-- Haute-Couture Editorial Typography -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Elysian · Cliffside Sanctuaries on Cap Martin</title>
+  <meta name="description" content="Five monolithic architectural residences in travertine, board-marked concrete and Starphire glass on the Mediterranean cliffs of Cap Martin, Côte d'Azur. Two remain.">
+  <meta name="theme-color" content="#141719">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Core Design System Stylesheet -->
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Mono&display=swap">
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="site.css">
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.187.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.187.0/examples/jsm/",
+      "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.15.1/index.js",
+      "gsap/ScrollTrigger": "https://cdn.jsdelivr.net/npm/gsap@3.15.1/ScrollTrigger.js",
+      "gsap/Flip": "https://cdn.jsdelivr.net/npm/gsap@3.15.1/Flip.js",
+      "gsap/Draggable": "https://cdn.jsdelivr.net/npm/gsap@3.15.1/Draggable.js",
+      "gsap/InertiaPlugin": "https://cdn.jsdelivr.net/npm/gsap@3.15.1/InertiaPlugin.js",
+      "gsap/Observer": "https://cdn.jsdelivr.net/npm/gsap@3.15.1/Observer.js",
+      "gsap/SplitText": "https://cdn.jsdelivr.net/npm/gsap@3.15.1/SplitText.js",
+      "gsap/CustomEase": "https://cdn.jsdelivr.net/npm/gsap@3.15.1/CustomEase.js",
+      "gsap/MotionPathPlugin": "https://cdn.jsdelivr.net/npm/gsap@3.15.1/MotionPathPlugin.js",
+      "gsap/ScrambleTextPlugin": "https://cdn.jsdelivr.net/npm/gsap@3.15.1/ScrambleTextPlugin.js",
+      "gsap/ScrollToPlugin": "https://cdn.jsdelivr.net/npm/gsap@3.15.1/ScrollToPlugin.js",
+      "gsap/": "https://cdn.jsdelivr.net/npm/gsap@3.15.1/",
+      "lenis": "https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.mjs"
+    }
+  }
+  </script>
+  <link rel="modulepreload" href="main.js">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <canvas class="stage" id="stage" aria-hidden="true"></canvas>
+  <div class="stage-fallback" aria-hidden="true"></div>
 
-  <!-- Ambient Dynamic Lighting Mesh -->
-  <div class="ambient-lighting-wash" id="ambient-wash"></div>
-
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       NAVIGATION BAR
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <header class="site-header" id="main-header">
-    <a href="#hero" class="brand-anchor">
-      <svg class="brand-crest-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <polygon points="20,2 38,12 38,28 20,38 2,28 2,12" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 1"/>
-        <polygon points="20,8 32,15 32,25 20,32 8,25 8,15" stroke="currentColor" stroke-width="1"/>
-        <line x1="20" y1="2" x2="20" y2="38" stroke="currentColor" stroke-width="1.2"/>
-        <circle cx="20" cy="20" r="3" fill="currentColor"/>
-      </svg>
-      <div class="brand-title-group">
-        <span class="brand-name">ELYSIAN</span>
-        <span class="brand-tagline">Architectural Sanctuary</span>
-      </div>
-    </a>
-
-    <!-- Center Navigation Links -->
-    <nav class="nav-links-dock">
-      <li class="nav-link-item"><a href="#hero"><span class="num">01</span> Cinematic Scrub</a></li>
-      <li class="nav-link-item"><a href="#philosophy"><span class="num">02</span> Materiality</a></li>
-      <li class="nav-link-item"><a href="#anatomy"><span class="num">03</span> Structural CAD</a></li>
-      <li class="nav-link-item"><a href="#spaces"><span class="num">04</span> Spaces</a></li>
-      <li class="nav-link-item"><a href="#residences"><span class="num">05</span> Residences</a></li>
-      <li class="nav-link-item"><a href="#treaty"><span class="num">06</span> Treaty</a></li>
-    </nav>
-
-    <!-- Tactile Time of Day Switcher Dock -->
-    <div class="time-dock-wrapper" id="time-dial-header">
-      <button class="time-btn" data-time="noon" title="High Noon Mediterranean Sun">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-        <span class="label">12:00</span>
-      </button>
-      <button class="time-btn active" data-time="golden" title="Golden Hour Coastal Glow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2v2"></path>
-          <path d="M12 20v2"></path>
-          <path d="m4.93 4.93 1.41 1.41"></path>
-          <path d="m17.66 17.66 1.41 1.41"></path>
-          <path d="M2 12h2"></path>
-          <path d="M20 12h2"></path>
-          <path d="m6.34 17.66-1.41 1.41"></path>
-          <path d="m19.07 4.93-1.41 1.41"></path>
-          <circle cx="12" cy="12" r="4"></circle>
-        </svg>
-        <span class="label">17:30</span>
-      </button>
-      <button class="time-btn" data-time="twilight" title="Midnight Twilight Illumination">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-        <span class="label">22:00</span>
-      </button>
+  <header class="site-header">
+    <div class="header-left">
+      <a class="wordmark" href="#intro">Elysian</a>
+      <span class="telemetry">
+        <span class="telemetry-dot" aria-hidden="true"></span>
+        43°45'28"N 7°29'12"E · Cap Martin
+      </span>
     </div>
-
-    <!-- Private Treaty CTA -->
-    <a href="#treaty" class="btn-gold-outline">
-      <span>Private Treaty</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-        <polyline points="12 5 19 12 12 19"></polyline>
-      </svg>
-    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="#residences">Residences</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#location">Location</a>
+      <a href="#concierge">Concierge</a>
+      <button class="sound-toggle" type="button" aria-pressed="false" title="Toggle coastal sea ambience">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+        </svg>
+        <span class="sound-label">Sea Sound</span>
+      </button>
+    </nav>
   </header>
 
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       SECTION 1: 60FPS VIDEO SCROLL-SCRUB HERO STAGE (Apple / Opus 5.5 Protocol)
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <section class="hero-scrub-track" id="hero">
-    <div class="hero-scrub-sticky-viewport">
-      
-      <!-- High-Resolution Full-Bleed Scrub Video with Immediate Fail-Safe -->
-      <video id="hero-scrub-video" class="hero-video-media lighting-golden" muted playsinline preload="auto" poster="assets/era_hero_day.jpg">
-        <source src="assets/era_scroll_master.mp4" type="video/mp4">
-        <source src="https://asura-system.vercel.app/projects/era-residence/assets/era_scroll_master.mp4" type="video/mp4">
-      </video>
-
-      <!-- Ambient Architectural Scrim -->
-      <div class="hero-scrim-overlay"></div>
-
-      <!-- Top Telemetry Strip -->
-      <div class="hero-telemetry-strip">
-        <div class="telemetry-badge">
-          <span class="telemetry-pulse-dot"></span>
-          <span>THE NEW GOLDEN MILE // LAT 36°25'N 05°08'W // ELEV 280M</span>
-        </div>
-        <div class="telemetry-badge">
-          <span id="telemetry-solar-tag">SOLAR HARVEST: 48.6 kW // LUX: 84,200</span>
-        </div>
+  <main id="main">
+    <!-- Scene Chapter 1: Introduction -->
+    <section class="chapter" id="intro" aria-labelledby="intro-title">
+      <div class="copy copy--intro">
+        <p class="label">Cap Martin · Côte d'Azur</p>
+        <h1 class="display" id="intro-title" data-reveal="lines">Five monolithic sanctuaries etched into the cliff.</h1>
+        <p class="lede" data-reveal="fade">Raw fluted travertine, board-marked concrete and Starphire structural glass, poised twenty-eight metres above the Mediterranean. Private treaty release.</p>
       </div>
+    </section>
 
-      <!-- Center Dynamic Chapter Typography -->
-      <div class="hero-chapters-container">
-        
-        <!-- Chapter 01: Arrival -->
-        <div class="hero-chapter-block active" id="chapter-0">
-          <span class="chapter-badge-num font-mono">// CHAPTER 01 // COASTAL RIDGE ARRIVAL</span>
-          <h1 class="chapter-headline">
-            THE SANCTUARY <br>
-            <span class="gold-glow">OF HORIZONS.</span>
-          </h1>
-          <p class="chapter-caption">
-            Where monolithic Mediterranean travertine meets unbroken marine infinity. Sculptural cantilevers positioned along Estepona's sovereign sea-view ridges.
-          </p>
-        </div>
-
-        <!-- Chapter 02: Cantilever Engineering -->
-        <div class="hero-chapter-block" id="chapter-1">
-          <span class="chapter-badge-num font-mono">// CHAPTER 02 // STRUCTURAL SUSPENSION</span>
-          <h2 class="chapter-headline">
-            14.2M OVERHANG <br>
-            <span class="gold-glow">IN SILENT BALANCE.</span>
-          </h2>
-          <p class="chapter-caption">
-            Post-tensioned carbon-cured concrete slabs float effortlessly over native maritime pines and century-old olive groves without obstructive ground columns.
-          </p>
-        </div>
-
-        <!-- Chapter 03: Reflection & Hydraulics -->
-        <div class="hero-chapter-block" id="chapter-2">
-          <span class="chapter-badge-num font-mono">// CHAPTER 03 // INFINITY HYDRAULICS</span>
-          <h2 class="chapter-headline">
-            TURQUOISE WATER <br>
-            <span class="gold-glow">MIRRORING SKY.</span>
-          </h2>
-          <p class="chapter-caption">
-            28-meter frameless glass-bottom infinity pools operating via silent magnetic levitation pumps, recovering 98% of thermal energy into subterranean radiant circuits.
-          </p>
-        </div>
-
-        <!-- Chapter 04: Sovereign Portfolio -->
-        <div class="hero-chapter-block" id="chapter-3">
-          <span class="chapter-badge-num font-mono">// CHAPTER 04 // PRIVATE SOVEREIGNTY</span>
-          <h2 class="chapter-headline">
-            ELYSIAN RESIDENCES <br>
-            <span class="gold-glow">BY PRIVATE TREATY.</span>
-          </h2>
-          <p class="chapter-caption">
-            Three boutique estates crafted for multigenerational preservation, featuring subterranean biometric motor courts and certified helipad easements.
-          </p>
-        </div>
-
+    <!-- Scene Chapter 2: The Approach -->
+    <section class="chapter chapter--top" id="arrival" aria-labelledby="arrival-title">
+      <div class="copy">
+        <p class="label">01 · The Approach</p>
+        <h2 class="headline" id="arrival-title" data-reveal="lines">Carved directly into the limestone promontory.</h2>
+        <p data-reveal="fade">A continuous forty-four metre fluted travertine spinal wall anchors the estate into solid bedrock, concealing the open sea until the final steps onto the private terrace.</p>
       </div>
+    </section>
 
-      <!-- Bottom Interactive Controls & Chapter Scrubber Bar -->
-      <div class="hero-bottom-scrubber-bar">
-        
-        <!-- Chapter Scrub Navigation Pills -->
-        <div class="chapter-scrub-pills">
-          <button class="chapter-pill-btn active" data-chapter="0">01 Arrival</button>
-          <button class="chapter-pill-btn" data-chapter="1">02 Cantilever</button>
-          <button class="chapter-pill-btn" data-chapter="2">03 Hydraulics</button>
-          <button class="chapter-pill-btn" data-chapter="3">04 Treaty</button>
-        </div>
-
-        <!-- Scroll Scrub Guidance Prompt -->
-        <div class="scrub-indicator-pill">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
-          <span>SCROLL DOWN TO SCRUB 60FPS CINEMA // DRAG CHAPTERS</span>
-        </div>
-
-        <!-- Key Metrics Box Cluster -->
-        <div class="hero-key-metrics">
-          <div class="hero-metric-box">
-            <span class="hero-metric-num">14.2M</span>
-            <span class="hero-metric-label">Cantilever Span</span>
-          </div>
-          <div class="hero-metric-box">
-            <span class="hero-metric-num">0.64</span>
-            <span class="hero-metric-label">Glazing U-Value</span>
-          </div>
-          <div class="hero-metric-box">
-            <span class="hero-metric-num">100%</span>
-            <span class="hero-metric-label">Net-Zero Energy</span>
-          </div>
-        </div>
-
+    <!-- Scene Chapter 3: Cantilever Structure -->
+    <section class="chapter chapter--tall" id="cantilever" aria-labelledby="cantilever-title">
+      <div class="copy">
+        <p class="label">02 · Structure</p>
+        <h2 class="headline" id="cantilever-title" data-reveal="lines">Sixteen metres suspended over open air.</h2>
+        <p data-reveal="fade">Post-tensioned 40MPa architectural concrete allows the master residential suite to reach sixteen metres past its structural fulcrum, casting geometric shade across ancient olive trees below.</p>
       </div>
+    </section>
 
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       SECTION 2: ARCHITECTURAL MATERIALITY & PHILOSOPHY
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <section class="section-wrapper" id="philosophy">
-    <div class="section-eyebrow">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
-      // SOTD Architectural Integrity
-    </div>
-    <h2 class="section-title">MATERIAL DISCIPLINE & TIMELESS PROPORTION</h2>
-    <p class="section-description">
-      Every raw building element is geomorphically certified, diamond-honed to eliminate glare while preserving organic acoustic attenuation and maritime salinity resilience.
-    </p>
-
-    <div class="material-grid">
-      
-      <!-- Spec 01 -->
-      <div class="material-card">
-        <div class="material-icon-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-        </div>
-        <span class="material-tag font-mono">SPEC 01 // ROMAN CLASSICO</span>
-        <h3 class="material-name">Tivoli Fluted Travertine</h3>
-        <p class="material-copy">
-          Directly quarried from the Barco reserves outside Rome. Precision waterjet-fluted into continuous vertical acoustic louvers that temper coastal Mediterranean wind resonance.
-        </p>
-        <div class="material-spec-footer">
-          <div class="spec-block"><span class="spec-val font-mono">4.8 CM</span><span class="spec-lbl">Thickness</span></div>
-          <div class="spec-block"><span class="spec-val font-mono">CLASS A</span><span class="spec-lbl">Fire Rating</span></div>
-          <div class="spec-block"><span class="spec-val font-mono">0.08</span><span class="spec-lbl">Porosity</span></div>
-        </div>
+    <!-- Scene Chapter 4: Waterline -->
+    <section class="chapter chapter--tall" id="water" aria-labelledby="water-title">
+      <div class="copy copy--right">
+        <p class="label">03 · Waterline</p>
+        <h2 class="headline" id="water-title" data-reveal="lines">The twenty-four metre horizon edge.</h2>
+        <p data-reveal="fade">The infinity pool sits flush with the terrace pavement. At dusk, its deep turquoise glass mosaic basin reflects the shifting violet afterglow of the Mediterranean sunset.</p>
       </div>
+    </section>
 
-      <!-- Spec 02 -->
-      <div class="material-card">
-        <div class="material-icon-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-        </div>
-        <span class="material-tag font-mono">SPEC 02 // LOW-IRON CRISTALLO</span>
-        <h3 class="material-name">Starphire Acoustic Glazing</h3>
-        <p class="material-copy">
-          Seamless 18-meter curtain walls with double-laminated PVB acoustic cores. Yields 91% visible light transmission without greenish distortion, blocking 48dB of exterior sound.
-        </p>
-        <div class="material-spec-footer">
-          <div class="spec-block"><span class="spec-val font-mono">54 MM</span><span class="spec-lbl">Triple Glaze</span></div>
-          <div class="spec-block"><span class="spec-val font-mono">48 dB</span><span class="spec-lbl">Acoustic Cut</span></div>
-          <div class="spec-block"><span class="spec-val font-mono">0.64</span><span class="spec-lbl">U-Factor</span></div>
-        </div>
-      </div>
-
-      <!-- Spec 03 -->
-      <div class="material-card">
-        <div class="material-icon-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"></circle><polygon points="12 8 8 12 12 16 16 12 12 8"></polygon></svg>
-        </div>
-        <span class="material-tag font-mono">SPEC 03 // MARINE METALLURGY</span>
-        <h3 class="material-name">Champagne Anodized Bronze</h3>
-        <p class="material-copy">
-          Custom copper alloy treated with a proprietary 35-micron electrolytic oxidation process, impervious to Mediterranean saltwater spray across 100-year architectural horizons.
-        </p>
-        <div class="material-spec-footer">
-          <div class="spec-block"><span class="spec-val font-mono">35 μm</span><span class="spec-lbl">Coating Depth</span></div>
-          <div class="spec-block"><span class="spec-val font-mono">C65500</span><span class="spec-lbl">Alloy Grade</span></div>
-          <div class="spec-block"><span class="spec-val font-mono">100 YR</span><span class="spec-lbl">Warranty</span></div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       SECTION 3: ARCHITECTURAL CAD BLUEPRINT & STRUCTURAL ANATOMY (wheresryan22/anatomy)
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <section class="section-wrapper" id="anatomy">
-    <div class="section-eyebrow">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-      // wheresryan22/anatomy Engineering Cutaway
-    </div>
-    <h2 class="section-title">STRUCTURAL CAD ANATOMY</h2>
-    <p class="section-description">
-      Select any structural engineering stratum below to inspect live post-tensioned tendon loads, seismic plinth embedment, and microgrid harvest metrics.
-    </p>
-
-    <div class="anatomy-stage-box">
-      
-      <!-- Left Layers Selector -->
-      <div class="layers-selector-column">
-        
-        <button class="layer-select-btn active" data-layer="5">
-          <span class="layer-badge">05</span>
-          <div class="layer-meta-block">
-            <span class="layer-title-text">Solar Microgrid & Pools</span>
-            <span class="layer-sub-text">48.6 kW PV Glass + Hydraulics</span>
-          </div>
-        </button>
-
-        <button class="layer-select-btn" data-layer="4">
-          <span class="layer-badge">04</span>
-          <div class="layer-meta-block">
-            <span class="layer-title-text">Acoustic Curtain Glazing</span>
-            <span class="layer-sub-text">Starphire Frameless Glass</span>
-          </div>
-        </button>
-
-        <button class="layer-select-btn" data-layer="3">
-          <span class="layer-badge">03</span>
-          <div class="layer-meta-block">
-            <span class="layer-title-text">Double-Height Sanctuary</span>
-            <span class="layer-sub-text">6.8m Monolithic Clearance</span>
-          </div>
-        </button>
-
-        <button class="layer-select-btn" data-layer="2">
-          <span class="layer-badge">02</span>
-          <div class="layer-meta-block">
-            <span class="layer-title-text">Post-Tensioned Cantilever</span>
-            <span class="layer-sub-text">14.2m Unsupported Overhang</span>
-          </div>
-        </button>
-
-        <button class="layer-select-btn" data-layer="1">
-          <span class="layer-badge">01</span>
-          <div class="layer-meta-block">
-            <span class="layer-title-text">Granite Bedrock Caissons</span>
-            <span class="layer-sub-text">Seismic Elastomeric Plinth</span>
-          </div>
-        </button>
-
-      </div>
-
-      <!-- Center Authentic CAD Architectural Blueprint Cutaway Diagram -->
-      <div class="anatomy-viewport-center">
-        <svg class="cad-blueprint-svg" viewBox="0 0 400 480" fill="none" xmlns="http://www.w3.org/2000/svg">
-          
-          <!-- Background CAD Coordinate Grid -->
-          <line x1="40" y1="60" x2="360" y2="60" stroke="rgba(255,255,255,0.04)" stroke-dasharray="2 4"/>
-          <line x1="40" y1="140" x2="360" y2="140" stroke="rgba(255,255,255,0.04)" stroke-dasharray="2 4"/>
-          <line x1="40" y1="220" x2="360" y2="220" stroke="rgba(255,255,255,0.04)" stroke-dasharray="2 4"/>
-          <line x1="40" y1="300" x2="360" y2="300" stroke="rgba(255,255,255,0.04)" stroke-dasharray="2 4"/>
-          <line x1="40" y1="380" x2="360" y2="380" stroke="rgba(255,255,255,0.04)" stroke-dasharray="2 4"/>
-          
-          <!-- Vertical Plinth Datum Lines -->
-          <line x1="200" y1="40" x2="200" y2="440" stroke="rgba(212, 175, 55, 0.3)" stroke-dasharray="4 4" stroke-width="1.5"/>
-          <line x1="90" y1="80" x2="90" y2="420" stroke="rgba(255, 255, 255, 0.12)" stroke-dasharray="2 4"/>
-          <line x1="310" y1="80" x2="310" y2="420" stroke="rgba(255, 255, 255, 0.12)" stroke-dasharray="2 4"/>
-
-          <!-- Layer 05: Solar Microgrid & Pool Hydraulics -->
-          <g class="cad-layer-group highlighted" id="cad-layer-5" transform="translate(0, 0)">
-            <polygon points="200,45 330,110 200,175 70,110" fill="rgba(56, 189, 248, 0.14)" stroke="#38bdf8" stroke-width="1.8"/>
-            <polygon points="200,65 290,110 200,155 110,110" fill="rgba(56, 189, 248, 0.28)" stroke="#38bdf8" stroke-dasharray="3 3"/>
-            <!-- Solar PV Cells Array -->
-            <line x1="150" y1="95" x2="250" y2="95" stroke="#38bdf8" stroke-width="1"/>
-            <line x1="140" y1="110" x2="260" y2="110" stroke="#38bdf8" stroke-width="1"/>
-            <line x1="150" y1="125" x2="250" y2="125" stroke="#38bdf8" stroke-width="1"/>
-            <text x="200" y="114" font-family="'Space Mono'" font-size="10" fill="#38bdf8" text-anchor="middle" font-weight="bold">L-05 // SOLAR & POOL</text>
-          </g>
-
-          <!-- Layer 04: Acoustic Glass Curtain -->
-          <g class="cad-layer-group" id="cad-layer-4" transform="translate(0, 70)">
-            <polygon points="200,75 320,135 200,195 80,135" fill="rgba(255, 255, 255, 0.06)" stroke="rgba(255, 255, 255, 0.5)" stroke-width="1.4"/>
-            <line x1="130" y1="135" x2="270" y2="135" stroke="rgba(255, 255, 255, 0.35)"/>
-            <text x="200" y="139" font-family="'Space Mono'" font-size="10" fill="#f8fafc" text-anchor="middle">L-04 // STARPHIRE GLAZING</text>
-          </g>
-
-          <!-- Layer 03: Great Room Sanctuary -->
-          <g class="cad-layer-group" id="cad-layer-3" transform="translate(0, 140)">
-            <polygon points="200,105 330,170 200,235 70,170" fill="rgba(245, 158, 11, 0.12)" stroke="#f59e0b" stroke-width="1.6"/>
-            <polygon points="200,125 290,170 200,215 110,170" fill="rgba(245, 158, 11, 0.22)"/>
-            <text x="200" y="174" font-family="'Space Mono'" font-size="10" fill="#f59e0b" text-anchor="middle">L-03 // SANCTUARY INTERIOR</text>
-          </g>
-
-          <!-- Layer 02: Post-Tensioned Cantilever Monolith Slab -->
-          <g class="cad-layer-group" id="cad-layer-2" transform="translate(0, 210)">
-            <polygon points="200,135 355,212 200,290 45,212" fill="rgba(212, 175, 55, 0.2)" stroke="#d4af37" stroke-width="2.2"/>
-            <!-- Slab Depth Section -->
-            <polygon points="45,212 200,290 200,306 45,228" fill="rgba(212, 175, 55, 0.12)"/>
-            <polygon points="355,212 200,290 200,306 355,228" fill="rgba(212, 175, 55, 0.18)"/>
-            <text x="200" y="217" font-family="'Space Mono'" font-size="11" fill="#d4af37" text-anchor="middle" font-weight="bold">L-02 // 14.2M CANTILEVER</text>
-          </g>
-
-          <!-- Layer 01: Granodiorite Bedrock Plinth & Damper -->
-          <g class="cad-layer-group" id="cad-layer-1" transform="translate(0, 280)">
-            <polygon points="200,165 365,248 200,330 35,248" fill="rgba(14, 20, 32, 0.95)" stroke="rgba(255, 255, 255, 0.25)" stroke-width="1.6"/>
-            <polygon points="35,248 200,330 200,360 35,278" fill="rgba(8, 12, 18, 0.98)" stroke="rgba(255, 255, 255, 0.12)"/>
-            <polygon points="365,248 200,330 200,360 365,278" fill="rgba(11, 16, 26, 0.98)" stroke="rgba(255, 255, 255, 0.12)"/>
-            <text x="200" y="258" font-family="'Space Mono'" font-size="10" fill="#8090a7" text-anchor="middle">L-01 // BEDROCK PLINTH</text>
-          </g>
-
-        </svg>
-      </div>
-
-      <!-- Right Engineering Telemetry Card -->
-      <div class="telemetry-inspector-card" id="inspector-card">
-        <div class="inspector-header">
-          <span class="inspector-layer-tag font-mono" id="inspector-tag">STRATUM 05 // HYDRAULICS</span>
-          <h3 class="inspector-layer-title" id="inspector-title">Solar Microgrid & Pools</h3>
-        </div>
-
-        <div class="inspector-specs-list" id="inspector-specs">
-          <div class="inspector-spec-row">
-            <span class="inspector-spec-name">Energy Generation</span>
-            <span class="inspector-spec-value">48.6 kW / Daily Yield</span>
-          </div>
-          <div class="inspector-spec-row">
-            <span class="inspector-spec-name">Battery Storage</span>
-            <span class="inspector-spec-value">120 kWh LFP Bank</span>
-          </div>
-          <div class="inspector-spec-row">
-            <span class="inspector-spec-name">Pool Cantilever Span</span>
-            <span class="inspector-spec-value">6.5m Glass Bottom</span>
-          </div>
-          <div class="inspector-spec-row">
-            <span class="inspector-spec-name">Water Filtration</span>
-            <span class="inspector-spec-value">Titanium UV-Ozone</span>
-          </div>
-        </div>
-
-        <div class="inspector-note-box" id="inspector-note">
-          Dual infinity basins operate via silent magnetic levitation pumps, recovering 98% of thermal backwash into the radiant flooring circuit.
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       SECTION 4: PANORAMIC MACRO SPACES (Porta Studio Expanding Strips)
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <section class="section-wrapper" id="spaces">
-    <div class="section-eyebrow">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-      // Macro Spatial Architecture
-    </div>
-    <h2 class="section-title">IMMERSIVE SPATIAL EXPERIENCES</h2>
-    <p class="section-description">
-      Hover over any architectural zone to expand into panoramic high-definition master photography capturing spatial rhythm and Mediterranean light play.
-    </p>
-
-    <div class="macro-spaces-stack">
-      
-      <!-- Space 01 -->
-      <div class="space-expand-row expanded">
-        <img class="space-bg-photo" src="assets/era_interior_living.jpg" alt="Double-Height Sanctuary Living" onerror="this.onerror=null; this.src='https://asura-system.vercel.app/projects/era-residence/assets/era_interior_living.jpg';">
-        <div class="space-row-scrim"></div>
-        <div class="space-row-content">
-          <div class="space-title-block">
-            <span class="space-index-tag">01</span>
-            <div>
-              <h3 class="space-heading">The Great Sanctuary Living Gallery</h3>
-              <p class="space-caption-revealed">6.8-meter double-height monolithic ceiling clearances framed by fluted Roman travertine acoustic baffles.</p>
-            </div>
-          </div>
-          <span class="space-metrics-tag">8,400 SQ.FT // RECESSED HEARTH</span>
-        </div>
-      </div>
-
-      <!-- Space 02 -->
-      <div class="space-expand-row">
-        <img class="space-bg-photo" src="assets/era_penthouse_terrace.jpg" alt="Penthouse Sky Deck & Pool" onerror="this.onerror=null; this.src='https://asura-system.vercel.app/projects/era-residence/assets/era_penthouse_terrace.jpg';">
-        <div class="space-row-scrim"></div>
-        <div class="space-row-content">
-          <div class="space-title-block">
-            <span class="space-index-tag">02</span>
-            <div>
-              <h3 class="space-heading">The Sky Terrace & Cantilever Infinity Pool</h3>
-              <p class="space-caption-revealed">Direct panoramic ocean views stretching toward Gibraltar and North Africa across unbroken water edges.</p>
-            </div>
-          </div>
-          <span class="space-metrics-tag">28M WATER BASIN // DUAL LOUNGE</span>
-        </div>
-      </div>
-
-      <!-- Space 03 -->
-      <div class="space-expand-row">
-        <img class="space-bg-photo" src="assets/era_spa_wellness.jpg" alt="Thermal Spa & Wellness Sanctuary" onerror="this.onerror=null; this.src='https://asura-system.vercel.app/projects/era-residence/assets/era_spa_wellness.jpg';">
-        <div class="space-row-scrim"></div>
-        <div class="space-row-content">
-          <div class="space-title-block">
-            <span class="space-index-tag">03</span>
-            <div>
-              <h3 class="space-heading">Subterranean Thermal Spa & Vitality Suites</h3>
-              <p class="space-caption-revealed">Heated hydrotherapy vitality pools carved into monolithic basalt bedrock with private Himalayan salt saunas.</p>
-            </div>
-          </div>
-          <span class="space-metrics-tag">HEPA-14 FILTERED // CRYOTHERAPY</span>
-        </div>
-      </div>
-
-      <!-- Space 04 -->
-      <div class="space-expand-row">
-        <img class="space-bg-photo" src="assets/era_garden_ground.jpg" alt="Sunken Zen Courtyard" onerror="this.onerror=null; this.src='https://asura-system.vercel.app/projects/era-residence/assets/era_garden_ground.jpg';">
-        <div class="space-row-scrim"></div>
-        <div class="space-row-content">
-          <div class="space-title-block">
-            <span class="space-index-tag">04</span>
-            <div>
-              <h3 class="space-heading">Sunken Mediterranean Olive Grove</h3>
-              <p class="space-caption-revealed">Ancient 200-year-old olive specimens anchored amidst cascading travertine reflection pools and maritime flora.</p>
-            </div>
-          </div>
-          <span class="space-metrics-tag">BOTANICAL CURATION // BIOPHILIC</span>
-        </div>
-      </div>
-
-      <!-- Space 05 -->
-      <div class="space-expand-row">
-        <img class="space-bg-photo" src="assets/era_architecture_detail.jpg" alt="Fluted Bronze & Travertine Facade" onerror="this.onerror=null; this.src='https://asura-system.vercel.app/projects/era-residence/assets/era_architecture_detail.jpg';">
-        <div class="space-row-scrim"></div>
-        <div class="space-row-content">
-          <div class="space-title-block">
-            <span class="space-index-tag">05</span>
-            <div>
-              <h3 class="space-heading">Fluted Bronze & Stone Facade Craftsmanship</h3>
-              <p class="space-caption-revealed">Marine-grade anodized champagne bronze fins engineered with internal thermal decouplers resisting salt fog.</p>
-            </div>
-          </div>
-          <span class="space-metrics-tag">100-YEAR HORIZON // C65500 ALLOY</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       SECTION 5: CURATED PRIVATE RESIDENCES DECK (3D Tilt Cards)
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <section class="section-wrapper" id="residences">
-    <div class="section-eyebrow">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-      // Sovereign Architectural Portfolio
-    </div>
-    <h2 class="section-title">THE THREE PRIVATE RESIDENCES</h2>
-    <p class="section-description">
-      Each boutique sanctuary occupies a sovereign ridge position with private subterranean motor courts, biometric airlocks, and unencumbered sea easements.
-    </p>
-
-    <div class="residences-deck-grid">
-      
-      <!-- Residence 01 -->
-      <div class="residence-tilt-card">
-        <div class="card-specular-glare"></div>
-        <div class="residence-thumb-frame">
-          <img class="residence-img" src="assets/era_hero_day.jpg" alt="The Promontory Villa" onerror="this.onerror=null; this.src='https://asura-system.vercel.app/projects/era-residence/assets/era_hero_day.jpg';">
-          <span class="residence-status-pill font-mono">AVAILABLE // PRIVATE TREATY</span>
-          <span class="residence-price-badge font-mono">$42,500,000</span>
-        </div>
-        <div class="residence-body">
-          <span class="residence-code">ESTATE 01 // PROMONTORY RIDGE</span>
-          <h3 class="residence-name">The Promontory Villa</h3>
-          <p class="residence-summary">
-            Signature 14.2m cantilevered primary suite hovering over the Mediterranean coast. Includes glass-bottom infinity pool and 8-car subterranean gallery.
-          </p>
-          <div class="residence-features-bar">
-            <div class="feature-col"><span class="feature-num">12,400</span><span class="feature-tag">Sq. Feet</span></div>
-            <div class="feature-col"><span class="feature-num">5</span><span class="feature-tag">Suites</span></div>
-            <div class="feature-col"><span class="feature-num">7.5</span><span class="feature-tag">Baths</span></div>
-            <div class="feature-col"><span class="feature-num">8</span><span class="feature-tag">Garage</span></div>
-          </div>
-          <a href="#treaty" class="btn-card-action">
-            <span>Request Private Dossier</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    <!-- Scene Chapter 5: Twilight Climax -->
+    <section class="chapter chapter--top" id="night" aria-labelledby="night-title">
+      <div class="copy copy--center">
+        <h2 class="display" id="night-title" data-reveal="lines">Five sanctuaries. Two remain.</h2>
+        <div class="actions">
+          <a class="button" href="#concierge">
+            Request Private Dossier
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
           </a>
+          <a class="button button--secondary" href="#residences">Explore Residences</a>
         </div>
       </div>
+    </section>
 
-      <!-- Residence 02 -->
-      <div class="residence-tilt-card">
-        <div class="card-specular-glare"></div>
-        <div class="residence-thumb-frame">
-          <img class="residence-img" src="assets/era_penthouse_terrace.jpg" alt="The Horizon Pavilion" onerror="this.onerror=null; this.src='https://asura-system.vercel.app/projects/era-residence/assets/era_penthouse_terrace.jpg';">
-          <span class="residence-status-pill font-mono">RESERVED // UNDER TREATY</span>
-          <span class="residence-price-badge font-mono">$34,000,000</span>
+    <!-- Sheet 1: The Residences Inventory -->
+    <section class="sheet" id="residences" aria-labelledby="residences-title">
+      <div class="sheet__head">
+        <h2 class="headline" id="residences-title">The Residences</h2>
+        <p class="sheet__intro">Each residence features an independent cantilever infinity pool, native Mediterranean botanical gardens, and unobstructed 270-degree western sea horizons. Private treaty acquisition.</p>
+      </div>
+      <div class="units-container">
+        <table class="units">
+          <thead>
+            <tr>
+              <th scope="col">Residence</th>
+              <th scope="col">Plot Area</th>
+              <th scope="col">Interior</th>
+              <th scope="col">Suites</th>
+              <th scope="col">Pool Length</th>
+              <th scope="col">Acquisition</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Villa Zephyr</td>
+              <td>3,450 m²</td>
+              <td>620 m²</td>
+              <td>5</td>
+              <td>24 m</td>
+              <td>€24.5M</td>
+              <td><span class="status-badge status-badge--reserved">Reserved</span></td>
+            </tr>
+            <tr>
+              <td>Villa Aura</td>
+              <td>2,980 m²</td>
+              <td>540 m²</td>
+              <td>4</td>
+              <td>20 m</td>
+              <td>€21.0M</td>
+              <td><span class="status-badge status-badge--available">Available</span></td>
+            </tr>
+            <tr>
+              <td>Villa Solstice</td>
+              <td>3,820 m²</td>
+              <td>710 m²</td>
+              <td>6</td>
+              <td>26 m</td>
+              <td>€27.0M</td>
+              <td><span class="status-badge status-badge--reserved">Reserved</span></td>
+            </tr>
+            <tr>
+              <td>Villa Mirage</td>
+              <td>2,650 m²</td>
+              <td>480 m²</td>
+              <td>4</td>
+              <td>18 m</td>
+              <td>€18.5M</td>
+              <td><span class="status-badge status-badge--available">Available</span></td>
+            </tr>
+            <tr>
+              <td>Villa Eclipse</td>
+              <td>3,120 m²</td>
+              <td>590 m²</td>
+              <td>5</td>
+              <td>22 m</td>
+              <td>€23.0M</td>
+              <td><span class="status-badge status-badge--negotiation">Under Offer</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Sheet 2: Architectural Anatomy -->
+    <section class="sheet" id="architecture" aria-labelledby="architecture-title">
+      <div class="sheet__head">
+        <h2 class="headline" id="architecture-title">Architectural Anatomy</h2>
+        <p class="sheet__intro">Rigorous structural engineering meets tactile material provenance. The buildings are conceived as extensions of the Cap Martin promontory rather than additions upon it.</p>
+      </div>
+      <div class="specs-grid">
+        <div class="spec-card">
+          <p class="spec-number">01 / Materiality</p>
+          <h3 class="spec-title">Tivoli Silver Travertine</h3>
+          <p class="spec-desc">Monolithic 80mm vein-cut slabs quarried in Lazio, fluted with robotic CNC micro-grooves to create subtle acoustic diffusion and rhythmic shadow lines.</p>
         </div>
-        <div class="residence-body">
-          <span class="residence-code">ESTATE 02 // ZENITH CREST</span>
-          <h3 class="residence-name">The Horizon Pavilion</h3>
-          <p class="residence-summary">
-            Low-slung pavilion architecture centered around a 200-year-old specimen olive tree and cascading travertine reflection basins.
-          </p>
-          <div class="residence-features-bar">
-            <div class="feature-col"><span class="feature-num">9,800</span><span class="feature-tag">Sq. Feet</span></div>
-            <div class="feature-col"><span class="feature-num">4</span><span class="feature-tag">Suites</span></div>
-            <div class="feature-col"><span class="feature-num">6</span><span class="feature-tag">Baths</span></div>
-            <div class="feature-col"><span class="feature-num">6</span><span class="feature-tag">Garage</span></div>
-          </div>
-          <a href="#treaty" class="btn-card-action">
-            <span>Request Private Dossier</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-          </a>
+        <div class="spec-card">
+          <p class="spec-number">02 / Engineering</p>
+          <h3 class="spec-title">Post-Tensioned Concrete</h3>
+          <p class="spec-desc">Self-consolidating 40MPa architectural concrete with rough-sawn Douglas fir board formwork, enabling cantilever spans up to 16 metres with zero external propping.</p>
+        </div>
+        <div class="spec-card">
+          <p class="spec-number">03 / Envelope</p>
+          <h3 class="spec-title">Starphire Glass Envelope</h3>
+          <p class="spec-desc">3.8-metre floor-to-ceiling ultra-clear low-iron acoustic laminates with motorized concealed floor tracks, achieving an acoustic insulation index of Rw 48dB.</p>
+        </div>
+        <div class="spec-card">
+          <p class="spec-number">04 / Environmental</p>
+          <h3 class="spec-title">Geothermal & Solar Core</h3>
+          <p class="spec-desc">Deep closed-loop geothermal heat exchange coupled with integrated 48kW monocrystalline solar roof arrays, providing 100% net-zero annual energy balance.</p>
         </div>
       </div>
+    </section>
 
-      <!-- Residence 03 -->
-      <div class="residence-tilt-card">
-        <div class="card-specular-glare"></div>
-        <div class="residence-thumb-frame">
-          <img class="residence-img" src="assets/era_hero_night.jpg" alt="The Monolith Sky Residence" onerror="this.onerror=null; this.src='https://asura-system.vercel.app/projects/era-residence/assets/era_hero_night.jpg';">
-          <span class="residence-status-pill font-mono">CONFIDENTIAL // BY ACCREDITATION</span>
-          <span class="residence-price-badge font-mono">$58,000,000</span>
-        </div>
-        <div class="residence-body">
-          <span class="residence-code">ESTATE 03 // CROWN APEX</span>
-          <h3 class="residence-name">The Monolith Apex</h3>
-          <p class="residence-summary">
-            The crown jewel of the development. 360-degree panoramic ocean and mountain vistas with private rooftop helipad and certified biometric vault.
-          </p>
-          <div class="residence-features-bar">
-            <div class="feature-col"><span class="feature-num">14,200</span><span class="feature-tag">Sq. Feet</span></div>
-            <div class="feature-col"><span class="feature-num">6</span><span class="feature-tag">Suites</span></div>
-            <div class="feature-col"><span class="feature-num">8.5</span><span class="feature-tag">Baths</span></div>
-            <div class="feature-col"><span class="feature-num">10</span><span class="feature-tag">Garage</span></div>
-          </div>
-          <a href="#treaty" class="btn-card-action">
-            <span>Request Private Dossier</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-          </a>
-        </div>
+    <!-- Sheet 3: Geographic Heritage -->
+    <section class="sheet sheet--split" id="location" aria-labelledby="location-title">
+      <h2 class="headline" id="location-title">Geographic Enclave</h2>
+      <div>
+        <p>Set upon the western bluffs of Cap Martin, directly overlooking the Baie de Roquebrune and the principality of Monaco. An ancient maritime sanctuary with strict environmental covenants that preclude any future development.</p>
+        <dl class="facts">
+          <div><dt>Monaco Heliport (Heli-Air)</dt><dd>8 min</dd></div>
+          <div><dt>Yacht Club de Monaco (Port Hercule)</dt><dd>12 min</dd></div>
+          <div><dt>Nice Côte d'Azur Airport (NCE)</dt><dd>28 min</dd></div>
+          <div><dt>Cap Martin Coastal Path</dt><dd>Immediate private gate</dd></div>
+          <div><dt>Private Mediterranean Sea Access</dt><dd>Direct private funicular</dd></div>
+        </dl>
       </div>
+    </section>
 
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       SECTION 6: PRIVATE TREATY & SOVEREIGN ACQUISITION DESK
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <section class="section-wrapper" id="treaty">
-    <div class="acquisition-card-container">
-      
-      <!-- Left Explanatory Column -->
-      <div class="acquisition-left-copy">
-        <span class="section-eyebrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-          // Confidential Protocol
-        </span>
-        <h2 class="acquisition-headline font-display">PRIVATE TREATY DISPATCH</h2>
-        <p class="acquisition-desc">
-          To preserve the discretion and privacy of prospective owners, on-site architectural viewings are conducted strictly by appointment following bilateral non-disclosure accreditation.
-        </p>
-
-        <div class="protocol-checks-list">
-          <div class="check-row">
-            <div class="check-icon-circle">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            </div>
-            <span class="check-label">Encrypted bilateral Non-Disclosure Agreement (NDA)</span>
-          </div>
-          <div class="check-row">
-            <div class="check-icon-circle">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            </div>
-            <span class="check-label">Helicopter / Private transfer from Málaga (AGP) or Gibraltar (GIB)</span>
-          </div>
-          <div class="check-row">
-            <div class="check-icon-circle">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            </div>
-            <span class="check-label">Full CAD, structural, and geothermal engineering blueprints</span>
-          </div>
-        </div>
+    <!-- Sheet 4: Confidential Concierge -->
+    <section class="sheet sheet--dark" id="concierge" aria-labelledby="concierge-title">
+      <div>
+        <h2 class="headline" id="concierge-title">Private Treaty Acquisition</h2>
+        <p class="sheet__intro">Access to the comprehensive technical documentation, floor plates, structural engineering blueprints, and confidential notary packages requires verified accreditation.</p>
       </div>
+      <div class="form-wrapper">
+        <form class="form" id="concierge-form">
+          <div class="form-row">
+            <label>Full Legal Name
+              <input name="name" autocomplete="name" required placeholder="Lord Sterling / Baroness..." />
+            </label>
+            <label>Official Email
+              <input name="email" type="email" autocomplete="email" required placeholder="principal@familyoffice.com" />
+            </label>
+          </div>
+          <div class="form-row">
+            <label>Residence of Interest
+              <select name="residence">
+                <option value="Villa Aura">Villa Aura (€21.0M · 540 m²)</option>
+                <option value="Villa Mirage">Villa Mirage (€18.5M · 480 m²)</option>
+                <option value="Private Portfolio">Complete Estate Portfolio</option>
+              </select>
+            </label>
+            <label>Representative / Advisory
+              <input name="representative" placeholder="Principal / Family Office / Legal Counsel" />
+            </label>
+          </div>
+          <label>Confidential Notes / Acquisition Requirements
+            <textarea name="notes" placeholder="Please specify desired completion schedules, private helicopter transfers, or private sea mooring requirements."></textarea>
+          </label>
+          <button class="button" type="submit">
+            Request Confidential Dossier
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+          <div class="form-feedback" id="form-feedback" role="status">
+            Thank you. Your inquiry has been encrypted and routed directly to the Private Treaty Notary. An authorized partner will contact you within 4 hours.
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
 
-      <!-- Right Inquiry Form -->
-      <form class="acquisition-form-block" id="treaty-form">
-        <div class="form-group">
-          <label class="form-label font-mono">Primary Principal / Legal Entity</label>
-          <input type="text" class="form-input" placeholder="e.g. Sterling Family Trust / Lord Hamilton" required>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label font-mono">Direct Communication Endpoint</label>
-          <input type="email" class="form-input" placeholder="confidential@familyoffice.com" required>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label font-mono">Estate Preference</label>
-          <select class="form-select">
-            <option value="promontory">The Promontory Villa ($42.5M)</option>
-            <option value="horizon">The Horizon Pavilion ($34.0M)</option>
-            <option value="monolith">The Monolith Apex ($58.0M)</option>
-            <option value="all">Full Compound Acquisition ($134.5M)</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label font-mono">Target Inspection Window</label>
-          <input type="text" class="form-input" placeholder="e.g. Q4 2026 // AGP Private Aviation Transfer">
-        </div>
-
-        <button type="submit" class="btn-submit-treaty">
-          <span>Execute Treaty Dispatch</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </button>
-      </form>
-
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       SITE FOOTER
-       ══════════════════════════════════════════════════════════════════════════ -->
   <footer class="site-footer">
-    <div class="footer-content">
-      <div class="footer-brand-lockup">
-        <svg class="brand-crest-svg" style="width:24px;height:24px;" viewBox="0 0 40 40" fill="none">
-          <polygon points="20,2 38,12 38,28 20,38 2,28 2,12" stroke="currentColor" stroke-width="1.5"/>
-          <circle cx="20" cy="20" r="3" fill="currentColor"/>
-        </svg>
-        <span class="font-display" style="font-weight:700;letter-spacing:0.18em;">ELYSIAN</span>
-        <span class="footer-telemetry-text font-mono">// ASURA CORE EDGE HOSTED</span>
-      </div>
-      <div class="footer-legal-copy">
-        &copy; 2026 ELYSIAN SANCTUARY INC. ALL ARCHITECTURAL BLUEPRINTS RESERVED.
-      </div>
-    </div>
+    <p>© 2026 Elysian Cap Martin SARL · 42 Avenue Claude Vignon, 06190 Roquebrune-Cap-Martin, France</p>
+    <p>Private Treaty Architecture · Sovereign Engineering by Asura v3.1</p>
   </footer>
 
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       CONFIRMATION MODAL DIALOG
-       ══════════════════════════════════════════════════════════════════════════ -->
-  <div class="treaty-modal-backdrop" id="treaty-modal">
-    <div class="treaty-modal-box">
-      <div class="modal-seal-badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-      </div>
-      <h3 class="modal-title font-display">TREATY DISPATCH TRANSMITTED</h3>
-      <p class="modal-text">
-        Your sovereign inquiry has been registered. The private concierge officer will review the accreditation and dispatch encrypted viewing coordinates within 2 hours.
-      </p>
-      <div class="modal-tx-code font-mono" id="treaty-tx-code">TX-ELYSIAN-8941-VERIFIED</div>
-      <br>
-      <button class="btn-close-modal" id="btn-close-treaty-modal">Return to Sanctuary</button>
-    </div>
-  </div>
-
-  <!-- CDN Dependencies -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
-
-  <!-- Application Motion & Interaction Logic -->
-  <script src="app.js"></script>
+  <script type="module" src="main.js"></script>
 </body>
 </html>
