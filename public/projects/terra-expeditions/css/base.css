@@ -1,0 +1,134 @@
+/*
+ * Asura base layer. Concept-neutral: reset, stage canvas, chapter grid, motion and a11y defaults.
+ * Put the project's palette, type and layout in css/site.css. Do not restyle the concept here.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  min-height: 100svh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  background: var(--c-bg, #1b1c1d);
+  color: var(--c-text, #ece8e1);
+  font-family: var(--f-text, system-ui, sans-serif);
+  overflow-x: clip;
+}
+img, picture, video, canvas, svg { display: block; max-width: 100%; }
+input, button, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+p, h1, h2, h3, h4 { overflow-wrap: break-word; }
+h1, h2, h3, h4 { text-wrap: balance; font-weight: inherit; }
+p { text-wrap: pretty; }
+
+/* Lenis (from lenis/dist/lenis.css) */
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* Stage: one fixed WebGL canvas behind the document. 100lvh keeps its size stable when mobile toolbars move. */
+.stage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100lvh;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.is-ready .stage { opacity: 1; }
+
+/* Shown when WebGL is missing or the scene failed to boot. Set --fallback in site.css (a still of the scene or a gradient). */
+.stage-fallback {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--fallback, linear-gradient(180deg, #57729a 0%, #e9bf95 62%, #3e3a36 100%));
+  background-size: cover;
+  background-position: center;
+}
+.no-webgl .stage { display: none; }
+
+.site-header, main, footer { position: relative; z-index: 1; }
+
+/* Header over the film is see-through; setupHeader() adds .is-solid once a .sheet reaches it. */
+.site-header { transition: background-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease; }
+.site-header.is-solid {
+  background: color-mix(in srgb, var(--c-header, var(--c-bg, #1b1c1d)) 92%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--c-text, #fff) 10%, transparent);
+}
+
+/* Chapters: each one is a beat of the scroll story and an anchor for a camera keyframe. */
+.chapter {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--grid-gap, clamp(1rem, 2vw, 2rem));
+  padding: var(--grid-margin, clamp(1.25rem, 4vw, 4rem));
+  align-content: end;
+}
+/* Tall chapters slow the camera down. Their copy sticks to the viewport bottom so it is readable the whole time. */
+.chapter.chapter--tall { min-height: 160svh; align-content: stretch; }
+.chapter.chapter--tall > * { align-self: end; position: sticky; bottom: var(--grid-margin, 2rem); }
+.chapter--top { align-content: start; padding-top: calc(var(--header-h, 4.5rem) + var(--grid-margin, 2rem)); }
+.chapter--center { align-content: center; }
+
+/* Phones: copy spans the full width, so a shot cannot keep calm space beside it. A graduated filter
+   (like a photographer's ND grad) darkens the edge of the frame the copy sits on, and moves with it.
+   Set --scrim per project; dark-on-light designs use a light colour. --scrim: transparent turns it off. */
+@media (max-aspect-ratio: 4/5) {
+  .chapter > .copy { position: relative; }
+  .chapter.chapter--tall > .copy { position: sticky; }
+  .chapter > .copy::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    inset: -32svh calc(-1 * var(--grid-margin, 1.25rem)) calc(-1 * var(--grid-margin, 1.25rem));
+    background: linear-gradient(to top, var(--scrim, rgb(12 13 15 / 0.45)) 35%, transparent);
+  }
+  .chapter--top > .copy::before {
+    inset: calc(-1 * (var(--header-h, 4.5rem) + var(--grid-margin, 1.25rem))) calc(-1 * var(--grid-margin, 1.25rem)) -32svh;
+    background: linear-gradient(to bottom, var(--scrim, rgb(12 13 15 / 0.45)) 35%, transparent);
+  }
+  .chapter--center > .copy::before { inset: -20svh calc(-1 * var(--grid-margin, 1.25rem)); background: radial-gradient(closest-side, var(--scrim, rgb(12 13 15 / 0.45)), transparent); }
+}
+
+/* Direct manipulation (engine/interact.js) */
+.is-dragging, .is-dragging * { user-select: none; cursor: grabbing !important; }
+
+/* Accessibility */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--c-text, #fff);
+  color: var(--c-bg, #000);
+}
+.skip-link:focus { top: 1rem; }
+:focus-visible { outline: 2px solid var(--c-focus, currentColor); outline-offset: 3px; }
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0);
+  white-space: nowrap; border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
