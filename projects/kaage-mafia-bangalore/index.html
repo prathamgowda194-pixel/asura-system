@@ -669,58 +669,57 @@ report.boot = boot; report.pos = function () { return [P.pos.x, P.pos.y, P.pos.z
 if (!HEADLESS) { if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot(); }
 })();
 </script>
-<script>/* KAAGE SYNDICATE: BENGALURU — 3D Open-World Mafia Crow Simulator
-   Brief: Soar, perch, dive-bomb, caw, and run syndicate operations across real-world Bangalore
-   landmarks (Vidhana Soudha, Attara Kacheri, Cubbon Park, UB City, MG Road & Namma Metro,
-   Public Utility Bldg, Brigade Rd & Church St, Lalbagh Glass House, WTC & Orion Lake, Indiranagar).
-   Controls: PC (WASD/Arrows move/throttle, Mouse steer/pitch, Space flap/takeoff, Shift swoop/dive,
-   Left Click bomb drop, E caw/loot, M city map, C cinematic cam) | Mobile (Left stick move, Right drag steer,
-   Flap / Swoop / Caw / Bomb touch pad + Tap Radar for Map).
-   Mood: golden-hour Bangalore dusk with glowing Kannada neon strips and damp monsoon reflections. */
+<script>/* KAAGE SYNDICATE: BENGALURU — 3D Open-World Mafia Crow Simulator (v2.0 High-Detail Edition)
+   Setting: Late-afternoon Bengaluru golden hour with crisp skylight contrast, procedural granite/brick/asphalt
+   surfaces, 10 iconic landmarks, 10 escalating Mafia Crow Operations, 12 Golden Vadas, dynamic traffic
+   (Auto-Rickshaws, BMTC Volvo Buses, Police Patrols, VIP SUVs), Namma Metro Purple Line, phone snitches,
+   Hawk Interceptor Drones, and a mandatory Mobile Portrait-to-Landscape Rotation Lock + Switch-style Touch Pad.
+   Mood: Custom high-clarity golden-hour with cool sky bounce and low atmospheric haze. */
 Game({
   title: 'KAAGE SYNDICATE',
-  subtitle: 'BENGALURU · SECTOR 080 · MAFIACROW OPS',
+  subtitle: 'BENGALURU · SECTOR 080 · MAFIA CROW OPS',
   mood: 'golden-hour',
   moodOverrides: {
-    sky: ['#16264d', '#ff9852', '#472a28'],
-    fog: ['#cc7a56', 0.0028],
-    hemi: ['#ffd8b4', '#2e2438', 0.85],
-    sun: ['#ffc37a', 2.35, [-0.65, 0.38, 0.42]],
-    exposure: 1.05,
-    bloom: [0.58, 1.02],
-    grade: { tint: [1.05, 0.99, 0.94], sat: 1.15, contrast: 1.08 },
-    grain: 0.025,
-    vignette: 0.32,
-    aberration: 0.0005,
+    sky: ['#18376e', '#ffa25c', '#3c2b3d'],
+    fog: ['#e49b6c', 0.0014],
+    hemi: ['#b7d8ff', '#3a2d40', 1.15],
+    sun: ['#fff0cc', 3.05, [-0.52, 0.68, 0.44]],
+    exposure: 1.08,
+    bloom: [0.48, 1.08],
+    grade: { tint: [1.03, 1.0, 0.96], sat: 1.16, contrast: 1.09 },
+    grain: 0.018,
+    vignette: 0.24,
+    aberration: 0.0004,
     stars: 0,
     sunDisc: 1,
     shadows: true,
     accent: '#ff5a1f'
   },
   accent: '#ff5a1f',
-  fov: 70,
+  fov: 68,
 
   player: {
     mode: 'fly',
     view: 'third',
-    start: [28, 16, 48],
-    yaw: 0.35,
-    speed: 25,
+    start: [28, 17, 46],
+    yaw: 0.28,
+    speed: 26,
     minSpeed: 0,
-    camDist: 5.4,
+    camDist: 5.8,
     radius: 0.55,
     steps: false
   },
 
   audio: {
-    ambience: [['city', 0.55], ['wind', 0.35]],
+    ambience: [['city', 0.52], ['wind', 0.34]],
     music: 'lofi',
-    musicOpts: { bpm: 92, root: 45, scale: 'minor' }
+    musicOpts: { bpm: 96, root: 45, scale: 'minor' }
   },
 
   controls: [
     ['Click', 'Drop Bomb'],
     ['E', 'Caw / Loot / Blackout'],
+    ['Q / X', 'Brake & Perch'],
     ['Tab / G', 'City Map'],
     ['1 - 8', 'Fast Airdrop']
   ],
@@ -728,51 +727,53 @@ Game({
   touchLabels: { jump: 'Flap', sprint: 'Swoop', action: 'Caw', fire: 'Bomb' },
 
   intro: [
-    { pos: [-115, 58, -175], look: [-115, 22, -100] },
-    { pos: [-45, 42, -55], look: [12, 14, -10], dur: 3.0 },
-    { pos: [-55, 55, 115], look: [-100, 48, 128], dur: 3.0 },
-    { pos: [34, 21, 56], look: [28, 15, 36], dur: 2.6 }
+    { pos: [-115, 56, -168], look: [-115, 22, -100] },
+    { pos: [-40, 40, -50], look: [12, 14, -10], dur: 2.8 },
+    { pos: [-52, 54, 108], look: [-100, 52, 128], dur: 2.8 },
+    { pos: [35, 22, 56], look: [28, 16, 36], dur: 2.4 }
   ],
 
   build: function (E) {
     var S = E.state, T = E.THREE;
     var HEADLESS = typeof window !== 'undefined' && !!window.__G3_HEADLESS__;
 
-    // Replace propeller buzz from fly-mode engine so our crow uses wingbeats & caws
+    // Disable fly-mode propeller hum; use custom wingbeat, caw & horn synthesis
     E.audio.engine = function () {};
 
     S.roofs = [];
-    S.wires = [];
     S.updrafts = [];
     S.bombs = [];
     S.splats = [];
     S.cawRings = [];
+    S.feathers = [];
     S.snitches = [];
     S.vehicles = [];
     S.vips = [];
     S.peds = [];
     S.hawks = [];
     S.wingmen = [];
-    S.vadas = [];
     S.opItems = [];
     S.opZones = [];
+    S.benches = [];
+    S.kaapiCarts = [];
+
     S.districts = [
-      { id: 'vidhana', key: '1', name: 'Vidhana Soudha', kn: 'ವಿಧಾನ ಸೌಧ', x: -115, y: 36, z: -100, spawn: [-115, 28, -52], yaw: 0, color: '#f59e0b' },
-      { id: 'cubbon', key: '2', name: 'Cubbon Park', kn: 'ಕಬ್ಬನ್ ಪಾರ್ಕ್', x: -110, y: 18, z: 42, spawn: [-88, 18, 42], yaw: 1.57, color: '#22c55e' },
-      { id: 'ubcity', key: '3', name: 'UB City Tower', kn: 'ಯುಬಿ ಸಿಟಿ', x: -100, y: 95, z: 128, spawn: [-56, 36, 92], yaw: 2.35, color: '#eab308' },
-      { id: 'mgroad', key: '4', name: 'MG Rd Metro', kn: 'ಎಂಜಿ ರೋಡ್ ಮೆಟ್ರೋ', x: 12, y: 18, z: -10, spawn: [12, 22, 16], yaw: 0, color: '#a855f7' },
-      { id: 'brigade', key: '5', name: 'Brigade & Church St', kn: 'ಬ್ರಿಗೇಡ್ ರೋಡ್', x: 35, y: 14, z: 68, spawn: [28, 16, 48], yaw: 0.25, color: '#ff5a1f' },
-      { id: 'lalbagh', key: '6', name: 'Lalbagh Glasshouse', kn: 'ಲಾಲ್ ಬಾಗ್', x: 125, y: 24, z: 128, spawn: [88, 22, 96], yaw: -2.45, color: '#38bdf8' },
-      { id: 'wtc', key: '7', name: 'WTC & Orion Lake', kn: 'ಡಬ್ಲ್ಯೂಟಿಸಿ', x: 135, y: 105, z: -125, spawn: [88, 36, -86], yaw: -0.82, color: '#06b6d4' },
-      { id: 'indiranagar', key: '8', name: 'Indiranagar 100ft', kn: 'ಇಂದಿರಾನಗರ', x: 152, y: 20, z: 32, spawn: [118, 22, 32], yaw: -1.57, color: '#fb7185' }
+      { id: 'vidhana', key: '1', name: 'Vidhana Soudha', kn: 'ವಿಧಾನ ಸೌಧ', x: -115, y: 40, z: -100, spawn: [-115, 28, -50], yaw: 0, color: '#f59e0b' },
+      { id: 'cubbon', key: '2', name: 'Cubbon Park', kn: 'ಕಬ್ಬನ್ ಪಾರ್ಕ್', x: -110, y: 18, z: 42, spawn: [-84, 18, 42], yaw: 1.57, color: '#22c55e' },
+      { id: 'ubcity', key: '3', name: 'UB City Tower', kn: 'ಯುಬಿ ಸಿಟಿ', x: -100, y: 95, z: 128, spawn: [-56, 38, 90], yaw: 2.35, color: '#eab308' },
+      { id: 'mgroad', key: '4', name: 'MG Rd Metro', kn: 'ಎಂಜಿ ರೋಡ್ ಮೆಟ್ರೋ', x: 12, y: 20, z: -10, spawn: [12, 22, 18], yaw: 0, color: '#a855f7' },
+      { id: 'brigade', key: '5', name: 'Brigade & Church St', kn: 'ಬ್ರಿಗೇಡ್ ರೋಡ್', x: 35, y: 14, z: 68, spawn: [28, 17, 46], yaw: 0.28, color: '#ff5a1f' },
+      { id: 'lalbagh', key: '6', name: 'Lalbagh Glasshouse', kn: 'ಲಾಲ್ ಬಾಗ್', x: 125, y: 24, z: 128, spawn: [84, 24, 94], yaw: -2.4, color: '#38bdf8' },
+      { id: 'wtc', key: '7', name: 'WTC & Orion Lake', kn: 'ಡಬ್ಲ್ಯೂಟಿಸಿ', x: 135, y: 105, z: -125, spawn: [86, 38, -84], yaw: -0.82, color: '#06b6d4' },
+      { id: 'indiranagar', key: '8', name: 'Indiranagar 100ft', kn: 'ಇಂದಿರಾನಗರ', x: 155, y: 20, z: 32, spawn: [115, 22, 32], yaw: -1.57, color: '#fb7185' }
     ];
 
     S.cash = 0;
     S.respect = 0;
     S.stamina = 100;
     S.maxStamina = 100;
-    S.heat = 0; // 0..500 -> 0..5 stars
-    S.exposure = 0; // 0..100
+    S.heat = 0;
+    S.exposure = 0;
     S.combo = 0;
     S.comboT = 0;
     S.bombsDropped = 0;
@@ -780,16 +781,17 @@ Game({
     S.vadasFound = 0;
     S.opIndex = 0;
     S.opProgress = 0;
-    S.opTarget = 4;
+    S.opTarget = 3;
     S.won = false;
     S.perched = false;
     S.flapCooldown = 0;
     S.cawCooldown = 0;
     S.bombCooldown = 0;
+    S.kaapiCooldown = 0;
     S.mapOpen = false;
     S.voiceOn = false;
-    S.lastRadioT = -99;
-    S.radioText = 'Welcome to Sector 080, Don Kaage. Start on Church Street: snatch 3 Syndicate Kaapi Dabbas and tag the Pigeon Snitch.';
+    S.portraitLocked = false;
+    S.radioText = 'Sector 080, Don Kaage. Start at Brigade & Church St: snatch 3 Brass Kaapi Dabbas!';
     S.hwTier = 'HIGH';
 
     function addRoof(x, z, w, d, topY, label) {
@@ -800,64 +802,163 @@ Game({
       });
     }
 
-    // 1. CUSTOM 3D MAFIA CROW AVATAR ("DON KAAGE")
-    var crow = E.group(0, 0, 0);
-    var mFeather = E.mat({ color: '#141720', rough: 0.42, metal: 0.28 });
-    var mWingTip = E.mat({ color: '#1d2230', rough: 0.5, metal: 0.22 });
-    var mScarf = E.mat({ color: '#e11d48', rough: 0.65 });
-    var mGold = E.mat({ color: '#f5b727', rough: 0.25, metal: 0.85 });
-    var mBeak = E.mat({ color: '#2b2d38', rough: 0.35, metal: 0.4 });
-    var mOptic = E.glowMat('#ff3b1f', 3.4);
-
-    // Legs & Talons anchored at y=0
-    E.cyl(0.025, 0.03, 0.24, mGold, -0.09, 0, 0.02, { parent: crow, seg: 6 });
-    E.cyl(0.025, 0.03, 0.24, mGold, 0.09, 0, 0.02, { parent: crow, seg: 6 });
-    E.box(0.08, 0.025, 0.14, mGold, -0.09, 0, -0.02, { parent: crow });
-    E.box(0.08, 0.025, 0.14, mGold, 0.09, 0, -0.02, { parent: crow });
-
-    // Torso (tilted sleek crow posture)
-    var bodyPivot = E.group(0, 0.36, 0, { parent: crow });
-    var torso = E.sphere(0.24, mFeather, 0, 0, 0, { parent: bodyPivot, seg: 12 });
-    torso.scale.set(0.88, 0.82, 1.55);
-    var chest = E.sphere(0.19, mFeather, 0, 0.04, -0.18, { parent: bodyPivot, seg: 10 });
-    chest.scale.set(0.9, 0.9, 1.1);
-
-    // Gold mafia chain around chest
-    var chain = E.cyl(0.16, 0.17, 0.045, mGold, 0, 0.03, -0.2, { parent: bodyPivot, rx: 0.4, seg: 12 });
-
-    // Crimson mafia scarf + trailing tail ribbon
-    var scarfCollar = E.cyl(0.17, 0.19, 0.08, mScarf, 0, 0.14, -0.24, { parent: bodyPivot, rx: 0.25, seg: 12 });
-    var scarfTail = E.group(0, 0.14, -0.12, { parent: bodyPivot });
-    E.box(0.1, 0.025, 0.45, mScarf, -0.04, 0.02, 0.24, { parent: scarfTail, ry: 0.14 });
-    E.box(0.08, 0.025, 0.36, mScarf, 0.04, -0.01, 0.2, { parent: scarfTail, ry: -0.12 });
-
-    // Head + Spy Monocle + Articulated Beak
-    var head = E.group(0, 0.24, -0.32, { parent: bodyPivot });
-    E.sphere(0.155, mFeather, 0, 0, 0, { parent: head, seg: 12 });
-    // Crest feather
-    E.cone(0.05, 0.16, mFeather, 0, 0.12, 0.04, { parent: head, rx: -0.7, seg: 6 });
-    // Upper & lower beak
-    var beakTop = E.cone(0.055, 0.26, mBeak, 0, 0.01, -0.15, { parent: head, rx: -Math.PI * 0.5, seg: 6 });
-    var beakBot = E.cone(0.042, 0.2, mBeak, 0, -0.02, -0.13, { parent: head, rx: -Math.PI * 0.5, seg: 6 });
-    // Eyes + Brass Spy Optic Monocle (right eye)
-    E.sphere(0.028, E.glowMat('#ffffff', 1.2), -0.095, 0.035, -0.09, { parent: head, seg: 8 });
-    E.cyl(0.044, 0.044, 0.02, mGold, 0.1, 0.035, -0.09, { parent: head, rz: Math.PI / 2, seg: 10 });
-    E.sphere(0.03, mOptic, 0.108, 0.035, -0.095, { parent: head, seg: 8 });
-
-    // Tail fan
-    var tailFan = E.group(0, 0.02, 0.32, { parent: bodyPivot });
-    for (var ti = -2; ti <= 2; ti++) {
-      E.box(0.11, 0.02, 0.44, mWingTip, ti * 0.05, 0, 0.2, { parent: tailFan, ry: -ti * 0.14 });
+    function playHorn() {
+      E.audio.tone({ freq: 392, dur: 0.14, vol: 0.16, type: 'sawtooth', filter: 1600 });
+      E.audio.tone({ freq: 494, dur: 0.14, vol: 0.14, type: 'sawtooth', filter: 1600 });
     }
 
-    // Articulated Wings (Left & Right shoulders with inner & outer feather segments)
+    // =========================================================================
+    // PROCEDURAL HIGH-DETAIL CANVAS PBR TEXTURES (ZERO EXTERNAL NETWORK CALLS)
+    // =========================================================================
+    var texGranite = E.canvasTex(256, 256, function (g, w, h) {
+      g.fillStyle = '#c4baa8';
+      g.fillRect(0, 0, w, h);
+      for (var y = 0; y < h; y += 32) {
+        g.fillStyle = 'rgba(70,60,48,0.22)';
+        g.fillRect(0, y, w, 2);
+        var off = (y / 32) % 2 ? 32 : 0;
+        for (var x = off; x < w; x += 64) g.fillRect(x, y, 2, 32);
+      }
+      for (var i = 0; i < 450; i++) {
+        g.fillStyle = i % 2 ? 'rgba(255,250,240,0.08)' : 'rgba(40,35,30,0.08)';
+        g.fillRect((i * 73) % w, (i * 137) % h, 4, 4);
+      }
+    }, { repeat: true });
+    texGranite.repeat.set(6, 3);
+
+    var texBrick = E.canvasTex(256, 256, function (g, w, h) {
+      g.fillStyle = '#9e362a';
+      g.fillRect(0, 0, w, h);
+      for (var y = 0; y < h; y += 16) {
+        g.fillStyle = 'rgba(235,220,200,0.25)';
+        g.fillRect(0, y, w, 2);
+        var off = (y / 16) % 2 ? 16 : 0;
+        for (var x = off; x < w; x += 32) g.fillRect(x, y, 2, 16);
+      }
+      for (var k = 0; k < 220; k++) {
+        g.fillStyle = k % 2 ? 'rgba(0,0,0,0.09)' : 'rgba(255,200,160,0.07)';
+        g.fillRect((k * 53) % w, (k * 97) % h, 10, 6);
+      }
+    }, { repeat: true });
+    texBrick.repeat.set(5, 3);
+
+    var texAsphalt = E.canvasTex(256, 256, function (g, w, h) {
+      g.fillStyle = '#20242e';
+      g.fillRect(0, 0, w, h);
+      for (var i = 0; i < 1200; i++) {
+        g.fillStyle = i % 3 === 0 ? 'rgba(255,255,255,0.045)' : 'rgba(0,0,0,0.16)';
+        g.fillRect((i * 41) % w, (i * 89) % h, 2, 2);
+      }
+      // Subtle tyre tracks
+      g.fillStyle = 'rgba(10,12,16,0.22)';
+      g.fillRect(42, 0, 26, h);
+      g.fillRect(188, 0, 26, h);
+    }, { repeat: true });
+    texAsphalt.repeat.set(22, 22);
+
+    var texGrass = E.canvasTex(256, 256, function (g, w, h) {
+      g.fillStyle = '#2e693a';
+      g.fillRect(0, 0, w, h);
+      for (var i = 0; i < 600; i++) {
+        g.fillStyle = i % 2 ? '#3a7a45' : '#22522d';
+        g.fillRect((i * 67) % w, (i * 113) % h, 6, 6);
+      }
+    }, { repeat: true });
+    texGrass.repeat.set(12, 12);
+
+    var texPave = E.canvasTex(128, 128, function (g, w, h) {
+      g.fillStyle = '#535866';
+      g.fillRect(0, 0, w, h);
+      g.strokeStyle = 'rgba(20,23,32,0.35)';
+      g.lineWidth = 2;
+      for (var p = 0; p <= w; p += 32) {
+        g.beginPath(); g.moveTo(p, 0); g.lineTo(p, h); g.stroke();
+        g.beginPath(); g.moveTo(0, p); g.lineTo(w, p); g.stroke();
+      }
+    }, { repeat: true });
+    texPave.repeat.set(18, 18);
+
+    // Rich textured materials
+    var mGranite = new T.MeshStandardMaterial({ map: texGranite, color: E.color('#ddd5c6'), roughness: 0.72, metalness: 0.05 });
+    var mRedBrick = new T.MeshStandardMaterial({ map: texBrick, color: E.color('#d45948'), roughness: 0.78 });
+    var mAsphalt = new T.MeshStandardMaterial({ map: texAsphalt, color: E.color('#2a2f3c'), roughness: 0.68 });
+    var mSidewalk = new T.MeshStandardMaterial({ map: texPave, color: E.color('#666d7e'), roughness: 0.82 });
+    var mGrass = new T.MeshStandardMaterial({ map: texGrass, color: E.color('#387a45'), roughness: 0.9 });
+
+    var mSandstone = E.mat({ color: '#dec293', rough: 0.68 });
+    var mCream = E.mat({ color: '#efe5d0', rough: 0.65 });
+    var mGlassDark = E.mat({ color: '#1a3854', rough: 0.12, metal: 0.88 });
+    var mGlassBlue = E.mat({ color: '#3474a6', rough: 0.14, metal: 0.82 });
+    var mGlassGold = E.mat({ color: '#786240', rough: 0.16, metal: 0.9 });
+    var mConcrete = E.mat({ color: '#9a9890', rough: 0.78 });
+    var mIron = E.mat({ color: '#1b2029', rough: 0.42, metal: 0.78 });
+    var mGold = E.mat({ color: '#f5b727', rough: 0.22, metal: 0.88 });
+    var mSoil = E.mat({ color: '#6b4a33', rough: 0.92 });
+    var mLine = E.mat({ color: '#f1f5f9', rough: 0.42 });
+    var mYellow = E.mat({ color: '#facc15', rough: 0.48 });
+
+    // =========================================================================
+    // 1. HIGH-DETAIL 3D MAFIA CROW AVATAR ("DON KAAGE") WITH FEDORA & FEATHERS
+    // =========================================================================
+    var crow = E.group(0, 0, 0);
+    var mFeather = E.mat({ color: '#151822', rough: 0.36, metal: 0.32 });
+    var mWingTip = E.mat({ color: '#222836', rough: 0.45, metal: 0.25 });
+    var mScarf = E.mat({ color: '#e11d48', rough: 0.58 });
+    var mBeak = E.mat({ color: '#282b36', rough: 0.3, metal: 0.45 });
+    var mOptic = E.glowMat('#ff3b1f', 3.4);
+
+    // Talons & Ankles anchored at y=0
+    [-0.09, 0.09].forEach(function (lx) {
+      E.cyl(0.025, 0.032, 0.26, mGold, lx, 0, 0.02, { parent: crow, seg: 6 });
+      E.box(0.035, 0.022, 0.15, mGold, lx - 0.025, 0, -0.04, { parent: crow, ry: 0.22 });
+      E.box(0.035, 0.022, 0.15, mGold, lx + 0.025, 0, -0.04, { parent: crow, ry: -0.22 });
+      E.box(0.035, 0.022, 0.11, mGold, lx, 0, 0.07, { parent: crow });
+    });
+
+    var bodyPivot = E.group(0, 0.38, 0, { parent: crow });
+    E.sphere(0.24, mFeather, 0, 0, 0, { parent: bodyPivot, seg: 14 }).scale.set(0.9, 0.85, 1.55);
+    E.sphere(0.19, mFeather, 0, 0.05, -0.19, { parent: bodyPivot, seg: 12 }).scale.set(0.9, 0.9, 1.15);
+    // Wing shoulder coverts + Gold Mafia Chain
+    E.cyl(0.16, 0.17, 0.048, mGold, 0, 0.03, -0.2, { parent: bodyPivot, rx: 0.4, seg: 14 });
+    E.sphere(0.04, E.glowMat('#fde047', 1.8), 0, -0.03, -0.34, { parent: bodyPivot, seg: 8 });
+
+    // Crimson Mafia Scarf + fluttering dual ribbons
+    E.cyl(0.175, 0.195, 0.085, mScarf, 0, 0.14, -0.24, { parent: bodyPivot, rx: 0.25, seg: 14 });
+    var scarfTail = E.group(0, 0.14, -0.1, { parent: bodyPivot });
+    E.box(0.11, 0.025, 0.5, mScarf, -0.05, 0.02, 0.26, { parent: scarfTail, ry: 0.16 });
+    E.box(0.085, 0.025, 0.42, mScarf, 0.05, -0.01, 0.22, { parent: scarfTail, ry: -0.14 });
+
+    // Head + Classic Tilted Mafia Fedora + Brass Monocle + Opening Beak
+    var head = E.group(0, 0.25, -0.33, { parent: bodyPivot });
+    E.sphere(0.16, mFeather, 0, 0, 0, { parent: head, seg: 12 });
+    // Tilted Mafia Fedora Hat
+    var hat = E.group(0.02, 0.13, 0.01, { parent: head, rz: -0.18, rx: -0.12 });
+    E.cyl(0.22, 0.22, 0.02, mFeather, 0, 0, 0, { parent: hat, seg: 14 });
+    E.cyl(0.11, 0.13, 0.11, mFeather, 0, 0.02, 0, { parent: hat, seg: 12 });
+    E.cyl(0.132, 0.132, 0.028, mScarf, 0, 0.025, 0, { parent: hat, seg: 12 });
+    // Sharp Beak
+    E.cone(0.055, 0.28, mBeak, 0, 0.01, -0.16, { parent: head, rx: -Math.PI * 0.5, seg: 8 });
+    var beakBot = E.cone(0.042, 0.21, mBeak, 0, -0.022, -0.13, { parent: head, rx: -Math.PI * 0.5, seg: 8 });
+    // Eyes + Brass Spy Monocle
+    E.sphere(0.028, E.glowMat('#ffffff', 1.4), -0.098, 0.035, -0.095, { parent: head, seg: 8 });
+    E.cyl(0.046, 0.046, 0.022, mGold, 0.102, 0.035, -0.095, { parent: head, rz: Math.PI / 2, seg: 10 });
+    E.sphere(0.032, mOptic, 0.11, 0.035, -0.1, { parent: head, seg: 8 });
+
+    // 7-Feather Fanned Tail
+    var tailFan = E.group(0, 0.02, 0.34, { parent: bodyPivot });
+    for (var ti = -3; ti <= 3; ti++) {
+      E.box(0.095, 0.018, 0.48 - Math.abs(ti) * 0.03, mWingTip, ti * 0.044, 0, 0.22, { parent: tailFan, ry: -ti * 0.14 });
+    }
+
+    // Multi-layered Articulated Wings (Spar + Secondary Coverts + 6 Primary Feathers)
     function makeWing(side) {
       var wRoot = E.group(side * 0.18, 0.08, -0.08, { parent: bodyPivot });
-      E.box(0.54, 0.03, 0.28, mFeather, side * 0.27, 0, 0.04, { parent: wRoot });
-      var outer = E.group(side * 0.52, 0, 0.02, { parent: wRoot });
-      E.box(0.48, 0.024, 0.22, mWingTip, side * 0.24, 0, 0.05, { parent: outer });
-      for (var fi = 0; fi < 4; fi++) {
-        E.box(0.24, 0.018, 0.05, mWingTip, side * (0.44 + fi * 0.03), 0, -0.03 + fi * 0.06, { parent: outer, ry: -side * (0.12 + fi * 0.09) });
+      E.box(0.56, 0.036, 0.28, mFeather, side * 0.28, 0, 0.04, { parent: wRoot });
+      E.box(0.52, 0.045, 0.07, mWingTip, side * 0.26, 0.01, -0.09, { parent: wRoot });
+      var outer = E.group(side * 0.54, 0, 0.02, { parent: wRoot });
+      E.box(0.5, 0.026, 0.22, mWingTip, side * 0.25, 0, 0.05, { parent: outer });
+      for (var fi = 0; fi < 5; fi++) {
+        E.box(0.26 + fi * 0.015, 0.016, 0.048, mWingTip, side * (0.45 + fi * 0.032), 0, -0.04 + fi * 0.055, { parent: outer, ry: -side * (0.1 + fi * 0.09) });
       }
       return { root: wRoot, outer: outer };
     }
@@ -866,255 +967,299 @@ Game({
     E.setAvatar(crow);
     S.crowRig = { root: crow, body: bodyPivot, head: head, beakBot: beakBot, wingL: wingL, wingR: wingR, tail: tailFan, scarf: scarfTail };
 
-    // Aiming Drop-Reticle (projected directly onto surface below crow!)
-    var aimReticle = E.group(28, 0.15, 48);
-    var retRing = new T.Mesh(new T.RingGeometry(0.65, 0.9, 20), E.glowMat('#ffffff', 2.2));
+    // Ground Aiming Reticle under Crow
+    var aimReticle = E.group(28, 0.18, 46);
+    var retRing = new T.Mesh(new T.RingGeometry(0.65, 0.95, 22), E.glowMat('#ffffff', 2.4));
     retRing.rotation.x = -Math.PI / 2;
     aimReticle.add(retRing);
-    var retDot = E.sphere(0.16, E.glowMat('#ff5a1f', 2.8), 0, 0.02, 0, { parent: aimReticle, seg: 8 });
+    E.sphere(0.18, E.glowMat('#ff5a1f', 3.0), 0, 0.02, 0, { parent: aimReticle, seg: 8 });
     S.aimReticle = aimReticle;
 
-    // 2. GROUND, ORION LAKE, AND BANGALORE ROAD NETWORK
-    E.ground({ size: 960, color: '#242731', rough: 0.62, wet: 0.65, puddles: 0.32 });
+    // =========================================================================
+    // 2. BENGALURU URBAN GROUND, TEXTURED ROADS, ZEBRA CROSSINGS & ORION LAKE
+    // =========================================================================
+    E.ground({ size: 980, color: '#2b2d36', rough: 0.68, wet: 0.55, puddles: 0.24 });
     E.setBounds(-235, 235, -205, 205);
 
     var roadGroup = E.group();
-    var mAsphalt = E.mat({ color: '#1b1e26', rough: 0.72 });
-    var mSidewalk = E.mat({ color: '#454852', rough: 0.85 });
-    var mLine = E.mat({ color: '#e2e8f0', rough: 0.45 });
-    var mYellow = E.mat({ color: '#eab308', rough: 0.5 });
-    var mGrass = E.mat({ color: '#275c34', rough: 0.92 });
-    var mSoil = E.mat({ color: '#6b4c35', rough: 0.95 });
+    // Main Avenues
+    E.box(460, 0.07, 20, mAsphalt, 0, 0, -10, { parent: roadGroup }); // MG Road
+    E.box(420, 0.07, 14, mAsphalt, 0, 0, 86, { parent: roadGroup });  // Vittal Mallya / Residency Rd
+    E.box(16, 0.07, 390, mAsphalt, -62, 0, 0, { parent: roadGroup }); // Kasturba Rd
+    E.box(14, 0.07, 360, mAsphalt, 28, 0, 10, { parent: roadGroup }); // Brigade Rd
+    E.box(12, 0.07, 240, mAsphalt, 54, 0, 40, { parent: roadGroup }); // Church St
+    E.box(16, 0.07, 360, mAsphalt, 138, 0, 10, { parent: roadGroup }); // 100ft Rd Indiranagar
 
-    // Major Avenues (MG Road E-W at z=-10, Vittal Mallya Rd E-W at z=86, Kasturba Rd N-S at x=-62, Brigade Rd N-S at x=28, Church St N-S at x=54, Indiranagar 100ft N-S at x=138)
-    E.box(460, 0.06, 20, mAsphalt, 0, 0, -10, { parent: roadGroup }); // MG Road
-    E.box(420, 0.06, 14, mAsphalt, 0, 0, 86, { parent: roadGroup });  // Vittal Mallya / Residency
-    E.box(16, 0.06, 390, mAsphalt, -62, 0, 0, { parent: roadGroup }); // Kasturba Rd
-    E.box(14, 0.06, 360, mAsphalt, 28, 0, 10, { parent: roadGroup }); // Brigade Rd
-    E.box(12, 0.06, 240, mAsphalt, 54, 0, 40, { parent: roadGroup }); // Church St / Rest House
-    E.box(16, 0.06, 360, mAsphalt, 138, 0, 10, { parent: roadGroup }); // 100ft Road Indiranagar
-
-    // Dashed Lane Dividers & Zebra Crossings
+    // Dashed Lane Lines + Zebra Crossings at key Bangalore intersections
     for (var rx = -210; rx <= 210; rx += 14) {
-      E.box(5.5, 0.08, 0.26, mYellow, rx, 0, -10, { parent: roadGroup });
-      E.box(4.5, 0.08, 0.22, mLine, rx, 0, 86, { parent: roadGroup });
+      E.box(5.5, 0.09, 0.26, mYellow, rx, 0, -10, { parent: roadGroup });
+      E.box(4.5, 0.09, 0.22, mLine, rx, 0, 86, { parent: roadGroup });
     }
     for (var rz = -180; rz <= 180; rz += 14) {
-      E.box(0.24, 0.08, 5, mYellow, -62, 0, rz, { parent: roadGroup });
-      E.box(0.22, 0.08, 4.5, mLine, 28, 0, rz, { parent: roadGroup });
-      E.box(0.24, 0.08, 5, mYellow, 138, 0, rz, { parent: roadGroup });
+      E.box(0.24, 0.09, 5, mYellow, -62, 0, rz, { parent: roadGroup });
+      E.box(0.22, 0.09, 4.5, mLine, 28, 0, rz, { parent: roadGroup });
+      E.box(0.24, 0.09, 5, mYellow, 138, 0, rz, { parent: roadGroup });
     }
-    // Raised Sidewalks (Brigade Rd & Church St & MG Rd)
-    [
-      [18, 12, 3.2, 165], [38, 12, 3.2, 165], [46, 55, 3.2, 145], [62, 55, 3.2, 145],
-      [-51, 0, 3.5, 290], [-73, 0, 3.5, 290]
-    ].forEach(function (sw) {
-      E.box(sw[2], 0.16, sw[3], mSidewalk, sw[0], 0, sw[1], { parent: roadGroup, solid: true });
+    // Zebra Crossings (MG Rd & Brigade Rd / Kasturba Rd / Residency Rd)
+    [[28, -22], [28, 2], [28, 76], [-62, -22], [-62, 2], [138, 2]].forEach(function (zx) {
+      for (var zi = -4; zi <= 4; zi += 2) {
+        E.box(1.1, 0.095, 3.8, mLine, zx[0] + zi * 1.1, 0, zx[1], { parent: roadGroup });
+      }
     });
 
-    // Cubbon Park Emerald Lawns & Lalbagh Gardens
-    E.box(110, 0.14, 105, mGrass, -120, 0, 42, { parent: roadGroup, solid: true });
-    E.box(105, 0.14, 92, mGrass, 125, 0, 132, { parent: roadGroup, solid: true });
-    addRoof(-120, 42, 110, 105, 0.14, 'Cubbon Park Lawn');
-    addRoof(125, 132, 105, 92, 0.14, 'Lalbagh Grounds');
+    // Paved Sidewalks with Kerbs
+    [
+      [18, 12, 3.4, 165], [38, 12, 3.4, 165], [46, 55, 3.4, 145], [62, 55, 3.4, 145],
+      [-51, 0, 3.8, 290], [-73, 0, 3.8, 290], [127, 10, 3.6, 260], [149, 10, 3.6, 260]
+    ].forEach(function (sw) {
+      E.box(sw[2], 0.18, sw[3], mSidewalk, sw[0], 0, sw[1], { parent: roadGroup, solid: true });
+    });
 
-    // Orion / Sankey Lake Basin (NE beside WTC)
-    E.box(82, 0.25, 3, mSidewalk, 72, 0, -177, { parent: roadGroup, solid: true });
-    E.box(82, 0.25, 3, mSidewalk, 72, 0, -107, { parent: roadGroup, solid: true });
-    E.box(3, 0.25, 68, mSidewalk, 32, 0, -142, { parent: roadGroup, solid: true });
-    E.box(3, 0.25, 68, mSidewalk, 112, 0, -142, { parent: roadGroup, solid: true });
+    // Cubbon Park & Lalbagh Lush Textured Terraces + Walkways
+    E.box(112, 0.16, 108, mGrass, -120, 0, 42, { parent: roadGroup, solid: true });
+    E.box(106, 0.16, 94, mGrass, 125, 0, 132, { parent: roadGroup, solid: true });
+    E.box(8, 0.18, 92, mSandstone, -120, 0, 42, { parent: roadGroup });
+    E.box(96, 0.18, 6, mSandstone, -120, 0, 42, { parent: roadGroup });
+    E.box(8, 0.18, 76, mSandstone, 125, 0, 132, { parent: roadGroup });
+    addRoof(-120, 42, 112, 108, 0.16, 'Cubbon Park Lawn');
+    addRoof(125, 132, 106, 94, 0.16, 'Lalbagh Grounds');
+
+    // Orion / Sankey Lake Promenade Basin
+    E.box(82, 0.35, 3.2, mSidewalk, 72, 0, -177, { parent: roadGroup, solid: true });
+    E.box(82, 0.35, 3.2, mSidewalk, 72, 0, -107, { parent: roadGroup, solid: true });
+    E.box(3.2, 0.35, 68, mSidewalk, 32, 0, -142, { parent: roadGroup, solid: true });
+    E.box(3.2, 0.35, 68, mSidewalk, 112, 0, -142, { parent: roadGroup, solid: true });
     E.bake(roadGroup);
-    var orionLake = E.water({ y: 0.14, size: 78, color: '#134e6f', opacity: 0.88 });
-    orionLake.position.set(72, 0.14, -142);
+
+    var orionLake = E.water({ y: 0.16, size: 78, color: '#0e618a', opacity: 0.88 });
+    orionLake.position.set(72, 0.16, -142);
     orionLake.scale.set(1, 0.86, 1);
 
-    // 3. REAL BANGALORE LANDMARKS (EACH BAKED FOR HIGH FPS)
-    var mGranite = E.mat({ color: '#b7aea0', rough: 0.78 });
-    var mSandstone = E.mat({ color: '#d4b483', rough: 0.72 });
-    var mRedBrick = E.mat({ color: '#9e3528', rough: 0.78 });
-    var mCream = E.mat({ color: '#e6dcc8', rough: 0.7 });
-    var mGlassDark = E.mat({ color: '#14293d', rough: 0.14, metal: 0.85 });
-    var mGlassBlue = E.mat({ color: '#265c85', rough: 0.15, metal: 0.8 });
-    var mGlassGold = E.mat({ color: '#5c4b32', rough: 0.18, metal: 0.88 });
-    var mConcrete = E.mat({ color: '#8d8b84', rough: 0.82 });
-    var mIron = E.mat({ color: '#1b1f26', rough: 0.45, metal: 0.75 });
+    // =========================================================================
+    // 3. DETAILED REAL BANGALORE LANDMARKS (BAKED FOR OPTIMAL DRAW CALLS)
+    // =========================================================================
 
-    // --- LANDMARK 1: VIDHANA SOUDHA (-115, 0, -100) ---
+    // --- 3A. VIDHANA SOUDHA (-115, 0, -100) ---
     (function buildVidhanaSoudha() {
       var g = E.group(-115, 0, -100);
-      E.box(68, 2.2, 42, mGranite, 0, 0, 0, { parent: g, solid: true });
-      // Ceremonial front steps facing +Z
-      for (var st = 0; st < 5; st++) {
-        E.box(28 - st * 1.4, 0.45, 7 - st * 1.1, mSandstone, 0, st * 0.44, 22.5 - st * 0.6, { parent: g });
+      // Granite Plinth & Landscaped Plaza Fountain
+      E.box(74, 2.4, 46, mGranite, 0, 0, 0, { parent: g, solid: true });
+      E.cyl(7, 7.6, 0.9, mCream, 0, 0, 31, { parent: g, solid: true, seg: 14 });
+      E.cyl(5.5, 5.5, 1.0, E.glowMat('#38bdf8', 1.4), 0, 0.1, 31, { parent: g, seg: 12 });
+      // Ceremonial Grand Steps + Balustrades
+      for (var st = 0; st < 6; st++) {
+        E.box(30 - st * 1.4, 0.42, 7.5 - st * 1.0, mSandstone, 0, st * 0.4, 24 - st * 0.5, { parent: g });
       }
-      // Main Neo-Dravidian Granite Palace Block
-      E.box(62, 16, 34, mGranite, 0, 2.2, 0, { parent: g, solid: true });
-      // Colonnade pilasters along front
-      for (var cx = -27; cx <= 27; cx += 6) {
-        E.cyl(0.65, 0.75, 15.5, mSandstone, cx, 2.2, 17.5, { parent: g, seg: 8 });
+      E.box(1.1, 2.2, 7.5, mSandstone, -15.5, 0.4, 24, { parent: g });
+      E.box(1.1, 2.2, 7.5, mSandstone, 15.5, 0.4, 24, { parent: g });
+      // Main Palace Facade + Recessed Windows + Ornate Cornice
+      E.box(64, 16.5, 34, mGranite, 0, 2.4, 0, { parent: g, solid: true });
+      E.box(66, 1.2, 36, mSandstone, 0, 18.9, 0, { parent: g });
+      for (var cx = -28; cx <= 28; cx += 5.6) {
+        E.cyl(0.62, 0.72, 16, mCream, cx, 2.4, 17.6, { parent: g, seg: 8 });
+        E.cyl(0.62, 0.72, 16, mCream, cx, 2.4, -17.6, { parent: g, seg: 8 });
+        if (Math.abs(cx) > 9) {
+          E.box(3.2, 4.2, 0.3, E.glowMat('#fde68a', 0.55), cx, 6.5, 17.1, { parent: g });
+          E.box(3.2, 4.2, 0.3, E.glowMat('#fde68a', 0.55), cx, 12.2, 17.1, { parent: g });
+        }
       }
-      // Central Grand Portico Pediment
-      E.box(18, 18, 6, mSandstone, 0, 2.2, 18, { parent: g });
-      E.box(20, 2.4, 8, mCream, 0, 18.2, 17, { parent: g });
-      // 4 Corner Chhatri Domes
-      [[-27, -14], [27, -14], [-27, 14], [27, 14]].forEach(function (c) {
-        E.box(7, 5, 7, mSandstone, c[0], 18.2, c[1], { parent: g });
-        E.sphere(3.6, mCream, c[0], 24.5, c[1], { parent: g, seg: 10 });
-        E.cone(0.5, 3, mGold, c[0], 27.5, c[1], { parent: g, seg: 6 });
+      // Central Grand Portico & Pediment
+      E.box(19, 17.8, 6.5, mSandstone, 0, 2.4, 18.5, { parent: g });
+      E.box(21.5, 2.2, 8.2, mCream, 0, 20.2, 17.5, { parent: g });
+      // 4 Corner Chhatri Domes with Finials
+      [[-28, -14], [28, -14], [-28, 14], [28, 14]].forEach(function (c) {
+        E.box(7.5, 5.2, 7.5, mSandstone, c[0], 20.1, c[1], { parent: g });
+        E.sphere(3.8, mCream, c[0], 26.5, c[1], { parent: g, seg: 10 });
+        E.cone(0.55, 3.2, mGold, c[0], 29.8, c[1], { parent: g, seg: 6 });
       });
-      // Central Ribbed Grand Dome + Ashoka Spire
-      E.cyl(9.5, 11, 7, mSandstone, 0, 18.2, 0, { parent: g, seg: 16 });
-      E.sphere(9.2, mCream, 0, 26, 0, { parent: g, seg: 16 });
-      E.cyl(1.4, 2.2, 4.5, mGold, 0, 34.5, 0, { parent: g, seg: 10 });
-      E.sphere(1.2, E.glowMat('#fbbf24', 2.2), 0, 39.5, 0, { parent: g, seg: 10 });
+      // Central Drum + Ribbed Grand Dome + Ashoka Pillar Finial
+      E.cyl(10, 11.6, 7.2, mSandstone, 0, 20.1, 0, { parent: g, seg: 16 });
+      E.sphere(9.6, mCream, 0, 28.2, 0, { parent: g, seg: 16 });
+      E.cyl(1.4, 2.4, 4.6, mGold, 0, 36.8, 0, { parent: g, seg: 10 });
+      E.sphere(1.25, E.glowMat('#fbbf24', 2.4), 0, 42.0, 0, { parent: g, seg: 10 });
       E.bake(g);
-      E.sign('ವಿಧಾನ ಸೌಧ · VIDHANA SOUDHA', { x: -115, y: 20.5, z: -79.2, h: 1.8, color: '#fbbf24', glow: 2.0, double: true });
-      E.halo(-115, 36, -100, '#fbbf24', 24, 0.4);
-      E.light('#ffd27d', 2.2, -115, 16, -74, 48);
-      addRoof(-115, -100, 62, 34, 18.2, 'Vidhana Soudha Terrace');
-      E.poi(-115, 22, -100, 48);
+      E.sign('ವಿಧಾನ ಸೌಧ · VIDHANA SOUDHA', { x: -115, y: 21.8, z: -77.6, h: 1.8, color: '#fbbf24', glow: 2.1, double: true });
+      E.halo(-115, 40, -100, '#fbbf24', 28, 0.35);
+      E.light('#ffd27d', 2.2, -115, 18, -72, 54);
+      addRoof(-115, -100, 64, 34, 20.2, 'Vidhana Soudha Terrace');
+      E.poi(-115, 22, -100, 52);
     })();
 
-    // --- LANDMARK 2: ATTARA KACHERI / HIGH COURT (-115, 0, -32) ---
+    // --- 3B. ATTARA KACHERI / KARNATAKA HIGH COURT (-115, 0, -32) ---
     (function buildHighCourt() {
       var g = E.group(-115, 0, -32);
-      E.box(52, 12.5, 22, mRedBrick, 0, 0, 0, { parent: g, solid: true });
-      for (var hx = -22; hx <= 22; hx += 5.5) {
-        E.box(1.1, 12.5, 1.4, mCream, hx, 0, -11.3, { parent: g });
-        E.box(1.1, 12.5, 1.4, mCream, hx, 0, 11.3, { parent: g });
+      E.box(54, 1.0, 25, mSandstone, 0, 0, 0, { parent: g, solid: true });
+      E.box(52, 12.5, 22, mRedBrick, 0, 1.0, 0, { parent: g, solid: true });
+      // Classical White Verandah Colonnades + Arched Windows
+      for (var hx = -22; hx <= 22; hx += 4.4) {
+        E.box(0.95, 12.5, 1.4, mCream, hx, 1.0, -11.3, { parent: g });
+        E.box(0.95, 12.5, 1.4, mCream, hx, 1.0, 11.3, { parent: g });
+        if (Math.abs(hx) < 20) {
+          E.box(2.2, 3.0, 0.25, E.glowMat('#fde68a', 0.45), hx + 2.2, 4.2, -11.15, { parent: g });
+          E.box(2.2, 3.0, 0.25, E.glowMat('#fde68a', 0.45), hx + 2.2, 9.0, -11.15, { parent: g });
+        }
       }
-      E.box(16, 4.5, 24, mRedBrick, 0, 12.5, 0, { parent: g });
-      E.cone(4.5, 4, mCream, -19, 12.5, 0, { parent: g, seg: 4, ry: Math.PI / 4 });
-      E.cone(4.5, 4, mCream, 19, 12.5, 0, { parent: g, seg: 4, ry: Math.PI / 4 });
+      // Central Portico + Flanking Turret Pavilions
+      E.box(16, 4.8, 24, mRedBrick, 0, 13.5, 0, { parent: g });
+      E.box(17.5, 1.0, 25, mCream, 0, 18.3, 0, { parent: g });
+      [-20, 20].forEach(function (tx) {
+        E.box(7.5, 3.5, 7.5, mRedBrick, tx, 13.5, 0, { parent: g });
+        E.cone(4.8, 4.4, mCream, tx, 17.0, 0, { parent: g, seg: 4, ry: Math.PI / 4 });
+      });
       E.bake(g);
-      E.sign('HIGH COURT · ಅಠಾರ ಕಚೇರಿ', { x: -115, y: 15, z: -43.5, ry: Math.PI, h: 1.3, color: '#fca5a5', glow: 1.8, double: true });
-      addRoof(-115, -32, 52, 22, 12.5, 'High Court Roof');
+      E.sign('HIGH COURT · ಅಠಾರ ಕಚೇರಿ', { x: -115, y: 16, z: -44.2, ry: Math.PI, h: 1.35, color: '#fca5a5', glow: 1.9, double: true });
+      addRoof(-115, -32, 52, 22, 13.5, 'High Court Roof');
     })();
 
-    // --- LANDMARK 3: CUBBON PARK BANYANS, STATUE & BANDSTAND (-120, 0, 42) ---
+    // --- 3C. CUBBON PARK BANYANS, STATUE & BANDSTAND (-120, 0, 42) ---
     (function buildCubbonPark() {
-      var g = E.group(-120, 0.14, 42);
-      // Bandstand Gazebo
-      E.cyl(5.5, 6, 0.8, mCream, 18, 0, -10, { parent: g, solid: true, seg: 10 });
-      for (var a = 0; a < 6; a++) {
-        var ang = a * Math.PI / 3;
-        E.cyl(0.18, 0.2, 4.5, mCream, 18 + Math.cos(ang) * 4.5, 0.8, -10 + Math.sin(ang) * 4.5, { parent: g, seg: 6 });
+      var g = E.group(-120, 0.16, 42);
+      // Bandstand Gazebo with Ornate Base + Dome Roof
+      E.cyl(6, 6.6, 0.9, mCream, 18, 0, -10, { parent: g, solid: true, seg: 12 });
+      for (var a = 0; a < 8; a++) {
+        var ang = a * Math.PI / 4;
+        E.cyl(0.18, 0.22, 4.8, mCream, 18 + Math.cos(ang) * 4.8, 0.9, -10 + Math.sin(ang) * 4.8, { parent: g, seg: 6 });
       }
-      E.cone(6.2, 2.8, mRedBrick, 18, 5.3, -10, { parent: g, seg: 8 });
-      // Statue Pedestal
-      E.box(5, 3.5, 5, mGranite, -14, 0, 12, { parent: g, solid: true });
-      E.cyl(1.1, 1.4, 3.8, mIron, -14, 3.5, 12, { parent: g, seg: 8 });
-      E.sphere(1.0, mIron, -14, 8.0, 12, { parent: g, seg: 8 });
-      // Grand Spreading Banyan Tree Hero
-      E.cyl(1.8, 2.5, 7, mSoil, -2, 0, -2, { parent: g, solid: true, seg: 8 });
-      for (var br = 0; br < 5; br++) {
-        var ba = br * 1.25;
-        E.cyl(0.35, 0.45, 7.5, mSoil, -2 + Math.cos(ba) * 6.5, 0, -2 + Math.sin(ba) * 6.5, { parent: g, seg: 6 });
+      E.cone(6.6, 3.0, mRedBrick, 18, 5.7, -10, { parent: g, seg: 10 });
+      E.sphere(0.4, mGold, 18, 8.9, -10, { parent: g, seg: 8 });
+      // Statue Rotunda
+      E.box(5.6, 3.8, 5.6, mGranite, -14, 0, 12, { parent: g, solid: true });
+      E.cyl(1.1, 1.5, 4.0, mIron, -14, 3.8, 12, { parent: g, seg: 8 });
+      E.sphere(1.05, mIron, -14, 8.4, 12, { parent: g, seg: 8 });
+      // Giant Spreading Heritage Banyan Tree with Hanging Prop Roots
+      E.cyl(2.0, 2.8, 7.5, mSoil, -2, 0, -2, { parent: g, solid: true, seg: 10 });
+      for (var br = 0; br < 7; br++) {
+        var ba = br * 0.9;
+        E.cyl(0.32, 0.44, 8.0, mSoil, -2 + Math.cos(ba) * 7.2, 0, -2 + Math.sin(ba) * 7.2, { parent: g, seg: 6 });
       }
-      E.sphere(9.5, mGrass, -2, 10.5, -2, { parent: g, seg: 10 }).scale.set(1.4, 0.55, 1.3);
+      E.sphere(10.5, mGrass, -2, 11.2, -2, { parent: g, seg: 12 }).scale.set(1.45, 0.55, 1.35);
+      // Park Wooden Benches
+      [[-8, 22], [12, 22], [-8, -22], [12, -22]].forEach(function (bp) {
+        E.box(2.6, 0.55, 0.8, mSoil, bp[0], 0, bp[1], { parent: g });
+        E.box(2.6, 0.65, 0.14, mSoil, bp[0], 0.55, bp[1] - 0.35, { parent: g });
+      });
       E.bake(g);
-      addRoof(-120 + 18, 42 - 10, 10, 10, 8.2, 'Cubbon Bandstand');
-      addRoof(-122, 40, 18, 18, 14.5, 'Great Banyan Canopy');
-      E.sign('CUBBON PARK · ಕಬ್ಬನ್ ಉದ್ಯಾನ', { x: -82, y: 4.5, z: 42, ry: Math.PI / 2, h: 1.4, color: '#86efac', glow: 1.9, double: true });
+      addRoof(-102, 32, 11, 11, 8.9, 'Cubbon Bandstand');
+      addRoof(-122, 40, 20, 20, 15.2, 'Great Banyan Canopy');
+      E.sign('CUBBON PARK · ಕಬ್ಬನ್ ಉದ್ಯಾನ', { x: -78, y: 4.5, z: 42, ry: Math.PI / 2, h: 1.4, color: '#86efac', glow: 1.9, double: true });
 
-      // Instanced Tabebuia Pink Blossoms + Park Trees across Cubbon & Lalbagh (2 draw calls total!)
+      // Instanced Pink Tabebuia & Evergreen Park Trees
       var treeTrunks = [], pinkCrowns = [], greenCrowns = [];
       var treeCoords = [
-        [-155, 18], [-152, 62], [-136, 80], [-95, 15], [-92, 74], [-145, -18], [-82, -18],
-        [92, 104], [156, 104], [92, 160], [158, 158], [125, 170], [45, -135], [105, -135], [-160, -145]
+        [-158, 16], [-156, 62], [-138, 82], [-94, 12], [-90, 76], [-146, -18], [-82, -18],
+        [92, 104], [156, 104], [92, 160], [158, 158], [125, 170], [45, -135], [105, -135], [-160, -145],
+        [-45, 76], [-45, 42], [-45, -24], [116, -86], [42, -172]
       ];
       treeCoords.forEach(function (tc, idx) {
         var sc = 0.85 + (idx % 4) * 0.22;
         treeTrunks.push({ x: tc[0], y: 2.2 * sc, z: tc[1], sx: 0.45 * sc, sy: 4.4 * sc, sz: 0.45 * sc });
-        if (idx % 3 === 0) pinkCrowns.push({ x: tc[0], y: 5.5 * sc, z: tc[1], sx: 3.4 * sc, sy: 2.3 * sc, sz: 3.4 * sc });
-        else greenCrowns.push({ x: tc[0], y: 5.5 * sc, z: tc[1], sx: 3.5 * sc, sy: 2.5 * sc, sz: 3.5 * sc });
+        if (idx % 3 === 0) pinkCrowns.push({ x: tc[0], y: 5.5 * sc, z: tc[1], sx: 3.5 * sc, sy: 2.3 * sc, sz: 3.5 * sc });
+        else greenCrowns.push({ x: tc[0], y: 5.5 * sc, z: tc[1], sx: 3.6 * sc, sy: 2.5 * sc, sz: 3.6 * sc });
       });
       E.instances(new T.CylinderGeometry(0.6, 0.9, 1, 7), mSoil, treeTrunks);
-      E.instances(new T.DodecahedronGeometry(1, 0), E.mat({ color: '#f472b6', rough: 0.85, flat: true }), pinkCrowns);
-      E.instances(new T.DodecahedronGeometry(1, 0), E.mat({ color: '#2b703c', rough: 0.88, flat: true }), greenCrowns);
+      E.instances(new T.DodecahedronGeometry(1, 0), E.mat({ color: '#f472b6', rough: 0.82, flat: true }), pinkCrowns);
+      E.instances(new T.DodecahedronGeometry(1, 0), E.mat({ color: '#2b733e', rough: 0.85, flat: true }), greenCrowns);
     })();
 
-    // --- LANDMARK 4: UB CITY & UB TOWER (-100, 0, 128) ---
+    // --- 3D. UB CITY & UB TOWER (-100, 0, 128) ---
     (function buildUBCity() {
-      // Main Hero UB Tower (95m stepped luxury skyscraper + Helipad)
-      E.building({ x: -100, z: 128, w: 22, d: 22, h: 88, color: '#2b3342', lit: 0.65, winColors: ['#fde68a', '#bae6fd'], glow: 1.3, style: 'bands', solid: true });
+      E.building({ x: -100, z: 128, w: 22, d: 22, h: 88, color: '#2b3648', lit: 0.68, winColors: ['#fde68a', '#bae6fd'], glow: 1.3, style: 'bands', solid: true });
+      E.building({ x: -130, z: 140, w: 24, d: 18, h: 36, color: '#9c7c52', lit: 0.58, winColors: ['#fde68a', '#bae6fd'], glow: 1.1, style: 'bands', solid: true });
+      E.building({ x: -70, z: 120, w: 22, d: 18, h: 44, color: '#3b4b61', lit: 0.62, winColors: ['#bae6fd', '#fde68a'], glow: 1.2, style: 'bands', solid: true });
+
       var g = E.group(-100, 0, 128);
-      // Curved cantilevered UB crown + Helipad
-      E.box(26, 4.5, 24, mSandstone, 0, 88, 0, { parent: g, solid: true });
-      E.cyl(8.5, 8.5, 0.6, mIron, 0, 92.6, 0, { parent: g, seg: 16 });
-      E.box(5.5, 0.2, 1.1, E.glowMat('#fbbf24', 2.4), 0, 93.25, 0, { parent: g });
-      E.box(1.1, 0.2, 5.5, E.glowMat('#fbbf24', 2.4), -2.2, 93.25, 0, { parent: g });
-      E.box(1.1, 0.2, 5.5, E.glowMat('#fbbf24', 2.4), 2.2, 93.25, 0, { parent: g });
-      // Flank Luxury Concorde & Canberra Towers (lit architectural facades)
-      E.building({ x: -130, z: 140, w: 24, d: 18, h: 34, color: '#9c7c52', lit: 0.55, winColors: ['#fde68a', '#bae6fd'], glow: 1.05, style: 'bands', solid: true });
-      E.building({ x: -70, z: 120, w: 22, d: 18, h: 42, color: '#3b4a5e', lit: 0.6, winColors: ['#bae6fd', '#fde68a'], glow: 1.15, style: 'bands', solid: true });
-      // Piazza Amphitheatre Fountain
-      E.cyl(8, 9, 0.8, mCream, 26, 0, 18, { parent: g, solid: true, seg: 14 });
-      E.cyl(6.2, 6.2, 0.9, E.glowMat('#38bdf8', 1.4), 26, 0.1, 18, { parent: g, seg: 12 });
+      // Brise-soleil exoskeleton vertical fins on UB Tower
+      [[-11.2, -8], [-11.2, 8], [11.2, -8], [11.2, 8]].forEach(function (fc) {
+        E.box(0.8, 88, 1.4, mSandstone, fc[0], 0, fc[1], { parent: g });
+      });
+      // Cantilevered Skydeck Crown + Illuminated Helipad
+      E.box(27, 4.6, 25, mSandstone, 0, 88, 0, { parent: g, solid: true });
+      E.cyl(8.8, 8.8, 0.6, mIron, 0, 92.6, 0, { parent: g, seg: 16 });
+      E.box(5.6, 0.2, 1.1, E.glowMat('#fbbf24', 2.4), 0, 93.25, 0, { parent: g });
+      E.box(1.1, 0.2, 5.6, E.glowMat('#fbbf24', 2.4), -2.2, 93.25, 0, { parent: g });
+      E.box(1.1, 0.2, 5.6, E.glowMat('#fbbf24', 2.4), 2.2, 93.25, 0, { parent: g });
+      // Elevated Skybridge connecting Concorde & UB Tower
+      E.box(16, 4.5, 6.5, mGlassBlue, -16, 22, 6, { parent: g });
+      // Piazza Amphitheatre Water Fountain
+      E.cyl(9, 10, 0.9, mCream, 26, 0, 20, { parent: g, solid: true, seg: 14 });
+      E.cyl(7.2, 7.2, 1.0, E.glowMat('#38bdf8', 1.45), 26, 0.1, 20, { parent: g, seg: 14 });
+      E.cyl(1.4, 2.2, 3.8, mSandstone, 26, 0.9, 20, { parent: g, seg: 8 });
       E.bake(g);
-      E.sign('UB CITY · BENGALURU', { x: -100, y: 85, z: 116.5, ry: Math.PI, h: 2.6, color: '#fde047', glow: 2.4, double: true });
-      E.halo(-100, 95, 128, '#fde047', 26, 0.45);
-      addRoof(-100, 128, 25, 25, 93.2, 'UB Tower Helipad');
-      addRoof(-130, 140, 24, 18, 34, 'Concorde Block');
-      addRoof(-70, 120, 22, 18, 42, 'Canberra Block');
-      E.poi(-100, 76, 128, 56);
+      E.sign('UB CITY · BENGALURU', { x: -100, y: 85, z: 115.8, ry: Math.PI, h: 2.6, color: '#fde047', glow: 2.4, double: true });
+      E.halo(-100, 95, 128, '#fde047', 26, 0.4);
+      addRoof(-100, 128, 26, 26, 93.2, 'UB Tower Helipad');
+      addRoof(-130, 140, 24, 18, 36, 'Concorde Block');
+      addRoof(-70, 120, 22, 18, 44, 'Canberra Block');
+      E.poi(-100, 76, 128, 58);
     })();
 
-    // --- LANDMARK 5: MG ROAD & NAMMA METRO PURPLE LINE (z=-10) ---
+    // --- 3E. MG ROAD & NAMMA METRO PURPLE LINE (z=-10) ---
     (function buildNammaMetro() {
       var g = E.group(0, 0, -10);
-      // Elevated Box-Girder Viaduct running East-West across Bangalore
-      E.box(430, 1.8, 7.6, mConcrete, 0, 8.2, 0, { parent: g, solid: true });
-      E.box(430, 0.9, 0.4, mConcrete, 0, 10.0, -3.6, { parent: g });
-      E.box(430, 0.9, 0.4, mConcrete, 0, 10.0, 3.6, { parent: g });
-      // Purple Line accent strip along viaduct
-      E.box(430, 0.35, 7.8, E.glowMat('#9333ea', 1.7), 0, 8.7, 0, { parent: g });
+      // Elevated Viaduct Deck + Side Parapets + Dual Steel Tracks
+      E.box(436, 1.8, 8.0, mConcrete, 0, 8.2, 0, { parent: g, solid: true });
+      E.box(436, 0.95, 0.45, mCream, 0, 10.0, -3.8, { parent: g });
+      E.box(436, 0.95, 0.45, mCream, 0, 10.0, 3.8, { parent: g });
+      E.box(436, 0.35, 8.15, E.glowMat('#9333ea', 1.8), 0, 8.7, 0, { parent: g });
+      E.box(436, 0.16, 0.22, mIron, 0, 10.02, -1.2, { parent: g });
+      E.box(436, 0.16, 0.22, mIron, 0, 10.02, 1.2, { parent: g });
+      // Flared Y-Piers
       for (var px = -195; px <= 195; px += 26) {
         if (Math.abs(px + 62) < 8 || Math.abs(px - 28) < 8 || Math.abs(px - 138) < 8) continue;
-        E.box(2.2, 8.2, 2.2, mConcrete, px, 0, 0, { parent: g, solid: true });
+        E.box(2.1, 6.5, 2.2, mConcrete, px, 0, 0, { parent: g, solid: true });
+        E.box(3.4, 2.0, 6.8, mConcrete, px, 6.4, 0, { parent: g });
       }
-      // MG Road Metro Station Canopy ([12, 0, -10])
-      E.box(38, 1.2, 13, mConcrete, 12, 8.0, 0, { parent: g, solid: true });
-      E.box(36, 5.2, 12.5, mGlassBlue, 12, 11.5, 0, { parent: g, solid: true });
-      E.box(40, 0.8, 14.5, E.mat({ color: '#c8d4e0', rough: 0.35, metal: 0.7 }), 12, 16.7, 0, { parent: g, solid: true });
+      // MG Road Metro Station Concourse + Ribbed Arch Roof + Entry Stairs
+      E.box(40, 1.4, 14, mConcrete, 12, 8.0, 0, { parent: g, solid: true });
+      E.box(38, 5.2, 13, mGlassBlue, 12, 11.4, 0, { parent: g, solid: true });
+      E.box(42, 0.9, 15, mCream, 12, 16.6, 0, { parent: g, solid: true });
+      for (var sr = -16; sr <= 16; sr += 8) {
+        E.box(0.8, 6.2, 15.6, mIron, 12 + sr, 11.2, 0, { parent: g });
+      }
       E.bake(g);
-      E.sign('ನಮ್ಮ ಮೆಟ್ರೋ · MG ROAD METRO', { x: 12, y: 15.2, z: -2.4, h: 1.35, color: '#d8b4fe', glow: 2.3, double: true });
-      addRoof(12, -10, 40, 14.5, 17.5, 'MG Road Metro Roof');
-      addRoof(0, -10, 420, 7.6, 10.0, 'Namma Metro Viaduct');
+      E.sign('ನಮ್ಮ ಮೆಟ್ರೋ · MG ROAD METRO', { x: 12, y: 15.0, z: -2.0, h: 1.35, color: '#d8b4fe', glow: 2.3, double: true });
+      addRoof(12, -10, 42, 15, 17.5, 'MG Road Metro Roof');
+      addRoof(0, -10, 420, 8.0, 10.0, 'Namma Metro Viaduct');
 
-      // Animated 4-Car Namma Metro Purple-Line Train
-      var train = E.group(-180, 10.1, -10);
+      // Detailed 4-Car Namma Metro Train
+      var train = E.group(-180, 10.12, -10);
       for (var ci = 0; ci < 4; ci++) {
         var cx = ci * 13.4;
-        E.box(12.6, 3.1, 3.1, E.mat({ color: '#e2e8f0', rough: 0.35, metal: 0.5 }), cx, 0, 0, { parent: train });
-        E.box(12.7, 0.55, 3.16, E.glowMat('#9333ea', 1.8), cx, 1.1, 0, { parent: train });
-        E.box(10.8, 0.95, 3.14, E.glowMat('#38bdf8', 1.6), cx, 1.75, 0, { parent: train });
+        E.box(12.6, 3.2, 3.15, E.mat({ color: '#e2e8f0', rough: 0.3, metal: 0.55 }), cx, 0, 0, { parent: train });
+        E.box(12.7, 0.55, 3.22, E.glowMat('#9333ea', 1.85), cx, 1.05, 0, { parent: train });
+        E.box(11.0, 0.95, 3.2, E.glowMat('#38bdf8', 1.65), cx, 1.8, 0, { parent: train });
+        E.box(12.2, 0.3, 2.5, mIron, cx, 3.2, 0, { parent: train }); // Roof AC pods
       }
-      E.box(0.3, 0.6, 2.2, E.glowMat('#fef08a', 3.4), -6.4, 0.8, 0, { parent: train });
-      E.box(0.3, 0.6, 2.2, E.glowMat('#fef08a', 3.4), 3 * 13.4 + 6.4, 0.8, 0, { parent: train });
+      E.box(0.35, 0.7, 2.3, E.glowMat('#fef08a', 3.4), -6.45, 0.85, 0, { parent: train });
+      E.box(0.35, 0.7, 2.3, E.glowMat('#fef08a', 3.4), 3 * 13.4 + 6.45, 0.85, 0, { parent: train });
       S.metroTrain = train;
     })();
 
-    // --- LANDMARK 6: PUBLIC UTILITY BUILDING (78, 0, -34) ---
+    // --- 3F. PUBLIC UTILITY BUILDING (78, 0, -34) ---
     (function buildPublicUtility() {
-      E.building({ x: 78, z: -34, w: 20, d: 18, h: 74, color: '#5c5852', lit: 0.55, winColors: ['#fde68a', '#bae6fd'], glow: 1.15, style: 'cells', solid: true });
+      E.building({ x: 78, z: -34, w: 20, d: 18, h: 74, color: '#6b675f', lit: 0.58, winColors: ['#fde68a', '#bae6fd'], glow: 1.2, style: 'cells', solid: true });
       var g = E.group(78, 0, -34);
-      E.box(14, 6, 12, mConcrete, 0, 74, 0, { parent: g, solid: true });
-      E.cyl(0.25, 0.45, 16, mIron, 0, 80, 0, { parent: g, seg: 6 });
-      E.sphere(0.7, E.glowMat('#ef4444', 3.5), 0, 96, 0, { parent: g, seg: 8 });
+      for (var fx = -8; fx <= 8; fx += 4) {
+        E.box(0.6, 74, 18.8, mCream, fx, 0, 0, { parent: g });
+      }
+      E.box(14, 6.2, 12, mConcrete, 0, 74, 0, { parent: g, solid: true });
+      E.cyl(0.25, 0.45, 16, mIron, 0, 80.2, 0, { parent: g, seg: 6 });
+      E.sphere(0.75, E.glowMat('#ef4444', 3.5), 0, 96.2, 0, { parent: g, seg: 8 });
       E.bake(g);
-      E.sign('PUBLIC UTILITY BLDG · MG RD', { x: 78, y: 72, z: -24.5, h: 1.7, color: '#ff8b3d', glow: 2.2, double: true });
+      E.sign('PUBLIC UTILITY BLDG · MG RD', { x: 78, y: 71.5, z: -24.2, h: 1.7, color: '#ff8b3d', glow: 2.2, double: true });
       addRoof(78, -34, 20, 18, 74, 'Public Utility Deck');
-      addRoof(78, -34, 14, 12, 80, 'Public Utility Spire');
+      addRoof(78, -34, 14, 12, 80.2, 'Public Utility Spire');
     })();
 
-    // --- LANDMARK 7: BRIGADE ROAD, CHURCH ST & BESCOM POWERLINES ---
+    // --- 3G. BRIGADE RD, CHURCH ST, AWNINGS, SINTEX TANKS, DARSHINI CARTS & POWERLINES ---
     (function buildBrigadeChurch() {
-      var words = ['BLOSSOM BOOKS', 'MAVALLI TIFFINS', 'BRIGADE ARCADE', 'KAAPI DARSHINI', 'MYSORE SILKS', 'ಚರ್ಚ್ ಸ್ಟ್ರೀಟ್', 'ಬ್ರಿಗೇಡ್ ರೋಡ್', 'EMPIRE KEBAB'];
+      var words = ['BLOSSOM BOOKS', 'MAVALLI TIFFINS', 'BRIGADE ARCADE', 'KAAPI DARSHINI', 'MYSORE SILKS', 'ಚರ್ಚ್ ಸ್ಟ್ರೀಟ್', 'ಬ್ರಿಗೇಡ್ ರೋಡ್', 'EMPIRE KEBAB', 'KOSHY CAFE'];
       var neon = ['#ff5a1f', '#38bdf8', '#facc15', '#ec4899', '#22c55e', '#a855f7'];
-      var bCols = ['#33394a', '#423836', '#293542', '#3f3545'];
+      var bCols = ['#363e52', '#4d413e', '#2d3b4a', '#463a4d'];
       var streetFrames = E.group();
       var realLights = 0;
+      var tankInstances = [];
+
       var blocks = [
         { x: 10, z: 26, w: 12, d: 22, h: 16 },
         { x: 10, z: 58, w: 12, d: 26, h: 22 },
@@ -1125,7 +1270,6 @@ Game({
         { x: 68, z: 32, w: 13, d: 24, h: 21 },
         { x: 68, z: 64, w: 13, d: 20, h: 28 },
         { x: 68, z: 108, w: 13, d: 24, h: 18 },
-        // Additional urban skyline fill
         { x: -34, z: -48, w: 22, d: 24, h: 32 },
         { x: -34, z: 38, w: 20, d: 28, h: 28 },
         { x: -34, z: 128, w: 20, d: 24, h: 38 },
@@ -1135,153 +1279,205 @@ Game({
       ];
       blocks.forEach(function (b, idx) {
         var c = neon[idx % neon.length];
-        E.building({ x: b.x, z: b.z, w: b.w, d: b.d, h: b.h, color: bCols[idx % bCols.length], lit: 0.55, winColors: ['#fde68a', '#bae6fd'], glow: 1.25, solid: true });
+        E.building({ x: b.x, z: b.z, w: b.w, d: b.d, h: b.h, color: bCols[idx % bCols.length], lit: 0.62, winColors: ['#fde68a', '#bae6fd'], glow: 1.3, solid: true });
         addRoof(b.x, b.z, b.w, b.d, b.h, 'Brigade Rooftop');
+        // Rooftop Parapet + Sintex Water Tanks + AC Units (authentic Bangalore skyline details!)
+        E.box(b.w + 0.4, 0.75, b.d + 0.4, mCream, b.x, b.h, b.z, { parent: streetFrames });
+        tankInstances.push({ x: b.x - b.w * 0.22, y: b.h + 1.4, z: b.z - b.d * 0.2, sx: 0.9, sy: 1.4, sz: 0.9 });
+        tankInstances.push({ x: b.x + b.w * 0.22, y: b.h + 1.2, z: b.z + b.d * 0.15, sx: 0.75, sy: 1.1, sz: 0.75 });
+
         if (idx < 9) {
           var sx = b.x < 28 ? b.x + b.w * 0.5 + 0.15 : b.x - b.w * 0.5 - 0.15;
           var sry = b.x < 28 ? Math.PI / 2 : -Math.PI / 2;
-          E.box(0.25, 2.8, b.d - 2, E.glowMat(c, 0.7), sx, 0.3, b.z, { parent: streetFrames });
-          E.sign(words[idx % words.length], { x: sx + (b.x < 28 ? 0.35 : -0.35), y: 4.3, z: b.z, ry: sry, h: 0.95, color: c, glow: 2.3, double: true });
+          // Illuminated shopfront + Striped Awning overhang
+          E.box(0.25, 2.8, b.d - 2, E.glowMat(c, 0.75), sx, 0.3, b.z, { parent: streetFrames });
+          E.box(2.0, 0.22, b.d - 1.4, mCream, sx + (b.x < 28 ? 0.9 : -0.9), 3.15, b.z, { parent: streetFrames, rz: b.x < 28 ? -0.18 : 0.18 });
+          E.sign(words[idx % words.length], { x: sx + (b.x < 28 ? 0.45 : -0.45), y: 4.4, z: b.z, ry: sry, h: 0.95, color: c, glow: 2.3, double: true });
           if (realLights < 4) {
             realLights++;
-            E.light(c, 2.0, sx + (b.x < 28 ? 3 : -3), 4.2, b.z, 22);
+            E.light(c, 2.0, sx + (b.x < 28 ? 3.5 : -3.5), 4.4, b.z, 24);
           }
         }
       });
+      E.instances(new T.CylinderGeometry(1, 1, 1, 10), mIron, tankInstances);
 
-      // BESCOM Utility Poles & Overhead Perchable Powerlines along Brigade & Church St
+      // BESCOM Utility Poles + Transformers (Op 2 Targets!) + Overhead Powerlines
       var poles = [
         [20, 14], [20, 44], [20, 74], [20, 114],
         [36, 14], [36, 44], [36, 74], [36, 114],
         [48, 22], [48, 54], [48, 102]
       ];
-      poles.forEach(function (p) {
-        E.cyl(0.11, 0.16, 9.2, mIron, p[0], 0, p[1], { parent: streetFrames, seg: 6 });
-        E.box(1.8, 0.14, 0.16, mIron, p[0], 8.6, p[1], { parent: streetFrames });
-        addRoof(p[0], p[1], 2.2, 2.2, 9.2, 'BESCOM Powerline Perch');
+      poles.forEach(function (p, pidx) {
+        E.cyl(0.11, 0.16, 9.4, mIron, p[0], 0, p[1], { parent: streetFrames, seg: 6 });
+        E.box(2.0, 0.16, 0.18, mIron, p[0], 8.8, p[1], { parent: streetFrames });
+        // Porcelain insulator caps
+        E.cyl(0.1, 0.1, 0.25, mCream, p[0] - 0.7, 8.95, p[1], { parent: streetFrames, seg: 6 });
+        E.cyl(0.1, 0.1, 0.25, mCream, p[0] + 0.7, 8.95, p[1], { parent: streetFrames, seg: 6 });
+        if (pidx % 4 === 0) {
+          E.box(1.1, 1.3, 0.8, mIron, p[0], 5.6, p[1], { parent: streetFrames }); // BESCOM transformer box
+        }
+        addRoof(p[0], p[1], 2.4, 2.4, 9.4, 'BESCOM Powerline Perch');
       });
-      // Powerline spans
       for (var wi = 0; wi < 3; wi++) {
-        E.box(0.06, 0.06, 30, mIron, 20, 8.6, 29 + wi * 30, { parent: streetFrames });
-        E.box(0.06, 0.06, 30, mIron, 36, 8.6, 29 + wi * 30, { parent: streetFrames });
-        E.box(16, 0.06, 0.06, mIron, 28, 8.6, 14 + wi * 30, { parent: streetFrames });
+        E.box(0.06, 0.06, 30, mIron, 20, 8.8, 29 + wi * 30, { parent: streetFrames });
+        E.box(0.06, 0.06, 30, mIron, 36, 8.8, 29 + wi * 30, { parent: streetFrames });
+        E.box(16, 0.06, 0.06, mIron, 28, 8.8, 14 + wi * 30, { parent: streetFrames });
+      }
+      // Streetlights along MG Road & Kasturba Road (instanced)
+      for (var lx = -160; lx <= 160; lx += 40) {
+        if (Math.abs(lx) < 12) continue;
+        E.prefab.lamp(lx, -21, { h: 6.5, color: '#fde68a', parent: streetFrames });
+        E.prefab.lamp(lx, 1, { ry: Math.PI, h: 6.5, color: '#fde68a', parent: streetFrames });
       }
       E.bake(streetFrames);
-      E.poi(28, 12, 48, 28);
+
+      // 3 Interactive Filter Kaapi Street Carts (Replenish Wing Stamina anytime with E!)
+      [[18, 38], [46, 72], [-51, 32]].forEach(function (kc) {
+        var cart = E.group(kc[0], 0.18, kc[1]);
+        E.box(1.8, 1.0, 1.1, mRedBrick, 0, 0, 0, { parent: cart, solid: true });
+        E.cyl(0.06, 0.06, 2.2, mCream, 0, 1.0, 0, { parent: cart, seg: 6 });
+        E.cone(1.5, 0.55, E.mat({ color: '#f59e0b', rough: 0.6, double: true }), 0, 2.75, 0, { parent: cart, seg: 8 });
+        E.cyl(0.22, 0.24, 0.45, E.glowMat('#fbbf24', 2.0), 0.4, 1.0, 0.2, { parent: cart, seg: 8 });
+        S.kaapiCarts.push(cart);
+        E.zone({
+          x: kc[0], y: 0.5, z: kc[1], radius: 4.0, prompt: 'Drink Hot Filter Kaapi (Full Stamina)',
+          onAction: function () {
+            S.stamina = S.maxStamina;
+            E.audio.sfx('power');
+            E.hud.toast('Filter Kaapi Boost! Wing Stamina 100%', 2.0);
+          }
+        });
+      });
+
+      E.poi(28, 12, 48, 30);
     })();
 
-    // --- LANDMARK 8: LALBAGH GLASSHOUSE & KEMPEGOWDA TOWER (125, 0, 128) ---
+    // --- 3H. LALBAGH GLASSHOUSE & KEMPEGOWDA TOWER (125, 0, 128) ---
     (function buildLalbagh() {
-      var g = E.group(125, 0.14, 128);
-      // Victorian Iron & Glowing Glass Conservatory Vault
-      E.box(34, 1.4, 22, mCream, 0, 0, 0, { parent: g, solid: true });
-      var glassMat = E.mat({ color: '#93c5fd', emissive: '#f59e0b', glow: 0.45, rough: 0.12, metal: 0.3, opacity: 0.78 });
-      E.box(30, 8.5, 18, glassMat, 0, 1.4, 0, { parent: g });
-      E.cyl(9, 9, 30, glassMat, 0, 9.9, 0, { parent: g, rz: Math.PI / 2, seg: 12 });
-      E.box(14, 13.5, 22, glassMat, 0, 1.4, 0, { parent: g });
-      // Dark cast-iron structural ribs
-      for (var rx = -14; rx <= 14; rx += 7) {
-        E.box(0.6, 11.5, 19, mIron, rx, 1.4, 0, { parent: g });
+      var g = E.group(125, 0.16, 128);
+      E.box(36, 1.5, 24, mCream, 0, 0, 0, { parent: g, solid: true });
+      var glassMat = E.mat({ color: '#93c5fd', emissive: '#f59e0b', glow: 0.55, rough: 0.1, metal: 0.3, opacity: 0.78 });
+      E.box(32, 8.8, 18, glassMat, 0, 1.5, 0, { parent: g });
+      E.cyl(9.2, 9.2, 32, glassMat, 0, 10.3, 0, { parent: g, rz: Math.PI / 2, seg: 14 });
+      E.box(14, 14.5, 24, glassMat, 0, 1.5, 0, { parent: g });
+      E.cyl(7.2, 7.2, 24, glassMat, 0, 16.0, 0, { parent: g, rx: Math.PI / 2, seg: 12 });
+      for (var rx = -15; rx <= 15; rx += 5) {
+        E.box(0.55, 11.8, 19.2, mIron, rx, 1.5, 0, { parent: g });
       }
-      // Kempegowda Rock Mantapa Tower
-      E.sphere(10, mGranite, 38, -2, 26, { parent: g, seg: 8 }).scale.set(1.3, 0.7, 1.2);
-      E.box(5.5, 7.5, 5.5, mSandstone, 38, 4.5, 26, { parent: g, solid: true });
-      E.cone(4.2, 4, mRedBrick, 38, 12, 26, { parent: g, seg: 6 });
+      // Kempegowda Granite Rock Outcrop & Pillared Watchtower
+      E.sphere(11, mGranite, 38, -2, 26, { parent: g, seg: 9 }).scale.set(1.35, 0.7, 1.25);
+      E.box(5.8, 7.5, 5.8, mSandstone, 38, 4.5, 26, { parent: g, solid: true });
+      E.cone(4.6, 4.2, mRedBrick, 38, 12.0, 26, { parent: g, seg: 6 });
       E.bake(g);
-      E.sign('LALBAGH GLASSHOUSE · ಲಾಲ್ ಬಾಗ್', { x: 125, y: 15.5, z: 115.5, ry: Math.PI, h: 1.45, color: '#fde047', glow: 2.2, double: true });
-      E.halo(125, 9, 128, '#f59e0b', 22, 0.45);
-      addRoof(125, 128, 30, 18, 16.5, 'Lalbagh Glasshouse Dome');
-      addRoof(163, 154, 7, 7, 16.0, 'Kempegowda Tower');
-      E.poi(125, 12, 128, 36);
+      E.sign('LALBAGH GLASSHOUSE · ಲಾಲ್ ಬಾಗ್', { x: 125, y: 16.5, z: 114.2, ry: Math.PI, h: 1.45, color: '#fde047', glow: 2.2, double: true });
+      E.halo(125, 10, 128, '#f59e0b', 24, 0.42);
+      addRoof(125, 128, 32, 18, 17.5, 'Lalbagh Glasshouse Dome');
+      addRoof(163, 154, 7, 7, 16.2, 'Kempegowda Tower');
+      E.poi(125, 14, 128, 38);
     })();
 
-    // --- LANDMARK 9: WORLD TRADE CENTER (WTC) & ORION LAKE (135, 0, -125) ---
+    // --- 3I. WORLD TRADE CENTER (WTC) & ORION MALL (135, 0, -125) ---
     (function buildWTC() {
-      E.building({ x: 135, z: -125, w: 26, d: 22, h: 102, color: '#10243d', lit: 0.7, winColors: ['#7dd3fc', '#fde68a'], glow: 1.4, style: 'bands', solid: true });
+      E.building({ x: 135, z: -125, w: 26, d: 22, h: 102, color: '#142c4a', lit: 0.72, winColors: ['#7dd3fc', '#fde68a'], glow: 1.4, style: 'bands', solid: true });
+      E.building({ x: 99, z: -117, w: 34, d: 22, h: 18, color: '#2b476b', lit: 0.65, winColors: ['#bae6fd', '#fde68a'], glow: 1.2, style: 'bands', solid: true });
       var g = E.group(135, 0, -125);
+      [[-13.2, -11.2], [13.2, -11.2], [-13.2, 11.2], [13.2, 11.2]].forEach(function (wc) {
+        E.box(1.1, 104, 1.1, mCream, wc[0], 0, wc[1], { parent: g });
+      });
       E.box(28, 3.2, 24, mIron, 0, 102, 0, { parent: g, solid: true });
-      E.cyl(9, 9, 0.5, mGlassDark, 0, 105.3, 0, { parent: g, seg: 16 });
-      E.cyl(8.5, 8.5, 0.2, E.glowMat('#06b6d4', 2.4), 0, 105.6, 0, { parent: g, seg: 16 });
-      // Side Orion Mall wing
-      E.box(34, 18, 22, mGlassBlue, -36, 0, 8, { parent: g, solid: true });
+      E.cyl(9.2, 9.2, 0.5, mGlassDark, 0, 105.3, 0, { parent: g, seg: 16 });
+      E.cyl(8.6, 8.6, 0.25, E.glowMat('#06b6d4', 2.4), 0, 105.6, 0, { parent: g, seg: 16 });
       E.bake(g);
-      E.sign('WTC · BENGALURU', { x: 135, y: 98, z: -113, h: 2.6, color: '#38bdf8', glow: 2.6, double: true });
-      E.halo(135, 107, -125, '#38bdf8', 28, 0.5);
-      E.light('#38bdf8', 2.4, 135, 107, -125, 45);
+      E.sign('WTC · BENGALURU', { x: 135, y: 98, z: -112.5, h: 2.6, color: '#38bdf8', glow: 2.6, double: true });
+      E.halo(135, 107, -125, '#38bdf8', 28, 0.45);
+      E.light('#38bdf8', 2.4, 135, 107, -125, 48);
       addRoof(135, -125, 26, 22, 105.8, 'WTC Syndicate Helipad');
       addRoof(99, -117, 34, 22, 18, 'Orion Mall Terrace');
       E.poi(135, 84, -125, 58);
     })();
 
-    // --- LANDMARK 10: INDIRANAGAR 100FT ROAD & BREWPUB TERRACES (152, 0, 32) ---
+    // --- 3J. INDIRANAGAR 100FT ROAD & BREWPUB TERRACES (155, 0, 32) ---
     (function buildIndiranagar() {
-      E.building({ x: 155, z: 32, w: 18, d: 26, h: 20, color: '#2b2535', lit: 0.65, winColors: ['#f472b6', '#fde68a'], glow: 1.4, solid: true });
+      E.building({ x: 155, z: 32, w: 18, d: 26, h: 20, color: '#342b42', lit: 0.68, winColors: ['#f472b6', '#fde68a'], glow: 1.4, solid: true });
       var g = E.group(155, 0, 32);
-      // Rooftop Microbrewery String-light Deck
+      // Rooftop Microbrewery Pergola + String Festoon Lights + Bar Tables
+      E.box(14, 0.6, 20, mSoil, 0, 20.0, 0, { parent: g });
+      E.box(6, 1.1, 2.2, mCream, 0, 20.6, -7, { parent: g });
       for (var lx = -7; lx <= 7; lx += 3.5) {
-        E.sphere(0.22, E.glowMat('#fbbf24', 2.8), lx, 22.8, -9, { parent: g, seg: 6 });
-        E.sphere(0.22, E.glowMat('#fb7185', 2.8), lx, 22.8, 9, { parent: g, seg: 6 });
+        E.sphere(0.24, E.glowMat('#fbbf24', 2.8), lx, 23.0, -9, { parent: g, seg: 6 });
+        E.sphere(0.24, E.glowMat('#fb7185', 2.8), lx, 23.0, 9, { parent: g, seg: 6 });
       }
       E.bake(g);
-      E.sign('PEAK BENGALURU · 100FT RD', { x: 145.6, y: 17.5, z: 32, ry: -Math.PI / 2, h: 1.5, color: '#fb7185', glow: 2.5, double: true });
-      addRoof(155, 32, 18, 26, 20.2, 'Indiranagar Brewpub Deck');
+      E.sign('PEAK BENGALURU · 100FT RD', { x: 145.5, y: 17.8, z: 32, ry: -Math.PI / 2, h: 1.5, color: '#fb7185', glow: 2.5, double: true });
+      addRoof(155, 32, 18, 26, 20.6, 'Indiranagar Brewpub Deck');
     })();
 
-    // 4. LIVING BANGALORE STREET VEHICLES (AUTO-RICKSHAWS, BMTC BUSES, VIP SUVs)
-    var mAutoGreen = E.mat({ color: '#15803d', rough: 0.45, metal: 0.35 });
-    var mAutoYellow = E.mat({ color: '#facc15', rough: 0.55 });
-    var mBusRed = E.mat({ color: '#dc2626', rough: 0.35, metal: 0.4 });
-    var mBusBlue = E.mat({ color: '#1d4ed8', rough: 0.35, metal: 0.4 });
-    var mVipWhite = E.mat({ color: '#f1f5f9', rough: 0.2, metal: 0.7 });
+    // =========================================================================
+    // 4. HIGH-DETAIL BANGALORE VEHICLES (AUTOS, BMTC VOLVOS, POLICE, VIP SUVs)
+    // =========================================================================
+    var mAutoGreen = E.mat({ color: '#15803d', rough: 0.42, metal: 0.35 });
+    var mAutoYellow = E.mat({ color: '#facc15', rough: 0.5 });
+    var mBusRed = E.mat({ color: '#dc2626', rough: 0.32, metal: 0.4 });
+    var mBusBlue = E.mat({ color: '#1d4ed8', rough: 0.32, metal: 0.4 });
+    var mVipWhite = E.mat({ color: '#f8fafc', rough: 0.18, metal: 0.72 });
     var mTyre = E.mat({ color: '#111827', rough: 0.9 });
 
     function makeAutoRickshaw(x, z, ry) {
-      var g = E.group(x, 0.06, z, { ry: ry });
-      E.box(1.35, 0.65, 2.2, mAutoGreen, 0, 0.25, 0, { parent: g });
-      E.box(1.3, 0.9, 1.55, mAutoYellow, 0, 0.9, 0.25, { parent: g });
-      E.box(1.0, 0.5, 0.08, E.glowMat('#bae6fd', 0.8), 0, 1.05, -0.82, { parent: g });
-      E.sphere(0.14, E.glowMat('#fef08a', 3.5), 0, 0.58, -1.12, { parent: g, seg: 6 });
-      E.cyl(0.24, 0.24, 0.16, mTyre, 0, 0.24, -0.85, { parent: g, rz: Math.PI / 2, seg: 8 });
-      E.cyl(0.24, 0.24, 0.16, mTyre, -0.62, 0.24, 0.72, { parent: g, rz: Math.PI / 2, seg: 8 });
-      E.cyl(0.24, 0.24, 0.16, mTyre, 0.62, 0.24, 0.72, { parent: g, rz: Math.PI / 2, seg: 8 });
-      return g;
-    }
-    function makeBmtcBus(x, z, ry, red) {
-      var g = E.group(x, 0.06, z, { ry: ry });
-      E.box(2.5, 2.7, 9.6, red ? mBusRed : mBusBlue, 0, 0.45, 0, { parent: g });
-      E.box(2.54, 0.9, 8.2, E.glowMat('#e0f2fe', 0.8), 0, 1.85, 0.1, { parent: g });
-      E.box(1.8, 0.45, 0.1, E.glowMat('#fb923c', 2.4), 0, 2.65, -4.82, { parent: g });
-      return g;
-    }
-    function makeVipSuv(x, z, ry) {
-      var g = E.group(x, 0.06, z, { ry: ry });
-      E.box(2.05, 0.85, 4.8, mVipWhite, 0, 0.38, 0, { parent: g });
-      E.box(1.85, 0.72, 2.9, mIron, 0, 1.22, 0.25, { parent: g });
-      E.box(0.45, 0.18, 0.1, E.glowMat('#fef9c3', 3.5), -0.68, 0.75, -2.42, { parent: g });
-      E.box(0.45, 0.18, 0.1, E.glowMat('#fef9c3', 3.5), 0.68, 0.75, -2.42, { parent: g });
-      E.box(0.7, 0.16, 0.26, E.glowMat('#ef4444', 3.5), 0, 1.98, 0.1, { parent: g });
+      var g = E.group(x, 0.07, z, { ry: ry });
+      E.box(1.36, 0.62, 2.25, mAutoGreen, 0, 0.25, 0, { parent: g });
+      E.box(1.32, 0.88, 1.55, mAutoYellow, 0, 0.87, 0.24, { parent: g });
+      E.box(0.55, 0.55, 0.75, mAutoGreen, 0, 0.45, -0.78, { parent: g });
+      E.box(1.06, 0.52, 0.08, E.glowMat('#bae6fd', 0.9), 0, 1.05, -0.82, { parent: g });
+      E.sphere(0.15, E.glowMat('#fef08a', 3.4), 0, 0.58, -1.18, { parent: g, seg: 6 });
+      E.box(0.22, 0.12, 0.05, E.glowMat('#ef4444', 2.8), -0.48, 0.45, 1.14, { parent: g });
+      E.box(0.22, 0.12, 0.05, E.glowMat('#ef4444', 2.8), 0.48, 0.45, 1.14, { parent: g });
+      E.cyl(0.24, 0.24, 0.16, mTyre, 0, 0.24, -0.9, { parent: g, rz: Math.PI / 2, seg: 8 });
+      E.cyl(0.24, 0.24, 0.16, mTyre, -0.64, 0.24, 0.75, { parent: g, rz: Math.PI / 2, seg: 8 });
+      E.cyl(0.24, 0.24, 0.16, mTyre, 0.64, 0.24, 0.75, { parent: g, rz: Math.PI / 2, seg: 8 });
       return g;
     }
 
-    // Autos & Buses patrolling avenues
+    function makeBmtcBus(x, z, ry, red) {
+      var g = E.group(x, 0.07, z, { ry: ry });
+      E.box(2.55, 2.75, 9.8, red ? mBusRed : mBusBlue, 0, 0.45, 0, { parent: g });
+      E.box(2.58, 0.92, 8.4, E.glowMat('#e0f2fe', 0.85), 0, 1.85, 0.1, { parent: g });
+      E.box(1.9, 0.42, 0.1, E.glowMat('#fb923c', 2.5), 0, 2.72, -4.92, { parent: g });
+      E.box(1.6, 0.4, 3.8, mCream, 0, 3.2, 0, { parent: g }); // AC Unit
+      [[-1.24, -3.1], [1.24, -3.1], [-1.24, 3.1], [1.24, 3.1]].forEach(function (w) {
+        E.cyl(0.45, 0.45, 0.28, mTyre, w[0], 0.45, w[1], { parent: g, rz: Math.PI / 2, seg: 10 });
+      });
+      return g;
+    }
+
+    function makeVipSuv(x, z, ry) {
+      var g = E.group(x, 0.07, z, { ry: ry });
+      E.box(2.1, 0.86, 4.9, mVipWhite, 0, 0.4, 0, { parent: g });
+      E.box(1.88, 0.74, 2.9, mIron, 0, 1.24, 0.25, { parent: g });
+      E.box(0.45, 0.18, 0.1, E.glowMat('#fef9c3', 3.4), -0.68, 0.78, -2.47, { parent: g });
+      E.box(0.45, 0.18, 0.1, E.glowMat('#fef9c3', 3.4), 0.68, 0.78, -2.47, { parent: g });
+      E.box(0.75, 0.18, 0.28, E.glowMat('#ef4444', 3.5), 0, 2.02, 0.1, { parent: g });
+      [[-1.02, -1.5], [1.02, -1.5], [-1.02, 1.5], [1.02, 1.5]].forEach(function (w) {
+        E.cyl(0.38, 0.38, 0.24, mTyre, w[0], 0.38, w[1], { parent: g, rz: Math.PI / 2, seg: 10 });
+      });
+      return g;
+    }
+
     for (var ai = 0; ai < 10; ai++) {
       var onMG = ai < 6;
-      var ax = onMG ? -160 + ai * 58 : (ai % 2 ? 25.5 : -59.5);
-      var az = onMG ? (ai % 2 ? -14 : -6) : -110 + (ai - 6) * 60;
+      var ax = onMG ? -165 + ai * 58 : (ai % 2 ? 25.5 : -59.5);
+      var az = onMG ? (ai % 2 ? -14.2 : -5.8) : -110 + (ai - 6) * 60;
       var ary = onMG ? (ai % 2 ? -Math.PI / 2 : Math.PI / 2) : (ai % 2 ? 0 : Math.PI);
       var auto = makeAutoRickshaw(ax, az, ary);
       auto.userData = { axis: onMG ? 'x' : 'z', dir: (ai % 2 ? 1 : -1), speed: 10 + (ai % 3) * 2.5, kind: 'auto', hitAt: -9 };
       S.vehicles.push(auto);
     }
     for (var bi = 0; bi < 4; bi++) {
-      var bx = -130 + bi * 85;
-      var bz = bi % 2 ? -15.5 : 83;
+      var bx = -135 + bi * 85;
+      var bz = bi % 2 ? -15.6 : 83.2;
       var bus = makeBmtcBus(bx, bz, bi % 2 ? -Math.PI / 2 : Math.PI / 2, bi % 2 === 0);
       bus.userData = { axis: 'x', dir: bi % 2 ? 1 : -1, speed: 8.5, kind: 'bus', hitAt: -9 };
       S.vehicles.push(bus);
     }
-
-    // 4 VIP Corrupt Contractor SUVs near Vidhana Soudha Boulevard (Task 3 targets!)
     [
       [-74, -108, 0], [-74, -84, 0], [-65, -72, Math.PI], [-65, -96, Math.PI]
     ].forEach(function (vp, idx) {
@@ -1291,176 +1487,235 @@ Game({
       S.vips.push(suv);
     });
 
-    // 5. PEDESTRIANS & CAMERA-WIELDING SNITCHES
+    // =========================================================================
+    // 5. PEDESTRIANS, PHONE SNITCHES, HAWK DRONES, UPDRAFTS & GOLDEN VADAS
+    // =========================================================================
     var shirtCols = ['#e11d48', '#2563eb', '#f59e0b', '#10b981', '#8b5cf6', '#f97316'];
-    for (var pi = 0; pi < 20; pi++) {
-      var px = pi < 12 ? (pi % 2 ? 18.2 : 38.2) : (pi < 16 ? -69 : 46.2);
-      var pz = -10 + (pi % 10) * 14;
-      var ped = E.prefab.person(px, pz, { y: 0.16, color: shirtCols[pi % shirtCols.length] });
+    for (var pi = 0; pi < 22; pi++) {
+      var px = pi < 12 ? (pi % 2 ? 18.0 : 38.0) : (pi < 17 ? -69 : 46.2);
+      var pz = -8 + (pi % 11) * 12;
+      var ped = E.prefab.person(px, pz, { y: 0.18, color: shirtCols[pi % shirtCols.length] });
       var isSnitch = pi % 3 === 0;
       if (isSnitch) {
-        // Snitches hold a glowing smartphone camera up
-        var phone = E.box(0.16, 0.28, 0.05, E.glowMat('#38bdf8', 2.8), 0.32, 1.55, -0.25, { parent: ped });
-        ped.userData.phone = phone;
+        E.box(0.18, 0.3, 0.06, E.glowMat('#38bdf8', 3.0), 0.34, 1.56, -0.25, { parent: ped });
       }
       ped.userData = Object.assign(ped.userData, {
-        dir: pi % 2 ? 1 : -1, speed: 1.4 + (pi % 3) * 0.4,
-        snitch: isSnitch, stunnedUntil: -9, minZ: -5, maxZ: 120, hitAt: -9
+        dir: pi % 2 ? 1 : -1, speed: 1.45 + (pi % 3) * 0.35,
+        snitch: isSnitch, stunnedUntil: -9, minZ: -5, maxZ: 122, hitAt: -9
       });
       S.peds.push(ped);
       if (isSnitch) S.snitches.push(ped);
     }
 
-    // 6. RIVAL HAWK INTERCEPTOR DRONES (4 units, dormant until Heat or Op 5)
     for (var hi = 0; hi < 4; hi++) {
       var hx = hi < 3 ? 115 + (hi - 1) * 18 : -62;
       var hz = hi < 3 ? 115 + (hi % 2) * 22 : -40;
       var hawk = E.group(hx, 18 + hi * 2, hz);
-      E.cone(0.32, 1.4, mIron, 0, 0, -0.3, { parent: hawk, rx: -Math.PI / 2, seg: 8 });
-      E.box(2.8, 0.08, 0.55, E.mat({ color: '#7f1d1d', metal: 0.6, rough: 0.3 }), 0, 0, 0.1, { parent: hawk });
-      E.sphere(0.24, E.glowMat('#ef4444', 3.4), 0, 0.18, -0.4, { parent: hawk, seg: 8 });
-      E.halo(0, 0.18, -0.4, '#ef4444', 4.5, 0.7, hawk);
+      E.cone(0.34, 1.5, mIron, 0, 0, -0.35, { parent: hawk, rx: -Math.PI / 2, seg: 8 });
+      E.box(3.0, 0.08, 0.55, E.mat({ color: '#991b1b', metal: 0.65, rough: 0.28 }), 0, 0, 0.1, { parent: hawk });
+      E.sphere(0.26, E.glowMat('#ef4444', 3.4), 0, 0.2, -0.4, { parent: hawk, seg: 8 });
+      E.halo(0, 0.2, -0.4, '#ef4444', 4.8, 0.7, hawk);
       hawk.userData = { active: false, stunnedUntil: -9, home: [hx, 20, hz], opTarget: hi < 3, defeated: false };
       S.hawks.push(hawk);
     }
 
-    // 7. THERMAL UPDRAFT COLUMNS (help players rocket quickly up UB Tower & WTC)
-    [[-84, 118, '#38bdf8'], [118, -112, '#22d3ee'], [0, 32, '#f97316']].forEach(function (u) {
+    // 4 Thermal Updraft Columns
+    [[-84, 118, '#38bdf8'], [118, -112, '#22d3ee'], [0, 32, '#f97316'], [138, 12, '#f472b6']].forEach(function (u) {
       var colG = E.group(u[0], 0, u[1]);
-      for (var ry = 4; ry <= 76; ry += 18) {
-        var rMesh = new T.Mesh(new T.TorusGeometry(3.4, 0.12, 8, 20), E.glowMat(u[2], 2.0));
+      for (var ry = 5; ry <= 80; ry += 18) {
+        var rMesh = new T.Mesh(new T.TorusGeometry(3.6, 0.13, 8, 22), E.glowMat(u[2], 2.1));
         rMesh.rotation.x = Math.PI / 2;
         rMesh.position.y = ry;
         colG.add(rMesh);
       }
-      S.updrafts.push({ x: u[0], z: u[1], r: 5.5, group: colG });
+      S.updrafts.push({ x: u[0], z: u[1], r: 6.0, group: colG });
     });
 
-    // 8. 10 GOLDEN MASALA VADA BONUS COLLECTIBLES
+    // 12 Golden Masala Vada Bonus Collectibles
     var vadaSpots = [
-      [28, 12, 32], [-115, 22, -78], [-110, 16, 42], [-100, 96, 128],
-      [12, 20, -10], [78, 82, -34], [125, 19, 128], [163, 18, 154],
-      [135, 108, -125], [155, 23, 32]
+      [28, 12, 32], [-115, 23, -78], [-110, 17, 42], [-100, 96, 128],
+      [12, 20, -10], [78, 82, -34], [125, 20, 128], [163, 19, 154],
+      [135, 108, -125], [155, 24, 32], [-115, 16, -32], [72, 8, -142]
     ];
-    vadaSpots.forEach(function (vp, idx) {
-      var ring = new T.Mesh(new T.TorusGeometry(0.45, 0.18, 10, 18), E.glowMat('#f59e0b', 2.4));
+    vadaSpots.forEach(function (vp) {
+      var ring = new T.Mesh(new T.TorusGeometry(0.48, 0.18, 10, 18), E.glowMat('#f59e0b', 2.4));
       E.pickup({
-        x: vp[0], y: vp[1], z: vp[2], color: '#f59e0b', mesh: ring, radius: 2.3, sfx: 'coin',
+        x: vp[0], y: vp[1], z: vp[2], color: '#f59e0b', mesh: ring, radius: 2.5, sfx: 'coin',
         onCollect: function () {
           S.vadasFound++;
           S.stamina = S.maxStamina;
           S.cash += 1500;
           S.respect += 150;
-          E.hud.toast('Golden Vada ' + S.vadasFound + '/10 · +Rs.1,500 & Full Stamina!', 2.6);
+          E.hud.toast('Golden Vada ' + S.vadasFound + '/12 · +Rs.1,500 & Full Stamina!', 2.5);
         }
       });
     });
 
-    // 9. SYNDICATE CAMPAIGN MISSIONS (6 REAL BANGALORE OPERATIONS)
-    function spawnOpStage(idx) {
-      S.opIndex = idx;
-      S.opProgress = 0;
-      // Clear any leftover items/zones from previous op
+    // Ambient Crow Wingmen Flock (starts with 3, grows up to 5)
+    function spawnWingman(offsetIdx) {
+      var wm = E.group(28 + offsetIdx * 3, 20 + offsetIdx, 46);
+      E.box(0.28, 0.16, 0.45, mFeather, 0, 0, 0, { parent: wm });
+      E.box(1.15, 0.03, 0.22, mWingTip, 0, 0.05, 0, { parent: wm });
+      E.box(0.08, 0.05, 0.18, mScarf, 0, 0.08, -0.22, { parent: wm });
+      S.wingmen.push(wm);
+    }
+    for (var wi = 0; wi < 3; wi++) spawnWingman(wi);
+
+    // =========================================================================
+    // 6. 10 ESCALATING BANGALORE MAFIA SYNDICATE OPERATIONS
+    // =========================================================================
+    function clearOpObjects() {
       S.opItems.forEach(function (z) { E.removeZone(z); });
       S.opItems = [];
       S.opZones.forEach(function (z) { E.removeZone(z); });
       S.opZones = [];
+    }
+
+    function spawnOpStage(idx) {
+      S.opIndex = idx;
+      S.opProgress = 0;
+      clearOpObjects();
 
       if (idx === 0) {
-        // OP 1: FILTER KAAPI SHAKEDOWN (Church St / Brigade Rd - 3 Brass Dabbas)
         S.opTarget = 3;
-        E.hud.objective('Steal 3 Kaapi Dabbas on Church St / Brigade Rd', 'OP 01 · KAAPI SHAKEDOWN');
-        setRadio('Sector 080, Don Kaage. Collect 3 Syndicate Brass Kaapi Dabbas along Brigade & Church Street. Watch for phone snitches!');
-        [[28, 3.5, 28], [46, 5.5, 58], [28, 4.0, 96]].forEach(function (pos) {
-          var dabba = E.cyl(0.48, 0.52, 0.85, E.glowMat('#fbbf24', 2.4), 0, 0, 0, { seg: 10 });
+        E.hud.objective('Steal 3 Brass Kaapi Dabbas on Brigade Rd / Church St (0/3)', 'OP 01 · KAAPI SHAKEDOWN');
+        setRadio('Sector 080, Don Kaage. Grab 3 Brass Kaapi Dabbas along Brigade & Church Street. Avoid snitches!');
+        [[28, 3.6, 28], [46, 5.5, 58], [28, 4.2, 96]].forEach(function (pos) {
+          var dabba = E.cyl(0.48, 0.54, 0.9, E.glowMat('#fbbf24', 2.4), 0, 0, 0, { seg: 10 });
           S.opItems.push(E.pickup({
-            x: pos[0], y: pos[1], z: pos[2], color: '#fbbf24', mesh: dabba, radius: 3.0, sfx: 'pickup',
+            x: pos[0], y: pos[1], z: pos[2], color: '#fbbf24', mesh: dabba, radius: 3.2, sfx: 'pickup',
             onCollect: function () {
-              S.opProgress++;
-              S.cash += 3000;
-              S.respect += 250;
-              E.hud.toast('Kaapi Dabba Secured (' + S.opProgress + '/3)', 2.4);
+              S.opProgress++; S.cash += 3000; S.respect += 250;
+              E.hud.objective('Steal 3 Brass Kaapi Dabbas on Brigade Rd / Church St (' + S.opProgress + '/3)', 'OP 01 · KAAPI SHAKEDOWN');
+              E.hud.toast('Kaapi Dabba (' + S.opProgress + '/3) +Rs.3,000', 2.2);
               if (S.opProgress >= 3) spawnOpStage(1);
             }
           }));
         });
       } else if (idx === 1) {
-        // OP 2: NAMMA METRO ROOF DROP
+        S.opTarget = 3;
+        E.hud.objective('Short-circuit 3 BESCOM Power Poles with CAW (E) along Brigade Rd (0/3)', 'OP 02 · BESCOM BLACKOUT');
+        setRadio('Snitches have WiFi! Fly to 3 BESCOM poles on Brigade & Church St and press E (CAW) to short-circuit them!');
+        [[20, 9.6, 14], [36, 9.6, 44], [48, 9.6, 54]].forEach(function (bp) {
+          var marker = E.sphere(0.65, E.glowMat('#38bdf8', 2.6), bp[0], bp[1] + 0.8, bp[2], { seg: 10 });
+          S.opZones.push(E.zone({
+            x: bp[0], y: bp[1], z: bp[2], radius: 5.5, prompt: 'Short-circuit BESCOM Pole', once: true,
+            onEnter: function () { E.hud.toast('In range! Press E / CAW to fry pole!', 1.8); },
+            onAction: function () {
+              if (marker.parent) marker.parent.remove(marker);
+              S.opProgress++; S.cash += 3500; S.respect += 300;
+              E.audio.sfx('power'); E.flash('#38bdf8', 0.25);
+              E.hud.objective('Short-circuit 3 BESCOM Power Poles with CAW (E) (' + S.opProgress + '/3)', 'OP 02 · BESCOM BLACKOUT');
+              if (S.opProgress >= 3) spawnOpStage(2);
+            }
+          }));
+        });
+      } else if (idx === 2) {
         S.opTarget = 2;
-        E.hud.objective('Grab Metro Briefcase at MG Rd Station, then land at Utility Bldg Roof', 'OP 02 · NAMMA METRO DROP');
-        setRadio('Purple Line is moving! Snatch the Encrypted Briefcase atop MG Road Metro Station, then perch at Public Utility Tower.');
-        var caseMesh = E.box(0.95, 0.65, 0.35, E.glowMat('#a855f7', 2.8), 0, 0, 0);
+        E.hud.objective('Grab Metro Briefcase at MG Rd Station (12, 19, -10)', 'OP 03 · NAMMA METRO DROP');
+        setRadio('Purple Line is active! Grab the Encrypted Briefcase atop MG Road Metro Station, then relay at Public Utility Spire.');
+        var caseMesh = E.box(1.0, 0.7, 0.38, E.glowMat('#a855f7', 2.8), 0, 0, 0);
         S.opItems.push(E.pickup({
-          x: 12, y: 19.2, z: -10, color: '#a855f7', mesh: caseMesh, radius: 3.5, sfx: 'power',
+          x: 12, y: 19.2, z: -10, color: '#a855f7', mesh: caseMesh, radius: 3.6, sfx: 'power',
           onCollect: function () {
-            S.opProgress = 1;
-            S.cash += 5000;
-            E.hud.objective('Deliver Briefcase to Public Utility Bldg Spire (78, 80, -34)', 'OP 02 · DELIVER');
-            E.hud.toast('Briefcase grabbed! Fly East to Public Utility Tower!', 3.0);
-            var pad = E.cyl(2.8, 2.8, 0.25, E.glowMat('#ff5a1f', 2.4), 78, 80.2, -34, { seg: 14 });
+            S.opProgress = 1; S.cash += 5000;
+            E.hud.objective('Deliver Briefcase to Public Utility Spire (78, 80, -34)', 'OP 03 · RELAY INTEL');
+            E.hud.toast('Briefcase grabbed! Fly to Public Utility Tower!', 2.6);
+            var pad = E.cyl(3.0, 3.0, 0.28, E.glowMat('#ff5a1f', 2.4), 78, 80.4, -34, { seg: 14 });
             S.opZones.push(E.zone({
-              x: 78, y: 80.2, z: -34, radius: 4.5, prompt: 'Transmit Metro Intel', once: true,
+              x: 78, y: 80.4, z: -34, radius: 5.0, prompt: 'Transmit Metro Intel', once: true,
               onEnter: function () {
                 if (pad.parent) pad.parent.remove(pad);
-                S.opProgress = 2;
-                S.cash += 6500;
-                S.respect += 400;
-                E.audio.sfx('power');
-                E.hud.toast('Op 02 Complete! +Rs.6,500', 2.8);
-                spawnOpStage(2);
+                S.cash += 6500; S.respect += 400; E.audio.sfx('power');
+                spawnOpStage(3);
               },
               onAction: function () {
                 if (pad.parent) pad.parent.remove(pad);
-                S.opProgress = 2;
-                spawnOpStage(2);
+                S.cash += 6500; S.respect += 400; E.audio.sfx('power');
+                spawnOpStage(3);
               }
             }));
           }
         }));
-      } else if (idx === 2) {
-        // OP 3: WHITEWASH THE VIP CONVOY (Vidhana Soudha)
-        S.opTarget = 4;
-        E.hud.objective('Dive-Bomb all 4 Corrupt VIP White SUVs at Vidhana Soudha', 'OP 03 · VIP CONVOY');
-        setRadio('Corrupt contractors parked white SUVs by Vidhana Soudha. Click or tap BOMB above their roofs to paint them white!');
-        E.audio.intensity = 1.25;
       } else if (idx === 3) {
-        // OP 4: UB CITY HELIPAD HEIST
-        S.opTarget = 1;
-        E.hud.objective('Ascend UB Tower (use Blue Updrafts!) & Steal Mysore Gold Crown', 'OP 04 · UB CITY HEIST');
-        setRadio('Target locked on UB Tower Helipad (93m up). Ride the blue thermal updraft rings outside the tower and grab the Gold Crown.');
-        var crown = E.cone(0.9, 1.3, E.glowMat('#fde047', 3.0), 0, 0, 0, { seg: 6 });
-        S.opItems.push(E.pickup({
-          x: -100, y: 95.2, z: 128, color: '#fde047', mesh: crown, radius: 4.2, sfx: 'win',
-          onCollect: function () {
-            S.opProgress = 1;
-            S.cash += 12000;
-            S.respect += 800;
-            S.heat = Math.max(S.heat, 220);
-            E.hud.toast('UB City Gold Crown Stolen! +Rs.12,000', 3.0);
-            spawnOpStage(4);
-          }
-        }));
+        S.opTarget = 4;
+        E.hud.objective('Dive-Bomb all 4 Corrupt VIP SUVs at Vidhana Soudha (0/4)', 'OP 04 · VIP CONVOY');
+        setRadio('Corrupt contractors parked white SUVs by Vidhana Soudha. Hover above & click/tap BOMB to whitewash all 4!');
+        E.audio.intensity = 1.25;
       } else if (idx === 4) {
-        // OP 5: LALBAGH GLASSHOUSE AMBUSH
         S.opTarget = 3;
-        E.hud.objective('Stun 3 Hawk Drones with BOMB or CAW (E) at Lalbagh Glasshouse', 'OP 05 · GLASSHOUSE AMBUSH');
-        setRadio('Rival Hawk Drones block Lalbagh Glasshouse! Buzz close and hit CAW (E) or drop a BOMB on all 3 drones!');
-        E.audio.music('tense');
-        E.audio.intensity = 1.45;
-        S.hawks.forEach(function (h, hi) {
-          h.userData.active = true;
-          h.userData.defeated = false;
-          h.visible = true;
+        E.hud.objective('Snatch 3 Sealed Legal Dossiers at Attara Kacheri High Court (0/3)', 'OP 05 · HIGH COURT FILES');
+        setRadio('Swoop over the red Attara Kacheri High Court (-115, -32) and snatch 3 sealed dossiers before patrols arrive!');
+        [[-128, 15.5, -32], [-115, 19.8, -32], [-102, 15.5, -32]].forEach(function (dp) {
+          var doc = E.box(0.85, 0.25, 1.1, E.glowMat('#f87171', 2.6), 0, 0, 0);
+          S.opItems.push(E.pickup({
+            x: dp[0], y: dp[1], z: dp[2], color: '#f87171', mesh: doc, radius: 3.4, sfx: 'pickup',
+            onCollect: function () {
+              S.opProgress++; S.cash += 4500; S.respect += 350;
+              E.hud.objective('Snatch 3 Sealed Legal Dossiers at High Court (' + S.opProgress + '/3)', 'OP 05 · HIGH COURT FILES');
+              if (S.opProgress >= 3) spawnOpStage(5);
+            }
+          }));
         });
       } else if (idx === 5) {
-        // OP 6: DON OF BENGALURU FINALE (WTC Spire)
+        S.opTarget = 4;
+        E.hud.objective('Fly through 4 Cubbon Park Canopy Rings to Rally Flock (0/4)', 'OP 06 · CUBBON RALLY');
+        setRadio('Time to grow the murder! Fly through 4 emerald canopy rings across Cubbon Park & Bandstand!');
+        [[-122, 18, 40], [-102, 12, 32], [-134, 10, 54], [-95, 14, 16]].forEach(function (rp) {
+          var ring = new T.Mesh(new T.TorusGeometry(2.2, 0.2, 8, 20), E.glowMat('#22c55e', 2.5));
+          S.opItems.push(E.pickup({
+            x: rp[0], y: rp[1], z: rp[2], color: '#22c55e', mesh: ring, radius: 3.8, sfx: 'power',
+            onCollect: function () {
+              S.opProgress++; S.cash += 3500; S.respect += 400;
+              E.hud.objective('Fly through 4 Cubbon Park Canopy Rings (' + S.opProgress + '/4)', 'OP 06 · CUBBON RALLY');
+              if (S.opProgress === 2 || S.opProgress === 4) spawnWingman(S.wingmen.length);
+              if (S.opProgress >= 4) spawnOpStage(6);
+            }
+          }));
+        });
+      } else if (idx === 6) {
         S.opTarget = 1;
-        E.hud.objective('Deliver Syndicate Crown to WTC Bangalore Spire (106m)', 'FINAL OP · DON OF BENGALURU');
-        setRadio('Final leg, Boss! All Hawk Patrols are scrambled. Ride the NE updraft to WTC Bengaluru Rooftop Beacon and claim the city!');
+        E.hud.objective('Climb UB Tower via Blue Updrafts & Steal Mysore Gold Crown', 'OP 07 · UB CITY HEIST');
+        setRadio('Target locked on UB Tower Helipad (93m high). Ride the blue thermal updraft rings to claim the Gold Crown!');
+        var crown = E.cone(0.95, 1.4, E.glowMat('#fde047', 3.0), 0, 0, 0, { seg: 6 });
+        S.opItems.push(E.pickup({
+          x: -100, y: 95.5, z: 128, color: '#fde047', mesh: crown, radius: 4.5, sfx: 'win',
+          onCollect: function () {
+            S.cash += 12000; S.respect += 800; S.heat = Math.max(S.heat, 220);
+            E.hud.toast('UB City Gold Crown Stolen! +Rs.12,000', 2.8);
+            spawnOpStage(7);
+          }
+        }));
+      } else if (idx === 7) {
+        S.opTarget = 3;
+        E.hud.objective('Steal 3 Rival Ledger Drives at Indiranagar 100ft Brewpub (0/3)', 'OP 08 · INDIRANAGAR RAID');
+        setRadio('Rival gangsters are partying on Indiranagar 100ft Road! Sweep their rooftop deck (155, 22, 32) for 3 drives!');
+        [[155, 23, 24], [155, 23, 32], [155, 23, 40]].forEach(function (ip) {
+          var drv = E.box(0.75, 0.75, 0.75, E.glowMat('#fb7185', 2.8), 0, 0, 0);
+          S.opItems.push(E.pickup({
+            x: ip[0], y: ip[1], z: ip[2], color: '#fb7185', mesh: drv, radius: 3.5, sfx: 'pickup',
+            onCollect: function () {
+              S.opProgress++; S.cash += 5000; S.respect += 450;
+              E.hud.objective('Steal 3 Rival Ledger Drives at Indiranagar (' + S.opProgress + '/3)', 'OP 08 · INDIRANAGAR RAID');
+              if (S.opProgress >= 3) spawnOpStage(8);
+            }
+          }));
+        });
+      } else if (idx === 8) {
+        S.opTarget = 3;
+        E.hud.objective('Stun 3 Hawk Drones with BOMB or CAW (E) at Lalbagh Glasshouse (0/3)', 'OP 09 · GLASSHOUSE AMBUSH');
+        setRadio('Hawk Interceptor Drones guard Lalbagh Glasshouse! Buzz close and press E (CAW) or drop a BOMB on all 3!');
+        E.audio.music('tense');
+        E.audio.intensity = 1.45;
         S.hawks.forEach(function (h) { h.userData.active = true; h.userData.defeated = false; h.visible = true; });
-        var beacon = E.cyl(3.2, 3.2, 0.3, E.glowMat('#38bdf8', 3.0), 135, 105.8, -125, { seg: 16 });
+      } else if (idx === 9) {
+        S.opTarget = 1;
+        E.hud.objective('Deliver Syndicate Crown to WTC Bengaluru Spire (135, 106, -125)', 'FINAL OP 10 · DON OF BENGALURU');
+        setRadio('Final leg, Don Kaage! Ride the NE thermal updraft to WTC Bengaluru 106m Spire and claim the city!');
+        S.hawks.forEach(function (h) { h.userData.active = true; h.userData.defeated = false; h.visible = true; });
+        var beacon = E.cyl(3.4, 3.4, 0.35, E.glowMat('#38bdf8', 3.0), 135, 106.0, -125, { seg: 16 });
         S.opZones.push(E.zone({
-          x: 135, y: 105.8, z: -125, radius: 5.5, prompt: 'Claim Bengaluru Crown', once: true,
+          x: 135, y: 106.0, z: -125, radius: 6.0, prompt: 'Claim Bengaluru Crown', once: true,
           onEnter: function () { finishCampaign(beacon); },
           onAction: function () { finishCampaign(beacon); }
         }));
@@ -1471,34 +1726,20 @@ Game({
       if (S.won) return;
       S.won = true;
       if (beacon && beacon.parent) beacon.parent.remove(beacon);
-      S.cash += 25000;
-      S.respect += 2000;
+      S.cash += 30000;
+      S.respect += 2500;
       E.audio.sfx('win');
-      E.win('DON OF BENGALURU', 'All 6 Syndicate Operations cleared! Stash: Rs.' + S.cash.toLocaleString() + ' · Vadas: ' + S.vadasFound + '/10 · Hits: ' + S.bombHits);
+      E.win('DON OF BENGALURU', 'All 10 Syndicate Operations cleared! Stash: Rs.' + S.cash.toLocaleString() + ' · Vadas: ' + S.vadasFound + '/12 · Hits: ' + S.bombHits);
     }
 
-    // Spawn ambient crow wingmen (3 flock allies orbiting nearby)
-    for (var wi = 0; wi < 3; wi++) {
-      var wm = E.group(28 + wi * 3, 20 + wi, 48);
-      E.box(0.28, 0.16, 0.45, mFeather, 0, 0, 0, { parent: wm });
-      E.box(1.1, 0.03, 0.22, mWingTip, 0, 0.05, 0, { parent: wm });
-      E.box(0.08, 0.05, 0.18, mScarf, 0, 0.08, -0.22, { parent: wm });
-      S.wingmen.push(wm);
-    }
-
-    // 10. CUSTOM COMIC-BOOK HUD, HARDWARE FIELD KIT, RADAR MINIMAP & FAST-DEPLOY CITY MAP
     function setRadio(msg) {
       S.radioText = msg;
-      S.lastRadioT = E.time;
-      if (!HEADLESS && S.radioEl) {
-        S.radioEl.textContent = msg;
-      }
+      if (!HEADLESS && S.radioEl) S.radioEl.textContent = msg;
       if (!HEADLESS && S.voiceOn && typeof window !== 'undefined' && window.speechSynthesis) {
         try {
           window.speechSynthesis.cancel();
           var u = new SpeechSynthesisUtterance(msg);
-          u.rate = 1.08;
-          u.pitch = 0.88;
+          u.rate = 1.08; u.pitch = 0.88;
           window.speechSynthesis.speak(u);
         } catch (err) {}
       }
@@ -1506,8 +1747,10 @@ Game({
     S.setRadio = setRadio;
     S.spawnOpStage = spawnOpStage;
 
+    // =========================================================================
+    // 7. HUD, PORTRAIT-TO-LANDSCAPE MOBILE LOCK, SWITCH-STYLE CONTROLS & RADAR
+    // =========================================================================
     if (!HEADLESS && typeof document !== 'undefined') {
-      // Detect WebGL GPU tier like coo.mx Field Kit
       try {
         var glc = document.getElementById('g3-c');
         var gl = glc && (glc.getContext('webgl2') || glc.getContext('webgl'));
@@ -1521,80 +1764,171 @@ Game({
       }
 
       var customCss = [
-        '/* KAAGE COMIC DOSSIER HUD */',
+        '/* KAAGE COMIC DOSSIER + LANDSCAPE MOBILE SYSTEM */',
         '#g3-start{background:radial-gradient(circle at 22% 20%, rgba(244,237,224,0.96) 0%, rgba(235,224,200,0.94) 55%, rgba(25,22,26,0.94) 100%);color:#141720;font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;}',
         '#g3-start h1{color:#ff5a1f;text-shadow:4px 4px 0 #141720,-2px -2px 0 #141720,2px -2px 0 #141720,-2px 2px 0 #141720;letter-spacing:.05em;transform:skewX(-4deg);}',
-        '#g3-start p{background:#141720;color:#f4ede0;padding:6px 14px;border:2px solid #141720;box-shadow:4px 4px 0 #ff5a1f;font-weight:700;letter-spacing:.18em;}',
-        '#g3-start .g3-keys{background:#fff8eb;border:3px solid #141720;box-shadow:6px 6px 0 #141720;padding:12px 16px;color:#141720;border-radius:4px;}',
+        '#g3-start p{background:#141720;color:#f4ede0;padding:5px 14px;border:2px solid #141720;box-shadow:4px 4px 0 #ff5a1f;font-weight:700;letter-spacing:.18em;}',
+        '#g3-start .g3-keys{background:#fff8eb;border:3px solid #141720;box-shadow:6px 6px 0 #141720;padding:10px 14px;color:#141720;border-radius:4px;margin-top:16px;}',
         '#g3-start .g3-keys kbd{background:#ff5a1f;color:#141720;border:2px solid #141720;font-weight:800;}',
-        '#g3-start .g3-btn{background:#ff5a1f;color:#141720;border:3px solid #141720;box-shadow:6px 6px 0 #141720;font-weight:900;font-size:15px;letter-spacing:.16em;transition:transform .15s;}',
-        '#g3-start .g3-btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 #141720;}',
-        '#k-kit-badge{margin-top:14px;padding:7px 14px;background:#141720;color:#f4ede0;font:700 11px ui-monospace,Menlo,monospace;letter-spacing:.1em;border:2px solid #ff5a1f;text-transform:uppercase;}',
-        '#k-crest{margin-bottom:10px;}',
-        '#g3-obj{background:rgba(244,237,224,0.94);color:#141720;border:3px solid #141720;border-left:7px solid #ff5a1f;box-shadow:5px 5px 0 #141720;padding:8px 14px;border-radius:3px;text-shadow:none;max-width:48vw;z-index:22;}',
+        '#g3-start .g3-btn{background:#ff5a1f;color:#141720;border:3px solid #141720;box-shadow:6px 6px 0 #141720;font-weight:900;font-size:15px;letter-spacing:.16em;margin-top:18px;}',
+        '#k-kit-badge{margin-top:12px;padding:6px 12px;background:#141720;color:#f4ede0;font:700 10.5px ui-monospace,Menlo,monospace;letter-spacing:.1em;border:2px solid #ff5a1f;text-transform:uppercase;}',
+        '#k-crest{margin-bottom:6px;}',
+        '#g3-obj{background:rgba(244,237,224,0.94);color:#141720;border:3px solid #141720;border-left:7px solid #ff5a1f;box-shadow:5px 5px 0 #141720;padding:7px 12px;border-radius:3px;text-shadow:none;max-width:46vw;z-index:22;}',
         '#g3-obj small{color:#b91c1c;opacity:1;font-weight:800;}',
-        '#g3-toast{position:fixed !important;left:50% !important;top:14vh !important;transform:translateX(-50%) !important;background:rgba(20,23,32,0.94);color:#facc15;border:3px solid #141720;box-shadow:5px 5px 0 #ff5a1f;padding:8px 16px;border-radius:4px;font:800 13px ui-monospace,Menlo,monospace;letter-spacing:.08em;text-shadow:none;z-index:30;max-width:86vw;}',
-        '#g3-prompt{position:fixed !important;left:50% !important;bottom:22vh !important;transform:translateX(-50%) !important;background:rgba(20,23,32,0.94);border:2px solid #ff5a1f;box-shadow:4px 4px 0 #141720;z-index:28;}',
-        '#g3-stats{background:rgba(20,23,32,0.88);border:3px solid #141720;box-shadow:5px 5px 0 #ff5a1f;padding:10px 14px;border-radius:4px;min-width:158px;z-index:22;}',
-        '.k-hud-row{display:flex;align-items:center;justify-content:space-between;gap:10px;font:700 12px ui-monospace,Menlo,monospace;margin-bottom:5px;color:#f4ede0;}',
+        '#g3-toast{position:fixed !important;left:50% !important;top:14vh !important;transform:translateX(-50%) !important;background:rgba(20,23,32,0.94);color:#facc15;border:3px solid #141720;box-shadow:5px 5px 0 #ff5a1f;padding:7px 14px;border-radius:4px;font:800 12.5px ui-monospace,Menlo,monospace;letter-spacing:.08em;text-shadow:none;z-index:30;max-width:80vw;}',
+        '#g3-prompt{position:fixed !important;left:50% !important;bottom:24vh !important;transform:translateX(-50%) !important;background:rgba(20,23,32,0.94);border:2px solid #ff5a1f;box-shadow:4px 4px 0 #141720;z-index:28;}',
+        '#g3-stats{background:rgba(20,23,32,0.88);border:3px solid #141720;box-shadow:5px 5px 0 #ff5a1f;padding:8px 12px;border-radius:4px;min-width:158px;z-index:22;}',
+        '.k-hud-row{display:flex;align-items:center;justify-content:space-between;gap:10px;font:700 11.5px ui-monospace,Menlo,monospace;margin-bottom:4px;color:#f4ede0;}',
         '.k-stars{display:flex;gap:3px;}',
-        '.k-bar{width:100%;height:7px;background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.3);overflow:hidden;margin-bottom:6px;}',
+        '.k-bar{width:100%;height:6px;background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.3);overflow:hidden;margin-bottom:5px;}',
         '.k-bar-fill{height:100%;transition:width .12s;}',
-        '#k-radar-wrap{position:fixed;left:max(14px,env(safe-area-inset-left));bottom:max(14px,env(safe-area-inset-bottom));z-index:20;pointer-events:auto;display:flex;flex-direction:column;align-items:flex-start;gap:6px;}',
-        '#k-radar{width:126px;height:126px;border-radius:50%;border:3px solid #141720;box-shadow:4px 4px 0 #ff5a1f;background:rgba(17,20,28,0.9);cursor:pointer;}',
-        '.k-pill-row{display:flex;gap:6px;}',
+        '#k-radar-wrap{position:fixed;left:max(14px,env(safe-area-inset-left));bottom:max(12px,env(safe-area-inset-bottom));z-index:24;pointer-events:auto;display:flex;flex-direction:column;align-items:flex-start;gap:6px;}',
+        '#k-radar{width:120px;height:120px;border-radius:50%;border:3px solid #141720;box-shadow:4px 4px 0 #ff5a1f;background:rgba(17,20,28,0.9);cursor:pointer;}',
+        '.k-pill-row{display:flex;gap:5px;flex-wrap:wrap;}',
         '.k-pill{background:#f4ede0;color:#141720;border:2px solid #141720;box-shadow:3px 3px 0 #141720;font:800 10px ui-monospace,Menlo,monospace;padding:4px 8px;cursor:pointer;text-transform:uppercase;letter-spacing:.08em;}',
         '.k-pill.on{background:#ff5a1f;color:#141720;}',
-        '#k-radio{position:fixed;left:50%;transform:translateX(-50%);bottom:max(14px,env(safe-area-inset-bottom));width:min(340px,42vw);background:rgba(244,237,224,0.95);color:#141720;border:3px solid #141720;box-shadow:5px 5px 0 #141720;padding:9px 12px;border-radius:4px;z-index:19;pointer-events:none;font:600 12px/1.35 "Trebuchet MS",system-ui,sans-serif;}',
-        '#k-radio-head{display:flex;align-items:center;gap:6px;font:800 10px ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:#ff5a1f;margin-bottom:4px;}',
-        '#k-map-modal{position:fixed;inset:0;background:rgba(15,17,24,0.86);backdrop-filter:blur(6px);z-index:45;display:none;align-items:center;justify-content:center;padding:16px;pointer-events:auto;}',
-        '#k-map-card{background:#f4ede0;color:#141720;border:4px solid #141720;box-shadow:10px 10px 0 #ff5a1f;max-width:680px;width:100%;max-height:92vh;overflow-y:auto;padding:16px;border-radius:4px;}',
-        '#k-map-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}',
-        '#k-map-head h2{margin:0;font-size:20px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;}',
-        '#k-map-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:8px;margin-top:10px;}',
-        '.k-loc-btn{background:#fff8eb;border:2px solid #141720;box-shadow:3px 3px 0 #141720;padding:8px 10px;text-align:left;cursor:pointer;font-family:inherit;color:#141720;}',
-        '.k-loc-btn:hover{background:#ffedd5;transform:translate(-1px,-1px);}',
+        '#k-radio{position:fixed;left:50%;transform:translateX(-50%);bottom:max(12px,env(safe-area-inset-bottom));width:min(340px,42vw);background:rgba(244,237,224,0.95);color:#141720;border:3px solid #141720;box-shadow:5px 5px 0 #141720;padding:8px 12px;border-radius:4px;z-index:19;pointer-events:none;font:600 12px/1.3 "Trebuchet MS",system-ui,sans-serif;}',
+        '#k-radio-head{display:flex;align-items:center;gap:6px;font:800 10px ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:#ff5a1f;margin-bottom:3px;}',
+        '#k-map-modal{position:fixed;inset:0;background:rgba(15,17,24,0.88);backdrop-filter:blur(6px);z-index:55;display:none;align-items:center;justify-content:center;padding:12px;pointer-events:auto;}',
+        '#k-map-card{background:#f4ede0;color:#141720;border:4px solid #141720;box-shadow:10px 10px 0 #ff5a1f;max-width:680px;width:100%;max-height:92vh;overflow-y:auto;padding:14px;border-radius:4px;}',
+        '#k-map-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}',
+        '#k-map-head h2{margin:0;font-size:18px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;}',
+        '#k-map-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(142px,1fr));gap:8px;margin-top:8px;}',
+        '.k-loc-btn{background:#fff8eb;border:2px solid #141720;box-shadow:3px 3px 0 #141720;padding:7px 9px;text-align:left;cursor:pointer;font-family:inherit;color:#141720;}',
         '.k-loc-btn b{display:block;font-size:12px;}',
         '.k-loc-btn small{display:block;font:600 10px ui-monospace,Menlo,monospace;color:#475569;}',
-        '#g3-btns{display:grid !important;grid-template-columns:repeat(2,62px);gap:10px;right:max(14px,env(safe-area-inset-right));bottom:max(14px,env(safe-area-inset-bottom));}',
-        '.g3-tb{width:62px !important;height:62px !important;border:3px solid #141720 !important;background:rgba(244,237,224,0.92) !important;color:#141720 !important;box-shadow:3px 3px 0 #141720;font-weight:900 !important;}',
+        '/* SWITCH-STYLE HORIZONTAL MOBILE TOUCH PAD */',
+        '#g3-btns{display:grid !important;grid-template-columns:repeat(2,62px);gap:9px;right:max(14px,env(safe-area-inset-right));bottom:max(14px,env(safe-area-inset-bottom));}',
+        '.g3-tb{width:62px !important;height:62px !important;border:3px solid #141720 !important;background:rgba(244,237,224,0.92) !important;color:#141720 !important;box-shadow:3px 3px 0 #141720;font-weight:900 !important;font-size:10.5px !important;}',
         '.g3-tb.on{background:#ff5a1f !important;color:#141720 !important;}',
-        '@media(max-width:600px){#g3-start .g3-keys{padding:8px 10px;font-size:11px;gap:6px 10px;}#k-radio{left:12px;transform:none;bottom:164px;width:190px;font-size:10.5px;padding:6px 9px;}#k-radar{width:92px;height:92px;}#g3-obj{max-width:46vw;font-size:11px;padding:5px 9px;}#g3-stats{padding:6px 9px;min-width:122px;font-size:10px;}#g3-toast{top:19vh !important;font-size:11px;padding:6px 10px;}}'
+        '#k-joy-hint{position:fixed;left:max(24px,env(safe-area-inset-left));bottom:max(24px,env(safe-area-inset-bottom));width:88px;height:88px;border-radius:50%;border:2px dashed rgba(244,237,224,0.65);background:rgba(20,23,32,0.38);display:none;align-items:center;justify-content:center;font:800 9px ui-monospace,Menlo,monospace;color:#f4ede0;text-align:center;pointer-events:none;z-index:16;}',
+        '#k-perch-btn{display:none;position:fixed;right:142px;bottom:14px;width:54px;height:54px;border-radius:50%;border:3px solid #141720;background:#fde047;color:#141720;box-shadow:3px 3px 0 #141720;font:900 9.5px ui-monospace,Menlo,monospace;z-index:26;pointer-events:auto;cursor:pointer;}',
+        '/* MANDATORY PORTRAIT-TO-LANDSCAPE ROTATION LOCK OVERLAY */',
+        '#k-rotate-lock{position:fixed;inset:0;z-index:9999;background:radial-gradient(circle at center,#1f2330 0%,#0c0e14 100%);color:#f4ede0;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;pointer-events:auto;}',
+        '#k-rot-box{background:#f4ede0;color:#141720;border:4px solid #141720;box-shadow:10px 10px 0 #ff5a1f;padding:24px 20px;max-width:340px;width:100%;border-radius:6px;}',
+        '#k-rot-box h2{margin:12px 0 8px;font-size:21px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:#ff5a1f;text-shadow:2px 2px 0 #141720;}',
+        '#k-rot-box p{margin:0;font:700 12px/1.45 ui-monospace,Menlo,monospace;color:#141720;}',
+        '@keyframes kRotSpin{0%,20%{transform:rotate(0deg)}60%,85%{transform:rotate(-90deg)}100%{transform:rotate(0deg)}}',
+        '#k-rot-svg{animation:kRotSpin 2.4s ease-in-out infinite;}',
+        '/* HORIZONTAL PHONE LANDSCAPE FIT (e.g. 844x390 / 740x360) */',
+        '@media(max-height:480px) and (orientation:landscape){',
+        '  #g3-start{padding:10px;} #k-crest svg{width:44px;height:44px;} #g3-start h1{font-size:32px;} #g3-start p{font-size:10px;margin-top:6px;padding:3px 10px;}',
+        '  #g3-start .g3-keys{margin-top:8px;padding:6px 10px;font-size:10px;gap:4px 8px;} #g3-start .g3-btn{margin-top:10px;padding:9px 22px;font-size:13px;} #k-kit-badge{margin-top:7px;font-size:9px;padding:4px 8px;}',
+        '  #g3-obj{font-size:10.5px;padding:5px 8px;max-width:36vw;} #g3-stats{padding:5px 8px;min-width:132px;} .k-hud-row{font-size:9.5px;}',
+        '  #k-radar{width:76px;height:76px;} #k-radar-wrap{left:12px;top:68px;bottom:auto;} .k-pill{font-size:8.5px;padding:3px 6px;}',
+        '  #k-radio{bottom:8px;width:236px;padding:5px 8px;font-size:10px;} #g3-toast{top:18vh !important;font-size:11px;padding:5px 10px;}',
+        '  #g3-btns{grid-template-columns:repeat(2,54px);gap:7px;right:12px;bottom:10px;} .g3-tb{width:54px !important;height:54px !important;font-size:9.5px !important;}',
+        '  #k-perch-btn{right:134px;bottom:12px;width:50px;height:50px;font-size:9px;}',
+        '}'
       ].join('\n');
 
       var styleEl = document.createElement('style');
       styleEl.textContent = customCss;
       document.head.appendChild(styleEl);
 
-      // Inject SVG Crow Crest + Hardware Field Kit badge into Start Screen
+      // SVG Crest & Field Kit Badge on Start Screen
       var startEl = document.getElementById('g3-start');
       if (startEl) {
         var crest = document.createElement('div');
         crest.id = 'k-crest';
-        crest.innerHTML = '<svg width="78" height="78" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="37" fill="#141720" stroke="#ff5a1f" stroke-width="4"/><path d="M20 52 C24 34, 38 22, 54 22 L66 26 L56 32 C54 44, 42 54, 24 58 Z" fill="#f4ede0"/><circle cx="47" cy="28" r="3" fill="#ff3b1f"/><path d="M35 37 L48 39 L40 46 Z" fill="#e11d48"/></svg>';
+        crest.innerHTML = '<svg width="72" height="72" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="37" fill="#141720" stroke="#ff5a1f" stroke-width="4"/><path d="M20 52 C24 34, 38 22, 54 22 L66 26 L56 32 C54 44, 42 54, 24 58 Z" fill="#f4ede0"/><circle cx="47" cy="28" r="3" fill="#ff3b1f"/><path d="M35 37 L48 39 L40 46 Z" fill="#e11d48"/></svg>';
         startEl.insertBefore(crest, startEl.firstChild);
 
         var kit = document.createElement('div');
         kit.id = 'k-kit-badge';
-        kit.textContent = 'FIELD KIT: ' + S.hwTier + ' · ' + S.gpuName + ' · BENGALURU MAP READY';
+        kit.textContent = 'FIELD KIT: ' + S.hwTier + ' · ' + S.gpuName + ' · 10 OPS READY';
         startEl.appendChild(kit);
       }
 
-      // Custom Mafia HUD Stat Box (inside #g3-stats)
+      // Portrait-to-Landscape Mandatory Gate Overlay
+      var rotLock = document.createElement('div');
+      rotLock.id = 'k-rotate-lock';
+      rotLock.innerHTML = [
+        '<div id="k-rot-box">',
+        '<svg id="k-rot-svg" width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">',
+        '<rect x="18" y="8" width="28" height="48" rx="4" fill="#141720" stroke="#ff5a1f" stroke-width="3"/>',
+        '<rect x="22" y="14" width="20" height="34" fill="#f4ede0"/>',
+        '<circle cx="32" cy="52" r="2.2" fill="#ff5a1f"/>',
+        '</svg>',
+        '<h2>TURN PHONE HORIZONTAL</h2>',
+        '<p>KAAGE SYNDICATE requires landscape (horizontal) mode to fly across Bengaluru. Rotate your device to unlock &amp; play!</p>',
+        '<button type="button" id="k-rot-try" class="k-pill on" style="margin-top:14px;padding:8px 14px;font-size:11px;">TAP TO LOCK LANDSCAPE</button>',
+        '</div>'
+      ].join('');
+      document.body.appendChild(rotLock);
+
+      function checkOrientationLock() {
+        var w = window.innerWidth, h = window.innerHeight;
+        var isTouchUA = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || '') || (navigator.maxTouchPoints > 1 && window.matchMedia && window.matchMedia('(pointer:coarse)').matches);
+        var isPortraitMobile = (h > w) && (isTouchUA || w <= 768);
+        S.portraitLocked = isPortraitMobile;
+        rotLock.style.display = isPortraitMobile ? 'flex' : 'none';
+        if (isPortraitMobile) {
+          E.player.freeze = true;
+        } else if (!S.won) {
+          E.player.freeze = false;
+        }
+        // Show virtual stick hint & Perch button on landscape touch screens
+        var joyHint = document.getElementById('k-joy-hint');
+        var perchBtn = document.getElementById('k-perch-btn');
+        var showTouchExtras = S.started && !isPortraitMobile && (isTouchUA || (document.getElementById('g3-touch') && document.getElementById('g3-touch').style.display === 'block'));
+        if (joyHint) joyHint.style.display = showTouchExtras ? 'flex' : 'none';
+        if (perchBtn) perchBtn.style.display = showTouchExtras ? 'block' : 'none';
+      }
+      S.checkOrientationLock = checkOrientationLock;
+      window.addEventListener('resize', checkOrientationLock);
+      window.addEventListener('orientationchange', checkOrientationLock);
+      document.body.addEventListener('touchstart', function () { setTimeout(checkOrientationLock, 30); }, { passive: true });
+
+      // Block starting game while phone is vertical
+      if (startEl) {
+        startEl.addEventListener('click', function (ev) {
+          checkOrientationLock();
+          if (S.portraitLocked) { ev.stopImmediatePropagation(); ev.preventDefault(); }
+        }, true);
+        startEl.addEventListener('touchend', function (ev) {
+          checkOrientationLock();
+          if (S.portraitLocked) { ev.stopImmediatePropagation(); ev.preventDefault(); }
+        }, true);
+      }
+      document.getElementById('k-rot-try').addEventListener('click', function (ev) {
+        ev.stopPropagation();
+        if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock('landscape').catch(function () {});
+        }
+        checkOrientationLock();
+      });
+
+      // Left-Thumb Joystick Visual Guide + Quick Perch Button
+      var joyHint = document.createElement('div');
+      joyHint.id = 'k-joy-hint';
+      joyHint.innerHTML = 'LEFT THUMB<br>FLY / HOP';
+      document.body.appendChild(joyHint);
+
+      var perchBtn = document.createElement('button');
+      perchBtn.type = 'button';
+      perchBtn.id = 'k-perch-btn';
+      perchBtn.textContent = 'PERCH';
+      perchBtn.addEventListener('touchstart', function (e) { e.preventDefault(); e.stopPropagation(); S.forcePerchTrigger = true; }, { passive: false });
+      perchBtn.addEventListener('click', function (e) { e.stopPropagation(); S.forcePerchTrigger = true; });
+      document.body.appendChild(perchBtn);
+
+      // Custom Mafia HUD Stat Box
       var statsHost = document.getElementById('g3-stats');
       if (statsHost) {
         statsHost.innerHTML = [
+          '<div class="k-hud-row"><span>RANK</span><b id="k-rank" style="color:#ff5a1f">STREET CROW</b></div>',
           '<div class="k-hud-row"><span>STASH</span><b id="k-cash" style="color:#facc15">Rs.0</b></div>',
           '<div class="k-hud-row"><span>HEAT</span><div id="k-stars" class="k-stars"></div></div>',
           '<div class="k-hud-row"><span>STAMINA</span><span id="k-mode-tag" style="color:#38bdf8">SOARING</span></div>',
           '<div class="k-bar"><div id="k-stam-fill" class="k-bar-fill" style="width:100%;background:#22c55e;"></div></div>',
           '<div class="k-hud-row"><span>EXPOSURE</span><span id="k-exp-val">0%</span></div>',
           '<div class="k-bar" style="margin-bottom:2px"><div id="k-exp-fill" class="k-bar-fill" style="width:0%;background:#ef4444;"></div></div>',
-          '<div class="k-hud-row" style="margin-bottom:0;font-size:10px;opacity:.85"><span>VADAS</span><span id="k-vada">0/10</span></div>'
+          '<div class="k-hud-row" style="margin-bottom:0;font-size:10px;opacity:.85"><span>VADAS</span><span id="k-vada">0/12</span></div>'
         ].join('');
       }
 
-      // Radar Minimap + Quick Pills (Bottom Left)
+      // Radar Minimap + Quick Pills
       var radarWrap = document.createElement('div');
       radarWrap.id = 'k-radar-wrap';
       radarWrap.style.display = 'none';
@@ -1611,7 +1945,7 @@ Game({
       S.radarCanvas = document.getElementById('k-radar');
       S.radarCtx = S.radarCanvas.getContext('2d');
 
-      // Radio Transceiver Widget ("KAAGE BOSS // THE WIRE")
+      // Radio Transceiver Widget ("THE WIRE · DON KAAGE")
       var radioBox = document.createElement('div');
       radioBox.id = 'k-radio';
       radioBox.style.display = 'none';
@@ -1621,7 +1955,7 @@ Game({
       S.radioEl = document.getElementById('k-radio-msg');
       S.radioEl.textContent = S.radioText;
 
-      // Fast-Deploy Bangalore Tactical Map Modal
+      // Fast-Deploy Tactical Map Modal
       var modal = document.createElement('div');
       modal.id = 'k-map-modal';
       modal.innerHTML = [
@@ -1668,6 +2002,8 @@ Game({
         mb.textContent = E.audio.muted ? 'MUTED' : 'AUDIO';
         mb.classList.toggle('on', E.audio.muted);
       });
+
+      checkOrientationLock();
     }
 
     function fastDeploy(d) {
@@ -1675,7 +2011,7 @@ Game({
       E.player.pos.set(d.spawn[0], d.spawn[1], d.spawn[2]);
       if (d.yaw != null) E.player.yaw = d.yaw;
       E.player.speedNow = 16;
-      E.player.pitch = -0.05;
+      E.player.pitch = -0.04;
       E.audio.sfx('whoosh');
       E.hud.toast('Airdropped to ' + d.name + '!', 2.2);
       if (S.mapOpen) toggleMap();
@@ -1699,13 +2035,11 @@ Game({
       g.fillRect(0, 0, W, H);
       function wx(x) { return ((x + 235) / 470) * W; }
       function wz(z) { return ((z + 205) / 410) * H; }
-      // Cubbon, Lalbagh, Orion Lake patches
       g.fillStyle = '#1d4d2c';
       g.fillRect(wx(-175), wz(-10), wx(-65) - wx(-175), wz(95) - wz(-10));
       g.fillRect(wx(72), wz(86), wx(178) - wx(72), wz(178) - wz(86));
       g.fillStyle = '#134e6f';
       g.fillRect(wx(33), wz(-181), wx(111) - wx(33), wz(-103) - wz(-181));
-      // Roads
       g.strokeStyle = '#475569';
       g.lineWidth = 6;
       g.beginPath();
@@ -1715,11 +2049,9 @@ Game({
       g.moveTo(wx(28), 0); g.lineTo(wx(28), H);
       g.moveTo(wx(138), 0); g.lineTo(wx(138), H);
       g.stroke();
-      // Metro line
       g.strokeStyle = '#a855f7';
       g.lineWidth = 2.5;
       g.beginPath(); g.moveTo(0, wz(-10)); g.lineTo(W, wz(-10)); g.stroke();
-      // Districts
       S.districts.forEach(function (d) {
         var px = wx(d.x), py = wz(d.z);
         g.fillStyle = d.color;
@@ -1728,31 +2060,32 @@ Game({
         g.font = '700 10px ui-monospace,monospace';
         g.fillText('[' + d.key + '] ' + d.name, px + 7, py + 3);
       });
-      // Player position
       var cx = wx(E.player.pos.x), cy = wz(E.player.pos.z);
-      g.fillStyle = '#ff5a1f';
-      g.strokeStyle = '#ffffff';
-      g.lineWidth = 2;
+      g.fillStyle = '#ff5a1f'; g.strokeStyle = '#ffffff'; g.lineWidth = 2;
       g.beginPath(); g.arc(cx, cy, 6, 0, 6.283); g.fill(); g.stroke();
     }
+    S.playHorn = playHorn;
   },
 
   start: function (E) {
     var S = E.state;
     S.t0 = E.time;
     S.lastRadarT = -1;
+    S.started = true;
     E.hud.crosshair(false);
     if (S.radarWrap) S.radarWrap.style.display = 'flex';
     if (S.radioBox) S.radioBox.style.display = 'block';
+    if (S.checkOrientationLock) S.checkOrientationLock();
     S.spawnOpStage(0);
-    E.hud.toast('KAAGE SYNDICATE LIVE · SOAR OVER BENGALURU!', 3.2);
+    E.hud.toast('KAAGE SYNDICATE LIVE · BENGALURU!', 2.8);
   },
 
   update: function (E, dt, t) {
     var S = E.state, P = E.player, T = E.THREE;
     var HEADLESS = typeof window !== 'undefined' && !!window.__G3_HEADLESS__;
 
-    // Cooldowns & timers
+    if (S.portraitLocked) return;
+
     S.flapCooldown = Math.max(0, S.flapCooldown - dt);
     S.cawCooldown = Math.max(0, S.cawCooldown - dt);
     S.bombCooldown = Math.max(0, S.bombCooldown - dt);
@@ -1761,7 +2094,6 @@ Game({
       if (S.comboT <= 0) S.combo = 0;
     }
 
-    // Key toggles (Tab / G for Map, 1-8 for Quick Airdrop without disturbing pointer lock!)
     var mKeyNow = E.input.key('KeyG') || E.input.key('Tab');
     if (mKeyNow && !S.prevMapKey) S.toggleMap();
     S.prevMapKey = mKeyNow;
@@ -1780,77 +2112,97 @@ Game({
       S['prevD' + di] = dkNow;
     }
 
-    // 1. DUAL-MODE CROW FLIGHT <-> PERCH/HOP PHYSICS
+    // 1. ENHANCED FLIGHT <-> PERCH/BRAKE PHYSICS + FOV SPEED RUSH
     function surfaceUnder(x, z, curY) {
       var best = 0;
       for (var ri = 0; ri < S.roofs.length; ri++) {
         var r = S.roofs[ri];
-        if (x >= r.minX && x <= r.maxX && z >= r.minZ && z <= r.maxZ && r.y <= curY + 1.4 && r.y > best) {
+        if (x >= r.minX && x <= r.maxX && z >= r.minZ && z <= r.maxZ && r.y <= curY + 1.5 && r.y > best) {
           best = r.y;
         }
       }
       return best;
     }
     var groundBelow = surfaceUnder(P.pos.x, P.pos.z, P.pos.y);
+    var brakeKey = E.input.key('KeyQ') || E.input.key('KeyX') || S.forcePerchTrigger;
+    S.forcePerchTrigger = false;
 
     if (P.mode === 'fly') {
-      P.speed = 25;
-      // Wing Stamina drain on Sprint/Boost or rapid climbing; recharge on glide
-      if (E.input.sprint && S.stamina > 0) {
-        S.stamina = Math.max(0, S.stamina - 16 * dt);
-        P.speed = 34;
-      } else {
-        S.stamina = Math.min(S.maxStamina, S.stamina + 6 * dt);
+      P.speed = 26;
+      P.camDist = E.damp(P.camDist, E.input.sprint ? 6.5 : 5.6, 5, dt);
+      var targetFov = E.input.sprint && S.stamina > 0 ? 78 : 68;
+      if (E.camera && Math.abs(E.camera.fov - targetFov) > 0.2) {
+        E.camera.fov = E.damp(E.camera.fov, targetFov, 6, dt);
+        E.camera.updateProjectionMatrix();
       }
-      // Thermal Updraft Boost
+
+      if (E.input.sprint && S.stamina > 0) {
+        S.stamina = Math.max(0, S.stamina - 15 * dt);
+        P.speed = 36;
+      } else {
+        S.stamina = Math.min(S.maxStamina, S.stamina + 7 * dt);
+      }
+
+      // Dive-slingshot bonus
+      if (P.pitch < -0.25) P.speedNow = Math.min(38, P.speedNow + 8 * dt);
+
+      // Thermal Updrafts
       for (var ui = 0; ui < S.updrafts.length; ui++) {
         var ud = S.updrafts[ui];
         var dd = Math.hypot(P.pos.x - ud.x, P.pos.z - ud.z);
-        if (dd < ud.r && P.pos.y < 110) {
-          P.pos.y += 28 * dt;
-          S.stamina = Math.min(S.maxStamina, S.stamina + 28 * dt);
-          if (Math.floor(t * 6) !== Math.floor((t - dt) * 6)) E.audio.sfx('whoosh', { vol: 0.35 });
+        if (dd < ud.r && P.pos.y < 114) {
+          P.pos.y += 30 * dt;
+          S.stamina = Math.min(S.maxStamina, S.stamina + 30 * dt);
+          if (Math.floor(t * 6) !== Math.floor((t - dt) * 6)) E.audio.sfx('whoosh', { vol: 0.3 });
         }
-        ud.group.rotation.y += dt * 1.4;
+        ud.group.rotation.y += dt * 1.5;
       }
-      // Flap sound on Jump/Space
+
       if (E.input.pressed('jump') && S.flapCooldown <= 0) {
-        S.flapCooldown = 0.28;
-        P.pos.y += 1.4;
-        E.audio.noise({ dur: 0.14, vol: 0.16, type: 'bandpass', freq: 520, to: 180, brown: true });
+        S.flapCooldown = 0.26;
+        P.pos.y += 1.65;
+        E.audio.noise({ dur: 0.14, vol: 0.16, type: 'bandpass', freq: 540, to: 180, brown: true });
       }
-      // Transition to Perched/Walking when descending gently onto a roof or pavement
-      if (P.pos.y <= groundBelow + 1.35 && !E.input.jump && (P.speedNow < 11 || E.input.move.y < -0.3)) {
+
+      if (brakeKey) {
+        P.speedNow = E.damp(P.speedNow, 2, 6, dt);
+        P.pos.y = E.damp(P.pos.y, groundBelow + 0.1, 4, dt);
+      }
+
+      if (P.pos.y <= groundBelow + 1.4 && !E.input.jump && (P.speedNow < 11 || E.input.move.y < -0.3 || brakeKey)) {
         P.mode = 'walk';
-        P.speed = 7.5;
+        P.speed = 8.0;
         P.pos.y = groundBelow;
         P.vel.set(0, 0, 0);
         S.perched = true;
         E.audio.sfx('land', { vol: 0.5 });
       }
     } else {
-      // WALK / PERCHED MODE
-      P.speed = 7.5;
+      P.speed = 8.0;
+      P.camDist = E.damp(P.camDist, 4.4, 5, dt);
+      if (E.camera && Math.abs(E.camera.fov - 64) > 0.2) {
+        E.camera.fov = E.damp(E.camera.fov, 64, 6, dt);
+        E.camera.updateProjectionMatrix();
+      }
       S.perched = P.onGround;
-      S.stamina = Math.min(S.maxStamina, S.stamina + 28 * dt);
-      // Flap off into flight when pressing jump again in air or holding jump
-      if ((E.input.pressed('jump') && !P.onGround) || (E.input.jump && P.vel.y > 2.5)) {
+      S.stamina = Math.min(S.maxStamina, S.stamina + 32 * dt);
+      if ((E.input.pressed('jump') && !P.onGround) || (E.input.jump && P.vel.y > 2.4)) {
         P.mode = 'fly';
-        P.speed = 25;
-        P.pos.y += 1.2;
-        P.speedNow = 15;
+        P.speed = 26;
+        P.pos.y += 1.3;
+        P.speedNow = 16;
         P.pitch = 0.22;
         S.perched = false;
         E.audio.noise({ dur: 0.16, vol: 0.2, type: 'bandpass', freq: 540, to: 160, brown: true });
       }
     }
 
-    // 2. ANIMATE 3D MAFIA CROW WINGS, HEAD, BEAK, TAIL & SCARF
+    // 2. ANIMATE 3D MAFIA CROW
     var rig = S.crowRig;
     if (rig) {
       var flapping = P.mode === 'fly';
       var flapRate = E.input.jump ? 15 : (E.input.sprint ? 12 : 7.5);
-      var flapAmp = flapping ? (E.input.sprint && !E.input.jump ? 0.18 : 0.72) : 0.04;
+      var flapAmp = flapping ? (E.input.sprint && !E.input.jump ? 0.2 : 0.72) : 0.04;
       var wAngle = flapping ? Math.sin(t * flapRate) * flapAmp : -1.08;
       rig.wingL.root.rotation.z = flapping ? wAngle : -1.08;
       rig.wingR.root.rotation.z = flapping ? -wAngle : 1.08;
@@ -1858,37 +2210,30 @@ Game({
       rig.wingR.root.rotation.y = flapping ? 0 : 0.38;
       rig.wingL.outer.rotation.z = flapping ? Math.sin(t * flapRate - 0.5) * flapAmp * 0.65 : -0.45;
       rig.wingR.outer.rotation.z = flapping ? -Math.sin(t * flapRate - 0.5) * flapAmp * 0.65 : 0.45;
-      rig.scarf.rotation.x = Math.sin(t * 14) * (flapping ? 0.25 : 0.05);
+      rig.scarf.rotation.x = Math.sin(t * 14) * (flapping ? 0.26 : 0.05);
       rig.beakBot.rotation.x = S.cawCooldown > 0.35 ? 0.48 : 0;
-      rig.body.position.y = P.mode === 'walk' ? 0.34 + Math.abs(Math.sin(t * 10)) * (P.speedNow > 0.5 ? 0.06 : 0.01) : 0.36;
+      rig.body.position.y = P.mode === 'walk' ? 0.36 + Math.abs(Math.sin(t * 10)) * (P.speedNow > 0.5 ? 0.06 : 0.01) : 0.38;
     }
 
-    // Update Ground Aiming Reticle under crow
     if (S.aimReticle) {
-      var predX = P.pos.x + P.vel.x * 0.45;
-      var predZ = P.pos.z + P.vel.z * 0.45;
-      var retY = surfaceUnder(predX, predZ, P.pos.y) + 0.18;
+      var predX = P.pos.x + P.vel.x * 0.42;
+      var predZ = P.pos.z + P.vel.z * 0.42;
+      var retY = surfaceUnder(predX, predZ, P.pos.y) + 0.2;
       S.aimReticle.position.set(predX, retY, predZ);
-      S.aimReticle.rotation.y = t * 2.0;
+      S.aimReticle.rotation.y = t * 2.2;
       S.aimReticle.visible = P.pos.y > retY + 1.2;
     }
 
-    // 3. ORGANIC PAYLOAD POOP-BOMB DROP (FIRE / LEFT CLICK / BOMB BUTTON)
+    // 3. POOP-BOMB DROP & IMPACTS
     if (E.input.pressed('fire') && S.bombCooldown <= 0) {
-      S.bombCooldown = 0.35;
+      S.bombCooldown = 0.32;
       S.bombsDropped++;
-      var drop = E.sphere(0.24, E.glowMat('#f8fafc', 1.6), P.pos.x, P.pos.y - 0.25, P.pos.z, { seg: 8 });
-      drop.userData = {
-        vx: P.vel.x * 0.72,
-        vy: Math.min(-3, P.vel.y - 4),
-        vz: P.vel.z * 0.72,
-        life: 3.5
-      };
+      var drop = E.sphere(0.25, E.glowMat('#f8fafc', 1.7), P.pos.x, P.pos.y - 0.25, P.pos.z, { seg: 8 });
+      drop.userData = { vx: P.vel.x * 0.72, vy: Math.min(-3.5, P.vel.y - 4.5), vz: P.vel.z * 0.72, life: 3.5 };
       S.bombs.push(drop);
-      E.audio.tone({ freq: 520, to: 180, dur: 0.14, vol: 0.14, type: 'sine' });
+      E.audio.tone({ freq: 540, to: 180, dur: 0.14, vol: 0.14, type: 'sine' });
     }
 
-    // Update Falling Poop Bombs & Check Hits!
     for (var bi = S.bombs.length - 1; bi >= 0; bi--) {
       var b = S.bombs[bi];
       b.userData.vy -= 26 * dt;
@@ -1898,23 +2243,22 @@ Game({
       b.userData.life -= dt;
 
       var hitSomething = false;
-      // Check VIP SUVs (Task 3)
       for (var vi = 0; vi < S.vips.length; vi++) {
         var suv = S.vips[vi];
-        if (Math.hypot(b.position.x - suv.position.x, b.position.z - suv.position.z) < 2.6 && Math.abs(b.position.y - 1.4) < 1.8) {
+        if (Math.hypot(b.position.x - suv.position.x, b.position.z - suv.position.z) < 2.8 && Math.abs(b.position.y - 1.4) < 1.8) {
           hitSomething = true;
-          S.bombHits++;
-          S.combo++; S.comboT = 4.5;
+          S.bombHits++; S.combo++; S.comboT = 4.5;
           S.cash += 3500; S.heat = Math.min(500, S.heat + 75);
-          E.audio.sfx('splash');
+          E.audio.sfx('splash'); S.playHorn();
           E.flash('#ffffff', 0.2);
           if (!suv.userData.bombed) {
             suv.userData.bombed = true;
-            E.box(1.9, 0.08, 2.2, E.glowMat('#f8fafc', 1.4), 0, 2.02, 0.2, { parent: suv });
-            if (S.opIndex === 2) {
+            E.box(1.9, 0.08, 2.2, E.glowMat('#f8fafc', 1.4), 0, 2.05, 0.2, { parent: suv });
+            if (S.opIndex === 3) {
               S.opProgress++;
+              E.hud.objective('Dive-Bomb all 4 Corrupt VIP SUVs at Vidhana Soudha (' + S.opProgress + '/4)', 'OP 04 · VIP CONVOY');
               E.hud.toast('VIP SUV Whitewashed! (' + S.opProgress + '/4) +Rs.3,500', 2.4);
-              if (S.opProgress >= 4) S.spawnOpStage(3);
+              if (S.opProgress >= 4) S.spawnOpStage(4);
             } else {
               E.hud.toast('VIP Target Whitewashed! +Rs.3,500', 2.0);
             }
@@ -1922,31 +2266,29 @@ Game({
           break;
         }
       }
-      // Check Hawk Interceptor Drones
       if (!hitSomething) {
         for (var hi = 0; hi < S.hawks.length; hi++) {
           var hk = S.hawks[hi];
           if (!hk.userData.active || hk.userData.defeated) continue;
-          if (Math.hypot(b.position.x - hk.position.x, b.position.z - hk.position.z) < 2.8 && Math.abs(b.position.y - hk.position.y) < 2.4) {
+          if (Math.hypot(b.position.x - hk.position.x, b.position.z - hk.position.z) < 3.0 && Math.abs(b.position.y - hk.position.y) < 2.6) {
             hitSomething = true;
             stunHawk(hk);
             break;
           }
         }
       }
-      // Check Vehicles & Pedestrians
       if (!hitSomething) {
         for (var ci = 0; ci < S.vehicles.length; ci++) {
           var vc = S.vehicles[ci];
           if (vc.userData.kind === 'vip') continue;
-          if (Math.hypot(b.position.x - vc.position.x, b.position.z - vc.position.z) < 2.4 && b.position.y < 3.2) {
+          if (Math.hypot(b.position.x - vc.position.x, b.position.z - vc.position.z) < 2.6 && b.position.y < 3.4) {
             hitSomething = true;
             if (t - vc.userData.hitAt > 2) {
               vc.userData.hitAt = t;
               S.bombHits++; S.combo++; S.comboT = 4.0;
               var bonus = 800 * Math.min(5, S.combo);
               S.cash += bonus; S.heat = Math.min(500, S.heat + 28);
-              E.audio.sfx('splash');
+              E.audio.sfx('splash'); S.playHorn();
               E.hud.toast((vc.userData.kind === 'bus' ? 'BMTC Bus' : 'Auto-Rickshaw') + ' Direct Hit! x' + S.combo + ' +Rs.' + bonus, 1.8);
             }
             break;
@@ -1956,7 +2298,7 @@ Game({
       if (!hitSomething) {
         for (var pi = 0; pi < S.peds.length; pi++) {
           var pd = S.peds[pi];
-          if (Math.hypot(b.position.x - pd.position.x, b.position.z - pd.position.z) < 1.5 && b.position.y < 2.2) {
+          if (Math.hypot(b.position.x - pd.position.x, b.position.z - pd.position.z) < 1.6 && b.position.y < 2.4) {
             hitSomething = true;
             if (t - pd.userData.hitAt > 2) {
               pd.userData.hitAt = t;
@@ -1979,7 +2321,7 @@ Game({
       if (hitSomething || b.position.y <= floorHit || b.userData.life <= 0) {
         if (!hitSomething && b.position.y <= floorHit) {
           E.audio.sfx('splash', { vol: 0.35 });
-          var splat = E.cyl(0.65, 0.72, 0.04, E.glowMat('#f1f5f9', 1.1), b.position.x, floorHit + 0.02, b.position.z, { seg: 8 });
+          var splat = E.cyl(0.65, 0.75, 0.04, E.glowMat('#f1f5f9', 1.15), b.position.x, floorHit + 0.02, b.position.z, { seg: 8 });
           splat.userData = { ttl: 6 };
           S.splats.push(splat);
           if (S.splats.length > 20) {
@@ -1999,10 +2341,9 @@ Game({
       }
     }
 
-    // 4. CAW SHOCKWAVE & SNITCH/HAWK DISRUPTION (ACTION / E)
+    // 4. CAW SHOCKWAVE
     if (E.input.pressed('action') && S.cawCooldown <= 0) {
       S.cawCooldown = 0.65;
-      // Authentic synthesized double-caw formant burst
       E.audio.tone({ freq: 620, to: 420, dur: 0.16, vol: 0.24, type: 'sawtooth', filter: 1600 });
       E.audio.tone({ freq: 580, to: 380, dur: 0.14, vol: 0.18, type: 'sawtooth', filter: 1500, when: (E.audio.ctx ? E.audio.ctx.currentTime + 0.18 : 0) });
       var ring = new T.Mesh(new T.RingGeometry(0.6, 1.0, 24), E.glowMat('#ff5a1f', 2.8));
@@ -2012,7 +2353,6 @@ Game({
       ring.userData = { age: 0 };
       S.cawRings.push(ring);
 
-      // Scramble nearby snitches & stun close Hawk drones
       var scrambled = 0;
       for (var sni = 0; sni < S.snitches.length; sni++) {
         var sn = S.snitches[sni];
@@ -2027,7 +2367,7 @@ Game({
       }
       for (var hki = 0; hki < S.hawks.length; hki++) {
         var hk2 = S.hawks[hki];
-        if (hk2.userData.active && !hk2.userData.defeated && E.dist(hk2, P.pos) < 14 && Math.abs(P.pos.y - hk2.position.y) < 10) {
+        if (hk2.userData.active && !hk2.userData.defeated && E.dist(hk2, P.pos) < 15 && Math.abs(P.pos.y - hk2.position.y) < 11) {
           stunHawk(hk2);
         }
       }
@@ -2049,22 +2389,20 @@ Game({
       S.respect += 350;
       E.audio.sfx('hit');
       E.shake(0.28);
-      if (S.opIndex === 4 && hk.userData.opTarget && !hk.userData.defeated) {
+      if (S.opIndex === 8 && hk.userData.opTarget && !hk.userData.defeated) {
         hk.userData.defeated = true;
         hk.visible = false;
         S.opProgress++;
+        E.hud.objective('Stun 3 Hawk Drones with BOMB or CAW (E) at Lalbagh (' + S.opProgress + '/3)', 'OP 09 · GLASSHOUSE AMBUSH');
         E.hud.toast('Hawk Drone Down! (' + S.opProgress + '/3) +Rs.4,000', 2.4);
-        if (S.opProgress >= 3) S.spawnOpStage(5);
+        if (S.opProgress >= 3) S.spawnOpStage(9);
       } else {
         E.hud.toast('Hawk Drone Stunned! +Rs.4,000', 2.0);
       }
     }
 
     // 5. ANIMATE NAMMA METRO, VEHICLES, PEDESTRIANS, HAWKS & WINGMEN
-    if (S.metroTrain) {
-      var mtx = Math.sin(t * 0.24) * 165;
-      S.metroTrain.position.x = mtx;
-    }
+    if (S.metroTrain) S.metroTrain.position.x = Math.sin(t * 0.24) * 165;
     for (var vi2 = 0; vi2 < S.vehicles.length; vi2++) {
       var v = S.vehicles[vi2], u = v.userData;
       if (u.axis === 'x') {
@@ -2082,13 +2420,11 @@ Game({
     for (var pi2 = 0; pi2 < S.peds.length; pi2++) {
       var p = S.peds[pi2], pu = p.userData;
       p.position.z += pu.dir * pu.speed * dt;
-      p.position.y = 0.16 + Math.abs(Math.sin(t * 6 + pi2)) * 0.03;
+      p.position.y = 0.18 + Math.abs(Math.sin(t * 6 + pi2)) * 0.03;
       if (p.position.z > pu.maxZ) { p.position.z = pu.maxZ; pu.dir = -1; }
       if (p.position.z < pu.minZ) { p.position.z = pu.minZ; pu.dir = 1; }
       p.rotation.y = pu.dir < 0 ? 0 : Math.PI;
-      if (pu.snitch && t > pu.stunnedUntil && E.dist(p, P.pos) < 16 && P.pos.y < 14) {
-        nearSnitch = true;
-      }
+      if (pu.snitch && t > pu.stunnedUntil && E.dist(p, P.pos) < 16 && P.pos.y < 14) nearSnitch = true;
     }
     if (nearSnitch) S.exposure = Math.min(100, S.exposure + 22 * dt);
     else S.exposure = Math.max(0, S.exposure - 12 * dt);
@@ -2098,11 +2434,10 @@ Game({
       S.heat = Math.min(500, S.heat + 120);
       E.audio.sfx('alarm');
       E.flash('#ef4444', 0.45);
-      E.hud.toast('EXPOSED ON SOCIAL MEDIA! Heat +1 Star — Press E to CAW next time!', 3.2);
+      E.hud.toast('EXPOSED! Heat +1 Star — Press E to CAW next time!', 3.0);
     }
 
-    // Heat Decay & Hawk Interceptor Pursuit (activate when Heat >= 200 or Op 4/5)
-    if (S.opIndex < 4) S.heat = Math.max(0, S.heat - 8 * dt);
+    if (S.opIndex < 8) S.heat = Math.max(0, S.heat - 8 * dt);
     var stars = Math.min(5, Math.floor(S.heat / 100));
     if (stars >= 2 && !S.hawks[0].userData.active) {
       S.hawks[0].userData.active = true;
@@ -2114,48 +2449,45 @@ Game({
       var hk3 = S.hawks[hi2], hu = hk3.userData;
       if (!hu.active || hu.defeated) { hk3.visible = false; continue; }
       hk3.visible = true;
-      if (t < hu.stunnedUntil) {
-        hk3.rotation.y += dt * 10;
-        continue;
-      }
-      var targetPos = S.opIndex >= 4 ? P.pos : (stars >= 2 ? P.pos : { x: hu.home[0], y: hu.home[1], z: hu.home[2] });
+      if (t < hu.stunnedUntil) { hk3.rotation.y += dt * 10; continue; }
+      var targetPos = S.opIndex >= 8 ? P.pos : (stars >= 2 ? P.pos : { x: hu.home[0], y: hu.home[1], z: hu.home[2] });
       var dx = targetPos.x - hk3.position.x, dz = targetPos.z - hk3.position.z;
       var dy = (targetPos.y + 1.5) - hk3.position.y;
       var hd = Math.hypot(dx, dz);
       if (hd > 1) {
-        var hsp = (S.opIndex === 5 ? 16 : 12.5) * dt;
+        var hsp = (S.opIndex === 9 ? 16.5 : 12.5) * dt;
         hk3.position.x += (dx / hd) * hsp;
         hk3.position.z += (dz / hd) * hsp;
         hk3.position.y += E.clamp(dy, -10, 10) * dt * 1.4;
         hk3.rotation.y = Math.atan2(-dx, -dz);
       }
       if (hd < 2.0 && Math.abs(hk3.position.y - P.pos.y) < 2.2) {
-        // Knock crow back + drain stamina
         S.stamina = Math.max(0, S.stamina - 35);
         S.heat = Math.max(0, S.heat - 40);
         hu.stunnedUntil = t + 3.5;
-        E.audio.sfx('hurt');
-        E.flash('#ef4444', 0.45);
-        E.shake(0.4);
-        E.hud.toast('Hawk Drone Intercept! Press E to CAW-Stun them!', 2.5);
+        E.audio.sfx('hurt'); E.flash('#ef4444', 0.45); E.shake(0.4);
+        E.hud.toast('Hawk Drone Intercept! Press E to CAW-Stun!', 2.4);
       }
     }
 
-    // Mafia Wingmen orbiting smoothly around Don Kaage
     for (var wi2 = 0; wi2 < S.wingmen.length; wi2++) {
       var wm = S.wingmen[wi2];
-      var wa = t * 1.4 + wi2 * 2.1;
-      var tx = P.pos.x + Math.cos(wa) * (4.5 + wi2);
-      var tz = P.pos.z + Math.sin(wa) * (4.5 + wi2);
-      var ty = P.pos.y + 1.5 + Math.sin(t * 2 + wi2) * 0.6;
+      var wa = t * 1.45 + wi2 * 1.4;
+      var tx = P.pos.x + Math.cos(wa) * (4.5 + wi2 * 0.9);
+      var tz = P.pos.z + Math.sin(wa) * (4.5 + wi2 * 0.9);
+      var ty = P.pos.y + 1.4 + Math.sin(t * 2 + wi2) * 0.6;
       wm.position.x = E.damp(wm.position.x, tx, 4, dt);
       wm.position.y = E.damp(wm.position.y, ty, 4, dt);
       wm.position.z = E.damp(wm.position.z, tz, 4, dt);
       wm.rotation.y = Math.atan2(-(tx - wm.position.x), -(tz - wm.position.z));
     }
 
-    // 6. UPDATE DOM HUD & LIVE 2D RADAR MINIMAP
+    // 6. UPDATE DOM HUD, RANK & LIVE ROTATING RADAR
     if (!HEADLESS) {
+      var rankEl = document.getElementById('k-rank');
+      if (rankEl) {
+        rankEl.textContent = S.respect >= 3500 ? 'DON KAAGE' : (S.respect >= 1800 ? 'CONSIGLIERE' : (S.respect >= 800 ? 'METRO CAPO' : (S.respect >= 250 ? 'ENFORCER' : 'STREET CROW')));
+      }
       var cashEl = document.getElementById('k-cash');
       if (cashEl) cashEl.textContent = 'Rs.' + S.cash.toLocaleString();
       var modeEl = document.getElementById('k-mode-tag');
@@ -2172,7 +2504,7 @@ Game({
         expFill.style.width = Math.round(S.exposure) + '%';
       }
       var vadaEl = document.getElementById('k-vada');
-      if (vadaEl) vadaEl.textContent = S.vadasFound + '/10';
+      if (vadaEl) vadaEl.textContent = S.vadasFound + '/12';
 
       var starsEl = document.getElementById('k-stars');
       if (starsEl && S.prevStars !== stars) {
@@ -2180,12 +2512,11 @@ Game({
         var sh = '';
         for (var stIdx = 0; stIdx < 5; stIdx++) {
           var lit = stIdx < stars;
-          sh += '<svg width="13" height="13" viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16.5,13.5 18.5,21 12,16.5 5.5,21 7.5,13.5 2,9 9,9" fill="' + (lit ? '#ff5a1f' : 'rgba(255,255,255,0.18)') + '"/></svg>';
+          sh += '<svg width="12" height="12" viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16.5,13.5 18.5,21 12,16.5 5.5,21 7.5,13.5 2,9 9,9" fill="' + (lit ? '#ff5a1f' : 'rgba(255,255,255,0.18)') + '"/></svg>';
         }
         starsEl.innerHTML = sh;
       }
 
-      // Draw Live 2D Circular Radar (~20Hz throttle for zero GC overhead)
       if (S.radarCtx && (!S.lastRadarT || t - S.lastRadarT > 0.05)) {
         S.lastRadarT = t;
         var g = S.radarCtx, R = 70, scale = 0.34;
@@ -2193,56 +2524,48 @@ Game({
         g.save();
         g.beginPath(); g.arc(R, R, R - 2, 0, 6.283); g.clip();
         g.fillStyle = '#0f1420'; g.fillRect(0, 0, 140, 140);
-        // Subtle radar rings
         g.strokeStyle = 'rgba(255,255,255,0.12)'; g.lineWidth = 1;
         g.beginPath(); g.arc(R, R, 34, 0, 6.283); g.arc(R, R, 58, 0, 6.283); g.stroke();
-        // Rotate relative to player heading
         g.translate(R, R);
         g.rotate(P.yaw);
-        // Draw roads in local space
         g.strokeStyle = 'rgba(148,163,184,0.35)'; g.lineWidth = 3;
         g.beginPath();
         g.moveTo((-230 - P.pos.x) * scale, (-10 - P.pos.z) * scale); g.lineTo((230 - P.pos.x) * scale, (-10 - P.pos.z) * scale);
         g.moveTo((28 - P.pos.x) * scale, (-200 - P.pos.z) * scale); g.lineTo((28 - P.pos.x) * scale, (200 - P.pos.z) * scale);
         g.moveTo((-62 - P.pos.x) * scale, (-200 - P.pos.z) * scale); g.lineTo((-62 - P.pos.x) * scale, (200 - P.pos.z) * scale);
         g.stroke();
-        // Draw districts
         S.districts.forEach(function (d) {
           g.fillStyle = d.color;
           g.beginPath();
           g.arc((d.x - P.pos.x) * scale, (d.z - P.pos.z) * scale, 3, 0, 6.283);
           g.fill();
         });
-        // Active op waypoint pulse
         var wp = null;
-        if (S.opIndex === 0 && S.opItems.length) {
+        if ((S.opIndex === 0 || S.opIndex === 4 || S.opIndex === 5 || S.opIndex === 7) && S.opItems.length) {
           for (var oi = 0; oi < S.opItems.length; oi++) if (!S.opItems[oi].done) { wp = S.opItems[oi].obj.position; break; }
-        } else if (S.opIndex === 1) wp = S.opProgress === 0 ? { x: 12, z: -10 } : { x: 78, z: -34 };
-        else if (S.opIndex === 2) {
+        } else if (S.opIndex === 1 && S.opZones.length) {
+          for (var oz = 0; oz < S.opZones.length; oz++) if (!S.opZones[oz].done) { wp = S.opZones[oz].p; break; }
+        } else if (S.opIndex === 2) wp = S.opProgress === 0 ? { x: 12, z: -10 } : { x: 78, z: -34 };
+        else if (S.opIndex === 3) {
           for (var v2 = 0; v2 < S.vips.length; v2++) if (!S.vips[v2].userData.bombed) { wp = S.vips[v2].position; break; }
-        } else if (S.opIndex === 3) wp = { x: -100, z: 128 };
-        else if (S.opIndex === 4) wp = { x: 125, z: 128 };
-        else if (S.opIndex === 5) wp = { x: 135, z: -125 };
+        } else if (S.opIndex === 6) wp = { x: -100, z: 128 };
+        else if (S.opIndex === 8) wp = { x: 125, z: 128 };
+        else if (S.opIndex === 9) wp = { x: 135, z: -125 };
+
         if (wp) {
           var wxp = (wp.x - P.pos.x) * scale, wzp = (wp.z - P.pos.z) * scale;
           var wd = Math.hypot(wxp, wzp);
           if (wd > R - 9) { wxp = wxp / wd * (R - 9); wzp = wzp / wd * (R - 9); }
-          g.fillStyle = '#facc15';
-          g.strokeStyle = '#141720';
-          g.lineWidth = 2;
+          g.fillStyle = '#facc15'; g.strokeStyle = '#141720'; g.lineWidth = 2;
           g.beginPath(); g.arc(wxp, wzp, 5 + Math.sin(t * 7) * 1.2, 0, 6.283); g.fill(); g.stroke();
         }
-        // Hawk drones on radar
         S.hawks.forEach(function (hk) {
           if (!hk.userData.active || hk.userData.defeated) return;
           g.fillStyle = '#ef4444';
           g.fillRect((hk.position.x - P.pos.x) * scale - 2.5, (hk.position.z - P.pos.z) * scale - 2.5, 5, 5);
         });
         g.restore();
-        // Centered Crow Arrow
-        g.fillStyle = '#ff5a1f';
-        g.strokeStyle = '#ffffff';
-        g.lineWidth = 1.5;
+        g.fillStyle = '#ff5a1f'; g.strokeStyle = '#ffffff'; g.lineWidth = 1.5;
         g.beginPath(); g.moveTo(R, R - 8); g.lineTo(R + 6, R + 6); g.lineTo(R, R + 2); g.lineTo(R - 6, R + 6); g.closePath();
         g.fill(); g.stroke();
       }
