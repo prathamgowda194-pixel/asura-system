@@ -1,0 +1,82 @@
+/*
+ * Project layer. TODO(concept): replace every token with values from docs/concept.md.
+ * The placeholder values are neutral on purpose. Shipping them unchanged is a QA failure.
+ */
+:root {
+  --c-bg: #1b1c1d;
+  --c-text: #ece8e1;
+  --c-muted: #a39e95;
+  --c-accent: #d0c7b8;
+  --c-sheet: #ece8e1;
+  --c-sheet-text: #1d1e1f;
+  --c-focus: #ffffff;
+
+  /* System fonts are a placeholder, not a choice: pick real families with asura-concept/scripts/fonts.mjs. */
+  --f-display: ui-serif, Georgia, serif;
+  --f-text: system-ui, sans-serif;
+
+  --t-display: clamp(2.75rem, 6.4vw, 7rem);
+  --t-headline: clamp(2rem, 3.8vw, 3.75rem);
+  --t-body: clamp(1rem, 0.3vw + 0.93rem, 1.125rem);
+  --t-label: 0.8125rem;
+
+  --grid-margin: clamp(1.25rem, 4vw, 4rem);
+  --grid-gap: clamp(1rem, 2vw, 2rem);
+  --header-h: 4.5rem;
+  --fallback: linear-gradient(180deg, #57729a 0%, #e9bf95 62%, #3e3a36 100%);
+}
+
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--header-h);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--grid-margin);
+}
+.wordmark { font-family: var(--f-display); font-size: 1.5rem; color: inherit; text-decoration: none; }
+.site-nav { display: flex; gap: 1.75rem; }
+.site-nav a { color: inherit; text-decoration: none; font-size: var(--t-label); letter-spacing: 0.02em; min-height: 44px; display: inline-flex; align-items: center; }
+
+.copy { grid-column: 1 / span 6; max-width: 40rem; }
+.copy--right { grid-column: 7 / span 6; }
+.copy--center { grid-column: 3 / span 8; text-align: center; margin-inline: auto; }
+.label { font-size: var(--t-label); color: var(--c-muted); margin-bottom: 1rem; }
+.display { font-family: var(--f-display); font-size: var(--t-display); line-height: 0.95; letter-spacing: -0.01em; }
+.headline { font-family: var(--f-display); font-size: var(--t-headline); line-height: 1.02; margin-bottom: 1rem; }
+.lede { font-size: calc(var(--t-body) * 1.15); max-width: 32rem; margin-top: 1.5rem; color: var(--c-text); }
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 1.5rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  text-decoration: none;
+}
+
+.sheet {
+  position: relative;
+  background: var(--c-sheet);
+  color: var(--c-sheet-text);
+  padding: clamp(4rem, 10vw, 9rem) var(--grid-margin);
+}
+.form { display: grid; gap: 1rem; max-width: 28rem; margin-top: 2rem; }
+.form label { display: grid; gap: 0.35rem; font-size: var(--t-label); }
+.form input { min-height: 48px; padding: 0 0.9rem; border: 1px solid color-mix(in srgb, currentColor 35%, transparent); background: transparent; }
+
+.control { display: grid; gap: 0.25rem; margin-top: 2rem; max-width: 22rem; }
+.control .label { margin: 0; }
+.control input[type="range"] { width: 100%; min-height: 44px; accent-color: var(--c-accent); }
+
+.site-footer { background: var(--c-sheet); color: var(--c-sheet-text); padding: 2rem var(--grid-margin); font-size: var(--t-label); }
+
+@media (max-width: 760px) {
+  .copy, .copy--right, .copy--center { grid-column: 1 / -1; }
+  .site-nav { gap: 1rem; }
+}
