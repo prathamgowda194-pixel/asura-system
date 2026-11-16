@@ -582,6 +582,8 @@ function buildLuxuryHTML(lead) {
 }
 
 const BLACKLISTED_SLUGS = new Set([
+  "elysian-estates",
+  "terra-expeditions",
   "bridge-property-consultants-mumbai",
   "all-smiles-dental-clinic-bangalore",
   "s9-luxury-hair-studio-in-gachibowli",
