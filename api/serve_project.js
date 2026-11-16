@@ -727,10 +727,9 @@ export default async function handler(req, res) {
       } catch (e) {}
     }
 
-    // Try Authenticated GitHub Raw Fallback (multi-token token/Bearer guarantee)
+    // Try Authenticated GitHub Raw Fallback
     const tokensToTry = [
-      'process.env.GITHUB_TOKEN || ''',
-      process.env.GITHUB_TOKEN
+      process.env.GITHUB_TOKEN || ''
     ].filter(Boolean);
 
     for (const rel of candidatePaths) {

@@ -7,7 +7,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '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';
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '';
 const REPO = 'prathamgowda194-pixel/asura-system';
 
 export default async function handler(req, res) {
