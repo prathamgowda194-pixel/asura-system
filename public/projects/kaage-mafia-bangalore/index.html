@@ -669,26 +669,30 @@ report.boot = boot; report.pos = function () { return [P.pos.x, P.pos.y, P.pos.z
 if (!HEADLESS) { if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot(); }
 })();
 </script>
-<script>/* KAAGE SYNDICATE: BENGALURU — 3D Open-World Mafia Crow Simulator (v2.0 High-Detail Edition)
-   Setting: Late-afternoon Bengaluru golden hour with crisp skylight contrast, procedural granite/brick/asphalt
-   surfaces, 10 iconic landmarks, 10 escalating Mafia Crow Operations, 12 Golden Vadas, dynamic traffic
-   (Auto-Rickshaws, BMTC Volvo Buses, Police Patrols, VIP SUVs), Namma Metro Purple Line, phone snitches,
-   Hawk Interceptor Drones, and a mandatory Mobile Portrait-to-Landscape Rotation Lock + Switch-style Touch Pad.
-   Mood: Custom high-clarity golden-hour with cool sky bounce and low atmospheric haze. */
+<script>/* KAAGE SYNDICATE: BENGALURU — v3.0 Viral Open-World Mafia Crow Simulator
+   Reverse-engineered from COO (Covert Ornithological Operations) + GTA Sandbox Architecture:
+   - Sculpted Feathered 3D Crow (Lathe torso, Extrude cambered 3-joint flapping wings, fanned tail, fedora, scarf, dangling beak loot!)
+   - Comic Ink Edge-Outlined & Procedural PBR-Textured Bengaluru Landmarks (Vidhana Soudha, Attara Kacheri,
+     Cubbon Park, UB City, MG Rd & Namma Metro, Public Utility Bldg, Brigade & Church St, Lalbagh Glasshouse,
+     WTC & Orion Lake, Indiranagar 100ft Rd) + Live Overhead Airliners + 8 Giant Monetizable Sky-Billboards
+   - Dynamic 24h Day / Dusk / Neon Night / Bengaluru Monsoon Thunderstorm + Lightning & Wind Turbulence
+   - Crazy Viral Mechanics: Mid-Air Chain/Phone/Diamond Snatching (physical beak-dangling + angry chases),
+     Auto-Rickshaw & BMTC Bus Hijacking/Rooftop Surfing, Poop-Bomb Chaos & Stunt Feed, 9 Multi-Stage Heists
+     + Garuda-X Boss Dogfight + 12 Golden Vadas + Mandatory Mobile Portrait-to-Landscape Rotation Lock. */
 Game({
   title: 'KAAGE SYNDICATE',
   subtitle: 'BENGALURU · SECTOR 080 · MAFIA CROW OPS',
   mood: 'golden-hour',
   moodOverrides: {
     sky: ['#18376e', '#ffa25c', '#3c2b3d'],
-    fog: ['#e49b6c', 0.0014],
+    fog: ['#e49b6c', 0.0013],
     hemi: ['#b7d8ff', '#3a2d40', 1.15],
     sun: ['#fff0cc', 3.05, [-0.52, 0.68, 0.44]],
     exposure: 1.08,
-    bloom: [0.48, 1.08],
+    bloom: [0.46, 1.08],
     grade: { tint: [1.03, 1.0, 0.96], sat: 1.16, contrast: 1.09 },
-    grain: 0.018,
-    vignette: 0.24,
+    grain: 0.016,
+    vignette: 0.22,
     aberration: 0.0004,
     stars: 0,
     sunDisc: 1,
@@ -703,42 +707,53 @@ Game({
     view: 'third',
     start: [28, 17, 46],
     yaw: 0.28,
-    speed: 26,
+    speed: 27,
     minSpeed: 0,
-    camDist: 5.8,
+    camDist: 5.7,
     radius: 0.55,
     steps: false
   },
 
   audio: {
-    ambience: [['city', 0.52], ['wind', 0.34]],
+    ambience: [['city', 0.5], ['wind', 0.32]],
     music: 'lofi',
-    musicOpts: { bpm: 96, root: 45, scale: 'minor' }
+    musicOpts: { bpm: 98, root: 45, scale: 'minor' }
   },
 
   controls: [
-    ['Click', 'Drop Bomb'],
-    ['E', 'Caw / Loot / Blackout'],
-    ['Q / X', 'Brake & Perch'],
-    ['Tab / G', 'City Map'],
-    ['1 - 8', 'Fast Airdrop']
+    ['Click', 'Drop Poop-Bomb'],
+    ['E', 'Caw / Snatch / Hijack Ride'],
+    ['Q / X', 'Airbrake & Perch'],
+    ['T', 'Cycle Time / Weather'],
+    ['Tab / G', 'Syndicate Airdrop Map'],
+    ['1 - 8', 'Quick District Airdrop']
   ],
   touchButtons: ['jump', 'sprint', 'action', 'fire'],
-  touchLabels: { jump: 'Flap', sprint: 'Swoop', action: 'Caw', fire: 'Bomb' },
+  touchLabels: { jump: 'Flap', sprint: 'Swoop', action: 'Snatch/Caw', fire: 'Bomb' },
 
   intro: [
-    { pos: [-115, 56, -168], look: [-115, 22, -100] },
-    { pos: [-40, 40, -50], look: [12, 14, -10], dur: 2.8 },
-    { pos: [-52, 54, 108], look: [-100, 52, 128], dur: 2.8 },
-    { pos: [35, 22, 56], look: [28, 16, 36], dur: 2.4 }
+    { pos: [-115, 58, -172], look: [-115, 22, -100] },
+    { pos: [-38, 38, -48], look: [12, 14, -10], dur: 2.7 },
+    { pos: [-54, 56, 108], look: [-100, 52, 128], dur: 2.7 },
+    { pos: [34, 21, 56], look: [28, 16, 36], dur: 2.4 }
   ],
 
   build: function (E) {
     var S = E.state, T = E.THREE;
     var HEADLESS = typeof window !== 'undefined' && !!window.__G3_HEADLESS__;
 
-    // Disable fly-mode propeller hum; use custom wingbeat, caw & horn synthesis
-    E.audio.engine = function () {};
+    // Grab engine-owned environment objects for live Day/Night/Storm cycle
+    S.skyMesh = E.scene.children.find(function (c) { return c.isMesh && c.material && c.material.uniforms && c.material.uniforms.uTop; });
+    S.hemiLight = E.scene.children.find(function (c) { return c.isHemisphereLight; });
+    S.sunLight = E.scene.children.find(function (c) { return c.isDirectionalLight; });
+
+    // Audio engine: silent while flying, rhythmic 2-stroke purr while driving a hijacked auto/car!
+    var baseEngineAudio = E.audio.engine;
+    E.audio.engine = function (frac, vol) {
+      if (E.player.mode === 'drive' && !S.portraitLocked) {
+        baseEngineAudio(frac * 0.65, 0.045);
+      }
+    };
 
     S.roofs = [];
     S.updrafts = [];
@@ -746,7 +761,9 @@ Game({
     S.splats = [];
     S.cawRings = [];
     S.feathers = [];
+    S.vortices = [];
     S.snitches = [];
+    S.snatchables = [];
     S.vehicles = [];
     S.vips = [];
     S.peds = [];
@@ -754,8 +771,10 @@ Game({
     S.wingmen = [];
     S.opItems = [];
     S.opZones = [];
-    S.benches = [];
-    S.kaapiCarts = [];
+    S.billboards = [];
+    S.tollGates = [];
+    S.rivalBillboards = [];
+    S.lampHalos = [];
 
     S.districts = [
       { id: 'vidhana', key: '1', name: 'Vidhana Soudha', kn: 'ವಿಧಾನ ಸೌಧ', x: -115, y: 40, z: -100, spawn: [-115, 28, -50], yaw: 0, color: '#f59e0b' },
@@ -776,23 +795,37 @@ Game({
     S.exposure = 0;
     S.combo = 0;
     S.comboT = 0;
-    S.bombsDropped = 0;
     S.bombHits = 0;
     S.vadasFound = 0;
+    S.snatchesDone = 0;
     S.opIndex = 0;
     S.opProgress = 0;
-    S.opTarget = 3;
+    S.opTarget = 4;
     S.won = false;
-    S.perched = false;
+    S.hijackedVeh = null;
+    S.carryingLoot = null; // { kind, label, value, mesh }
     S.flapCooldown = 0;
     S.cawCooldown = 0;
     S.bombCooldown = 0;
-    S.kaapiCooldown = 0;
+    S.lastStuntT = -9;
     S.mapOpen = false;
     S.voiceOn = false;
     S.portraitLocked = false;
-    S.radioText = 'Sector 080, Don Kaage. Start at Brigade & Church St: snatch 3 Brass Kaapi Dabbas!';
+    S.radioText = 'Sector 080, Don Kaage. Swoop low on Brigade & Church St, hit E to SNATCH gold chains & phones, and drop them at Cubbon Nest!';
     S.hwTier = 'HIGH';
+
+    // Time of Day & Weather Modes: 0=AUTO_CYCLE, 1=NOON, 2=DUSK, 3=NEON_NIGHT, 4=MONSOON_STORM
+    S.skyModes = [
+      { id: 'DUSK', label: 'DUSK', sky: ['#18376e', '#ffa25c', '#3c2b3d'], fog: ['#e49b6c', 0.0013], sunC: '#fff0cc', sunI: 3.05, sunD: [-0.52, 0.68, 0.44], hemi: ['#b7d8ff', '#3a2d40', 1.15], stars: 0, exp: 1.08, bloom: 0.46, rain: false },
+      { id: 'DAY', label: 'DAY', sky: ['#1f6feb', '#9fd6ff', '#7ea3bf'], fog: ['#b8d8f0', 0.0011], sunC: '#fff6e3', sunI: 3.3, sunD: [0.35, 0.92, 0.3], hemi: ['#e0f2fe', '#6b6554', 1.2], stars: 0, exp: 1.0, bloom: 0.28, rain: false },
+      { id: 'NIGHT', label: 'NIGHT', sky: ['#030714', '#161b3a', '#060913'], fog: ['#0f142e', 0.0022], sunC: '#9bb8ff', sunI: 0.72, sunD: [0.4, 0.85, 0.25], hemi: ['#526cb0', '#181326', 0.68], stars: 1.2, exp: 1.24, bloom: 0.88, rain: false },
+      { id: 'STORM', label: 'STORM', sky: ['#0d141d', '#2d3a4a', '#161e28'], fog: ['#2a3645', 0.0042], sunC: '#b0c8e8', sunI: 0.85, sunD: [-0.2, 0.9, 0.3], hemi: ['#7e95b0', '#1f242b', 0.82], stars: 0, exp: 1.06, bloom: 0.62, rain: true }
+    ];
+    S.skyModeIdx = 0; // Starts at golden Bengaluru Dusk; advances or toggles via T / HUD button
+    S.nextLightningT = 22;
+
+    S.rainWeather = E.weather('rain', { count: 2400, area: 48, height: 24, speed: 28, color: '#c4dcff', size: 0.55 });
+    if (S.rainWeather) S.rainWeather.visible = false;
 
     function addRoof(x, z, w, d, topY, label) {
       S.roofs.push({
@@ -802,24 +835,50 @@ Game({
       });
     }
 
+    // Comic Edge Outline Helper: merges crisp dark architectural edges into 1 LineSegments draw call!
+    var edgeMat = new T.LineBasicMaterial({ color: E.color('#11131a'), transparent: true, opacity: 0.45 });
+    function bakeComicEdges(root, deg) {
+      if (HEADLESS) return; // skip edge-line decoration in Node dryrun for speed
+      root.updateWorldMatrix(true, true);
+      var verts = [];
+      var inv = new T.Matrix4().copy(root.matrixWorld).invert();
+      var mm = new T.Matrix4(), v = new T.Vector3();
+      root.traverse(function (m) {
+        if (!m.isMesh || !m.geometry || m.userData.noEdge) return;
+        var eg = new T.EdgesGeometry(m.geometry, deg || 28);
+        var p = eg.attributes.position;
+        if (!p) return;
+        mm.multiplyMatrices(inv, m.matrixWorld);
+        for (var i = 0; i < p.count; i++) {
+          v.fromBufferAttribute(p, i).applyMatrix4(mm);
+          verts.push(v.x, v.y, v.z);
+        }
+        eg.dispose();
+      });
+      if (verts.length) {
+        var bg = new T.BufferGeometry();
+        bg.setAttribute('position', new T.Float32BufferAttribute(verts, 3));
+        var lines = new T.LineSegments(bg, edgeMat);
+        lines.userData.keep = true;
+        root.add(lines);
+      }
+    }
+
     function playHorn() {
-      E.audio.tone({ freq: 392, dur: 0.14, vol: 0.16, type: 'sawtooth', filter: 1600 });
-      E.audio.tone({ freq: 494, dur: 0.14, vol: 0.14, type: 'sawtooth', filter: 1600 });
+      E.audio.tone({ freq: 392, dur: 0.12, vol: 0.16, type: 'sawtooth', filter: 1700 });
+      E.audio.tone({ freq: 494, dur: 0.14, vol: 0.14, type: 'sawtooth', filter: 1700 });
     }
 
     // =========================================================================
-    // PROCEDURAL HIGH-DETAIL CANVAS PBR TEXTURES (ZERO EXTERNAL NETWORK CALLS)
+    // PROCEDURAL PBR TEXTURES
     // =========================================================================
     var texGranite = E.canvasTex(256, 256, function (g, w, h) {
-      g.fillStyle = '#c4baa8';
-      g.fillRect(0, 0, w, h);
+      g.fillStyle = '#c9bfad'; g.fillRect(0, 0, w, h);
       for (var y = 0; y < h; y += 32) {
-        g.fillStyle = 'rgba(70,60,48,0.22)';
-        g.fillRect(0, y, w, 2);
-        var off = (y / 32) % 2 ? 32 : 0;
-        for (var x = off; x < w; x += 64) g.fillRect(x, y, 2, 32);
+        g.fillStyle = 'rgba(65,55,44,0.25)'; g.fillRect(0, y, w, 2);
+        for (var x = (y / 32) % 2 ? 32 : 0; x < w; x += 64) g.fillRect(x, y, 2, 32);
       }
-      for (var i = 0; i < 450; i++) {
+      for (var i = 0; i < 400; i++) {
         g.fillStyle = i % 2 ? 'rgba(255,250,240,0.08)' : 'rgba(40,35,30,0.08)';
         g.fillRect((i * 73) % w, (i * 137) % h, 4, 4);
       }
@@ -827,50 +886,37 @@ Game({
     texGranite.repeat.set(6, 3);
 
     var texBrick = E.canvasTex(256, 256, function (g, w, h) {
-      g.fillStyle = '#9e362a';
-      g.fillRect(0, 0, w, h);
+      g.fillStyle = '#a3382b'; g.fillRect(0, 0, w, h);
       for (var y = 0; y < h; y += 16) {
-        g.fillStyle = 'rgba(235,220,200,0.25)';
-        g.fillRect(0, y, w, 2);
-        var off = (y / 16) % 2 ? 16 : 0;
-        for (var x = off; x < w; x += 32) g.fillRect(x, y, 2, 16);
-      }
-      for (var k = 0; k < 220; k++) {
-        g.fillStyle = k % 2 ? 'rgba(0,0,0,0.09)' : 'rgba(255,200,160,0.07)';
-        g.fillRect((k * 53) % w, (k * 97) % h, 10, 6);
+        g.fillStyle = 'rgba(240,226,205,0.28)'; g.fillRect(0, y, w, 2);
+        for (var x = (y / 16) % 2 ? 16 : 0; x < w; x += 32) g.fillRect(x, y, 2, 16);
       }
     }, { repeat: true });
     texBrick.repeat.set(5, 3);
 
     var texAsphalt = E.canvasTex(256, 256, function (g, w, h) {
-      g.fillStyle = '#20242e';
-      g.fillRect(0, 0, w, h);
-      for (var i = 0; i < 1200; i++) {
-        g.fillStyle = i % 3 === 0 ? 'rgba(255,255,255,0.045)' : 'rgba(0,0,0,0.16)';
+      g.fillStyle = '#1f232d'; g.fillRect(0, 0, w, h);
+      for (var i = 0; i < 1000; i++) {
+        g.fillStyle = i % 3 === 0 ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.16)';
         g.fillRect((i * 41) % w, (i * 89) % h, 2, 2);
       }
-      // Subtle tyre tracks
-      g.fillStyle = 'rgba(10,12,16,0.22)';
-      g.fillRect(42, 0, 26, h);
-      g.fillRect(188, 0, 26, h);
+      g.fillStyle = 'rgba(10,12,16,0.25)';
+      g.fillRect(42, 0, 26, h); g.fillRect(188, 0, 26, h);
     }, { repeat: true });
     texAsphalt.repeat.set(22, 22);
 
     var texGrass = E.canvasTex(256, 256, function (g, w, h) {
-      g.fillStyle = '#2e693a';
-      g.fillRect(0, 0, w, h);
-      for (var i = 0; i < 600; i++) {
-        g.fillStyle = i % 2 ? '#3a7a45' : '#22522d';
+      g.fillStyle = '#2d6839'; g.fillRect(0, 0, w, h);
+      for (var i = 0; i < 550; i++) {
+        g.fillStyle = i % 2 ? '#3c7e47' : '#21502c';
         g.fillRect((i * 67) % w, (i * 113) % h, 6, 6);
       }
     }, { repeat: true });
     texGrass.repeat.set(12, 12);
 
     var texPave = E.canvasTex(128, 128, function (g, w, h) {
-      g.fillStyle = '#535866';
-      g.fillRect(0, 0, w, h);
-      g.strokeStyle = 'rgba(20,23,32,0.35)';
-      g.lineWidth = 2;
+      g.fillStyle = '#585e6d'; g.fillRect(0, 0, w, h);
+      g.strokeStyle = 'rgba(20,23,32,0.35)'; g.lineWidth = 2;
       for (var p = 0; p <= w; p += 32) {
         g.beginPath(); g.moveTo(p, 0); g.lineTo(p, h); g.stroke();
         g.beginPath(); g.moveTo(0, p); g.lineTo(w, p); g.stroke();
@@ -878,111 +924,159 @@ Game({
     }, { repeat: true });
     texPave.repeat.set(18, 18);
 
-    // Rich textured materials
-    var mGranite = new T.MeshStandardMaterial({ map: texGranite, color: E.color('#ddd5c6'), roughness: 0.72, metalness: 0.05 });
-    var mRedBrick = new T.MeshStandardMaterial({ map: texBrick, color: E.color('#d45948'), roughness: 0.78 });
-    var mAsphalt = new T.MeshStandardMaterial({ map: texAsphalt, color: E.color('#2a2f3c'), roughness: 0.68 });
-    var mSidewalk = new T.MeshStandardMaterial({ map: texPave, color: E.color('#666d7e'), roughness: 0.82 });
-    var mGrass = new T.MeshStandardMaterial({ map: texGrass, color: E.color('#387a45'), roughness: 0.9 });
+    var mGranite = new T.MeshStandardMaterial({ map: texGranite, color: E.color('#e2dacb'), roughness: 0.7, metalness: 0.05 });
+    var mRedBrick = new T.MeshStandardMaterial({ map: texBrick, color: E.color('#d85d4b'), roughness: 0.76 });
+    var mAsphalt = new T.MeshStandardMaterial({ map: texAsphalt, color: E.color('#2a2f3c'), roughness: 0.66 });
+    var mSidewalk = new T.MeshStandardMaterial({ map: texPave, color: E.color('#6b7285'), roughness: 0.8 });
+    var mGrass = new T.MeshStandardMaterial({ map: texGrass, color: E.color('#387c45'), roughness: 0.88 });
 
-    var mSandstone = E.mat({ color: '#dec293', rough: 0.68 });
-    var mCream = E.mat({ color: '#efe5d0', rough: 0.65 });
-    var mGlassDark = E.mat({ color: '#1a3854', rough: 0.12, metal: 0.88 });
-    var mGlassBlue = E.mat({ color: '#3474a6', rough: 0.14, metal: 0.82 });
-    var mGlassGold = E.mat({ color: '#786240', rough: 0.16, metal: 0.9 });
-    var mConcrete = E.mat({ color: '#9a9890', rough: 0.78 });
-    var mIron = E.mat({ color: '#1b2029', rough: 0.42, metal: 0.78 });
-    var mGold = E.mat({ color: '#f5b727', rough: 0.22, metal: 0.88 });
+    var mSandstone = E.mat({ color: '#e2c799', rough: 0.65 });
+    var mCream = E.mat({ color: '#f2e8d5', rough: 0.62 });
+    var mGlassDark = E.mat({ color: '#1b3b5c', rough: 0.12, metal: 0.88 });
+    var mGlassBlue = E.mat({ color: '#387bb0', rough: 0.14, metal: 0.82 });
+    var mConcrete = E.mat({ color: '#9e9c94', rough: 0.76 });
+    var mIron = E.mat({ color: '#191e28', rough: 0.4, metal: 0.8 });
+    var mGold = E.mat({ color: '#f5b727', rough: 0.2, metal: 0.9 });
     var mSoil = E.mat({ color: '#6b4a33', rough: 0.92 });
-    var mLine = E.mat({ color: '#f1f5f9', rough: 0.42 });
-    var mYellow = E.mat({ color: '#facc15', rough: 0.48 });
+    var mLine = E.mat({ color: '#f8fafc', rough: 0.4 });
+    var mYellow = E.mat({ color: '#facc15', rough: 0.45 });
 
     // =========================================================================
-    // 1. HIGH-DETAIL 3D MAFIA CROW AVATAR ("DON KAAGE") WITH FEDORA & FEATHERS
+    // 1. SCULPTED ANATOMICAL 3D MAFIA CROW ("DON KAAGE") WITH 3-JOINT AIRFOIL WINGS
     // =========================================================================
     var crow = E.group(0, 0, 0);
-    var mFeather = E.mat({ color: '#151822', rough: 0.36, metal: 0.32 });
-    var mWingTip = E.mat({ color: '#222836', rough: 0.45, metal: 0.25 });
-    var mScarf = E.mat({ color: '#e11d48', rough: 0.58 });
-    var mBeak = E.mat({ color: '#282b36', rough: 0.3, metal: 0.45 });
+    var mFeather = S.mFeather = E.mat({ color: '#141822', rough: 0.34, metal: 0.32 });
+    var mWingTip = E.mat({ color: '#212838', rough: 0.42, metal: 0.25 });
+    var mScarf = E.mat({ color: '#e11d48', rough: 0.54 });
+    var mBeak = E.mat({ color: '#262934', rough: 0.28, metal: 0.45 });
     var mOptic = E.glowMat('#ff3b1f', 3.4);
 
-    // Talons & Ankles anchored at y=0
+    // Articulated Talon Legs (pivot so they tuck in flight and drop when landing!)
+    var legsGroup = E.group(0, 0.26, 0.04, { parent: crow });
     [-0.09, 0.09].forEach(function (lx) {
-      E.cyl(0.025, 0.032, 0.26, mGold, lx, 0, 0.02, { parent: crow, seg: 6 });
-      E.box(0.035, 0.022, 0.15, mGold, lx - 0.025, 0, -0.04, { parent: crow, ry: 0.22 });
-      E.box(0.035, 0.022, 0.15, mGold, lx + 0.025, 0, -0.04, { parent: crow, ry: -0.22 });
-      E.box(0.035, 0.022, 0.11, mGold, lx, 0, 0.07, { parent: crow });
+      E.cyl(0.025, 0.032, 0.25, mGold, lx, -0.25, 0, { parent: legsGroup, seg: 6 });
+      E.box(0.032, 0.022, 0.15, mGold, lx - 0.025, -0.25, -0.05, { parent: legsGroup, ry: 0.24 });
+      E.box(0.032, 0.022, 0.15, mGold, lx + 0.025, -0.25, -0.05, { parent: legsGroup, ry: -0.24 });
+      E.box(0.032, 0.022, 0.11, mGold, lx, -0.25, 0.06, { parent: legsGroup });
     });
 
-    var bodyPivot = E.group(0, 0.38, 0, { parent: crow });
-    E.sphere(0.24, mFeather, 0, 0, 0, { parent: bodyPivot, seg: 14 }).scale.set(0.9, 0.85, 1.55);
-    E.sphere(0.19, mFeather, 0, 0.05, -0.19, { parent: bodyPivot, seg: 12 }).scale.set(0.9, 0.9, 1.15);
-    // Wing shoulder coverts + Gold Mafia Chain
-    E.cyl(0.16, 0.17, 0.048, mGold, 0, 0.03, -0.2, { parent: bodyPivot, rx: 0.4, seg: 14 });
-    E.sphere(0.04, E.glowMat('#fde047', 1.8), 0, -0.03, -0.34, { parent: bodyPivot, seg: 8 });
+    var bodyPivot = E.group(0, 0.40, 0, { parent: crow });
+    // LatheGeometry Streamlined Avian Fuselage (along Z via rx: -Math.PI/2)
+    var torsoPts = [
+      new T.Vector2(0.01, -0.42),
+      new T.Vector2(0.11, -0.34),
+      new T.Vector2(0.21, -0.16),
+      new T.Vector2(0.24, 0.02),
+      new T.Vector2(0.19, 0.22),
+      new T.Vector2(0.10, 0.36),
+      new T.Vector2(0.02, 0.44)
+    ];
+    var torsoGeo = new T.LatheGeometry(torsoPts, 14);
+    torsoGeo.rotateX(Math.PI / 2);
+    E.mesh(torsoGeo, mFeather, 0, 0, 0, { parent: bodyPivot });
 
-    // Crimson Mafia Scarf + fluttering dual ribbons
-    E.cyl(0.175, 0.195, 0.085, mScarf, 0, 0.14, -0.24, { parent: bodyPivot, rx: 0.25, seg: 14 });
+    // Gold Mafia Chain + Medallion
+    E.cyl(0.15, 0.16, 0.045, mGold, 0, 0.04, -0.22, { parent: bodyPivot, rx: 0.4, seg: 14 });
+    E.sphere(0.042, E.glowMat('#fde047', 1.9), 0, -0.02, -0.36, { parent: bodyPivot, seg: 8 });
+
+    // Crimson Mafia Scarf + Dual Flowing Ribbons
+    E.cyl(0.165, 0.185, 0.085, mScarf, 0, 0.13, -0.24, { parent: bodyPivot, rx: 0.25, seg: 14 });
     var scarfTail = E.group(0, 0.14, -0.1, { parent: bodyPivot });
-    E.box(0.11, 0.025, 0.5, mScarf, -0.05, 0.02, 0.26, { parent: scarfTail, ry: 0.16 });
-    E.box(0.085, 0.025, 0.42, mScarf, 0.05, -0.01, 0.22, { parent: scarfTail, ry: -0.14 });
+    E.box(0.1, 0.022, 0.54, mScarf, -0.05, 0.02, 0.28, { parent: scarfTail, ry: 0.18 });
+    E.box(0.08, 0.022, 0.44, mScarf, 0.05, -0.01, 0.24, { parent: scarfTail, ry: -0.14 });
 
-    // Head + Classic Tilted Mafia Fedora + Brass Monocle + Opening Beak
-    var head = E.group(0, 0.25, -0.33, { parent: bodyPivot });
-    E.sphere(0.16, mFeather, 0, 0, 0, { parent: head, seg: 12 });
-    // Tilted Mafia Fedora Hat
-    var hat = E.group(0.02, 0.13, 0.01, { parent: head, rz: -0.18, rx: -0.12 });
+    // Sculpted Head + Mafia Fedora + Hooked Beak + Beak Loot Anchor!
+    var head = E.group(0, 0.24, -0.34, { parent: bodyPivot });
+    E.sphere(0.155, mFeather, 0, 0, 0, { parent: head, seg: 12 }).scale.set(0.95, 0.92, 1.15);
+    // Classic Tilted Mafia Fedora
+    var hat = E.group(0.02, 0.125, 0.01, { parent: head, rz: -0.18, rx: -0.12 });
     E.cyl(0.22, 0.22, 0.02, mFeather, 0, 0, 0, { parent: hat, seg: 14 });
-    E.cyl(0.11, 0.13, 0.11, mFeather, 0, 0.02, 0, { parent: hat, seg: 12 });
+    E.cyl(0.105, 0.13, 0.11, mFeather, 0, 0.02, 0, { parent: hat, seg: 12 });
     E.cyl(0.132, 0.132, 0.028, mScarf, 0, 0.025, 0, { parent: hat, seg: 12 });
-    // Sharp Beak
-    E.cone(0.055, 0.28, mBeak, 0, 0.01, -0.16, { parent: head, rx: -Math.PI * 0.5, seg: 8 });
-    var beakBot = E.cone(0.042, 0.21, mBeak, 0, -0.022, -0.13, { parent: head, rx: -Math.PI * 0.5, seg: 8 });
+    // Sculpted Hooked Beak
+    var beakTop = E.cone(0.054, 0.28, mBeak, 0, 0.012, -0.17, { parent: head, rx: -Math.PI * 0.5, seg: 8 });
+    var beakBot = E.cone(0.04, 0.21, mBeak, 0, -0.02, -0.14, { parent: head, rx: -Math.PI * 0.5, seg: 8 });
+    // Beak Loot Anchor (Dangles Gold Chain / Phone / Diamond in flight!)
+    var beakLoot = E.group(0, -0.04, -0.26, { parent: head });
+    beakLoot.visible = false;
+    var lootChain = E.group(0, 0, 0, { parent: beakLoot });
+    for (var lci = 0; lci < 5; lci++) {
+      E.cyl(0.05, 0.05, 0.02, E.glowMat('#facc15', 2.2), 0, -0.06 - lci * 0.07, 0, { parent: lootChain, ry: lci * 0.7, seg: 8 });
+    }
+    var lootPhone = E.box(0.14, 0.24, 0.04, E.glowMat('#38bdf8', 2.8), 0, -0.12, 0, { parent: beakLoot });
+    var lootDiamond = E.cone(0.15, 0.25, E.glowMat('#e0f2fe', 3.2), 0, -0.14, 0, { parent: beakLoot, seg: 6 });
+
     // Eyes + Brass Spy Monocle
-    E.sphere(0.028, E.glowMat('#ffffff', 1.4), -0.098, 0.035, -0.095, { parent: head, seg: 8 });
-    E.cyl(0.046, 0.046, 0.022, mGold, 0.102, 0.035, -0.095, { parent: head, rz: Math.PI / 2, seg: 10 });
-    E.sphere(0.032, mOptic, 0.11, 0.035, -0.1, { parent: head, seg: 8 });
+    E.sphere(0.026, E.glowMat('#ffffff', 1.4), -0.095, 0.035, -0.10, { parent: head, seg: 8 });
+    E.cyl(0.045, 0.045, 0.02, mGold, 0.10, 0.035, -0.10, { parent: head, rz: Math.PI / 2, seg: 10 });
+    E.sphere(0.03, mOptic, 0.108, 0.035, -0.105, { parent: head, seg: 8 });
 
-    // 7-Feather Fanned Tail
-    var tailFan = E.group(0, 0.02, 0.34, { parent: bodyPivot });
+    // 7-Feather Articulated Tail Fan (flares when airbraking!)
+    var tailFan = E.group(0, 0.02, 0.36, { parent: bodyPivot });
+    var tailFeathers = [];
     for (var ti = -3; ti <= 3; ti++) {
-      E.box(0.095, 0.018, 0.48 - Math.abs(ti) * 0.03, mWingTip, ti * 0.044, 0, 0.22, { parent: tailFan, ry: -ti * 0.14 });
+      var tf = E.box(0.09, 0.016, 0.48 - Math.abs(ti) * 0.03, mWingTip, ti * 0.04, 0, 0.22, { parent: tailFan, ry: -ti * 0.14 });
+      tf.userData.baseRy = -ti * 0.14;
+      tf.userData.idx = ti;
+      tailFeathers.push(tf);
     }
 
-    // Multi-layered Articulated Wings (Spar + Secondary Coverts + 6 Primary Feathers)
-    function makeWing(side) {
-      var wRoot = E.group(side * 0.18, 0.08, -0.08, { parent: bodyPivot });
-      E.box(0.56, 0.036, 0.28, mFeather, side * 0.28, 0, 0.04, { parent: wRoot });
-      E.box(0.52, 0.045, 0.07, mWingTip, side * 0.26, 0.01, -0.09, { parent: wRoot });
-      var outer = E.group(side * 0.54, 0, 0.02, { parent: wRoot });
-      E.box(0.5, 0.026, 0.22, mWingTip, side * 0.25, 0, 0.05, { parent: outer });
-      for (var fi = 0; fi < 5; fi++) {
-        E.box(0.26 + fi * 0.015, 0.016, 0.048, mWingTip, side * (0.45 + fi * 0.032), 0, -0.04 + fi * 0.055, { parent: outer, ry: -side * (0.1 + fi * 0.09) });
+    // 3-Joint Cambered Airfoil Wings (ExtrudeGeometry + Primary Pinions!)
+    function makeAirfoilWing(side) {
+      var innerShape = new T.Shape();
+      innerShape.moveTo(0, -0.16);
+      innerShape.quadraticCurveTo(side * 0.32, -0.20, side * 0.56, -0.10);
+      innerShape.lineTo(side * 0.54, 0.16);
+      innerShape.quadraticCurveTo(side * 0.25, 0.22, 0, 0.14);
+      innerShape.closePath();
+      var innerGeo = new T.ExtrudeGeometry(innerShape, { depth: 0.028, bevelEnabled: false });
+      innerGeo.rotateX(Math.PI / 2);
+
+      var midShape = new T.Shape();
+      midShape.moveTo(0, -0.10);
+      midShape.quadraticCurveTo(side * 0.28, -0.12, side * 0.46, 0.02);
+      midShape.lineTo(side * 0.38, 0.18);
+      midShape.quadraticCurveTo(side * 0.18, 0.16, 0, 0.14);
+      midShape.closePath();
+      var midGeo = new T.ExtrudeGeometry(midShape, { depth: 0.022, bevelEnabled: false });
+      midGeo.rotateX(Math.PI / 2);
+
+      var shoulder = E.group(side * 0.17, 0.09, -0.08, { parent: bodyPivot });
+      E.mesh(innerGeo, mFeather, 0, 0, 0, { parent: shoulder });
+
+      var elbow = E.group(side * 0.54, 0, 0.02, { parent: shoulder });
+      E.mesh(midGeo, mWingTip, 0, 0, 0, { parent: elbow });
+
+      var wrist = E.group(side * 0.42, 0, 0.04, { parent: elbow });
+      for (var p = 0; p < 5; p++) {
+        E.box(0.30 - p * 0.02, 0.012, 0.045, mWingTip, side * (0.14 - p * 0.01), 0, -0.02 + p * 0.055, { parent: wrist, ry: -side * (0.12 + p * 0.14) });
       }
-      return { root: wRoot, outer: outer };
+      return { shoulder: shoulder, elbow: elbow, wrist: wrist };
     }
-    var wingL = makeWing(-1);
-    var wingR = makeWing(1);
+    var wingL = makeAirfoilWing(-1);
+    var wingR = makeAirfoilWing(1);
     E.setAvatar(crow);
-    S.crowRig = { root: crow, body: bodyPivot, head: head, beakBot: beakBot, wingL: wingL, wingR: wingR, tail: tailFan, scarf: scarfTail };
+    S.crowRig = {
+      root: crow, body: bodyPivot, head: head, beakBot: beakBot, legs: legsGroup,
+      wingL: wingL, wingR: wingR, tail: tailFan, tailFeathers: tailFeathers, scarf: scarfTail,
+      beakLoot: beakLoot, lootChain: lootChain, lootPhone: lootPhone, lootDiamond: lootDiamond
+    };
 
-    // Ground Aiming Reticle under Crow
+    // Ballistic Drop Aiming Reticle
     var aimReticle = E.group(28, 0.18, 46);
-    var retRing = new T.Mesh(new T.RingGeometry(0.65, 0.95, 22), E.glowMat('#ffffff', 2.4));
+    var retRing = new T.Mesh(new T.RingGeometry(0.65, 0.98, 22), E.glowMat('#ffffff', 2.4));
     retRing.rotation.x = -Math.PI / 2;
     aimReticle.add(retRing);
-    E.sphere(0.18, E.glowMat('#ff5a1f', 3.0), 0, 0.02, 0, { parent: aimReticle, seg: 8 });
+    E.sphere(0.18, E.glowMat('#ff5a1f', 3.2), 0, 0.02, 0, { parent: aimReticle, seg: 8 });
     S.aimReticle = aimReticle;
 
     // =========================================================================
-    // 2. BENGALURU URBAN GROUND, TEXTURED ROADS, ZEBRA CROSSINGS & ORION LAKE
+    // 2. BENGALURU GROUND, ROADS, CROSSWALKS & ORION LAKE
     // =========================================================================
-    E.ground({ size: 980, color: '#2b2d36', rough: 0.68, wet: 0.55, puddles: 0.24 });
+    E.ground({ size: 980, color: '#2b2d36', rough: 0.68, wet: 0.58, puddles: 0.24 });
     E.setBounds(-235, 235, -205, 205);
 
     var roadGroup = E.group();
-    // Main Avenues
     E.box(460, 0.07, 20, mAsphalt, 0, 0, -10, { parent: roadGroup }); // MG Road
     E.box(420, 0.07, 14, mAsphalt, 0, 0, 86, { parent: roadGroup });  // Vittal Mallya / Residency Rd
     E.box(16, 0.07, 390, mAsphalt, -62, 0, 0, { parent: roadGroup }); // Kasturba Rd
@@ -990,7 +1084,6 @@ Game({
     E.box(12, 0.07, 240, mAsphalt, 54, 0, 40, { parent: roadGroup }); // Church St
     E.box(16, 0.07, 360, mAsphalt, 138, 0, 10, { parent: roadGroup }); // 100ft Rd Indiranagar
 
-    // Dashed Lane Lines + Zebra Crossings at key Bangalore intersections
     for (var rx = -210; rx <= 210; rx += 14) {
       E.box(5.5, 0.09, 0.26, mYellow, rx, 0, -10, { parent: roadGroup });
       E.box(4.5, 0.09, 0.22, mLine, rx, 0, 86, { parent: roadGroup });
@@ -1000,14 +1093,11 @@ Game({
       E.box(0.22, 0.09, 4.5, mLine, 28, 0, rz, { parent: roadGroup });
       E.box(0.24, 0.09, 5, mYellow, 138, 0, rz, { parent: roadGroup });
     }
-    // Zebra Crossings (MG Rd & Brigade Rd / Kasturba Rd / Residency Rd)
     [[28, -22], [28, 2], [28, 76], [-62, -22], [-62, 2], [138, 2]].forEach(function (zx) {
       for (var zi = -4; zi <= 4; zi += 2) {
         E.box(1.1, 0.095, 3.8, mLine, zx[0] + zi * 1.1, 0, zx[1], { parent: roadGroup });
       }
     });
-
-    // Paved Sidewalks with Kerbs
     [
       [18, 12, 3.4, 165], [38, 12, 3.4, 165], [46, 55, 3.4, 145], [62, 55, 3.4, 145],
       [-51, 0, 3.8, 290], [-73, 0, 3.8, 290], [127, 10, 3.6, 260], [149, 10, 3.6, 260]
@@ -1015,7 +1105,6 @@ Game({
       E.box(sw[2], 0.18, sw[3], mSidewalk, sw[0], 0, sw[1], { parent: roadGroup, solid: true });
     });
 
-    // Cubbon Park & Lalbagh Lush Textured Terraces + Walkways
     E.box(112, 0.16, 108, mGrass, -120, 0, 42, { parent: roadGroup, solid: true });
     E.box(106, 0.16, 94, mGrass, 125, 0, 132, { parent: roadGroup, solid: true });
     E.box(8, 0.18, 92, mSandstone, -120, 0, 42, { parent: roadGroup });
@@ -1024,7 +1113,6 @@ Game({
     addRoof(-120, 42, 112, 108, 0.16, 'Cubbon Park Lawn');
     addRoof(125, 132, 106, 94, 0.16, 'Lalbagh Grounds');
 
-    // Orion / Sankey Lake Promenade Basin
     E.box(82, 0.35, 3.2, mSidewalk, 72, 0, -177, { parent: roadGroup, solid: true });
     E.box(82, 0.35, 3.2, mSidewalk, 72, 0, -107, { parent: roadGroup, solid: true });
     E.box(3.2, 0.35, 68, mSidewalk, 32, 0, -142, { parent: roadGroup, solid: true });
@@ -1036,114 +1124,144 @@ Game({
     orionLake.scale.set(1, 0.86, 1);
 
     // =========================================================================
-    // 3. DETAILED REAL BANGALORE LANDMARKS (BAKED FOR OPTIMAL DRAW CALLS)
+    // 3. ARCHITECTURALLY SCULPTED & COMIC-OUTLINED BANGALORE LANDMARKS
     // =========================================================================
 
     // --- 3A. VIDHANA SOUDHA (-115, 0, -100) ---
     (function buildVidhanaSoudha() {
       var g = E.group(-115, 0, -100);
-      // Granite Plinth & Landscaped Plaza Fountain
       E.box(74, 2.4, 46, mGranite, 0, 0, 0, { parent: g, solid: true });
-      E.cyl(7, 7.6, 0.9, mCream, 0, 0, 31, { parent: g, solid: true, seg: 14 });
-      E.cyl(5.5, 5.5, 1.0, E.glowMat('#38bdf8', 1.4), 0, 0.1, 31, { parent: g, seg: 12 });
-      // Ceremonial Grand Steps + Balustrades
+      // Lathe Fountain Basin in front plaza
+      var fPts = [new T.Vector2(0, 0), new T.Vector2(7.6, 0), new T.Vector2(7.2, 0.95), new T.Vector2(6.4, 0.95), new T.Vector2(6.2, 0.3), new T.Vector2(0, 0.3)];
+      E.mesh(new T.LatheGeometry(fPts, 18), mCream, 0, 0, 31, { parent: g });
+      E.cyl(6.0, 6.0, 0.55, E.glowMat('#38bdf8', 1.5), 0, 0.1, 31, { parent: g, seg: 14 });
       for (var st = 0; st < 6; st++) {
         E.box(30 - st * 1.4, 0.42, 7.5 - st * 1.0, mSandstone, 0, st * 0.4, 24 - st * 0.5, { parent: g });
       }
-      E.box(1.1, 2.2, 7.5, mSandstone, -15.5, 0.4, 24, { parent: g });
-      E.box(1.1, 2.2, 7.5, mSandstone, 15.5, 0.4, 24, { parent: g });
-      // Main Palace Facade + Recessed Windows + Ornate Cornice
       E.box(64, 16.5, 34, mGranite, 0, 2.4, 0, { parent: g, solid: true });
       E.box(66, 1.2, 36, mSandstone, 0, 18.9, 0, { parent: g });
       for (var cx = -28; cx <= 28; cx += 5.6) {
         E.cyl(0.62, 0.72, 16, mCream, cx, 2.4, 17.6, { parent: g, seg: 8 });
         E.cyl(0.62, 0.72, 16, mCream, cx, 2.4, -17.6, { parent: g, seg: 8 });
         if (Math.abs(cx) > 9) {
-          E.box(3.2, 4.2, 0.3, E.glowMat('#fde68a', 0.55), cx, 6.5, 17.1, { parent: g });
-          E.box(3.2, 4.2, 0.3, E.glowMat('#fde68a', 0.55), cx, 12.2, 17.1, { parent: g });
+          E.box(3.2, 4.2, 0.3, E.glowMat('#fde68a', 0.6), cx, 6.5, 17.1, { parent: g });
+          E.box(3.2, 4.2, 0.3, E.glowMat('#fde68a', 0.6), cx, 12.2, 17.1, { parent: g });
         }
       }
-      // Central Grand Portico & Pediment
+      // Sculpted Stepped Gopuram Portico Pediment
       E.box(19, 17.8, 6.5, mSandstone, 0, 2.4, 18.5, { parent: g });
-      E.box(21.5, 2.2, 8.2, mCream, 0, 20.2, 17.5, { parent: g });
-      // 4 Corner Chhatri Domes with Finials
+      var pedShape = new T.Shape();
+      pedShape.moveTo(-11, 0); pedShape.lineTo(11, 0); pedShape.lineTo(0, 4.6); pedShape.closePath();
+      var pedGeo = new T.ExtrudeGeometry(pedShape, { depth: 8, bevelEnabled: false });
+      pedGeo.translate(0, 0, -4);
+      E.mesh(pedGeo, mCream, 0, 20.2, 17.5, { parent: g });
+
+      // Lathe Ribbed Central Dome + 4 Corner Chhatri Domes
+      var domePts = [];
+      for (var di = 0; di <= 10; di++) {
+        var a = (di / 10) * Math.PI * 0.5;
+        domePts.push(new T.Vector2(Math.cos(a) * 9.8, Math.sin(a) * 10.2));
+      }
+      var domeGeo = new T.LatheGeometry(domePts, 18);
+      E.cyl(10, 11.6, 7.2, mSandstone, 0, 20.1, 0, { parent: g, seg: 16 });
+      E.mesh(domeGeo, mCream, 0, 27.3, 0, { parent: g });
+      E.cyl(1.4, 2.4, 4.8, mGold, 0, 37.3, 0, { parent: g, seg: 10 });
+      E.sphere(1.25, E.glowMat('#fbbf24', 2.4), 0, 42.6, 0, { parent: g, seg: 10 });
+
       [[-28, -14], [28, -14], [-28, 14], [28, 14]].forEach(function (c) {
         E.box(7.5, 5.2, 7.5, mSandstone, c[0], 20.1, c[1], { parent: g });
         E.sphere(3.8, mCream, c[0], 26.5, c[1], { parent: g, seg: 10 });
         E.cone(0.55, 3.2, mGold, c[0], 29.8, c[1], { parent: g, seg: 6 });
       });
-      // Central Drum + Ribbed Grand Dome + Ashoka Pillar Finial
-      E.cyl(10, 11.6, 7.2, mSandstone, 0, 20.1, 0, { parent: g, seg: 16 });
-      E.sphere(9.6, mCream, 0, 28.2, 0, { parent: g, seg: 16 });
-      E.cyl(1.4, 2.4, 4.6, mGold, 0, 36.8, 0, { parent: g, seg: 10 });
-      E.sphere(1.25, E.glowMat('#fbbf24', 2.4), 0, 42.0, 0, { parent: g, seg: 10 });
+
+      // VIP Rally Speaker Podium on steps (Op 5 Target!)
+      var podium = E.group(0, 2.4, 23);
+      E.box(4.5, 1.2, 2.4, mRedBrick, 0, 0, 0, { parent: podium });
+      E.box(1.4, 1.4, 1.0, mCream, 0, 1.2, 0.3, { parent: podium });
+      E.sphere(0.42, E.glowMat('#fbbf24', 1.8), 0, 3.0, 0.3, { parent: podium, seg: 8 });
+      S.vipPodium = podium;
+      podium.position.set(-115, 2.4, -77);
+
+      bakeComicEdges(g, 32);
       E.bake(g);
-      E.sign('ವಿಧಾನ ಸೌಧ · VIDHANA SOUDHA', { x: -115, y: 21.8, z: -77.6, h: 1.8, color: '#fbbf24', glow: 2.1, double: true });
-      E.halo(-115, 40, -100, '#fbbf24', 28, 0.35);
+      E.sign('ವಿಧಾನ ಸೌಧ · VIDHANA SOUDHA', { x: -115, y: 21.8, z: -76.5, h: 1.8, color: '#fbbf24', glow: 2.1, double: true });
+      E.halo(-115, 41, -100, '#fbbf24', 28, 0.35);
       E.light('#ffd27d', 2.2, -115, 18, -72, 54);
       addRoof(-115, -100, 64, 34, 20.2, 'Vidhana Soudha Terrace');
       E.poi(-115, 22, -100, 52);
     })();
 
-    // --- 3B. ATTARA KACHERI / KARNATAKA HIGH COURT (-115, 0, -32) ---
+    // --- 3B. ATTARA KACHERI / HIGH COURT (-115, 0, -32) ---
     (function buildHighCourt() {
       var g = E.group(-115, 0, -32);
       E.box(54, 1.0, 25, mSandstone, 0, 0, 0, { parent: g, solid: true });
       E.box(52, 12.5, 22, mRedBrick, 0, 1.0, 0, { parent: g, solid: true });
-      // Classical White Verandah Colonnades + Arched Windows
       for (var hx = -22; hx <= 22; hx += 4.4) {
         E.box(0.95, 12.5, 1.4, mCream, hx, 1.0, -11.3, { parent: g });
         E.box(0.95, 12.5, 1.4, mCream, hx, 1.0, 11.3, { parent: g });
         if (Math.abs(hx) < 20) {
-          E.box(2.2, 3.0, 0.25, E.glowMat('#fde68a', 0.45), hx + 2.2, 4.2, -11.15, { parent: g });
-          E.box(2.2, 3.0, 0.25, E.glowMat('#fde68a', 0.45), hx + 2.2, 9.0, -11.15, { parent: g });
+          E.box(2.2, 3.0, 0.25, E.glowMat('#fde68a', 0.5), hx + 2.2, 4.2, -11.15, { parent: g });
+          E.box(2.2, 3.0, 0.25, E.glowMat('#fde68a', 0.5), hx + 2.2, 9.0, -11.15, { parent: g });
         }
       }
-      // Central Portico + Flanking Turret Pavilions
       E.box(16, 4.8, 24, mRedBrick, 0, 13.5, 0, { parent: g });
       E.box(17.5, 1.0, 25, mCream, 0, 18.3, 0, { parent: g });
       [-20, 20].forEach(function (tx) {
         E.box(7.5, 3.5, 7.5, mRedBrick, tx, 13.5, 0, { parent: g });
         E.cone(4.8, 4.4, mCream, tx, 17.0, 0, { parent: g, seg: 4, ry: Math.PI / 4 });
       });
+      bakeComicEdges(g, 30);
       E.bake(g);
       E.sign('HIGH COURT · ಅಠಾರ ಕಚೇರಿ', { x: -115, y: 16, z: -44.2, ry: Math.PI, h: 1.35, color: '#fca5a5', glow: 1.9, double: true });
       addRoof(-115, -32, 52, 22, 13.5, 'High Court Roof');
     })();
 
-    // --- 3C. CUBBON PARK BANYANS, STATUE & BANDSTAND (-120, 0, 42) ---
+    // --- 3C. CUBBON PARK + SCULPTED TUBE BANYAN + MAFIA NEST (-120, 0, 42) ---
     (function buildCubbonPark() {
       var g = E.group(-120, 0.16, 42);
-      // Bandstand Gazebo with Ornate Base + Dome Roof
       E.cyl(6, 6.6, 0.9, mCream, 18, 0, -10, { parent: g, solid: true, seg: 12 });
       for (var a = 0; a < 8; a++) {
         var ang = a * Math.PI / 4;
         E.cyl(0.18, 0.22, 4.8, mCream, 18 + Math.cos(ang) * 4.8, 0.9, -10 + Math.sin(ang) * 4.8, { parent: g, seg: 6 });
       }
       E.cone(6.6, 3.0, mRedBrick, 18, 5.7, -10, { parent: g, seg: 10 });
-      E.sphere(0.4, mGold, 18, 8.9, -10, { parent: g, seg: 8 });
-      // Statue Rotunda
       E.box(5.6, 3.8, 5.6, mGranite, -14, 0, 12, { parent: g, solid: true });
       E.cyl(1.1, 1.5, 4.0, mIron, -14, 3.8, 12, { parent: g, seg: 8 });
       E.sphere(1.05, mIron, -14, 8.4, 12, { parent: g, seg: 8 });
-      // Giant Spreading Heritage Banyan Tree with Hanging Prop Roots
-      E.cyl(2.0, 2.8, 7.5, mSoil, -2, 0, -2, { parent: g, solid: true, seg: 10 });
-      for (var br = 0; br < 7; br++) {
-        var ba = br * 0.9;
-        E.cyl(0.32, 0.44, 8.0, mSoil, -2 + Math.cos(ba) * 7.2, 0, -2 + Math.sin(ba) * 7.2, { parent: g, seg: 6 });
-      }
-      E.sphere(10.5, mGrass, -2, 11.2, -2, { parent: g, seg: 12 }).scale.set(1.45, 0.55, 1.35);
-      // Park Wooden Benches
-      [[-8, 22], [12, 22], [-8, -22], [12, -22]].forEach(function (bp) {
-        E.box(2.6, 0.55, 0.8, mSoil, bp[0], 0, bp[1], { parent: g });
-        E.box(2.6, 0.65, 0.14, mSoil, bp[0], 0.55, bp[1] - 0.35, { parent: g });
-      });
-      E.bake(g);
-      addRoof(-102, 32, 11, 11, 8.9, 'Cubbon Bandstand');
-      addRoof(-122, 40, 20, 20, 15.2, 'Great Banyan Canopy');
-      E.sign('CUBBON PARK · ಕಬ್ಬನ್ ಉದ್ಯಾನ', { x: -78, y: 4.5, z: 42, ry: Math.PI / 2, h: 1.4, color: '#86efac', glow: 1.9, double: true });
 
-      // Instanced Pink Tabebuia & Evergreen Park Trees
+      // Curved TubeGeometry Banyan Trunk + Organic Spreading Boughs + Hanging Prop Roots!
+      E.cyl(2.0, 2.8, 7.5, mSoil, -2, 0, -2, { parent: g, solid: true, seg: 10 });
+      for (var br = 0; br < 6; br++) {
+        var ba = br * 1.047;
+        var bx = Math.cos(ba) * 7.8, bz = Math.sin(ba) * 7.8;
+        var boughCurve = new T.CatmullRomCurve3([
+          new T.Vector3(-2, 6.5, -2),
+          new T.Vector3(-2 + bx * 0.55, 9.2, -2 + bz * 0.55),
+          new T.Vector3(-2 + bx, 7.8, -2 + bz)
+        ]);
+        E.mesh(new T.TubeGeometry(boughCurve, 8, 0.42, 6, false), mSoil, 0, 0, 0, { parent: g });
+        E.cyl(0.24, 0.34, 8.2, mSoil, -2 + bx * 0.9, 0, -2 + bz * 0.9, { parent: g, seg: 6 });
+        E.sphere(4.2, mGrass, -2 + bx * 0.8, 10.6, -2 + bz * 0.8, { parent: g, seg: 8 });
+      }
+      E.sphere(7.5, mGrass, -2, 12.2, -2, { parent: g, seg: 10 }).scale.set(1.3, 0.7, 1.3);
+
+      // Mafia Crow Black-Market Nest atop Great Banyan (-122, 16, 40) + Beacon Ring
+      var nestGeo = new T.TorusGeometry(2.6, 0.55, 8, 16);
+      nestGeo.rotateX(Math.PI / 2);
+      E.mesh(nestGeo, mSandstone, -2, 16.0, -2, { parent: g });
+      E.cyl(2.2, 2.2, 0.3, E.glowMat('#ff5a1f', 2.0), -2, 15.8, -2, { parent: g, seg: 14 });
+      S.nestPos = { x: -122, y: 16.2, z: 40 };
+
+      bakeComicEdges(g, 35);
+      E.bake(g);
+      S.nestBeacon = new T.Mesh(new T.CylinderGeometry(3.2, 3.2, 42, 14, 1, true), E.mat({ color: '#ff5a1f', emissive: '#ff5a1f', glow: 2.2, opacity: 0.28, double: true }));
+      S.nestBeacon.position.set(-122, 37, 40);
+      S.nestBeacon.visible = false;
+      E.scene.add(S.nestBeacon);
+      addRoof(-102, 32, 11, 11, 8.9, 'Cubbon Bandstand');
+      addRoof(-122, 40, 22, 22, 16.2, 'Kaage Syndicate Nest');
+      E.sign('CUBBON PARK · KAAGE NEST', { x: -78, y: 4.5, z: 42, ry: Math.PI / 2, h: 1.4, color: '#86efac', glow: 1.9, double: true });
+
       var treeTrunks = [], pinkCrowns = [], greenCrowns = [];
       var treeCoords = [
         [-158, 16], [-156, 62], [-138, 82], [-94, 12], [-90, 76], [-146, -18], [-82, -18],
@@ -1166,24 +1284,19 @@ Game({
       E.building({ x: -100, z: 128, w: 22, d: 22, h: 88, color: '#2b3648', lit: 0.68, winColors: ['#fde68a', '#bae6fd'], glow: 1.3, style: 'bands', solid: true });
       E.building({ x: -130, z: 140, w: 24, d: 18, h: 36, color: '#9c7c52', lit: 0.58, winColors: ['#fde68a', '#bae6fd'], glow: 1.1, style: 'bands', solid: true });
       E.building({ x: -70, z: 120, w: 22, d: 18, h: 44, color: '#3b4b61', lit: 0.62, winColors: ['#bae6fd', '#fde68a'], glow: 1.2, style: 'bands', solid: true });
-
       var g = E.group(-100, 0, 128);
-      // Brise-soleil exoskeleton vertical fins on UB Tower
       [[-11.2, -8], [-11.2, 8], [11.2, -8], [11.2, 8]].forEach(function (fc) {
         E.box(0.8, 88, 1.4, mSandstone, fc[0], 0, fc[1], { parent: g });
       });
-      // Cantilevered Skydeck Crown + Illuminated Helipad
       E.box(27, 4.6, 25, mSandstone, 0, 88, 0, { parent: g, solid: true });
       E.cyl(8.8, 8.8, 0.6, mIron, 0, 92.6, 0, { parent: g, seg: 16 });
       E.box(5.6, 0.2, 1.1, E.glowMat('#fbbf24', 2.4), 0, 93.25, 0, { parent: g });
       E.box(1.1, 0.2, 5.6, E.glowMat('#fbbf24', 2.4), -2.2, 93.25, 0, { parent: g });
       E.box(1.1, 0.2, 5.6, E.glowMat('#fbbf24', 2.4), 2.2, 93.25, 0, { parent: g });
-      // Elevated Skybridge connecting Concorde & UB Tower
       E.box(16, 4.5, 6.5, mGlassBlue, -16, 22, 6, { parent: g });
-      // Piazza Amphitheatre Water Fountain
       E.cyl(9, 10, 0.9, mCream, 26, 0, 20, { parent: g, solid: true, seg: 14 });
       E.cyl(7.2, 7.2, 1.0, E.glowMat('#38bdf8', 1.45), 26, 0.1, 20, { parent: g, seg: 14 });
-      E.cyl(1.4, 2.2, 3.8, mSandstone, 26, 0.9, 20, { parent: g, seg: 8 });
+      bakeComicEdges(g, 32);
       E.bake(g);
       E.sign('UB CITY · BENGALURU', { x: -100, y: 85, z: 115.8, ry: Math.PI, h: 2.6, color: '#fde047', glow: 2.4, double: true });
       E.halo(-100, 95, 128, '#fde047', 26, 0.4);
@@ -1196,244 +1309,249 @@ Game({
     // --- 3E. MG ROAD & NAMMA METRO PURPLE LINE (z=-10) ---
     (function buildNammaMetro() {
       var g = E.group(0, 0, -10);
-      // Elevated Viaduct Deck + Side Parapets + Dual Steel Tracks
       E.box(436, 1.8, 8.0, mConcrete, 0, 8.2, 0, { parent: g, solid: true });
       E.box(436, 0.95, 0.45, mCream, 0, 10.0, -3.8, { parent: g });
       E.box(436, 0.95, 0.45, mCream, 0, 10.0, 3.8, { parent: g });
-      E.box(436, 0.35, 8.15, E.glowMat('#9333ea', 1.8), 0, 8.7, 0, { parent: g });
+      E.box(436, 0.35, 8.15, E.glowMat('#9333ea', 1.85), 0, 8.7, 0, { parent: g });
       E.box(436, 0.16, 0.22, mIron, 0, 10.02, -1.2, { parent: g });
       E.box(436, 0.16, 0.22, mIron, 0, 10.02, 1.2, { parent: g });
-      // Flared Y-Piers
+
+      // Extruded Flared Metro Y-Piers
+      var pierShape = new T.Shape();
+      pierShape.moveTo(-1.1, 0); pierShape.lineTo(1.1, 0); pierShape.lineTo(1.3, 6.2);
+      pierShape.lineTo(3.6, 8.2); pierShape.lineTo(-3.6, 8.2); pierShape.lineTo(-1.3, 6.2); pierShape.closePath();
+      var pierGeo = new T.ExtrudeGeometry(pierShape, { depth: 2.2, bevelEnabled: false });
+      pierGeo.rotateY(Math.PI / 2);
+      pierGeo.translate(-1.1, 0, 0);
       for (var px = -195; px <= 195; px += 26) {
         if (Math.abs(px + 62) < 8 || Math.abs(px - 28) < 8 || Math.abs(px - 138) < 8) continue;
-        E.box(2.1, 6.5, 2.2, mConcrete, px, 0, 0, { parent: g, solid: true });
-        E.box(3.4, 2.0, 6.8, mConcrete, px, 6.4, 0, { parent: g });
+        E.mesh(pierGeo, mConcrete, px, 0, 0, { parent: g, solid: true });
       }
-      // MG Road Metro Station Concourse + Ribbed Arch Roof + Entry Stairs
       E.box(40, 1.4, 14, mConcrete, 12, 8.0, 0, { parent: g, solid: true });
       E.box(38, 5.2, 13, mGlassBlue, 12, 11.4, 0, { parent: g, solid: true });
       E.box(42, 0.9, 15, mCream, 12, 16.6, 0, { parent: g, solid: true });
       for (var sr = -16; sr <= 16; sr += 8) {
         E.box(0.8, 6.2, 15.6, mIron, 12 + sr, 11.2, 0, { parent: g });
       }
+      bakeComicEdges(g, 32);
       E.bake(g);
       E.sign('ನಮ್ಮ ಮೆಟ್ರೋ · MG ROAD METRO', { x: 12, y: 15.0, z: -2.0, h: 1.35, color: '#d8b4fe', glow: 2.3, double: true });
       addRoof(12, -10, 42, 15, 17.5, 'MG Road Metro Roof');
       addRoof(0, -10, 420, 8.0, 10.0, 'Namma Metro Viaduct');
 
-      // Detailed 4-Car Namma Metro Train
+      // Sculpted Aerodynamic Namma Metro Train
       var train = E.group(-180, 10.12, -10);
       for (var ci = 0; ci < 4; ci++) {
         var cx = ci * 13.4;
         E.box(12.6, 3.2, 3.15, E.mat({ color: '#e2e8f0', rough: 0.3, metal: 0.55 }), cx, 0, 0, { parent: train });
         E.box(12.7, 0.55, 3.22, E.glowMat('#9333ea', 1.85), cx, 1.05, 0, { parent: train });
         E.box(11.0, 0.95, 3.2, E.glowMat('#38bdf8', 1.65), cx, 1.8, 0, { parent: train });
-        E.box(12.2, 0.3, 2.5, mIron, cx, 3.2, 0, { parent: train }); // Roof AC pods
+        E.box(12.2, 0.3, 2.5, mIron, cx, 3.2, 0, { parent: train });
       }
       E.box(0.35, 0.7, 2.3, E.glowMat('#fef08a', 3.4), -6.45, 0.85, 0, { parent: train });
       E.box(0.35, 0.7, 2.3, E.glowMat('#fef08a', 3.4), 3 * 13.4 + 6.45, 0.85, 0, { parent: train });
       S.metroTrain = train;
     })();
 
-    // --- 3F. PUBLIC UTILITY BUILDING (78, 0, -34) ---
-    (function buildPublicUtility() {
+    // --- 3F. PUBLIC UTILITY, BRIGADE, LALBAGH, WTC, INDIRANAGAR ---
+    (function buildRestOfCity() {
+      // Public Utility Building
       E.building({ x: 78, z: -34, w: 20, d: 18, h: 74, color: '#6b675f', lit: 0.58, winColors: ['#fde68a', '#bae6fd'], glow: 1.2, style: 'cells', solid: true });
-      var g = E.group(78, 0, -34);
-      for (var fx = -8; fx <= 8; fx += 4) {
-        E.box(0.6, 74, 18.8, mCream, fx, 0, 0, { parent: g });
-      }
-      E.box(14, 6.2, 12, mConcrete, 0, 74, 0, { parent: g, solid: true });
-      E.cyl(0.25, 0.45, 16, mIron, 0, 80.2, 0, { parent: g, seg: 6 });
-      E.sphere(0.75, E.glowMat('#ef4444', 3.5), 0, 96.2, 0, { parent: g, seg: 8 });
-      E.bake(g);
+      var ug = E.group(78, 0, -34);
+      for (var fx = -8; fx <= 8; fx += 4) E.box(0.6, 74, 18.8, mCream, fx, 0, 0, { parent: ug });
+      E.box(14, 6.2, 12, mConcrete, 0, 74, 0, { parent: ug, solid: true });
+      E.cyl(0.25, 0.45, 16, mIron, 0, 80.2, 0, { parent: ug, seg: 6 });
+      E.sphere(0.75, E.glowMat('#ef4444', 3.5), 0, 96.2, 0, { parent: ug, seg: 8 });
+      bakeComicEdges(ug, 32);
+      E.bake(ug);
       E.sign('PUBLIC UTILITY BLDG · MG RD', { x: 78, y: 71.5, z: -24.2, h: 1.7, color: '#ff8b3d', glow: 2.2, double: true });
       addRoof(78, -34, 20, 18, 74, 'Public Utility Deck');
       addRoof(78, -34, 14, 12, 80.2, 'Public Utility Spire');
-    })();
 
-    // --- 3G. BRIGADE RD, CHURCH ST, AWNINGS, SINTEX TANKS, DARSHINI CARTS & POWERLINES ---
-    (function buildBrigadeChurch() {
+      // Brigade & Church St Blocks
       var words = ['BLOSSOM BOOKS', 'MAVALLI TIFFINS', 'BRIGADE ARCADE', 'KAAPI DARSHINI', 'MYSORE SILKS', 'ಚರ್ಚ್ ಸ್ಟ್ರೀಟ್', 'ಬ್ರಿಗೇಡ್ ರೋಡ್', 'EMPIRE KEBAB', 'KOSHY CAFE'];
       var neon = ['#ff5a1f', '#38bdf8', '#facc15', '#ec4899', '#22c55e', '#a855f7'];
       var bCols = ['#363e52', '#4d413e', '#2d3b4a', '#463a4d'];
       var streetFrames = E.group();
-      var realLights = 0;
-      var tankInstances = [];
-
+      var realLights = 0, tankInstances = [];
       var blocks = [
-        { x: 10, z: 26, w: 12, d: 22, h: 16 },
-        { x: 10, z: 58, w: 12, d: 26, h: 22 },
-        { x: 10, z: 108, w: 12, d: 24, h: 20 },
-        { x: 42, z: 26, w: 11, d: 20, h: 18 },
-        { x: 42, z: 56, w: 11, d: 24, h: 25 },
-        { x: 42, z: 108, w: 11, d: 22, h: 19 },
-        { x: 68, z: 32, w: 13, d: 24, h: 21 },
-        { x: 68, z: 64, w: 13, d: 20, h: 28 },
-        { x: 68, z: 108, w: 13, d: 24, h: 18 },
-        { x: -34, z: -48, w: 22, d: 24, h: 32 },
-        { x: -34, z: 38, w: 20, d: 28, h: 28 },
-        { x: -34, z: 128, w: 20, d: 24, h: 38 },
-        { x: 168, z: -48, w: 24, d: 24, h: 46 },
-        { x: 175, z: 36, w: 22, d: 34, h: 30 },
-        { x: 108, z: -42, w: 18, d: 22, h: 36 }
+        { x: 10, z: 26, w: 12, d: 22, h: 16 }, { x: 10, z: 58, w: 12, d: 26, h: 22 }, { x: 10, z: 108, w: 12, d: 24, h: 20 },
+        { x: 42, z: 26, w: 11, d: 20, h: 18 }, { x: 42, z: 56, w: 11, d: 24, h: 25 }, { x: 42, z: 108, w: 11, d: 22, h: 19 },
+        { x: 68, z: 32, w: 13, d: 24, h: 21 }, { x: 68, z: 64, w: 13, d: 20, h: 28 }, { x: 68, z: 108, w: 13, d: 24, h: 18 },
+        { x: -34, z: -48, w: 22, d: 24, h: 32 }, { x: -34, z: 38, w: 20, d: 28, h: 28 }, { x: -34, z: 128, w: 20, d: 24, h: 38 },
+        { x: 168, z: -48, w: 24, d: 24, h: 46 }, { x: 175, z: 36, w: 22, d: 34, h: 30 }, { x: 108, z: -42, w: 18, d: 22, h: 36 }
       ];
       blocks.forEach(function (b, idx) {
         var c = neon[idx % neon.length];
         E.building({ x: b.x, z: b.z, w: b.w, d: b.d, h: b.h, color: bCols[idx % bCols.length], lit: 0.62, winColors: ['#fde68a', '#bae6fd'], glow: 1.3, solid: true });
         addRoof(b.x, b.z, b.w, b.d, b.h, 'Brigade Rooftop');
-        // Rooftop Parapet + Sintex Water Tanks + AC Units (authentic Bangalore skyline details!)
         E.box(b.w + 0.4, 0.75, b.d + 0.4, mCream, b.x, b.h, b.z, { parent: streetFrames });
         tankInstances.push({ x: b.x - b.w * 0.22, y: b.h + 1.4, z: b.z - b.d * 0.2, sx: 0.9, sy: 1.4, sz: 0.9 });
         tankInstances.push({ x: b.x + b.w * 0.22, y: b.h + 1.2, z: b.z + b.d * 0.15, sx: 0.75, sy: 1.1, sz: 0.75 });
-
         if (idx < 9) {
           var sx = b.x < 28 ? b.x + b.w * 0.5 + 0.15 : b.x - b.w * 0.5 - 0.15;
           var sry = b.x < 28 ? Math.PI / 2 : -Math.PI / 2;
-          // Illuminated shopfront + Striped Awning overhang
-          E.box(0.25, 2.8, b.d - 2, E.glowMat(c, 0.75), sx, 0.3, b.z, { parent: streetFrames });
+          E.box(0.25, 2.8, b.d - 2, E.glowMat(c, 0.8), sx, 0.3, b.z, { parent: streetFrames });
           E.box(2.0, 0.22, b.d - 1.4, mCream, sx + (b.x < 28 ? 0.9 : -0.9), 3.15, b.z, { parent: streetFrames, rz: b.x < 28 ? -0.18 : 0.18 });
           E.sign(words[idx % words.length], { x: sx + (b.x < 28 ? 0.45 : -0.45), y: 4.4, z: b.z, ry: sry, h: 0.95, color: c, glow: 2.3, double: true });
-          if (realLights < 4) {
-            realLights++;
-            E.light(c, 2.0, sx + (b.x < 28 ? 3.5 : -3.5), 4.4, b.z, 24);
-          }
+          if (realLights < 4) { realLights++; E.light(c, 2.0, sx + (b.x < 28 ? 3.5 : -3.5), 4.4, b.z, 24); }
         }
       });
       E.instances(new T.CylinderGeometry(1, 1, 1, 10), mIron, tankInstances);
 
-      // BESCOM Utility Poles + Transformers (Op 2 Targets!) + Overhead Powerlines
-      var poles = [
-        [20, 14], [20, 44], [20, 74], [20, 114],
-        [36, 14], [36, 44], [36, 74], [36, 114],
-        [48, 22], [48, 54], [48, 102]
-      ];
+      // BESCOM Utility Poles + Sagging Catenary TubeGeometry Powerlines!
+      var poles = [[20, 14], [20, 44], [20, 74], [20, 114], [36, 14], [36, 44], [36, 74], [36, 114], [48, 22], [48, 54], [48, 102]];
       poles.forEach(function (p, pidx) {
         E.cyl(0.11, 0.16, 9.4, mIron, p[0], 0, p[1], { parent: streetFrames, seg: 6 });
         E.box(2.0, 0.16, 0.18, mIron, p[0], 8.8, p[1], { parent: streetFrames });
-        // Porcelain insulator caps
-        E.cyl(0.1, 0.1, 0.25, mCream, p[0] - 0.7, 8.95, p[1], { parent: streetFrames, seg: 6 });
-        E.cyl(0.1, 0.1, 0.25, mCream, p[0] + 0.7, 8.95, p[1], { parent: streetFrames, seg: 6 });
-        if (pidx % 4 === 0) {
-          E.box(1.1, 1.3, 0.8, mIron, p[0], 5.6, p[1], { parent: streetFrames }); // BESCOM transformer box
-        }
-        addRoof(p[0], p[1], 2.4, 2.4, 9.4, 'BESCOM Powerline Perch');
+        if (pidx % 4 === 0) E.box(1.1, 1.3, 0.8, mIron, p[0], 5.6, p[1], { parent: streetFrames });
+        addRoof(p[0], p[1], 2.4, 2.4, 9.4, 'BESCOM Perch');
       });
       for (var wi = 0; wi < 3; wi++) {
-        E.box(0.06, 0.06, 30, mIron, 20, 8.8, 29 + wi * 30, { parent: streetFrames });
-        E.box(0.06, 0.06, 30, mIron, 36, 8.8, 29 + wi * 30, { parent: streetFrames });
-        E.box(16, 0.06, 0.06, mIron, 28, 8.8, 14 + wi * 30, { parent: streetFrames });
+        var zA = 14 + wi * 30, zB = 44 + wi * 30;
+        [-0.7, 0.7].forEach(function (off) {
+          var sag1 = new T.CatmullRomCurve3([new T.Vector3(20 + off, 8.9, zA), new T.Vector3(20 + off, 7.8, (zA + zB) / 2), new T.Vector3(20 + off, 8.9, zB)]);
+          E.mesh(new T.TubeGeometry(sag1, 6, 0.035, 4, false), mIron, 0, 0, 0, { parent: streetFrames });
+          var sag2 = new T.CatmullRomCurve3([new T.Vector3(36 + off, 8.9, zA), new T.Vector3(36 + off, 7.8, (zA + zB) / 2), new T.Vector3(36 + off, 8.9, zB)]);
+          E.mesh(new T.TubeGeometry(sag2, 6, 0.035, 4, false), mIron, 0, 0, 0, { parent: streetFrames });
+        });
       }
-      // Streetlights along MG Road & Kasturba Road (instanced)
       for (var lx = -160; lx <= 160; lx += 40) {
         if (Math.abs(lx) < 12) continue;
         E.prefab.lamp(lx, -21, { h: 6.5, color: '#fde68a', parent: streetFrames });
         E.prefab.lamp(lx, 1, { ry: Math.PI, h: 6.5, color: '#fde68a', parent: streetFrames });
       }
+      bakeComicEdges(streetFrames, 35);
       E.bake(streetFrames);
 
-      // 3 Interactive Filter Kaapi Street Carts (Replenish Wing Stamina anytime with E!)
-      [[18, 38], [46, 72], [-51, 32]].forEach(function (kc) {
-        var cart = E.group(kc[0], 0.18, kc[1]);
-        E.box(1.8, 1.0, 1.1, mRedBrick, 0, 0, 0, { parent: cart, solid: true });
-        E.cyl(0.06, 0.06, 2.2, mCream, 0, 1.0, 0, { parent: cart, seg: 6 });
-        E.cone(1.5, 0.55, E.mat({ color: '#f59e0b', rough: 0.6, double: true }), 0, 2.75, 0, { parent: cart, seg: 8 });
-        E.cyl(0.22, 0.24, 0.45, E.glowMat('#fbbf24', 2.0), 0.4, 1.0, 0.2, { parent: cart, seg: 8 });
-        S.kaapiCarts.push(cart);
-        E.zone({
-          x: kc[0], y: 0.5, z: kc[1], radius: 4.0, prompt: 'Drink Hot Filter Kaapi (Full Stamina)',
-          onAction: function () {
-            S.stamina = S.maxStamina;
-            E.audio.sfx('power');
-            E.hud.toast('Filter Kaapi Boost! Wing Stamina 100%', 2.0);
-          }
-        });
-      });
-
-      E.poi(28, 12, 48, 30);
-    })();
-
-    // --- 3H. LALBAGH GLASSHOUSE & KEMPEGOWDA TOWER (125, 0, 128) ---
-    (function buildLalbagh() {
-      var g = E.group(125, 0.16, 128);
-      E.box(36, 1.5, 24, mCream, 0, 0, 0, { parent: g, solid: true });
+      // Lalbagh Glasshouse & Kempegowda Rock
+      var lg = E.group(125, 0.16, 128);
+      E.box(36, 1.5, 24, mCream, 0, 0, 0, { parent: lg, solid: true });
       var glassMat = E.mat({ color: '#93c5fd', emissive: '#f59e0b', glow: 0.55, rough: 0.1, metal: 0.3, opacity: 0.78 });
-      E.box(32, 8.8, 18, glassMat, 0, 1.5, 0, { parent: g });
-      E.cyl(9.2, 9.2, 32, glassMat, 0, 10.3, 0, { parent: g, rz: Math.PI / 2, seg: 14 });
-      E.box(14, 14.5, 24, glassMat, 0, 1.5, 0, { parent: g });
-      E.cyl(7.2, 7.2, 24, glassMat, 0, 16.0, 0, { parent: g, rx: Math.PI / 2, seg: 12 });
-      for (var rx = -15; rx <= 15; rx += 5) {
-        E.box(0.55, 11.8, 19.2, mIron, rx, 1.5, 0, { parent: g });
-      }
-      // Kempegowda Granite Rock Outcrop & Pillared Watchtower
-      E.sphere(11, mGranite, 38, -2, 26, { parent: g, seg: 9 }).scale.set(1.35, 0.7, 1.25);
-      E.box(5.8, 7.5, 5.8, mSandstone, 38, 4.5, 26, { parent: g, solid: true });
-      E.cone(4.6, 4.2, mRedBrick, 38, 12.0, 26, { parent: g, seg: 6 });
-      E.bake(g);
+      E.box(32, 8.8, 18, glassMat, 0, 1.5, 0, { parent: lg });
+      E.cyl(9.2, 9.2, 32, glassMat, 0, 10.3, 0, { parent: lg, rz: Math.PI / 2, seg: 14 });
+      E.box(14, 14.5, 24, glassMat, 0, 1.5, 0, { parent: lg });
+      E.cyl(7.2, 7.2, 24, glassMat, 0, 16.0, 0, { parent: lg, rx: Math.PI / 2, seg: 12 });
+      for (var rx = -15; rx <= 15; rx += 5) E.box(0.55, 11.8, 19.2, mIron, rx, 1.5, 0, { parent: lg });
+      E.sphere(11, mGranite, 38, -2, 26, { parent: lg, seg: 9 }).scale.set(1.35, 0.7, 1.25);
+      E.box(5.8, 7.5, 5.8, mSandstone, 38, 4.5, 26, { parent: lg, solid: true });
+      E.cone(4.6, 4.2, mRedBrick, 38, 12.0, 26, { parent: lg, seg: 6 });
+      bakeComicEdges(lg, 32);
+      E.bake(lg);
       E.sign('LALBAGH GLASSHOUSE · ಲಾಲ್ ಬಾಗ್', { x: 125, y: 16.5, z: 114.2, ry: Math.PI, h: 1.45, color: '#fde047', glow: 2.2, double: true });
       E.halo(125, 10, 128, '#f59e0b', 24, 0.42);
       addRoof(125, 128, 32, 18, 17.5, 'Lalbagh Glasshouse Dome');
       addRoof(163, 154, 7, 7, 16.2, 'Kempegowda Tower');
-      E.poi(125, 14, 128, 38);
-    })();
 
-    // --- 3I. WORLD TRADE CENTER (WTC) & ORION MALL (135, 0, -125) ---
-    (function buildWTC() {
+      // WTC & Orion Mall
       E.building({ x: 135, z: -125, w: 26, d: 22, h: 102, color: '#142c4a', lit: 0.72, winColors: ['#7dd3fc', '#fde68a'], glow: 1.4, style: 'bands', solid: true });
       E.building({ x: 99, z: -117, w: 34, d: 22, h: 18, color: '#2b476b', lit: 0.65, winColors: ['#bae6fd', '#fde68a'], glow: 1.2, style: 'bands', solid: true });
-      var g = E.group(135, 0, -125);
-      [[-13.2, -11.2], [13.2, -11.2], [-13.2, 11.2], [13.2, 11.2]].forEach(function (wc) {
-        E.box(1.1, 104, 1.1, mCream, wc[0], 0, wc[1], { parent: g });
-      });
-      E.box(28, 3.2, 24, mIron, 0, 102, 0, { parent: g, solid: true });
-      E.cyl(9.2, 9.2, 0.5, mGlassDark, 0, 105.3, 0, { parent: g, seg: 16 });
-      E.cyl(8.6, 8.6, 0.25, E.glowMat('#06b6d4', 2.4), 0, 105.6, 0, { parent: g, seg: 16 });
-      E.bake(g);
+      var wg = E.group(135, 0, -125);
+      [[-13.2, -11.2], [13.2, -11.2], [-13.2, 11.2], [13.2, 11.2]].forEach(function (wc) { E.box(1.1, 104, 1.1, mCream, wc[0], 0, wc[1], { parent: wg }); });
+      E.box(28, 3.2, 24, mIron, 0, 102, 0, { parent: wg, solid: true });
+      E.cyl(9.2, 9.2, 0.5, mGlassDark, 0, 105.3, 0, { parent: wg, seg: 16 });
+      E.cyl(8.6, 8.6, 0.25, E.glowMat('#06b6d4', 2.4), 0, 105.6, 0, { parent: wg, seg: 16 });
+      bakeComicEdges(wg, 32);
+      E.bake(wg);
       E.sign('WTC · BENGALURU', { x: 135, y: 98, z: -112.5, h: 2.6, color: '#38bdf8', glow: 2.6, double: true });
       E.halo(135, 107, -125, '#38bdf8', 28, 0.45);
       E.light('#38bdf8', 2.4, 135, 107, -125, 48);
       addRoof(135, -125, 26, 22, 105.8, 'WTC Syndicate Helipad');
-      addRoof(99, -117, 34, 22, 18, 'Orion Mall Terrace');
-      E.poi(135, 84, -125, 58);
-    })();
 
-    // --- 3J. INDIRANAGAR 100FT ROAD & BREWPUB TERRACES (155, 0, 32) ---
-    (function buildIndiranagar() {
+      // Indiranagar 100ft Rd Brewpub
       E.building({ x: 155, z: 32, w: 18, d: 26, h: 20, color: '#342b42', lit: 0.68, winColors: ['#f472b6', '#fde68a'], glow: 1.4, solid: true });
-      var g = E.group(155, 0, 32);
-      // Rooftop Microbrewery Pergola + String Festoon Lights + Bar Tables
-      E.box(14, 0.6, 20, mSoil, 0, 20.0, 0, { parent: g });
-      E.box(6, 1.1, 2.2, mCream, 0, 20.6, -7, { parent: g });
-      for (var lx = -7; lx <= 7; lx += 3.5) {
-        E.sphere(0.24, E.glowMat('#fbbf24', 2.8), lx, 23.0, -9, { parent: g, seg: 6 });
-        E.sphere(0.24, E.glowMat('#fb7185', 2.8), lx, 23.0, 9, { parent: g, seg: 6 });
+      var ig = E.group(155, 0, 32);
+      E.box(14, 0.6, 20, mSoil, 0, 20.0, 0, { parent: ig });
+      for (var flx = -7; flx <= 7; flx += 3.5) {
+        E.sphere(0.24, E.glowMat('#fbbf24', 2.8), flx, 23.0, -9, { parent: ig, seg: 6 });
+        E.sphere(0.24, E.glowMat('#fb7185', 2.8), flx, 23.0, 9, { parent: ig, seg: 6 });
       }
-      E.bake(g);
+      E.bake(ig);
       E.sign('PEAK BENGALURU · 100FT RD', { x: 145.5, y: 17.8, z: 32, ry: -Math.PI / 2, h: 1.5, color: '#fb7185', glow: 2.5, double: true });
       addRoof(155, 32, 18, 26, 20.6, 'Indiranagar Brewpub Deck');
     })();
 
     // =========================================================================
-    // 4. HIGH-DETAIL BANGALORE VEHICLES (AUTOS, BMTC VOLVOS, POLICE, VIP SUVs)
+    // 4. 8 GIANT MONETIZABLE 3D BILLBOARDS ACROSS BENGALURU
     // =========================================================================
-    var mAutoGreen = E.mat({ color: '#15803d', rough: 0.42, metal: 0.35 });
-    var mAutoYellow = E.mat({ color: '#facc15', rough: 0.5 });
-    var mBusRed = E.mat({ color: '#dc2626', rough: 0.32, metal: 0.4 });
-    var mBusBlue = E.mat({ color: '#1d4ed8', rough: 0.32, metal: 0.4 });
-    var mVipWhite = E.mat({ color: '#f8fafc', rough: 0.18, metal: 0.72 });
+    var adPresets = [
+      { title: 'NAMMA KAAPI', sub: 'ROASTED FRESH · CHURCH ST', bg: '#1e1008', accent: '#f59e0b', badge: 'SPONSORED' },
+      { title: 'PEAK TECH BLR', sub: 'AI SUMMIT · INDIRANAGAR', bg: '#09152b', accent: '#38bdf8', badge: 'AD SLOT 02' },
+      { title: 'MYSORE SILKS', sub: 'HERITAGE GOLD WEAVE', bg: '#2b0917', accent: '#f472b6', badge: 'AD SLOT 03' },
+      { title: 'VOLT AUTO EV', sub: 'ZERO NOISE · ZERO EMISSION', bg: '#062115', accent: '#22c55e', badge: 'AD SLOT 04' },
+      { title: 'BLOSSOM BOOKS', sub: '100,000+ TITLES ON CHURCH ST', bg: '#241409', accent: '#fb923c', badge: 'AD SLOT 05' },
+      { title: 'ORION SKYDECK', sub: 'DINING OVER SANKEY LAKE', bg: '#0c182e', accent: '#22d3ee', badge: 'AD SLOT 06' },
+      { title: 'KAAGE PRIME ADS', sub: 'ADVERTISE HERE TO REACH BLR', bg: '#181424', accent: '#ff5a1f', badge: 'OPEN SLOT' },
+      { title: 'METRO EXPRESS', sub: 'PURPLE LINE FAST CONNECT', bg: '#1e0b2e', accent: '#c084fc', badge: 'AD SLOT 08' }
+    ];
+    var bbCoords = [
+      [28, 17, 14, 0],
+      [28, 19, 86, Math.PI],
+      [-55, 22, -16, Math.PI / 2],
+      [-86, 28, 86, 0.78],
+      [138, 22, 14, -Math.PI / 2],
+      [138, 22, 62, Math.PI / 2],
+      [88, 26, -80, -0.78],
+      [-12, 22, -18, 0]
+    ];
+    function makeBillboardTex(cfg) {
+      return E.canvasTex(512, 256, function (g, w, h) {
+        g.fillStyle = cfg.bg || '#141720'; g.fillRect(0, 0, w, h);
+        g.strokeStyle = cfg.accent || '#ff5a1f'; g.lineWidth = 10; g.strokeRect(8, 8, w - 16, h - 16);
+        g.fillStyle = cfg.accent || '#ff5a1f'; g.fillRect(24, 24, 130, 28);
+        g.fillStyle = '#141720'; g.font = '800 16px ui-monospace,monospace'; g.textAlign = 'center';
+        g.fillText(cfg.badge || 'SPONSORED', 89, 44);
+        g.fillStyle = '#ffffff'; g.font = '900 54px sans-serif'; g.fillText(cfg.title || 'BRAND AD', w / 2, 136);
+        g.fillStyle = cfg.accent || '#facc15'; g.font = '700 22px ui-monospace,monospace'; g.fillText(cfg.sub || '', w / 2, 194);
+      });
+    }
+    bbCoords.forEach(function (bc, idx) {
+      var bg = E.group(bc[0], 0, bc[2], { ry: bc[3] });
+      E.cyl(0.45, 0.65, bc[1] - 4, mIron, 0, 0, -0.35, { parent: bg, solid: true, seg: 8 });
+      E.box(16.6, 8.8, 0.7, mIron, 0, bc[1] - 4.4, 0, { parent: bg });
+      var tex = makeBillboardTex(adPresets[idx % adPresets.length]);
+      var screenMat = new T.MeshBasicMaterial({ map: tex, color: new T.Color(1.4, 1.4, 1.4) });
+      var screen = E.plane(15.6, 7.8, screenMat, 0, bc[1], 0.42, { parent: bg });
+      var screenBack = E.plane(15.6, 7.8, screenMat, 0, bc[1], -0.42, { parent: bg, ry: Math.PI });
+      S.billboards.push({ idx: idx, group: bg, screen: screen, screenBack: screenBack, x: bc[0], y: bc[1], z: bc[2], rivalTagged: false, bombed: false });
+      addRoof(bc[0], bc[2], 16.6, 1.2, bc[1] + 4.4, 'Billboard Catwalk');
+    });
+
+    if (typeof window !== 'undefined') {
+      window.KAAGE_SET_BILLBOARD = function (slotIdx, cfg) {
+        var bb = S.billboards[slotIdx];
+        if (!bb) return false;
+        var tex = makeBillboardTex(cfg || {});
+        bb.screen.material.map = tex; bb.screen.material.needsUpdate = true;
+        bb.screenBack.material.map = tex; bb.screenBack.material.needsUpdate = true;
+        return true;
+      };
+    }
+
+    // =========================================================================
+    // 5. DETAILED VEHICLES, SNATCHABLE PEDESTRIANS, OVERHEAD AIRCRAFT & HAWKS
+    // =========================================================================
+    var mAutoGreen = E.mat({ color: '#15803d', rough: 0.4, metal: 0.35 });
+    var mAutoYellow = E.mat({ color: '#facc15', rough: 0.48 });
+    var mBusRed = E.mat({ color: '#dc2626', rough: 0.3, metal: 0.42 });
+    var mBusBlue = E.mat({ color: '#1d4ed8', rough: 0.3, metal: 0.42 });
+    var mVipWhite = E.mat({ color: '#f8fafc', rough: 0.16, metal: 0.72 });
     var mTyre = E.mat({ color: '#111827', rough: 0.9 });
 
     function makeAutoRickshaw(x, z, ry) {
       var g = E.group(x, 0.07, z, { ry: ry });
-      E.box(1.36, 0.62, 2.25, mAutoGreen, 0, 0.25, 0, { parent: g });
-      E.box(1.32, 0.88, 1.55, mAutoYellow, 0, 0.87, 0.24, { parent: g });
-      E.box(0.55, 0.55, 0.75, mAutoGreen, 0, 0.45, -0.78, { parent: g });
-      E.box(1.06, 0.52, 0.08, E.glowMat('#bae6fd', 0.9), 0, 1.05, -0.82, { parent: g });
-      E.sphere(0.15, E.glowMat('#fef08a', 3.4), 0, 0.58, -1.18, { parent: g, seg: 6 });
-      E.box(0.22, 0.12, 0.05, E.glowMat('#ef4444', 2.8), -0.48, 0.45, 1.14, { parent: g });
-      E.box(0.22, 0.12, 0.05, E.glowMat('#ef4444', 2.8), 0.48, 0.45, 1.14, { parent: g });
-      E.cyl(0.24, 0.24, 0.16, mTyre, 0, 0.24, -0.9, { parent: g, rz: Math.PI / 2, seg: 8 });
-      E.cyl(0.24, 0.24, 0.16, mTyre, -0.64, 0.24, 0.75, { parent: g, rz: Math.PI / 2, seg: 8 });
-      E.cyl(0.24, 0.24, 0.16, mTyre, 0.64, 0.24, 0.75, { parent: g, rz: Math.PI / 2, seg: 8 });
+      var bodyShape = new T.Shape();
+      bodyShape.moveTo(-1.15, 0.25); bodyShape.lineTo(1.15, 0.25); bodyShape.lineTo(1.15, 1.65);
+      bodyShape.lineTo(0.3, 1.75); bodyShape.lineTo(-0.7, 1.55); bodyShape.lineTo(-1.15, 0.85); bodyShape.closePath();
+      var bGeo = new T.ExtrudeGeometry(bodyShape, { depth: 1.32, bevelEnabled: false });
+      bGeo.rotateY(Math.PI / 2); bGeo.translate(-0.66, 0, 0);
+      E.mesh(bGeo, mAutoGreen, 0, 0, 0, { parent: g });
+      E.box(1.36, 0.84, 1.5, mAutoYellow, 0, 0.9, 0.22, { parent: g });
+      E.box(1.06, 0.5, 0.08, E.glowMat('#bae6fd', 0.9), 0, 1.15, -0.78, { parent: g });
+      E.sphere(0.15, E.glowMat('#fef08a', 3.4), 0, 0.62, -1.16, { parent: g, seg: 6 });
+      E.cyl(0.24, 0.24, 0.16, mTyre, 0, 0.24, -0.88, { parent: g, rz: Math.PI / 2, seg: 8 });
+      E.cyl(0.24, 0.24, 0.16, mTyre, -0.66, 0.24, 0.75, { parent: g, rz: Math.PI / 2, seg: 8 });
+      E.cyl(0.24, 0.24, 0.16, mTyre, 0.66, 0.24, 0.75, { parent: g, rz: Math.PI / 2, seg: 8 });
       return g;
     }
 
@@ -1442,7 +1560,7 @@ Game({
       E.box(2.55, 2.75, 9.8, red ? mBusRed : mBusBlue, 0, 0.45, 0, { parent: g });
       E.box(2.58, 0.92, 8.4, E.glowMat('#e0f2fe', 0.85), 0, 1.85, 0.1, { parent: g });
       E.box(1.9, 0.42, 0.1, E.glowMat('#fb923c', 2.5), 0, 2.72, -4.92, { parent: g });
-      E.box(1.6, 0.4, 3.8, mCream, 0, 3.2, 0, { parent: g }); // AC Unit
+      E.box(1.6, 0.4, 3.8, mCream, 0, 3.2, 0, { parent: g });
       [[-1.24, -3.1], [1.24, -3.1], [-1.24, 3.1], [1.24, 3.1]].forEach(function (w) {
         E.cyl(0.45, 0.45, 0.28, mTyre, w[0], 0.45, w[1], { parent: g, rz: Math.PI / 2, seg: 10 });
       });
@@ -1468,92 +1586,97 @@ Game({
       var az = onMG ? (ai % 2 ? -14.2 : -5.8) : -110 + (ai - 6) * 60;
       var ary = onMG ? (ai % 2 ? -Math.PI / 2 : Math.PI / 2) : (ai % 2 ? 0 : Math.PI);
       var auto = makeAutoRickshaw(ax, az, ary);
-      auto.userData = { axis: onMG ? 'x' : 'z', dir: (ai % 2 ? 1 : -1), speed: 10 + (ai % 3) * 2.5, kind: 'auto', hitAt: -9 };
+      auto.userData = { axis: onMG ? 'x' : 'z', dir: (ai % 2 ? 1 : -1), speed: 10 + (ai % 3) * 2.5, kind: 'auto', roofH: 1.8, hitAt: -9, swerveT: 0 };
       S.vehicles.push(auto);
     }
     for (var bi = 0; bi < 4; bi++) {
-      var bx = -135 + bi * 85;
-      var bz = bi % 2 ? -15.6 : 83.2;
+      var bx = -135 + bi * 85, bz = bi % 2 ? -15.6 : 83.2;
       var bus = makeBmtcBus(bx, bz, bi % 2 ? -Math.PI / 2 : Math.PI / 2, bi % 2 === 0);
-      bus.userData = { axis: 'x', dir: bi % 2 ? 1 : -1, speed: 8.5, kind: 'bus', hitAt: -9 };
+      bus.userData = { axis: 'x', dir: bi % 2 ? 1 : -1, speed: 8.5, kind: 'bus', roofH: 3.3, hitAt: -9, swerveT: 0 };
       S.vehicles.push(bus);
     }
-    [
-      [-74, -108, 0], [-74, -84, 0], [-65, -72, Math.PI], [-65, -96, Math.PI]
-    ].forEach(function (vp, idx) {
+    [[-74, -108, 0], [-74, -84, 0], [-65, -72, Math.PI], [-65, -96, Math.PI]].forEach(function (vp, idx) {
       var suv = makeVipSuv(vp[0], vp[1], vp[2]);
-      suv.userData = { axis: 'z', dir: vp[2] === 0 ? -1 : 1, speed: 6.5, minZ: -132, maxZ: -64, kind: 'vip', bombed: false, idx: idx };
+      suv.userData = { axis: 'z', dir: vp[2] === 0 ? -1 : 1, speed: 6.5, minZ: -132, maxZ: -64, kind: 'vip', roofH: 2.0, bombed: false, idx: idx, swerveT: 0 };
       S.vehicles.push(suv);
       S.vips.push(suv);
     });
 
-    // =========================================================================
-    // 5. PEDESTRIANS, PHONE SNITCHES, HAWK DRONES, UPDRAFTS & GOLDEN VADAS
-    // =========================================================================
+    // Overhead HAL / Kempegowda Airliner (coo.mx aerial traffic homage!)
+    var plane = E.group(-180, 128, -40, { ry: -Math.PI / 2 });
+    E.cyl(1.4, 1.4, 16, mCream, 0, 0, 0, { parent: plane, rx: Math.PI / 2, seg: 10 });
+    E.cone(1.4, 3.6, mCream, 0, 0, -9.8, { parent: plane, rx: -Math.PI / 2, seg: 10 });
+    E.box(22, 0.3, 3.6, mSandstone, 0, -0.2, 0, { parent: plane });
+    E.box(0.3, 4.2, 3.2, mRedBrick, 0, 2.0, 6.5, { parent: plane });
+    E.sphere(0.4, E.glowMat('#ef4444', 3.5), -11, 0, 0, { parent: plane, seg: 6 });
+    E.sphere(0.4, E.glowMat('#22c55e', 3.5), 11, 0, 0, { parent: plane, seg: 6 });
+    S.airliner = plane;
+
+    // Pedestrians with Snatchable Gold Chains & Phones!
     var shirtCols = ['#e11d48', '#2563eb', '#f59e0b', '#10b981', '#8b5cf6', '#f97316'];
-    for (var pi = 0; pi < 22; pi++) {
-      var px = pi < 12 ? (pi % 2 ? 18.0 : 38.0) : (pi < 17 ? -69 : 46.2);
-      var pz = -8 + (pi % 11) * 12;
+    for (var pi = 0; pi < 24; pi++) {
+      var px = pi < 14 ? (pi % 2 ? 18.0 : 38.0) : (pi < 19 ? -69 : 46.2);
+      var pz = -8 + (pi % 12) * 11;
       var ped = E.prefab.person(px, pz, { y: 0.18, color: shirtCols[pi % shirtCols.length] });
-      var isSnitch = pi % 3 === 0;
-      if (isSnitch) {
-        E.box(0.18, 0.3, 0.06, E.glowMat('#38bdf8', 3.0), 0.34, 1.56, -0.25, { parent: ped });
+      var lootKind = (pi % 4 === 0) ? 'chain' : ((pi % 4 === 2) ? 'phone' : null);
+      var lootObj = null;
+      if (lootKind === 'chain') {
+        lootObj = E.cyl(0.26, 0.26, 0.1, E.glowMat('#facc15', 3.0), 0, 1.48, -0.02, { parent: ped, seg: 10 });
+        E.halo(0, 2.5, 0, '#facc15', 2.2, 0.55, ped);
+      } else if (lootKind === 'phone') {
+        lootObj = E.box(0.2, 0.32, 0.06, E.glowMat('#38bdf8', 3.2), 0.34, 1.58, -0.25, { parent: ped });
+        E.halo(0, 2.5, 0, '#38bdf8', 2.2, 0.55, ped);
       }
       ped.userData = Object.assign(ped.userData, {
-        dir: pi % 2 ? 1 : -1, speed: 1.45 + (pi % 3) * 0.35,
-        snitch: isSnitch, stunnedUntil: -9, minZ: -5, maxZ: 122, hitAt: -9
+        dir: pi % 2 ? 1 : -1, speed: 1.5 + (pi % 3) * 0.35,
+        snitch: lootKind === 'phone', lootKind: lootKind, lootObj: lootObj, looted: false,
+        angryUntil: -9, stunnedUntil: -9, minZ: -5, maxZ: 122, hitAt: -9
       });
       S.peds.push(ped);
-      if (isSnitch) S.snitches.push(ped);
+      if (lootKind === 'phone') S.snitches.push(ped);
+      if (lootKind) S.snatchables.push(ped);
     }
 
+    // Hawk Drones + Garuda-X Boss (Op 8!)
     for (var hi = 0; hi < 4; hi++) {
-      var hx = hi < 3 ? 115 + (hi - 1) * 18 : -62;
-      var hz = hi < 3 ? 115 + (hi % 2) * 22 : -40;
-      var hawk = E.group(hx, 18 + hi * 2, hz);
-      E.cone(0.34, 1.5, mIron, 0, 0, -0.35, { parent: hawk, rx: -Math.PI / 2, seg: 8 });
-      E.box(3.0, 0.08, 0.55, E.mat({ color: '#991b1b', metal: 0.65, rough: 0.28 }), 0, 0, 0.1, { parent: hawk });
-      E.sphere(0.26, E.glowMat('#ef4444', 3.4), 0, 0.2, -0.4, { parent: hawk, seg: 8 });
-      E.halo(0, 0.2, -0.4, '#ef4444', 4.8, 0.7, hawk);
-      hawk.userData = { active: false, stunnedUntil: -9, home: [hx, 20, hz], opTarget: hi < 3, defeated: false };
+      var isBoss = hi === 3;
+      var hx = isBoss ? 125 : 115 + (hi - 1) * 18;
+      var hz = isBoss ? 128 : 115 + (hi % 2) * 22;
+      var hawk = E.group(hx, isBoss ? 28 : 20, hz);
+      var sc = isBoss ? 2.2 : 1.0;
+      E.cone(0.36 * sc, 1.6 * sc, mIron, 0, 0, -0.35 * sc, { parent: hawk, rx: -Math.PI / 2, seg: 8 });
+      E.box(3.2 * sc, 0.1 * sc, 0.6 * sc, E.mat({ color: isBoss ? '#f59e0b' : '#991b1b', metal: 0.7, rough: 0.25 }), 0, 0, 0.1, { parent: hawk });
+      E.sphere(0.28 * sc, E.glowMat('#ef4444', 3.6), 0, 0.22 * sc, -0.4 * sc, { parent: hawk, seg: 8 });
+      E.halo(0, 0.22 * sc, -0.4 * sc, '#ef4444', 5.0 * sc, 0.75, hawk);
+      hawk.userData = { active: false, stunnedUntil: -9, home: [hx, isBoss ? 28 : 20, hz], isBoss: isBoss, hp: isBoss ? 4 : 1, defeated: false };
       S.hawks.push(hawk);
     }
 
-    // 4 Thermal Updraft Columns
+    // Thermal Updraft Columns
     [[-84, 118, '#38bdf8'], [118, -112, '#22d3ee'], [0, 32, '#f97316'], [138, 12, '#f472b6']].forEach(function (u) {
       var colG = E.group(u[0], 0, u[1]);
       for (var ry = 5; ry <= 80; ry += 18) {
         var rMesh = new T.Mesh(new T.TorusGeometry(3.6, 0.13, 8, 22), E.glowMat(u[2], 2.1));
-        rMesh.rotation.x = Math.PI / 2;
-        rMesh.position.y = ry;
+        rMesh.rotation.x = Math.PI / 2; rMesh.position.y = ry;
         colG.add(rMesh);
       }
       S.updrafts.push({ x: u[0], z: u[1], r: 6.0, group: colG });
     });
 
-    // 12 Golden Masala Vada Bonus Collectibles
-    var vadaSpots = [
-      [28, 12, 32], [-115, 23, -78], [-110, 17, 42], [-100, 96, 128],
-      [12, 20, -10], [78, 82, -34], [125, 20, 128], [163, 19, 154],
-      [135, 108, -125], [155, 24, 32], [-115, 16, -32], [72, 8, -142]
-    ];
-    vadaSpots.forEach(function (vp) {
+    // 12 Golden Vadas
+    [[28, 12, 32], [-115, 23, -78], [-110, 17, 42], [-100, 96, 128], [12, 20, -10], [78, 82, -34], [125, 20, 128], [163, 19, 154], [135, 108, -125], [155, 24, 32], [-115, 16, -32], [72, 8, -142]].forEach(function (vp) {
       var ring = new T.Mesh(new T.TorusGeometry(0.48, 0.18, 10, 18), E.glowMat('#f59e0b', 2.4));
       E.pickup({
-        x: vp[0], y: vp[1], z: vp[2], color: '#f59e0b', mesh: ring, radius: 2.5, sfx: 'coin',
+        x: vp[0], y: vp[1], z: vp[2], color: '#f59e0b', mesh: ring, radius: 2.6, sfx: 'coin',
         onCollect: function () {
-          S.vadasFound++;
-          S.stamina = S.maxStamina;
-          S.cash += 1500;
-          S.respect += 150;
+          S.vadasFound++; S.stamina = S.maxStamina; S.cash += 1500; S.respect += 150;
           E.hud.toast('Golden Vada ' + S.vadasFound + '/12 · +Rs.1,500 & Full Stamina!', 2.5);
         }
       });
     });
 
-    // Ambient Crow Wingmen Flock (starts with 3, grows up to 5)
-    function spawnWingman(offsetIdx) {
-      var wm = E.group(28 + offsetIdx * 3, 20 + offsetIdx, 46);
+    function spawnWingman(idx) {
+      var wm = E.group(28 + idx * 3, 20 + idx, 46);
       E.box(0.28, 0.16, 0.45, mFeather, 0, 0, 0, { parent: wm });
       E.box(1.15, 0.03, 0.22, mWingTip, 0, 0.05, 0, { parent: wm });
       E.box(0.08, 0.05, 0.18, mScarf, 0, 0.08, -0.22, { parent: wm });
@@ -1562,160 +1685,155 @@ Game({
     for (var wi = 0; wi < 3; wi++) spawnWingman(wi);
 
     // =========================================================================
-    // 6. 10 ESCALATING BANGALORE MAFIA SYNDICATE OPERATIONS
+    // 6. 9 CRAZY MULTI-STAGE HEIST OPERATIONS (INSPIRED BY COO.MX + GTA)
     // =========================================================================
+    function setBeakLoot(kind) {
+      var r = S.crowRig;
+      if (!r) return;
+      r.beakLoot.visible = !!kind;
+      r.lootChain.visible = kind === 'chain';
+      r.lootPhone.visible = kind === 'phone';
+      r.lootDiamond.visible = kind === 'diamond';
+    }
+    S.setBeakLoot = setBeakLoot;
+
     function clearOpObjects() {
-      S.opItems.forEach(function (z) { E.removeZone(z); });
-      S.opItems = [];
-      S.opZones.forEach(function (z) { E.removeZone(z); });
-      S.opZones = [];
+      S.opItems.forEach(function (z) { E.removeZone(z); }); S.opItems = [];
+      S.opZones.forEach(function (z) { E.removeZone(z); }); S.opZones = [];
+      S.tollGates.forEach(function (tg) { if (tg.parent) tg.parent.remove(tg); }); S.tollGates = [];
     }
 
     function spawnOpStage(idx) {
       S.opIndex = idx;
       S.opProgress = 0;
       clearOpObjects();
+      S.carryingLoot = null;
+      setBeakLoot(null);
 
       if (idx === 0) {
+        // OP 01: CHURCH ST CHAIN & PHONE SNATCH -> DELIVER TO CUBBON BANYAN NEST!
         S.opTarget = 3;
-        E.hud.objective('Steal 3 Brass Kaapi Dabbas on Brigade Rd / Church St (0/3)', 'OP 01 · KAAPI SHAKEDOWN');
-        setRadio('Sector 080, Don Kaage. Grab 3 Brass Kaapi Dabbas along Brigade & Church Street. Avoid snitches!');
-        [[28, 3.6, 28], [46, 5.5, 58], [28, 4.2, 96]].forEach(function (pos) {
-          var dabba = E.cyl(0.48, 0.54, 0.9, E.glowMat('#fbbf24', 2.4), 0, 0, 0, { seg: 10 });
-          S.opItems.push(E.pickup({
-            x: pos[0], y: pos[1], z: pos[2], color: '#fbbf24', mesh: dabba, radius: 3.2, sfx: 'pickup',
-            onCollect: function () {
-              S.opProgress++; S.cash += 3000; S.respect += 250;
-              E.hud.objective('Steal 3 Brass Kaapi Dabbas on Brigade Rd / Church St (' + S.opProgress + '/3)', 'OP 01 · KAAPI SHAKEDOWN');
-              E.hud.toast('Kaapi Dabba (' + S.opProgress + '/3) +Rs.3,000', 2.2);
-              if (S.opProgress >= 3) spawnOpStage(1);
-            }
-          }));
-        });
+        E.hud.objective('Swoop low on Brigade/Church St, press E to SNATCH 3 Chains/Phones & deliver to Cubbon Nest (0/3)', 'OP 01 · CHAIN & PHONE SNATCH');
+        setRadio('Don Kaage! Swoop close to pedestrians with shiny Gold Chains or Phones on Brigade Rd, press E to SNATCH, then fly to Cubbon Nest!');
       } else if (idx === 1) {
+        // OP 02: NAMMA AUTO HIJACK RAMPAGE!
         S.opTarget = 3;
-        E.hud.objective('Short-circuit 3 BESCOM Power Poles with CAW (E) along Brigade Rd (0/3)', 'OP 02 · BESCOM BLACKOUT');
-        setRadio('Snitches have WiFi! Fly to 3 BESCOM poles on Brigade & Church St and press E (CAW) to short-circuit them!');
-        [[20, 9.6, 14], [36, 9.6, 44], [48, 9.6, 54]].forEach(function (bp) {
-          var marker = E.sphere(0.65, E.glowMat('#38bdf8', 2.6), bp[0], bp[1] + 0.8, bp[2], { seg: 10 });
+        E.hud.objective('Land near an Auto-Rickshaw on MG Rd, press E to HIJACK & drive through 3 Syndicate Gates (0/3)', 'OP 02 · AUTO-SHAW HIJACK');
+        setRadio('Land above any moving Namma Auto-Rickshaw on MG Road and press E to HIJACK IT! Smash all 3 glowing Mafia Gates!');
+        [[-35, -10], [5, -10], [45, -10]].forEach(function (gp) {
+          var gate = E.group(gp[0], 0.1, gp[1]);
+          E.cyl(0.25, 0.25, 4.5, E.glowMat('#ff5a1f', 2.4), 0, 0, -4.5, { parent: gate, seg: 8 });
+          E.cyl(0.25, 0.25, 4.5, E.glowMat('#ff5a1f', 2.4), 0, 0, 4.5, { parent: gate, seg: 8 });
+          E.box(0.4, 0.5, 9.2, E.glowMat('#facc15', 2.2), 0, 4.3, 0, { parent: gate });
+          S.tollGates.push(gate);
           S.opZones.push(E.zone({
-            x: bp[0], y: bp[1], z: bp[2], radius: 5.5, prompt: 'Short-circuit BESCOM Pole', once: true,
-            onEnter: function () { E.hud.toast('In range! Press E / CAW to fry pole!', 1.8); },
-            onAction: function () {
-              if (marker.parent) marker.parent.remove(marker);
-              S.opProgress++; S.cash += 3500; S.respect += 300;
-              E.audio.sfx('power'); E.flash('#38bdf8', 0.25);
-              E.hud.objective('Short-circuit 3 BESCOM Power Poles with CAW (E) (' + S.opProgress + '/3)', 'OP 02 · BESCOM BLACKOUT');
+            x: gp[0], y: 1.5, z: gp[1], radius: 5.5, once: true,
+            onEnter: function () {
+              if (gate.parent) gate.parent.remove(gate);
+              S.opProgress++; S.cash += 4000; S.respect += 350;
+              E.audio.sfx('coin');
+              E.hud.objective('Hijack Auto-Rickshaw & smash 3 MG Rd Gates (' + S.opProgress + '/3)', 'OP 02 · AUTO-SHAW HIJACK');
               if (S.opProgress >= 3) spawnOpStage(2);
             }
           }));
         });
       } else if (idx === 2) {
+        // OP 03: PURPLE LINE NAMMA METRO HEIST
+        S.opTarget = 3;
+        E.hud.objective('Fly along MG Rd Metro Viaduct (z=-10) & snatch 3 Syndicate Briefcases (0/3)', 'OP 03 · METRO TRAIN HEIST');
+        setRadio('Purple Line is hauling Syndicate gold! Skim the elevated Metro Viaduct and snatch 3 glowing briefcases!');
+        [[-70, 13.5, -10], [12, 19.2, -10], [95, 13.5, -10]].forEach(function (mp) {
+          var mc = E.box(1.1, 0.75, 0.45, E.glowMat('#a855f7', 2.8), 0, 0, 0);
+          S.opItems.push(E.pickup({
+            x: mp[0], y: mp[1], z: mp[2], color: '#a855f7', mesh: mc, radius: 4.0, sfx: 'power',
+            onCollect: function () {
+              S.opProgress++; S.cash += 4500; S.respect += 400;
+              E.hud.objective('Snatch 3 Syndicate Briefcases along Metro Viaduct (' + S.opProgress + '/3)', 'OP 03 · METRO TRAIN HEIST');
+              if (S.opProgress >= 3) spawnOpStage(3);
+            }
+          }));
+        });
+      } else if (idx === 3) {
+        // OP 04: BESCOM BLACKOUT
+        S.opTarget = 3;
+        E.hud.objective('Press E (CAW) at 3 BESCOM Power Poles along Brigade Rd to Trigger Blackout (0/3)', 'OP 04 · BESCOM BLACKOUT');
+        setRadio('Snitches run on Brigade WiFi! Buzz the 3 glowing BESCOM Transformer Poles and hit E to fry the grid!');
+        [[20, 9.6, 14], [36, 9.6, 44], [48, 9.6, 54]].forEach(function (bp) {
+          var mk = E.sphere(0.7, E.glowMat('#38bdf8', 2.6), bp[0], bp[1] + 0.9, bp[2], { seg: 10 });
+          S.opZones.push(E.zone({
+            x: bp[0], y: bp[1], z: bp[2], radius: 6.0, prompt: 'Short-circuit BESCOM Pole', once: true,
+            onAction: function () {
+              if (mk.parent) mk.parent.remove(mk);
+              S.opProgress++; S.cash += 4000; S.respect += 350;
+              E.audio.sfx('power'); E.flash('#38bdf8', 0.3);
+              E.hud.objective('Short-circuit 3 BESCOM Poles with E (' + S.opProgress + '/3)', 'OP 04 · BESCOM BLACKOUT');
+              if (S.opProgress >= 3) spawnOpStage(4);
+            }
+          }));
+        });
+      } else if (idx === 4) {
+        // OP 05: VIDHANA SOUDHA VIP RALLY SABOTAGE
+        S.opTarget = 4;
+        E.hud.objective('Bomb the Vidhana Soudha VIP Podium & all White Escort SUVs (0/4)', 'OP 05 · VIP RALLY SABOTAGE');
+        setRadio('Corrupt politicians are holding a rally at Vidhana Soudha! Dive-bomb the podium & escort SUVs!');
+        E.audio.intensity = 1.25;
+      } else if (idx === 5) {
+        // OP 06: UB CITY HELIPAD KOHINOOR DIAMOND SNATCH!
         S.opTarget = 2;
-        E.hud.objective('Grab Metro Briefcase at MG Rd Station (12, 19, -10)', 'OP 03 · NAMMA METRO DROP');
-        setRadio('Purple Line is active! Grab the Encrypted Briefcase atop MG Road Metro Station, then relay at Public Utility Spire.');
-        var caseMesh = E.box(1.0, 0.7, 0.38, E.glowMat('#a855f7', 2.8), 0, 0, 0);
+        E.hud.objective('Climb UB Tower (93m) & Snatch Kohinoor Diamond, then fly to Orion Lake Pier!', 'OP 06 · DIAMOND HEIST');
+        setRadio('Ride the blue thermal updraft up UB Tower, grab the Diamond into your beak, and fly NE to Orion Lake!');
+        var dm = E.cone(1.0, 1.5, E.glowMat('#e0f2fe', 3.2), 0, 0, 0, { seg: 6 });
         S.opItems.push(E.pickup({
-          x: 12, y: 19.2, z: -10, color: '#a855f7', mesh: caseMesh, radius: 3.6, sfx: 'power',
+          x: -100, y: 95.5, z: 128, color: '#38bdf8', mesh: dm, radius: 4.5, sfx: 'win',
           onCollect: function () {
-            S.opProgress = 1; S.cash += 5000;
-            E.hud.objective('Deliver Briefcase to Public Utility Spire (78, 80, -34)', 'OP 03 · RELAY INTEL');
-            E.hud.toast('Briefcase grabbed! Fly to Public Utility Tower!', 2.6);
-            var pad = E.cyl(3.0, 3.0, 0.28, E.glowMat('#ff5a1f', 2.4), 78, 80.4, -34, { seg: 14 });
+            S.opProgress = 1;
+            S.carryingLoot = { kind: 'diamond', label: 'Kohinoor Diamond', value: 18000 };
+            setBeakLoot('diamond');
+            S.heat = Math.max(S.heat, 250);
+            E.hud.objective('Carry Diamond in Beak to Orion Lake Pier (72, 2, -142)!', 'OP 06 · ESCAPE!');
+            E.hud.toast('DIAMOND IN BEAK! Escape to Orion Lake!', 3.0);
+            var pier = E.cyl(3.8, 3.8, 0.3, E.glowMat('#22d3ee', 2.8), 72, 0.5, -142, { seg: 14 });
             S.opZones.push(E.zone({
-              x: 78, y: 80.4, z: -34, radius: 5.0, prompt: 'Transmit Metro Intel', once: true,
+              x: 72, y: 1.0, z: -142, radius: 6.5, once: true,
               onEnter: function () {
-                if (pad.parent) pad.parent.remove(pad);
-                S.cash += 6500; S.respect += 400; E.audio.sfx('power');
-                spawnOpStage(3);
-              },
-              onAction: function () {
-                if (pad.parent) pad.parent.remove(pad);
-                S.cash += 6500; S.respect += 400; E.audio.sfx('power');
-                spawnOpStage(3);
+                if (pier.parent) pier.parent.remove(pier);
+                S.carryingLoot = null; setBeakLoot(null);
+                S.cash += 18000; S.respect += 1000;
+                E.audio.sfx('power');
+                spawnOpStage(6);
               }
             }));
           }
         }));
-      } else if (idx === 3) {
-        S.opTarget = 4;
-        E.hud.objective('Dive-Bomb all 4 Corrupt VIP SUVs at Vidhana Soudha (0/4)', 'OP 04 · VIP CONVOY');
-        setRadio('Corrupt contractors parked white SUVs by Vidhana Soudha. Hover above & click/tap BOMB to whitewash all 4!');
-        E.audio.intensity = 1.25;
-      } else if (idx === 4) {
-        S.opTarget = 3;
-        E.hud.objective('Snatch 3 Sealed Legal Dossiers at Attara Kacheri High Court (0/3)', 'OP 05 · HIGH COURT FILES');
-        setRadio('Swoop over the red Attara Kacheri High Court (-115, -32) and snatch 3 sealed dossiers before patrols arrive!');
-        [[-128, 15.5, -32], [-115, 19.8, -32], [-102, 15.5, -32]].forEach(function (dp) {
-          var doc = E.box(0.85, 0.25, 1.1, E.glowMat('#f87171', 2.6), 0, 0, 0);
-          S.opItems.push(E.pickup({
-            x: dp[0], y: dp[1], z: dp[2], color: '#f87171', mesh: doc, radius: 3.4, sfx: 'pickup',
-            onCollect: function () {
-              S.opProgress++; S.cash += 4500; S.respect += 350;
-              E.hud.objective('Snatch 3 Sealed Legal Dossiers at High Court (' + S.opProgress + '/3)', 'OP 05 · HIGH COURT FILES');
-              if (S.opProgress >= 3) spawnOpStage(5);
-            }
-          }));
-        });
-      } else if (idx === 5) {
-        S.opTarget = 4;
-        E.hud.objective('Fly through 4 Cubbon Park Canopy Rings to Rally Flock (0/4)', 'OP 06 · CUBBON RALLY');
-        setRadio('Time to grow the murder! Fly through 4 emerald canopy rings across Cubbon Park & Bandstand!');
-        [[-122, 18, 40], [-102, 12, 32], [-134, 10, 54], [-95, 14, 16]].forEach(function (rp) {
-          var ring = new T.Mesh(new T.TorusGeometry(2.2, 0.2, 8, 20), E.glowMat('#22c55e', 2.5));
-          S.opItems.push(E.pickup({
-            x: rp[0], y: rp[1], z: rp[2], color: '#22c55e', mesh: ring, radius: 3.8, sfx: 'power',
-            onCollect: function () {
-              S.opProgress++; S.cash += 3500; S.respect += 400;
-              E.hud.objective('Fly through 4 Cubbon Park Canopy Rings (' + S.opProgress + '/4)', 'OP 06 · CUBBON RALLY');
-              if (S.opProgress === 2 || S.opProgress === 4) spawnWingman(S.wingmen.length);
-              if (S.opProgress >= 4) spawnOpStage(6);
-            }
-          }));
-        });
       } else if (idx === 6) {
-        S.opTarget = 1;
-        E.hud.objective('Climb UB Tower via Blue Updrafts & Steal Mysore Gold Crown', 'OP 07 · UB CITY HEIST');
-        setRadio('Target locked on UB Tower Helipad (93m high). Ride the blue thermal updraft rings to claim the Gold Crown!');
-        var crown = E.cone(0.95, 1.4, E.glowMat('#fde047', 3.0), 0, 0, 0, { seg: 6 });
-        S.opItems.push(E.pickup({
-          x: -100, y: 95.5, z: 128, color: '#fde047', mesh: crown, radius: 4.5, sfx: 'win',
-          onCollect: function () {
-            S.cash += 12000; S.respect += 800; S.heat = Math.max(S.heat, 220);
-            E.hud.toast('UB City Gold Crown Stolen! +Rs.12,000', 2.8);
-            spawnOpStage(7);
+        // OP 07: INDIRANAGAR BILLBOARD TURF WAR
+        S.opTarget = 3;
+        E.hud.objective('Bomb 3 Rival Billboard Screens (Brigade & Indiranagar) to claim Ad Turf (0/3)', 'OP 07 · BILLBOARD WAR');
+        setRadio('Pigeon Cartel hijacked 3 Sky-Billboards! Fly over billboards 0, 4 & 5 and BOMB their screens!');
+        [0, 4, 5].forEach(function (bi) {
+          var bb = S.billboards[bi];
+          if (bb) {
+            bb.rivalTagged = true;
+            window.KAAGE_SET_BILLBOARD && window.KAAGE_SET_BILLBOARD(bi, { title: 'PIGEON CARTEL', sub: 'BOMB TO RECLAIM TURF!', bg: '#3b0810', accent: '#ef4444', badge: 'RIVAL TAG' });
           }
-        }));
-      } else if (idx === 7) {
-        S.opTarget = 3;
-        E.hud.objective('Steal 3 Rival Ledger Drives at Indiranagar 100ft Brewpub (0/3)', 'OP 08 · INDIRANAGAR RAID');
-        setRadio('Rival gangsters are partying on Indiranagar 100ft Road! Sweep their rooftop deck (155, 22, 32) for 3 drives!');
-        [[155, 23, 24], [155, 23, 32], [155, 23, 40]].forEach(function (ip) {
-          var drv = E.box(0.75, 0.75, 0.75, E.glowMat('#fb7185', 2.8), 0, 0, 0);
-          S.opItems.push(E.pickup({
-            x: ip[0], y: ip[1], z: ip[2], color: '#fb7185', mesh: drv, radius: 3.5, sfx: 'pickup',
-            onCollect: function () {
-              S.opProgress++; S.cash += 5000; S.respect += 450;
-              E.hud.objective('Steal 3 Rival Ledger Drives at Indiranagar (' + S.opProgress + '/3)', 'OP 08 · INDIRANAGAR RAID');
-              if (S.opProgress >= 3) spawnOpStage(8);
-            }
-          }));
         });
+      } else if (idx === 7) {
+        // OP 08: GARUDA-X ARMORED BOSS DOGFIGHT (LALBAGH)
+        S.opTarget = 4;
+        E.hud.objective('Defeat GARUDA-X Boss Drone at Lalbagh (4 Bomb or Caw Hits!)', 'OP 08 · BOSS DOGFIGHT');
+        setRadio('WARNING! Armored Garuda-X Boss & Hawk Squad deployed over Lalbagh! Hit it 4 times with BOMB or close CAW!');
+        E.audio.music('tense'); E.audio.intensity = 1.5;
+        S.hawks.forEach(function (h) { h.userData.active = true; h.userData.defeated = false; h.visible = true; });
       } else if (idx === 8) {
-        S.opTarget = 3;
-        E.hud.objective('Stun 3 Hawk Drones with BOMB or CAW (E) at Lalbagh Glasshouse (0/3)', 'OP 09 · GLASSHOUSE AMBUSH');
-        setRadio('Hawk Interceptor Drones guard Lalbagh Glasshouse! Buzz close and press E (CAW) or drop a BOMB on all 3!');
-        E.audio.music('tense');
-        E.audio.intensity = 1.45;
-        S.hawks.forEach(function (h) { h.userData.active = true; h.userData.defeated = false; h.visible = true; });
-      } else if (idx === 9) {
+        // OP 09: MONSOON STORM RUN -> WTC FINALE
         S.opTarget = 1;
-        E.hud.objective('Deliver Syndicate Crown to WTC Bengaluru Spire (135, 106, -125)', 'FINAL OP 10 · DON OF BENGALURU');
-        setRadio('Final leg, Don Kaage! Ride the NE thermal updraft to WTC Bengaluru 106m Spire and claim the city!');
-        S.hawks.forEach(function (h) { h.userData.active = true; h.userData.defeated = false; h.visible = true; });
-        var beacon = E.cyl(3.4, 3.4, 0.35, E.glowMat('#38bdf8', 3.0), 135, 106.0, -125, { seg: 16 });
+        setSkyMode(3); // Force dramatic Bengaluru Monsoon Thunderstorm!
+        E.hud.objective('Fly through the Monsoon Storm to WTC 106m Spire & Claim Bengaluru!', 'FINAL OP 09 · MONSOON FINALE');
+        setRadio('Monsoon storm hit Sector 080! Ride the storm updrafts to WTC Bengaluru 106m Spire and claim your crown!');
+        spawnWingman(S.wingmen.length); spawnWingman(S.wingmen.length);
+        var beacon = E.cyl(3.6, 3.6, 0.35, E.glowMat('#38bdf8', 3.0), 135, 106.0, -125, { seg: 16 });
         S.opZones.push(E.zone({
-          x: 135, y: 106.0, z: -125, radius: 6.0, prompt: 'Claim Bengaluru Crown', once: true,
+          x: 135, y: 106.0, z: -125, radius: 6.5, prompt: 'Claim Bengaluru Crown', once: true,
           onEnter: function () { finishCampaign(beacon); },
           onAction: function () { finishCampaign(beacon); }
         }));
@@ -1726,11 +1844,42 @@ Game({
       if (S.won) return;
       S.won = true;
       if (beacon && beacon.parent) beacon.parent.remove(beacon);
-      S.cash += 30000;
-      S.respect += 2500;
+      S.cash += 35000; S.respect += 3000;
       E.audio.sfx('win');
-      E.win('DON OF BENGALURU', 'All 10 Syndicate Operations cleared! Stash: Rs.' + S.cash.toLocaleString() + ' · Vadas: ' + S.vadasFound + '/12 · Hits: ' + S.bombHits);
+      E.win('DON OF BENGALURU', 'All 9 Syndicate Operations cleared! Stash: Rs.' + S.cash.toLocaleString() + ' · Snatches: ' + S.snatchesDone + ' · Vadas: ' + S.vadasFound + '/12');
     }
+
+    function setSkyMode(idx) {
+      S.skyModeIdx = idx % S.skyModes.length;
+      var m = S.skyModes[S.skyModeIdx];
+      if (S.skyMesh && S.skyMesh.material && S.skyMesh.material.uniforms) {
+        var u = S.skyMesh.material.uniforms;
+        u.uTop.value.copy(E.color(m.sky[0]));
+        u.uHor.value.copy(E.color(m.sky[1]));
+        u.uBot.value.copy(E.color(m.sky[2]));
+        u.uSun.value.set(m.sunD[0], m.sunD[1], m.sunD[2]).normalize();
+        u.uSunC.value.copy(E.color(m.sunC));
+        u.uStars.value = m.stars;
+        u.uDisc.value = m.rain ? 0 : (m.stars > 0 ? 0.25 : 1);
+      }
+      if (S.sunLight) {
+        S.sunLight.color.copy(E.color(m.sunC));
+        S.sunLight.intensity = m.sunI;
+        S.sunLight.position.set(m.sunD[0] * 100, m.sunD[1] * 100, m.sunD[2] * 100);
+      }
+      if (S.hemiLight) {
+        S.hemiLight.color.copy(E.color(m.hemi[0]));
+        S.hemiLight.groundColor.copy(E.color(m.hemi[1]));
+        S.hemiLight.intensity = m.hemi[2];
+      }
+      E.look({ fog: m.fog[1], fogColor: m.fog[0], exposure: m.exp, bloom: m.bloom });
+      if (S.rainWeather) S.rainWeather.visible = !!m.rain;
+      if (!HEADLESS) {
+        var sb = document.getElementById('k-btn-sky');
+        if (sb) sb.textContent = 'SKY: ' + m.label;
+      }
+    }
+    S.setSkyMode = setSkyMode;
 
     function setRadio(msg) {
       S.radioText = msg;
@@ -1748,7 +1897,7 @@ Game({
     S.spawnOpStage = spawnOpStage;
 
     // =========================================================================
-    // 7. HUD, PORTRAIT-TO-LANDSCAPE MOBILE LOCK, SWITCH-STYLE CONTROLS & RADAR
+    // 7. HUD, MANDATORY MOBILE ROTATION LOCK & SWITCH-STYLE CONTROLS
     // =========================================================================
     if (!HEADLESS && typeof document !== 'undefined') {
       try {
@@ -1757,14 +1906,10 @@ Game({
         var dbg = gl && gl.getExtension('WEBGL_debug_renderer_info');
         var gpu = dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : 'WebGL GPU';
         S.hwTier = /SwiftShader|Intel.*HD|Mali-4|Adreno 5/i.test(gpu) ? 'MODEST' : 'HIGH';
-        S.gpuName = String(gpu).slice(0, 38);
-      } catch (e) {
-        S.hwTier = 'AUTO';
-        S.gpuName = 'WebGL Renderer';
-      }
+        S.gpuName = String(gpu).slice(0, 34);
+      } catch (e) { S.hwTier = 'AUTO'; S.gpuName = 'WebGL GPU'; }
 
       var customCss = [
-        '/* KAAGE COMIC DOSSIER + LANDSCAPE MOBILE SYSTEM */',
         '#g3-start{background:radial-gradient(circle at 22% 20%, rgba(244,237,224,0.96) 0%, rgba(235,224,200,0.94) 55%, rgba(25,22,26,0.94) 100%);color:#141720;font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;}',
         '#g3-start h1{color:#ff5a1f;text-shadow:4px 4px 0 #141720,-2px -2px 0 #141720,2px -2px 0 #141720,-2px 2px 0 #141720;letter-spacing:.05em;transform:skewX(-4deg);}',
         '#g3-start p{background:#141720;color:#f4ede0;padding:5px 14px;border:2px solid #141720;box-shadow:4px 4px 0 #ff5a1f;font-weight:700;letter-spacing:.18em;}',
@@ -1772,13 +1917,12 @@ Game({
         '#g3-start .g3-keys kbd{background:#ff5a1f;color:#141720;border:2px solid #141720;font-weight:800;}',
         '#g3-start .g3-btn{background:#ff5a1f;color:#141720;border:3px solid #141720;box-shadow:6px 6px 0 #141720;font-weight:900;font-size:15px;letter-spacing:.16em;margin-top:18px;}',
         '#k-kit-badge{margin-top:12px;padding:6px 12px;background:#141720;color:#f4ede0;font:700 10.5px ui-monospace,Menlo,monospace;letter-spacing:.1em;border:2px solid #ff5a1f;text-transform:uppercase;}',
-        '#k-crest{margin-bottom:6px;}',
         '#g3-obj{background:rgba(244,237,224,0.94);color:#141720;border:3px solid #141720;border-left:7px solid #ff5a1f;box-shadow:5px 5px 0 #141720;padding:7px 12px;border-radius:3px;text-shadow:none;max-width:46vw;z-index:22;}',
         '#g3-obj small{color:#b91c1c;opacity:1;font-weight:800;}',
         '#g3-toast{position:fixed !important;left:50% !important;top:14vh !important;transform:translateX(-50%) !important;background:rgba(20,23,32,0.94);color:#facc15;border:3px solid #141720;box-shadow:5px 5px 0 #ff5a1f;padding:7px 14px;border-radius:4px;font:800 12.5px ui-monospace,Menlo,monospace;letter-spacing:.08em;text-shadow:none;z-index:30;max-width:80vw;}',
         '#g3-prompt{position:fixed !important;left:50% !important;bottom:24vh !important;transform:translateX(-50%) !important;background:rgba(20,23,32,0.94);border:2px solid #ff5a1f;box-shadow:4px 4px 0 #141720;z-index:28;}',
-        '#g3-stats{background:rgba(20,23,32,0.88);border:3px solid #141720;box-shadow:5px 5px 0 #ff5a1f;padding:8px 12px;border-radius:4px;min-width:158px;z-index:22;}',
-        '.k-hud-row{display:flex;align-items:center;justify-content:space-between;gap:10px;font:700 11.5px ui-monospace,Menlo,monospace;margin-bottom:4px;color:#f4ede0;}',
+        '#g3-stats{background:rgba(20,23,32,0.88);border:3px solid #141720;box-shadow:5px 5px 0 #ff5a1f;padding:8px 12px;border-radius:4px;min-width:162px;z-index:22;}',
+        '.k-hud-row{display:flex;align-items:center;justify-content:space-between;gap:10px;font:700 11px ui-monospace,Menlo,monospace;margin-bottom:4px;color:#f4ede0;}',
         '.k-stars{display:flex;gap:3px;}',
         '.k-bar{width:100%;height:6px;background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.3);overflow:hidden;margin-bottom:5px;}',
         '.k-bar-fill{height:100%;transition:width .12s;}',
@@ -1787,7 +1931,7 @@ Game({
         '.k-pill-row{display:flex;gap:5px;flex-wrap:wrap;}',
         '.k-pill{background:#f4ede0;color:#141720;border:2px solid #141720;box-shadow:3px 3px 0 #141720;font:800 10px ui-monospace,Menlo,monospace;padding:4px 8px;cursor:pointer;text-transform:uppercase;letter-spacing:.08em;}',
         '.k-pill.on{background:#ff5a1f;color:#141720;}',
-        '#k-radio{position:fixed;left:50%;transform:translateX(-50%);bottom:max(12px,env(safe-area-inset-bottom));width:min(340px,42vw);background:rgba(244,237,224,0.95);color:#141720;border:3px solid #141720;box-shadow:5px 5px 0 #141720;padding:8px 12px;border-radius:4px;z-index:19;pointer-events:none;font:600 12px/1.3 "Trebuchet MS",system-ui,sans-serif;}',
+        '#k-radio{position:fixed;left:50%;transform:translateX(-50%);bottom:max(12px,env(safe-area-inset-bottom));width:min(350px,42vw);background:rgba(244,237,224,0.95);color:#141720;border:3px solid #141720;box-shadow:5px 5px 0 #141720;padding:8px 12px;border-radius:4px;z-index:19;pointer-events:none;font:600 12px/1.3 "Trebuchet MS",system-ui,sans-serif;}',
         '#k-radio-head{display:flex;align-items:center;gap:6px;font:800 10px ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:#ff5a1f;margin-bottom:3px;}',
         '#k-map-modal{position:fixed;inset:0;background:rgba(15,17,24,0.88);backdrop-filter:blur(6px);z-index:55;display:none;align-items:center;justify-content:center;padding:12px;pointer-events:auto;}',
         '#k-map-card{background:#f4ede0;color:#141720;border:4px solid #141720;box-shadow:10px 10px 0 #ff5a1f;max-width:680px;width:100%;max-height:92vh;overflow-y:auto;padding:14px;border-radius:4px;}',
@@ -1797,27 +1941,24 @@ Game({
         '.k-loc-btn{background:#fff8eb;border:2px solid #141720;box-shadow:3px 3px 0 #141720;padding:7px 9px;text-align:left;cursor:pointer;font-family:inherit;color:#141720;}',
         '.k-loc-btn b{display:block;font-size:12px;}',
         '.k-loc-btn small{display:block;font:600 10px ui-monospace,Menlo,monospace;color:#475569;}',
-        '/* SWITCH-STYLE HORIZONTAL MOBILE TOUCH PAD */',
         '#g3-btns{display:grid !important;grid-template-columns:repeat(2,62px);gap:9px;right:max(14px,env(safe-area-inset-right));bottom:max(14px,env(safe-area-inset-bottom));}',
-        '.g3-tb{width:62px !important;height:62px !important;border:3px solid #141720 !important;background:rgba(244,237,224,0.92) !important;color:#141720 !important;box-shadow:3px 3px 0 #141720;font-weight:900 !important;font-size:10.5px !important;}',
+        '.g3-tb{width:62px !important;height:62px !important;border:3px solid #141720 !important;background:rgba(244,237,224,0.92) !important;color:#141720 !important;box-shadow:3px 3px 0 #141720;font-weight:900 !important;font-size:10px !important;}',
         '.g3-tb.on{background:#ff5a1f !important;color:#141720 !important;}',
         '#k-joy-hint{position:fixed;left:max(24px,env(safe-area-inset-left));bottom:max(24px,env(safe-area-inset-bottom));width:88px;height:88px;border-radius:50%;border:2px dashed rgba(244,237,224,0.65);background:rgba(20,23,32,0.38);display:none;align-items:center;justify-content:center;font:800 9px ui-monospace,Menlo,monospace;color:#f4ede0;text-align:center;pointer-events:none;z-index:16;}',
         '#k-perch-btn{display:none;position:fixed;right:142px;bottom:14px;width:54px;height:54px;border-radius:50%;border:3px solid #141720;background:#fde047;color:#141720;box-shadow:3px 3px 0 #141720;font:900 9.5px ui-monospace,Menlo,monospace;z-index:26;pointer-events:auto;cursor:pointer;}',
-        '/* MANDATORY PORTRAIT-TO-LANDSCAPE ROTATION LOCK OVERLAY */',
         '#k-rotate-lock{position:fixed;inset:0;z-index:9999;background:radial-gradient(circle at center,#1f2330 0%,#0c0e14 100%);color:#f4ede0;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;pointer-events:auto;}',
         '#k-rot-box{background:#f4ede0;color:#141720;border:4px solid #141720;box-shadow:10px 10px 0 #ff5a1f;padding:24px 20px;max-width:340px;width:100%;border-radius:6px;}',
         '#k-rot-box h2{margin:12px 0 8px;font-size:21px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:#ff5a1f;text-shadow:2px 2px 0 #141720;}',
         '#k-rot-box p{margin:0;font:700 12px/1.45 ui-monospace,Menlo,monospace;color:#141720;}',
         '@keyframes kRotSpin{0%,20%{transform:rotate(0deg)}60%,85%{transform:rotate(-90deg)}100%{transform:rotate(0deg)}}',
         '#k-rot-svg{animation:kRotSpin 2.4s ease-in-out infinite;}',
-        '/* HORIZONTAL PHONE LANDSCAPE FIT (e.g. 844x390 / 740x360) */',
         '@media(max-height:480px) and (orientation:landscape){',
         '  #g3-start{padding:10px;} #k-crest svg{width:44px;height:44px;} #g3-start h1{font-size:32px;} #g3-start p{font-size:10px;margin-top:6px;padding:3px 10px;}',
         '  #g3-start .g3-keys{margin-top:8px;padding:6px 10px;font-size:10px;gap:4px 8px;} #g3-start .g3-btn{margin-top:10px;padding:9px 22px;font-size:13px;} #k-kit-badge{margin-top:7px;font-size:9px;padding:4px 8px;}',
         '  #g3-obj{font-size:10.5px;padding:5px 8px;max-width:36vw;} #g3-stats{padding:5px 8px;min-width:132px;} .k-hud-row{font-size:9.5px;}',
         '  #k-radar{width:76px;height:76px;} #k-radar-wrap{left:12px;top:68px;bottom:auto;} .k-pill{font-size:8.5px;padding:3px 6px;}',
         '  #k-radio{bottom:8px;width:236px;padding:5px 8px;font-size:10px;} #g3-toast{top:18vh !important;font-size:11px;padding:5px 10px;}',
-        '  #g3-btns{grid-template-columns:repeat(2,54px);gap:7px;right:12px;bottom:10px;} .g3-tb{width:54px !important;height:54px !important;font-size:9.5px !important;}',
+        '  #g3-btns{grid-template-columns:repeat(2,54px);gap:7px;right:12px;bottom:10px;} .g3-tb{width:54px !important;height:54px !important;font-size:9px !important;}',
         '  #k-perch-btn{right:134px;bottom:12px;width:50px;height:50px;font-size:9px;}',
         '}'
       ].join('\n');
@@ -1826,7 +1967,6 @@ Game({
       styleEl.textContent = customCss;
       document.head.appendChild(styleEl);
 
-      // SVG Crest & Field Kit Badge on Start Screen
       var startEl = document.getElementById('g3-start');
       if (startEl) {
         var crest = document.createElement('div');
@@ -1836,20 +1976,15 @@ Game({
 
         var kit = document.createElement('div');
         kit.id = 'k-kit-badge';
-        kit.textContent = 'FIELD KIT: ' + S.hwTier + ' · ' + S.gpuName + ' · 10 OPS READY';
+        kit.textContent = 'FIELD KIT: ' + S.hwTier + ' · ' + S.gpuName + ' · v3.0 VIRAL EDITION';
         startEl.appendChild(kit);
       }
 
-      // Portrait-to-Landscape Mandatory Gate Overlay
       var rotLock = document.createElement('div');
       rotLock.id = 'k-rotate-lock';
       rotLock.innerHTML = [
         '<div id="k-rot-box">',
-        '<svg id="k-rot-svg" width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">',
-        '<rect x="18" y="8" width="28" height="48" rx="4" fill="#141720" stroke="#ff5a1f" stroke-width="3"/>',
-        '<rect x="22" y="14" width="20" height="34" fill="#f4ede0"/>',
-        '<circle cx="32" cy="52" r="2.2" fill="#ff5a1f"/>',
-        '</svg>',
+        '<svg id="k-rot-svg" width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="8" width="28" height="48" rx="4" fill="#141720" stroke="#ff5a1f" stroke-width="3"/><rect x="22" y="14" width="20" height="34" fill="#f4ede0"/><circle cx="32" cy="52" r="2.2" fill="#ff5a1f"/></svg>',
         '<h2>TURN PHONE HORIZONTAL</h2>',
         '<p>KAAGE SYNDICATE requires landscape (horizontal) mode to fly across Bengaluru. Rotate your device to unlock &amp; play!</p>',
         '<button type="button" id="k-rot-try" class="k-pill on" style="margin-top:14px;padding:8px 14px;font-size:11px;">TAP TO LOCK LANDSCAPE</button>',
@@ -1863,12 +1998,8 @@ Game({
         var isPortraitMobile = (h > w) && (isTouchUA || w <= 768);
         S.portraitLocked = isPortraitMobile;
         rotLock.style.display = isPortraitMobile ? 'flex' : 'none';
-        if (isPortraitMobile) {
-          E.player.freeze = true;
-        } else if (!S.won) {
-          E.player.freeze = false;
-        }
-        // Show virtual stick hint & Perch button on landscape touch screens
+        if (isPortraitMobile) E.player.freeze = true;
+        else if (!S.won) E.player.freeze = false;
         var joyHint = document.getElementById('k-joy-hint');
         var perchBtn = document.getElementById('k-perch-btn');
         var showTouchExtras = S.started && !isPortraitMobile && (isTouchUA || (document.getElementById('g3-touch') && document.getElementById('g3-touch').style.display === 'block'));
@@ -1880,62 +2011,49 @@ Game({
       window.addEventListener('orientationchange', checkOrientationLock);
       document.body.addEventListener('touchstart', function () { setTimeout(checkOrientationLock, 30); }, { passive: true });
 
-      // Block starting game while phone is vertical
       if (startEl) {
-        startEl.addEventListener('click', function (ev) {
-          checkOrientationLock();
-          if (S.portraitLocked) { ev.stopImmediatePropagation(); ev.preventDefault(); }
-        }, true);
-        startEl.addEventListener('touchend', function (ev) {
-          checkOrientationLock();
-          if (S.portraitLocked) { ev.stopImmediatePropagation(); ev.preventDefault(); }
-        }, true);
+        startEl.addEventListener('click', function (ev) { checkOrientationLock(); if (S.portraitLocked) { ev.stopImmediatePropagation(); ev.preventDefault(); } }, true);
+        startEl.addEventListener('touchend', function (ev) { checkOrientationLock(); if (S.portraitLocked) { ev.stopImmediatePropagation(); ev.preventDefault(); } }, true);
       }
       document.getElementById('k-rot-try').addEventListener('click', function (ev) {
         ev.stopPropagation();
-        if (screen.orientation && screen.orientation.lock) {
-          screen.orientation.lock('landscape').catch(function () {});
-        }
+        if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(function () {});
         checkOrientationLock();
       });
 
-      // Left-Thumb Joystick Visual Guide + Quick Perch Button
       var joyHint = document.createElement('div');
       joyHint.id = 'k-joy-hint';
-      joyHint.innerHTML = 'LEFT THUMB<br>FLY / HOP';
+      joyHint.innerHTML = 'LEFT THUMB<br>FLY / DRIVE';
       document.body.appendChild(joyHint);
 
       var perchBtn = document.createElement('button');
-      perchBtn.type = 'button';
-      perchBtn.id = 'k-perch-btn';
-      perchBtn.textContent = 'PERCH';
+      perchBtn.type = 'button'; perchBtn.id = 'k-perch-btn'; perchBtn.textContent = 'PERCH';
       perchBtn.addEventListener('touchstart', function (e) { e.preventDefault(); e.stopPropagation(); S.forcePerchTrigger = true; }, { passive: false });
       perchBtn.addEventListener('click', function (e) { e.stopPropagation(); S.forcePerchTrigger = true; });
       document.body.appendChild(perchBtn);
 
-      // Custom Mafia HUD Stat Box
       var statsHost = document.getElementById('g3-stats');
       if (statsHost) {
         statsHost.innerHTML = [
           '<div class="k-hud-row"><span>RANK</span><b id="k-rank" style="color:#ff5a1f">STREET CROW</b></div>',
           '<div class="k-hud-row"><span>STASH</span><b id="k-cash" style="color:#facc15">Rs.0</b></div>',
           '<div class="k-hud-row"><span>HEAT</span><div id="k-stars" class="k-stars"></div></div>',
-          '<div class="k-hud-row"><span>STAMINA</span><span id="k-mode-tag" style="color:#38bdf8">SOARING</span></div>',
+          '<div class="k-hud-row"><span>FLIGHT</span><span id="k-mode-tag" style="color:#38bdf8">SOARING</span></div>',
           '<div class="k-bar"><div id="k-stam-fill" class="k-bar-fill" style="width:100%;background:#22c55e;"></div></div>',
           '<div class="k-hud-row"><span>EXPOSURE</span><span id="k-exp-val">0%</span></div>',
           '<div class="k-bar" style="margin-bottom:2px"><div id="k-exp-fill" class="k-bar-fill" style="width:0%;background:#ef4444;"></div></div>',
-          '<div class="k-hud-row" style="margin-bottom:0;font-size:10px;opacity:.85"><span>VADAS</span><span id="k-vada">0/12</span></div>'
+          '<div class="k-hud-row" style="margin-bottom:0;font-size:10px;opacity:.85"><span>BEAK LOOT</span><span id="k-beak-tag" style="color:#fde047">EMPTY</span></div>'
         ].join('');
       }
 
-      // Radar Minimap + Quick Pills
       var radarWrap = document.createElement('div');
       radarWrap.id = 'k-radar-wrap';
       radarWrap.style.display = 'none';
       radarWrap.innerHTML = [
-        '<canvas id="k-radar" width="140" height="140" title="Tap to open Bangalore Fast-Deploy Map"></canvas>',
+        '<canvas id="k-radar" width="140" height="140" title="Tap for Bangalore Map"></canvas>',
         '<div class="k-pill-row">',
         '<button type="button" class="k-pill" id="k-btn-map">MAP (G)</button>',
+        '<button type="button" class="k-pill" id="k-btn-sky">SKY: DUSK</button>',
         '<button type="button" class="k-pill" id="k-btn-voice">VOICE</button>',
         '<button type="button" class="k-pill" id="k-btn-mute">AUDIO</button>',
         '</div>'
@@ -1945,7 +2063,6 @@ Game({
       S.radarCanvas = document.getElementById('k-radar');
       S.radarCtx = S.radarCanvas.getContext('2d');
 
-      // Radio Transceiver Widget ("THE WIRE · DON KAAGE")
       var radioBox = document.createElement('div');
       radioBox.id = 'k-radio';
       radioBox.style.display = 'none';
@@ -1955,7 +2072,6 @@ Game({
       S.radioEl = document.getElementById('k-radio-msg');
       S.radioEl.textContent = S.radioText;
 
-      // Fast-Deploy Tactical Map Modal
       var modal = document.createElement('div');
       modal.id = 'k-map-modal';
       modal.innerHTML = [
@@ -1971,13 +2087,9 @@ Game({
       var grid = document.getElementById('k-map-grid');
       S.districts.forEach(function (d) {
         var btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'k-loc-btn';
+        btn.type = 'button'; btn.className = 'k-loc-btn';
         btn.innerHTML = '<b>[' + d.key + '] ' + d.name + '</b><small>' + d.kn + '</small>';
-        btn.addEventListener('click', function (ev) {
-          ev.stopPropagation();
-          fastDeploy(d);
-        });
+        btn.addEventListener('click', function (ev) { ev.stopPropagation(); fastDeploy(d); });
         grid.appendChild(btn);
       });
 
@@ -1990,6 +2102,7 @@ Game({
       stopBubble(S.radarCanvas, toggleMap);
       stopBubble(document.getElementById('k-btn-map'), toggleMap);
       stopBubble(document.getElementById('k-map-close'), toggleMap);
+      stopBubble(document.getElementById('k-btn-sky'), function () { setSkyMode(S.skyModeIdx + 1); });
       stopBubble(document.getElementById('k-btn-voice'), function () {
         S.voiceOn = !S.voiceOn;
         var vb = document.getElementById('k-btn-voice');
@@ -2007,15 +2120,26 @@ Game({
     }
 
     function fastDeploy(d) {
+      if (S.hijackedVeh) ejectVehicle();
       E.player.mode = 'fly';
       E.player.pos.set(d.spawn[0], d.spawn[1], d.spawn[2]);
       if (d.yaw != null) E.player.yaw = d.yaw;
-      E.player.speedNow = 16;
-      E.player.pitch = -0.04;
+      E.player.speedNow = 16; E.player.pitch = -0.04;
       E.audio.sfx('whoosh');
       E.hud.toast('Airdropped to ' + d.name + '!', 2.2);
       if (S.mapOpen) toggleMap();
     }
+
+    function ejectVehicle() {
+      if (!S.hijackedVeh) return;
+      S.hijackedVeh = null;
+      E.player.mode = 'fly';
+      E.player.pos.y += 2.6;
+      E.player.speedNow = 18;
+      E.player.pitch = 0.25;
+      E.audio.sfx('jump');
+    }
+    S.ejectVehicle = ejectVehicle;
 
     function toggleMap() {
       S.mapOpen = !S.mapOpen;
@@ -2031,8 +2155,7 @@ Game({
       var mc = document.getElementById('k-map-canvas');
       if (!mc) return;
       var g = mc.getContext('2d'), W = mc.width, H = mc.height;
-      g.fillStyle = '#111622';
-      g.fillRect(0, 0, W, H);
+      g.fillStyle = '#111622'; g.fillRect(0, 0, W, H);
       function wx(x) { return ((x + 235) / 470) * W; }
       function wz(z) { return ((z + 205) / 410) * H; }
       g.fillStyle = '#1d4d2c';
@@ -2040,25 +2163,17 @@ Game({
       g.fillRect(wx(72), wz(86), wx(178) - wx(72), wz(178) - wz(86));
       g.fillStyle = '#134e6f';
       g.fillRect(wx(33), wz(-181), wx(111) - wx(33), wz(-103) - wz(-181));
-      g.strokeStyle = '#475569';
-      g.lineWidth = 6;
+      g.strokeStyle = '#475569'; g.lineWidth = 6;
       g.beginPath();
-      g.moveTo(0, wz(-10)); g.lineTo(W, wz(-10));
-      g.moveTo(0, wz(86)); g.lineTo(W, wz(86));
-      g.moveTo(wx(-62), 0); g.lineTo(wx(-62), H);
-      g.moveTo(wx(28), 0); g.lineTo(wx(28), H);
-      g.moveTo(wx(138), 0); g.lineTo(wx(138), H);
+      g.moveTo(0, wz(-10)); g.lineTo(W, wz(-10)); g.moveTo(0, wz(86)); g.lineTo(W, wz(86));
+      g.moveTo(wx(-62), 0); g.lineTo(wx(-62), H); g.moveTo(wx(28), 0); g.lineTo(wx(28), H); g.moveTo(wx(138), 0); g.lineTo(wx(138), H);
       g.stroke();
-      g.strokeStyle = '#a855f7';
-      g.lineWidth = 2.5;
+      g.strokeStyle = '#a855f7'; g.lineWidth = 2.5;
       g.beginPath(); g.moveTo(0, wz(-10)); g.lineTo(W, wz(-10)); g.stroke();
       S.districts.forEach(function (d) {
         var px = wx(d.x), py = wz(d.z);
-        g.fillStyle = d.color;
-        g.beginPath(); g.arc(px, py, 5, 0, 6.283); g.fill();
-        g.fillStyle = '#f8fafc';
-        g.font = '700 10px ui-monospace,monospace';
-        g.fillText('[' + d.key + '] ' + d.name, px + 7, py + 3);
+        g.fillStyle = d.color; g.beginPath(); g.arc(px, py, 5, 0, 6.283); g.fill();
+        g.fillStyle = '#f8fafc'; g.font = '700 10px ui-monospace,monospace'; g.fillText('[' + d.key + '] ' + d.name, px + 7, py + 3);
       });
       var cx = wx(E.player.pos.x), cy = wz(E.player.pos.z);
       g.fillStyle = '#ff5a1f'; g.strokeStyle = '#ffffff'; g.lineWidth = 2;
@@ -2077,49 +2192,53 @@ Game({
     if (S.radioBox) S.radioBox.style.display = 'block';
     if (S.checkOrientationLock) S.checkOrientationLock();
     S.spawnOpStage(0);
-    E.hud.toast('KAAGE SYNDICATE LIVE · BENGALURU!', 2.8);
+    E.hud.toast('KAAGE SYNDICATE LIVE · SWOOP & SNATCH!', 2.8);
   },
 
   update: function (E, dt, t) {
     var S = E.state, P = E.player, T = E.THREE;
     var HEADLESS = typeof window !== 'undefined' && !!window.__G3_HEADLESS__;
-
     if (S.portraitLocked) return;
 
     S.flapCooldown = Math.max(0, S.flapCooldown - dt);
     S.cawCooldown = Math.max(0, S.cawCooldown - dt);
     S.bombCooldown = Math.max(0, S.bombCooldown - dt);
-    if (S.comboT > 0) {
-      S.comboT -= dt;
-      if (S.comboT <= 0) S.combo = 0;
-    }
+    if (S.comboT > 0) { S.comboT -= dt; if (S.comboT <= 0) S.combo = 0; }
 
     var mKeyNow = E.input.key('KeyG') || E.input.key('Tab');
     if (mKeyNow && !S.prevMapKey) S.toggleMap();
     S.prevMapKey = mKeyNow;
+
+    var tKeyNow = E.input.key('KeyT');
+    if (tKeyNow && !S.prevSkyKey) S.setSkyMode(S.skyModeIdx + 1);
+    S.prevSkyKey = tKeyNow;
+
     for (var di = 0; di < S.districts.length; di++) {
-      var dk = 'Digit' + S.districts[di].key;
-      var dkNow = E.input.key(dk);
+      var dkNow = E.input.key('Digit' + S.districts[di].key);
       if (dkNow && !S['prevD' + di]) {
+        if (S.hijackedVeh) S.ejectVehicle();
         P.mode = 'fly';
         P.pos.set(S.districts[di].spawn[0], S.districts[di].spawn[1], S.districts[di].spawn[2]);
         if (S.districts[di].yaw != null) P.yaw = S.districts[di].yaw;
-        P.speedNow = 16;
-        E.audio.sfx('whoosh');
+        P.speedNow = 16; E.audio.sfx('whoosh');
         E.hud.toast('Airdrop: ' + S.districts[di].name, 2.0);
         if (S.mapOpen) S.toggleMap();
       }
       S['prevD' + di] = dkNow;
     }
 
-    // 1. ENHANCED FLIGHT <-> PERCH/BRAKE PHYSICS + FOV SPEED RUSH
+    // Monsoon Lightning Flash & Thunder Effect
+    if (S.skyModeIdx === 3 && t > S.nextLightningT) {
+      S.nextLightningT = t + 11 + (Math.floor(t * 7) % 9);
+      E.flash('#e0f2fe', 0.45);
+      E.audio.noise({ dur: 1.6, vol: 0.42, freq: 180, to: 50, brown: true, attack: 0.1 });
+    }
+
     function surfaceUnder(x, z, curY) {
       var best = 0;
       for (var ri = 0; ri < S.roofs.length; ri++) {
         var r = S.roofs[ri];
-        if (x >= r.minX && x <= r.maxX && z >= r.minZ && z <= r.maxZ && r.y <= curY + 1.5 && r.y > best) {
-          best = r.y;
-        }
+        if (x >= r.minX && x <= r.maxX && z >= r.minZ && z <= r.maxZ && r.y <= curY + 1.5 && r.y > best) best = r.y;
       }
       return best;
     }
@@ -2127,108 +2246,197 @@ Game({
     var brakeKey = E.input.key('KeyQ') || E.input.key('KeyX') || S.forcePerchTrigger;
     S.forcePerchTrigger = false;
 
-    if (P.mode === 'fly') {
-      P.speed = 26;
-      P.camDist = E.damp(P.camDist, E.input.sprint ? 6.5 : 5.6, 5, dt);
-      var targetFov = E.input.sprint && S.stamina > 0 ? 78 : 68;
+    // 1. FLIGHT / PERCH / HIJACKED AUTO-DRIVING PHYSICS
+    if (P.mode === 'drive' && S.hijackedVeh) {
+      var hv = S.hijackedVeh;
+      hv.position.set(P.pos.x, 0.07, P.pos.z);
+      hv.rotation.y = P.yaw;
+      if (S.crowRig) {
+        S.crowRig.root.position.y = P.pos.y + (hv.userData.roofH || 1.8);
+      }
+      P.camDist = 7.4;
+      if (E.input.pressed('jump')) {
+        S.ejectVehicle();
+      }
+    } else if (P.mode === 'fly') {
+      P.speed = 27;
+      P.camDist = E.damp(P.camDist, E.input.sprint ? 6.6 : 5.6, 5, dt);
+      var targetFov = E.input.sprint && S.stamina > 0 ? 79 : 68;
       if (E.camera && Math.abs(E.camera.fov - targetFov) > 0.2) {
         E.camera.fov = E.damp(E.camera.fov, targetFov, 6, dt);
         E.camera.updateProjectionMatrix();
       }
+      if (E.input.sprint && S.stamina > 0) { S.stamina = Math.max(0, S.stamina - 14 * dt); P.speed = 38; }
+      else { S.stamina = Math.min(S.maxStamina, S.stamina + 7 * dt); }
+      if (P.pitch < -0.25) P.speedNow = Math.min(40, P.speedNow + 8.5 * dt);
 
-      if (E.input.sprint && S.stamina > 0) {
-        S.stamina = Math.max(0, S.stamina - 15 * dt);
-        P.speed = 36;
-      } else {
-        S.stamina = Math.min(S.maxStamina, S.stamina + 7 * dt);
-      }
-
-      // Dive-slingshot bonus
-      if (P.pitch < -0.25) P.speedNow = Math.min(38, P.speedNow + 8 * dt);
+      // Storm crosswind turbulence
+      if (S.skyModeIdx === 3) P.pos.x += Math.sin(t * 1.8) * 1.4 * dt;
 
       // Thermal Updrafts
       for (var ui = 0; ui < S.updrafts.length; ui++) {
         var ud = S.updrafts[ui];
-        var dd = Math.hypot(P.pos.x - ud.x, P.pos.z - ud.z);
-        if (dd < ud.r && P.pos.y < 114) {
-          P.pos.y += 30 * dt;
-          S.stamina = Math.min(S.maxStamina, S.stamina + 30 * dt);
-          if (Math.floor(t * 6) !== Math.floor((t - dt) * 6)) E.audio.sfx('whoosh', { vol: 0.3 });
+        if (Math.hypot(P.pos.x - ud.x, P.pos.z - ud.z) < ud.r && P.pos.y < 114) {
+          P.pos.y += 32 * dt; S.stamina = Math.min(S.maxStamina, S.stamina + 30 * dt);
+          if (Math.floor(t * 6) !== Math.floor((t - dt) * 6)) E.audio.sfx('whoosh', { vol: 0.28 });
         }
-        ud.group.rotation.y += dt * 1.5;
+        ud.group.rotation.y += dt * 1.6;
+      }
+
+      // Underbridge Stunt Check (Flying beneath MG Rd Metro Viaduct!)
+      if (Math.abs(P.pos.z + 10) < 3.5 && P.pos.y > 1.8 && P.pos.y < 7.8 && P.speedNow > 12 && t - S.lastStuntT > 5) {
+        S.lastStuntT = t;
+        S.cash += 1200; S.respect += 100;
+        E.audio.sfx('coin');
+        E.hud.toast('UNDER-METRO VIADUCT STUNT! +Rs.1,200', 2.0);
       }
 
       if (E.input.pressed('jump') && S.flapCooldown <= 0) {
-        S.flapCooldown = 0.26;
-        P.pos.y += 1.65;
+        S.flapCooldown = 0.25;
+        P.pos.y += 1.7;
         E.audio.noise({ dur: 0.14, vol: 0.16, type: 'bandpass', freq: 540, to: 180, brown: true });
+        for (var fi2 = 0; fi2 < 2; fi2++) {
+          var fMesh = E.box(0.22, 0.02, 0.09, S.mFeather, P.pos.x + (fi2 === 0 ? -0.4 : 0.4), P.pos.y + 0.2, P.pos.z, { ry: t + fi2 });
+          fMesh.userData = { ttl: 0.9, vy: -1.4 };
+          S.feathers.push(fMesh);
+        }
       }
-
+      // Wingtip Swoop Air Trails
+      if (E.input.sprint && P.speedNow > 22 && Math.floor(t * 24) !== Math.floor((t - dt) * 24)) {
+        [-0.95, 0.95].forEach(function (wx) {
+          var rx = P.pos.x + Math.cos(P.yaw) * wx, rz = P.pos.z - Math.sin(P.yaw) * wx;
+          var vt = E.box(0.08, 0.06, 0.9, E.glowMat('#f8fafc', 1.4), rx, P.pos.y + 0.45, rz, { ry: P.yaw });
+          vt.userData = { ttl: 0.28 };
+          S.vortices.push(vt);
+        });
+      }
       if (brakeKey) {
         P.speedNow = E.damp(P.speedNow, 2, 6, dt);
         P.pos.y = E.damp(P.pos.y, groundBelow + 0.1, 4, dt);
       }
-
       if (P.pos.y <= groundBelow + 1.4 && !E.input.jump && (P.speedNow < 11 || E.input.move.y < -0.3 || brakeKey)) {
-        P.mode = 'walk';
-        P.speed = 8.0;
-        P.pos.y = groundBelow;
-        P.vel.set(0, 0, 0);
-        S.perched = true;
+        P.mode = 'walk'; P.speed = 8.2; P.pos.y = groundBelow; P.vel.set(0, 0, 0);
         E.audio.sfx('land', { vol: 0.5 });
       }
     } else {
-      P.speed = 8.0;
+      P.speed = 8.2;
       P.camDist = E.damp(P.camDist, 4.4, 5, dt);
       if (E.camera && Math.abs(E.camera.fov - 64) > 0.2) {
         E.camera.fov = E.damp(E.camera.fov, 64, 6, dt);
         E.camera.updateProjectionMatrix();
       }
-      S.perched = P.onGround;
-      S.stamina = Math.min(S.maxStamina, S.stamina + 32 * dt);
-      if ((E.input.pressed('jump') && !P.onGround) || (E.input.jump && P.vel.y > 2.4)) {
-        P.mode = 'fly';
-        P.speed = 26;
-        P.pos.y += 1.3;
-        P.speedNow = 16;
-        P.pitch = 0.22;
-        S.perched = false;
+      S.stamina = Math.min(S.maxStamina, S.stamina + 34 * dt);
+      if ((E.input.pressed('jump') && !P.onGround) || (E.input.jump && P.vel.y > 2.3)) {
+        P.mode = 'fly'; P.speed = 27; P.pos.y += 1.3; P.speedNow = 16; P.pitch = 0.22;
         E.audio.noise({ dur: 0.16, vol: 0.2, type: 'bandpass', freq: 540, to: 160, brown: true });
       }
     }
 
-    // 2. ANIMATE 3D MAFIA CROW
+    // 2. BIOLOGICAL 3-JOINT AIRFOIL WING FLAPS + TAIL FLARE + LEG TUCK ANIMATION
     var rig = S.crowRig;
     if (rig) {
-      var flapping = P.mode === 'fly';
-      var flapRate = E.input.jump ? 15 : (E.input.sprint ? 12 : 7.5);
-      var flapAmp = flapping ? (E.input.sprint && !E.input.jump ? 0.2 : 0.72) : 0.04;
-      var wAngle = flapping ? Math.sin(t * flapRate) * flapAmp : -1.08;
-      rig.wingL.root.rotation.z = flapping ? wAngle : -1.08;
-      rig.wingR.root.rotation.z = flapping ? -wAngle : 1.08;
-      rig.wingL.root.rotation.y = flapping ? 0 : -0.38;
-      rig.wingR.root.rotation.y = flapping ? 0 : 0.38;
-      rig.wingL.outer.rotation.z = flapping ? Math.sin(t * flapRate - 0.5) * flapAmp * 0.65 : -0.45;
-      rig.wingR.outer.rotation.z = flapping ? -Math.sin(t * flapRate - 0.5) * flapAmp * 0.65 : 0.45;
-      rig.scarf.rotation.x = Math.sin(t * 14) * (flapping ? 0.26 : 0.05);
-      rig.beakBot.rotation.x = S.cawCooldown > 0.35 ? 0.48 : 0;
-      rig.body.position.y = P.mode === 'walk' ? 0.36 + Math.abs(Math.sin(t * 10)) * (P.speedNow > 0.5 ? 0.06 : 0.01) : 0.38;
+      var flying = P.mode === 'fly';
+      var diving = flying && (P.pitch < -0.22 || (E.input.sprint && !E.input.jump));
+      var braking = flying && brakeKey;
+      var phase = (t * (E.input.jump ? 13 : (E.input.sprint ? 11 : 7.2))) % 6.283;
+      // Asymmetric biological wingstroke: rapid power downstroke, curved elbow fold on upstroke
+      var rawWave = Math.sin(phase) + 0.28 * Math.sin(phase * 2);
+      var flapZ = diving ? -0.22 : (flying ? rawWave * 0.68 : -1.05);
+      var elbowZ = diving ? -0.35 : (flying ? Math.sin(phase - 0.8) * 0.55 : -0.45);
+      var sweepY = diving ? -0.68 : (flying ? 0 : -0.42);
+
+      rig.wingL.shoulder.rotation.set(0, -sweepY, flapZ);
+      rig.wingR.shoulder.rotation.set(0, sweepY, -flapZ);
+      rig.wingL.elbow.rotation.z = elbowZ;
+      rig.wingR.elbow.rotation.z = -elbowZ;
+      rig.wingL.wrist.rotation.z = flying ? Math.sin(phase - 1.3) * 0.35 : -0.2;
+      rig.wingR.wrist.rotation.z = flying ? -Math.sin(phase - 1.3) * 0.35 : 0.2;
+
+      rig.scarf.rotation.x = Math.sin(t * 15) * (flying ? 0.28 : 0.05);
+      rig.beakBot.rotation.x = S.cawCooldown > 0.35 ? 0.52 : 0;
+      rig.legs.rotation.x = flying && P.speedNow > 10 ? 0.95 : 0;
+      rig.body.position.y = P.mode === 'walk' ? 0.38 + Math.abs(Math.sin(t * 10)) * (P.speedNow > 0.5 ? 0.06 : 0.01) : 0.40;
+      // Tail airbrake spread
+      for (var tfi = 0; tfi < rig.tailFeathers.length; tfi++) {
+        var tf = rig.tailFeathers[tfi];
+        tf.rotation.y = tf.userData.baseRy * (braking ? 1.85 : (diving ? 0.45 : 1.0));
+      }
+      rig.tail.rotation.x = braking ? -0.55 : 0;
     }
 
     if (S.aimReticle) {
-      var predX = P.pos.x + P.vel.x * 0.42;
-      var predZ = P.pos.z + P.vel.z * 0.42;
+      var predX = P.pos.x + P.vel.x * 0.42, predZ = P.pos.z + P.vel.z * 0.42;
       var retY = surfaceUnder(predX, predZ, P.pos.y) + 0.2;
       S.aimReticle.position.set(predX, retY, predZ);
       S.aimReticle.rotation.y = t * 2.2;
-      S.aimReticle.visible = P.pos.y > retY + 1.2;
+      S.aimReticle.visible = P.mode === 'fly' && P.pos.y > retY + 1.2;
     }
 
-    // 3. POOP-BOMB DROP & IMPACTS
+    // Update Feather Puffs & Wingtip Trails
+    for (var fi3 = S.feathers.length - 1; fi3 >= 0; fi3--) {
+      var fp = S.feathers[fi3]; fp.userData.ttl -= dt;
+      fp.position.y += fp.userData.vy * dt; fp.rotation.z += dt * 4;
+      if (fp.userData.ttl <= 0) { if (fp.parent) fp.parent.remove(fp); S.feathers.splice(fi3, 1); }
+    }
+    for (var vti = S.vortices.length - 1; vti >= 0; vti--) {
+      var vp = S.vortices[vti]; vp.userData.ttl -= dt;
+      vp.scale.multiplyScalar(0.92);
+      if (vp.userData.ttl <= 0) { if (vp.parent) vp.parent.remove(vp); S.vortices.splice(vti, 1); }
+    }
+
+    // Nest Beacon & Contextual Snatch / Hijack Prompt
+    if (S.nestBeacon) {
+      S.nestBeacon.visible = !!(S.carryingLoot && S.opIndex === 0);
+      S.nestBeacon.rotation.y = t * 1.4;
+    }
+    var nearPrompt = null;
+    if (S.hijackedVeh) {
+      nearPrompt = ['SPACE to Eject Vehicle', 'SPACE'];
+    } else if (!S.carryingLoot && P.pos.y < 12) {
+      for (var pIdx = 0; pIdx < S.snatchables.length; pIdx++) {
+        var snp = S.snatchables[pIdx];
+        if (!snp.userData.looted && E.dist(snp, P.pos) < 10.0) {
+          nearPrompt = ['SNATCH ' + (snp.userData.lootKind === 'chain' ? 'GOLD CHAIN' : 'SMARTPHONE'), 'E'];
+          break;
+        }
+      }
+      if (!nearPrompt) {
+        for (var vIdx = 0; vIdx < S.vehicles.length; vIdx++) {
+          if (E.dist(S.vehicles[vIdx], P.pos) < 7.2) {
+            nearPrompt = ['HIJACK ' + (S.vehicles[vIdx].userData.kind === 'bus' ? 'BMTC BUS' : 'AUTO-RICKSHAW'), 'E'];
+            break;
+          }
+        }
+      }
+    }
+    if (!HEADLESS) {
+      var pKey = nearPrompt ? nearPrompt[0] : '';
+      if (pKey !== S.prevCustomPrompt) {
+        S.prevCustomPrompt = pKey;
+        E.hud.prompt(nearPrompt ? nearPrompt[0] : null, nearPrompt ? nearPrompt[1] : 'E');
+      }
+    }
+
+    // Deliver Carried Beak Loot at Cubbon Nest!
+    if (S.carryingLoot && S.opIndex === 0 && S.nestPos) {
+      var dn = Math.hypot(P.pos.x - S.nestPos.x, P.pos.z - S.nestPos.z);
+      if (dn < 12 && Math.abs(P.pos.y - S.nestPos.y) < 10) {
+        S.cash += S.carryingLoot.value;
+        S.respect += 450;
+        S.opProgress++;
+        E.audio.sfx('coin');
+        E.hud.toast('DELIVERED ' + S.carryingLoot.label.toUpperCase() + '! +Rs.' + S.carryingLoot.value, 2.5);
+        S.carryingLoot = null;
+        S.setBeakLoot(null);
+        E.hud.objective('Snatch Chains/Phones on Brigade Rd & deliver to Cubbon Nest (' + S.opProgress + '/3)', 'OP 01 · CHAIN & PHONE SNATCH');
+        if (S.opProgress >= 3) S.spawnOpStage(1);
+      }
+    }
+
+    // 3. POOP-BOMB DROP & CHAOS IMPACTS (INCLUDING RIVAL BILLBOARDS, VIP PODIUM & GARUDA-X!)
     if (E.input.pressed('fire') && S.bombCooldown <= 0) {
-      S.bombCooldown = 0.32;
-      S.bombsDropped++;
-      var drop = E.sphere(0.25, E.glowMat('#f8fafc', 1.7), P.pos.x, P.pos.y - 0.25, P.pos.z, { seg: 8 });
+      S.bombCooldown = 0.30;
+      var drop = E.sphere(0.26, E.glowMat('#f8fafc', 1.75), P.pos.x, P.pos.y - 0.2, P.pos.z, { seg: 8 });
       drop.userData = { vx: P.vel.x * 0.72, vy: Math.min(-3.5, P.vel.y - 4.5), vz: P.vel.z * 0.72, life: 3.5 };
       S.bombs.push(drop);
       E.audio.tone({ freq: 540, to: 180, dur: 0.14, vol: 0.14, type: 'sine' });
@@ -2237,57 +2445,80 @@ Game({
     for (var bi = S.bombs.length - 1; bi >= 0; bi--) {
       var b = S.bombs[bi];
       b.userData.vy -= 26 * dt;
-      b.position.x += b.userData.vx * dt;
-      b.position.y += b.userData.vy * dt;
-      b.position.z += b.userData.vz * dt;
+      b.position.x += b.userData.vx * dt; b.position.y += b.userData.vy * dt; b.position.z += b.userData.vz * dt;
       b.userData.life -= dt;
+      var hit = false;
 
-      var hitSomething = false;
-      for (var vi = 0; vi < S.vips.length; vi++) {
-        var suv = S.vips[vi];
-        if (Math.hypot(b.position.x - suv.position.x, b.position.z - suv.position.z) < 2.8 && Math.abs(b.position.y - 1.4) < 1.8) {
-          hitSomething = true;
-          S.bombHits++; S.combo++; S.comboT = 4.5;
-          S.cash += 3500; S.heat = Math.min(500, S.heat + 75);
-          E.audio.sfx('splash'); S.playHorn();
-          E.flash('#ffffff', 0.2);
-          if (!suv.userData.bombed) {
-            suv.userData.bombed = true;
-            E.box(1.9, 0.08, 2.2, E.glowMat('#f8fafc', 1.4), 0, 2.05, 0.2, { parent: suv });
-            if (S.opIndex === 3) {
-              S.opProgress++;
-              E.hud.objective('Dive-Bomb all 4 Corrupt VIP SUVs at Vidhana Soudha (' + S.opProgress + '/4)', 'OP 04 · VIP CONVOY');
-              E.hud.toast('VIP SUV Whitewashed! (' + S.opProgress + '/4) +Rs.3,500', 2.4);
-              if (S.opProgress >= 4) S.spawnOpStage(4);
-            } else {
-              E.hud.toast('VIP Target Whitewashed! +Rs.3,500', 2.0);
-            }
-          }
-          break;
+      // Check Vidhana Soudha VIP Podium (Op 5!)
+      if (S.vipPodium && !S.vipPodium.userData.bombed && Math.hypot(b.position.x - S.vipPodium.position.x, b.position.z - S.vipPodium.position.z) < 4.5 && b.position.y < 7) {
+        hit = true; S.vipPodium.userData.bombed = true;
+        S.bombHits++; S.cash += 5000; S.respect += 500;
+        E.audio.sfx('splash'); E.flash('#ffffff', 0.25);
+        if (S.opIndex === 4) {
+          S.opProgress++;
+          E.hud.objective('Bomb Vidhana Soudha VIP Podium & White SUVs (' + S.opProgress + '/4)', 'OP 05 · VIP RALLY SABOTAGE');
+          E.hud.toast('VIP SPEECH WHITEWASHED! +Rs.5,000', 2.4);
+          if (S.opProgress >= 4) S.spawnOpStage(5);
         }
       }
-      if (!hitSomething) {
-        for (var hi = 0; hi < S.hawks.length; hi++) {
-          var hk = S.hawks[hi];
-          if (!hk.userData.active || hk.userData.defeated) continue;
-          if (Math.hypot(b.position.x - hk.position.x, b.position.z - hk.position.z) < 3.0 && Math.abs(b.position.y - hk.position.y) < 2.6) {
-            hitSomething = true;
-            stunHawk(hk);
+      // Check Rival Billboards (Op 7!)
+      if (!hit && S.opIndex === 6) {
+        for (var bbi = 0; bbi < S.billboards.length; bbi++) {
+          var bb = S.billboards[bbi];
+          if (bb.rivalTagged && !bb.bombed && Math.hypot(b.position.x - bb.x, b.position.z - bb.z) < 9.5 && Math.abs(b.position.y - bb.y) < 7) {
+            hit = true; bb.bombed = true; bb.rivalTagged = false;
+            window.KAAGE_SET_BILLBOARD && window.KAAGE_SET_BILLBOARD(bb.idx, { title: 'KAAGE EMPIRE', sub: 'TURF RECLAIMED · BLR', bg: '#141720', accent: '#ff5a1f', badge: 'OWNED' });
+            S.opProgress++; S.cash += 6000; S.respect += 500;
+            E.audio.sfx('power'); E.hud.toast('BILLBOARD RECLAIMED (' + S.opProgress + '/3) +Rs.6,000', 2.4);
+            if (S.opProgress >= 3) S.spawnOpStage(7);
             break;
           }
         }
       }
-      if (!hitSomething) {
+      // Check VIP SUVs
+      if (!hit) {
+        for (var vi = 0; vi < S.vips.length; vi++) {
+          var suv = S.vips[vi];
+          if (Math.hypot(b.position.x - suv.position.x, b.position.z - suv.position.z) < 3.0 && Math.abs(b.position.y - 1.5) < 2.0) {
+            hit = true; S.bombHits++; S.combo++; S.comboT = 4.5;
+            S.cash += 3500; S.heat = Math.min(500, S.heat + 75);
+            E.audio.sfx('splash'); S.playHorn(); suv.userData.swerveT = 1.2;
+            if (!suv.userData.bombed) {
+              suv.userData.bombed = true;
+              E.box(1.9, 0.08, 2.2, E.glowMat('#f8fafc', 1.4), 0, 2.05, 0.2, { parent: suv });
+              if (S.opIndex === 4) {
+                S.opProgress++;
+                E.hud.objective('Bomb Vidhana Soudha VIP Podium & White SUVs (' + S.opProgress + '/4)', 'OP 05 · VIP RALLY SABOTAGE');
+                if (S.opProgress >= 4) S.spawnOpStage(5);
+              }
+            }
+            E.hud.toast('VIP SUV WHITEWASHED! +Rs.3,500', 2.0);
+            break;
+          }
+        }
+      }
+      // Check Hawk Drones & Garuda-X Boss
+      if (!hit) {
+        for (var hi = 0; hi < S.hawks.length; hi++) {
+          var hk = S.hawks[hi];
+          if (!hk.userData.active || hk.userData.defeated) continue;
+          var hr = hk.userData.isBoss ? 5.0 : 3.2;
+          if (Math.hypot(b.position.x - hk.position.x, b.position.z - hk.position.z) < hr && Math.abs(b.position.y - hk.position.y) < hr) {
+            hit = true; hitHawk(hk); break;
+          }
+        }
+      }
+      // Check Street Traffic
+      if (!hit) {
         for (var ci = 0; ci < S.vehicles.length; ci++) {
           var vc = S.vehicles[ci];
-          if (vc.userData.kind === 'vip') continue;
-          if (Math.hypot(b.position.x - vc.position.x, b.position.z - vc.position.z) < 2.6 && b.position.y < 3.4) {
-            hitSomething = true;
+          if (vc === S.hijackedVeh || vc.userData.kind === 'vip') continue;
+          if (Math.hypot(b.position.x - vc.position.x, b.position.z - vc.position.z) < 2.8 && b.position.y < 3.5) {
+            hit = true;
             if (t - vc.userData.hitAt > 2) {
-              vc.userData.hitAt = t;
+              vc.userData.hitAt = t; vc.userData.swerveT = 0.8;
               S.bombHits++; S.combo++; S.comboT = 4.0;
-              var bonus = 800 * Math.min(5, S.combo);
-              S.cash += bonus; S.heat = Math.min(500, S.heat + 28);
+              var bonus = 800 * Math.min(5, S.combo); S.cash += bonus; S.heat = Math.min(500, S.heat + 28);
               E.audio.sfx('splash'); S.playHorn();
               E.hud.toast((vc.userData.kind === 'bus' ? 'BMTC Bus' : 'Auto-Rickshaw') + ' Direct Hit! x' + S.combo + ' +Rs.' + bonus, 1.8);
             }
@@ -2295,22 +2526,17 @@ Game({
           }
         }
       }
-      if (!hitSomething) {
+      // Check Pedestrians
+      if (!hit) {
         for (var pi = 0; pi < S.peds.length; pi++) {
           var pd = S.peds[pi];
-          if (Math.hypot(b.position.x - pd.position.x, b.position.z - pd.position.z) < 1.6 && b.position.y < 2.4) {
-            hitSomething = true;
+          if (Math.hypot(b.position.x - pd.position.x, b.position.z - pd.position.z) < 1.8 && b.position.y < 2.5) {
+            hit = true;
             if (t - pd.userData.hitAt > 2) {
-              pd.userData.hitAt = t;
-              S.bombHits++; S.combo++; S.comboT = 4.0;
+              pd.userData.hitAt = t; S.bombHits++; S.combo++; S.comboT = 4.0;
               S.cash += 1000; S.heat = Math.min(500, S.heat + 35);
-              if (pd.userData.snitch) {
-                pd.userData.stunnedUntil = t + 12;
-                S.exposure = Math.max(0, S.exposure - 30);
-                E.hud.toast('Snitch Phone Splatted! -30% Exposure', 2.0);
-              } else {
-                E.hud.toast('Bullseye! +Rs.1,000', 1.6);
-              }
+              if (pd.userData.snitch) { pd.userData.stunnedUntil = t + 12; S.exposure = Math.max(0, S.exposure - 30); E.hud.toast('Snitch Silenced! -30% Exposure', 2.0); }
+              else E.hud.toast('Pedestrian Splatted! +Rs.1,000', 1.6);
               E.audio.sfx('splash');
             }
             break;
@@ -2318,16 +2544,12 @@ Game({
         }
       }
       var floorHit = surfaceUnder(b.position.x, b.position.z, b.position.y + 1);
-      if (hitSomething || b.position.y <= floorHit || b.userData.life <= 0) {
-        if (!hitSomething && b.position.y <= floorHit) {
+      if (hit || b.position.y <= floorHit || b.userData.life <= 0) {
+        if (!hit && b.position.y <= floorHit) {
           E.audio.sfx('splash', { vol: 0.35 });
           var splat = E.cyl(0.65, 0.75, 0.04, E.glowMat('#f1f5f9', 1.15), b.position.x, floorHit + 0.02, b.position.z, { seg: 8 });
-          splat.userData = { ttl: 6 };
-          S.splats.push(splat);
-          if (S.splats.length > 20) {
-            var old = S.splats.shift();
-            if (old.parent) old.parent.remove(old);
-          }
+          splat.userData = { ttl: 6 }; S.splats.push(splat);
+          if (S.splats.length > 20) { var old = S.splats.shift(); if (old.parent) old.parent.remove(old); }
         }
         if (b.parent) b.parent.remove(b);
         S.bombs.splice(bi, 1);
@@ -2335,184 +2557,195 @@ Game({
     }
     for (var si = S.splats.length - 1; si >= 0; si--) {
       S.splats[si].userData.ttl -= dt;
-      if (S.splats[si].userData.ttl <= 0) {
-        if (S.splats[si].parent) S.splats[si].parent.remove(S.splats[si]);
-        S.splats.splice(si, 1);
-      }
+      if (S.splats[si].userData.ttl <= 0) { if (S.splats[si].parent) S.splats[si].parent.remove(S.splats[si]); S.splats.splice(si, 1); }
     }
 
-    // 4. CAW SHOCKWAVE
+    // 4. INTERACTIVE E BUTTON: SNATCH CHAINS/PHONES + HIJACK AUTO-RICKSHAW + CAW SHOCKWAVE!
     if (E.input.pressed('action') && S.cawCooldown <= 0) {
-      S.cawCooldown = 0.65;
+      S.cawCooldown = 0.55;
       E.audio.tone({ freq: 620, to: 420, dur: 0.16, vol: 0.24, type: 'sawtooth', filter: 1600 });
       E.audio.tone({ freq: 580, to: 380, dur: 0.14, vol: 0.18, type: 'sawtooth', filter: 1500, when: (E.audio.ctx ? E.audio.ctx.currentTime + 0.18 : 0) });
       var ring = new T.Mesh(new T.RingGeometry(0.6, 1.0, 24), E.glowMat('#ff5a1f', 2.8));
-      ring.rotation.x = -Math.PI / 2;
-      ring.position.set(P.pos.x, P.pos.y + 0.3, P.pos.z);
-      E.scene.add(ring);
-      ring.userData = { age: 0 };
-      S.cawRings.push(ring);
+      ring.rotation.x = -Math.PI / 2; ring.position.set(P.pos.x, P.pos.y + 0.3, P.pos.z);
+      E.scene.add(ring); ring.userData = { age: 0 }; S.cawRings.push(ring);
 
-      var scrambled = 0;
-      for (var sni = 0; sni < S.snitches.length; sni++) {
-        var sn = S.snitches[sni];
-        if (E.dist(sn, P.pos) < 18 && Math.abs(P.pos.y - sn.position.y) < 16) {
-          sn.userData.stunnedUntil = t + 10;
-          scrambled++;
+      // Priority A: Snatch Gold Chain / Smartphone from nearby pedestrian!
+      var snatchedNow = false;
+      if (!S.carryingLoot) {
+        for (var sni = 0; sni < S.snatchables.length; sni++) {
+          var sp = S.snatchables[sni];
+          if (!sp.userData.looted && E.dist(sp, P.pos) < 10.5 && P.pos.y < 12) {
+            sp.userData.looted = true;
+            sp.userData.angryUntil = t + 14;
+            if (sp.userData.lootObj) sp.userData.lootObj.visible = false;
+            var k = sp.userData.lootKind;
+            S.carryingLoot = { kind: k, label: k === 'chain' ? 'Gold Chain' : 'Smartphone', value: k === 'chain' ? 5000 : 3500 };
+            S.setBeakLoot(k);
+            S.snatchesDone++;
+            S.heat = Math.min(500, S.heat + 65);
+            E.audio.sfx('pickup'); E.shake(0.22);
+            E.hud.toast(S.carryingLoot.label.toUpperCase() + ' SNATCHED! Fly to Cubbon Nest!', 2.6);
+            snatchedNow = true;
+            break;
+          }
         }
       }
-      if (scrambled > 0) {
-        S.exposure = Math.max(0, S.exposure - 35);
-        E.hud.toast('KAAAW! Blackout jammed ' + scrambled + ' phone camera(s)!', 2.2);
+
+      // Priority B: Hijack / Surf nearby Auto-Rickshaw or Bus!
+      if (!snatchedNow && !S.hijackedVeh && P.pos.y < 11) {
+        for (var vhi = 0; vhi < S.vehicles.length; vhi++) {
+          var vh = S.vehicles[vhi];
+          if (E.dist(vh, P.pos) < 7.0) {
+            S.hijackedVeh = vh;
+            P.mode = 'drive';
+            P.pos.set(vh.position.x, 0.07, vh.position.z);
+            P.yaw = vh.rotation.y;
+            P.speedNow = 14;
+            S.playHorn();
+            E.hud.toast('HIJACKED ' + (vh.userData.kind === 'bus' ? 'BMTC BUS' : 'NAMMA AUTO') + '! Drive or press SPACE to eject!', 2.8);
+            break;
+          }
+        }
       }
+
+      // Priority C: Scramble Snitch Phones & Hit Boss/Hawks
+      var scrambled = 0;
+      for (var s2 = 0; s2 < S.snitches.length; s2++) {
+        var sn = S.snitches[s2];
+        if (E.dist(sn, P.pos) < 18 && Math.abs(P.pos.y - sn.position.y) < 16) { sn.userData.stunnedUntil = t + 10; scrambled++; }
+      }
+      if (scrambled > 0) { S.exposure = Math.max(0, S.exposure - 35); E.hud.toast('KAAAW! Jammed ' + scrambled + ' snitch phone(s)!', 2.0); }
       for (var hki = 0; hki < S.hawks.length; hki++) {
         var hk2 = S.hawks[hki];
-        if (hk2.userData.active && !hk2.userData.defeated && E.dist(hk2, P.pos) < 15 && Math.abs(P.pos.y - hk2.position.y) < 11) {
-          stunHawk(hk2);
-        }
+        if (hk2.userData.active && !hk2.userData.defeated && E.dist(hk2, P.pos) < 16 && Math.abs(P.pos.y - hk2.position.y) < 12) { hitHawk(hk2); }
       }
     }
+
     for (var ri2 = S.cawRings.length - 1; ri2 >= 0; ri2--) {
-      var cr = S.cawRings[ri2];
-      cr.userData.age += dt;
-      var sc = 1 + cr.userData.age * 18;
-      cr.scale.set(sc, sc, 1);
-      if (cr.userData.age > 0.55) {
-        if (cr.parent) cr.parent.remove(cr);
-        S.cawRings.splice(ri2, 1);
+      var cr = S.cawRings[ri2]; cr.userData.age += dt;
+      var sc = 1 + cr.userData.age * 18; cr.scale.set(sc, sc, 1);
+      if (cr.userData.age > 0.55) { if (cr.parent) cr.parent.remove(cr); S.cawRings.splice(ri2, 1); }
+    }
+
+    function hitHawk(hk) {
+      hk.userData.hp--;
+      hk.userData.stunnedUntil = t + 6;
+      S.cash += 3500; S.respect += 300;
+      E.audio.sfx('hit'); E.shake(0.32);
+      if (hk.userData.hp <= 0) {
+        hk.userData.defeated = true; hk.visible = false;
+        if (S.opIndex === 7 && hk.userData.isBoss) {
+          S.cash += 15000; E.hud.toast('GARUDA-X BOSS DESTROYED! +Rs.15,000', 2.8);
+          S.spawnOpStage(8);
+        } else {
+          E.hud.toast('Hawk Drone Down! +Rs.3,500', 2.0);
+        }
+      } else if (S.opIndex === 7 && hk.userData.isBoss) {
+        S.opProgress = 4 - hk.userData.hp;
+        E.hud.objective('Defeat GARUDA-X Boss Drone at Lalbagh (' + S.opProgress + '/4 Hits)', 'OP 08 · BOSS DOGFIGHT');
+        E.hud.toast('GARUDA-X HIT! (' + S.opProgress + '/4)', 1.8);
       }
     }
 
-    function stunHawk(hk) {
-      hk.userData.stunnedUntil = t + 10;
-      S.cash += 4000;
-      S.respect += 350;
-      E.audio.sfx('hit');
-      E.shake(0.28);
-      if (S.opIndex === 8 && hk.userData.opTarget && !hk.userData.defeated) {
-        hk.userData.defeated = true;
-        hk.visible = false;
-        S.opProgress++;
-        E.hud.objective('Stun 3 Hawk Drones with BOMB or CAW (E) at Lalbagh (' + S.opProgress + '/3)', 'OP 09 · GLASSHOUSE AMBUSH');
-        E.hud.toast('Hawk Drone Down! (' + S.opProgress + '/3) +Rs.4,000', 2.4);
-        if (S.opProgress >= 3) S.spawnOpStage(9);
-      } else {
-        E.hud.toast('Hawk Drone Stunned! +Rs.4,000', 2.0);
-      }
-    }
-
-    // 5. ANIMATE NAMMA METRO, VEHICLES, PEDESTRIANS, HAWKS & WINGMEN
+    // 5. ANIMATE METRO, AIRLINER, VEHICLES, ANGRY ROBBED PEDS & HAWKS
     if (S.metroTrain) S.metroTrain.position.x = Math.sin(t * 0.24) * 165;
+    if (S.airliner) {
+      S.airliner.position.x += 22 * dt;
+      if (S.airliner.position.x > 260) S.airliner.position.x = -260;
+    }
     for (var vi2 = 0; vi2 < S.vehicles.length; vi2++) {
       var v = S.vehicles[vi2], u = v.userData;
+      if (v === S.hijackedVeh) continue;
+      if (u.swerveT > 0) { u.swerveT -= dt; v.rotation.z = Math.sin(t * 28) * 0.08; } else { v.rotation.z = 0; }
       if (u.axis === 'x') {
         v.position.x += u.dir * u.speed * dt;
-        if (v.position.x > 210) v.position.x = -210;
-        if (v.position.x < -210) v.position.x = 210;
+        if (v.position.x > 210) v.position.x = -210; if (v.position.x < -210) v.position.x = 210;
       } else {
         v.position.z += u.dir * u.speed * dt;
         var minZ = u.minZ != null ? u.minZ : -170, maxZ = u.maxZ != null ? u.maxZ : 170;
-        if (v.position.z > maxZ) v.position.z = minZ;
-        if (v.position.z < minZ) v.position.z = maxZ;
+        if (v.position.z > maxZ) v.position.z = minZ; if (v.position.z < minZ) v.position.z = maxZ;
       }
     }
     var nearSnitch = false;
     for (var pi2 = 0; pi2 < S.peds.length; pi2++) {
       var p = S.peds[pi2], pu = p.userData;
-      p.position.z += pu.dir * pu.speed * dt;
-      p.position.y = 0.18 + Math.abs(Math.sin(t * 6 + pi2)) * 0.03;
-      if (p.position.z > pu.maxZ) { p.position.z = pu.maxZ; pu.dir = -1; }
-      if (p.position.z < pu.minZ) { p.position.z = pu.minZ; pu.dir = 1; }
-      p.rotation.y = pu.dir < 0 ? 0 : Math.PI;
-      if (pu.snitch && t > pu.stunnedUntil && E.dist(p, P.pos) < 16 && P.pos.y < 14) nearSnitch = true;
+      if (t < pu.angryUntil) {
+        // Robbed pedestrian sprints angrily chasing the crow!
+        E.moveToward(p, P.pos, 4.8, dt, 0.3);
+        p.position.y = 0.18 + Math.abs(Math.sin(t * 14 + pi2)) * 0.12;
+      } else {
+        p.position.z += pu.dir * pu.speed * dt;
+        p.position.y = 0.18 + Math.abs(Math.sin(t * 6 + pi2)) * 0.03;
+        if (p.position.z > pu.maxZ) { p.position.z = pu.maxZ; pu.dir = -1; }
+        if (p.position.z < pu.minZ) { p.position.z = pu.minZ; pu.dir = 1; }
+        p.rotation.y = pu.dir < 0 ? 0 : Math.PI;
+      }
+      if (pu.snitch && !pu.looted && t > pu.stunnedUntil && E.dist(p, P.pos) < 16 && P.pos.y < 14) nearSnitch = true;
     }
-    if (nearSnitch) S.exposure = Math.min(100, S.exposure + 22 * dt);
+    if (nearSnitch) S.exposure = Math.min(100, S.exposure + 20 * dt);
     else S.exposure = Math.max(0, S.exposure - 12 * dt);
 
     if (S.exposure >= 100) {
-      S.exposure = 40;
-      S.heat = Math.min(500, S.heat + 120);
-      E.audio.sfx('alarm');
-      E.flash('#ef4444', 0.45);
-      E.hud.toast('EXPOSED! Heat +1 Star — Press E to CAW next time!', 3.0);
+      S.exposure = 40; S.heat = Math.min(500, S.heat + 120);
+      E.audio.sfx('alarm'); E.flash('#ef4444', 0.45);
+      E.hud.toast('FILMED BY SNITCH! Heat +1 Star — Hit E to Snatch/Jam!', 3.0);
     }
 
-    if (S.opIndex < 8) S.heat = Math.max(0, S.heat - 8 * dt);
+    if (S.opIndex < 7) S.heat = Math.max(0, S.heat - 8 * dt);
     var stars = Math.min(5, Math.floor(S.heat / 100));
     if (stars >= 2 && !S.hawks[0].userData.active) {
-      S.hawks[0].userData.active = true;
-      S.hawks[0].position.set(P.pos.x + 28, P.pos.y + 8, P.pos.z + 28);
-      E.audio.sfx('alarm');
-      E.hud.toast('Bengaluru Hawk Patrol deployed!', 2.6);
+      S.hawks[0].userData.active = true; S.hawks[0].position.set(P.pos.x + 28, P.pos.y + 8, P.pos.z + 28);
+      E.audio.sfx('alarm'); E.hud.toast('Bengaluru Hawk Patrol deployed!', 2.6);
     }
     for (var hi2 = 0; hi2 < S.hawks.length; hi2++) {
       var hk3 = S.hawks[hi2], hu = hk3.userData;
       if (!hu.active || hu.defeated) { hk3.visible = false; continue; }
       hk3.visible = true;
       if (t < hu.stunnedUntil) { hk3.rotation.y += dt * 10; continue; }
-      var targetPos = S.opIndex >= 8 ? P.pos : (stars >= 2 ? P.pos : { x: hu.home[0], y: hu.home[1], z: hu.home[2] });
-      var dx = targetPos.x - hk3.position.x, dz = targetPos.z - hk3.position.z;
-      var dy = (targetPos.y + 1.5) - hk3.position.y;
+      var targetPos = S.opIndex >= 7 ? P.pos : (stars >= 2 ? P.pos : { x: hu.home[0], y: hu.home[1], z: hu.home[2] });
+      var dx = targetPos.x - hk3.position.x, dz = targetPos.z - hk3.position.z, dy = (targetPos.y + 1.5) - hk3.position.y;
       var hd = Math.hypot(dx, dz);
       if (hd > 1) {
-        var hsp = (S.opIndex === 9 ? 16.5 : 12.5) * dt;
-        hk3.position.x += (dx / hd) * hsp;
-        hk3.position.z += (dz / hd) * hsp;
+        var hsp = (hu.isBoss ? 14.5 : 12.5) * dt;
+        hk3.position.x += (dx / hd) * hsp; hk3.position.z += (dz / hd) * hsp;
         hk3.position.y += E.clamp(dy, -10, 10) * dt * 1.4;
         hk3.rotation.y = Math.atan2(-dx, -dz);
       }
-      if (hd < 2.0 && Math.abs(hk3.position.y - P.pos.y) < 2.2) {
-        S.stamina = Math.max(0, S.stamina - 35);
-        S.heat = Math.max(0, S.heat - 40);
-        hu.stunnedUntil = t + 3.5;
+      if (hd < 2.4 && Math.abs(hk3.position.y - P.pos.y) < 2.4) {
+        S.stamina = Math.max(0, S.stamina - 35); S.heat = Math.max(0, S.heat - 40); hu.stunnedUntil = t + 3.5;
         E.audio.sfx('hurt'); E.flash('#ef4444', 0.45); E.shake(0.4);
-        E.hud.toast('Hawk Drone Intercept! Press E to CAW-Stun!', 2.4);
+        E.hud.toast('Hawk Drone Strike! Press E (CAW) or BOMB them!', 2.4);
       }
     }
 
     for (var wi2 = 0; wi2 < S.wingmen.length; wi2++) {
-      var wm = S.wingmen[wi2];
-      var wa = t * 1.45 + wi2 * 1.4;
-      var tx = P.pos.x + Math.cos(wa) * (4.5 + wi2 * 0.9);
-      var tz = P.pos.z + Math.sin(wa) * (4.5 + wi2 * 0.9);
-      var ty = P.pos.y + 1.4 + Math.sin(t * 2 + wi2) * 0.6;
-      wm.position.x = E.damp(wm.position.x, tx, 4, dt);
-      wm.position.y = E.damp(wm.position.y, ty, 4, dt);
-      wm.position.z = E.damp(wm.position.z, tz, 4, dt);
+      var wm = S.wingmen[wi2], wa = t * 1.45 + wi2 * 1.4;
+      var tx = P.pos.x + Math.cos(wa) * (4.5 + wi2 * 0.9), tz = P.pos.z + Math.sin(wa) * (4.5 + wi2 * 0.9), ty = P.pos.y + 1.4 + Math.sin(t * 2 + wi2) * 0.6;
+      wm.position.x = E.damp(wm.position.x, tx, 4, dt); wm.position.y = E.damp(wm.position.y, ty, 4, dt); wm.position.z = E.damp(wm.position.z, tz, 4, dt);
       wm.rotation.y = Math.atan2(-(tx - wm.position.x), -(tz - wm.position.z));
     }
 
-    // 6. UPDATE DOM HUD, RANK & LIVE ROTATING RADAR
+    // 6. UPDATE DOM HUD & LIVE RADAR
     if (!HEADLESS) {
       var rankEl = document.getElementById('k-rank');
-      if (rankEl) {
-        rankEl.textContent = S.respect >= 3500 ? 'DON KAAGE' : (S.respect >= 1800 ? 'CONSIGLIERE' : (S.respect >= 800 ? 'METRO CAPO' : (S.respect >= 250 ? 'ENFORCER' : 'STREET CROW')));
-      }
+      if (rankEl) rankEl.textContent = S.respect >= 4000 ? 'DON KAAGE' : (S.respect >= 2000 ? 'CONSIGLIERE' : (S.respect >= 900 ? 'METRO CAPO' : (S.respect >= 300 ? 'ENFORCER' : 'STREET CROW')));
       var cashEl = document.getElementById('k-cash');
       if (cashEl) cashEl.textContent = 'Rs.' + S.cash.toLocaleString();
       var modeEl = document.getElementById('k-mode-tag');
-      if (modeEl) modeEl.textContent = P.mode === 'walk' ? 'PERCHED' : (E.input.sprint ? 'SWOOP' : 'SOARING');
+      if (modeEl) modeEl.textContent = P.mode === 'drive' ? 'HIJACKED' : (P.mode === 'walk' ? 'PERCHED' : (E.input.sprint ? 'SWOOP' : 'SOARING'));
       var stamEl = document.getElementById('k-stam-fill');
-      if (stamEl) {
-        stamEl.style.width = Math.round(S.stamina) + '%';
-        stamEl.style.background = S.stamina > 35 ? '#22c55e' : '#ef4444';
-      }
-      var expVal = document.getElementById('k-exp-val');
-      var expFill = document.getElementById('k-exp-fill');
-      if (expVal && expFill) {
-        expVal.textContent = Math.round(S.exposure) + '%';
-        expFill.style.width = Math.round(S.exposure) + '%';
-      }
-      var vadaEl = document.getElementById('k-vada');
-      if (vadaEl) vadaEl.textContent = S.vadasFound + '/12';
+      if (stamEl) { stamEl.style.width = Math.round(S.stamina) + '%'; stamEl.style.background = S.stamina > 35 ? '#22c55e' : '#ef4444'; }
+      var expVal = document.getElementById('k-exp-val'), expFill = document.getElementById('k-exp-fill');
+      if (expVal && expFill) { expVal.textContent = Math.round(S.exposure) + '%'; expFill.style.width = Math.round(S.exposure) + '%'; }
+      var beakTag = document.getElementById('k-beak-tag');
+      if (beakTag) beakTag.textContent = S.carryingLoot ? S.carryingLoot.label.toUpperCase() : 'EMPTY';
 
       var starsEl = document.getElementById('k-stars');
       if (starsEl && S.prevStars !== stars) {
         S.prevStars = stars;
         var sh = '';
         for (var stIdx = 0; stIdx < 5; stIdx++) {
-          var lit = stIdx < stars;
-          sh += '<svg width="12" height="12" viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16.5,13.5 18.5,21 12,16.5 5.5,21 7.5,13.5 2,9 9,9" fill="' + (lit ? '#ff5a1f' : 'rgba(255,255,255,0.18)') + '"/></svg>';
+          sh += '<svg width="12" height="12" viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16.5,13.5 18.5,21 12,16.5 5.5,21 7.5,13.5 2,9 9,9" fill="' + (stIdx < stars ? '#ff5a1f' : 'rgba(255,255,255,0.18)') + '"/></svg>';
         }
         starsEl.innerHTML = sh;
       }
@@ -2520,14 +2753,12 @@ Game({
       if (S.radarCtx && (!S.lastRadarT || t - S.lastRadarT > 0.05)) {
         S.lastRadarT = t;
         var g = S.radarCtx, R = 70, scale = 0.34;
-        g.clearRect(0, 0, 140, 140);
-        g.save();
+        g.clearRect(0, 0, 140, 140); g.save();
         g.beginPath(); g.arc(R, R, R - 2, 0, 6.283); g.clip();
         g.fillStyle = '#0f1420'; g.fillRect(0, 0, 140, 140);
         g.strokeStyle = 'rgba(255,255,255,0.12)'; g.lineWidth = 1;
         g.beginPath(); g.arc(R, R, 34, 0, 6.283); g.arc(R, R, 58, 0, 6.283); g.stroke();
-        g.translate(R, R);
-        g.rotate(P.yaw);
+        g.translate(R, R); g.rotate(P.yaw);
         g.strokeStyle = 'rgba(148,163,184,0.35)'; g.lineWidth = 3;
         g.beginPath();
         g.moveTo((-230 - P.pos.x) * scale, (-10 - P.pos.z) * scale); g.lineTo((230 - P.pos.x) * scale, (-10 - P.pos.z) * scale);
@@ -2535,22 +2766,17 @@ Game({
         g.moveTo((-62 - P.pos.x) * scale, (-200 - P.pos.z) * scale); g.lineTo((-62 - P.pos.x) * scale, (200 - P.pos.z) * scale);
         g.stroke();
         S.districts.forEach(function (d) {
-          g.fillStyle = d.color;
-          g.beginPath();
-          g.arc((d.x - P.pos.x) * scale, (d.z - P.pos.z) * scale, 3, 0, 6.283);
-          g.fill();
+          g.fillStyle = d.color; g.beginPath(); g.arc((d.x - P.pos.x) * scale, (d.z - P.pos.z) * scale, 3, 0, 6.283); g.fill();
         });
         var wp = null;
-        if ((S.opIndex === 0 || S.opIndex === 4 || S.opIndex === 5 || S.opIndex === 7) && S.opItems.length) {
-          for (var oi = 0; oi < S.opItems.length; oi++) if (!S.opItems[oi].done) { wp = S.opItems[oi].obj.position; break; }
-        } else if (S.opIndex === 1 && S.opZones.length) {
-          for (var oz = 0; oz < S.opZones.length; oz++) if (!S.opZones[oz].done) { wp = S.opZones[oz].p; break; }
-        } else if (S.opIndex === 2) wp = S.opProgress === 0 ? { x: 12, z: -10 } : { x: 78, z: -34 };
-        else if (S.opIndex === 3) {
-          for (var v2 = 0; v2 < S.vips.length; v2++) if (!S.vips[v2].userData.bombed) { wp = S.vips[v2].position; break; }
-        } else if (S.opIndex === 6) wp = { x: -100, z: 128 };
-        else if (S.opIndex === 8) wp = { x: 125, z: 128 };
-        else if (S.opIndex === 9) wp = { x: 135, z: -125 };
+        if (S.opIndex === 0) wp = S.carryingLoot ? S.nestPos : { x: 28, z: 48 };
+        else if (S.opIndex === 1 || S.opIndex === 3) { for (var oz = 0; oz < S.opZones.length; oz++) if (!S.opZones[oz].done) { wp = S.opZones[oz].p; break; } }
+        else if (S.opIndex === 2 && S.opItems.length) { for (var oi = 0; oi < S.opItems.length; oi++) if (!S.opItems[oi].done) { wp = S.opItems[oi].obj.position; break; } }
+        else if (S.opIndex === 4) wp = { x: -115, z: -77 };
+        else if (S.opIndex === 5) wp = S.carryingLoot ? { x: 72, z: -142 } : { x: -100, z: 128 };
+        else if (S.opIndex === 6) { for (var bi2 = 0; bi2 < S.billboards.length; bi2++) if (S.billboards[bi2].rivalTagged) { wp = S.billboards[bi2]; break; } }
+        else if (S.opIndex === 7) wp = S.hawks[3] ? S.hawks[3].position : { x: 125, z: 128 };
+        else if (S.opIndex === 8) wp = { x: 135, z: -125 };
 
         if (wp) {
           var wxp = (wp.x - P.pos.x) * scale, wzp = (wp.z - P.pos.z) * scale;
@@ -2561,8 +2787,7 @@ Game({
         }
         S.hawks.forEach(function (hk) {
           if (!hk.userData.active || hk.userData.defeated) return;
-          g.fillStyle = '#ef4444';
-          g.fillRect((hk.position.x - P.pos.x) * scale - 2.5, (hk.position.z - P.pos.z) * scale - 2.5, 5, 5);
+          g.fillStyle = '#ef4444'; g.fillRect((hk.position.x - P.pos.x) * scale - 2.5, (hk.position.z - P.pos.z) * scale - 2.5, 5, 5);
         });
         g.restore();
         g.fillStyle = '#ff5a1f'; g.strokeStyle = '#ffffff'; g.lineWidth = 1.5;
