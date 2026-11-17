@@ -584,6 +584,8 @@ function buildLuxuryHTML(lead) {
 const BLACKLISTED_SLUGS = new Set([
   "elysian-estates",
   "terra-expeditions",
+  "kaage-mafia-bangalore",
+  "kage",
   "bridge-property-consultants-mumbai",
   "all-smiles-dental-clinic-bangalore",
   "s9-luxury-hair-studio-in-gachibowli",
@@ -634,14 +636,24 @@ const BLACKLIST_PATTERNS = [
   /if\s*they\s*won/i,
   /naik\s*real|santa\s*cruz.*naik/i,
   /qamsham/i,
-  /interior.*vendor|vendor.*ahmedabad|vendor.*ahemadabad/i
+  /interior.*vendor|vendor.*ahmedabad|vendor.*ahemadabad/i,
+  /kaage|mafia.*bangalore/i,
+  /^kage$/i
 ];
 
 export default async function handler(req, res) {
-  // 0. ZERO-404 ASSET SERVICING (Direct & Rewritten Asset Handling)
+  // 0. BLACKLIST ENFORCEMENT FIRST (handles /projects/:slug, /index.html, and /assets/*)
   const parsedUrl = new URL(req.url || '/', 'http://localhost');
   const qAsset = (req.query && (req.query.asset || req.query.file || req.query.path)) || parsedUrl.searchParams.get('asset') || parsedUrl.searchParams.get('file') || parsedUrl.searchParams.get('path') || '';
   const qSlug = (req.query && req.query.slug) || parsedUrl.searchParams.get('slug') || '';
+  const rawSlugCheck = qSlug.toString().replace(/[^a-z0-9-]/gi, '').toLowerCase();
+  if (rawSlugCheck && (BLACKLISTED_SLUGS.has(rawSlugCheck) || BLACKLIST_PATTERNS.some(p => p.test(rawSlugCheck)))) {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0');
+    return res.status(410).send('<!doctype html><html><head><title>410 Gone</title></head><body style="background:#0a0a0c;color:#cbd5e1;font-family:system-ui;display:grid;place-items:center;min-height:100vh"><div><h1>410 Gone — Permanently Removed</h1><p>This prototype has been permanently removed from hosting.</p></div></body></html>');
+  }
+
+  // 1. ZERO-404 ASSET SERVICING (Direct & Rewritten Asset Handling)
   const assetParam = qAsset.toString().trim();
   const urlPath = req.url || '';
   if (assetParam || urlPath.includes('/assets/')) {
