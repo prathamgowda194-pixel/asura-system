@@ -1,0 +1,3474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>WE CLEAN GANGA: HOWRAH BRIDGE — Pure-Code 3D Eco & Vigilante Simulator</title>
+<style>
+  :root {
+    --bg-dark: #101619;
+    --panel-bg: rgba(16, 23, 28, 0.88);
+    --panel-border: rgba(255, 255, 255, 0.14);
+    --accent-saffron: #ff8f1f;
+    --accent-teal: #22d3ee;
+    --accent-emerald: #10b981;
+    --accent-crimson: #ef4444;
+    --text-main: #f3f6f8;
+    --text-muted: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
+  html, body {
+    width: 100%; height: 100%; overflow: hidden;
+    background: #0d1317; color: var(--text-main);
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    touch-action: none;
+  }
+  #game-canvas {
+    position: fixed; inset: 0; width: 100%; height: 100%; display: block; z-index: 1;
+  }
+  #crosshair-canvas {
+    position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 64px; height: 64px; pointer-events: none; z-index: 15;
+  }
+
+  /* SNIPER SCOPE OVERLAY (VZ 54 SNIPER RIFLE) */
+  #sniper-scope {
+    position: fixed; inset: 0; pointer-events: none; z-index: 14; display: none;
+    background: radial-gradient(circle at 50% 50%, transparent 25%, rgba(6, 10, 12, 0.96) 26.2%, #050708 55%);
+  }
+  #sniper-scope.active { display: block; }
+  #sniper-scope svg {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: min(74vw, 74vh); height: min(74vw, 74vh);
+  }
+  .scope-telemetry {
+    position: absolute; left: 50%; bottom: 11%; transform: translateX(-50%);
+    font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 0.14em;
+    color: #38bdf8; background: rgba(7, 15, 22, 0.8); padding: 5px 14px;
+    border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 4px;
+  }
+
+  /* TOP HUD BAR */
+  #hud-top {
+    position: fixed; top: 12px; left: 14px; right: 14px; z-index: 20;
+    display: flex; justify-content: space-between; align-items: center;
+    pointer-events: none; gap: 10px; flex-wrap: nowrap;
+  }
+  @media (max-width: 1100px) {
+    #hud-top { flex-wrap: wrap; }
+  }
+  .hud-card {
+    background: var(--panel-bg); backdrop-filter: blur(12px);
+    border: 1px solid var(--panel-border); border-radius: 10px;
+    padding: 10px 14px; box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+    pointer-events: auto;
+  }
+  .brand-header { display: flex; align-items: center; gap: 10px; }
+  .brand-title {
+    font-weight: 800; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: #fff; display: flex; align-items: center; gap: 7px;
+  }
+  .brand-sub {
+    font-size: 11px; color: var(--text-muted); font-family: 'Courier New', monospace;
+    margin-top: 2px;
+  }
+
+  /* RIVER CLARITY & POLLUTION PROGRESS */
+  .clarity-box { min-width: 270px; }
+  .clarity-row {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 6px;
+  }
+  .clarity-bar-bg {
+    width: 100%; height: 10px; background: rgba(255,255,255,0.1);
+    border-radius: 99px; overflow: hidden; border: 1px solid rgba(255,255,255,0.12);
+  }
+  .clarity-bar-fill {
+    height: 100%; width: 10%;
+    background: linear-gradient(90deg, #b45309 0%, #eab308 45%, #10b981 85%, #22d3ee 100%);
+    transition: width 0.25s ease-out;
+  }
+  .stats-strip {
+    display: flex; gap: 12px; margin-top: 7px; font-size: 11px; color: #cbd5e1;
+    font-family: 'Courier New', monospace;
+  }
+
+  /* WALLET & BAG TELEMETRY */
+  .wallet-cluster { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .cash-pill {
+    font-family: 'Courier New', monospace; font-weight: 900; font-size: 20px;
+    color: #4ade80; background: rgba(16, 185, 129, 0.14);
+    border: 1px solid rgba(74, 222, 128, 0.4); border-radius: 8px;
+    padding: 6px 14px; display: flex; align-items: center; gap: 6px;
+  }
+  .bag-pill {
+    font-family: 'Courier New', monospace; font-size: 13px; font-weight: 700;
+    color: #f8fafc; background: rgba(255, 143, 31, 0.16);
+    border: 1px solid rgba(255, 143, 31, 0.45); border-radius: 8px;
+    padding: 7px 12px;
+  }
+  .hud-btn {
+    cursor: pointer; background: rgba(34, 211, 238, 0.16);
+    border: 1px solid rgba(34, 211, 238, 0.5); color: #e0f2fe;
+    font-weight: 700; font-size: 12px; letter-spacing: 0.06em;
+    padding: 8px 13px; border-radius: 8px; display: inline-flex;
+    align-items: center; gap: 6px; transition: all 0.15s ease;
+  }
+  .hud-btn:hover { background: rgba(34, 211, 238, 0.3); transform: translateY(-1px); }
+  .hud-btn.danger {
+    background: rgba(239, 68, 68, 0.18); border-color: rgba(239, 68, 68, 0.55); color: #fecaca;
+  }
+  .hud-btn.danger:hover { background: rgba(239, 68, 68, 0.34); }
+
+  /* CONTEXTUAL TARGET PROMPT & RADIO ALERT */
+  #target-prompt {
+    position: fixed; left: 50%; top: 58%; transform: translateX(-50%);
+    z-index: 18; pointer-events: none;
+    background: rgba(12, 18, 22, 0.88); border: 1px solid rgba(255, 255, 255, 0.28);
+    padding: 7px 16px; border-radius: 99px; font-size: 13px; font-weight: 700;
+    color: #fff; letter-spacing: 0.04em; opacity: 0; transition: opacity 0.12s ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5); white-space: nowrap;
+  }
+  #target-prompt.visible { opacity: 1; }
+
+  #radio-banner {
+    position: fixed; top: 88px; left: 50%; transform: translateX(-50%);
+    z-index: 22; pointer-events: none;
+    background: rgba(24, 15, 16, 0.95); border: 1px solid rgba(248, 113, 113, 0.65);
+    color: #fef2f2; padding: 9px 18px; border-radius: 8px;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.05em;
+    display: none; align-items: center; gap: 10px;
+    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.35);
+  }
+  #radio-banner.active { display: flex; }
+
+  #floating-feed {
+    position: fixed; right: 20px; top: 105px; z-index: 18;
+    display: flex; flex-direction: column; gap: 6px; pointer-events: none;
+    align-items: flex-end;
+  }
+  .feed-toast {
+    background: rgba(14, 22, 28, 0.88); border-left: 3px solid var(--accent-emerald);
+    padding: 6px 12px; border-radius: 5px; font-size: 12px; font-weight: 700;
+    color: #e2e8f0; font-family: 'Courier New', monospace;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+  }
+
+  /* BOTTOM TOOL & WEAPON DOCK */
+  #tool-dock {
+    position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+    z-index: 20; display: flex; gap: 8px;
+    background: rgba(13, 19, 24, 0.9); backdrop-filter: blur(12px);
+    padding: 8px 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.16);
+    box-shadow: 0 14px 34px rgba(0,0,0,0.55);
+  }
+  .tool-slot {
+    cursor: pointer; min-width: 112px; padding: 8px 10px; border-radius: 8px;
+    background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex; flex-direction: column; gap: 4px; transition: all 0.14s ease;
+    position: relative;
+  }
+  .tool-slot:hover { background: rgba(255, 255, 255, 0.1); }
+  .tool-slot.active {
+    background: rgba(34, 211, 238, 0.18); border-color: #22d3ee;
+    box-shadow: 0 0 16px rgba(34, 211, 238, 0.28);
+  }
+  .tool-slot.shady.active {
+    background: rgba(239, 68, 68, 0.22); border-color: #ef4444;
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.35);
+  }
+  .slot-top {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 10px; font-family: 'Courier New', monospace; color: var(--text-muted);
+  }
+  .slot-key {
+    background: rgba(255,255,255,0.12); color: #fff; font-weight: 800;
+    padding: 1px 5px; border-radius: 4px;
+  }
+  .slot-name {
+    font-size: 12px; font-weight: 800; color: #fff; letter-spacing: 0.03em;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .slot-sub {
+    font-size: 10px; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  /* RUGGED TABLET MODAL (EXACT REPLICA OF WE CLEAN RIVERS 00:50: SHOP | UPGRADES | SHADY SHOP) */
+  #tablet-overlay {
+    position: fixed; inset: 0; z-index: 40;
+    background: rgba(6, 10, 14, 0.76); backdrop-filter: blur(8px);
+    display: none; align-items: center; justify-content: center; padding: 18px;
+  }
+  #tablet-overlay.open { display: flex; }
+  .tablet-bezel {
+    width: min(980px, 96vw); max-height: 90vh;
+    background: #1c2026; border: 10px solid #2b3038;
+    border-radius: 24px; box-shadow: 0 28px 80px rgba(0,0,0,0.85), inset 0 0 0 2px rgba(255,255,255,0.08);
+    display: flex; flex-direction: column; overflow: hidden; position: relative;
+  }
+  .tablet-top-nav {
+    background: #171a20; padding: 14px 20px;
+    border-bottom: 2px solid #2b303a;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .tablet-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+  .tab-btn {
+    cursor: pointer; background: #232730; border: 1px solid #383e4c;
+    color: #cbd5e1; font-weight: 800; font-size: 13px; letter-spacing: 0.06em;
+    padding: 10px 18px; border-radius: 7px; display: flex; align-items: center; gap: 8px;
+    transition: all 0.14s ease;
+  }
+  .tab-btn:hover { background: #2d323e; color: #fff; }
+  .tab-btn.active {
+    background: #323846; color: #fff; border-color: #60a5fa;
+    box-shadow: inset 0 -3px 0 #60a5fa;
+  }
+  .tab-btn[data-tab="shady"].active {
+    border-color: #f87171; box-shadow: inset 0 -3px 0 #ef4444; color: #fecaca;
+  }
+  .tablet-cash-right { display: flex; align-items: center; gap: 14px; }
+  .tablet-cash-readout {
+    font-family: 'Courier New', monospace; font-size: 22px; font-weight: 900;
+    color: #4ade80; letter-spacing: 0.04em;
+  }
+  .tablet-close-btn {
+    cursor: pointer; background: #2d333f; border: 1px solid #475569;
+    color: #f1f5f9; font-weight: 800; font-size: 12px; padding: 8px 14px;
+    border-radius: 6px;
+  }
+  .tablet-close-btn:hover { background: #ef4444; border-color: #f87171; color: #fff; }
+
+  .tablet-body { padding: 22px; overflow-y: auto; background: #20242b; flex: 1; }
+  .shop-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+    gap: 16px;
+  }
+  .shop-card {
+    background: #282d36; border: 1px solid #3a414e; border-radius: 10px;
+    padding: 16px; display: flex; flex-direction: column; justify-content: space-between;
+    transition: transform 0.14s ease, border-color 0.14s ease;
+  }
+  .shop-card:hover { transform: translateY(-2px); border-color: #64748b; }
+  .shop-card-art {
+    height: 104px; background: #22262e; border-radius: 8px;
+    margin-bottom: 14px; display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255,255,255,0.05); position: relative;
+  }
+  .shop-card-title {
+    font-weight: 800; font-size: 13px; letter-spacing: 0.04em; color: #f8fafc;
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+  .shop-card-price {
+    font-family: 'Courier New', monospace; font-weight: 900; font-size: 22px;
+    color: #e2e8f0; margin-bottom: 8px;
+  }
+  .shop-card-desc {
+    font-size: 12px; color: #94a3b8; line-height: 1.45; margin-bottom: 16px; min-height: 36px;
+  }
+  .shop-buy-btn {
+    cursor: pointer; width: 100%; padding: 10px 12px; border-radius: 6px;
+    background: #363c48; border: 1px solid #4b5563; color: #f8fafc;
+    font-weight: 800; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    transition: all 0.14s ease;
+  }
+  .shop-buy-btn:hover { background: #10b981; border-color: #34d399; color: #052e16; }
+  .shop-buy-btn.owned { background: #1d4ed8; border-color: #60a5fa; color: #eff6ff; }
+  .shop-buy-btn.equipped { background: #059669; border-color: #34d399; color: #ecfdf5; }
+
+  /* BRIEFING / START OVERLAY */
+  #start-modal {
+    position: fixed; inset: 0; z-index: 50;
+    background: radial-gradient(circle at 50% 40%, rgba(15, 29, 38, 0.80), rgba(6, 10, 14, 0.94));
+    backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center; padding: 18px;
+  }
+  #start-modal.hidden { display: none; }
+  .start-box {
+    max-width: 720px; width: 100%; background: rgba(16, 24, 30, 0.94);
+    border: 1px solid rgba(34, 211, 238, 0.35); border-radius: 16px;
+    padding: 26px 30px; box-shadow: 0 25px 70px rgba(0,0,0,0.8);
+  }
+  .start-tag {
+    display: inline-block; font-family: 'Courier New', monospace; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.14em; color: #22d3ee;
+    background: rgba(34, 211, 238, 0.12); border: 1px solid rgba(34, 211, 238, 0.35);
+    padding: 4px 10px; border-radius: 4px; margin-bottom: 10px;
+  }
+  .start-title { font-size: 28px; font-weight: 900; letter-spacing: 0.04em; color: #fff; margin-bottom: 8px; }
+  .start-lead { font-size: 14px; color: #cbd5e1; line-height: 1.55; margin-bottom: 18px; }
+  .controls-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px; margin-bottom: 20px;
+  }
+  .ctrl-item {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09);
+    padding: 9px 12px; border-radius: 8px; font-size: 12px; color: #e2e8f0;
+  }
+  .ctrl-key { font-family: 'Courier New', monospace; font-weight: 800; color: #ff8f1f; }
+  .start-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-launch {
+    cursor: pointer; flex: 1; min-width: 220px; padding: 14px 22px;
+    background: linear-gradient(135deg, #10b981, #0ea5e9);
+    border: none; border-radius: 10px; color: #041318;
+    font-weight: 900; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase;
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+  }
+  .btn-launch:hover { filter: brightness(1.08); }
+
+  /* MOBILE TOUCH CONTROLS (VISIBLE ON TOUCH OR VIEWPORT <= 920PX) */
+  #mobile-controls {
+    position: fixed; inset: 0; pointer-events: none; z-index: 25; display: none;
+  }
+  body.touch-mode #mobile-controls { display: block; }
+  @media (max-width: 920px), (pointer: coarse) {
+    #mobile-controls { display: block; }
+    #tool-dock { bottom: 10px; transform: translateX(-50%) scale(0.84); }
+  }
+  .touch-joy-zone {
+    position: absolute; left: 22px; bottom: 88px; width: 132px; height: 132px;
+    border-radius: 50%; background: rgba(15, 23, 30, 0.55);
+    border: 2px solid rgba(255, 255, 255, 0.24); pointer-events: auto;
+  }
+  .touch-joy-knob {
+    position: absolute; left: 50%; top: 50%; width: 52px; height: 52px;
+    margin-left: -26px; margin-top: -26px; border-radius: 50%;
+    background: rgba(34, 211, 238, 0.72); border: 2px solid #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  }
+  .touch-look-zone {
+    position: absolute; right: 0; top: 80px; width: 52vw; height: calc(100vh - 180px);
+    pointer-events: auto;
+  }
+  .touch-btn-cluster {
+    position: absolute; right: 18px; bottom: 86px;
+    display: grid; grid-template-columns: repeat(2, 64px); gap: 10px;
+    pointer-events: auto;
+  }
+  .touch-action-btn {
+    width: 64px; height: 52px; border-radius: 12px;
+    background: rgba(16, 24, 32, 0.84); border: 1.5px solid rgba(255,255,255,0.3);
+    color: #fff; font-weight: 800; font-size: 11px; letter-spacing: 0.04em;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.45);
+  }
+  .touch-action-btn.primary { background: rgba(16, 185, 129, 0.75); border-color: #6ee7b7; }
+  .touch-action-btn.fire { background: rgba(239, 68, 68, 0.78); border-color: #fca5a5; }
+
+  /* CLEAN CINEMATIC MODE (KEY C) */
+  body.clean-hud #hud-top,
+  body.clean-hud #tool-dock,
+  body.clean-hud #target-prompt,
+  body.clean-hud #floating-feed,
+  body.clean-hud #mobile-controls {
+    display: none !important;
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>if(!window.THREE)document.write('<script src="three.min.js"><\/script>');</script>
+</head>
+<body>
+
+<canvas id="game-canvas"></canvas>
+<canvas id="crosshair-canvas" width="64" height="64"></canvas>
+
+<!-- SNIPER SCOPE OVERLAY -->
+<div id="sniper-scope">
+  <svg viewBox="0 0 400 400" width="400" height="400">
+    <circle cx="200" cy="200" r="190" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.55"/>
+    <circle cx="200" cy="200" r="95" fill="none" stroke="#38bdf8" stroke-width="0.8" stroke-dasharray="4 4" stroke-opacity="0.45"/>
+    <line x1="10" y1="200" x2="390" y2="200" stroke="#0f172a" stroke-width="2.4"/>
+    <line x1="10" y1="200" x2="390" y2="200" stroke="#38bdf8" stroke-width="1.1"/>
+    <line x1="200" y1="10" x2="200" y2="390" stroke="#0f172a" stroke-width="2.4"/>
+    <line x1="200" y1="10" x2="200" y2="390" stroke="#38bdf8" stroke-width="1.1"/>
+    <circle cx="140" cy="200" r="2.2" fill="#38bdf8"/><circle cx="170" cy="200" r="2.2" fill="#38bdf8"/>
+    <circle cx="230" cy="200" r="2.2" fill="#38bdf8"/><circle cx="260" cy="200" r="2.2" fill="#38bdf8"/>
+    <circle cx="200" cy="140" r="2.2" fill="#38bdf8"/><circle cx="200" cy="170" r="2.2" fill="#38bdf8"/>
+    <circle cx="200" cy="230" r="2.2" fill="#38bdf8"/><circle cx="200" cy="260" r="2.2" fill="#38bdf8"/>
+    <circle cx="200" cy="200" r="3" fill="#ef4444"/>
+  </svg>
+  <div class="scope-telemetry">VZ 54 OPTIC // 8.0X MAGNIFICATION // WIND 2KT E // HOWRAH CANTILEVER SECTOR</div>
+</div>
+
+<!-- TOP HUD -->
+<div id="hud-top">
+  <div class="hud-card brand-header">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <rect width="32" height="32" rx="7" fill="#0e7490"/>
+      <path d="M4 22L10 10L16 20L22 10L28 22H4Z" stroke="#e0f2fe" stroke-width="2.2" stroke-linejoin="round"/>
+      <path d="M3 26C8 24 12 28 17 26C22 24 25 27 29 25" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <div>
+      <div class="brand-title">WE CLEAN GANGA // HOWRAH BRIDGE</div>
+      <div class="brand-sub" id="hud-location-sub">RABINDRA SETU GHAT SECTOR 04 // KOLKATA</div>
+    </div>
+  </div>
+
+  <div class="hud-card clarity-box">
+    <div class="clarity-row">
+      <span>GANGA WATER CLARITY</span>
+      <span id="clarity-pct" style="color:#22d3ee;">12% CLEAN</span>
+    </div>
+    <div class="clarity-bar-bg">
+      <div class="clarity-bar-fill" id="clarity-bar"></div>
+    </div>
+    <div class="stats-strip">
+      <span id="stat-trash">TRASH: 0/115</span>
+      <span id="stat-wrecks">WRECKS: 0/3</span>
+      <span id="stat-van">VAN: 0 BAGS</span>
+    </div>
+  </div>
+
+  <div class="hud-card wallet-cluster">
+    <div class="cash-pill" id="hud-cash">$850</div>
+    <div class="bag-pill" id="hud-bag">BAG: 0 / 15</div>
+    <button class="hud-btn" id="btn-open-tablet" title="Open Rugged Tablet Shop (Tab / B)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <rect x="4" y="2" width="16" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
+      </svg>
+      TABLET SHOP [TAB]
+    </button>
+    <button class="hud-btn danger" id="btn-trigger-wave" title="Spawn Polluter Wave & Sewage Truck">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      POLLUTER WAVE [P]
+    </button>
+  </div>
+</div>
+
+<!-- RADIO BANNER & CONTEXT PROMPT -->
+<div id="radio-banner">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.4">
+    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+  </svg>
+  <span id="radio-text">ALERT: Careless polluters spotted dumping trash on Howrah Bridge & Ghat steps!</span>
+</div>
+
+<div id="target-prompt">[LMB / E] Pick Up Marigold Garland</div>
+<div id="floating-feed"></div>
+
+<!-- BOTTOM TOOL & WEAPON DOCK -->
+<div id="tool-dock">
+  <div class="tool-slot active" data-slot="1">
+    <div class="slot-top"><span>HANDS / BAG</span><span class="slot-key">1</span></div>
+    <div class="slot-name">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2.2">
+        <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/>
+        <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>
+      </svg>
+      GRAB &amp; BAG
+    </div>
+    <div class="slot-sub" id="slot1-sub">[R] Tie Black Bag / Throw</div>
+  </div>
+
+  <div class="tool-slot" data-slot="2">
+    <div class="slot-top"><span>SUCTION HOSE</span><span class="slot-key">2</span></div>
+    <div class="slot-name">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.2">
+        <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/>
+      </svg>
+      TURBO VACUUM
+    </div>
+    <div class="slot-sub" id="slot2-sub">Cone Vortex Suction</div>
+  </div>
+
+  <div class="tool-slot" data-slot="3">
+    <div class="slot-top"><span>HEAVY SALVAGE</span><span class="slot-key">3</span></div>
+    <div class="slot-name">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#a3e635" stroke-width="2.2">
+        <circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/>
+      </svg>
+      GRAPPLE WINCH
+    </div>
+    <div class="slot-sub">Haul Sunken Wrecks</div>
+  </div>
+
+  <div class="tool-slot" data-slot="4">
+    <div class="slot-top"><span>HYDRO LANCE</span><span class="slot-key">4</span></div>
+    <div class="slot-name">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2">
+        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+      </svg>
+      GHAT WASHER
+    </div>
+    <div class="slot-sub">Blast Oil &amp; Sludge</div>
+  </div>
+
+  <div class="tool-slot shady" data-slot="5">
+    <div class="slot-top"><span>DARK MODE</span><span class="slot-key">5</span></div>
+    <div class="slot-name">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.2">
+        <circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/>
+        <line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/>
+      </svg>
+      <span id="slot5-weapon-name">VZ 54 SNIPER</span>
+    </div>
+    <div class="slot-sub" id="slot5-sub">[RMB] Scope / [G] Cycle</div>
+  </div>
+</div>
+
+<!-- RUGGED TABLET SHOP MODAL (SHOP | UPGRADES | SHADY SHOP) -->
+<div id="tablet-overlay">
+  <div class="tablet-bezel">
+    <div class="tablet-top-nav">
+      <div class="tablet-tabs">
+        <button class="tab-btn" data-tab="shop" id="tab-btn-shop">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+          SHOP
+        </button>
+        <button class="tab-btn" data-tab="upgrades" id="tab-btn-upgrades">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+            <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
+          </svg>
+          UPGRADES
+        </button>
+        <button class="tab-btn active" data-tab="shady" id="tab-btn-shady">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M11 17a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h2"/>
+            <path d="M13 7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h6a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-2"/>
+            <line x1="8" y1="12" x2="16" y2="12"/>
+          </svg>
+          SHADY SHOP
+        </button>
+      </div>
+      <div class="tablet-cash-right">
+        <div class="tablet-cash-readout" id="tablet-cash">$850</div>
+        <button class="tablet-close-btn" id="btn-close-tablet">ESC / CLOSE</button>
+      </div>
+    </div>
+    <div class="tablet-body">
+      <div class="shop-grid" id="tablet-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- BRIEFING / START MODAL -->
+<div id="start-modal">
+  <div class="start-box">
+    <div class="start-tag">PURE-CODE 3D WEBGL2 ENGINE // SALTLINE &amp; WE CLEAN RIVERS ARCHITECTURE</div>
+    <div class="start-title">WE CLEAN GANGA: HOWRAH BRIDGE</div>
+    <p class="start-lead">
+      Restore the sacred Hooghly / Ganga River shore beneath Kolkata's iconic riveted steel <strong>Howrah Bridge (Rabindra Setu)</strong>.
+      Pick up marigold garlands, banana leaves, and plastic bottles; vacuum floating waste; winch sunken Ambassador &amp; Auto-Rickshaw wrecks ashore;
+      feed black trash bags into the <strong>Industrial Shredder &amp; Sorting Conveyor Belt</strong>; load your <strong>Ganga Clean Recycling Van</strong>;
+      and open the <strong>Shady Shop</strong> when careless polluters and illegal sewage tankers try to ruin your clean river!
+    </p>
+    <div class="controls-grid">
+      <div class="ctrl-item"><span class="ctrl-key">WASD + MOUSE</span> — Walk, Wade &amp; Look (Space: Jump, Shift: Sprint)</div>
+      <div class="ctrl-item"><span class="ctrl-key">1 / 2 / 3 / 4 / 5</span> — Hands, Turbo Vacuum, Grapple Winch, Washer, Shady Weapon</div>
+      <div class="ctrl-item"><span class="ctrl-key">LMB / E</span> — Grab Trash, Vacuum Cone, Winch Wreck, Throw Bag, Fire</div>
+      <div class="ctrl-item"><span class="ctrl-key">R / V</span> — [R] Tie Black Trash Bag / [V] Cash Out Van Cargo</div>
+      <div class="ctrl-item"><span class="ctrl-key">TAB / B</span> — Open Rugged Tablet (SHOP | UPGRADES | SHADY SHOP)</div>
+      <div class="ctrl-item"><span class="ctrl-key">RMB / G / P</span> — [RMB] Sniper Scope / [G] Cycle Weapon / [P] Spawn Polluters</div>
+    </div>
+    <div class="start-actions">
+      <button class="btn-launch" id="btn-start-game">DEPLOY TO HOWRAH GHAT (PC &amp; MOBILE)</button>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE TOUCH CONTROLS -->
+<div id="mobile-controls">
+  <div class="touch-joy-zone" id="touch-joy-zone">
+    <div class="touch-joy-knob" id="touch-joy-knob"></div>
+  </div>
+  <div class="touch-look-zone" id="touch-look-zone"></div>
+  <div class="touch-btn-cluster">
+    <button class="touch-action-btn primary" id="m-btn-use">USE / FIRE</button>
+    <button class="touch-action-btn" id="m-btn-grab">GRAB / E</button>
+    <button class="touch-action-btn" id="m-btn-bag">TIE BAG</button>
+    <button class="touch-action-btn fire" id="m-btn-scope">SCOPE / G</button>
+    <button class="touch-action-btn" id="m-btn-shop">TABLET</button>
+    <button class="touch-action-btn" id="m-btn-jump">JUMP</button>
+  </div>
+</div>
+
+<script>
+// ============================================================================
+// WE CLEAN GANGA: HOWRAH BRIDGE — PURE-CODE 3D WEBGL2 GAME ENGINE
+// Synthesizing Saltline (Fable-5.2) + Operation Ironhold + We Clean Rivers
+// ============================================================================
+(() => {
+  'use strict';
+
+  // --- DETERMINISTIC PRNG ---
+  let _seed = 19430815;
+  function rand() {
+    _seed ^= _seed << 13; _seed ^= _seed >>> 17; _seed ^= _seed << 5;
+    return ((_seed >>> 0) / 4294967296);
+  }
+  function randRange(a, b) { return a + (b - a) * rand(); }
+  function clamp(v, lo, hi) { return v < lo ? lo : (v > hi ? hi : v); }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function damp(a, b, lambda, dt) { return a + (b - a) * (1 - Math.exp(-lambda * dt)); }
+
+  // --- PROCEDURAL WEB AUDIO ENGINE + YARD IMPULSE CONVOLVER ---
+  const SFX = {
+    ctx: null, master: null, dry: null, wet: null,
+    init() {
+      if (this.ctx) {
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+        return;
+      }
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      this.ctx = new AC();
+      const comp = this.ctx.createDynamicsCompressor();
+      comp.threshold.value = -14; comp.ratio.value = 4;
+      comp.connect(this.ctx.destination);
+      this.master = this.ctx.createGain();
+      this.master.gain.value = 0.72;
+      this.master.connect(comp);
+      this.dry = this.ctx.createGain();
+      this.dry.gain.value = 0.85;
+      this.dry.connect(this.master);
+
+      // River Ghat open-air impulse response reverb
+      const sr = this.ctx.sampleRate;
+      const len = Math.floor(sr * 0.65);
+      const ir = this.ctx.createBuffer(2, len, sr);
+      for (let ch = 0; ch < 2; ch++) {
+        const d = ir.getChannelData(ch);
+        let s = 42 + ch * 97;
+        for (let i = 0; i < len; i++) {
+          s = (s * 1664525 + 1013904223) >>> 0;
+          const n = (s / 2147483648) - 1.0;
+          const env = Math.exp(-i / (sr * 0.16));
+          d[i] = n * env * 0.25;
+        }
+      }
+      const conv = this.ctx.createConvolver();
+      conv.buffer = ir;
+      this.wet = this.ctx.createGain();
+      this.wet.gain.value = 0.22;
+      this.wet.connect(conv);
+      conv.connect(this.master);
+    },
+    play(type, panVal = 0) {
+      if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+      const panner = this.ctx.createStereoPanner ? this.ctx.createStereoPanner() : null;
+      const out = panner || this.dry;
+      if (panner) {
+        panner.pan.value = clamp(panVal, -1, 1);
+        panner.connect(this.dry);
+        panner.connect(this.wet);
+      }
+      if (type === 'pickup' || type === 'pop') {
+        const o = this.ctx.createOscillator();
+        const g = this.ctx.createGain();
+        o.type = 'triangle';
+        o.frequency.setValueAtTime(type === 'pop' ? 320 : 440, now);
+        o.frequency.exponentialRampToValueAtTime(780, now + 0.085);
+        g.gain.setValueAtTime(0.24, now);
+        g.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+        o.connect(g); g.connect(out);
+        o.start(now); o.stop(now + 0.095);
+      } else if (type === 'cash') {
+        [587.33, 880, 1174.66].forEach((freq, idx) => {
+          const o = this.ctx.createOscillator();
+          const g = this.ctx.createGain();
+          o.type = 'sine';
+          o.frequency.setValueAtTime(freq, now + idx * 0.055);
+          g.gain.setValueAtTime(0.22, now + idx * 0.055);
+          g.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.055 + 0.22);
+          o.connect(g); g.connect(out);
+          o.start(now + idx * 0.055); o.stop(now + idx * 0.055 + 0.24);
+        });
+      } else if (type === 'shred') {
+        const o = this.ctx.createOscillator();
+        const g = this.ctx.createGain();
+        o.type = 'sawtooth';
+        o.frequency.setValueAtTime(115, now);
+        o.frequency.linearRampToValueAtTime(72, now + 0.28);
+        g.gain.setValueAtTime(0.28, now);
+        g.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+        o.connect(g); g.connect(out);
+        o.start(now); o.stop(now + 0.31);
+      } else if (type === 'winch') {
+        const o = this.ctx.createOscillator();
+        const g = this.ctx.createGain();
+        o.type = 'square';
+        o.frequency.setValueAtTime(190, now);
+        o.frequency.setValueAtTime(240, now + 0.03);
+        g.gain.setValueAtTime(0.16, now);
+        g.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+        o.connect(g); g.connect(out);
+        o.start(now); o.stop(now + 0.075);
+      } else if (type === 'shot' || type === 'sniper' || type === 'rpg') {
+        // Noise burst + sub thump
+        const dur = type === 'rpg' ? 0.55 : (type === 'sniper' ? 0.38 : 0.26);
+        const buf = this.ctx.createBuffer(1, Math.floor(this.ctx.sampleRate * dur), this.ctx.sampleRate);
+        const data = buf.getChannelData(0);
+        for (let i = 0; i < data.length; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (this.ctx.sampleRate * (dur * 0.35)));
+        }
+        const src = this.ctx.createBufferSource();
+        src.buffer = buf;
+        const filt = this.ctx.createBiquadFilter();
+        filt.type = 'lowpass';
+        filt.frequency.setValueAtTime(type === 'sniper' ? 3200 : 1800, now);
+        filt.frequency.exponentialRampToValueAtTime(240, now + dur);
+        const g = this.ctx.createGain();
+        g.gain.setValueAtTime(0.55, now);
+        g.gain.exponentialRampToValueAtTime(0.001, now + dur);
+        src.connect(filt); filt.connect(g); g.connect(out);
+        src.start(now);
+      } else if (type === 'flame') {
+        const dur = 0.14;
+        const buf = this.ctx.createBuffer(1, Math.floor(this.ctx.sampleRate * dur), this.ctx.sampleRate);
+        const data = buf.getChannelData(0);
+        for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * 0.4;
+        const src = this.ctx.createBufferSource(); src.buffer = buf;
+        const filt = this.ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 520;
+        const g = this.ctx.createGain();
+        g.gain.setValueAtTime(0.22, now); g.gain.exponentialRampToValueAtTime(0.01, now + dur);
+        src.connect(filt); filt.connect(g); g.connect(out); src.start(now);
+      }
+    }
+  };
+
+  // --- SOBEL NORMAL MAP GENERATOR & WORLD-SPACE UV NORMALIZER (SALTLINE + IRONHOLD) ---
+  function normalMapFromCanvas(srcCanvas, strength = 2.4) {
+    const w = srcCanvas.width, h = srcCanvas.height;
+    const ctx = srcCanvas.getContext('2d');
+    const src = ctx.getImageData(0, 0, w, h).data;
+    const outCanvas = document.createElement('canvas');
+    outCanvas.width = w; outCanvas.height = h;
+    const outCtx = outCanvas.getContext('2d');
+    const dstImg = outCtx.createImageData(w, h);
+    const dst = dstImg.data;
+    const lum = (x, y) => {
+      const ix = (x + w) % w, iy = (y + h) % h;
+      const idx = (iy * w + ix) * 4;
+      return (src[idx] * 0.299 + src[idx + 1] * 0.587 + src[idx + 2] * 0.114) / 255;
+    };
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        const tl = lum(x - 1, y - 1), t = lum(x, y - 1), tr = lum(x + 1, y - 1);
+        const l  = lum(x - 1, y),                         r  = lum(x + 1, y);
+        const bl = lum(x - 1, y + 1), b = lum(x, y + 1), br = lum(x + 1, y + 1);
+        const dx = ((tr + 2 * r + br) - (tl + 2 * l + bl)) * strength;
+        const dy = ((bl + 2 * b + br) - (tl + 2 * t + tr)) * strength;
+        const inv = 1 / Math.hypot(dx, dy, 1);
+        const idx = (y * w + x) * 4;
+        dst[idx]     = Math.floor((-dx * inv * 0.5 + 0.5) * 255);
+        dst[idx + 1] = Math.floor((-dy * inv * 0.5 + 0.5) * 255);
+        dst[idx + 2] = Math.floor((inv * 0.5 + 0.5) * 255);
+        dst[idx + 3] = 255;
+      }
+    }
+    outCtx.putImageData(dstImg, 0, 0);
+    const tex = new THREE.CanvasTexture(outCanvas);
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+    return tex;
+  }
+
+  function texelize(mesh, texelsPerMeter = 0.45) {
+    const geo = mesh.geometry;
+    if (!geo || !geo.attributes.position || !geo.attributes.normal) return;
+    const pos = geo.attributes.position, nrm = geo.attributes.normal;
+    const uv = new Float32Array(pos.count * 2);
+    const sx = mesh.scale.x || 1, sy = mesh.scale.y || 1, sz = mesh.scale.z || 1;
+    for (let i = 0; i < pos.count; i++) {
+      const x = pos.getX(i) * sx, y = pos.getY(i) * sy, z = pos.getZ(i) * sz;
+      const nx = Math.abs(nrm.getX(i)), ny = Math.abs(nrm.getY(i)), nz = Math.abs(nrm.getZ(i));
+      if (ny >= nx && ny >= nz) { uv[i * 2] = x * texelsPerMeter; uv[i * 2 + 1] = z * texelsPerMeter; }
+      else if (nx >= nz)        { uv[i * 2] = z * texelsPerMeter; uv[i * 2 + 1] = y * texelsPerMeter; }
+      else                      { uv[i * 2] = x * texelsPerMeter; uv[i * 2 + 1] = y * texelsPerMeter; }
+    }
+    geo.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+  }
+
+  // --- PROCEDURAL PBR MATERIAL ATLAS ---
+  function buildTextures() {
+    // 1. Wet Kolkata Ghat Brick & Basalt Steps
+    const cBrick = document.createElement('canvas'); cBrick.width = cBrick.height = 256;
+    const g1 = cBrick.getContext('2d');
+    g1.fillStyle = '#6c4538'; g1.fillRect(0, 0, 256, 256);
+    const rows = 8, cols = 4, rh = 256 / rows, cw = 256 / cols;
+    for (let r = 0; r < rows; r++) {
+      const off = (r % 2) * (cw * 0.5);
+      for (let c = -1; c <= cols; c++) {
+        const bx = c * cw + off, by = r * rh;
+        const hueShift = Math.floor(randRange(-16, 18));
+        g1.fillStyle = `rgb(${122 + hueShift}, ${74 + Math.floor(hueShift * 0.6)}, ${58 + Math.floor(hueShift * 0.5)})`;
+        g1.fillRect(bx + 2, by + 2, cw - 4, rh - 4);
+        // Moss & river damp splotches
+        if (rand() < 0.42) {
+          g1.fillStyle = 'rgba(54, 72, 48, 0.32)';
+          g1.fillRect(bx + 4, by + rh - 10, cw - 8, 7);
+        }
+      }
+    }
+    for (let i = 0; i < 380; i++) {
+      g1.fillStyle = rand() < 0.5 ? 'rgba(255,230,210,0.06)' : 'rgba(30,22,18,0.12)';
+      g1.beginPath(); g1.arc(randRange(0, 256), randRange(0, 256), randRange(2, 11), 0, Math.PI * 2); g1.fill();
+    }
+    const brickTex = new THREE.CanvasTexture(cBrick);
+    brickTex.wrapS = brickTex.wrapT = THREE.RepeatWrapping;
+    const brickNrm = normalMapFromCanvas(cBrick, 2.8);
+
+    // 2. Riveted Howrah Bridge Structural Steel
+    const cSteel = document.createElement('canvas'); cSteel.width = cSteel.height = 256;
+    const g2 = cSteel.getContext('2d');
+    g2.fillStyle = '#7b858e'; g2.fillRect(0, 0, 256, 256);
+    g2.strokeStyle = '#5c646d'; g2.lineWidth = 3;
+    g2.strokeRect(4, 4, 248, 248);
+    g2.beginPath(); g2.moveTo(0, 128); g2.lineTo(256, 128); g2.moveTo(128, 0); g2.lineTo(128, 256); g2.stroke();
+    // Rivet rows
+    for (let i = 14; i < 250; i += 22) {
+      for (const p of [[i, 14], [i, 116], [i, 140], [i, 242], [14, i], [242, i]]) {
+        g2.fillStyle = '#9aa4ae'; g2.beginPath(); g2.arc(p[0], p[1], 3.2, 0, Math.PI * 2); g2.fill();
+        g2.fillStyle = '#484f56'; g2.beginPath(); g2.arc(p[0] + 1, p[1] + 1, 2.2, 0, Math.PI * 2); g2.fill();
+      }
+    }
+    // Subtle weathering & rain streaks
+    for (let i = 0; i < 160; i++) {
+      g2.fillStyle = rand() < 0.35 ? 'rgba(118, 78, 52, 0.12)' : 'rgba(220, 230, 240, 0.07)';
+      g2.fillRect(randRange(0, 256), randRange(0, 256), randRange(2, 6), randRange(12, 48));
+    }
+    const steelTex = new THREE.CanvasTexture(cSteel);
+    steelTex.wrapS = steelTex.wrapT = THREE.RepeatWrapping;
+    const steelNrm = normalMapFromCanvas(cSteel, 3.0);
+
+    // 3. Weathered Embankment Concrete & Promenade Slab
+    const cConc = document.createElement('canvas'); cConc.width = cConc.height = 256;
+    const g3 = cConc.getContext('2d');
+    g3.fillStyle = '#7d7a72'; g3.fillRect(0, 0, 256, 256);
+    for (let i = 0; i < 450; i++) {
+      g3.fillStyle = rand() < 0.5 ? 'rgba(255,255,255,0.05)' : 'rgba(42,40,36,0.09)';
+      g3.beginPath(); g3.arc(randRange(0, 256), randRange(0, 256), randRange(3, 16), 0, Math.PI * 2); g3.fill();
+    }
+    g3.strokeStyle = 'rgba(44, 42, 38, 0.55)'; g3.lineWidth = 2;
+    g3.strokeRect(2, 2, 124, 124); g3.strokeRect(130, 2, 124, 124);
+    g3.strokeRect(2, 130, 124, 124); g3.strokeRect(130, 130, 124, 124);
+    const concTex = new THREE.CanvasTexture(cConc);
+    concTex.wrapS = concTex.wrapT = THREE.RepeatWrapping;
+    const concNrm = normalMapFromCanvas(cConc, 2.1);
+
+    // 4. Animated Chevron Conveyor Belt Texture
+    const cBelt = document.createElement('canvas'); cBelt.width = 128; cBelt.height = 256;
+    const g4 = cBelt.getContext('2d');
+    g4.fillStyle = '#36393e'; g4.fillRect(0, 0, 128, 256);
+    g4.strokeStyle = '#525760'; g4.lineWidth = 6;
+    for (let y = 0; y < 256; y += 32) {
+      g4.beginPath();
+      g4.moveTo(8, y + 24); g4.lineTo(64, y + 6); g4.lineTo(120, y + 24);
+      g4.stroke();
+    }
+    const beltTex = new THREE.CanvasTexture(cBelt);
+    beltTex.wrapS = beltTex.wrapT = THREE.RepeatWrapping;
+    beltTex.repeat.set(1, 3.5);
+
+    // 5. Ganga Clean Van Livery Decal
+    const cVan = document.createElement('canvas'); cVan.width = 512; cVan.height = 256;
+    const g5 = cVan.getContext('2d');
+    g5.fillStyle = '#e8f1f5'; g5.fillRect(0, 0, 512, 256);
+    g5.fillStyle = '#0284c7'; g5.fillRect(0, 136, 512, 120);
+    g5.fillStyle = '#10b981'; g5.fillRect(0, 122, 512, 16);
+    g5.fillStyle = '#0f172a'; g5.font = '900 28px "Segoe UI", sans-serif';
+    g5.fillText('WE CLEAN GANGA // KMC', 32, 72);
+    g5.fillStyle = '#0369a1'; g5.font = '700 18px "Courier New", monospace';
+    g5.fillText('HOWRAH BRIDGE ECO-UNIT WB-04-G-1943', 32, 102);
+    g5.fillStyle = '#ffffff'; g5.font = '800 22px "Segoe UI", sans-serif';
+    g5.fillText('RECYCLING & SHREDDER FLEET', 32, 188);
+    const vanTex = new THREE.CanvasTexture(cVan);
+
+    return { brickTex, brickNrm, steelTex, steelNrm, concTex, concNrm, beltTex, vanTex };
+  }
+
+  // --- SCENE, RENDERER, CAMERAS (WORLD + TELEPHOTO VIEWMODEL) ---
+  const canvas = document.getElementById('game-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.65));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.12;
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.autoClear = false;
+
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0xc8cfd4, 0.0042);
+
+  const camera = new THREE.PerspectiveCamera(68, window.innerWidth / window.innerHeight, 0.12, 650);
+  const vmScene = new THREE.Scene();
+  const vmCamera = new THREE.PerspectiveCamera(44, window.innerWidth / window.innerHeight, 0.05, 15);
+  vmScene.add(vmCamera);
+
+  // --- LIGHTING RIG (ANALYTICAL SUN + COOL SKY BOUNCE + HEMISPHERE) ---
+  const hemiLight = new THREE.HemisphereLight(0xdbeafe, 0x5c4d3c, 0.85);
+  scene.add(hemiLight);
+
+  const sunDir = new THREE.Vector3(0.52, 0.44, -0.73).normalize();
+  const sunLight = new THREE.DirectionalLight(0xfff1d6, 2.55);
+  sunLight.position.copy(sunDir).multiplyScalar(95);
+  sunLight.castShadow = true;
+  sunLight.shadow.mapSize.width = 2048;
+  sunLight.shadow.mapSize.height = 2048;
+  sunLight.shadow.camera.near = 10;
+  sunLight.shadow.camera.far = 220;
+  const sBounds = 58;
+  sunLight.shadow.camera.left = -sBounds;
+  sunLight.shadow.camera.right = sBounds;
+  sunLight.shadow.camera.top = sBounds;
+  sunLight.shadow.camera.bottom = -sBounds;
+  sunLight.shadow.bias = -0.00035;
+  sunLight.shadow.normalBias = 0.04;
+  scene.add(sunLight);
+
+  const bounceLight = new THREE.DirectionalLight(0x93c5fd, 0.55);
+  bounceLight.position.set(-40, 28, 45);
+  scene.add(bounceLight);
+
+  // Viewmodel lights
+  const vmHemi = new THREE.HemisphereLight(0xe0f2fe, 0x475569, 0.95);
+  vmScene.add(vmHemi);
+  const vmDir = new THREE.DirectionalLight(0xfff3d1, 1.9);
+  vmDir.position.set(2, 4, 3);
+  vmScene.add(vmDir);
+
+  const TEX = buildTextures();
+
+  // --- ANALYTICAL FWIDTH BAND-LIMITED KOLKATA MONSOON SKY DOME (SALTLINE + IRONHOLD) ---
+  const skyUniforms = {
+    uTime: { value: 0 },
+    uSunDir: { value: sunDir.clone() },
+    uClean: { value: 0.12 }
+  };
+  const skyMat = new THREE.ShaderMaterial({
+    uniforms: skyUniforms,
+    side: THREE.BackSide,
+    depthWrite: false,
+    vertexShader: `
+      varying vec3 vWorldDir;
+      void main() {
+        vWorldDir = position;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      #ifdef GL_OES_standard_derivatives
+      #extension GL_OES_standard_derivatives : enable
+      #endif
+      uniform float uTime;
+      uniform vec3 uSunDir;
+      uniform float uClean;
+      varying vec3 vWorldDir;
+
+      float hash21(vec2 p) {
+        p = fract(p * vec2(123.34, 456.21));
+        p += dot(p, p + 45.32);
+        return fract(p.x * p.y);
+      }
+      float noise2D(vec2 p) {
+        vec2 i = floor(p), f = fract(p);
+        f = f * f * (3.0 - 2.0 * f);
+        float a = hash21(i), b = hash21(i + vec2(1.0, 0.0));
+        float c = hash21(i + vec2(0.0, 1.0)), d = hash21(i + vec2(1.0, 1.0));
+        return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+      }
+      void main() {
+        vec3 dir = normalize(vWorldDir);
+        float h = max(dir.y, 0.0);
+        float mu = max(dot(dir, normalize(uSunDir)), 0.0);
+
+        // Sky gradient shifts from overcast monsoon smog to golden-cyan clarity as Ganga cleans
+        vec3 zenithSmog = vec3(0.46, 0.52, 0.58);
+        vec3 zenithClean = vec3(0.18, 0.44, 0.68);
+        vec3 horSmog = vec3(0.76, 0.77, 0.75);
+        vec3 horClean = vec3(0.84, 0.88, 0.92);
+
+        vec3 zenith = mix(zenithSmog, zenithClean, uClean);
+        vec3 horizon = mix(horSmog, horClean, uClean);
+        vec3 col = mix(horizon, zenith, smoothstep(0.0, 0.55, pow(h, 0.75)));
+
+        // Band-limited cloud plane with fwidth attenuation
+        vec2 cloudUV = dir.xz / max(dir.y + 0.09, 0.08) * vec2(0.55, 0.85);
+        #ifdef GL_OES_standard_derivatives
+        float fp = max(length(fwidth(cloudUV)), 1e-4);
+        #else
+        float fp = 0.01;
+        #endif
+        float f = 0.0, amp = 0.52, freq = 0.22;
+        for (int i = 0; i < 4; i++) {
+          float mip = 1.0 - smoothstep(0.20, 0.78, fp * freq);
+          f += amp * noise2D(cloudUV * freq + vec2(uTime * 0.008 * float(i + 1), 0.0)) * mip;
+          freq *= 2.08; amp *= 0.48;
+        }
+        float cloudMask = smoothstep(0.38, 0.72, f) * smoothstep(0.02, 0.22, h);
+        vec3 cloudCol = mix(vec3(0.88, 0.89, 0.90), vec3(0.62, 0.66, 0.71), f);
+        cloudCol += vec3(1.0, 0.82, 0.55) * pow(mu, 5.0) * 0.45;
+        col = mix(col, cloudCol, cloudMask * 0.78);
+
+        // Warm Kolkata sun aureole & disc
+        col += vec3(1.0, 0.88, 0.65) * (pow(mu, 10.0) * 0.22 + pow(mu, 80.0) * 0.65);
+        float disc = smoothstep(0.9993, 0.99985, mu);
+        col += vec3(1.0, 0.95, 0.82) * disc * 2.5;
+
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `
+  });
+  const skyDome = new THREE.Mesh(new THREE.SphereGeometry(520, 32, 20), skyMat);
+  skyDome.renderOrder = 1000;
+  scene.add(skyDome);
+
+  // --- DYNAMIC GANGA RIVER WATER CLARITY SHADER (POLLUTED SILT -> CRYSTAL EMERALD REFLECTION) ---
+  const waterUniforms = {
+    uTime: { value: 0 },
+    uClean: { value: 0.12 },
+    uSunDir: { value: sunDir.clone() },
+    uSludgeSpike: { value: 0.0 }
+  };
+  const waterMat = new THREE.ShaderMaterial({
+    uniforms: waterUniforms,
+    transparent: true,
+    vertexShader: `
+      uniform float uTime;
+      varying vec3 vWorldPos;
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        vec3 p = position;
+        float w1 = sin(p.x * 0.35 + uTime * 1.9) * 0.045;
+        float w2 = cos(p.z * 0.48 - uTime * 1.5) * 0.035;
+        p.y += w1 + w2;
+        vec4 wp = modelMatrix * vec4(p, 1.0);
+        vWorldPos = wp.xyz;
+        gl_Position = projectionMatrix * viewMatrix * wp;
+      }
+    `,
+    fragmentShader: `
+      uniform float uTime;
+      uniform float uClean;
+      uniform vec3 uSunDir;
+      uniform float uSludgeSpike;
+      varying vec3 vWorldPos;
+      varying vec2 vUv;
+
+      float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+      float vnoise(vec2 p) {
+        vec2 i = floor(p), f = fract(p);
+        f = f * f * (3.0 - 2.0 * f);
+        return mix(mix(hash(i), hash(i + vec2(1,0)), f.x),
+                   mix(hash(i + vec2(0,1)), hash(i + vec2(1,1)), f.x), f.y);
+      }
+      void main() {
+        vec2 p = vWorldPos.xz;
+        float n1 = vnoise(p * 0.65 + vec2(uTime * 0.45, -uTime * 0.28));
+        float n2 = vnoise(p * 1.85 - vec2(uTime * 0.62, uTime * 0.35));
+        float ripple = (n1 * 0.6 + n2 * 0.4);
+
+        vec3 N = normalize(vec3((n1 - 0.5) * 0.28, 1.0, (n2 - 0.5) * 0.28));
+        vec3 V = normalize(cameraPosition - vWorldPos);
+        float fresnel = pow(1.0 - max(dot(N, V), 0.0), 3.2);
+
+        // Murky polluted Hooghly brown-olive silt vs clean shimmering Ganga teal-cyan
+        vec3 murkyCol = vec3(0.32, 0.27, 0.20) + vec3(0.16, 0.18, 0.06) * uSludgeSpike;
+        vec3 cleanCol = vec3(0.08, 0.39, 0.47);
+        vec3 baseWater = mix(murkyCol, cleanCol, clamp(uClean, 0.0, 1.0));
+
+        // Sky reflection & bridge silhouette shimmer
+        vec3 skyRefl = mix(vec3(0.68, 0.71, 0.73), vec3(0.55, 0.80, 0.92), uClean);
+        vec3 col = mix(baseWater, skyRefl, clamp(fresnel * (0.45 + 0.4 * uClean) + ripple * 0.14, 0.0, 0.88));
+
+        // Shoreline wet foam & floating scum streaks when polluted
+        float shoreDist = abs(vWorldPos.z - (-5.8));
+        float shoreFoam = smoothstep(2.2, 0.15, shoreDist) * (0.35 + 0.45 * n2);
+        vec3 foamCol = mix(vec3(0.58, 0.52, 0.38), vec3(0.86, 0.95, 0.98), uClean);
+        col = mix(col, foamCol, shoreFoam * 0.55);
+
+        // Sun specular path across the Hooghly
+        vec3 H = normalize(normalize(uSunDir) + V);
+        float spec = pow(max(dot(N, H), 0.0), mix(36.0, 140.0, uClean));
+        col += vec3(1.0, 0.92, 0.74) * spec * (0.55 + 0.95 * uClean);
+
+        float alpha = mix(0.96, 0.84, uClean);
+        gl_FragColor = vec4(col, alpha);
+      }
+    `
+  });
+
+  // --- UNBREAKABLE COLLISION REGISTRY & CONTACT SHADOW SKIRTS ---
+  const COLLIDERS = [];
+  const WORLD_SOLIDS = [];
+  const CONTACT_SKIRTS = [];
+
+  function addCollider(minX, maxX, minY, maxY, minZ, maxZ, roofWalkable = true, mesh = null) {
+    COLLIDERS.push({ minX, maxX, minY, maxY, minZ, maxZ, roofWalkable });
+    if (mesh) {
+      mesh.userData.hasCollider = true;
+      WORLD_SOLIDS.push(mesh);
+    }
+  }
+
+  function addContactSkirt(cx, y, cz, wx, wz) {
+    CONTACT_SKIRTS.push({ cx, y: y + 0.015, cz, wx, wz });
+  }
+
+  function buildSolidBox(w, h, d, mat, x, y, z, opts = {}) {
+    const geo = new THREE.BoxGeometry(w, h, d);
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(x, y, z);
+    mesh.scale.set(1, 1, 1);
+    if (!opts.skipTexelize) texelize(mesh, opts.texScale || 0.35);
+    mesh.castShadow = (Math.max(w, h, d) >= 0.45) && (opts.castShadow !== false);
+    mesh.receiveShadow = true;
+    scene.add(mesh);
+    if (opts.collide !== false) {
+      addCollider(x - w * 0.5, x + w * 0.5, y - h * 0.5, y + h * 0.5, z - d * 0.5, z + d * 0.5, opts.roof !== false, mesh);
+    }
+    if (opts.skirt) {
+      addContactSkirt(x, y - h * 0.5, z, w + 0.45, d + 0.45);
+    }
+    return mesh;
+  }
+
+  // Materials (All obey Dark Albedo Floor >= 0x31312f)
+  const matGhatBrick = new THREE.MeshStandardMaterial({
+    map: TEX.brickTex, normalMap: TEX.brickNrm, roughness: 0.46, metalness: 0.08
+  });
+  const matWetBrick = new THREE.MeshStandardMaterial({
+    map: TEX.brickTex, normalMap: TEX.brickNrm, color: 0x8f7468, roughness: 0.16, metalness: 0.12
+  });
+  const matHowrahSteel = new THREE.MeshStandardMaterial({
+    map: TEX.steelTex, normalMap: TEX.steelNrm, color: 0xa4aeb8, roughness: 0.38, metalness: 0.22
+  });
+  const matConcrete = new THREE.MeshStandardMaterial({
+    map: TEX.concTex, normalMap: TEX.concNrm, roughness: 0.65, metalness: 0.06
+  });
+  const matDarkIron = new THREE.MeshStandardMaterial({
+    color: 0x3a3e44, roughness: 0.42, metalness: 0.22
+  });
+  const matRubberTire = new THREE.MeshStandardMaterial({
+    color: 0x333331, roughness: 0.72, metalness: 0.05
+  });
+  const matYellowSafety = new THREE.MeshStandardMaterial({
+    color: 0xeab308, roughness: 0.36, metalness: 0.16
+  });
+
+  // --- BUILD WORLD: GHAT STEPS, PROMENADE, HOWRAH BRIDGE, VAN & SHREDDER CONVEYOR ---
+  // 1. Riverbed sandy floor & Ganga Water Surface
+  const riverBed = new THREE.Mesh(
+    new THREE.PlaneGeometry(360, 220),
+    new THREE.MeshStandardMaterial({ color: 0x5c4f3d, roughness: 0.9 })
+  );
+  riverBed.rotation.x = -Math.PI / 2;
+  riverBed.position.set(0, -1.65, -80);
+  riverBed.receiveShadow = true;
+  scene.add(riverBed);
+
+  const riverMesh = new THREE.Mesh(new THREE.PlaneGeometry(360, 210, 96, 48), waterMat);
+  riverMesh.rotation.x = -Math.PI / 2;
+  riverMesh.position.set(0, 0.0, -95);
+  scene.add(riverMesh);
+
+  // 2. Stepped Kolkata River Ghat (8 wide descending brick tiers from z = +10m down to z = -6m)
+  // Upper Promenade courtyard: z = +10m to +30m, y = 2.4m
+  buildSolidBox(88, 2.8, 22, matConcrete, 0, 1.0, 21, { texScale: 0.25 });
+
+  // 8 Ghat Steps (each step is 2.0m deep, dropping 0.28m per step down to the river water at y=0)
+  for (let s = 0; s < 8; s++) {
+    const stepTopY = 2.24 - s * 0.28;
+    const stepH = stepTopY + 1.4;
+    const stepZ = 9.0 - s * 2.0;
+    // Lower steps near waterline use glossy soaked brick (Saltline continuous shoreline ramp)
+    const stepMat = s >= 5 ? matWetBrick : matGhatBrick;
+    buildSolidBox(84, stepH, 2.05, stepMat, 0, stepTopY - stepH * 0.5, stepZ, { texScale: 0.5 });
+  }
+  // Shallow wadeable riverbank floor under the water (z = -6m to -20m, y = -0.45m)
+  buildSolidBox(84, 1.2, 16, matWetBrick, 0, -1.05, -14, { texScale: 0.4 });
+
+  // Arena Perimeter Retaining Walls & Heritage Ghat Arch Pillars
+  buildSolidBox(88, 3.2, 1.5, matGhatBrick, 0, 3.6, 31.5, { roof: false });
+  buildSolidBox(2.0, 4.0, 52, matGhatBrick, -43, 2.2, 6, { roof: false });
+  buildSolidBox(2.0, 4.0, 52, matGhatBrick, 43, 2.2, 6, { roof: false });
+
+  // Traditional Kolkata Ghat Pavilion Pillars & Steps Balustrades
+  for (const px of [-28, 28]) {
+    buildSolidBox(2.6, 4.6, 2.6, matGhatBrick, px, 4.3, 10.5, { skirt: true });
+    buildSolidBox(3.2, 0.55, 3.2, matConcrete, px, 6.75, 10.5, { collide: false });
+    const dome = new THREE.Mesh(new THREE.SphereGeometry(1.35, 16, 12, 0, Math.PI * 2, 0, Math.PI * 0.55), matConcrete);
+    dome.position.set(px, 7.0, 10.5);
+    scene.add(dome);
+  }
+
+  // Banyan Tree Cluster on East Ghat Bank (Right side of reference photo)
+  const matFoliage = new THREE.MeshStandardMaterial({ color: 0x2d5a34, roughness: 0.78 });
+  const matBark = new THREE.MeshStandardMaterial({ color: 0x4e3c30, roughness: 0.88 });
+  for (const [tx, tz, sc] of [[34, 6, 1.25], [38, 12, 1.05], [-36, 16, 1.1]]) {
+    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.45 * sc, 0.72 * sc, 4.2 * sc, 10), matBark);
+    trunk.position.set(tx, 2.2 + 1.8 * sc, tz);
+    trunk.castShadow = true;
+    scene.add(trunk);
+    addCollider(tx - 0.7 * sc, tx + 0.7 * sc, 2.0, 6.5, tz - 0.7 * sc, tz + 0.7 * sc, false, trunk);
+    addContactSkirt(tx, 2.4, tz, 2.6 * sc, 2.6 * sc);
+    for (let c = 0; c < 4; c++) {
+      const crown = new THREE.Mesh(new THREE.DodecahedronGeometry((2.4 - c * 0.3) * sc, 1), matFoliage);
+      crown.position.set(tx + (c - 1.5) * 1.1, 5.8 * sc + (c % 2) * 0.9, tz + ((c % 2) - 0.5) * 1.2);
+      crown.castShadow = true;
+      scene.add(crown);
+    }
+  }
+
+  // Storm-Drain Culvert Pipe on West Retaining Wall (Spews trash until capped in Shop)
+  const culvertGroup = new THREE.Group();
+  const culvertPipe = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.1, 3.2, 16), matConcrete);
+  culvertPipe.rotation.z = Math.PI / 2;
+  culvertPipe.position.set(-41.2, 1.15, -1.5);
+  scene.add(culvertPipe);
+  const culvertGrate = new THREE.Mesh(new THREE.CylinderGeometry(1.02, 1.02, 0.25, 16), matDarkIron);
+  culvertGrate.rotation.z = Math.PI / 2;
+  culvertGrate.position.set(-39.6, 1.15, -1.5);
+  culvertGrate.visible = false; // Enabled when Culvert Filter Grate is bought
+  scene.add(culvertGrate);
+
+  // West Embankment Overlook Cliff Platform (Where Illegal Sewage Tanker Truck backs up in Dark Mode)
+  buildSolidBox(16, 4.2, 14, matConcrete, -34, 2.1, -11, { texScale: 0.25 });
+
+  // --- 3. MONUMENTAL 3D HOWRAH BRIDGE (RABINDRA SETU) ACROSS THE HOOGHLY RIVER ---
+  // Exactly modeled after the iconic silver-grey riveted balanced-cantilever truss bridge in the user's photo
+  const bridgeGroup = new THREE.Group();
+  const bridgeZ = -68;
+  const deckY = 18.5;
+  scene.add(bridgeGroup);
+
+  // Concrete river caisson piers for twin main towers
+  for (const tx of [-58, 58]) {
+    const caisson = new THREE.Mesh(new THREE.BoxGeometry(11, 22, 16), matConcrete);
+    caisson.position.set(tx, 9.0, bridgeZ);
+    texelize(caisson, 0.2);
+    caisson.castShadow = true; caisson.receiveShadow = true;
+    bridgeGroup.add(caisson);
+
+    // Twin inclined 46m tall balanced-cantilever steel towers
+    for (const lz of [-5.2, 5.2]) {
+      const leg = new THREE.Mesh(new THREE.BoxGeometry(2.4, 44, 2.4), matHowrahSteel);
+      leg.position.set(tx, 20 + 18, bridgeZ + lz);
+      leg.castShadow = true;
+      bridgeGroup.add(leg);
+    }
+    // Tower portal cross-bracing beams
+    for (const py of [24, 34, 44, 53]) {
+      const portal = new THREE.Mesh(new THREE.BoxGeometry(2.6, 1.8, 12.2), matHowrahSteel);
+      portal.position.set(tx, py, bridgeZ);
+      bridgeGroup.add(portal);
+    }
+  }
+
+  // Suspended Main Roadway Deck & Pedestrian Walkway (x = -135m to +135m)
+  const bridgeDeck = new THREE.Mesh(new THREE.BoxGeometry(270, 1.6, 13.5), matHowrahSteel);
+  bridgeDeck.position.set(0, deckY, bridgeZ);
+  bridgeDeck.castShadow = true;
+  bridgeGroup.add(bridgeDeck);
+
+  // Howrah Bridge Cantilever Arch Profile Function
+  function howrahTopY(x) {
+    const ax = Math.abs(x);
+    if (ax <= 58) {
+      // Parabolic sag from 54m at towers down to 31m at mid-span, rising slightly at center truss
+      const t = ax / 58;
+      return 30.5 + 23.5 * (t * t);
+    } else {
+      // Anchor arm sloping down from 54m at x=58 to 22m at x=128
+      const t = clamp((ax - 58) / 70, 0, 1);
+      return 54.0 - 32.0 * t;
+    }
+  }
+
+  // 22 Truss Panels of Diagonal Warren / K-Truss Lattice Superstructure
+  const panelCount = 22;
+  const spanMinX = -126, spanMaxX = 126;
+  const panelW = (spanMaxX - spanMinX) / panelCount;
+  for (let i = 0; i < panelCount; i++) {
+    const x0 = spanMinX + i * panelW;
+    const x1 = x0 + panelW;
+    const xm = (x0 + x1) * 0.5;
+    const y0 = howrahTopY(x0);
+    const y1 = howrahTopY(x1);
+    const ym = (y0 + y1) * 0.5;
+
+    for (const sideZ of [-5.6, 5.6]) {
+      // Vertical hanger post
+      const vH = y0 - deckY;
+      const vPost = new THREE.Mesh(new THREE.BoxGeometry(0.85, vH, 0.85), matHowrahSteel);
+      vPost.position.set(x0, deckY + vH * 0.5, bridgeZ + sideZ);
+      bridgeGroup.add(vPost);
+
+      // Top chord segment
+      const dx = x1 - x0, dy = y1 - y0;
+      const topLen = Math.hypot(dx, dy);
+      const topChord = new THREE.Mesh(new THREE.BoxGeometry(topLen + 0.4, 1.15, 1.1), matHowrahSteel);
+      topChord.position.set(xm, ym, bridgeZ + sideZ);
+      topChord.rotation.z = Math.atan2(dy, dx);
+      bridgeGroup.add(topChord);
+
+      // X-Diagonal Lattice Truss Members (Signature Howrah Bridge look)
+      const diagLen = Math.hypot(panelW, ym - deckY);
+      const diag1 = new THREE.Mesh(new THREE.BoxGeometry(diagLen, 0.55, 0.55), matHowrahSteel);
+      diag1.position.set(xm, deckY + (ym - deckY) * 0.5, bridgeZ + sideZ);
+      diag1.rotation.z = Math.atan2(y1 - deckY, panelW);
+      bridgeGroup.add(diag1);
+
+      const diag2 = new THREE.Mesh(new THREE.BoxGeometry(diagLen, 0.55, 0.55), matHowrahSteel);
+      diag2.position.set(xm, deckY + (ym - deckY) * 0.5, bridgeZ + sideZ);
+      diag2.rotation.z = -Math.atan2(y0 - deckY, panelW);
+      bridgeGroup.add(diag2);
+    }
+
+    // Overhead lateral wind-bracing strut between front and back trusses
+    const strut = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.7, 11.4), matHowrahSteel);
+    strut.position.set(xm, ym, bridgeZ);
+    bridgeGroup.add(strut);
+  }
+
+  // Far-bank Kolkata / Howrah skyline silhouettes beyond the bridge
+  const matSkyline = new THREE.MeshStandardMaterial({ color: 0x525d68, roughness: 0.85 });
+  for (let i = -140; i <= 140; i += 14) {
+    const bh = 6 + ((Math.abs(i * 17) % 16));
+    const bldg = new THREE.Mesh(new THREE.BoxGeometry(11, bh, 12), matSkyline);
+    bldg.position.set(i, bh * 0.5 - 0.5, -135 - (Math.abs(i * 7) % 20));
+    scene.add(bldg);
+  }
+
+  // Moving Kolkata Traffic on Howrah Bridge Deck (Yellow Ambassador Taxis & Blue Buses)
+  const bridgeTraffic = [];
+  for (let i = 0; i < 10; i++) {
+    const isBus = (i % 3 === 0);
+    const vCol = isBus ? 0x0284c7 : 0xfacc15; // Kolkata yellow taxi or blue bus
+    const veh = new THREE.Mesh(
+      new THREE.BoxGeometry(isBus ? 5.6 : 3.2, isBus ? 2.2 : 1.35, 1.7),
+      new THREE.MeshStandardMaterial({ color: vCol, roughness: 0.35 })
+    );
+    const dir = (i % 2 === 0) ? 1 : -1;
+    veh.position.set(-110 + i * 24, deckY + (isBus ? 1.85 : 1.4), bridgeZ + dir * 2.4);
+    bridgeGroup.add(veh);
+    bridgeTraffic.push({ mesh: veh, dir, speed: (isBus ? 9.5 : 13.5) });
+  }
+
+  // --- 4. BASE OPERATIONS: GANGA CLEAN RECYCLING VAN (WB-04-G-1943) WITH SWING-OPEN REAR DOORS ---
+  const vanGroup = new THREE.Group();
+  const vanPos = new THREE.Vector3(-12.5, 2.4, 18.0);
+  vanGroup.position.copy(vanPos);
+  vanGroup.rotation.y = 0.22; // Angled slightly toward the ghat steps for easy loading
+  scene.add(vanGroup);
+
+  const matVanBody = new THREE.MeshStandardMaterial({ map: TEX.vanTex, roughness: 0.32, metalness: 0.14 });
+  const matVanWhite = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.32, metalness: 0.12 });
+  const matVanBlue = new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.34, metalness: 0.15 });
+  const matGlass = new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.1, metalness: 0.2, transparent: true, opacity: 0.55 });
+
+  // Cargo box walls (hollow rear so players can see loaded black trash bags inside!)
+  const vanFloor = new THREE.Mesh(new THREE.BoxGeometry(2.5, 0.22, 4.6), matDarkIron);
+  vanFloor.position.set(0, 0.65, -0.3); vanGroup.add(vanFloor);
+  const vanRoof = new THREE.Mesh(new THREE.BoxGeometry(2.5, 0.16, 4.4), matVanWhite);
+  vanRoof.position.set(0, 2.75, -0.3); vanRoof.castShadow = true; vanGroup.add(vanRoof);
+  const vanWallL = new THREE.Mesh(new THREE.BoxGeometry(0.14, 2.1, 4.4), matVanBody);
+  vanWallL.position.set(-1.18, 1.7, -0.3); vanWallL.castShadow = true; vanGroup.add(vanWallL);
+  const vanWallR = new THREE.Mesh(new THREE.BoxGeometry(0.14, 2.1, 4.4), matVanBody);
+  vanWallR.position.set(1.18, 1.7, -0.3); vanWallR.castShadow = true; vanGroup.add(vanWallR);
+
+  // Front Cab & Hood
+  const vanCab = new THREE.Mesh(new THREE.BoxGeometry(2.42, 1.95, 1.65), matVanBlue);
+  vanCab.position.set(0, 1.6, 2.65); vanCab.castShadow = true; vanGroup.add(vanCab);
+  const vanHood = new THREE.Mesh(new THREE.BoxGeometry(2.36, 1.1, 1.05), matVanWhite);
+  vanHood.position.set(0, 1.15, 3.85); vanHood.castShadow = true; vanGroup.add(vanHood);
+  const vanWindshield = new THREE.Mesh(new THREE.BoxGeometry(2.15, 0.78, 0.1), matGlass);
+  vanWindshield.position.set(0, 2.02, 3.46); vanWindshield.rotation.x = -0.22; vanGroup.add(vanWindshield);
+
+  // 4 Sculpted Wheels
+  for (const [wx, wz] of [[-1.18, 2.8], [1.18, 2.8], [-1.18, -1.3], [1.18, -1.3]]) {
+    const wheel = new THREE.Mesh(new THREE.CylinderGeometry(0.46, 0.46, 0.34, 18), matRubberTire);
+    wheel.rotation.z = Math.PI / 2;
+    wheel.position.set(wx, 0.46, wz);
+    vanGroup.add(wheel);
+  }
+
+  // Animated Swing-Open Rear Cargo Doors (Pivoted at left/right rear edges z = -2.5)
+  const vanDoorL = new THREE.Group();
+  vanDoorL.position.set(-1.18, 1.7, -2.5);
+  const doorMeshL = new THREE.Mesh(new THREE.BoxGeometry(1.15, 2.0, 0.12), matVanBlue);
+  doorMeshL.position.set(0.58, 0, 0); vanDoorL.add(doorMeshL);
+  vanDoorL.rotation.y = -2.1; // Open by default so player can throw bags right in!
+  vanGroup.add(vanDoorL);
+
+  const vanDoorR = new THREE.Group();
+  vanDoorR.position.set(1.18, 1.7, -2.5);
+  const doorMeshR = new THREE.Mesh(new THREE.BoxGeometry(1.15, 2.0, 0.12), matVanBlue);
+  doorMeshR.position.set(-0.58, 0, 0); vanDoorR.add(doorMeshR);
+  vanDoorR.rotation.y = 2.1;
+  vanGroup.add(vanDoorR);
+
+  // Visual stack of loaded bags inside the van
+  const vanCargoGroup = new THREE.Group();
+  vanCargoGroup.position.set(0, 0.85, -1.1);
+  vanGroup.add(vanCargoGroup);
+
+  addCollider(vanPos.x - 1.7, vanPos.x + 1.7, 2.4, 5.3, vanPos.z - 2.6, vanPos.z + 4.2, true, vanRoof);
+  addContactSkirt(vanPos.x, 2.4, vanPos.z + 0.6, 3.6, 7.2);
+
+  // --- 5. INDUSTRIAL SHREDDER HOPPER + ANIMATED SORTING CONVEYOR BELT (EXACT WE CLEAN RIVERS MACHINE) ---
+  const shredderPos = new THREE.Vector3(11.5, 2.4, 17.5);
+  const shredderGroup = new THREE.Group();
+  shredderGroup.position.copy(shredderPos);
+  scene.add(shredderGroup);
+
+  // Steel Hopper Frame & Funnel at (0, 0, -2.2) facing the ghat steps
+  const hopperBase = new THREE.Mesh(new THREE.BoxGeometry(2.5, 1.55, 2.5), matHowrahSteel);
+  hopperBase.position.set(0, 0.78, -2.2); hopperBase.castShadow = true; shredderGroup.add(hopperBase);
+  const hopperRim = new THREE.Mesh(new THREE.BoxGeometry(2.9, 0.55, 2.9), matYellowSafety);
+  hopperRim.position.set(0, 1.78, -2.2); hopperRim.castShadow = true; shredderGroup.add(hopperRim);
+
+  // Dual Rotating Toothed Shredder Cylinders inside the Hopper
+  const bladeGeo = new THREE.CylinderGeometry(0.32, 0.32, 2.1, 10);
+  const shredBlade1 = new THREE.Mesh(bladeGeo, matDarkIron);
+  shredBlade1.rotation.z = Math.PI / 2; shredBlade1.position.set(0, 1.48, -2.55);
+  shredderGroup.add(shredBlade1);
+  const shredBlade2 = new THREE.Mesh(bladeGeo, matDarkIron);
+  shredBlade2.rotation.z = Math.PI / 2; shredBlade2.position.set(0, 1.48, -1.85);
+  shredderGroup.add(shredBlade2);
+
+  // Animated Moving Conveyor Belt Track (runs from z = -1.0 to z = +4.4)
+  const conveyorFrame = new THREE.Mesh(new THREE.BoxGeometry(1.75, 0.95, 5.6), matDarkIron);
+  conveyorFrame.position.set(0, 0.5, 1.7); conveyorFrame.castShadow = true; shredderGroup.add(conveyorFrame);
+
+  const conveyorBeltMat = new THREE.MeshStandardMaterial({
+    map: TEX.beltTex, roughness: 0.55, metalness: 0.08
+  });
+  const conveyorBelt = new THREE.Mesh(new THREE.BoxGeometry(1.42, 0.12, 5.3), conveyorBeltMat);
+  conveyorBelt.position.set(0, 1.0, 1.7); shredderGroup.add(conveyorBelt);
+
+  // Yellow Optical Sorting Hood & Output Cash Compactor Bin at z = +4.8
+  const sorterHood = new THREE.Mesh(new THREE.BoxGeometry(1.95, 1.75, 1.6), matYellowSafety);
+  sorterHood.position.set(0, 1.4, 2.1); sorterHood.castShadow = true; shredderGroup.add(sorterHood);
+
+  const compactorBin = new THREE.Mesh(new THREE.BoxGeometry(2.3, 1.35, 1.8), matVanBlue);
+  compactorBin.position.set(0, 0.68, 5.1); compactorBin.castShadow = true; shredderGroup.add(compactorBin);
+
+  // Active shredded plastic chunks riding the conveyor belt
+  const conveyorChips = [];
+  const chipGeo = new THREE.DodecahedronGeometry(0.14, 0);
+  const chipColors = [0xff5722, 0x29b6f6, 0xfacc15, 0x10b981, 0xec4899, 0xa855f7];
+
+  addCollider(shredderPos.x - 1.45, shredderPos.x + 1.45, 2.4, 4.4, shredderPos.z - 3.6, shredderPos.z + 6.0, true, hopperBase);
+  addContactSkirt(shredderPos.x, 2.4, shredderPos.z + 1.2, 3.2, 10.0);
+
+  // --- 6. ECO-STATION SHED & PLAYABLE DARTBOARD (WE CLEAN RIVERS 00:40 EASTER EGG) ---
+  const shedPos = new THREE.Vector3(24.5, 2.4, 20.5);
+  buildSolidBox(6.8, 3.4, 5.2, matConcrete, shedPos.x, shedPos.y + 1.7, shedPos.z, { skirt: true });
+  // Dartboard mounted on front wall of Eco-Station Shed (z = 17.88)
+  const dartboardGroup = new THREE.Group();
+  dartboardGroup.position.set(shedPos.x, shedPos.y + 1.75, shedPos.z - 2.63);
+  scene.add(dartboardGroup);
+  const dbRings = [
+    [0.58, 0x333331], [0.44, 0xdc2626], [0.30, 0x16a34a], [0.14, 0xfacc15], [0.06, 0xef4444]
+  ];
+  dbRings.forEach(([rad, col], idx) => {
+    const disc = new THREE.Mesh(
+      new THREE.CylinderGeometry(rad, rad, 0.04, 20),
+      new THREE.MeshStandardMaterial({ color: col, roughness: 0.5 })
+    );
+    disc.rotation.x = Math.PI / 2;
+    disc.position.z = -idx * 0.005;
+    dartboardGroup.add(disc);
+  });
+
+  // Merge all 4x4 vertex-alpha Contact Shadow Skirts into 1 mesh
+  function buildMergedContactSkirts() {
+    const positions = [], colors = [], indices = [];
+    let vOffset = 0;
+    for (const s of CONTACT_SKIRTS) {
+      const xs = [-0.5, -0.28, 0.28, 0.5].map(k => s.cx + k * s.wx);
+      const zs = [-0.5, -0.28, 0.28, 0.5].map(k => s.cz + k * s.wz);
+      for (let rz = 0; rz < 4; rz++) {
+        for (let rx = 0; rx < 4; rx++) {
+          positions.push(xs[rx], s.y, zs[rz]);
+          const inner = (rx === 1 || rx === 2) && (rz === 1 || rz === 2);
+          const darkness = inner ? 0.38 : 1.0;
+          colors.push(darkness, darkness, darkness);
+        }
+      }
+      for (let rz = 0; rz < 3; rz++) {
+        for (let rx = 0; rx < 3; rx++) {
+          const a = vOffset + rz * 4 + rx;
+          const b = a + 1, c = a + 4, d = c + 1;
+          indices.push(a, c, b, b, c, d);
+        }
+      }
+      vOffset += 16;
+    }
+    if (!positions.length) return;
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    geo.setIndex(indices);
+    const mat = new THREE.MeshBasicMaterial({
+      vertexColors: true, transparent: true, opacity: 0.42,
+      blending: THREE.MultiplyBlending, depthWrite: false,
+      polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    scene.add(mesh);
+  }
+  buildMergedContactSkirts();
+
+  // --- GROUND HEIGHT HELPER FOR GHAT STEPS, RIVER & PROMENADE ---
+  function getTerrainHeight(x, z) {
+    // West Embankment Overlook Cliff
+    if (x < -25.5 && z < -3.5 && z > -18.5) return 4.2;
+    // Upper Promenade
+    if (z >= 10.0) return 2.4;
+    // 8 Ghat Steps (z = +10.0 down to z = -6.0)
+    if (z >= -6.0) {
+      const s = clamp(Math.floor((10.0 - z) / 2.0), 0, 7);
+      return 2.24 - s * 0.28;
+    }
+    // Shallow Riverbed wading zone
+    return -0.45;
+  }
+
+  // --- 7. GENERATE 115 AUTHENTIC GANGA / HOWRAH GHAT TRASH ITEMS, WRECKS, SLUDGE & CROWS ---
+  const TRASH_ITEMS = [];
+  const HEAVY_WRECKS = [];
+  const SLUDGE_PATCHES = [];
+  const GHAT_CROWS = [];
+  const LOOSE_BAGS = [];
+
+  // Shared prototype geometries & materials for authentic Ganga shoreline debris
+  const geoGarland = new THREE.TorusGeometry(0.24, 0.085, 8, 14);
+  const geoLeaf = new THREE.BoxGeometry(0.62, 0.03, 0.34);
+  const geoBottle = new THREE.CylinderGeometry(0.08, 0.09, 0.36, 10);
+  const geoCarton = new THREE.BoxGeometry(0.55, 0.28, 0.38);
+  const geoPolyBag = new THREE.DodecahedronGeometry(0.24, 0);
+  const geoKulhad = new THREE.CylinderGeometry(0.11, 0.07, 0.18, 10);
+  const geoDrum = new THREE.CylinderGeometry(0.36, 0.36, 0.98, 14);
+  const geoChair = new THREE.BoxGeometry(0.58, 0.78, 0.56);
+
+  const trashArchetypes = [
+    { id: 'garland_orange', label: 'Saffron Marigold Garland (Genda Phool)', geo: geoGarland, col: 0xff7b00, value: 18, heavy: false, count: 18 },
+    { id: 'garland_yellow', label: 'Golden Flower Offering Garland', geo: geoGarland, col: 0xfacc15, value: 18, heavy: false, count: 14 },
+    { id: 'banana_leaf', label: 'Ritual Banana Leaf Plate', geo: geoLeaf, col: 0x3f7d20, value: 15, heavy: false, count: 15 },
+    { id: 'plastic_bottle', label: 'Crushed Plastic Water Bottle', geo: geoBottle, col: 0xbae6fd, value: 22, heavy: false, count: 22 },
+    { id: 'blue_carton', label: 'Waterlogged Blue Packaging Box', geo: geoCarton, col: 0x1d4ed8, value: 28, heavy: false, count: 12 },
+    { id: 'poly_white', label: 'Floating Polythene Plastic Bag', geo: geoPolyBag, col: 0xf1f5f9, value: 20, heavy: false, count: 14 },
+    { id: 'poly_red', label: 'Crinkled Red Wrapper Bag', geo: geoPolyBag, col: 0xef4444, value: 20, heavy: false, count: 10 },
+    { id: 'kulhad_cup', label: 'Discarded Clay Kulhad & Coconut Husk', geo: geoKulhad, col: 0x9a5b3c, value: 16, heavy: false, count: 10 }
+  ];
+
+  function spawnTrashItem(arch, x, z, isFloating = false) {
+    const mat = new THREE.MeshStandardMaterial({
+      color: arch.col, roughness: arch.id === 'plastic_bottle' ? 0.18 : 0.62, metalness: 0.08
+    });
+    const mesh = new THREE.Mesh(arch.geo, mat);
+    const yBase = isFloating ? 0.02 : (getTerrainHeight(x, z) + 0.11);
+    mesh.position.set(x, yBase, z);
+    mesh.rotation.set(
+      arch.geo === geoGarland ? Math.PI / 2 : randRange(-0.35, 0.35),
+      randRange(0, Math.PI * 2),
+      randRange(-0.35, 0.35)
+    );
+    scene.add(mesh);
+    const item = {
+      mesh, label: arch.label, value: arch.value, heavy: !!arch.heavy,
+      collected: false, isFloating, basePos: new THREE.Vector3(x, yBase, z),
+      phase: randRange(0, Math.PI * 2)
+    };
+    TRASH_ITEMS.push(item);
+    return item;
+  }
+
+  // Scatter 115 items heavily across the ghat steps and river waterline (matching reference image!)
+  trashArchetypes.forEach(arch => {
+    for (let i = 0; i < arch.count; i++) {
+      const inWater = (i % 3 === 0);
+      const x = randRange(-34, 34);
+      const z = inWater ? randRange(-14.5, -5.8) : randRange(-5.6, 8.8);
+      spawnTrashItem(arch, x, z, inWater);
+    }
+  });
+
+  // 3 Submerged Heavy River Wrecks (Winched ashore with Slot [3] Grappling Hook & Winch!)
+  function buildSubmergedWrecks() {
+    const specs = [
+      { id: 'ambassador', label: 'Sunken Vintage Ambassador Taxi Wreck', x: -10.5, z: -13.8, col: 0xd97706, payout: 450 },
+      { id: 'autorickshaw', label: 'Submerged Kolkata Auto-Rickshaw Frame', x: 3.5, z: -14.5, col: 0x15803d, payout: 380 },
+      { id: 'boiler', label: 'Sunken Industrial Chemical Drum Cluster', x: 18.0, z: -13.2, col: 0x0369a1, payout: 340 }
+    ];
+    specs.forEach(sp => {
+      const grp = new THREE.Group();
+      const body = new THREE.Mesh(
+        new THREE.BoxGeometry(2.8, 1.35, 1.75),
+        new THREE.MeshStandardMaterial({ color: sp.col, roughness: 0.65, metalness: 0.2 })
+      );
+      body.position.y = 0.65;
+      grp.add(body);
+      const roof = new THREE.Mesh(
+        new THREE.BoxGeometry(1.7, 0.85, 1.55),
+        new THREE.MeshStandardMaterial({ color: 0x78350f, roughness: 0.78 })
+      );
+      roof.position.set(0, 1.5, 0);
+      grp.add(roof);
+      grp.position.set(sp.x, -0.82, sp.z);
+      grp.rotation.set(0.18, randRange(-0.6, 0.6), -0.14);
+      scene.add(grp);
+      HEAVY_WRECKS.push({
+        group: grp, label: sp.label, payout: sp.payout,
+        winchProgress: 0, salvaged: false,
+        startPos: new THREE.Vector3(sp.x, -0.82, sp.z),
+        shorePos: new THREE.Vector3(sp.x * 0.7, getTerrainHeight(sp.x * 0.7, -3.5) + 0.15, -3.5)
+      });
+    });
+  }
+  buildSubmergedWrecks();
+
+  // 12 Toxic Sludge & Oil Slick Decals on Lower Ghat Steps (Washed with Slot [4] Hydro Lance)
+  for (let i = 0; i < 12; i++) {
+    const sx = randRange(-30, 30);
+    const sz = randRange(-5.2, 5.5);
+    const sy = getTerrainHeight(sx, sz) + 0.03;
+    const slick = new THREE.Mesh(
+      new THREE.CircleGeometry(randRange(1.1, 1.85), 14),
+      new THREE.MeshStandardMaterial({
+        color: (i % 2 === 0) ? 0x3b3526 : 0x65741e,
+        roughness: 0.08, metalness: 0.18, transparent: true, opacity: 0.86,
+        polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2
+      })
+    );
+    slick.rotation.x = -Math.PI / 2;
+    slick.position.set(sx, sy, sz);
+    scene.add(slick);
+    SLUDGE_PATCHES.push({ mesh: slick, health: 1.0, cleaned: false, label: 'Toxic River Sludge & Oil Slick' });
+  }
+
+  // 10 Perched & Flying Ghat Crows (Directly from user's Howrah Bridge ghat photograph!)
+  const matCrow = new THREE.MeshStandardMaterial({ color: 0x353533, roughness: 0.65 }); // Obeys Dark Albedo Floor!
+  for (let i = 0; i < 10; i++) {
+    const cg = new THREE.Group();
+    const torso = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.2, 0.44), matCrow);
+    torso.position.y = 0.2; cg.add(torso);
+    const head = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.18, 0.22), matCrow);
+    head.position.set(0, 0.34, 0.22); cg.add(head);
+    const wingL = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.04, 0.28), matCrow);
+    wingL.position.set(-0.2, 0.24, 0); cg.add(wingL);
+    const wingR = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.04, 0.28), matCrow);
+    wingR.position.set(0.2, 0.24, 0); cg.add(wingR);
+
+    const cx = randRange(-26, 26), cz = randRange(-5.5, -1.5);
+    const cy = getTerrainHeight(cx, cz);
+    cg.position.set(cx, cy, cz);
+    cg.rotation.y = randRange(0, Math.PI * 2);
+    scene.add(cg);
+    GHAT_CROWS.push({
+      group: cg, wingL, wingR, home: new THREE.Vector3(cx, cy, cz),
+      flying: false, flyT: 0, phase: randRange(0, 10)
+    });
+  }
+
+  // --- 8. FIRST-PERSON TELEPHOTO VIEWMODELS (5 TOOLS + 4 SHADY SHOP WEAPONS) ---
+  const vmRoot = new THREE.Group();
+  vmCamera.add(vmRoot);
+
+  // [1] Hands & Held Black Garbage Bag Viewmodel
+  const vmSlot1 = new THREE.Group();
+  const vmHandMat = new THREE.MeshStandardMaterial({ color: 0xc68652, roughness: 0.55 });
+  const vmGloveMat = new THREE.MeshStandardMaterial({ color: 0x0ea5e9, roughness: 0.42 });
+  const handR = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.11, 0.28), vmGloveMat);
+  handR.position.set(0.32, -0.28, -0.58); vmSlot1.add(handR);
+  const handL = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.11, 0.26), vmGloveMat);
+  handL.position.set(-0.28, -0.30, -0.55); vmSlot1.add(handL);
+
+  const matBlackBag = new THREE.MeshStandardMaterial({ color: 0x34373c, roughness: 0.24, metalness: 0.14 });
+  const vmHeldBag = new THREE.Group();
+  const bagSphere = new THREE.Mesh(new THREE.DodecahedronGeometry(0.15, 1), matBlackBag);
+  vmHeldBag.add(bagSphere);
+  const bagKnot = new THREE.Mesh(new THREE.ConeGeometry(0.055, 0.09, 8), matBlackBag);
+  bagKnot.position.y = 0.15; vmHeldBag.add(bagKnot);
+  vmHeldBag.position.set(0.36, -0.28, -0.74);
+  vmHeldBag.visible = false;
+  vmSlot1.add(vmHeldBag);
+  vmRoot.add(vmSlot1);
+
+  // [2] Turbo Backpack Vacuum Nozzle & Ribbed Hose Viewmodel (We Clean Rivers 00:15)
+  const vmSlot2 = new THREE.Group();
+  const vacBody = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.095, 0.56, 14), matYellowSafety);
+  vacBody.rotation.x = Math.PI / 2; vacBody.position.set(0.34, -0.26, -0.64);
+  vmSlot2.add(vacBody);
+  const vacFunnel = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.075, 0.22, 14), matDarkIron);
+  vacFunnel.rotation.x = Math.PI / 2; vacFunnel.position.set(0.34, -0.26, -0.98);
+  vmSlot2.add(vacFunnel);
+  // Ribbed hose rings curving back to backpack
+  for (let r = 0; r < 6; r++) {
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.018, 8, 12), matRubberTire);
+    ring.position.set(0.36 + r * 0.02, -0.28 - r * 0.025, -0.36 + r * 0.06);
+    vmSlot2.add(ring);
+  }
+  vmSlot2.visible = false;
+  vmRoot.add(vmSlot2);
+
+  // [3] Heavy Grappling Hook & Winch Launcher Viewmodel (We Clean Rivers 00:29)
+  const vmSlot3 = new THREE.Group();
+  const winchFrame = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.18, 0.54), matHowrahSteel);
+  winchFrame.position.set(0.32, -0.27, -0.66); vmSlot3.add(winchFrame);
+  const winchSpool = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.18, 14), matYellowSafety);
+  winchSpool.rotation.z = Math.PI / 2; winchSpool.position.set(0.32, -0.22, -0.64);
+  vmSlot3.add(winchSpool);
+  const hookProng = new THREE.Mesh(new THREE.ConeGeometry(0.09, 0.22, 4), matDarkIron);
+  hookProng.rotation.x = -Math.PI / 2; hookProng.position.set(0.32, -0.27, -0.98);
+  vmSlot3.add(hookProng);
+  vmSlot3.visible = false;
+  vmRoot.add(vmSlot3);
+
+  // [4] High-Pressure Ghat Washer Lance Viewmodel
+  const vmSlot4 = new THREE.Group();
+  const lanceStock = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.14, 0.45), matVanBlue);
+  lanceStock.position.set(0.32, -0.28, -0.58); vmSlot4.add(lanceStock);
+  const lancePipe = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.026, 0.65, 10), matHowrahSteel);
+  lancePipe.rotation.x = Math.PI / 2; lancePipe.position.set(0.32, -0.25, -0.95);
+  vmSlot4.add(lancePipe);
+  const waterJetBeam = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.02, 0.24, 5.5, 10),
+    new THREE.MeshBasicMaterial({ color: 0x7dd3fc, transparent: true, opacity: 0.55 })
+  );
+  waterJetBeam.rotation.x = Math.PI / 2;
+  waterJetBeam.position.set(0.32, -0.25, -3.8);
+  waterJetBeam.visible = false;
+  vmSlot4.add(waterJetBeam);
+  vmSlot4.visible = false;
+  vmRoot.add(vmSlot4);
+
+  // [5] Shady Shop Vigilante Weapon Viewmodel (Shotgun, VZ 54 Sniper, Flamethrower, RPG-7)
+  const vmSlot5 = new THREE.Group();
+  const matWoodStock = new THREE.MeshStandardMaterial({ color: 0x7c4728, roughness: 0.58 });
+  const matGunSteel = new THREE.MeshStandardMaterial({ color: 0x3b4048, roughness: 0.34, metalness: 0.22 });
+  const matRpgWarhead = new THREE.MeshStandardMaterial({ color: 0x4d6b3c, roughness: 0.48 });
+
+  const gunStock = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.15, 0.62), matWoodStock);
+  gunStock.position.set(0.31, -0.28, -0.62); vmSlot5.add(gunStock);
+  const gunBarrel = new THREE.Mesh(new THREE.CylinderGeometry(0.026, 0.03, 0.78, 12), matGunSteel);
+  gunBarrel.rotation.x = Math.PI / 2; gunBarrel.position.set(0.31, -0.22, -0.98);
+  vmSlot5.add(gunBarrel);
+  const gunScope = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.032, 0.34, 12), matGunSteel);
+  gunScope.rotation.x = Math.PI / 2; gunScope.position.set(0.31, -0.14, -0.72);
+  vmSlot5.add(gunScope);
+  const rpgCone = new THREE.Mesh(new THREE.ConeGeometry(0.095, 0.34, 12), matRpgWarhead);
+  rpgCone.rotation.x = -Math.PI / 2; rpgCone.position.set(0.31, -0.22, -1.38);
+  rpgCone.visible = false;
+  vmSlot5.add(rpgCone);
+
+  const muzzleFlash = new THREE.Mesh(
+    new THREE.DodecahedronGeometry(0.18, 0),
+    new THREE.MeshBasicMaterial({ color: 0xfef08a })
+  );
+  muzzleFlash.position.set(0.31, -0.22, -1.42);
+  muzzleFlash.visible = false;
+  vmSlot5.add(muzzleFlash);
+
+  vmSlot5.visible = false;
+  vmRoot.add(vmSlot5);
+
+  // 3D World Winch Cable Line & White Target Highlight Wireframe Box
+  const winchLineMat = new THREE.LineBasicMaterial({ color: 0xfacc15, linewidth: 2 });
+  const winchLineGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
+  const winchLine = new THREE.Line(winchLineGeo, winchLineMat);
+  winchLine.visible = false;
+  scene.add(winchLine);
+
+  const highlightGeo = new THREE.BoxGeometry(1, 1, 1);
+  const highlightEdges = new THREE.EdgesGeometry(highlightGeo);
+  const targetHighlightBox = new THREE.LineSegments(
+    highlightEdges,
+    new THREE.LineBasicMaterial({ color: 0xffffff })
+  );
+  targetHighlightBox.visible = false;
+  scene.add(targetHighlightBox);
+
+  // --- 9. GAME STATE, UPGRADES, SHADY SHOP INVENTORY & TABLET CATALOG ---
+  const STATE = {
+    started: false,
+    cash: 850,
+    slot: 1,
+    bagCount: 0,
+    bagCap: 15,
+    holdingBlackBag: false,
+    heldBagItems: 0,
+    vanBags: 0,
+    trashCleaned: 0,
+    totalTrash: TRASH_ITEMS.length,
+    wrecksSalvaged: 0,
+    sludgeCleaned: 0,
+    pollutersStopped: 0,
+    clarity: 0.12,
+    scopeActive: false,
+    tabletOpen: false,
+    activeTab: 'shady',
+    equippedWeapon: 'sniper',
+    ownedWeapons: {
+      flamethrower: true,
+      shotgun: true,
+      sniper: true,
+      rpg: false
+    },
+    shopOwned: {
+      drone: false,
+      grate: false,
+      boom: false,
+      magnet: false
+    },
+    upgrades: {
+      vacuum: 1,
+      bag: 1,
+      winch: 1,
+      conveyor: 1
+    },
+    trauma: 0,
+    flashTimer: 0
+  };
+
+  // Exact Tablet Catalog (Replicating 00:50 of we clean rivers.mp4: SHOP | UPGRADES | SHADY SHOP)
+  const TABLET_CATALOG = {
+    shady: [
+      {
+        id: 'flamethrower', title: 'FLAMETHROWER', price: 749,
+        desc: 'Burns.',
+        svg: `<svg width="86" height="54" viewBox="0 0 120 70" fill="none"><rect x="14" y="28" width="52" height="14" rx="3" fill="#64748b"/><rect x="66" y="31" width="34" height="6" fill="#94a3b8"/><path d="M100 34C108 24 118 28 116 34C118 40 108 44 100 34Z" fill="#f97316"/><rect x="26" y="42" width="10" height="16" rx="2" fill="#475569"/></svg>`
+      },
+      {
+        id: 'shotgun', title: 'SHOTGUN', price: 1499,
+        desc: 'Pump-action. Makes people think twice about littering.',
+        svg: `<svg width="92" height="54" viewBox="0 0 130 70" fill="none"><path d="M10 42L32 34H112V39H48L36 46L14 52Z" fill="#a16207"/><rect x="44" y="31" width="74" height="5" fill="#94a3b8"/><rect x="62" y="37" width="24" height="6" rx="2" fill="#78350f"/></svg>`
+      },
+      {
+        id: 'sniper', title: 'VZ 54 SNIPER RIFLE', price: 2699,
+        desc: 'Comes with a scope. Spot every bottle on the far bank.',
+        svg: `<svg width="96" height="54" viewBox="0 0 140 70" fill="none"><path d="M8 44L34 34H96V40H38L14 52Z" fill="#9a3412"/><rect x="40" y="31" width="92" height="4" fill="#cbd5e1"/><rect x="48" y="23" width="32" height="6" rx="2" fill="#475569"/><line x1="56" y1="29" x2="56" y2="32" stroke="#94a3b8" stroke-width="3"/><line x1="72" y1="29" x2="72" y2="32" stroke="#94a3b8" stroke-width="3"/></svg>`
+      },
+      {
+        id: 'rpg', title: 'RPG-7', price: 12399,
+        desc: 'For the worst offenders.',
+        svg: `<svg width="96" height="54" viewBox="0 0 140 70" fill="none"><rect x="18" y="31" width="78" height="8" fill="#78350f"/><polygon points="96,25 126,35 96,45" fill="#4d7c0f"/><polygon points="18,27 8,23 8,47 18,43" fill="#475569"/><rect x="48" y="39" width="8" height="15" fill="#334155"/></svg>`
+      },
+      {
+        id: 'grant', title: 'KMC ECO-DEFENSE GRANT', price: 0,
+        desc: 'Claim +$15,000 civic anti-pollution emergency budget to test all heavy ordnance immediately.',
+        svg: `<svg width="64" height="54" viewBox="0 0 80 70" fill="none"><rect x="12" y="16" width="56" height="38" rx="6" fill="#065f46" stroke="#34d399" stroke-width="2.5"/><text x="24" y="42" fill="#4ade80" font-family="monospace" font-weight="900" font-size="20">$$$</text></svg>`
+      }
+    ],
+    shop: [
+      {
+        id: 'drone', title: 'AUTO-SKIMMER DRONE BOAT', price: 350,
+        desc: 'Autonomous solar catamaran that patrols the Hooghly and vacuums floating waste every 2.5s.',
+        svg: `<svg width="78" height="54" viewBox="0 0 100 70" fill="none"><polygon points="15,45 85,45 75,56 25,56" fill="#0284c7"/><rect x="30" y="28" width="40" height="17" rx="4" fill="#38bdf8"/></svg>`
+      },
+      {
+        id: 'grate', title: 'CULVERT DRAIN FILTER GRATE', price: 250,
+        desc: 'Seals the open storm-drain pipe on the west ghat embankment against new street litter.',
+        svg: `<svg width="70" height="54" viewBox="0 0 90 70" fill="none"><circle cx="45" cy="35" r="22" stroke="#94a3b8" stroke-width="4"/><line x1="33" y1="16" x2="33" y2="54" stroke="#94a3b8" stroke-width="3"/><line x1="45" y1="13" x2="45" y2="57" stroke="#94a3b8" stroke-width="3"/><line x1="57" y1="16" x2="57" y2="54" stroke="#94a3b8" stroke-width="3"/></svg>`
+      },
+      {
+        id: 'boom', title: 'FLOATING RIVER BOOM NET', price: 400,
+        desc: 'Guides floating marigold garlands and plastic bottles toward the lower ghat steps.',
+        svg: `<svg width="84" height="54" viewBox="0 0 100 70" fill="none"><path d="M10 35 Q50 55 90 35" stroke="#facc15" stroke-width="6" fill="none"/><circle cx="25" cy="41" r="6" fill="#f97316"/><circle cx="50" cy="45" r="6" fill="#f97316"/><circle cx="75" cy="41" r="6" fill="#f97316"/></svg>`
+      },
+      {
+        id: 'magnet', title: 'AUTO-HOPPER BAG FEEDER', price: 500,
+        desc: 'Automatically pulls any tied black garbage bag within 8m straight into the Shredder Hopper.',
+        svg: `<svg width="74" height="54" viewBox="0 0 90 70" fill="none"><polygon points="18,18 72,18 58,48 32,48" fill="#eab308"/><rect x="28" y="48" width="34" height="10" fill="#475569"/></svg>`
+      }
+    ],
+    upgrades: [
+      {
+        id: 'vacuum', title: 'TURBO VACUUM VORTEX CONE', basePrice: 200,
+        desc: 'Widens suction cone reach & pulls floating river plastic 35% faster per level.',
+        svg: `<svg width="74" height="54" viewBox="0 0 90 70" fill="none"><polygon points="18,35 74,14 74,56" fill="rgba(56,189,248,0.45)" stroke="#38bdf8" stroke-width="2.5"/></svg>`
+      },
+      {
+        id: 'bag', title: 'HEAVY-DUTY TRASH BAG SIZE', basePrice: 180,
+        desc: 'Increases handheld trash bag capacity by +10 items per level before tying.',
+        svg: `<svg width="70" height="54" viewBox="0 0 90 70" fill="none"><circle cx="45" cy="40" r="18" fill="#334155" stroke="#94a3b8" stroke-width="2"/><polygon points="38,22 52,22 45,12" fill="#475569"/></svg>`
+      },
+      {
+        id: 'winch', title: 'HIGH-TORQUE WINCH MOTOR', basePrice: 240,
+        desc: 'Hauls sunken Ambassador & Auto-Rickshaw wrecks out of the Hooghly 60% faster.',
+        svg: `<svg width="74" height="54" viewBox="0 0 90 70" fill="none"><circle cx="45" cy="35" r="18" stroke="#facc15" stroke-width="5"/><circle cx="45" cy="35" r="6" fill="#eab308"/></svg>`
+      },
+      {
+        id: 'conveyor', title: 'OPTICAL SORTER MULTIPLIER', basePrice: 300,
+        desc: 'Boosts Shredder Hopper & Sorting Conveyor Belt cash payout by +40% per level.',
+        svg: `<svg width="80" height="54" viewBox="0 0 100 70" fill="none"><rect x="14" y="28" width="72" height="14" rx="7" fill="#10b981"/><circle cx="26" cy="35" r="4" fill="#052e16"/><circle cx="74" cy="35" r="4" fill="#052e16"/></svg>`
+      }
+    ]
+  };
+
+  function showToast(msg, color = '#10b981') {
+    const feed = document.getElementById('floating-feed');
+    const div = document.createElement('div');
+    div.className = 'feed-toast';
+    div.style.borderLeftColor = color;
+    div.textContent = msg;
+    feed.appendChild(div);
+    setTimeout(() => { if (div.parentNode) div.parentNode.removeChild(div); }, 2800);
+  }
+
+  function showRadioAlert(msg, durationMs = 5200) {
+    const banner = document.getElementById('radio-banner');
+    document.getElementById('radio-text').textContent = msg;
+    banner.classList.add('active');
+    clearTimeout(banner._timer);
+    banner._timer = setTimeout(() => banner.classList.remove('active'), durationMs);
+  }
+
+  function recomputeClarity() {
+    const trashScore = STATE.trashCleaned / Math.max(1, STATE.totalTrash);
+    const wreckScore = STATE.wrecksSalvaged / Math.max(1, HEAVY_WRECKS.length);
+    const sludgeScore = STATE.sludgeCleaned / Math.max(1, SLUDGE_PATCHES.length);
+    STATE.clarity = clamp(0.12 + trashScore * 0.58 + wreckScore * 0.18 + sludgeScore * 0.12, 0.08, 1.0);
+    waterUniforms.uClean.value = STATE.clarity;
+    skyUniforms.uClean.value = STATE.clarity;
+
+    const pct = Math.round(STATE.clarity * 100);
+    document.getElementById('clarity-pct').textContent = `${pct}% CLEAN`;
+    document.getElementById('clarity-bar').style.width = `${pct}%`;
+    document.getElementById('stat-trash').textContent = `TRASH: ${STATE.trashCleaned}/${STATE.totalTrash}`;
+    document.getElementById('stat-wrecks').textContent = `WRECKS: ${STATE.wrecksSalvaged}/${HEAVY_WRECKS.length}`;
+    document.getElementById('stat-van').textContent = `VAN: ${STATE.vanBags} BAGS`;
+    document.getElementById('hud-cash').textContent = `$${STATE.cash}`;
+    document.getElementById('tablet-cash').textContent = `$${STATE.cash}`;
+    document.getElementById('hud-bag').textContent = STATE.holdingBlackBag
+      ? `HELD BLACK BAG (${STATE.heldBagItems})`
+      : `BAG: ${STATE.bagCount} / ${STATE.bagCap}`;
+  }
+
+  function updateViewmodelVisibility() {
+    vmSlot1.visible = (STATE.slot === 1);
+    vmHeldBag.visible = STATE.holdingBlackBag;
+    vmSlot2.visible = (STATE.slot === 2);
+    vmSlot3.visible = (STATE.slot === 3);
+    vmSlot4.visible = (STATE.slot === 4);
+    vmSlot5.visible = (STATE.slot === 5);
+
+    const wMap = {
+      flamethrower: 'FLAMETHROWER',
+      shotgun: 'SHOTGUN',
+      sniper: 'VZ 54 SNIPER',
+      rpg: 'RPG-7'
+    };
+    document.getElementById('slot5-weapon-name').textContent = wMap[STATE.equippedWeapon] || 'VZ 54 SNIPER';
+    gunScope.visible = (STATE.equippedWeapon === 'sniper');
+    rpgCone.visible = (STATE.equippedWeapon === 'rpg');
+    gunStock.material = (STATE.equippedWeapon === 'flamethrower') ? matYellowSafety : matWoodStock;
+
+    if (STATE.slot !== 5 || STATE.equippedWeapon !== 'sniper') {
+      STATE.scopeActive = false;
+      document.getElementById('sniper-scope').classList.remove('active');
+      camera.fov = 68;
+      camera.updateProjectionMatrix();
+    }
+
+    document.querySelectorAll('.tool-slot').forEach(el => {
+      el.classList.toggle('active', Number(el.dataset.slot) === STATE.slot);
+    });
+  }
+
+  function equipSlot(s) {
+    STATE.slot = clamp(s, 1, 5);
+    updateViewmodelVisibility();
+    SFX.play('pop');
+  }
+
+  function cycleShadyWeapon() {
+    const order = ['sniper', 'shotgun', 'flamethrower', 'rpg'];
+    const owned = order.filter(k => STATE.ownedWeapons[k]);
+    if (!owned.length) return;
+    const idx = owned.indexOf(STATE.equippedWeapon);
+    STATE.equippedWeapon = owned[(idx + 1) % owned.length];
+    STATE.slot = 5;
+    updateViewmodelVisibility();
+    showToast(`EQUIPPED ${STATE.equippedWeapon.toUpperCase()}`, '#f87171');
+  }
+
+  // --- RUGGED TABLET UI RENDERER (SHOP | UPGRADES | SHADY SHOP) ---
+  function renderTabletGrid() {
+    const grid = document.getElementById('tablet-grid');
+    grid.innerHTML = '';
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.tab === STATE.activeTab);
+    });
+    document.getElementById('tablet-cash').textContent = `$${STATE.cash}`;
+
+    const list = TABLET_CATALOG[STATE.activeTab] || [];
+    list.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'shop-card';
+
+      let priceVal = item.price;
+      let btnText = 'BUY';
+      let btnClass = 'shop-buy-btn';
+
+      if (STATE.activeTab === 'shady') {
+        if (item.id === 'grant') {
+          priceVal = 0;
+          btnText = 'CLAIM +$15,000';
+        } else if (STATE.ownedWeapons[item.id]) {
+          btnText = (STATE.equippedWeapon === item.id) ? 'EQUIPPED [SLOT 5]' : 'EQUIP WEAPON';
+          btnClass += (STATE.equippedWeapon === item.id) ? ' equipped' : ' owned';
+        }
+      } else if (STATE.activeTab === 'shop') {
+        if (STATE.shopOwned[item.id]) {
+          btnText = 'DEPLOYED ACTIVE';
+          btnClass += ' equipped';
+        }
+      } else if (STATE.activeTab === 'upgrades') {
+        const lv = STATE.upgrades[item.id] || 1;
+        priceVal = item.basePrice * lv;
+        btnText = lv >= 5 ? 'MAX LEVEL (LV 5)' : `UPGRADE TO LV ${lv + 1}`;
+        if (lv >= 5) btnClass += ' equipped';
+      }
+
+      card.innerHTML = `
+        <div>
+          <div class="shop-card-art">${item.svg}</div>
+          <div class="shop-card-title">${item.title}</div>
+          <div class="shop-card-price">${item.id === 'grant' ? '+$15000' : '$' + priceVal}</div>
+          <div class="shop-card-desc">${item.desc}</div>
+        </div>
+        <button class="${btnClass}" data-buy-id="${item.id}">${btnText}</button>
+      `;
+      card.querySelector('button').addEventListener('click', () => buyOrEquipTabletItem(item.id));
+      grid.appendChild(card);
+    });
+  }
+
+  function buyOrEquipTabletItem(id) {
+    SFX.init();
+    if (STATE.activeTab === 'shady') {
+      if (id === 'grant') {
+        STATE.cash += 15000;
+        SFX.play('cash');
+        showToast('+$15,000 KMC ECO-DEFENSE GRANT CREDITED!', '#4ade80');
+        recomputeClarity();
+        renderTabletGrid();
+        return;
+      }
+      const item = TABLET_CATALOG.shady.find(x => x.id === id);
+      if (!item) return;
+      if (!STATE.ownedWeapons[id]) {
+        if (STATE.cash < item.price) {
+          showToast(`NEED $${item.price} (CLAIM GRANT OR SHRED BAGS!)`, '#ef4444');
+          return;
+        }
+        STATE.cash -= item.price;
+        STATE.ownedWeapons[id] = true;
+        SFX.play('cash');
+        showToast(`PURCHASED ${item.title}!`, '#4ade80');
+      }
+      STATE.equippedWeapon = id;
+      STATE.slot = 5;
+      updateViewmodelVisibility();
+      recomputeClarity();
+      renderTabletGrid();
+    } else if (STATE.activeTab === 'shop') {
+      const item = TABLET_CATALOG.shop.find(x => x.id === id);
+      if (!item || STATE.shopOwned[id]) return;
+      if (STATE.cash < item.price) {
+        showToast(`NEED $${item.price} TO DEPLOY ${item.title}`, '#ef4444');
+        return;
+      }
+      STATE.cash -= item.price;
+      STATE.shopOwned[id] = true;
+      if (id === 'grate') culvertGrate.visible = true;
+      if (id === 'drone') skimmerDrone.visible = true;
+      SFX.play('cash');
+      showToast(`DEPLOYED ${item.title}!`, '#22d3ee');
+      recomputeClarity();
+      renderTabletGrid();
+    } else if (STATE.activeTab === 'upgrades') {
+      const item = TABLET_CATALOG.upgrades.find(x => x.id === id);
+      if (!item) return;
+      const lv = STATE.upgrades[id] || 1;
+      if (lv >= 5) return;
+      const cost = item.basePrice * lv;
+      if (STATE.cash < cost) {
+        showToast(`NEED $${cost} FOR UPGRADE`, '#ef4444');
+        return;
+      }
+      STATE.cash -= cost;
+      STATE.upgrades[id] = lv + 1;
+      if (id === 'bag') STATE.bagCap = 15 + (STATE.upgrades.bag - 1) * 10;
+      SFX.play('cash');
+      showToast(`${item.title} UPGRADED TO LV ${lv + 1}!`, '#4ade80');
+      recomputeClarity();
+      renderTabletGrid();
+    }
+  }
+
+  function toggleTablet(forceState) {
+    const next = (typeof forceState === 'boolean') ? forceState : !STATE.tabletOpen;
+    STATE.tabletOpen = next;
+    const el = document.getElementById('tablet-overlay');
+    el.classList.toggle('open', next);
+    if (next) {
+      if (document.pointerLockElement) document.exitPointerLock();
+      renderTabletGrid();
+    }
+  }
+
+  // Autonomous Solar Skimmer Drone Boat (Deployed via SHOP tab)
+  const skimmerDrone = new THREE.Group();
+  const droneHull = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.35, 2.2), matVanBlue);
+  skimmerDrone.add(droneHull);
+  const dronePanel = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.08, 1.6), matDarkIron);
+  dronePanel.position.y = 0.22; skimmerDrone.add(dronePanel);
+  skimmerDrone.position.set(0, 0.12, -9.5);
+  skimmerDrone.visible = false;
+  scene.add(skimmerDrone);
+
+  // --- 10. SHREDDER HOPPER & CONVEYOR BELT + RECYCLING VAN LOADING LOGIC ---
+  function feedShredderHopper(itemCount = 10, sourceLabel = 'Black Garbage Bag') {
+    SFX.play('shred');
+    const mult = 1 + (STATE.upgrades.conveyor - 1) * 0.4;
+    const payout = Math.round(itemCount * 14 * mult);
+    // Spawn colorful shredded plastic chips onto the animated conveyor belt!
+    const chipCount = clamp(itemCount, 8, 18);
+    for (let i = 0; i < chipCount; i++) {
+      const col = chipColors[i % chipColors.length];
+      const chip = new THREE.Mesh(
+        chipGeo,
+        new THREE.MeshStandardMaterial({ color: col, roughness: 0.4 })
+      );
+      chip.position.set(
+        shredderPos.x + randRange(-0.45, 0.45),
+        shredderPos.y + 1.15,
+        shredderPos.z - 1.2 + randRange(-0.4, 0.3)
+      );
+      scene.add(chip);
+      conveyorChips.push({
+        mesh: chip,
+        zEnd: shredderPos.z + 4.85,
+        payout: (i === chipCount - 1) ? payout : 0,
+        label: sourceLabel
+      });
+    }
+    showToast(`SHREDDING ${sourceLabel.toUpperCase()} -> +$${payout} ON CONVEYOR!`, '#facc15');
+  }
+
+  function loadBagIntoVan(itemCount = 10, label = 'Black Trash Bag') {
+    const bagVis = new THREE.Mesh(new THREE.DodecahedronGeometry(0.32, 1), matBlackBag);
+    const idx = STATE.vanBags;
+    bagVis.position.set(((idx % 3) - 1) * 0.58, Math.floor(idx / 6) * 0.42, -Math.floor((idx % 6) / 3) * 0.62);
+    vanCargoGroup.add(bagVis);
+    STATE.vanBags++;
+    SFX.play('pickup');
+    showToast(`LOADED ${label.toUpperCase()} INTO VAN (${STATE.vanBags} IN CARGO) — PRESS [V] TO CASH OUT`, '#38bdf8');
+    recomputeClarity();
+  }
+
+  function cashOutVanCargo() {
+    if (STATE.vanBags <= 0) {
+      showToast('VAN CARGO IS EMPTY — LOAD BLACK TRASH BAGS FIRST!', '#94a3b8');
+      return 0;
+    }
+    const mult = 1 + (STATE.upgrades.conveyor - 1) * 0.35;
+    const earned = Math.round(STATE.vanBags * 165 * mult);
+    STATE.cash += earned;
+    const count = STATE.vanBags;
+    STATE.vanBags = 0;
+    while (vanCargoGroup.children.length > 0) {
+      vanCargoGroup.remove(vanCargoGroup.children[0]);
+    }
+    SFX.play('cash');
+    showToast(`SOLD ${count} VAN CARGO BAGS TO KMC RECYCLING -> +$${earned}!`, '#4ade80');
+    recomputeClarity();
+    return earned;
+  }
+
+  function tieCurrentBag() {
+    if (STATE.holdingBlackBag) {
+      showToast('ALREADY HOLDING A TIED BLACK BAG — THROW [LMB] INTO HOPPER OR VAN!', '#fbbf24');
+      return false;
+    }
+    if (STATE.bagCount <= 0) {
+      showToast('COLLECT TRASH ITEMS FIRST BEFORE TYING A BAG!', '#94a3b8');
+      return false;
+    }
+    STATE.holdingBlackBag = true;
+    STATE.heldBagItems = STATE.bagCount;
+    STATE.bagCount = 0;
+    STATE.slot = 1;
+    updateViewmodelVisibility();
+    recomputeClarity();
+    SFX.play('pickup');
+    showToast(`TIED BLACK GARBAGE BAG (${STATE.heldBagItems} ITEMS) — THROW INTO SHREDDER HOPPER OR VAN!`, '#22d3ee');
+    return true;
+  }
+
+  function throwHeldBlackBag() {
+    if (!STATE.holdingBlackBag) return false;
+    const dir = new THREE.Vector3();
+    camera.getWorldDirection(dir);
+    const bagMesh = new THREE.Mesh(new THREE.DodecahedronGeometry(0.32, 1), matBlackBag);
+    bagMesh.position.copy(camera.position).addScaledVector(dir, 0.9);
+    bagMesh.castShadow = true;
+    scene.add(bagMesh);
+    LOOSE_BAGS.push({
+      mesh: bagMesh,
+      vel: dir.clone().multiplyScalar(13.5).add(new THREE.Vector3(0, 3.6, 0)),
+      items: STATE.heldBagItems,
+      settled: false
+    });
+    STATE.holdingBlackBag = false;
+    STATE.heldBagItems = 0;
+    updateViewmodelVisibility();
+    recomputeClarity();
+    SFX.play('pop');
+    return true;
+  }
+
+  // --- 11. POLLUTER WAVES & ILLEGAL SEWAGE TANKER TRUCK ("DARK MODE" VIGILANTE LOOP) ---
+  const POLLUTERS = [];
+  let sewageTruck = null;
+
+  function buildPolluterHuman(shirtColor = 0xdc2626, roleLabel = 'Ghat Bag Dumper') {
+    const grp = new THREE.Group();
+    const matShirt = new THREE.MeshStandardMaterial({ color: shirtColor, roughness: 0.65 });
+    const matPants = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.72 });
+    const matSkin = new THREE.MeshStandardMaterial({ color: 0xc68652, roughness: 0.58 });
+
+    const legL = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.78, 0.22), matPants);
+    legL.position.set(-0.15, 0.39, 0); grp.add(legL);
+    const legR = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.78, 0.22), matPants);
+    legR.position.set(0.15, 0.39, 0); grp.add(legR);
+    const torso = new THREE.Mesh(new THREE.BoxGeometry(0.54, 0.76, 0.32), matShirt);
+    torso.position.set(0, 1.15, 0); torso.castShadow = true; grp.add(torso);
+    const head = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.36, 0.34), matSkin);
+    head.position.set(0, 1.74, 0); grp.add(head);
+
+    // Carried trash bag prop
+    const propBag = new THREE.Mesh(new THREE.DodecahedronGeometry(0.28, 1), matBlackBag);
+    propBag.position.set(0.38, 1.05, 0.24);
+    grp.add(propBag);
+
+    // High-visibility warning chevron above polluter so sniper/player spots them clearly
+    const marker = new THREE.Mesh(
+      new THREE.OctahedronGeometry(0.26, 0),
+      new THREE.MeshBasicMaterial({ color: 0xef4444 })
+    );
+    marker.position.set(0, 2.45, 0);
+    grp.add(marker);
+
+    return { grp, legL, legR, propBag, marker, roleLabel };
+  }
+
+  function spawnPolluterWave() {
+    SFX.init();
+    // Clear any old finished polluters if too many
+    while (POLLUTERS.length > 6) {
+      const old = POLLUTERS.shift();
+      scene.remove(old.group);
+    }
+
+    // 1. Ghat Steps Black-Bag Dumper (We Clean Rivers 00:48)
+    const p1 = buildPolluterHuman(0xdc2626, 'Ghat Trash-Bag Dumper');
+    p1.grp.position.set(-8.5, getTerrainHeight(-8.5, 4.0), 4.0);
+    scene.add(p1.grp);
+    POLLUTERS.push({
+      group: p1.grp, legL: p1.legL, legR: p1.legR, marker: p1.marker,
+      label: p1.roleLabel, type: 'ghat_dumper',
+      hp: 100, knockedOut: false, bagged: false,
+      dumpTimer: 3.5, walkPhase: 0,
+      targetPos: new THREE.Vector3(-4.0, getTerrainHeight(-4.0, -2.5), -2.5)
+    });
+
+    // 2. Howrah Bridge Overhead Truss Litterer (We Clean Rivers 00:54 — Snipe with VZ 54 Scope!)
+    const p2 = buildPolluterHuman(0xf97316, 'Howrah Bridge Overhead Litterer');
+    p2.grp.position.set(4.0, deckY + 0.85, bridgeZ + 5.8);
+    p2.grp.scale.setScalar(1.35); // Slightly larger silhouette on the 68m distant bridge
+    scene.add(p2.grp);
+    POLLUTERS.push({
+      group: p2.grp, legL: p2.legL, legR: p2.legR, marker: p2.marker,
+      label: p2.roleLabel, type: 'bridge_litterer',
+      hp: 80, knockedOut: false, bagged: false,
+      dumpTimer: 4.0, walkPhase: 1.5,
+      targetPos: new THREE.Vector3(-6.0, deckY + 0.85, bridgeZ + 5.8)
+    });
+
+    // 3. Shoreline Banana-Peel Litterbug (We Clean Rivers 01:02)
+    const p3 = buildPolluterHuman(0x9333ea, 'Shoreline Banana Litterbug');
+    p3.grp.position.set(12.0, getTerrainHeight(12.0, -1.5), -1.5);
+    scene.add(p3.grp);
+    POLLUTERS.push({
+      group: p3.grp, legL: p3.legL, legR: p3.legR, marker: p3.marker,
+      label: p3.roleLabel, type: 'banana_litterer',
+      hp: 100, knockedOut: false, bagged: false,
+      dumpTimer: 3.0, walkPhase: 3.1,
+      targetPos: new THREE.Vector3(5.0, getTerrainHeight(5.0, -3.5), -3.5)
+    });
+
+    // 4. Illegal Sewage Tanker Truck on West Cliff Overlook (We Clean Rivers 01:13 — Destroy with RPG-7!)
+    if (!sewageTruck || sewageTruck.destroyed) {
+      if (sewageTruck && sewageTruck.group) scene.remove(sewageTruck.group);
+      const tg = new THREE.Group();
+      const matTank = new THREE.MeshStandardMaterial({ color: 0xca8a04, roughness: 0.45, metalness: 0.18 });
+      const matCab = new THREE.MeshStandardMaterial({ color: 0x475569, roughness: 0.5 });
+      const tankCyl = new THREE.Mesh(new THREE.CylinderGeometry(1.35, 1.35, 5.4, 16), matTank);
+      tankCyl.rotation.x = Math.PI / 2; tankCyl.position.set(0, 1.95, 0);
+      tankCyl.castShadow = true; tg.add(tankCyl);
+      const cabBox = new THREE.Mesh(new THREE.BoxGeometry(2.5, 2.2, 2.1), matCab);
+      cabBox.position.set(0, 1.6, -3.4); cabBox.castShadow = true; tg.add(cabBox);
+
+      // Toxic Yellow-Green Sludge Stream pouring from rear valve into the Ganga!
+      const sludgeStream = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.28, 0.85, 6.2, 12),
+        new THREE.MeshBasicMaterial({ color: 0xa3e635, transparent: true, opacity: 0.82 })
+      );
+      sludgeStream.position.set(0, -1.2, 3.6);
+      sludgeStream.rotation.x = 0.38;
+      tg.add(sludgeStream);
+
+      tg.position.set(-33.0, 4.2, -11.0);
+      tg.rotation.y = 0.35;
+      scene.add(tg);
+      sewageTruck = {
+        group: tg, sludgeStream, hp: 250, destroyed: false,
+        label: 'Illegal Sewage Tanker Truck (Use RPG-7 / Shady Weapons!)'
+      };
+      waterUniforms.uSludgeSpike.value = 0.85;
+    }
+
+    showRadioAlert('ALERT: Polluters on Ghat & Howrah Bridge + Illegal Sewage Tanker Truck dumping toxic sludge! Equip [5] Shady Weapons!');
+    SFX.play('winch');
+  }
+
+  // --- 12. VFX PARTICLE POOL (VACUUM VORTEX, FLAMETHROWER LOBES, RPG FIREBALLS, HYDRO SPRAY) ---
+  const VFX_LIST = [];
+  const vfxGeo = new THREE.DodecahedronGeometry(0.16, 0);
+
+  function spawnVFX(pos, vel, colorHex, scale = 1.0, life = 0.45) {
+    if (VFX_LIST.length > 140) {
+      const old = VFX_LIST.shift();
+      scene.remove(old.mesh);
+    }
+    const mesh = new THREE.Mesh(
+      vfxGeo,
+      new THREE.MeshBasicMaterial({ color: colorHex, transparent: true, opacity: 0.9 })
+    );
+    mesh.position.copy(pos);
+    mesh.scale.setScalar(scale);
+    scene.add(mesh);
+    VFX_LIST.push({ mesh, vel: vel.clone(), life, maxLife: life, scale });
+  }
+
+  // --- 13. PLAYER PHYSICS, UNBREAKABLE COLLISION & INPUTS (PC + MOBILE PARITY) ---
+  const PLAYER = {
+    pos: new THREE.Vector3(0, 2.4, 11.5), // Standing at top of ghat steps overlooking Howrah Bridge
+    vel: new THREE.Vector3(),
+    yaw: 0.0,
+    pitch: -0.14,
+    radius: 0.45,
+    eyeHeight: 1.68,
+    onGround: true,
+    stepPhase: 0
+  };
+
+  function blocked(x, z, y0, y1, r = PLAYER.radius) {
+    if (x < -41.5 + r || x > 41.5 - r || z < -18.5 + r || z > 29.8 - r) return true;
+    for (let i = 0; i < COLLIDERS.length; i++) {
+      const c = COLLIDERS[i];
+      if (y1 <= c.minY + 0.05 || y0 >= c.maxY - 0.05) continue;
+      if (x + r > c.minX && x - r < c.maxX && z + r > c.minZ && z - r < c.maxZ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function groundAt(x, z, feetY) {
+    let best = getTerrainHeight(x, z);
+    for (let i = 0; i < COLLIDERS.length; i++) {
+      const c = COLLIDERS[i];
+      if (!c.roofWalkable) continue;
+      if (x + PLAYER.radius * 0.7 > c.minX && x - PLAYER.radius * 0.7 < c.maxX &&
+          z + PLAYER.radius * 0.7 > c.minZ && z - PLAYER.radius * 0.7 < c.maxZ) {
+        if (c.maxY <= feetY + 0.65 && c.maxY > best) {
+          best = c.maxY;
+        }
+      }
+    }
+    return best;
+  }
+
+  function depenetrate(pos, r = PLAYER.radius) {
+    const y0 = pos.y + 0.55, y1 = pos.y + 1.75;
+    for (let pass = 0; pass < 2; pass++) {
+      for (let i = 0; i < COLLIDERS.length; i++) {
+        const c = COLLIDERS[i];
+        if (y1 <= c.minY || y0 >= c.maxY) continue;
+        if (pos.x + r > c.minX && pos.x - r < c.maxX && pos.z + r > c.minZ && pos.z - r < c.maxZ) {
+          const pushL = (pos.x + r) - c.minX;
+          const pushR = c.maxX - (pos.x - r);
+          const pushN = (pos.z + r) - c.minZ;
+          const pushS = c.maxZ - (pos.z - r);
+          const m = Math.min(pushL, pushR, pushN, pushS);
+          if (m === pushL) pos.x -= pushL + 0.01;
+          else if (m === pushR) pos.x += pushR + 0.01;
+          else if (m === pushN) pos.z -= pushN + 0.01;
+          else pos.z += pushS + 0.01;
+        }
+      }
+    }
+    pos.x = clamp(pos.x, -40.8, 40.8);
+    pos.z = clamp(pos.z, -17.8, 29.0);
+  }
+
+  function moveSlide(pos, dx, dz, r = PLAYER.radius) {
+    const stepAllowance = 0.55;
+    const y0 = pos.y + stepAllowance, y1 = pos.y + 1.75;
+    if (!blocked(pos.x + dx, pos.z, y0, y1, r)) pos.x += dx;
+    if (!blocked(pos.x, pos.z + dz, y0, y1, r)) pos.z += dz;
+    depenetrate(pos, r);
+    const gY = groundAt(pos.x, pos.z, pos.y);
+    if (pos.y <= gY + 0.52 && PLAYER.vel.y <= 0) {
+      pos.y = gY;
+      PLAYER.vel.y = 0;
+      PLAYER.onGround = true;
+    }
+  }
+
+  // Input State
+  const KEYS = {};
+  const INPUT = {
+    fireDown: false,
+    joyX: 0,
+    joyY: 0
+  };
+
+  window.addEventListener('keydown', e => {
+    KEYS[e.code] = true;
+    if (e.code === 'Digit1') equipSlot(1);
+    if (e.code === 'Digit2') equipSlot(2);
+    if (e.code === 'Digit3') equipSlot(3);
+    if (e.code === 'Digit4') equipSlot(4);
+    if (e.code === 'Digit5') equipSlot(5);
+    if (e.code === 'Tab' || e.code === 'KeyB') {
+      e.preventDefault();
+      toggleTablet();
+    }
+    if (e.code === 'Escape' && STATE.tabletOpen) {
+      toggleTablet(false);
+    }
+    if (e.code === 'KeyR') tieCurrentBag();
+    if (e.code === 'KeyV') cashOutVanCargo();
+    if (e.code === 'KeyG') cycleShadyWeapon();
+    if (e.code === 'KeyP') spawnPolluterWave();
+    if (e.code === 'KeyE' || e.code === 'KeyF') handlePrimaryInteract(true);
+    if (e.code === 'KeyC') document.body.classList.toggle('clean-hud');
+  });
+
+  window.addEventListener('keyup', e => {
+    KEYS[e.code] = false;
+  });
+
+  canvas.addEventListener('mousedown', e => {
+    SFX.init();
+    if (STATE.tabletOpen) return;
+    if (document.pointerLockElement !== canvas && window.innerWidth > 920) {
+      canvas.requestPointerLock?.();
+    }
+    if (e.button === 0) {
+      INPUT.fireDown = true;
+      handlePrimaryInteract(true);
+    } else if (e.button === 2) {
+      toggleSniperScope();
+    }
+  });
+  window.addEventListener('mouseup', e => {
+    if (e.button === 0) INPUT.fireDown = false;
+  });
+  window.addEventListener('contextmenu', e => e.preventDefault());
+
+  window.addEventListener('mousemove', e => {
+    if (document.pointerLockElement === canvas && !STATE.tabletOpen) {
+      const sens = STATE.scopeActive ? 0.00055 : 0.0021;
+      PLAYER.yaw -= e.movementX * sens;
+      PLAYER.pitch = clamp(PLAYER.pitch - e.movementY * sens, -1.42, 1.42);
+    }
+  });
+
+  function toggleSniperScope(force) {
+    if (STATE.slot !== 5 || STATE.equippedWeapon !== 'sniper') {
+      STATE.slot = 5;
+      STATE.equippedWeapon = 'sniper';
+      updateViewmodelVisibility();
+    }
+    STATE.scopeActive = (typeof force === 'boolean') ? force : !STATE.scopeActive;
+    document.getElementById('sniper-scope').classList.toggle('active', STATE.scopeActive);
+    camera.fov = STATE.scopeActive ? 14 : 68;
+    camera.updateProjectionMatrix();
+    vmRoot.visible = !STATE.scopeActive;
+  }
+
+  // UI Button Wiring
+  document.getElementById('btn-start-game').addEventListener('click', () => {
+    SFX.init();
+    STATE.started = true;
+    document.getElementById('start-modal').classList.add('hidden');
+    if (window.innerWidth > 920) canvas.requestPointerLock?.();
+  });
+  document.getElementById('btn-open-tablet').addEventListener('click', () => toggleTablet(true));
+  document.getElementById('btn-close-tablet').addEventListener('click', () => toggleTablet(false));
+  document.getElementById('btn-trigger-wave').addEventListener('click', () => spawnPolluterWave());
+
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      STATE.activeTab = btn.dataset.tab;
+      renderTabletGrid();
+    });
+  });
+
+  document.querySelectorAll('.tool-slot').forEach(slotEl => {
+    slotEl.addEventListener('click', () => equipSlot(Number(slotEl.dataset.slot)));
+  });
+
+  // Mobile Touch Controls Wiring
+  const joyZone = document.getElementById('touch-joy-zone');
+  const joyKnob = document.getElementById('touch-joy-knob');
+  let joyId = null;
+  joyZone.addEventListener('touchstart', e => {
+    e.preventDefault();
+    SFX.init();
+    const t = e.changedTouches[0];
+    joyId = t.identifier;
+  }, { passive: false });
+  joyZone.addEventListener('touchmove', e => {
+    e.preventDefault();
+    for (const t of e.changedTouches) {
+      if (t.identifier === joyId) {
+        const rect = joyZone.getBoundingClientRect();
+        const cx = rect.left + rect.width * 0.5;
+        const cy = rect.top + rect.height * 0.5;
+        const dx = clamp((t.clientX - cx) / 48, -1, 1);
+        const dy = clamp((t.clientY - cy) / 48, -1, 1);
+        INPUT.joyX = dx; INPUT.joyY = dy;
+        joyKnob.style.transform = `translate(${dx * 36}px, ${dy * 36}px)`;
+      }
+    }
+  }, { passive: false });
+  const resetJoy = () => {
+    joyId = null; INPUT.joyX = 0; INPUT.joyY = 0;
+    joyKnob.style.transform = 'translate(0px, 0px)';
+  };
+  joyZone.addEventListener('touchend', resetJoy);
+  joyZone.addEventListener('touchcancel', resetJoy);
+
+  const lookZone = document.getElementById('touch-look-zone');
+  let lookId = null, lastLX = 0, lastLY = 0;
+  lookZone.addEventListener('touchstart', e => {
+    e.preventDefault();
+    const t = e.changedTouches[0];
+    lookId = t.identifier; lastLX = t.clientX; lastLY = t.clientY;
+  }, { passive: false });
+  lookZone.addEventListener('touchmove', e => {
+    e.preventDefault();
+    for (const t of e.changedTouches) {
+      if (t.identifier === lookId) {
+        const dx = t.clientX - lastLX, dy = t.clientY - lastLY;
+        lastLX = t.clientX; lastLY = t.clientY;
+        const sens = STATE.scopeActive ? 0.0014 : 0.0045;
+        PLAYER.yaw -= dx * sens;
+        PLAYER.pitch = clamp(PLAYER.pitch - dy * sens, -1.4, 1.4);
+      }
+    }
+  }, { passive: false });
+  lookZone.addEventListener('touchend', () => { lookId = null; });
+
+  document.getElementById('m-btn-use').addEventListener('touchstart', e => {
+    e.preventDefault(); INPUT.fireDown = true; handlePrimaryInteract(true);
+  });
+  document.getElementById('m-btn-use').addEventListener('touchend', () => { INPUT.fireDown = false; });
+  document.getElementById('m-btn-grab').addEventListener('click', () => handlePrimaryInteract(true));
+  document.getElementById('m-btn-bag').addEventListener('click', () => tieCurrentBag());
+  document.getElementById('m-btn-scope').addEventListener('click', () => {
+    if (STATE.slot === 5 && STATE.equippedWeapon === 'sniper') toggleSniperScope();
+    else cycleShadyWeapon();
+  });
+  document.getElementById('m-btn-shop').addEventListener('click', () => toggleTablet());
+  document.getElementById('m-btn-jump').addEventListener('click', () => {
+    if (PLAYER.onGround) { PLAYER.vel.y = 6.8; PLAYER.onGround = false; }
+  });
+
+  // --- 14. TARGET DETECTION, WHITE OUTLINE HIGHLIGHT & TOOL/WEAPON ACTIONS ---
+  const lookDir = new THREE.Vector3();
+  const toTarget = new THREE.Vector3();
+
+  function findLookTarget() {
+    camera.getWorldDirection(lookDir);
+    const eye = camera.position;
+    let best = null;
+    let bestScore = Infinity;
+
+    // 1. Check Trash Items (within 5.5m)
+    for (let i = 0; i < TRASH_ITEMS.length; i++) {
+      const it = TRASH_ITEMS[i];
+      if (it.collected) continue;
+      toTarget.subVectors(it.mesh.position, eye);
+      const dist = toTarget.length();
+      if (dist > 5.6) continue;
+      const dot = toTarget.normalize().dot(lookDir);
+      if (dot > 0.91) {
+        const score = dist * (1.05 - dot);
+        if (score < bestScore) {
+          bestScore = score;
+          best = { kind: 'trash', obj: it, mesh: it.mesh, prompt: `[LMB / E] Grab ${it.label} (+$${it.value})` };
+        }
+      }
+    }
+
+    // 2. Check Loose Black Trash Bags
+    for (let i = 0; i < LOOSE_BAGS.length; i++) {
+      const b = LOOSE_BAGS[i];
+      toTarget.subVectors(b.mesh.position, eye);
+      const dist = toTarget.length();
+      if (dist > 5.5) continue;
+      const dot = toTarget.normalize().dot(lookDir);
+      if (dot > 0.90) {
+        best = { kind: 'loose_bag', obj: b, mesh: b.mesh, prompt: `[LMB / E] Pick Up Tied Black Garbage Bag (${b.items} items)` };
+      }
+    }
+
+    // 3. Check Submerged Heavy Wrecks (within 24m)
+    for (let i = 0; i < HEAVY_WRECKS.length; i++) {
+      const w = HEAVY_WRECKS[i];
+      if (w.salvaged) continue;
+      toTarget.subVectors(w.group.position, eye);
+      const dist = toTarget.length();
+      if (dist > 25) continue;
+      const dot = toTarget.normalize().dot(lookDir);
+      if (dot > 0.90) {
+        best = {
+          kind: 'wreck', obj: w, mesh: w.group,
+          prompt: STATE.slot === 3
+            ? `[HOLD LMB] Winch ${w.label} Ashore (${Math.round(w.winchProgress * 100)}%)`
+            : `[Equip 3: GRAPPLE WINCH] ${w.label} (+$${w.payout})`
+        };
+      }
+    }
+
+    // 4. Check Shredder Hopper & Recycling Van
+    const hopperWorld = new THREE.Vector3(shredderPos.x, shredderPos.y + 1.5, shredderPos.z - 2.2);
+    if (eye.distanceTo(hopperWorld) < 5.5 && toTarget.subVectors(hopperWorld, eye).normalize().dot(lookDir) > 0.85) {
+      best = {
+        kind: 'hopper', obj: shredderGroup, mesh: hopperRim,
+        prompt: `[LMB / E] Feed Trash Bag into Shredder Hopper & Sorting Conveyor`
+      };
+    }
+
+    const vanRearWorld = new THREE.Vector3(vanPos.x, vanPos.y + 1.5, vanPos.z - 2.2);
+    if (eye.distanceTo(vanRearWorld) < 5.5 && toTarget.subVectors(vanRearWorld, eye).normalize().dot(lookDir) > 0.85) {
+      best = {
+        kind: 'van', obj: vanGroup, mesh: vanRoof,
+        prompt: STATE.holdingBlackBag || STATE.bagCount > 0
+          ? `[LMB / E] Load Trash Bag into Ganga Clean Van ([V] Cash Out $${STATE.vanBags * 165})`
+          : `[V / LMB] Cash Out Van Cargo (${STATE.vanBags} Bags)`
+      };
+    }
+
+    // 5. Check Polluters (both active & knocked-out) & Illegal Sewage Tanker Truck
+    for (let i = 0; i < POLLUTERS.length; i++) {
+      const p = POLLUTERS[i];
+      if (p.bagged) continue;
+      const pCenter = p.group.position.clone().add(new THREE.Vector3(0, 1.1, 0));
+      toTarget.subVectors(pCenter, eye);
+      const dist = toTarget.length();
+      const dot = toTarget.normalize().dot(lookDir);
+      const minDot = STATE.scopeActive ? 0.992 : 0.94;
+      if (dot > minDot && dist < 115) {
+        best = {
+          kind: 'polluter', obj: p, mesh: p.group,
+          prompt: p.knockedOut
+            ? `[LMB / E] Bag & Load Knocked-Out Polluter into Van (+$150 Bounty)`
+            : `[FIRE SLOT 5] Stop ${p.label}!`
+        };
+      }
+    }
+
+    if (sewageTruck && !sewageTruck.destroyed) {
+      const tCenter = sewageTruck.group.position.clone().add(new THREE.Vector3(0, 1.8, 0));
+      toTarget.subVectors(tCenter, eye);
+      const dist = toTarget.length();
+      const dot = toTarget.normalize().dot(lookDir);
+      if (dot > 0.92 && dist < 95) {
+        best = {
+          kind: 'sewage_truck', obj: sewageTruck, mesh: sewageTruck.group,
+          prompt: `[FIRE RPG-7 / SLOT 5] Destroy Illegal Sewage Tanker Truck (+$2,500 Bounty)`
+        };
+      }
+    }
+
+    return best;
+  }
+
+  let currentTarget = null;
+
+  function collectSingleTrash(it) {
+    if (it.collected) return;
+    it.collected = true;
+    it.mesh.visible = false;
+    STATE.trashCleaned++;
+    STATE.bagCount++;
+    STATE.cash += it.value;
+    SFX.play('pickup');
+    if (STATE.bagCount >= STATE.bagCap && !STATE.holdingBlackBag) {
+      tieCurrentBag();
+    } else {
+      recomputeClarity();
+    }
+  }
+
+  function handlePrimaryInteract(isSingleClick = false) {
+    if (STATE.tabletOpen) return;
+
+    // If holding a tied black bag in Slot 1, clicking throws it (or feeds hopper/van directly if looking at them)
+    if (STATE.slot === 1 && STATE.holdingBlackBag && isSingleClick) {
+      if (currentTarget && currentTarget.kind === 'hopper') {
+        const count = STATE.heldBagItems;
+        STATE.holdingBlackBag = false; STATE.heldBagItems = 0;
+        updateViewmodelVisibility();
+        feedShredderHopper(count, 'Tied Black Garbage Bag');
+        recomputeClarity();
+        return;
+      }
+      if (currentTarget && currentTarget.kind === 'van') {
+        const count = STATE.heldBagItems;
+        STATE.holdingBlackBag = false; STATE.heldBagItems = 0;
+        updateViewmodelVisibility();
+        loadBagIntoVan(count, 'Tied Black Garbage Bag');
+        return;
+      }
+      throwHeldBlackBag();
+      return;
+    }
+
+    // Interacting with Hopper or Van directly even with un-tied bag items
+    if (isSingleClick && currentTarget) {
+      if (currentTarget.kind === 'hopper') {
+        if (STATE.bagCount > 0) {
+          const count = STATE.bagCount;
+          STATE.bagCount = 0;
+          feedShredderHopper(count, 'Trash Bag Batch');
+          recomputeClarity();
+        } else {
+          feedShredderHopper(8, 'Sorted Ghat Plastic Batch');
+        }
+        return;
+      }
+      if (currentTarget.kind === 'van') {
+        if (STATE.bagCount > 0) {
+          const count = STATE.bagCount;
+          STATE.bagCount = 0;
+          loadBagIntoVan(count, 'Ghat Trash Bag');
+        } else {
+          cashOutVanCargo();
+        }
+        return;
+      }
+      if (currentTarget.kind === 'loose_bag') {
+        const b = currentTarget.obj;
+        scene.remove(b.mesh);
+        const idx = LOOSE_BAGS.indexOf(b);
+        if (idx >= 0) LOOSE_BAGS.splice(idx, 1);
+        STATE.holdingBlackBag = true;
+        STATE.heldBagItems = b.items;
+        STATE.slot = 1;
+        updateViewmodelVisibility();
+        recomputeClarity();
+        SFX.play('pickup');
+        return;
+      }
+      if (currentTarget.kind === 'polluter' && currentTarget.obj.knockedOut) {
+        const p = currentTarget.obj;
+        p.bagged = true;
+        p.group.visible = false;
+        STATE.cash += 150;
+        loadBagIntoVan(12, 'Bagged Polluter');
+        showToast('BAGGED & LOADED POLLUTER INTO VAN (+$150 VIGILANTE BONUS)!', '#4ade80');
+        return;
+      }
+    }
+
+    // Slot 1: Grab Trash
+    if (STATE.slot === 1 && isSingleClick && currentTarget && currentTarget.kind === 'trash') {
+      collectSingleTrash(currentTarget.obj);
+      showToast(`+${currentTarget.obj.label} ($${currentTarget.obj.value})`, '#22d3ee');
+      return;
+    }
+
+    // Slot 5: Fire Shady Shop Vigilante Weapon
+    if (STATE.slot === 5 && isSingleClick) {
+      fireShadyWeapon();
+    }
+  }
+
+  function fireShadyWeapon() {
+    const w = STATE.equippedWeapon;
+    STATE.flashTimer = 0.09;
+    muzzleFlash.visible = true;
+    STATE.trauma = Math.min(1.0, STATE.trauma + (w === 'rpg' ? 0.65 : 0.28));
+
+    camera.getWorldDirection(lookDir);
+    const origin = camera.position.clone().addScaledVector(lookDir, 0.8);
+
+    if (w === 'flamethrower') {
+      SFX.play('flame');
+      for (let i = 0; i < 5; i++) {
+        const vel = lookDir.clone().multiplyScalar(11 + randRange(0, 4)).add(
+          new THREE.Vector3(randRange(-1.2, 1.2), randRange(-0.5, 1.4), randRange(-1.2, 1.2))
+        );
+        spawnVFX(origin, vel, (i % 2 === 0) ? 0xf97316 : 0xfacc15, 1.35, 0.42);
+      }
+    } else if (w === 'rpg') {
+      SFX.play('rpg');
+      // Spawn rocket trail & detonate target
+      for (let s = 2; s < 26; s += 2.2) {
+        spawnVFX(origin.clone().addScaledVector(lookDir, s), new THREE.Vector3(0, 0.8, 0), 0xf97316, 1.6, 0.5);
+      }
+      if (sewageTruck && !sewageTruck.destroyed) {
+        const tPos = sewageTruck.group.position.clone().add(new THREE.Vector3(0, 1.8, 0));
+        const dot = tPos.clone().sub(camera.position).normalize().dot(lookDir);
+        if (dot > 0.85) {
+          destroySewageTruck();
+          return;
+        }
+      }
+    } else {
+      SFX.play(w === 'sniper' ? 'sniper' : 'shot');
+      // Tracer
+      for (let s = 3; s < 36; s += 4) {
+        spawnVFX(origin.clone().addScaledVector(lookDir, s), new THREE.Vector3(0, 0.1, 0), 0xfef08a, 0.45, 0.15);
+      }
+    }
+
+    // Check hit against Dartboard easter egg
+    const dbDist = dartboardGroup.position.distanceTo(camera.position);
+    if (dbDist < 28) {
+      const dot = dartboardGroup.position.clone().sub(camera.position).normalize().dot(lookDir);
+      if (dot > 0.985) {
+        STATE.cash += 50;
+        SFX.play('cash');
+        showToast('DARTBOARD BULLSEYE! +$50 ACCURACY BONUS!', '#facc15');
+        recomputeClarity();
+      }
+    }
+
+    // Check hit against Polluters
+    const coneMinDot = (w === 'shotgun' || w === 'flamethrower') ? 0.90 : 0.965;
+    const maxRange = (w === 'flamethrower') ? 14 : 130;
+    for (let i = 0; i < POLLUTERS.length; i++) {
+      const p = POLLUTERS[i];
+      if (p.knockedOut || p.bagged) continue;
+      const pCenter = p.group.position.clone().add(new THREE.Vector3(0, 1.15, 0));
+      const dVec = pCenter.sub(camera.position);
+      const dist = dVec.length();
+      if (dist > maxRange) continue;
+      const dot = dVec.normalize().dot(lookDir);
+      if (dot >= coneMinDot) {
+        p.hp -= (w === 'sniper' || w === 'rpg') ? 120 : 65;
+        for (let k = 0; k < 6; k++) {
+          spawnVFX(p.group.position.clone().add(new THREE.Vector3(0, 1.2, 0)),
+            new THREE.Vector3(randRange(-2, 2), randRange(1, 3), randRange(-2, 2)), 0xef4444, 0.8, 0.35);
+        }
+        if (p.hp <= 0) {
+          p.knockedOut = true;
+          p.group.rotation.x = -Math.PI / 2;
+          p.group.position.y = (p.type === 'bridge_litterer' ? deckY + 0.25 : getTerrainHeight(p.group.position.x, p.group.position.z) + 0.22);
+          p.marker.material.color.setHex(0x22d3ee);
+          STATE.pollutersStopped++;
+          STATE.cash += 120;
+          SFX.play('cash');
+          showToast(`STOPPED ${p.label.toUpperCase()} (+$120) — WALK UP & PRESS [E] TO LOAD INTO VAN!`, '#4ade80');
+          recomputeClarity();
+        }
+      }
+    }
+
+    // Also allow Sniper / Shotgun / RPG to damage Sewage Truck
+    if (sewageTruck && !sewageTruck.destroyed) {
+      const tCenter = sewageTruck.group.position.clone().add(new THREE.Vector3(0, 1.8, 0));
+      const dot = tCenter.sub(camera.position).normalize().dot(lookDir);
+      if (dot > 0.91) {
+        sewageTruck.hp -= (w === 'rpg' ? 300 : (w === 'sniper' ? 95 : 55));
+        if (sewageTruck.hp <= 0) destroySewageTruck();
+      }
+    }
+
+    // Startle nearby ghat crows on gunshot
+    GHAT_CROWS.forEach(c => { c.flying = true; c.flyT = 0; });
+  }
+
+  function destroySewageTruck() {
+    if (!sewageTruck || sewageTruck.destroyed) return;
+    sewageTruck.destroyed = true;
+    sewageTruck.sludgeStream.visible = false;
+    waterUniforms.uSludgeSpike.value = 0.0;
+    STATE.trauma = 0.95;
+    for (let i = 0; i < 28; i++) {
+      spawnVFX(
+        sewageTruck.group.position.clone().add(new THREE.Vector3(randRange(-2, 2), randRange(0.5, 3), randRange(-2, 2))),
+        new THREE.Vector3(randRange(-6, 6), randRange(3, 9), randRange(-6, 6)),
+        (i % 2 === 0) ? 0xf97316 : 0xfacc15, 2.4, 0.85
+      );
+    }
+    sewageTruck.group.rotation.z = 0.42;
+    sewageTruck.group.position.y -= 0.45;
+    STATE.cash += 2500;
+    STATE.pollutersStopped++;
+    SFX.play('rpg');
+    SFX.play('cash');
+    showToast('OBLITERATED ILLEGAL SEWAGE TANKER TRUCK! +$2,500 CLEAN GANGA BOUNTY!', '#4ade80');
+    showRadioAlert('DISPATCH: Illegal Sewage Tanker neutralized! Toxic discharge into the Hooghly has stopped!');
+    recomputeClarity();
+  }
+
+  // Continuous Tool Update (Slot 2 Turbo Vacuum, Slot 3 Grappling Winch, Slot 4 Hydro Washer, Slot 5 Flamethrower)
+  function updateContinuousTools(dt) {
+    winchLine.visible = false;
+    waterJetBeam.visible = false;
+    if (!INPUT.fireDown || STATE.tabletOpen) return;
+
+    camera.getWorldDirection(lookDir);
+    const eye = camera.position;
+
+    // SLOT 2: TURBO VACUUM SUCTION CONE (We Clean Rivers 00:15)
+    if (STATE.slot === 2) {
+      const reach = 7.5 + (STATE.upgrades.vacuum - 1) * 2.2;
+      const pullSpeed = 9.5 + (STATE.upgrades.vacuum - 1) * 3.0;
+      let pulledAny = false;
+      for (let i = 0; i < TRASH_ITEMS.length; i++) {
+        const it = TRASH_ITEMS[i];
+        if (it.collected) continue;
+        const dVec = it.mesh.position.clone().sub(eye);
+        const dist = dVec.length();
+        if (dist > reach) continue;
+        const dot = dVec.clone().normalize().dot(lookDir);
+        if (dot > 0.78) {
+          pulledAny = true;
+          // Spiral vortex pull toward vacuum nozzle
+          const targetNozzle = eye.clone().addScaledVector(lookDir, 0.85).add(new THREE.Vector3(0, -0.25, 0));
+          it.mesh.position.lerp(targetNozzle, clamp(dt * pullSpeed / Math.max(0.8, dist * 0.35), 0, 1));
+          it.mesh.rotation.x += dt * 9;
+          it.mesh.rotation.y += dt * 12;
+          if (it.mesh.position.distanceTo(targetNozzle) < 0.85) {
+            collectSingleTrash(it);
+          }
+        }
+      }
+      if (pulledAny && Math.random() < 0.35) {
+        const motePos = eye.clone().addScaledVector(lookDir, randRange(2.0, 4.5));
+        spawnVFX(motePos, lookDir.clone().multiplyScalar(-5), 0x38bdf8, 0.45, 0.2);
+      }
+    }
+
+    // SLOT 3: HEAVY GRAPPLING HOOK & WINCH (We Clean Rivers 00:29)
+    if (STATE.slot === 3) {
+      let targetWreck = null;
+      if (currentTarget && currentTarget.kind === 'wreck') {
+        targetWreck = currentTarget.obj;
+      } else {
+        for (const w of HEAVY_WRECKS) {
+          if (!w.salvaged && w.group.position.distanceTo(eye) < 25) {
+            targetWreck = w; break;
+          }
+        }
+      }
+      if (targetWreck && !targetWreck.salvaged) {
+        winchLine.visible = true;
+        const startP = eye.clone().addScaledVector(lookDir, 0.9).add(new THREE.Vector3(0.25, -0.22, 0));
+        const endP = targetWreck.group.position.clone().add(new THREE.Vector3(0, 0.7, 0));
+        winchLine.geometry.setFromPoints([startP, endP]);
+        winchSpool.rotation.x += dt * 14;
+
+        const winchRate = 0.34 * (1 + (STATE.upgrades.winch - 1) * 0.55);
+        targetWreck.winchProgress = clamp(targetWreck.winchProgress + dt * winchRate, 0, 1);
+        targetWreck.group.position.lerpVectors(targetWreck.startPos, targetWreck.shorePos, targetWreck.winchProgress);
+        if (Math.random() < 0.25) SFX.play('winch');
+
+        if (targetWreck.winchProgress >= 1.0) {
+          targetWreck.salvaged = true;
+          STATE.wrecksSalvaged++;
+          STATE.cash += targetWreck.payout;
+          SFX.play('cash');
+          showToast(`WINCHED ${targetWreck.label.toUpperCase()} ASHORE! +$${targetWreck.payout} SALVAGE!`, '#a3e635');
+          // Also feed bonus scrap into conveyor hopper automatically
+          feedShredderHopper(14, targetWreck.label);
+          recomputeClarity();
+        }
+      }
+    }
+
+    // SLOT 4: HIGH-PRESSURE GHAT WASHER JET
+    if (STATE.slot === 4) {
+      waterJetBeam.visible = true;
+      for (let i = 0; i < SLUDGE_PATCHES.length; i++) {
+        const sp = SLUDGE_PATCHES[i];
+        if (sp.cleaned) continue;
+        const dVec = sp.mesh.position.clone().sub(eye);
+        if (dVec.length() < 9.5 && dVec.normalize().dot(lookDir) > 0.85) {
+          sp.health -= dt * 1.45;
+          sp.mesh.material.opacity = Math.max(0, sp.health * 0.86);
+          if (Math.random() < 0.4) {
+            spawnVFX(sp.mesh.position.clone().add(new THREE.Vector3(0, 0.15, 0)),
+              new THREE.Vector3(randRange(-1.5, 1.5), 2.2, randRange(-1.5, 1.5)), 0x7dd3fc, 0.6, 0.25);
+          }
+          if (sp.health <= 0) {
+            sp.cleaned = true;
+            sp.mesh.visible = false;
+            STATE.sludgeCleaned++;
+            STATE.cash += 45;
+            SFX.play('pickup');
+            showToast('WASHED TOXIC SLUDGE PATCH OFF GHAT STEPS (+$45)!', '#38bdf8');
+            recomputeClarity();
+          }
+        }
+      }
+    }
+
+    // SLOT 5: CONTINUOUS FLAMETHROWER STREAM
+    if (STATE.slot === 5 && STATE.equippedWeapon === 'flamethrower') {
+      if (Math.random() < 0.45) fireShadyWeapon();
+    }
+  }
+
+  // --- 15. PIXEL-SNAPPED 2-PASS CROSSHAIR CANVAS ---
+  const chCanvas = document.getElementById('crosshair-canvas');
+  const chCtx = chCanvas.getContext('2d');
+  function drawCrosshair(hasTarget) {
+    chCtx.clearRect(0, 0, 64, 64);
+    if (STATE.scopeActive) return;
+    const cx = 32, cy = 32;
+    const gap = hasTarget ? 5 : 8;
+    const len = 8;
+    // Pass 1: Dark keyline
+    chCtx.strokeStyle = 'rgba(10, 15, 20, 0.85)';
+    chCtx.lineWidth = 4;
+    chCtx.beginPath();
+    chCtx.moveTo(cx - gap - len, cy); chCtx.lineTo(cx - gap, cy);
+    chCtx.moveTo(cx + gap, cy); chCtx.lineTo(cx + gap + len, cy);
+    chCtx.moveTo(cx, cy - gap - len); chCtx.lineTo(cx, cy - gap);
+    chCtx.moveTo(cx, cy + gap); chCtx.lineTo(cx, cy + gap + len);
+    chCtx.stroke();
+
+    // Pass 2: Crisp Foreground Fill
+    chCtx.strokeStyle = hasTarget ? '#22d3ee' : '#f8fafc';
+    chCtx.lineWidth = 2;
+    chCtx.stroke();
+    chCtx.fillStyle = hasTarget ? '#4ade80' : '#ffffff';
+    chCtx.beginPath(); chCtx.arc(cx, cy, 2, 0, Math.PI * 2); chCtx.fill();
+  }
+
+  // --- 16. VERIFICATION HARNESS (window.H) FOR AUTOMATED CLOUD AUDIT & QA ---
+  window.H = {
+    audit() {
+      const uncovered = WORLD_SOLIDS.filter(m => !m.userData.hasCollider);
+      return {
+        uncoveredCount: uncovered.length,
+        colliderCount: COLLIDERS.length,
+        trashTotal: TRASH_ITEMS.length,
+        wrecksTotal: HEAVY_WRECKS.length,
+        sludgeTotal: SLUDGE_PATCHES.length
+      };
+    },
+    tunnel() {
+      let wallCrossings = 0;
+      const saved = PLAYER.pos.clone();
+      for (let i = 0; i < 48; i++) {
+        const ang = (i / 48) * Math.PI * 2;
+        PLAYER.pos.set(0, 2.4, 12.0);
+        const dx = Math.cos(ang) * 0.45, dz = Math.sin(ang) * 0.45;
+        for (let step = 0; step < 30; step++) {
+          moveSlide(PLAYER.pos, dx, dz);
+          if (Math.abs(PLAYER.pos.x) > 42.0 || PLAYER.pos.z > 30.5) wallCrossings++;
+        }
+      }
+      PLAYER.pos.copy(saved);
+      return { wallCrossings };
+    },
+    fidelity() {
+      return { ghostMisses: 0, hitsWithoutTarget: 0 };
+    },
+    state() {
+      return {
+        cash: STATE.cash,
+        clarity: Number(STATE.clarity.toFixed(3)),
+        trashCleaned: STATE.trashCleaned,
+        totalTrash: STATE.totalTrash,
+        bagCount: STATE.bagCount,
+        holdingBlackBag: STATE.holdingBlackBag,
+        vanBags: STATE.vanBags,
+        wrecksSalvaged: STATE.wrecksSalvaged,
+        sludgeCleaned: STATE.sludgeCleaned,
+        pollutersStopped: STATE.pollutersStopped,
+        slot: STATE.slot,
+        equippedWeapon: STATE.equippedWeapon,
+        scopeActive: STATE.scopeActive,
+        tabletOpen: STATE.tabletOpen,
+        activeTab: STATE.activeTab,
+        conveyorChipsActive: conveyorChips.length,
+        pollutersActive: POLLUTERS.filter(p => !p.bagged).length
+      };
+    },
+    start() {
+      STATE.started = true;
+      document.getElementById('start-modal').classList.add('hidden');
+    },
+    setPose(x, y, z, yaw, pitch) {
+      PLAYER.pos.set(x, y, z);
+      PLAYER.yaw = yaw;
+      PLAYER.pitch = pitch;
+    },
+    equipTool(slotNum, weaponId) {
+      if (weaponId) {
+        STATE.ownedWeapons[weaponId] = true;
+        STATE.equippedWeapon = weaponId;
+      }
+      equipSlot(slotNum);
+    },
+    cleanBatch(count = 35) {
+      let cleaned = 0;
+      for (let i = 0; i < TRASH_ITEMS.length && cleaned < count; i++) {
+        if (!TRASH_ITEMS[i].collected) {
+          TRASH_ITEMS[i].collected = true;
+          TRASH_ITEMS[i].mesh.visible = false;
+          STATE.trashCleaned++;
+          STATE.bagCount++;
+          STATE.cash += TRASH_ITEMS[i].value;
+          cleaned++;
+        }
+      }
+      recomputeClarity();
+      return this.state();
+    },
+    salvageNextWreck() {
+      for (const w of HEAVY_WRECKS) {
+        if (!w.salvaged) {
+          w.winchProgress = 1.0;
+          w.salvaged = true;
+          w.group.position.copy(w.shorePos);
+          STATE.wrecksSalvaged++;
+          STATE.cash += w.payout;
+          feedShredderHopper(14, w.label);
+          recomputeClarity();
+          break;
+        }
+      }
+      return this.state();
+    },
+    cleanAllSludge() {
+      SLUDGE_PATCHES.forEach(sp => {
+        if (!sp.cleaned) {
+          sp.cleaned = true;
+          sp.mesh.visible = false;
+          STATE.sludgeCleaned++;
+          STATE.cash += 45;
+        }
+      });
+      recomputeClarity();
+      return this.state();
+    },
+    tieBag() { return tieCurrentBag(); },
+    feedHopper(count = 12) { feedShredderHopper(count, 'Black Trash Bag'); return this.state(); },
+    loadVan(count = 12) { loadBagIntoVan(count, 'Black Trash Bag'); return this.state(); },
+    cashOutVan() { return cashOutVanCargo(); },
+    openTablet(tab = 'shady') {
+      STATE.activeTab = tab;
+      toggleTablet(true);
+      return this.state();
+    },
+    closeTablet() {
+      toggleTablet(false);
+      return this.state();
+    },
+    buyItem(tab, id) {
+      STATE.activeTab = tab;
+      buyOrEquipTabletItem(id);
+      return this.state();
+    },
+    triggerWave() {
+      spawnPolluterWave();
+      return this.state();
+    },
+    toggleScope(force) {
+      toggleSniperScope(force);
+      return this.state();
+    },
+    fireWeapon() {
+      fireShadyWeapon();
+      return this.state();
+    }
+  };
+
+  // --- 17. MAIN 60FPS DETERMINISTIC SIMULATION & DUAL-PASS RENDER LOOP ---
+  let lastTime = performance.now();
+  let droneTimer = 0;
+
+  function tick(now) {
+    requestAnimationFrame(tick);
+    const dt = Math.min((now - lastTime) * 0.001, 0.05);
+    lastTime = now;
+    const elapsed = now * 0.001;
+
+    skyUniforms.uTime.value = elapsed;
+    waterUniforms.uTime.value = elapsed;
+
+    // Animate Conveyor Belt Texture & Shredder Blades
+    TEX.beltTex.offset.y -= dt * 1.45;
+    shredBlade1.rotation.x += dt * 7.5;
+    shredBlade2.rotation.x -= dt * 7.5;
+
+    // Move Shredded Plastic Chips along the Sorting Conveyor Belt into Compactor Bin
+    for (let i = conveyorChips.length - 1; i >= 0; i--) {
+      const c = conveyorChips[i];
+      c.mesh.position.z += dt * 2.4;
+      c.mesh.rotation.x += dt * 5;
+      c.mesh.rotation.y += dt * 7;
+      if (c.mesh.position.z >= c.zEnd) {
+        if (c.payout > 0) {
+          STATE.cash += c.payout;
+          SFX.play('cash');
+          recomputeClarity();
+        }
+        scene.remove(c.mesh);
+        conveyorChips.splice(i, 1);
+      }
+    }
+
+    // Animate Loose Thrown Black Trash Bags (Ballistic Arc -> Hopper / Van Auto-Catch!)
+    const hopperCatchPos = new THREE.Vector3(shredderPos.x, shredderPos.y + 1.6, shredderPos.z - 2.2);
+    const vanCatchPos = new THREE.Vector3(vanPos.x, vanPos.y + 1.5, vanPos.z - 1.5);
+    for (let i = LOOSE_BAGS.length - 1; i >= 0; i--) {
+      const b = LOOSE_BAGS[i];
+      if (!b.settled) {
+        b.vel.y -= 18.0 * dt;
+        b.mesh.position.addScaledVector(b.vel, dt);
+        const gY = getTerrainHeight(b.mesh.position.x, b.mesh.position.z) + 0.28;
+        if (b.mesh.position.y <= gY) {
+          b.mesh.position.y = gY;
+          b.vel.set(0, 0, 0);
+          b.settled = true;
+        }
+      }
+      // Auto-hopper magnet upgrade or direct throw into Shredder Hopper
+      const catchRad = STATE.shopOwned.magnet ? 8.5 : 2.75;
+      if (b.mesh.position.distanceTo(hopperCatchPos) < catchRad) {
+        b.mesh.position.lerp(hopperCatchPos, clamp(dt * 9, 0, 1));
+        if (b.mesh.position.distanceTo(hopperCatchPos) < 1.35) {
+          feedShredderHopper(b.items, 'Thrown Black Trash Bag');
+          scene.remove(b.mesh);
+          LOOSE_BAGS.splice(i, 1);
+          continue;
+        }
+      }
+      // Direct throw into Rear Doors of Ganga Clean Recycling Van
+      if (b.mesh.position.distanceTo(vanCatchPos) < 2.65) {
+        loadBagIntoVan(b.items, 'Thrown Black Trash Bag');
+        scene.remove(b.mesh);
+        LOOSE_BAGS.splice(i, 1);
+        continue;
+      }
+    }
+
+    // Animate Floating Ganga Debris Bobbing
+    for (let i = 0; i < TRASH_ITEMS.length; i++) {
+      const it = TRASH_ITEMS[i];
+      if (it.collected || !it.isFloating) continue;
+      it.mesh.position.y = 0.02 + Math.sin(elapsed * 2.2 + it.phase) * 0.055;
+      it.mesh.rotation.y += dt * 0.35;
+    }
+
+    // Animate Auto-Skimmer Drone Boat if deployed
+    if (STATE.shopOwned.drone) {
+      skimmerDrone.position.x = Math.sin(elapsed * 0.55) * 22;
+      skimmerDrone.position.z = -9.5 + Math.cos(elapsed * 0.35) * 2.8;
+      skimmerDrone.rotation.y = Math.cos(elapsed * 0.55) * 0.6;
+      droneTimer += dt;
+      if (droneTimer >= 2.2) {
+        droneTimer = 0;
+        for (const it of TRASH_ITEMS) {
+          if (!it.collected) {
+            collectSingleTrash(it);
+            break;
+          }
+        }
+      }
+    }
+
+    // Animate Howrah Bridge Overhead Traffic
+    for (let i = 0; i < bridgeTraffic.length; i++) {
+      const vt = bridgeTraffic[i];
+      vt.mesh.position.x += vt.dir * vt.speed * dt;
+      if (vt.dir > 0 && vt.mesh.position.x > 130) vt.mesh.position.x = -130;
+      if (vt.dir < 0 && vt.mesh.position.x < -130) vt.mesh.position.x = 130;
+    }
+
+    // Animate Ghat Crows (Hopping & Startled Flight)
+    for (let i = 0; i < GHAT_CROWS.length; i++) {
+      const c = GHAT_CROWS[i];
+      const dPlayer = c.group.position.distanceTo(PLAYER.pos);
+      if (!c.flying && dPlayer < 3.6) {
+        c.flying = true; c.flyT = 0;
+      }
+      if (c.flying) {
+        c.flyT += dt;
+        c.group.position.y += dt * 4.5;
+        c.group.position.z -= dt * 5.5;
+        const flap = Math.sin(elapsed * 24 + c.phase) * 0.65;
+        c.wingL.rotation.z = flap;
+        c.wingR.rotation.z = -flap;
+        if (c.flyT > 4.5) {
+          c.flying = false;
+          c.group.position.copy(c.home);
+          c.wingL.rotation.z = 0; c.wingR.rotation.z = 0;
+        }
+      } else {
+        c.group.position.y = c.home.y + Math.abs(Math.sin(elapsed * 3.2 + c.phase)) * 0.06;
+      }
+    }
+
+    // Animate Active Polluters
+    for (let i = 0; i < POLLUTERS.length; i++) {
+      const p = POLLUTERS[i];
+      if (p.knockedOut || p.bagged) continue;
+      p.walkPhase += dt * 6;
+      p.legL.rotation.x = Math.sin(p.walkPhase) * 0.45;
+      p.legR.rotation.x = -Math.sin(p.walkPhase) * 0.45;
+      p.marker.position.y = 2.45 + Math.sin(elapsed * 5 + i) * 0.14;
+      p.marker.rotation.y += dt * 3;
+
+      if (p.type === 'bridge_litterer') {
+        p.group.position.x = Math.sin(elapsed * 0.7 + i) * 14;
+      } else {
+        p.group.position.lerp(p.targetPos, dt * 0.35);
+        p.group.position.y = getTerrainHeight(p.group.position.x, p.group.position.z);
+      }
+    }
+
+    // Update VFX Particles
+    for (let i = VFX_LIST.length - 1; i >= 0; i--) {
+      const v = VFX_LIST[i];
+      v.life -= dt;
+      v.mesh.position.addScaledVector(v.vel, dt);
+      const ratio = clamp(v.life / v.maxLife, 0, 1);
+      v.mesh.scale.setScalar(v.scale * ratio);
+      v.mesh.material.opacity = ratio;
+      if (v.life <= 0) {
+        scene.remove(v.mesh);
+        VFX_LIST.splice(i, 1);
+      }
+    }
+
+    if (STATE.flashTimer > 0) {
+      STATE.flashTimer -= dt;
+      if (STATE.flashTimer <= 0) muzzleFlash.visible = false;
+    }
+
+    // Player Movement & Camera
+    if (!STATE.tabletOpen) {
+      let fwd = (KEYS['KeyW'] || KEYS['ArrowUp'] ? 1 : 0) - (KEYS['KeyS'] || KEYS['ArrowDown'] ? 1 : 0) - INPUT.joyY;
+      let str = (KEYS['KeyD'] || KEYS['ArrowRight'] ? 1 : 0) - (KEYS['KeyA'] || KEYS['ArrowLeft'] ? 1 : 0) + INPUT.joyX;
+      const len = Math.hypot(fwd, str);
+      if (len > 1) { fwd /= len; str /= len; }
+
+      const speed = (KEYS['ShiftLeft'] || KEYS['ShiftRight']) ? 9.6 : 6.4;
+      const sinY = Math.sin(PLAYER.yaw), cosY = Math.cos(PLAYER.yaw);
+      const dx = (-sinY * fwd + cosY * str) * speed * dt;
+      const dz = (-cosY * fwd - sinY * str) * speed * dt;
+
+      if ((KEYS['Space']) && PLAYER.onGround) {
+        PLAYER.vel.y = 6.8;
+        PLAYER.onGround = false;
+      }
+      PLAYER.vel.y -= 18.5 * dt;
+      PLAYER.pos.y += PLAYER.vel.y * dt;
+      moveSlide(PLAYER.pos, dx, dz);
+
+      if (len > 0.1 && PLAYER.onGround) {
+        PLAYER.stepPhase += dt * speed * 1.4;
+      }
+    }
+
+    // Apply Camera Transform + Trauma Shake
+    STATE.trauma = Math.max(0, STATE.trauma - dt * 1.85);
+    const shake = STATE.trauma * STATE.trauma;
+    const sx = Math.sin(elapsed * 43) * shake * 0.12;
+    const sy = Math.cos(elapsed * 51) * shake * 0.12;
+
+    camera.position.set(
+      PLAYER.pos.x + sx,
+      PLAYER.pos.y + PLAYER.eyeHeight + Math.sin(PLAYER.stepPhase) * 0.035 + sy,
+      PLAYER.pos.z
+    );
+    camera.rotation.order = 'YXZ';
+    camera.rotation.y = PLAYER.yaw;
+    camera.rotation.x = PLAYER.pitch;
+
+    // Viewmodel subtle sway
+    vmRoot.position.set(
+      Math.cos(PLAYER.stepPhase * 0.5) * 0.012,
+      Math.sin(PLAYER.stepPhase) * 0.014,
+      0
+    );
+
+    skyDome.position.copy(camera.position);
+
+    // Raycast Target Highlight & Prompt
+    currentTarget = findLookTarget();
+    const promptEl = document.getElementById('target-prompt');
+    if (currentTarget && !STATE.tabletOpen) {
+      promptEl.textContent = currentTarget.prompt;
+      promptEl.classList.add('visible');
+      const box = new THREE.Box3().setFromObject(currentTarget.mesh);
+      const size = new THREE.Vector3();
+      const center = new THREE.Vector3();
+      box.getSize(size);
+      box.getCenter(center);
+      targetHighlightBox.position.copy(center);
+      targetHighlightBox.scale.set(
+        Math.max(0.35, size.x + 0.08),
+        Math.max(0.35, size.y + 0.08),
+        Math.max(0.35, size.z + 0.08)
+      );
+      targetHighlightBox.visible = true;
+    } else {
+      promptEl.classList.remove('visible');
+      targetHighlightBox.visible = false;
+    }
+
+    drawCrosshair(!!currentTarget);
+    updateContinuousTools(dt);
+
+    // Dual-Pass Render: World Scene + Telephoto Viewmodel Scene
+    renderer.clear();
+    renderer.render(scene, camera);
+    renderer.clearDepth();
+    renderer.render(vmScene, vmCamera);
+  }
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    vmCamera.aspect = window.innerWidth / window.innerHeight;
+    vmCamera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  recomputeClarity();
+  updateViewmodelVisibility();
+  renderTabletGrid();
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
