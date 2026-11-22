@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>MERIDIAN // Overland Expeditions — Caldera, Borealis, Glacier &amp; Andes</title>
+  <meta name="description" content="Guided overland and high-latitude trekking expeditions across Icelandic calderas, Arctic aurora passes, Yukon permafrost corridors, and Patagonian granite glaciers.">
+  <meta name="theme-color" content="#0b0f17">
+  <link rel="canonical" href="https://asura-system.vercel.app/projects/meridian-expeditions/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="MERIDIAN Overland Expeditions">
+  <meta property="og:title" content="MERIDIAN // Overland Expeditions">
+  <meta property="og:description" content="Four iconic overland frontiers — Caldera Drift (34.2 km), Borealis Pass (45.5 km), Glacier Corridor (58.4 km), and Andes Horizon (28.5 km).">
+  <meta property="og:url" content="https://asura-system.vercel.app/projects/meridian-expeditions/">
+  <meta property="og:image" content="https://asura-system.vercel.app/projects/meridian-expeditions/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MERIDIAN // Overland Expeditions">
+  <meta name="twitter:description" content="Guided high-latitude overland routes with real-time elevation &amp; route telemetry.">
+  <meta name="twitter:image" content="https://asura-system.vercel.app/projects/meridian-expeditions/og.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "MERIDIAN Overland Expeditions",
+    "url": "https://asura-system.vercel.app/projects/meridian-expeditions/",
+    "description": "High-latitude expedition house curating small-group overland and alpine crossings across Iceland, Northern Norway, Yukon, and Chilean Patagonia."
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-world="0" data-mode="carousel" data-theme="dark">
+  <a class="skip-link" href="#dossier">Skip to expedition dossier</a>
+
+  <!-- Preloader Progress Curtain -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="preloader-inner">
+      <div class="preloader-bar-mark"></div>
+      <div class="preloader-label">MERIDIAN OVERLAND</div>
+      <div class="preloader-pct" id="preloader-pct">00%</div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       PINNED 3D PORTAL EXPERIENCE VIEWPORT (Driven by 800vh Scroll Track)
+  ====================================================================== -->
+  <section class="cinema-track" id="cinema-track" aria-label="Interactive Overland Worlds">
+    <div class="cinema-viewport" id="cinema-viewport">
+
+      <!-- LAYER 0 (z: 1): 4 Full-Bleed Horizon-Locked Nano Banana Worlds -->
+      <div class="world-stage" id="world-stage" aria-hidden="true">
+        <div class="world-slide is-active" data-world-bg="0">
+          <img src="assets/world_caldera.jpg" alt="Icelandic highland volcanic asphalt road at twilight" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1476610182048-b716b8518aae?w=1600&q=85';">
+          <div class="world-atmosphere world-atmosphere--caldera"></div>
+        </div>
+        <div class="world-slide" data-world-bg="1">
+          <img src="assets/world_borealis.jpg" alt="Arctic snow-flanked highway under crimson aurora and starry night sky" decoding="async" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=1600&q=85';">
+          <div class="world-atmosphere world-atmosphere--borealis"></div>
+        </div>
+        <div class="world-slide" data-world-bg="2">
+          <img src="assets/world_glacier.jpg" alt="Frozen Yukon permafrost highway shimmering beneath pale glacier sky" decoding="async" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1483664852095-d6cc6870702d?w=1600&q=85';">
+          <div class="world-atmosphere world-atmosphere--glacier"></div>
+        </div>
+        <div class="world-slide" data-world-bg="3">
+          <img src="assets/world_andes.jpg" alt="Patagonian asphalt highway facing snow-capped granite peaks under storm clouds" decoding="async" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518182170546-07661fd94144?w=1600&q=85';">
+          <div class="world-atmosphere world-atmosphere--andes"></div>
+        </div>
+      </div>
+
+      <!-- LAYER 1 (z: 2): 60fps Three.js 3D Perspective Atmospheric Particles -->
+      <canvas class="atmos-canvas" id="atmos-canvas" aria-hidden="true"></canvas>
+
+      <!-- LAYER 2 (z: 3): FLOATING 3D PORTAL CARDS (STRICTLY BEHIND EXPLORER CUTOUT!) -->
+      <div class="portal-stage" id="portal-stage" aria-label="Expedition Destinations">
+        <div class="portal-track" id="portal-track">
+
+          <!-- Card 0: CALDERA DRIFT -->
+          <article class="portal-card" data-card="0" tabindex="0" role="button" aria-label="Enter Caldera Drift expedition in Iceland">
+            <div class="portal-card-inner">
+              <img class="portal-card-img" src="assets/card_caldera.jpg" alt="Caldera Drift twilight volcanic road preview" decoding="async" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1476610182048-b716b8518aae?w=800&q=85';">
+              <div class="portal-card-scrim portal-card-scrim--caldera"></div>
+              <div class="portal-card-glare"></div>
+              <div class="portal-orb-badge">
+                <img src="assets/orb_caldera.jpg" alt="" aria-hidden="true" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1476610182048-b716b8518aae?w=240&q=80';">
+              </div>
+              <div class="portal-card-copy">
+                <h2 class="portal-card-title portal-title--caldera">CALDERA<br>DRIFT</h2>
+                <p class="portal-card-loc">HIGHLANDS, IS</p>
+                <span class="portal-card-rule portal-rule--caldera"></span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 1: BOREALIS PASS -->
+          <article class="portal-card" data-card="1" tabindex="0" role="button" aria-label="Enter Borealis Pass expedition in Norway">
+            <div class="portal-card-inner">
+              <img class="portal-card-img" src="assets/card_borealis.jpg" alt="Borealis Pass starry aurora highway preview" decoding="async" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=800&q=85';">
+              <div class="portal-card-scrim portal-card-scrim--borealis"></div>
+              <div class="portal-card-glare"></div>
+              <div class="portal-orb-badge">
+                <img src="assets/orb_borealis.jpg" alt="" aria-hidden="true" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=240&q=80';">
+              </div>
+              <div class="portal-card-copy">
+                <h2 class="portal-card-title portal-title--borealis">BOREALIS<br>PASS</h2>
+                <p class="portal-card-loc">LOFOTEN, NO</p>
+                <span class="portal-card-rule portal-rule--borealis"></span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2: GLACIER CORRIDOR -->
+          <article class="portal-card" data-card="2" tabindex="0" role="button" aria-label="Enter Glacier Corridor expedition in Yukon">
+            <div class="portal-card-inner">
+              <img class="portal-card-img" src="assets/card_glacier.jpg" alt="Glacier Corridor bright frozen highway preview" decoding="async" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1483664852095-d6cc6870702d?w=800&q=85';">
+              <div class="portal-card-scrim portal-card-scrim--glacier"></div>
+              <div class="portal-card-glare"></div>
+              <div class="portal-orb-badge">
+                <img src="assets/orb_glacier.jpg" alt="" aria-hidden="true" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1483664852095-d6cc6870702d?w=240&q=80';">
+              </div>
+              <div class="portal-card-copy">
+                <h2 class="portal-card-title portal-title--glacier">GLACIER<br>CORRIDOR</h2>
+                <p class="portal-card-loc">YUKON, CA</p>
+                <span class="portal-card-rule portal-rule--glacier"></span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3: ANDES HORIZON -->
+          <article class="portal-card" data-card="3" tabindex="0" role="button" aria-label="Enter Andes Horizon expedition in Patagonia">
+            <div class="portal-card-inner">
+              <img class="portal-card-img" src="assets/card_andes.jpg" alt="Andes Horizon jagged Patagonian glacier massif preview" decoding="async" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518182170546-07661fd94144?w=800&q=85';">
+              <div class="portal-card-scrim portal-card-scrim--andes"></div>
+              <div class="portal-card-glare"></div>
+              <div class="portal-orb-badge">
+                <img src="assets/orb_andes.jpg" alt="" aria-hidden="true" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518182170546-07661fd94144?w=240&q=80';">
+              </div>
+              <div class="portal-card-copy">
+                <h2 class="portal-card-title portal-title--andes">ANDES<br>HORIZON</h2>
+                <p class="portal-card-loc">PATAGONIA, CL</p>
+                <span class="portal-card-rule portal-rule--andes"></span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <!-- LAYER 3 (z: 4): CENTERED IMMERSION DISPLAY HEADLINE (Behind Explorer Head & Shoulders!) -->
+      <div class="immersion-headline-layer" id="immersion-headline-layer" aria-live="polite">
+        <h1 class="immersion-headline" id="immersion-headline">
+          <span class="hl-light" id="hl-light">Chasing the</span>
+          <strong class="hl-bold" id="hl-bold">Volcano</strong>
+        </h1>
+      </div>
+
+      <!-- LAYER 4 (z: 5): CONSTANT FOREGROUND EXPLORER CUTOUT (STANDING IN FRONT OF PORTAL CARDS!) -->
+      <div class="explorer-layer" id="explorer-layer" aria-hidden="true">
+        <div class="explorer-shadow"></div>
+        <img class="explorer-img" id="explorer-img" src="assets/explorer_cutout.png" alt="" decoding="async" fetchpriority="high" onerror="this.style.opacity='0';">
+      </div>
+
+      <!-- LAYER 5 (z: 10): EXACT HUD CHROME (Top-Left Marker, Top-Right Toggle, Mid-Left Steps, Bottom Telemetry) -->
+      <div class="hud-vignette-bottom" aria-hidden="true"></div>
+
+      <header class="hud-top">
+        <a href="#cinema-track" class="brand-lockup" id="brand-lockup" aria-label="Active expedition world">
+          <span class="brand-accent-bar" aria-hidden="true"></span>
+          <div class="brand-title-clip">
+            <span class="brand-title" id="hud-world-title">CALDERA<br>DRIFT</span>
+          </div>
+        </a>
+
+        <div class="hud-top-actions">
+          <a href="#dossier" class="hud-dossier-link" id="hud-dossier-btn">
+            <span>EXPEDITION BRIEF</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <button type="button" class="hud-mode-btn" id="hud-mode-btn" aria-label="Toggle between portal carousel and full-bleed immersion view" title="Toggle Portal Carousel / Immersion">
+            <!-- X icon (visible in carousel mode) -->
+            <svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            <!-- 3-card portal icon (visible in immersion mode) -->
+            <svg class="icon-cards" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="5" height="14" rx="1"/><rect x="10" y="5" width="5" height="14" rx="1"/><rect x="17" y="5" width="4" height="14" rx="1"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Middle-Left Golden Circular Step Selector (1 2 3 4) -->
+      <nav class="hud-steps" aria-label="Select destination world">
+        <button type="button" class="step-num is-active" data-step="0" aria-label="World 1: Caldera Drift">1</button>
+        <button type="button" class="step-num" data-step="1" aria-label="World 2: Borealis Pass">2</button>
+        <button type="button" class="step-num" data-step="2" aria-label="World 3: Glacier Corridor">3</button>
+        <button type="button" class="step-num" data-step="3" aria-label="World 4: Andes Horizon">4</button>
+      </nav>
+
+      <!-- Bottom Floating Telemetry Strip (3 Data Columns + Far-Right Progress Dots) -->
+      <footer class="hud-bottom">
+        <div class="hud-metrics">
+          <!-- Column 1: Animated Route Map SVG + Distance -->
+          <div class="metric-col">
+            <div class="metric-visual">
+              <svg class="route-svg" id="route-svg" width="96" height="40" viewBox="0 0 110 46" fill="none" aria-hidden="true">
+                <path id="route-path-bg" d="M8 38 L24 26 L40 31 L56 14 L74 19 L98 8" stroke="rgba(255,255,255,0.22)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                <path id="route-path-fg" d="M8 38 L24 26 L40 31 L56 14 L74 19 L98 8" stroke="#ffffff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle id="route-dot" cx="98" cy="8" r="3" fill="#facc15"/>
+              </svg>
+            </div>
+            <div class="metric-value">
+              <span id="hud-dist">34.2</span><sup class="metric-unit">KM</sup>
+            </div>
+            <div class="metric-label" id="hud-dist-label">CALDERA CIRCUIT ROUTE</div>
+          </div>
+
+          <!-- Column 2: Animated Elevation Profile SVG + Elevation Gain -->
+          <div class="metric-col">
+            <div class="metric-visual">
+              <svg class="elev-svg" id="elev-svg" width="106" height="40" viewBox="0 0 120 46" fill="none" aria-hidden="true">
+                <path id="elev-path-bg" d="M6 39 C20 38, 28 24, 42 26 C56 28, 68 10, 84 14 C96 17, 104 26, 114 22" stroke="rgba(255,255,255,0.22)" stroke-width="1.25" stroke-linecap="round"/>
+                <path id="elev-path-fg" d="M6 39 C20 38, 28 24, 42 26 C56 28, 68 10, 84 14 C96 17, 104 26, 114 22" stroke="#ffffff" stroke-width="1.75" stroke-linecap="round"/>
+                <circle id="elev-dot" cx="84" cy="14" r="3" fill="#facc15"/>
+              </svg>
+            </div>
+            <div class="metric-value">
+              <span id="hud-elev">1180</span><sup class="metric-unit">M</sup>
+            </div>
+            <div class="metric-label" id="hud-elev-label">TOTAL ELEVATION GAIN</div>
+          </div>
+
+          <!-- Column 3: Circular Biome Detail Orb + Ambient Condition -->
+          <div class="metric-col metric-col--orb">
+            <div class="orb-ring">
+              <img class="hud-orb-img" id="hud-orb-img" src="assets/orb_caldera.jpg" alt="Active terrain micro preview" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1476610182048-b716b8518aae?w=240&q=80';">
+            </div>
+            <div class="metric-label metric-label--orb" id="hud-biome-label">BASALT CALDERA · +4°C<br><span>VISIBILITY 14 KM</span></div>
+          </div>
+        </div>
+
+        <!-- Column 4: Bottom-Right Horizontal Indicator Dots + Interactive Next Trigger -->
+        <div class="hud-right-ctrl">
+          <div class="hud-dots" role="tablist" aria-label="Expedition progress indicators">
+            <button type="button" class="hud-dot is-active" data-dot="0" aria-label="Caldera Drift"></button>
+            <button type="button" class="hud-dot" data-dot="1" aria-label="Borealis Pass"></button>
+            <button type="button" class="hud-dot" data-dot="2" aria-label="Glacier Corridor"></button>
+            <button type="button" class="hud-dot" data-dot="3" aria-label="Andes Horizon"></button>
+          </div>
+          <button type="button" class="hud-next-hint" id="hud-next-btn" aria-label="Advance to next expedition">
+            <span id="hud-scroll-label">SCROLL / NEXT</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </footer>
+
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       EXPEDITION FIELD DOSSIER & ALLOCATION DRAWER (Clean Obsidian Editorial)
+  ====================================================================== -->
+  <main class="dossier-section" id="dossier">
+    <div class="dossier-container">
+      <div class="dossier-header">
+        <div class="dossier-kicker">
+          <span class="brand-accent-bar brand-accent-bar--sm" aria-hidden="true"></span>
+          <span>MERIDIAN // FIELD DOSSIER &amp; DEPARTURES</span>
+        </div>
+        <h2 class="dossier-title">Four frontiers. One continuous overland meridian.</h2>
+        <p class="dossier-lead">Every route is scouted in winter twilight and guided by certified polar mountaineers in eight-traveler cohorts with full satellite telemetry, heated expedition rigs, and custom cold-weather kits.</p>
+      </div>
+
+      <!-- Interactive 4-Expedition Telemetry Matrix -->
+      <div class="dossier-grid" id="dossier-grid">
+        <article class="dossier-card is-selected" data-dossier="0">
+          <div class="dossier-card-media">
+            <img src="assets/world_caldera.jpg" alt="Caldera Drift route in Icelandic Highlands" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1476610182048-b716b8518aae?w=1200&q=85';">
+            <span class="dossier-tag">01 // HIGHLANDS, IS</span>
+          </div>
+          <div class="dossier-card-body">
+            <h3>CALDERA DRIFT</h3>
+            <p>Basalt lava plateaus, steaming rhyolite valleys, and midnight twilight crossings along Route F208.</p>
+            <dl class="dossier-specs">
+              <div><dt>DISTANCE</dt><dd>34.2 KM</dd></div>
+              <div><dt>ELEVATION</dt><dd>1,180 M</dd></div>
+              <div><dt>SEASON</dt><dd>OCT – NOV</dd></div>
+              <div><dt>ALLOCATION</dt><dd>€3,850</dd></div>
+            </dl>
+            <div class="dossier-card-actions">
+              <button type="button" class="btn-ghost-light" data-preview-world="0">Preview Portal</button>
+              <a href="#reserve-panel" class="btn-accent" data-book-world="0">Reserve Seat</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="dossier-card" data-dossier="1">
+          <div class="dossier-card-media">
+            <img src="assets/world_borealis.jpg" alt="Borealis Pass night aurora route in Lofoten Norway" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=1200&q=85';">
+            <span class="dossier-tag">02 // LOFOTEN, NO</span>
+          </div>
+          <div class="dossier-card-body">
+            <h3>BOREALIS PASS</h3>
+            <p>Sub-arctic coastal ridge traverse beneath solar-maximum crimson &amp; emerald auroral arcs.</p>
+            <dl class="dossier-specs">
+              <div><dt>DISTANCE</dt><dd>45.5 KM</dd></div>
+              <div><dt>ELEVATION</dt><dd>620 M</dd></div>
+              <div><dt>SEASON</dt><dd>DEC – FEB</dd></div>
+              <div><dt>ALLOCATION</dt><dd>€4,400</dd></div>
+            </dl>
+            <div class="dossier-card-actions">
+              <button type="button" class="btn-ghost-light" data-preview-world="1">Preview Portal</button>
+              <a href="#reserve-panel" class="btn-accent" data-book-world="1">Reserve Seat</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="dossier-card" data-dossier="2">
+          <div class="dossier-card-media">
+            <img src="assets/world_glacier.jpg" alt="Glacier Corridor ice highway in Yukon Canada" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1483664852095-d6cc6870702d?w=1200&q=85';">
+            <span class="dossier-tag">03 // YUKON, CA</span>
+          </div>
+          <div class="dossier-card-body">
+            <h3>GLACIER CORRIDOR</h3>
+            <p>High-latitude Dempster permafrost crossing over mirror-ice lakes and sub-zero horizon flats.</p>
+            <dl class="dossier-specs">
+              <div><dt>DISTANCE</dt><dd>58.4 KM</dd></div>
+              <div><dt>ELEVATION</dt><dd>410 M</dd></div>
+              <div><dt>SEASON</dt><dd>FEB – MAR</dd></div>
+              <div><dt>ALLOCATION</dt><dd>€4,950</dd></div>
+            </dl>
+            <div class="dossier-card-actions">
+              <button type="button" class="btn-ghost-light" data-preview-world="2">Preview Portal</button>
+              <a href="#reserve-panel" class="btn-accent" data-book-world="2">Reserve Seat</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="dossier-card" data-dossier="3">
+          <div class="dossier-card-media">
+            <img src="assets/world_andes.jpg" alt="Andes Horizon granite massif in Patagonia Chile" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518182170546-07661fd94144?w=1200&q=85';">
+            <span class="dossier-tag">04 // PATAGONIA, CL</span>
+          </div>
+          <div class="dossier-card-body">
+            <h3>ANDES HORIZON</h3>
+            <p>Golden steppe approach into Fitz Roy and Torres del Paine granite spires and glacial moraines.</p>
+            <dl class="dossier-specs">
+              <div><dt>DISTANCE</dt><dd>28.5 KM</dd></div>
+              <div><dt>ELEVATION</dt><dd>950 M</dd></div>
+              <div><dt>SEASON</dt><dd>MAR – APR</dd></div>
+              <div><dt>ALLOCATION</dt><dd>€4,200</dd></div>
+            </dl>
+            <div class="dossier-card-actions">
+              <button type="button" class="btn-ghost-light" data-preview-world="3">Preview Portal</button>
+              <a href="#reserve-panel" class="btn-accent" data-book-world="3">Reserve Seat</a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Allocation & Expedition Briefing Form -->
+      <section class="reserve-panel" id="reserve-panel" aria-labelledby="reserve-heading">
+        <div class="reserve-copy">
+          <div class="dossier-kicker">
+            <span class="brand-accent-bar brand-accent-bar--sm" aria-hidden="true"></span>
+            <span>COHORT DISPATCH // MAX 8 EXPLORERS</span>
+          </div>
+          <h3 class="reserve-heading" id="reserve-heading">Request Expedition Dossier</h3>
+          <p>Receive full GPX route files, cold-weather layering manifests, and seat availability for the upcoming departure window.</p>
+          <div class="reserve-selected-bar">
+            <span class="reserve-selected-label">ACTIVE ROUTE</span>
+            <strong id="reserve-route-name">CALDERA DRIFT · 34.2 KM · €3,850</strong>
+          </div>
+        </div>
+
+        <form class="reserve-form" id="reserve-form">
+          <label>
+            <span>EXPEDITION ROUTE</span>
+            <select id="reserve-route-select" name="route">
+              <option value="0">01 // CALDERA DRIFT — Highlands, IS (€3,850)</option>
+              <option value="1">02 // BOREALIS PASS — Lofoten, NO (€4,400)</option>
+              <option value="2">03 // GLACIER CORRIDOR — Yukon, CA (€4,950)</option>
+              <option value="3">04 // ANDES HORIZON — Patagonia, CL (€4,200)</option>
+            </select>
+          </label>
+          <div class="form-row-2">
+            <label>
+              <span>FULL NAME</span>
+              <input type="text" name="name" required autocomplete="name" placeholder="Soren Lindqvist">
+            </label>
+            <label>
+              <span>DISPATCH EMAIL</span>
+              <input type="email" name="email" required autocomplete="email" placeholder="soren@meridian.studio">
+            </label>
+          </div>
+          <button type="submit" class="btn-accent btn-accent--lg">
+            <span>DISPATCH ROUTE BRIEFING</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <div class="reserve-status" id="reserve-status" role="status" aria-live="polite"></div>
+        </form>
+      </section>
+
+      <footer class="site-footer">
+        <p>MERIDIAN OVERLAND EXPEDITIONS // REYKJAVÍK · TROMSØ · WHITEHORSE · PUERTO NATALES</p>
+        <p>64.1466° N, 21.9426° W — ALL TELEMETRY VERIFIED</p>
+      </footer>
+    </div>
+  </main>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.12.5/index.js",
+      "gsap/ScrollTrigger": "https://cdn.jsdelivr.net/npm/gsap@3.12.5/ScrollTrigger.js",
+      "lenis": "https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.mjs"
+    }
+  }
+  </script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
