@@ -1,6 +1,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
+import { initAnySceneHero } from './hero3d.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -56,78 +57,22 @@ gsap.ticker.add((time) => {
 gsap.ticker.lagSmoothing(0);
 
 /* ============================================================================
-   2. HERO VIDEO DROP-IN PROMOTION + SUBTLE ATMOSPHERIC MIST CANVAS
+   2. ANYSCENE-WEBGL2 INTERACTIVE 3D HERO ENGINE (FROM SINGLE REFERENCE IMAGE)
 ============================================================================ */
 
-const heroVideo = document.getElementById('hero-video');
-if (heroVideo) {
-  // Automatically promotes assets/hero_clip.mp4 whenever user drops the generated MP4 in
-  heroVideo.addEventListener('canplay', () => {
-    heroVideo.play().then(() => {
-      heroVideo.classList.add('is-playing');
-    }).catch(() => {});
+const hero3d = initAnySceneHero(
+  document.getElementById('hero-3d-canvas'),
+  document.getElementById('hero')
+);
+
+const dialButtons = Array.from(document.querySelectorAll('.anyscene-dial'));
+dialButtons.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const key = btn.dataset.dial;
+    dialButtons.forEach((b) => b.classList.toggle('is-active', b === btn));
+    if (hero3d) hero3d.setDial(key);
   });
-}
-
-// Featherweight 2D Canvas atmospheric jungle mist & morning light motes (zero WebGL overhead)
-function initHeroMist() {
-  const canvas = document.getElementById('hero-mist-canvas');
-  const heroEl = document.getElementById('hero');
-  if (!canvas || !heroEl) return;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
-  let w = 0;
-  let h = 0;
-  let visible = true;
-
-  const resize = () => {
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    w = heroEl.clientWidth || window.innerWidth;
-    h = heroEl.clientHeight || window.innerHeight;
-    canvas.width = Math.round(w * dpr);
-    canvas.height = Math.round(h * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  };
-  resize();
-  window.addEventListener('resize', resize);
-
-  const motes = Array.from({ length: 34 }, () => ({
-    x: Math.random() * w,
-    y: Math.random() * h,
-    r: 1 + Math.random() * 2.2,
-    vx: 0.12 + Math.random() * 0.25,
-    vy: -0.06 - Math.random() * 0.16,
-    a: 0.08 + Math.random() * 0.22,
-  }));
-
-  const obs = new IntersectionObserver(
-    (entries) => {
-      visible = entries[0]?.isIntersecting ?? true;
-    },
-    { threshold: 0.02 }
-  );
-  obs.observe(heroEl);
-
-  const draw = () => {
-    if (visible) {
-      ctx.clearRect(0, 0, w, h);
-      for (const m of motes) {
-        m.x += m.vx;
-        m.y += m.vy;
-        if (m.x > w + 10) m.x = -10;
-        if (m.y < -10) m.y = h + 10;
-        ctx.beginPath();
-        ctx.arc(m.x, m.y, m.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 250, 240, ${m.a})`;
-        ctx.fill();
-      }
-    }
-    requestAnimationFrame(draw);
-  };
-  requestAnimationFrame(draw);
-}
-initHeroMist();
+});
 
 /* ============================================================================
    3. ADAPTIVE GLASS-TO-SOLID / DARK-TO-LIGHT NAVIGATION STATE MACHINE
@@ -157,18 +102,16 @@ ScrollTrigger.create({
 });
 
 /* ============================================================================
-   4. HERO SCROLL PARALLAX + KINETIC SPLIT-LINE TEXT REVEALS (00:01-00:03)
+   4. HERO 3D SCROLL DOLLY-IN + KINETIC SPLIT-LINE TEXT REVEALS (00:01-00:03)
 ============================================================================ */
 
-gsap.to('#hero-media', {
-  yPercent: 18,
-  scale: 1.06,
-  ease: 'none',
-  scrollTrigger: {
-    trigger: '#hero',
-    start: 'top top',
-    end: 'bottom top',
-    scrub: true,
+ScrollTrigger.create({
+  trigger: '#hero',
+  start: 'top top',
+  end: 'bottom top',
+  scrub: true,
+  onUpdate: (self) => {
+    if (hero3d) hero3d.setScrollProgress(self.progress);
   },
 });
 
@@ -415,14 +358,37 @@ document.querySelectorAll('[data-tilt-card]').forEach((card) => {
     const rect = media.getBoundingClientRect();
     const nx = clamp((e.clientX - rect.left) / rect.width, 0, 1);
     const ny = clamp((e.clientY - rect.top) / rect.height, 0, 1);
-    const rx = (0.5 - ny) * 7;
-    const ry = (nx - 0.5) * 9;
+    const rx = (0.5 - ny) * 8;
+    const ry = (nx - 0.5) * 10;
     media.style.transform = `rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+    media.style.setProperty('--mx', `${(nx * 100).toFixed(1)}%`);
+    media.style.setProperty('--my', `${(ny * 100).toFixed(1)}%`);
   });
 
   card.addEventListener('pointerleave', () => {
     media.style.transform = 'rotateX(0deg) rotateY(0deg)';
   });
+});
+
+// 3D Container-Scroll entrance on Section 6 Split Architectural Dossier Cards
+document.querySelectorAll('.split-dossier-card').forEach((card) => {
+  gsap.fromTo(
+    card,
+    { rotateX: 9, y: 48, scale: 0.96, opacity: 0.72 },
+    {
+      rotateX: 0,
+      y: 0,
+      scale: 1,
+      opacity: 1,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: card,
+        start: 'top 90%',
+        end: 'top 38%',
+        scrub: true,
+      },
+    }
+  );
 });
 
 /* ============================================================================

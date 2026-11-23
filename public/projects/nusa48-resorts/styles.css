@@ -319,69 +319,28 @@ button {
 
 .hero-frame {
   position: absolute;
-  inset: -3%;
-  width: 106%;
-  height: 106%;
-  object-fit: cover;
-  object-position: 50% 50%;
-  will-change: transform, opacity;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* Seamless 10-second continuous Start -> End dolly push-in loop when MP4 not supplied */
-.hero-frame--start {
-  opacity: 1;
-  animation: heroStartPush 14s ease-in-out infinite alternate;
-}
-
-.hero-frame--end {
-  opacity: 0;
-  animation: heroEndCrossfade 14s ease-in-out infinite alternate;
-}
-
-@keyframes heroStartPush {
-  0% {
-    transform: scale(1.0) translate3d(0%, 0%, 0);
-  }
-  100% {
-    transform: scale(1.09) translate3d(-1.2%, -0.8%, 0);
-  }
-}
-
-@keyframes heroEndCrossfade {
-  0%, 24% {
-    opacity: 0;
-    transform: scale(1.0) translate3d(0.8%, 0.4%, 0);
-  }
-  76%, 100% {
-    opacity: 1;
-    transform: scale(1.06) translate3d(-0.6%, -0.6%, 0);
-  }
-}
-
-.hero-video {
-  position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.8s ease;
+  object-position: 50% 50%;
   pointer-events: none;
+  user-select: none;
 }
 
-.hero-video.is-playing {
-  opacity: 1;
-}
-
-.hero-mist-canvas {
+.hero-3d-canvas {
   position: absolute;
   inset: 0;
   z-index: 2;
   width: 100%;
   height: 100%;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease-expo);
   pointer-events: none;
+}
+
+.hero-3d-canvas.is-ready {
+  opacity: 1;
 }
 
 .hero-scrim {
@@ -463,6 +422,53 @@ button {
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.86);
   white-space: nowrap;
+}
+
+/* Minimal AnyScene Live 3D Atmosphere & Blockout Dial Dock */
+.anyscene-dock {
+  position: absolute;
+  right: var(--gutter);
+  bottom: clamp(20px, 3.8vh, 40px);
+  z-index: 8;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 5px 4px 11px;
+  border-radius: 3px;
+  background: rgba(18, 22, 25, 0.56);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.anyscene-badge {
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.52);
+  margin-right: 6px;
+}
+
+.anyscene-dial {
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 2px;
+  font-size: 0.66rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.76);
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.anyscene-dial:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.anyscene-dial.is-active {
+  background: #f7f7f5;
+  color: #14171a;
+  font-weight: 500;
 }
 
 /* ============================================================================
@@ -1026,6 +1032,26 @@ button {
   transition: transform 0.45s var(--ease-expo), box-shadow 0.45s var(--ease-expo);
 }
 
+.res-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    circle 240px at var(--mx, 50%) var(--my, 40%),
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.04) 40%,
+    transparent 70%
+  );
+  transition: opacity 0.3s ease;
+}
+
+.res-card:hover .res-media::after {
+  opacity: 1;
+}
+
 .res-card:hover .res-media {
   box-shadow: 0 24px 48px rgba(15, 19, 22, 0.18);
 }
@@ -1242,6 +1268,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: clamp(24px, 3.5vh, 38px);
+  perspective: 1400px;
 }
 
 .split-dossier-card {
@@ -1253,6 +1280,8 @@ button {
   overflow: hidden;
   border-radius: 3px;
   box-shadow: 0 28px 64px rgba(15, 19, 22, 0.14);
+  transform-origin: center top;
+  will-change: transform, opacity;
 }
 
 .split-dossier-media {
@@ -1904,6 +1933,30 @@ button {
   .nav-left,
   .nav-lang {
     display: none;
+  }
+
+  .hero-kicker {
+    bottom: 70px;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+  }
+
+  .anyscene-dock {
+    left: 50%;
+    right: auto;
+    bottom: 18px;
+    transform: translateX(-50%);
+    padding: 3px 4px;
+  }
+
+  .anyscene-badge {
+    display: none;
+  }
+
+  .anyscene-dial {
+    height: 30px;
+    padding: 0 9px;
+    font-size: 0.62rem;
   }
 
   .res-blurbs,

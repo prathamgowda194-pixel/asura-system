@@ -64,22 +64,18 @@
   </header>
 
   <!-- =========================================================================
-       SECTION 0: FULL-BLEED ARCHITECTURAL JUNGLE INFINITY POOL HERO (00:00-00:01)
-       Supports drop-in assets/hero_clip.mp4 + live animated Start->End keyframe cinema!
+       SECTION 0: FULL-BLEED INTERACTIVE 3D ANYSCENE JUNGLE RESORT HERO (00:00-00:01)
+       Built from 1 reference image via AnyScene-WebGL2 (depth + water + glow + mist)
   ========================================================================== -->
-  <section class="hero" id="hero" aria-label="Nusa48 Resorts Hero">
+  <section class="hero" id="hero" aria-label="Nusa48 Resorts Interactive 3D Hero">
     <div class="hero-media" id="hero-media">
-      <!-- Live dual-keyframe Start->End 3D camera push-in (runs seamlessly until/unless hero_clip.mp4 is placed) -->
-      <img class="hero-frame hero-frame--start" id="hero-frame-start" src="assets/hero_start.jpg" alt="Cantilevered dark stone tropical resort over misty rainforest infinity pool — start frame" fetchpriority="high" decoding="async" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1600&q=85';">
-      <img class="hero-frame hero-frame--end" id="hero-frame-end" src="assets/hero_end.jpg" alt="Gliding across infinity pool toward warm illuminated basalt resort pavilion — end frame" decoding="async" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1600&q=85';">
+      <!-- Instant static photographic base while WebGL2 textures warm on GPU -->
+      <img class="hero-frame hero-frame--base" id="hero-frame-start" src="assets/hero_start.jpg" alt="Cantilevered dark basalt tropical resort over misty rainforest infinity pool" fetchpriority="high" decoding="async" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1600&q=85';">
 
-      <!-- Optional 8-10s MP4 hero video slot (auto-promotes cleanly if assets/hero_clip.mp4 is added) -->
-      <video class="hero-video" id="hero-video" muted loop playsinline preload="none" poster="assets/hero_start.jpg" aria-hidden="true">
-        <source src="assets/hero_clip.mp4" type="video/mp4">
-      </video>
+      <!-- Real-Time Three.js WebGL2 Interactive 3D AnyScene Stage -->
+      <canvas class="hero-3d-canvas" id="hero-3d-canvas" aria-hidden="true"></canvas>
 
-      <!-- Subtle mist & depth vignette for crisp pure-white hero typography -->
-      <canvas class="hero-mist-canvas" id="hero-mist-canvas" aria-hidden="true"></canvas>
+      <!-- Subtle depth vignette for crisp pure-white hero typography -->
       <div class="hero-scrim" aria-hidden="true"></div>
     </div>
 
@@ -91,6 +87,15 @@
       </div>
 
       <p class="hero-kicker" id="hero-kicker">PRIVATE ARCHITECTURAL SANCTUARIES</p>
+
+      <!-- Minimal AnyScene Live 3D Atmosphere & Stage Dial Dock -->
+      <div class="anyscene-dock" role="group" aria-label="Interactive 3D scene atmosphere dials">
+        <span class="anyscene-badge">3D SCENE</span>
+        <button type="button" class="anyscene-dial is-active" data-dial="morning_mist">Mist</button>
+        <button type="button" class="anyscene-dial" data-dial="golden_dawn">Dawn</button>
+        <button type="button" class="anyscene-dial" data-dial="twilight_glow">Twilight</button>
+        <button type="button" class="anyscene-dial" data-dial="clay_blockout">3D Mesh</button>
+      </div>
     </div>
   </section>
 
@@ -747,6 +752,7 @@
   <script type="importmap">
   {
     "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
       "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.12.5/index.js",
       "gsap/ScrollTrigger": "https://cdn.jsdelivr.net/npm/gsap@3.12.5/ScrollTrigger.js",
       "lenis": "https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.mjs"
