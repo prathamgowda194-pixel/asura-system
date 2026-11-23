@@ -191,7 +191,7 @@ const RELIEF_FRAG = /* glsl */ `
     if (uClayMix > 0.001) {
       vec3 dx = dFdx(vWorldPos);
       vec3 dy = dFdy(vWorldPos);
-      vec3 n = normalize(cross(dx, dy));
+      vec3 n = normalize(cross(dx, dy) + vec3(0.0, 0.0, 0.0001));
 
       vec3 keyDir = normalize(vec3(-0.45, 0.65, 0.82));
       vec3 rimDir = normalize(vec3(0.75, 0.35, 0.45));
@@ -278,7 +278,7 @@ export function initAnySceneHero(canvas, heroSection) {
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(42, 16 / 9, 0.1, 60);
-  camera.position.set(0, 0.06, 7.6);
+  camera.position.set(0, 0.04, 11.75);
 
   // Load single reference photo + packed 4-channel AnyScene architectural map
   const loader = new THREE.TextureLoader();
@@ -401,9 +401,9 @@ export function initAnySceneHero(canvas, heroSection) {
     camera.aspect = aspect;
     camera.updateProjectionMatrix();
 
-    // Ensure mesh covers both tall mobile and ultrawide desktop with safety margin for 3D orbit
+    // Exact cover-fit scaling: 16:9 & portrait mobile preserve full vertical composition; ultrawide scales up horizontally
     const targetAspect = planeW / planeH;
-    const scaleBoost = aspect < targetAspect ? (targetAspect / aspect) * 1.15 : 1.15;
+    const scaleBoost = aspect > targetAspect ? (aspect / targetAspect) * 1.1 : 1.1;
     reliefMesh.scale.set(scaleBoost, scaleBoost, 1);
     mistMesh.scale.set(scaleBoost, scaleBoost, 1);
   }
@@ -474,11 +474,11 @@ export function initAnySceneHero(canvas, heroSection) {
     mistMat.uniforms.uOpacity.value = cur.atmosphere * 0.42;
     mistMat.uniforms.uColor.value.copy(cur.mistColor);
 
-    // Continuous 12-second slow architectural drone dolly-in over infinity pool + mouse orbit + scroll fly-in
+    // Continuous 14-second slow architectural drone dolly-in over infinity pool + mouse orbit + scroll fly-in
     const loopPhase = (Math.sin(t * ((Math.PI * 2) / 14.0) - Math.PI * 0.5) + 1.0) * 0.5;
-    const camZ = 8.15 - loopPhase * 0.82 - scrollProgress * 1.35;
-    const camX = -0.18 + loopPhase * 0.34 + ptr.sx * 0.48;
-    const camY = -0.06 + loopPhase * 0.16 + ptr.sy * 0.22 - scrollProgress * 0.28;
+    const camZ = 11.75 - loopPhase * 1.05 - scrollProgress * 1.75;
+    const camX = -0.14 + loopPhase * 0.28 + ptr.sx * 0.52;
+    const camY = -0.05 + loopPhase * 0.14 + ptr.sy * 0.24 - scrollProgress * 0.32;
 
     camera.position.set(camX, camY, camZ);
     camera.lookAt(ptr.sx * 0.14 + 0.08 * loopPhase, ptr.sy * 0.08 + 0.02, 0.2);
