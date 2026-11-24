@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>SOLMERE — Lakeside Alpine Architectural Resort &amp; Interactive 3D Walkthrough</title>
+  <meta name="description" content="Explore Solmere — four illuminated lakeside alpine chalets. Walk interactively through The Front Door, The Great Room, The Kitchen, and The Study straight into The Lantern architectural dossier.">
+  <meta name="theme-color" content="#0b1526">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%230b1526'/%3E%3Cpath d='M6 22L16 8l10 14H6z' fill='none' stroke='%23e8dec8' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="canonical" href="https://asura-system.vercel.app/projects/solmere-resort/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SOLMERE Alpine Resort">
+  <meta property="og:title" content="SOLMERE — Interactive 3D Lakeside Resort &amp; Architectural Dossier">
+  <meta property="og:description" content="Continuous 3D architectural room-to-room walkthrough from twilight alpine lake into The Lantern blueprint dossier.">
+  <meta property="og:url" content="https://asura-system.vercel.app/projects/solmere-resort/">
+  <meta property="og:image" content="https://asura-system.vercel.app/projects/solmere-resort/assets/estate_hero.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SOLMERE — Lakeside Alpine Architectural Resort">
+  <meta name="twitter:image" content="https://asura-system.vercel.app/projects/solmere-resort/assets/estate_hero.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Resort",
+    "name": "SOLMERE Lakeside Alpine Resort",
+    "url": "https://asura-system.vercel.app/projects/solmere-resort/",
+    "description": "Four private architectural alpine resort chalets on a glacial mountain lake with heated infinity pools, fireside salons, and bespoke full-estate hospitality."
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-stage="0">
+  <a class="skip-link" href="#dossier">Skip to The Lantern architectural dossier</a>
+
+  <!-- =========================================================================
+       ACT 1 & ACT 2: PINNED 3D ROOM-TO-ROOM WALKTHROUGH TRACK (00:00 -> 00:21)
+       Stage 0: SOLMERE Depth-Sandwiched Lake Hero + Water Reflection
+       Stage 1: Exterior Approach & Glass Door Fly-In
+       Stage 2: THE FRONT DOOR (Limestone Foyer & Halo Chandelier)
+       Stage 3: THE GREAT ROOM (Hearth Lounge & Mountain Windows)
+       Stage 4: THE KITCHEN & DINING (Marble Island & Timber Beams)
+       Stage 5: THE STUDY -> Optical 3D Zoom Into Glowing Laptop Screen!
+  ========================================================================== -->
+  <section class="walkthrough-track" id="walkthrough" aria-label="Interactive 3D Architectural Resort Walkthrough">
+    <div class="walkthrough-viewport" id="walkthrough-viewport">
+
+      <!-- LAYER 0 (z: 1): Real-Time 60fps Three.js WebGL2 Multi-Room 3D Stage -->
+      <canvas class="walkthrough-canvas" id="solmere-3d-canvas" aria-hidden="true"></canvas>
+
+      <!-- Instant fallback base image while WebGL2 warms on GPU -->
+      <img class="hero-fallback-bg" id="hero-fallback-bg" src="assets/estate_hero.jpg" alt="Solmere twilight lakeside alpine resort chalets" fetchpriority="high" decoding="async" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=1600&q=85';">
+
+      <!-- LAYER 1 (z: 2): ACT 1 GIANT DEPTH-SANDWICHED SOLMERE WORDMARK + MIRROR LAKE REFLECTION -->
+      <div class="hero-title-sandwich" id="hero-title-sandwich" aria-label="Solmere Resort">
+        <h1 class="solmere-wordmark solmere-wordmark--sky" id="solmere-wordmark-sky">SOLMERE</h1>
+        <div class="solmere-wordmark solmere-wordmark--lake" id="solmere-wordmark-lake" aria-hidden="true">SOLMERE</div>
+      </div>
+
+      <!-- LAYER 2 (z: 3): FOREGROUND CHALET ROOFLINE CUTOUT (Stands IN FRONT of giant SOLMERE!) -->
+      <div class="hero-chalets-fg" id="hero-chalets-fg" aria-hidden="true">
+        <img src="assets/estate_fg.png" alt="" fetchpriority="high" decoding="async" onerror="this.style.opacity='0';">
+      </div>
+
+      <!-- LAYER 3 (z: 4): ACT 2 STAGE 5 — GLOWING 3D LAPTOP ON STUDY DESK (Zooms Fullscreen into The Lantern!) -->
+      <div class="study-laptop-stage" id="study-laptop-stage" aria-hidden="true">
+        <div class="study-laptop-rig" id="study-laptop-rig">
+          <div class="laptop-lid">
+            <div class="laptop-camera-dot"></div>
+            <div class="laptop-screen">
+              <img src="assets/lantern_hero.jpg" alt="The Lantern architectural dossier preview on study laptop" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=1200&q=85';">
+              <div class="laptop-screen-ui">
+                <div class="lsu-top">
+                  <span>SOLMERE ARCHIVE</span>
+                  <span>THE LANTERN // 01</span>
+                </div>
+                <div class="lsu-title">THE<br>LANTERN</div>
+                <div class="lsu-bar">
+                  <span>ANALYSIS</span>
+                  <span>685 M² · 2,710 M² · 1,840 M</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="laptop-base"></div>
+        </div>
+      </div>
+
+      <!-- LAYER 4 (z: 10): ADAPTIVE HERO NAV + INTERIOR WALKTHROUGH HUD CHROME -->
+      <header class="hero-top-nav" id="hero-top-nav">
+        <a href="#walkthrough" class="htn-link" data-jump-stage="0">THE ESTATE</a>
+        <a href="#walkthrough" class="htn-link" data-jump-stage="2">INTERIORS</a>
+        <a href="#dossier" class="htn-link">BLUEPRINTS</a>
+        <button type="button" class="htn-link htn-link--cta" data-open-modal="Private Chalet Inquiry">RESERVE</button>
+      </header>
+
+      <!-- Minimal Interior Walkthrough Top Bar (Visible in Stages 1..5, matches bbb.mp4 00:09-00:20) -->
+      <div class="interior-hud-top" id="interior-hud-top">
+        <button type="button" class="hud-back-btn" id="hud-back-btn" data-jump-stage="0">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          <span>SOLMERE</span>
+        </button>
+
+        <div class="hud-room-tag" id="hud-room-tag">01 // THE FRONT DOOR</div>
+
+        <a href="#dossier" class="hud-skip-btn" id="hud-skip-btn">
+          <span>SKIP TO DOSSIER</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <!-- Bottom-Left Architectural Room Title + Walkthrough Scrubber Timeline (Matches bbb.mp4 00:10-00:20) -->
+      <div class="interior-hud-bottom" id="interior-hud-bottom">
+        <div class="room-callout" id="room-callout">
+          <span class="room-callout-kicker" id="room-callout-kicker">LEVEL 01 · ENTRY PAVILION</span>
+          <h2 class="room-callout-title" id="room-callout-title">THE FRONT<br>DOOR</h2>
+        </div>
+
+        <div class="walkthrough-scrubber">
+          <div class="scrubber-track">
+            <div class="scrubber-fill" id="scrubber-fill"></div>
+          </div>
+          <nav class="scrubber-stops" aria-label="Jump to walkthrough room">
+            <button type="button" class="stop-btn is-active" data-jump-stage="0">Lake</button>
+            <button type="button" class="stop-btn" data-jump-stage="2">Front Door</button>
+            <button type="button" class="stop-btn" data-jump-stage="3">Great Room</button>
+            <button type="button" class="stop-btn" data-jump-stage="4">Kitchen</button>
+            <button type="button" class="stop-btn" data-jump-stage="5">The Study</button>
+            <button type="button" class="stop-btn" data-jump-dossier>The Lantern</button>
+          </nav>
+        </div>
+
+        <div class="scroll-cue" id="scroll-cue">
+          <span>SCROLL TO ENTER</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       ACT 3: THE LANTERN ARCHITECTURAL DOSSIER & DIAGONAL BLUEPRINT SHEET (00:22-00:30)
+  ========================================================================== -->
+  <main class="dossier-root" id="dossier">
+
+    <!-- 3A. FULL-BLEED THE LANTERN HERO BANNER (Seamless handoff from Study Laptop Screen!) -->
+    <section class="lantern-hero" aria-label="The Lantern Flagship Chalet Overview">
+      <div class="lantern-hero-media">
+        <img src="assets/lantern_hero.jpg" alt="The Lantern flagship twin-gabled alpine resort chalet at twilight with turquoise infinity pool" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=1600&q=85';">
+        <div class="lantern-hero-scrim" aria-hidden="true"></div>
+      </div>
+
+      <div class="lantern-hero-top">
+        <button type="button" class="lh-back-walk" data-jump-stage="5">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+          <span>RETURN TO 3D WALKTHROUGH</span>
+        </button>
+        <div class="lh-nav-pills">
+          <a href="#bp-analysis">ANALYSIS</a>
+          <a href="#bp-materials">MATERIALS</a>
+          <a href="#bp-interiors">INTERIORS</a>
+          <a href="#bp-environment">ENVIRONMENT</a>
+          <button type="button" class="lh-reserve-btn" data-open-modal="Reserve The Lantern Chalet">RESERVE STAY</button>
+        </div>
+      </div>
+
+      <div class="lantern-hero-body">
+        <div class="lh-title-col">
+          <span class="lh-eyebrow">SOLMERE FLAGSHIP RESIDENCE // 01</span>
+          <h2 class="lh-title">THE<br>LANTERN</h2>
+          <ul class="lh-specs-list">
+            <li>Four interconnected lakeside alpine estates</li>
+            <li>24-meter cantilevered heated infinity pool</li>
+            <li>Direct glacial shoreline &amp; stone fire terrace</li>
+            <li>Private culinary, thermal spa &amp; helipad arrival</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lantern-hero-bar">
+        <span class="lhb-tag">ANALYSIS</span>
+        <div class="lhb-metrics">
+          <div><strong>685 m²</strong><span>INTERIOR AREA</span></div>
+          <div><strong>2,710 m²</strong><span>SHORELINE PLOT</span></div>
+          <div><strong>1,840 m</strong><span>ALPINE ELEVATION</span></div>
+          <div><strong>48</strong><span>MAX ESTATE GUESTS</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         3B. ICONIC DIAGONAL WARM-BRONZE RIBBON ARCHITECTURAL BLUEPRINT SHEET
+    ======================================================================== -->
+    <section class="blueprint-sheet" aria-label="Architectural Analysis, Drawings and Environmental Response">
+      <div class="diagonal-bronze-ribbon" aria-hidden="true"></div>
+
+      <!-- ROW 1: ANALYSIS | GUIDING IDEA (AXONOMETRIC WIREFRAME) | SPATIAL FUNCTION -->
+      <div class="bp-row bp-row--1" id="bp-analysis">
+        <div class="bp-col bp-col--left">
+          <h3 class="bp-heading">ANALYSIS</h3>
+          <div class="bp-kpis">
+            <div><strong>2,710 m²</strong><span>SITE FOOTPRINT</span></div>
+            <div><strong>4</strong><span>CHALET PAVILIONS</span></div>
+            <div><strong>0.82 ha</strong><span>PRIVATE FOREST</span></div>
+            <div><strong>300°</strong><span>LAKE PANORAMA</span></div>
+          </div>
+
+          <figure class="bp-diagram">
+            <svg viewBox="0 0 420 230" fill="none" role="img" aria-label="Topographic site contour and lakeside chalet placement plan">
+              <path d="M12 52 C95 36, 175 68, 260 44 C325 26, 378 46, 408 38" stroke="#182321" stroke-opacity="0.16" stroke-width="1"/>
+              <path d="M12 78 C110 62, 185 92, 274 70 C338 54, 384 72, 408 66" stroke="#182321" stroke-opacity="0.2" stroke-width="1"/>
+              <path d="M12 104 C120 92, 198 118, 286 98 C345 84, 386 98, 408 94" stroke="#182321" stroke-opacity="0.22" stroke-width="1"/>
+              <path d="M24 148 C78 126, 165 122, 248 134 C318 144, 378 132, 402 156 C410 192, 345 218, 232 214 C122 210, 34 206, 24 148 Z" fill="#9fb9bd" fill-opacity="0.46" stroke="#182321" stroke-opacity="0.35" stroke-width="1"/>
+              <rect x="86" y="106" width="28" height="16" transform="rotate(-7 86 106)" fill="#182321"/>
+              <rect x="148" y="102" width="38" height="18" transform="rotate(-3 148 102)" fill="#8a7056"/>
+              <rect x="218" y="104" width="32" height="16" transform="rotate(4 218 104)" fill="#182321"/>
+              <rect x="282" y="110" width="28" height="16" transform="rotate(8 282 110)" fill="#182321"/>
+              <circle cx="167" cy="111" r="14" stroke="#8a7056" stroke-width="1.2" stroke-dasharray="3 3"/>
+              <line x1="167" y1="97" x2="167" y2="30" stroke="#182321" stroke-opacity="0.45" stroke-width="1"/>
+              <text x="174" y="38" fill="#182321" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1.2">01 · THE LANTERN</text>
+              <text x="172" y="182" fill="#182321" fill-opacity="0.65" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1.8">GLACIAL LAKE BASIN</text>
+              <text x="20" y="24" fill="#182321" fill-opacity="0.5" font-family="JetBrains Mono, monospace" font-size="8">ELEV +1,840M · NORTH 34°</text>
+            </svg>
+            <figcaption>SITE TOPOGRAPHY &amp; FOUR-PAVILION SHORELINE ALIGNMENT</figcaption>
+          </figure>
+        </div>
+
+        <div class="bp-col bp-col--ribbon">
+          <div class="ribbon-card">
+            <span class="ribbon-eyebrow">01 // ARCHITECTURAL THESIS</span>
+            <h3 class="ribbon-heading">GUIDING IDEA</h3>
+            <p class="ribbon-text">Four gabled limestone lanterns stepped organically along volcanic boulders, balancing monumental thermal mass against weightless lakefront glass.</p>
+
+            <svg class="axon-svg" viewBox="0 0 320 230" fill="none" role="img" aria-label="Isometric wireframe architectural drawing of Solmere gabled chalet">
+              <polygon points="40,170 165,112 292,162 168,218" stroke="rgba(255,255,255,0.45)" stroke-width="1"/>
+              <polygon points="56,174 134,138 188,160 110,196" fill="rgba(255,255,255,0.12)" stroke="#ffffff" stroke-width="1.2"/>
+              <polygon points="104,138 104,76 146,34 188,76 188,138" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="146" y1="34" x2="232" y2="70" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="188" y1="76" x2="274" y2="112" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="104" y1="76" x2="190" y2="112" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-dasharray="3 3"/>
+              <line x1="188" y1="138" x2="274" y2="174" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="274" y1="112" x2="274" y2="174" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="232" y1="70" x2="274" y2="112" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="126" y1="54" x2="126" y2="147" stroke="rgba(255,255,255,0.72)" stroke-width="1"/>
+              <line x1="146" y1="34" x2="146" y2="155" stroke="rgba(255,255,255,0.85)" stroke-width="1.2"/>
+              <line x1="166" y1="54" x2="166" y2="147" stroke="rgba(255,255,255,0.72)" stroke-width="1"/>
+              <line x1="104" y1="104" x2="188" y2="104" stroke="rgba(255,255,255,0.72)" stroke-width="1"/>
+              <polygon points="210,148 210,104 242,84 274,112 274,174" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.8)" stroke-width="1.2"/>
+              <line x1="36" y1="34" x2="36" y2="170" stroke="rgba(255,255,255,0.5)" stroke-width="0.9"/>
+              <text x="12" y="106" fill="#ffffff" font-family="JetBrains Mono, monospace" font-size="8.5" transform="rotate(-90 12 106)">+8.6M RIDGE</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="bp-col bp-col--right">
+          <h3 class="bp-heading">SPATIAL FUNCTION</h3>
+          <p class="bp-desc">Circulation separates acoustic social zones (Great Room, Kitchen &amp; Infinity Terrace) from private thermal wellness suites and the cantilevered upper library.</p>
+
+          <div class="spatial-bars">
+            <div class="sbar-row">
+              <div class="sbar-head"><span>GREAT ROOM &amp; HEARTH</span><strong>210 m²</strong></div>
+              <div class="sbar-track"><span style="width: 88%"></span></div>
+            </div>
+            <div class="sbar-row">
+              <div class="sbar-head"><span>FOUR MASTER SUITES</span><strong>245 m²</strong></div>
+              <div class="sbar-track"><span style="width: 100%"></span></div>
+            </div>
+            <div class="sbar-row">
+              <div class="sbar-head"><span>CULINARY &amp; WINE GALLERY</span><strong>120 m²</strong></div>
+              <div class="sbar-track"><span style="width: 54%"></span></div>
+            </div>
+            <div class="sbar-row">
+              <div class="sbar-head"><span>STUDY, SPA &amp; FOYER</span><strong>110 m²</strong></div>
+              <div class="sbar-track"><span style="width: 48%"></span></div>
+            </div>
+          </div>
+
+          <div class="spatial-legend">
+            <span><i class="swatch-dot swatch-dot--dark"></i> Social Volume</span>
+            <span><i class="swatch-dot swatch-dot--bronze"></i> Private Suites</span>
+            <span><i class="swatch-dot swatch-dot--mist"></i> Thermal Terrace</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 2: CLIMATE & SOLAR | ROOF SECTION WAVE | MATERIAL PALETTE -->
+      <div class="bp-row bp-row--2" id="bp-materials">
+        <div class="bp-col bp-col--left">
+          <h3 class="bp-heading">SOLAR &amp; CLIMATE</h3>
+          <figure class="bp-diagram">
+            <svg viewBox="0 0 360 190" fill="none" role="img" aria-label="Solar path and alpine thermal orientation diagram">
+              <circle cx="96" cy="95" r="66" stroke="#182321" stroke-opacity="0.22" stroke-width="1"/>
+              <circle cx="96" cy="95" r="44" stroke="#182321" stroke-opacity="0.16" stroke-width="1" stroke-dasharray="3 3"/>
+              <circle cx="96" cy="95" r="22" stroke="#182321" stroke-opacity="0.2" stroke-width="1"/>
+              <line x1="96" y1="20" x2="96" y2="170" stroke="#182321" stroke-opacity="0.18"/>
+              <line x1="21" y1="95" x2="171" y2="95" stroke="#182321" stroke-opacity="0.18"/>
+              <path d="M40 128 A66 66 0 0 1 152 128" stroke="#8a7056" stroke-width="2.2"/>
+              <path d="M58 112 A44 44 0 0 1 134 112" stroke="#182321" stroke-width="1.4" stroke-dasharray="4 3"/>
+              <circle cx="136" cy="54" r="4.5" fill="#8a7056"/>
+              <text x="91" y="15" fill="#182321" font-family="JetBrains Mono, monospace" font-size="8.5">N</text>
+              <text x="176" y="98" fill="#182321" font-family="JetBrains Mono, monospace" font-size="8.5">E</text>
+              <g transform="translate(206, 30)">
+                <text x="0" y="0" fill="#182321" font-family="JetBrains Mono, monospace" font-size="8.5" letter-spacing="1">SOLAR GAIN (KWH/M²)</text>
+                <rect x="0" y="88" width="12" height="32" fill="#182321" fill-opacity="0.28"/>
+                <rect x="20" y="72" width="12" height="48" fill="#182321" fill-opacity="0.42"/>
+                <rect x="40" y="54" width="12" height="66" fill="#8a7056"/>
+                <rect x="60" y="34" width="12" height="86" fill="#8a7056"/>
+                <rect x="80" y="42" width="12" height="78" fill="#8a7056"/>
+                <rect x="100" y="64" width="12" height="56" fill="#182321" fill-opacity="0.5"/>
+                <rect x="120" y="82" width="12" height="38" fill="#182321" fill-opacity="0.32"/>
+                <line x1="0" y1="122" x2="136" y2="122" stroke="#182321" stroke-opacity="0.3"/>
+                <text x="0" y="136" fill="#182321" fill-opacity="0.6" font-family="JetBrains Mono, monospace" font-size="7.5">J   M   M   J   S   N   D</text>
+              </g>
+            </svg>
+          </figure>
+        </div>
+
+        <div class="bp-col bp-col--ribbon">
+          <div class="ribbon-card">
+            <span class="ribbon-eyebrow">02 // ROOF PROFILE &amp; TERRAIN</span>
+            <svg class="section-wave-svg" viewBox="0 0 320 170" fill="none" role="img" aria-label="Alpine chalet roof ridge section over lake terrain">
+              <polyline points="20,104 54,54 88,104 128,44 168,104 206,58 244,104 274,64 304,104" stroke="#ffffff" stroke-width="1.6"/>
+              <line x1="20" y1="104" x2="304" y2="104" stroke="rgba(255,255,255,0.45)" stroke-width="1"/>
+              <path d="M12 132 C56 122, 96 142, 148 128 C196 114, 248 138, 308 124" stroke="rgba(255,255,255,0.8)" stroke-width="1.2"/>
+              <path d="M12 146 C62 136, 108 154, 162 142 C214 130, 260 150, 308 138" stroke="rgba(255,255,255,0.38)" stroke-width="1"/>
+              <text x="20" y="28" fill="rgba(255,255,255,0.85)" font-family="JetBrains Mono, monospace" font-size="8.5" letter-spacing="1.4">SECTION A–A // FOUR-GABLE SILHOUETTE</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="bp-col bp-col--right">
+          <h3 class="bp-heading">MATERIAL PALETTE</h3>
+          <div class="material-grid">
+            <div class="mat-chip">
+              <span class="mat-swatch" style="background: linear-gradient(135deg, #dcd5c6, #bfb49f)"></span>
+              <strong>Dolomite Limestone</strong>
+              <span>Quarried Ashlar</span>
+            </div>
+            <div class="mat-chip">
+              <span class="mat-swatch" style="background: linear-gradient(135deg, #5c4330, #38271b)"></span>
+              <strong>Kiln-Dried Cedar</strong>
+              <span>Slatted Ceilings</span>
+            </div>
+            <div class="mat-chip">
+              <span class="mat-swatch" style="background: linear-gradient(135deg, #273036, #14191d)"></span>
+              <strong>Volcanic Basalt</strong>
+              <span>Lakefront Plinth</span>
+            </div>
+            <div class="mat-chip">
+              <span class="mat-swatch" style="background: linear-gradient(135deg, #9b8065, #6e5741)"></span>
+              <strong>Brushed Bronze</strong>
+              <span>Architectural Trim</span>
+            </div>
+            <div class="mat-chip">
+              <span class="mat-swatch" style="background: linear-gradient(135deg, #5d859e, #243b4e)"></span>
+              <strong>Triple Low-E Glass</strong>
+              <span>Thermal Glazing</span>
+            </div>
+            <div class="mat-chip">
+              <span class="mat-swatch" style="background: linear-gradient(135deg, #f3efe8, #dfd7ca)"></span>
+              <strong>Raw Alpine Bouclé</strong>
+              <span>Bespoke Upholstery</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 3: INTERIOR GALLERY | CROSS-SECTION | CAD FLOOR PLAN -->
+      <div class="bp-row bp-row--3" id="bp-interiors">
+        <div class="bp-col bp-col--left">
+          <h3 class="bp-heading">INTERIOR</h3>
+          <p class="bp-desc">Select any room to jump directly back into its interactive 3D walkthrough perspective.</p>
+          <div class="interior-thumb-grid">
+            <button type="button" class="int-thumb" data-jump-stage="2">
+              <img src="assets/room_foyer.jpg" alt="The Front Door limestone foyer" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=85';">
+              <span>01 · THE FRONT DOOR</span>
+            </button>
+            <button type="button" class="int-thumb" data-jump-stage="3">
+              <img src="assets/room_great.jpg" alt="The Great Room limestone hearth lounge" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85';">
+              <span>02 · THE GREAT ROOM</span>
+            </button>
+            <button type="button" class="int-thumb" data-jump-stage="4">
+              <img src="assets/room_kitchen.jpg" alt="The Kitchen and Dining hall" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=800&q=85';">
+              <span>03 · KITCHEN &amp; DINING</span>
+            </button>
+            <button type="button" class="int-thumb" data-jump-stage="5">
+              <img src="assets/room_study.jpg" alt="The Study alpine library" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=85';">
+              <span>04 · THE STUDY</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="bp-col bp-col--ribbon">
+          <div class="ribbon-card">
+            <span class="ribbon-eyebrow">03 // VERTICAL ELEVATION</span>
+            <svg class="axon-svg" viewBox="0 0 320 220" fill="none" role="img" aria-label="Cross-section elevation showing mezzanine and lake level">
+              <rect x="38" y="88" width="244" height="96" stroke="#ffffff" stroke-width="1.4"/>
+              <polyline points="32,88 160,24 288,88" stroke="#ffffff" stroke-width="1.6"/>
+              <line x1="38" y1="136" x2="188" y2="136" stroke="#ffffff" stroke-width="1.3"/>
+              <polyline points="188,184 202,174 216,164 230,154 244,144 258,136" stroke="rgba(255,255,255,0.85)" stroke-width="1.3"/>
+              <rect x="92" y="144" width="44" height="40" fill="rgba(255,255,255,0.14)" stroke="#ffffff" stroke-width="1.1"/>
+              <line x1="16" y1="24" x2="304" y2="24" stroke="rgba(255,255,255,0.28)" stroke-dasharray="3 3"/>
+              <line x1="16" y1="136" x2="304" y2="136" stroke="rgba(255,255,255,0.28)" stroke-dasharray="3 3"/>
+              <text x="18" y="19" fill="#ffffff" font-family="JetBrains Mono, monospace" font-size="8">+8.60 M RIDGE</text>
+              <text x="18" y="131" fill="#ffffff" font-family="JetBrains Mono, monospace" font-size="8">+3.80 M STUDY MEZZANINE</text>
+              <text x="18" y="202" fill="rgba(255,255,255,0.8)" font-family="JetBrains Mono, monospace" font-size="8">±0.00 M INFINITY DECK</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="bp-col bp-col--right">
+          <h3 class="bp-heading">GROUND FLOOR PLAN</h3>
+          <figure class="bp-diagram">
+            <svg viewBox="0 0 400 240" fill="none" role="img" aria-label="CAD architectural floor plan of The Lantern ground level">
+              <line x1="28" y1="24" x2="28" y2="216" stroke="#182321" stroke-opacity="0.14" stroke-dasharray="3 3"/>
+              <line x1="146" y1="24" x2="146" y2="216" stroke="#182321" stroke-opacity="0.14" stroke-dasharray="3 3"/>
+              <line x1="264" y1="24" x2="264" y2="216" stroke="#182321" stroke-opacity="0.14" stroke-dasharray="3 3"/>
+              <line x1="372" y1="24" x2="372" y2="216" stroke="#182321" stroke-opacity="0.14" stroke-dasharray="3 3"/>
+              <rect x="38" y="42" width="324" height="122" stroke="#182321" stroke-width="2.2"/>
+              <line x1="146" y1="42" x2="146" y2="128" stroke="#182321" stroke-width="1.6"/>
+              <line x1="242" y1="42" x2="242" y2="164" stroke="#182321" stroke-width="1.6"/>
+              <line x1="242" y1="104" x2="362" y2="104" stroke="#182321" stroke-width="1.4"/>
+              <rect x="38" y="168" width="194" height="36" fill="#9fb9bd" fill-opacity="0.45" stroke="#182321" stroke-width="1.3"/>
+              <circle cx="288" cy="186" r="14" stroke="#8a7056" stroke-width="1.6"/>
+              <circle cx="288" cy="186" r="5" fill="#8a7056"/>
+              <text x="54" y="88" fill="#182321" font-family="JetBrains Mono, monospace" font-size="8.5" font-weight="500">GREAT ROOM</text>
+              <text x="54" y="101" fill="#182321" fill-opacity="0.55" font-family="JetBrains Mono, monospace" font-size="7.5">11.4 × 8.2M</text>
+              <text x="164" y="88" fill="#182321" font-family="JetBrains Mono, monospace" font-size="8.5" font-weight="500">FOYER</text>
+              <text x="164" y="101" fill="#182321" fill-opacity="0.55" font-family="JetBrains Mono, monospace" font-size="7.5">STAIR CORE</text>
+              <text x="260" y="74" fill="#182321" font-family="JetBrains Mono, monospace" font-size="8.5" font-weight="500">KITCHEN</text>
+              <text x="260" y="136" fill="#182321" font-family="JetBrains Mono, monospace" font-size="8.5" font-weight="500">THE STUDY</text>
+              <text x="86" y="190" fill="#182321" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="1.2">24M INFINITY POOL</text>
+              <text x="310" y="190" fill="#8a7056" font-family="JetBrains Mono, monospace" font-size="7.5">FIRE BOWL</text>
+            </svg>
+            <figcaption>SCALE 1:200 // GROUND LEVEL CIRCULATION &amp; CANTILEVERED POOL</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- ROW 4: ARCHITECTURAL QUOTE | ENVIRONMENTAL RESPONSE -->
+      <div class="bp-row bp-row--4" id="bp-environment">
+        <div class="bp-col bp-col--left">
+          <div class="env-mini-box">
+            <span class="env-kicker">PASSIVE PERFORMANCE</span>
+            <dl class="env-metrics">
+              <div><dt>GEOTHERMAL LOOP</dt><dd>100% Hydronic Heating</dd></div>
+              <div><dt>GLAZING U-VALUE</dt><dd>0.68 W/m²K Triple Low-E</dd></div>
+              <div><dt>CARBON FOOTPRINT</dt><dd>Net-Zero Timber Envelope</dd></div>
+            </dl>
+          </div>
+        </div>
+
+        <div class="bp-col bp-col--ribbon">
+          <div class="ribbon-card ribbon-card--quote">
+            <span class="ribbon-eyebrow">04 // ARCHITECTURAL ETHOS</span>
+            <blockquote class="ribbon-quote">“Glass to the water, stone to the mountain, fire in the middle.”</blockquote>
+            <button type="button" class="btn-ribbon-white" data-open-modal="Private Estate Reservation">Request Private Stay</button>
+          </div>
+        </div>
+
+        <div class="bp-col bp-col--right">
+          <h3 class="bp-heading">ENVIRONMENTAL<br>RESPONSE</h3>
+          <figure class="env-hero-card">
+            <img src="assets/estate_hero.jpg" alt="Solmere alpine estate integrated into glacial lake shoreline" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=1200&q=85';">
+          </figure>
+          <p class="bp-desc">Anchored into native granite without disturbing shoreline hydrology, every Solmere pavilion harvests lake-source geothermal heat and deep winter daylight while preserving dark-sky silence across the alpine valley.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="solmere-footer">
+      <div class="sf-inner">
+        <div class="sf-brand">
+          <span class="sf-wordmark">SOLMERE</span>
+          <p>Lakeside Alpine Architectural Resort · Four Private Estates · Open Year-Round</p>
+        </div>
+        <div class="sf-actions">
+          <button type="button" class="sf-btn-outline" data-jump-stage="0">Replay 3D Walkthrough</button>
+          <button type="button" class="sf-btn-solid" data-open-modal="Reserve Solmere Estate">Inquire / Book Stay</button>
+        </div>
+      </div>
+      <div class="sf-meta">
+        <span>46.5472° N, 7.9821° E // ALPINE LAKE SANCTUARY</span>
+        <span>ALL ARCHITECTURAL SPECIFICATIONS &amp; 3D VISUALS VERIFIED</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- =========================================================================
+       PRIVATE RESERVATION CONCIERGE MODAL
+  ========================================================================== -->
+  <div class="modal-backdrop" id="reserve-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="rm-title">
+    <div class="modal-sheet">
+      <div class="rm-head">
+        <div>
+          <span class="rm-kicker">SOLMERE PRIVATE CONCIERGE</span>
+          <h3 id="rm-title">Request Private Stay</h3>
+        </div>
+        <button type="button" class="rm-close" id="rm-close" aria-label="Close reservation dialog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form class="rm-form" id="reserve-form">
+        <label>
+          <span>RESIDENCE SELECTION</span>
+          <select name="chalet" id="rm-chalet">
+            <option value="The Lantern Flagship Chalet">01 // The Lantern Flagship Chalet (685 m² · 4 Suites)</option>
+            <option value="North Shoreline Pavilion">02 // North Shoreline Pavilion (520 m² · 3 Suites)</option>
+            <option value="Full Four-Chalet Estate Buyout">03 // Full Solmere Estate Buyout (Up to 48 Guests)</option>
+          </select>
+        </label>
+        <div class="rm-row">
+          <label>
+            <span>FULL NAME</span>
+            <input type="text" name="name" required autocomplete="name" placeholder="Henrik Lindholm">
+          </label>
+          <label>
+            <span>EMAIL ADDRESS</span>
+            <input type="email" name="email" required autocomplete="email" placeholder="henrik@alpine.co">
+          </label>
+        </div>
+        <div class="rm-row">
+          <label>
+            <span>PREFERRED SEASON</span>
+            <input type="text" name="dates" placeholder="January 2027 · 6 Nights">
+          </label>
+          <label>
+            <span>GUEST COUNT</span>
+            <input type="number" name="guests" min="1" max="48" value="6">
+          </label>
+        </div>
+        <button type="submit" class="sf-btn-solid rm-submit">Dispatch Reservation Request</button>
+        <div class="rm-status" id="rm-status" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.12.5/index.js",
+      "gsap/ScrollTrigger": "https://cdn.jsdelivr.net/npm/gsap@3.12.5/ScrollTrigger.js",
+      "lenis": "https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.mjs"
+    }
+  }
+  </script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
